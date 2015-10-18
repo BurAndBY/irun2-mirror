@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>View Resource</h1>
+
+<a class="btn btn-default" href="{% url 'storage:download' resource_id %}" role="button">Download</a>
+
+<dl class="dl-horizontal">
+    <dt>ID</dt>
+    <dd>{{ resource_id }}</dd>
+
+    <dt>Size</dt>
+    <dd>{{ representation.size|filesizeformat }}</dd>
+
+    <dt>Is binary</dt>
+    <dd>{{ representation.is_binary|yesno }}</dd>
+
+    <dt>Is UTF-8</dt>
+    <dd>{{ representation.is_utf8|yesno }}</dd>
+
+    <dt>Has BOM</dt>
+    <dd>{{ representation.has_bom|yesno }}</dd>
+</dl>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div>
+            {% if representation.is_binary %}
+                <div class="alert alert-warning">
+                    The file is <strong>binary</strong> and its content can not be displayed.
+                </div>
+            {% else %}
+                {% if representation.text != None %}
+                    {% if not representation.is_complete %}
+                    <div class="alert alert-info">
+                        The file is <strong>too big</strong>, so it is displayed truncated. You can download the full version.
+                    </div>
+                    {% endif %}
+                <pre class="ir-data">{{ representation.text }}</pre>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

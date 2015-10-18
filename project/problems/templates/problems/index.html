@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>List of Problems</h1>
+
+<table class="table table-condensed table-striped table-hover">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Short Name</th>
+			<th>Complexity</th>
+			<th>Links</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for problem in object_list %}
+		<tr>
+			<td><a href="{% url 'problems:overview' problem.id %}">{{problem.id}}</a></td>
+			<td>{{problem.numbered_full_name}}</td>
+			<td>{{problem.numbered_short_name}}</td>
+			<td>{{problem.complexity}}</td>
+			<td><a href="{% url 'problems:statement' problem.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

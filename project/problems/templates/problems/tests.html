@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Problem {{problem.id}} Tests</h1>
+
+
+
+<p>Full name: {{problem.full_name}}</p>
+
+<a class="btn btn-default" href="{% url 'problems:edit' problem.id %}" role="button">Add Test</a>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Storage Index</h1>
+
+<table class="table">
+    {% for rec in records %}
+        <tr>
+            <td>{{ rec.timestamp }}</td>
+            <td><a href="{% url 'storage:show' rec.resource_id %}">{{ rec.resource_id }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

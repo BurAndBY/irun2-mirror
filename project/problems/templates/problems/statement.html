@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if statement.attachment_name %}
+Download <a href="{{ statement.attachment_name|urlencode }}">{{ statement.attachment_name }}</a>
+{% endif %}
+
+{% if statement.content %}
+<div class="ir-problem-statement">
+{{ statement.content|safe }}
+</div>
+{% endif %}
+
+{% if statement.iframe_name %}
+<iframe frameborder="0" framespacing="0" title="statement" onload="irOnIframeLoad('irstatementframe')" id="irstatementframe" noresize scrolling="yes" height="600" width="100%" src="{{ statement.iframe_name|urlencode }}">
+</iframe>
+{% endif %}
+
+{% if statement.is_empty %}
+No statement
+{% endif %}
+
+{% endblock %}

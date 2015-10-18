@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table class="table table-condensed table-striped ir-course-standings">
+    <tbody>
+        {% for sr in results %}
+        <tr>
+            <td>
+                <b>{{sr.surname}}</b>
+                {{sr.name}}
+                {% if sr.insubgroup %}<span class="eps">(eps)</span>{% endif %}
+            </td>
+            {% for spr in sr.problemresults %}
+            <td class="text-nowrap">
+                <div class="row1">
+                    {{spr.shortname}}
+                </div>
+                <div class="row2">
+                    <span class="complexity">[{{spr.complexity}}]</span>
+                    <span class="score">{{spr.points}}&nbsp;/&nbsp;{{spr.maxpoints}}</span>
+                </div>
+            </td>
+            {% endfor %}
+            <td>
+                {{sr.summary}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

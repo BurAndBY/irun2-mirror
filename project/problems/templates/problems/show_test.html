@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load resource_extras %}
+
+{% block content %}
+
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="{% url 'problems:show_test' problem_id prev_test %}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="{% url 'problems:overview' problem_id %}">Test {{ current_test }} of {{ total_tests }}</a></li>
+    <li>
+      <a href="{% url 'problems:show_test' problem_id next_test %}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+{% if description %}
+<h3>Description</h3>
+{{description}}
+{% endif %}
+
+<div class="row">
+	<div class="col-md-6">
+		<h4>Input</h4>
+		{% show_resource input_repr %}
+	</div>
+  	<div class="col-md-6">
+  		<h4>Answer</h4>
+  		{% show_resource answer_repr %}
+  	</div>
+</div>
+
+{% endblock %}

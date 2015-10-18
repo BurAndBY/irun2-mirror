@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Problem {{problem.id}}</h1>
+
+<p>Full name: {{problem.full_name}}</p>
+<p>Input: {{problem.input_filename}}</p>
+<p>Output: {{problem.output_filename}}</p>
+
+<a class="btn btn-default" href="{% url 'problems:edit' problem.id %}" role="button">Edit</a>
+
+<table class="table table-condensed">
+	<thead>
+		<tr>
+			<th>File</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for f in related_files %}
+		<tr>
+			<td>{{f.name}}</td>
+			<td>{{f.get_file_type_display}}</td>
+			<td>{{f.description}}</td>
+			<td><a href="{% url 'storage:show' f.resource_id %}">Open</a></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</th>
+</table>
+
+<h3>Tests</h3>
+<table class="table table-condensed">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>#</th>
+			<th>Time Limit</th>
+			<th>Input</th>
+			<th>Output</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for tc in test_cases %}
+		<tr>
+			<td>{{ tc.id }}</td>
+			<td>{{ tc.ordinal_number }}</td>
+			<td>{{ tc.time_limit }}</td>
+			<td>{{ tc.input_file }} {{ tc.input_size|filesizeformat }}</td>
+			<td>{{ tc.answer_file }} {{ tc.answer_size|filesizeformat }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</th>
+</table>
+
+{% endblock %}

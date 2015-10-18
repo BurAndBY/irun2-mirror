@@ -1,0 +1,85 @@
+.ir-course-standings .row1 {
+    font-size: 0.9em;
+}
+.ir-course-standings .row2 {
+    font-size: 0.8em;
+}
+.ir-course-standings .complexity {
+    color: blue;
+}
+.ir-course-standings .score {
+}
+.ir-course-standings .eps {
+    color: green;
+}
+
+
+textarea {
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+
+.ir-data {
+    white-space: pre;
+    word-wrap: normal;
+    word-break: normal;
+}
+
+.ir-problem-statement {
+    margin: 0.5em;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 140%;
+}
+.ir-problem-statement h1 {
+    text-align: center;
+    font-size: 150%;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    color: #225A8D;
+}
+.ir-problem-statement h2 {
+    font-size: 115%;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    color: #225A8D;
+}
+.ir-problem-statement sup, sub {
+    vertical-align: 0;
+    position: relative;
+}
+.ir-problem-statement sup {
+    bottom: 1ex;
+}
+.ir-problem-statement sub {
+    top: 0.6ex;
+}
+.ir-problem-statement .inputs-outputs {
+    border-collapse: collapse;
+    width: 99%;
+}
+.ir-problem-statement .inputs-outputs td {
+    border: 1px solid #888;
+    background-color: #efefef;
+    padding: 4px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    vertical-align: top;
+    min-width: 300px;
+    width: 50%;
+}
+.ir-problem-statement .inputs-outputs th {
+    border: 1px solid #888;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 50%;
+}
+.ir-problem-statement .infos {
+    color: #aaa;
+    text-align: center;
+    font-size: 90%;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    line-height: 100%;
+}
