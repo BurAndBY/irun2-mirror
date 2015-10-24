@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Programming Languages</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Handle</th>
+			<th>Description</th>
+			<th>Family</th>
+			<th>Is Legacy?</th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for lang in programming_languages %}
+        <tr {% if not lang.legacy %} class="active" {% endif %}>
+            <td>{{ lang.id }}</td>
+            <td><a href="{% url 'proglangs:update' lang.id %}">{{ lang.handle }}</a></td>
+            <td>{{ lang.description }}</td>
+            <td>{{ lang.get_family_display }}</td>
+            <td>{{ lang.legacy|yesno }}</td>
+        </tr>
+    {% endfor %}
+	</tbody>
+</table>
+
+<a href="{% url 'proglangs:create' %}">Add New</a>
+
+{% endblock %}
