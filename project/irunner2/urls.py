@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^storage/', include('storage.urls', namespace='storage')),
     url(r'^problems/', include('problems.urls', namespace='problems')),
     url(r'^prog-langs/', include('proglangs.urls', namespace='proglangs')),
+    url(r'^worker/', include('worker.urls', namespace='worker')),
     url(r'^admin/', include(admin.site.urls)),
 ]
