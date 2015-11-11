@@ -11,7 +11,7 @@ from proglangs.models import Compiler
 def _is_legacy(handle):
     return handle in ('BP7', 'FP2', 'CSHARP11', 'MSVC')
 
-FAMILIES = {
+LANGUAGES = {
     'FP': Compiler.PASCAL,
     'BP': Compiler.PASCAL,
     'BC': Compiler.CPP,
@@ -24,15 +24,15 @@ FAMILIES = {
 }
 
 
-def _get_family(handle):
+def _get_language(handle):
     if re.match(r'^MVC\d+$', handle):
         return Compiler.C
     if re.match(r'^GNUC\d+$', handle):
         return Compiler.C
 
-    for prefix, family in FAMILIES.iteritems():
+    for prefix, language in LANGUAGES.iteritems():
         if handle.startswith(prefix):
-            return family
+            return language
     return Compiler.UNKNOWN
 
 
@@ -54,6 +54,6 @@ class Command(BaseCommand):
                     'handle': handle,
                     'description': row[2],
                     'legacy': _is_legacy(handle),
-                    'family': _get_family(handle)
+                    'language': _get_language(handle)
                 }
             )

@@ -20,7 +20,7 @@ class Solution(models.Model):
 
     filename = models.CharField(max_length=256, blank=True)
     resource_id = ResourceIdField()
-    programming_language = models.ForeignKey(Compiler)
+    compiler = models.ForeignKey(Compiler)
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')
 

@@ -16,7 +16,7 @@ class IndexView(ListView):
 class CreateCompilerView(CreateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
-    fields = ['handle', 'family', 'description', 'legacy']
+    fields = ['handle', 'language', 'description', 'legacy']
 
     def get_success_url(self):
         return reverse('proglangs:index')
@@ -25,7 +25,7 @@ class CreateCompilerView(CreateView):
 class UpdateCompilerView(UpdateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
-    fields = ['handle', 'family', 'description', 'legacy']
+    fields = ['handle', 'language', 'description', 'legacy']
 
     def get_success_url(self):
         return reverse('proglangs:index')

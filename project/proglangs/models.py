@@ -12,7 +12,7 @@ class Compiler(models.Model):
     PYTHON = 'py'
     CSHARP = 'cs'
 
-    FAMILY_CHOICES = (
+    LANGUAGE_CHOICES = (
         (UNKNOWN, 'Unknown'),
         (C, 'C'),
         (CPP, 'C++'),
@@ -24,7 +24,7 @@ class Compiler(models.Model):
     )
 
     handle = models.CharField(max_length=30, unique=True)
-    family = models.CharField(max_length=8, choices=FAMILY_CHOICES, default=UNKNOWN, blank=True)
+    language = models.CharField(max_length=8, choices=LANGUAGE_CHOICES, default=UNKNOWN, blank=True)
     description = models.CharField(max_length=255, blank=True)
     legacy = models.BooleanField(default=False)
 
