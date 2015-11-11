@@ -83,3 +83,33 @@ textarea {
     margin-bottom: 20px;
     line-height: 100%;
 }
+
+
+/**
+ * Programming Language Box
+ */
+.ir-langbox {
+    border-radius: 4px;
+    color: black;
+    font-size: 8pt;
+    font-weight: bold;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-align: center;
+    width: 50px;
+}
+.ir-langbox-cpp, .ir-langbox-c {
+    background-color: #DD7E6B;
+}
+.ir-langbox-java {
+    background-color: #FFE599;
+}
+.ir-langbox-pas, .ir-langbox-dpr {
+    background-color: #A4C2F4;
+}
+.ir-langbox-py {
+    background-color: #B4A7D6;
+}
+.ir-langbox-cs {
+    background-color: #B6D7A8;
+}

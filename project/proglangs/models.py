@@ -4,16 +4,18 @@ from django.db import models
 # Create your models here.
 class ProgrammingLanguage(models.Model):
     UNKNOWN = ''
+    C = 'c'
     CPP = 'cpp'
     JAVA = 'java'
-    PASCAL = 'pascal'
-    DELPHI = 'delphi'
+    PASCAL = 'pas'
+    DELPHI = 'dpr'
     PYTHON = 'py'
     CSHARP = 'cs'
 
     FAMILY_CHOICES = (
         (UNKNOWN, 'Unknown'),
-        (CPP, 'C/C++'),
+        (C, 'C'),
+        (CPP, 'C++'),
         (JAVA, 'Java'),
         (PASCAL, 'Pascal'),
         (DELPHI, 'Delphi'),

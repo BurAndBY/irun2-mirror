@@ -88,11 +88,11 @@ class Judgement(models.Model):
 class TestCaseResult(models.Model):
     judgement = models.ForeignKey(Judgement)
 
-    input_resource_id = ResourceIdField()
-    output_resource_id = ResourceIdField()
-    answer_resource_id = ResourceIdField()
-    stdout_resource_id = ResourceIdField()
-    stderr_resource_id = ResourceIdField()
+    input_resource_id = ResourceIdField(null=True)
+    output_resource_id = ResourceIdField(null=True)
+    answer_resource_id = ResourceIdField(null=True)
+    stdout_resource_id = ResourceIdField(null=True)
+    stderr_resource_id = ResourceIdField(null=True)
 
     exit_code = models.IntegerField()
 

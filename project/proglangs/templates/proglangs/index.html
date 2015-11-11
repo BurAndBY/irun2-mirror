@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load proglang_extras %}
+
 {% block content %}
 <h1>Programming Languages</h1>
 
@@ -19,7 +21,7 @@
             <td>{{ lang.id }}</td>
             <td><a href="{% url 'proglangs:update' lang.id %}">{{ lang.handle }}</a></td>
             <td>{{ lang.description }}</td>
-            <td>{{ lang.get_family_display }}</td>
+            <td>{% langbox lang %}</td>
             <td>{{ lang.legacy|yesno }}</td>
         </tr>
     {% endfor %}
