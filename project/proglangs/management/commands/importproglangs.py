@@ -5,35 +5,35 @@ import re
 from django.core.management.base import BaseCommand
 
 from common.irunner_import import connect_irunner_db
-from proglangs.models import ProgrammingLanguage as PL
+from proglangs.models import Compiler
 
 
 def _is_legacy(handle):
     return handle in ('BP7', 'FP2', 'CSHARP11', 'MSVC')
 
 FAMILIES = {
-    'FP': PL.PASCAL,
-    'BP': PL.PASCAL,
-    'BC': PL.CPP,
-    'JAVA': PL.JAVA,
-    'PY': PL.PYTHON,
-    'G': PL.CPP,
-    'M': PL.CPP,
-    'DELPHI': PL.DELPHI,
-    'CS': PL.CSHARP
+    'FP': Compiler.PASCAL,
+    'BP': Compiler.PASCAL,
+    'BC': Compiler.CPP,
+    'JAVA': Compiler.JAVA,
+    'PY': Compiler.PYTHON,
+    'G': Compiler.CPP,
+    'M': Compiler.CPP,
+    'DELPHI': Compiler.DELPHI,
+    'CS': Compiler.CSHARP
 }
 
 
 def _get_family(handle):
     if re.match(r'^MVC\d+$', handle):
-        return PL.C
+        return Compiler.C
     if re.match(r'^GNUC\d+$', handle):
-        return PL.C
+        return Compiler.C
 
     for prefix, family in FAMILIES.iteritems():
         if handle.startswith(prefix):
             return family
-    return PL.UNKNOWN
+    return Compiler.UNKNOWN
 
 
 class Command(BaseCommand):
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         for row in cur.fetchall():
             handle = row[1]
 
-            programming_language, _ = PL.objects.update_or_create(
+            programming_language, _ = Compiler.objects.update_or_create(
                 id=row[0],
                 defaults={
                     'handle': handle,

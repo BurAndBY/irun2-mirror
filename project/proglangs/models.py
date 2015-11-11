@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class ProgrammingLanguage(models.Model):
+class Compiler(models.Model):
     UNKNOWN = ''
     C = 'c'
     CPP = 'cpp'

@@ -1,8 +1,8 @@
 from django.forms import ModelForm
-from .models import ProgrammingLanguage
+from .models import Compiler
 
 
-class ProgrammingLanguageForm(ModelForm):
+class CompilerForm(ModelForm):
     class Meta:
-        model = ProgrammingLanguage
+        model = Compiler
         fields = ['handle', 'famliy', 'description', 'legacy']

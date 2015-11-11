@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView
 from django.core.urlresolvers import reverse
 
-from .models import ProgrammingLanguage
+from .models import Compiler
 
 
 class IndexView(ListView):
@@ -10,11 +10,11 @@ class IndexView(ListView):
     context_object_name = 'programming_languages'
 
     def get_queryset(self):
-        return ProgrammingLanguage.objects.all()
+        return Compiler.objects.all()
 
 
-class CreateProgrammingLanguageView(CreateView):
-    model = ProgrammingLanguage
+class CreateCompilerView(CreateView):
+    model = Compiler
     template_name = 'proglangs/edit.html'
     fields = ['handle', 'family', 'description', 'legacy']
 
@@ -22,8 +22,8 @@ class CreateProgrammingLanguageView(CreateView):
         return reverse('proglangs:index')
 
 
-class UpdateProgrammingLanguageView(UpdateView):
-    model = ProgrammingLanguage
+class UpdateCompilerView(UpdateView):
+    model = Compiler
     template_name = 'proglangs/edit.html'
     fields = ['handle', 'family', 'description', 'legacy']
 

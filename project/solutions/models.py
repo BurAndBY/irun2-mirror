@@ -1,6 +1,6 @@
 from django.db import models
 from storage.storage import ResourceIdField
-from proglangs.models import ProgrammingLanguage
+from proglangs.models import Compiler
 from problems.models import Problem
 from django.utils.translation import ugettext as _
 
@@ -20,7 +20,7 @@ class Solution(models.Model):
 
     filename = models.CharField(max_length=256, blank=True)
     resource_id = ResourceIdField()
-    programming_language = models.ForeignKey(ProgrammingLanguage)
+    programming_language = models.ForeignKey(Compiler)
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')
 
