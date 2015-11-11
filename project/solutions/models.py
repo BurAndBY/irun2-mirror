@@ -2,16 +2,11 @@ from django.db import models
 from storage.storage import ResourceIdField
 from proglangs.models import ProgrammingLanguage
 from problems.models import Problem
+from django.utils.translation import ugettext as _
 
 
-class Solution(models.Model):
-    filename = models.CharField(max_length=256, blank=True)
-    handle = ResourceIdField()
-    programming_language = models.ForeignKey(ProgrammingLanguage)
-
-
-class SimpleTest(models.Model):
-    handle = ResourceIdField()
+class AdHocRun(models.Model):
+    resource_id = ResourceIdField()
     input_file_name = models.CharField(max_length=80, blank=True)
     output_file_name = models.CharField(max_length=80, blank=True)
 
@@ -19,54 +14,85 @@ class SimpleTest(models.Model):
     memory_limit = models.IntegerField(default=0)
 
 
+class Solution(models.Model):
+    problem = models.ForeignKey(Problem, null=True, on_delete=models.SET_NULL)
+    ad_hoc_run = models.ForeignKey(AdHocRun, null=True, on_delete=models.SET_NULL)
+
+    filename = models.CharField(max_length=256, blank=True)
+    resource_id = ResourceIdField()
+    programming_language = models.ForeignKey(ProgrammingLanguage)
+
+    best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')
+
+
 class Outcome(object):
     NOT_AVAILABLE = 0
-
-    OK = 1
-    TIME_LIMIT_EXCEEDED = 2
-    MEMORY_LIMIT_EXCEEDED = 3
-    IDLENESS_LIMIT_EXCEEDED = 4
-    RUNTIME_ERROR = 5
-    SECURITY_VIOLATION = 6
-
-    WRONG_ANSWER = 7
+    ACCEPTED = 1
+    COMPILATION_ERROR = 2
+    WRONG_ANSWER = 3
+    TIME_LIMIT_EXCEEDED = 4
+    MEMORY_LIMIT_EXCEEDED = 5
+    IDLENESS_LIMIT_EXCEEDED = 6
+    RUNTIME_ERROR = 7
     PRESENTATION_ERROR = 8
-    CHECK_FAILED = 9
+    SECURITY_VIOLATION = 9
+    CHECK_FAILED = 10
 
-    SOLUTION_COMPILATION_ERROR = 10
-    CHECKER_COMPILATION_ERROR = 11
-    GENERAL_FAILURE = 12
-
-
-class GeneralFailureReason(object):
-    pass
+    CHOICES = (
+        (NOT_AVAILABLE, _('N/A')),
+        (ACCEPTED, _('Accepted')),
+        (COMPILATION_ERROR, _('Compilation Error')),
+        (WRONG_ANSWER, _('Wrong Answer')),
+        (TIME_LIMIT_EXCEEDED, _('Time Limit Exceeded')),
+        (MEMORY_LIMIT_EXCEEDED, _('Memory Limit Exceeded')),
+        (IDLENESS_LIMIT_EXCEEDED, _('Idleness Limit Exceeded')),
+        (RUNTIME_ERROR, _('Runtime Error')),
+        (PRESENTATION_ERROR, _('Presentation Error')),
+        (SECURITY_VIOLATION, _('Security Violation')),
+        (CHECK_FAILED, _('Check Failed'))
+    )
 
 
 class Judgement(models.Model):
+    DONE = 0
+    WAITING = 1
+    PREPARING = 2
+    COMPILING = 3
+    TESTING = 4
+    FINISHING = 5
+
+    STATUS_CHOICES = (
+        (DONE, _('Done')),
+        (WAITING, _('Waiting')),
+        (PREPARING, _('Preparing')),
+        (COMPILING, _('Compiling')),
+        (TESTING, _('Testing')),
+        (FINISHING, _('Finishing')),
+    )
+
     solution = models.ForeignKey(Solution)
-    problem = models.ForeignKey(Problem, null=True)
-    simple_test = models.ForeignKey(SimpleTest, null=True)
 
     compilation_log = ResourceIdField()
 
-    score = models.IntegerField()
-    max_score = models.IntegerField()
+    status = models.IntegerField(default=DONE, choices=STATUS_CHOICES)
+    outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
+    is_accepted = models.BooleanField(default=False)
 
-    outcome = models.IntegerField()
-    is_accepted = models.BooleanField()
+    score = models.IntegerField(default=0)
+    max_score = models.IntegerField(default=0)
 
-    general_failure_reason = models.IntegerField()
+    general_failure_reason = models.IntegerField(default=0)
     general_failure_message = models.CharField(max_length=255)
 
 
 class TestCaseResult(models.Model):
     judgement = models.ForeignKey(Judgement)
 
-    input_handle = ResourceIdField()
-    output_handle = ResourceIdField()
-    answer_handle = ResourceIdField()
-    stdout_handle = ResourceIdField()
-    stderr_handle = ResourceIdField()
+    input_resource_id = ResourceIdField()
+    output_resource_id = ResourceIdField()
+    answer_resource_id = ResourceIdField()
+    stdout_resource_id = ResourceIdField()
+    stderr_resource_id = ResourceIdField()
 
     exit_code = models.IntegerField()
 
@@ -82,4 +108,3 @@ class TestCaseResult(models.Model):
     checker_message = models.CharField(max_length=255, blank=True)
 
     outcome = models.IntegerField()
-    check_failed_reason = models.IntegerField()

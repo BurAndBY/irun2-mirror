@@ -13,7 +13,9 @@ HASH_SIZE = 20
 class ResourceId(object):
     def __init__(self, binary=''):
         if not isinstance(binary, str):
-            raise TypeError('binary string expected, {0} found'.format(type(binary)))
+            raise TypeError('Binary string expected, {0} found'.format(type(binary)))
+        if len(binary) > HASH_SIZE:
+            raise ValueError('Resource id must have length not greater than {0}'.format(HASH_SIZE))
         self._binary = binary
 
     def get_binary(self):
@@ -25,6 +27,15 @@ class ResourceId(object):
     @staticmethod
     def parse(s):
         return ResourceId(binascii.a2b_hex(s))
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and self._binary == other._binary)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def to_representation(self, obj):
+        return str(obj)
 
 
 class ResourceIdField(models.BinaryField):
@@ -187,6 +198,9 @@ class IDataStorage(object):
     def serve(self, resource_id):
         raise NotImplementedError()
 
+    def check_availability(self, resource_ids):
+        raise NotImplementedError()
+
 
 class FileSystemStorage(IDataStorage):
     def __init__(self, directory):
@@ -262,6 +276,17 @@ class FileSystemStorage(IDataStorage):
             blob = fd.read(part)
             return _represent(blob, size)
 
+    def _is_exist(self, resource_id):
+        blob = _get_data_directly(resource_id)
+        if blob is not None:
+            return True
+
+        target_name = self._get_path(resource_id)
+        if os.path.exists(target_name):
+            return True
+
+        return False
+
     def serve(self, resource_id):
         blob = _get_data_directly(resource_id)
         if blob is not None:
@@ -277,6 +302,9 @@ class FileSystemStorage(IDataStorage):
         fd.seek(0, os.SEEK_SET)
 
         return ServedData(size, FileWrapper(fd))
+
+    def check_availability(self, resource_ids):
+        return [self._is_exist(resource_id) for resource_id in resource_ids]
 
 
 def create_storage():

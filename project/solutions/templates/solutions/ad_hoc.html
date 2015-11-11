@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ad Hoc Invocation</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <table>
+    	{{ form.as_table }}
+    </table>
+    <input type="submit" value="Invoke!" />
+</form>
+
+<h3>{{ judgement_id }}</h3>
+
+{% endblock %}

@@ -37,12 +37,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'demo',
     'problems',
     'worker',
     'storage',
     'proglangs',
     'solutions',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,3 +114,15 @@ STATICFILES_DIRS = (
 )
 
 APPEND_SLASH = True
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',  # Any other renders
+    ),
+
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',  # Any other parsers
+    )
+}

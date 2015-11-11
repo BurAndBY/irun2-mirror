@@ -25,3 +25,6 @@ class ProgrammingLanguage(models.Model):
     family = models.CharField(max_length=8, choices=FAMILY_CHOICES, default=UNKNOWN, blank=True)
     description = models.CharField(max_length=255, blank=True)
     legacy = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.description
