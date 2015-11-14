@@ -1,7 +1,7 @@
 from django.db import models
 from storage.storage import ResourceIdField
 from proglangs.models import Compiler
-from problems.models import Problem
+from problems.models import Problem, TestCase
 from django.utils.translation import ugettext as _
 
 
@@ -76,7 +76,7 @@ class Judgement(models.Model):
 
     status = models.IntegerField(default=DONE, choices=STATUS_CHOICES)
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
-    is_accepted = models.BooleanField(default=False)
+    test_number = models.IntegerField(default=0)
 
     score = models.IntegerField(default=0)
     max_score = models.IntegerField(default=0)
@@ -84,9 +84,20 @@ class Judgement(models.Model):
     general_failure_reason = models.IntegerField(default=0)
     general_failure_message = models.CharField(max_length=255)
 
+    def show_status(self):
+        if self.status != Judgement.DONE:
+            result = self.get_status_display()
+        else:
+            result = self.get_outcome_display()
+            if self.test_number != 0:
+                result += ' ({0})'.format(self.test_number)
+        return result
+
 
 class TestCaseResult(models.Model):
     judgement = models.ForeignKey(Judgement)
+
+    test_case = models.ForeignKey(TestCase, null=True, on_delete=models.SET_NULL)
 
     input_resource_id = ResourceIdField(null=True)
     output_resource_id = ResourceIdField(null=True)
@@ -96,10 +107,10 @@ class TestCaseResult(models.Model):
 
     exit_code = models.IntegerField()
 
-    time_limit = models.IntegerField(null=True)
+    time_limit = models.IntegerField(default=0)
     time_used = models.IntegerField()
 
-    memory_limit = models.IntegerField(null=True)
+    memory_limit = models.IntegerField(default=0)
     memory_used = models.IntegerField()
 
     score = models.IntegerField()
@@ -107,4 +118,4 @@ class TestCaseResult(models.Model):
 
     checker_message = models.CharField(max_length=255, blank=True)
 
-    outcome = models.IntegerField()
+    outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)

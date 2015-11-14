@@ -61,4 +61,4 @@ class AdHocView(View):
 
 class SolutionListView(generic.ListView):
     def get_queryset(self):
-        return Solution.objects.all()
+        return Solution.objects.all().prefetch_related('compiler').select_related('best_judgement')

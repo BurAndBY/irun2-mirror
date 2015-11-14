@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load proglang_extras %}
+
 {% block content %}
 <h1>List of Solutions</h1>
 
@@ -8,8 +10,8 @@
 		<tr>
 			<th>ID</th>
 			<th>Filename</th>
-			<th>Short Name</th>
-			<th>Complexity</th>
+			<th>Language</th>
+			<th>Status</th>
 			<th>Links</th>
 		</tr>
 	</thead>
@@ -18,8 +20,8 @@
 		<tr>
 			<td><a href="{% url 'problems:overview' solution.id %}">{{solution.id}}</a></td>
 			<td>{{solution.filename}}</td>
-			<td>{{solution.programming_language.get_family_display}}</td>
-			<td>{{solution.complexity}}</td>
+			<td>{% langbox solution.compiler %}</td>
+			<td>{{solution.best_judgement.show_status}}</td>
 			<td><a href="{% url 'problems:statement' solution.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>
 		</tr>
 		{% endfor %}
