@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
@@ -11,6 +11,7 @@ from django.http import StreamingHttpResponse
 
 from .models import Problem, ProblemRelatedFile, TestCase
 from .forms import ProblemForm
+from .filters import ProblemFilter
 import mimetypes
 
 from .texrenderer import TeXRenderer
@@ -26,6 +27,11 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return the last five published questions."""
         return Problem.objects.all()
+
+
+def problem_list(request):
+    f = ProblemFilter(request.GET, queryset=Problem.objects.all())
+    return render_to_response('problems/index.html', {'filter': f})
 
 
 class ProblemFormNewView(View):
