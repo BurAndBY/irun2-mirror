@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.db import transaction
 from django.core.management.base import BaseCommand
 
 from common.irunner_import import connect_irunner_db, fetch_irunner_file
@@ -102,7 +103,7 @@ class Command(BaseCommand):
         cur = db.cursor()
         cur.execute('SELECT solutionID, taskID, languageID, fileID, status FROM irunner_solution WHERE solutionID > 10000')
 
-        for row in cur.fetchall()[:100]:
+        for row in cur.fetchall()[:1000]:
             solution_id = row[0]
             problem_id = row[1]
             compiler_id = row[2]
@@ -119,19 +120,20 @@ class Command(BaseCommand):
 
             status, outcome, number = _unpack_state(irunner_state)
 
-            Judgement.objects.update_or_create(id=solution_id, defaults={
-                'solution_id': solution_id,
-                'status': status,
-                'outcome': outcome,
-                'test_number': number
-            })
+            with transaction.atomic():
+                Judgement.objects.update_or_create(id=solution_id, defaults={
+                    'solution_id': solution_id,
+                    'status': status,
+                    'outcome': outcome,
+                    'test_number': number
+                })
 
-            Solution.objects.update_or_create(id=solution_id, defaults={
-                'problem_id': problem_id,
-                'filename': filename,
-                'resource_id': resource_id,
-                'compiler_id': compiler_id,
-                'best_judgement_id': solution_id
-            })
+                Solution.objects.update_or_create(id=solution_id, defaults={
+                    'problem_id': problem_id,
+                    'filename': filename,
+                    'resource_id': resource_id,
+                    'compiler_id': compiler_id,
+                    'best_judgement_id': solution_id
+                })
 
-            _fetch_test_results(db, storage, logger, problem_id, solution_id)
+                _fetch_test_results(db, storage, logger, problem_id, solution_id)

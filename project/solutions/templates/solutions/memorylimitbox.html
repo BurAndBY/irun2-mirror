@@ -1,7 +1,8 @@
 {% load i18n %}
+{% load humanize %}
 
-<div class="progress ir-limit-progressbar"{% if limit %} title="{% trans 'Memory limit' %}: {{ limit }}&nbsp;{% trans 'KB' %}"{% endif %}>
+<div class="progress ir-limit-progressbar"{% if limit %} title="{% trans 'Memory limit' %}: {{ limit|intcomma }}&nbsp;{% trans 'KB' %}"{% endif %}>
     <div class="progress-bar ir-limit-progressbar-filling" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent }}%;">
-        <span>{{ actual }}&nbsp;{% trans 'KB' %}</span>
+        <span>{{ actual|intcomma }}&nbsp;{% trans 'KB' %}</span>
     </div>
 </div>

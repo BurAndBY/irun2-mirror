@@ -8,33 +8,37 @@
 <h1>{% trans 'Judgement' %}</h1>
 
 <dl class="dl-horizontal">
-  <dt>Judgement Outcome</dt>
-  <dd>{{ judgement.show_status }}</dd>
+    <dt>Judgement Outcome</dt>
+    <dd>{{ judgement.show_status }}</dd>
 </dl>
 
-<table class="table table-condensed">
-	<thead>
-		<tr>
-			<th class="ir-col ir-col-no">{% trans '#'%}</th>
-			<th class="ir-col ir-col-outcome">{% trans 'Outcome'%}</th>
-			<th class="ir-col ir-col-score">{% trans 'Score'%}</th>
-			<th class="ir-col ir-col-limit">{% trans 'Time'%}</th>
-			<th class="ir-col ir-col-limit">{% trans 'Memory'%}</th>
-			<th>Checker Message</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for test in test_results %}
-		<tr>
-			<td class="ir-col ir-col-no">{{ forloop.counter }}</td>
-			<td class="ir-col ir-col-outcome">{% outcomebox test.outcome %}</td>
-			<td class="ir-col ir-col-score">{{ test.score }} of {{ test.max_score }}</td>
-			<td class="ir-col ir-col-limit">{% timelimitbox test.time_used test.time_limit %}</td>
-			<td class="ir-col ir-col-limit">{% memorylimitbox test.memory_used test.memory_limit %}</td>
-			<td><samp>{{ test.checker_message }}</samp></td>
-		</tr>
-		{% endfor %}
-	</tbody>
+<table class="table ir-table-more-condensed">
+    <thead>
+        <tr>
+            <th class="ir-col-no">{% trans '#' %}</th>
+            <th class="ir-col-outcome">{% trans 'Outcome' %}</th>
+            <th class="ir-col-score">{% trans 'Score' %}</th>
+            <th class="ir-col-limit">{% trans 'Time' %}</th>
+            <th class="ir-col-limit">{% trans 'Memory' %}</th>
+            <th class="ir-col-code">{% trans 'Exit Code' %}</th>
+            <th class="ir-col-msg">{% trans 'Checker Message' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for test in test_results %}
+        <tr>
+            <td class="ir-col-no">{{ forloop.counter }}</td>
+            <td class="ir-col-outcome">{% outcomebox test.outcome %}</td>
+            <td class="ir-col-score">{{ test.score }} of {{ test.max_score }}</td>
+            <td class="ir-col-limit">{% timelimitbox test.time_used test.time_limit %}</td>
+            <td class="ir-col-limit">{% memorylimitbox test.memory_used test.memory_limit %}</td>
+            <td class="ir-col-code">{{ test.exit_code }}</td>
+            <td class="ir-col-msg">
+                <div class="ir-checker-msg" title="{{ test.checker_message }}">{{ test.checker_message }}</div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}
