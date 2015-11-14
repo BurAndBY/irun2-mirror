@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 14:10+0300\n"
+"POT-Creation-Date: 2015-11-14 21:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,6 +87,48 @@ msgstr "Тестирование"
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\templates\solutions\solution_list.html:7
+#: .\solutions\templates\solutions\judgement.html:8
+msgid "Judgement"
+msgstr "Запуск"
+
+#: .\solutions\templates\solutions\judgement.html:18
+msgid "#"
+msgstr "№"
+
+#: .\solutions\templates\solutions\judgement.html:19
+msgid "Outcome"
+msgstr "Вердикт"
+
+#: .\solutions\templates\solutions\judgement.html:20
+msgid "Score"
+msgstr "Очки"
+
+#: .\solutions\templates\solutions\judgement.html:21
+msgid "Time"
+msgstr "Время"
+
+#: .\solutions\templates\solutions\judgement.html:22
+msgid "Memory"
+msgstr "Память"
+
+#: .\solutions\templates\solutions\memorylimitbox.html:3
+msgid "Memory limit"
+msgstr "Ограничение по памяти"
+
+#: .\solutions\templates\solutions\memorylimitbox.html:3
+#: .\solutions\templates\solutions\memorylimitbox.html:5
+msgid "KB"
+msgstr "КБ"
+
+#: .\solutions\templates\solutions\solution_list.html:9
 msgid "List of Solutions"
 msgstr "Список решений"
+
+#: .\solutions\templates\solutions\timelimitbox.html:3
+msgid "Time limit"
+msgstr "Ограничение по времени"
+
+#: .\solutions\templates\solutions\timelimitbox.html:3
+#: .\solutions\templates\solutions\timelimitbox.html:5
+msgid "s"
+msgstr "с"

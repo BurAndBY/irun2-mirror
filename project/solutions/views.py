@@ -3,9 +3,10 @@ from django.shortcuts import render
 from django.views import generic
 from django.views.generic import View
 from django.core.files.base import ContentFile
+from django.shortcuts import get_object_or_404, render
 
 from .forms import AdHocForm
-from .models import AdHocRun, Solution
+from .models import AdHocRun, Solution, Judgement
 from .actions import enqueue_new
 
 from storage.storage import ResourceId, create_storage
@@ -62,3 +63,13 @@ class AdHocView(View):
 class SolutionListView(generic.ListView):
     def get_queryset(self):
         return Solution.objects.all().prefetch_related('compiler').select_related('best_judgement')
+
+
+def show_judgement(request, judgement_id):
+    judgement = get_object_or_404(Judgement, pk=judgement_id)
+    test_results = judgement.testcaseresult_set.all()
+
+    return render(request, 'solutions/judgement.html', {
+        'judgement': judgement,
+        'test_results': test_results,
+    })

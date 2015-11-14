@@ -138,6 +138,7 @@ textarea {
     padding-top: 2px;
     text-align: center;
     width: 50px;
+    display: inline-block;
 }
 .ir-judgementbox-ok {
     color: #5cb85c;
@@ -146,4 +147,50 @@ textarea {
 .ir-judgementbox-fail {
     color: #d9534f;
     background-color: #f2dede;
+}
+
+
+/**
+ * Progress bars with centered text
+ */
+
+.ir-limit-progressbar {
+    position: relative;
+    margin: 0;
+    width: 100px;
+    display: inline-block;
+}
+
+.ir-limit-progressbar-filling {
+    background-color: #d9edf7;
+}
+
+.ir-limit-progressbar span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: #444;
+}
+
+/**
+ * Table Column
+ */
+.ir-col-limit {
+    width: 120px;
+    text-align: center;
+}
+
+.ir-col-score {
+    width: 80px;
+    text-align: center;
+}
+
+.ir-col-outcome {
+    width: 80px;
+    text-align: center;
+}
+
+.ir-col-no {
+    width: 40px;
+    text-align: right;
 }

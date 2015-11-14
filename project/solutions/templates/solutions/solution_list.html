@@ -27,7 +27,7 @@
 			<td>{% langbox solution.compiler %}</td>
 			<td>{% judgementbox solution.best_judgement %}</td>
 			<td>{{solution.best_judgement.show_status}}</td>
-			<td><a href="{% url 'problems:statement' solution.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>
+			<td><a href="{% url 'solutions:show_judgement' solution.best_judgement_id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>
 		</tr>
 		{% endfor %}
 	</tbody>

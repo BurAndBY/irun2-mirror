@@ -41,3 +41,15 @@ def judgementbox(judgement):
             'style': '',
             'test_no': 0
         }
+
+
+@register.inclusion_tag('solutions/extras.html')
+def outcomebox(outcome):
+    ctx = {}
+    if outcome is not None:
+        code = TWO_LETTER_CODES.get(outcome)
+        ctx = {
+            'code': code,
+            'style': _get_style(outcome, code)
+        }
+    return ctx
