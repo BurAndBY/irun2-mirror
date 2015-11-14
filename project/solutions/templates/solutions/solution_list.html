@@ -2,6 +2,8 @@
 
 {% load proglang_extras %}
 {% load i18n %}
+{% load solution_extras %}
+
 
 {% block content %}
 <h1>{% trans 'List of Solutions' %}</h1>
@@ -13,6 +15,7 @@
 			<th>Filename</th>
 			<th>Language</th>
 			<th>Status</th>
+			<th>Verbose status</th>
 			<th>Links</th>
 		</tr>
 	</thead>
@@ -22,6 +25,7 @@
 			<td><a href="{% url 'problems:overview' solution.id %}">{{solution.id}}</a></td>
 			<td><tt>{{solution.filename}}</tt></td>
 			<td>{% langbox solution.compiler %}</td>
+			<td>{% judgementbox solution.best_judgement %}</td>
 			<td>{{solution.best_judgement.show_status}}</td>
 			<td><a href="{% url 'problems:statement' solution.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>
 		</tr>
