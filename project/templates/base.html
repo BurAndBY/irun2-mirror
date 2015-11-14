@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,44 +9,69 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
         <link href="{% static 'irunner2.css' %}" rel="stylesheet">
+        <script src="{% static 'jquery/jquery-1.11.3.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'irunner2.js' %}"></script>
     </head>
     <body>
-        <!--
-        <header class="navbar navbar-default navbar-static-top" role="banner">
+
+        <nav class="navbar navbar-default">
             <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">iRunner&nbsp;2</a>
-            </div>
-                <nav class="collapse navbar-collapse" role="navigation">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">iRunner&nbsp;2</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">Get Started</a>
-                        </li>
-                        <li>
-                            <a href="#">Edit</a>
-                        </li>
-                        <li>
-                            <a href="#">Visualize</a>
-                        </li>
-                        <li>
-                            <a href="#">Prototype</a>
+                        <!--
+                            <li><a href="#">Solutions</a></li>
+                            <li><a href="#">Link</a></li>
+                        -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
                         </li>
                     </ul>
-                </nav>
-            </div>
-        </header>
-        -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a>
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                <form class="ir-lang-fake-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    <input name="language" type="hidden" value="{{ language.code }}" />
+                                    <input type="submit" value="{{ language.code }}" title="{{ language.name_local }}" {% if language.code == LANGUAGE_CODE %} disabled="disabled"{% endif %} class="btn btn-link btn-xs" />
+                                </form>
+                                {% endfor %}
+                            </a>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+
         <div class="container">
         {% block content %}
         {% endblock %}
         </div>
-        <!--<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>-->
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     </body>
 </html>

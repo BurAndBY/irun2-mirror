@@ -113,3 +113,14 @@ textarea {
 .ir-langbox-cs {
     background-color: #B6D7A8;
 }
+
+
+/**
+ * Language Select
+ */
+.ir-lang-fake-form {
+    display: inline;
+}
+.ir-lang-fake-form input[disabled] {
+    cursor: pointer;
+}

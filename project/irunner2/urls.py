@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
     url(r'^demo/', include('demo.urls', namespace='demo')),
     url(r'^storage/', include('storage.urls', namespace='storage')),
     url(r'^problems/', include('problems.urls', namespace='problems')),

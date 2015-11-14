@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% load proglang_extras %}
+{% load i18n %}
 
 {% block content %}
-<h1>List of Solutions</h1>
+<h1>{% trans 'List of Solutions' %}</h1>
 
 <table class="table table-condensed table-striped table-hover">
 	<thead>
@@ -19,7 +20,7 @@
 		{% for solution in object_list %}
 		<tr>
 			<td><a href="{% url 'problems:overview' solution.id %}">{{solution.id}}</a></td>
-			<td>{{solution.filename}}</td>
+			<td><tt>{{solution.filename}}</tt></td>
 			<td>{% langbox solution.compiler %}</td>
 			<td>{{solution.best_judgement.show_status}}</td>
 			<td><a href="{% url 'problems:statement' solution.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></td>

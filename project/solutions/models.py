@@ -2,7 +2,7 @@ from django.db import models
 from storage.storage import ResourceIdField
 from proglangs.models import Compiler
 from problems.models import Problem, TestCase
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class AdHocRun(models.Model):
