@@ -75,7 +75,7 @@ class Judgement(models.Model):
     )
 
     solution = models.ForeignKey(Solution)
-    rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL)
+    rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL, default=None)
 
     compilation_log = ResourceIdField()
 

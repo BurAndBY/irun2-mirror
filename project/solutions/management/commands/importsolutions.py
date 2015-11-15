@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from common.irunner_import import connect_irunner_db, fetch_irunner_file
 from common.memory_string import parse_memory
 from solutions.models import Solution, Judgement, Outcome, TestCaseResult
+from problems.models import Problem
 from storage.storage import create_storage
 
 import logging
@@ -64,10 +65,12 @@ def _get_memory_limit(db, problem_id):
     return parse_memory(row[0]) if (row and row[0]) else 0
 
 
-def _fetch_test_results(db, storage, logger, problem_id, solution_id):
-    memory_limit = _get_memory_limit(db, problem_id)
+def _fetch_test_results(db, storage, logger, problem, solution_id):
+    memory_limit = _get_memory_limit(db, problem.id) if problem is not None else 0
 
     cur = db.cursor()
+
+    test_ids = set(problem.testcase_set.values_list('id', flat=True)) if problem is not None else set()
 
     cur.execute('''SELECT testResultID, errorType, irunner_testresult.testID,
                           memoryUsed, exitCode, checkerStr,
@@ -77,10 +80,15 @@ def _fetch_test_results(db, storage, logger, problem_id, solution_id):
                    WHERE solutionID = %s''', (solution_id,))
 
     for row in cur:
+        test_case_id = row[2]
+        if test_case_id not in test_ids:
+            logger.warning('Got test %d that does not exist', test_case_id)
+            test_case_id = None
+
         TestCaseResult.objects.update_or_create(id=row[0], defaults={
             'judgement_id': solution_id,
             'outcome': _unpack_error(row[1]),
-            'test_case_id': row[2],
+            'test_case_id': test_case_id,
             'memory_limit': memory_limit,
             'memory_used': row[3],
             'exit_code': row[4],
@@ -112,6 +120,11 @@ class Command(BaseCommand):
 
             logger.info('Importing solution %d...', solution_id)
 
+            problem = Problem.objects.filter(id=problem_id).first()
+            if problem is None:
+                logger.warning('Solution belongs to problem %d that does not exist', problem_id)
+                problem_id = None
+
             file_fetched = fetch_irunner_file(db, file_id, storage)
             if file_fetched is None:
                 logger.warning('Unable to fetch source code for solution %d', solution_id)
@@ -121,19 +134,21 @@ class Command(BaseCommand):
             status, outcome, number = _unpack_state(irunner_state)
 
             with transaction.atomic():
-                Judgement.objects.update_or_create(id=solution_id, defaults={
-                    'solution_id': solution_id,
-                    'status': status,
-                    'outcome': outcome,
-                    'test_number': number
-                })
-
-                Solution.objects.update_or_create(id=solution_id, defaults={
+                solution, _ = Solution.objects.update_or_create(id=solution_id, defaults={
                     'problem_id': problem_id,
                     'filename': filename,
                     'resource_id': resource_id,
                     'compiler_id': compiler_id,
-                    'best_judgement_id': solution_id
                 })
 
-                _fetch_test_results(db, storage, logger, problem_id, solution_id)
+                judgement, _ = Judgement.objects.update_or_create(id=solution_id, defaults={
+                    'solution_id': solution_id,
+                    'status': status,
+                    'outcome': outcome,
+                    'test_number': number,
+                })
+
+                solution.best_judgement = judgement
+                solution.save()
+
+                _fetch_test_results(db, storage, logger, problem, solution_id)

@@ -77,10 +77,10 @@ class TestCase(models.Model):
 
     def set_input(self, storage, f):
         resource_id = storage.save(f)
-        self.input_file = resource_id
+        self.input_resource_id = resource_id
         self.input_size = f.size
 
     def set_answer(self, storage, f):
         resource_id = storage.save(f)
-        self.answer_file = resource_id
+        self.answer_resource_id = resource_id
         self.answer_size = f.size

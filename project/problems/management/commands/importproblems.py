@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from django.core.management.base import BaseCommand, CommandError
-from problems.models import Problem, ProblemRelatedFile
-from storage.storage import create_storage, ResourceId
-from django.core.files.base import ContentFile
-
-
-#import mysql.connector
-import MySQLdb
-
-from django.db import transaction
+import logging
 import re
+
+from django.core.files.base import ContentFile
+from django.core.management.base import BaseCommand
+from django.db import transaction
+
+from common.memory_string import parse_memory
+from common.irunner_import import connect_irunner_db
+from problems.models import Problem, ProblemRelatedFile
+from storage.storage import create_storage
 
 
 def _split_name(s):
@@ -32,24 +32,24 @@ class Command(BaseCommand):
     help = 'Does some magical work'
 
     def handle(self, *args, **options):
-        db = MySQLdb.connect(user='irunner_user', passwd='irunner_localhost',
-                             host='127.0.0.1',
-                             port=3307,
-                             db='irunner',
-                             charset='utf8')
+        logger = logging.getLogger('irunner_import')
+        db = connect_irunner_db()
 
         cur = db.cursor()
-        cur.execute('SELECT taskID, shortName, name FROM irunner_task')
+        cur.execute('SELECT taskID, shortName, name, memoryLimit FROM irunner_task')
 
         storage = create_storage()
 
         with transaction.atomic():
-            for row in cur.fetchall()[:500]:
+            for row in cur.fetchall():
                 task_id = int(row[0])
+                logger.info('Importing problem %d...', task_id)
+
                 problem, created = Problem.objects.get_or_create(id=task_id)
 
                 short_number, short_name, short_complexity = _split_name(row[1])
                 full_number, full_name, full_complexity = _split_name(row[2])
+                memory_limit = parse_memory(row[3]) if row[3] else 0
 
                 problem.number = full_number or short_number or ''
                 problem.short_name = short_name.strip()
@@ -81,6 +81,7 @@ class Command(BaseCommand):
                         description=(r[1] or ''),
                         points=int(r[2]),
                         time_limit=(int(r[3] * 1000)),
+                        memory_limit=memory_limit,
                         ordinal_number=i+1
                     )
 
@@ -92,10 +93,10 @@ class Command(BaseCommand):
                         if r[0] == output_mf_id:
                             tc.set_answer(storage, ContentFile(r[1]))
 
+                problem.save()
+
                 for tc in tests.itervalues():
                     tc.save()
-
-                problem.save()
 
                 subc = db.cursor()
                 subc.execute('''SELECT taskFileID, flag, name, fileTypeID, data, description
