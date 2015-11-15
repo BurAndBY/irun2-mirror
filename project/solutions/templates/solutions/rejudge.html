@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load solution_extras %}
+{% load limitboxes %}
+
+{% block content %}
+<h1>{% trans 'Rejudge' %}</h1>
+
+{% if committed == True %}
+<div class="alert alert-success" role="alert">The results of this rejudge have been committed.</div>
+{% elif committed == False %}
+<div class="alert alert-danger" role="alert">The results of this rejudge have been cancelled.</div>
+{% endif %}
+
+<table class="table ">
+    <thead>
+        <tr>
+            <th>{% trans 'Current' %}</th>
+            <th>{% trans 'After Rejudge' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for info in object_list %}
+        <tr>
+            <td>{% judgementbox info.before %}{% if info.before %}<a href="{% url 'solutions:show_judgement' info.before.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
+            <td>{% judgementbox info.after %}{% if info.after %}<a href="{% url 'solutions:show_judgement' info.after.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if committed == None %}
+<form class="form-inline" method="post">
+    {% csrf_token %}
+    <button type="submit" name="commit" class="btn btn-success">Commit</button>
+    <button type="submit" name="rollback" class="btn btn-danger">Rollback</button>
+</form>
+{% endif %}
+
+{% endblock %}

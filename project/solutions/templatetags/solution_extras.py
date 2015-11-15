@@ -39,7 +39,7 @@ def judgementbox(judgement):
         }
     else:
         return {
-            'code': '…',
+            'code': '…' if judgement is not None else '—',
             'style': '',
             'test_no': 0
         }

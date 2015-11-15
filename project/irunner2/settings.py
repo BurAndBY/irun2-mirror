@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'storage',
     'proglangs',
     'solutions',
-    'api'
+    'api',
+    'common'
 )
 
 MIDDLEWARE_CLASSES = (

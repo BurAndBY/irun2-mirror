@@ -27,7 +27,16 @@
 			<td>{% langbox solution.compiler %}</td>
 			<td>{% judgementbox solution.best_judgement %}</td>
 			<td>{% if solution.best_judgement %}{{ solution.best_judgement.show_status }}{% endif %}</td>
-			<td>{% if solution.best_judgement %}<a href="{% url 'solutions:show_judgement' solution.best_judgement_id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
+			<td>
+				{% if solution.best_judgement %}
+					<a href="{% url 'solutions:show_judgement' solution.best_judgement_id %}">
+						<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+					</a>
+				{% endif %}
+				<a href="{% url 'solutions:create_rejudge' %}?id={{ solution.id }}">
+					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				</a>
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>

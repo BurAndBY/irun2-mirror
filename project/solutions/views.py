@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from collections import namedtuple
 
+from django.shortcuts import render
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views import generic
 from django.views.generic import View
 from django.core.files.base import ContentFile
@@ -76,7 +79,7 @@ def show_judgement(request, judgement_id):
     })
 
 
-class RejudgeView(View):
+class CreateRejudgeView(View):
     def get(self, request, *args, **kwargs):
         ids = request.GET.getlist('id')
         return render(request, 'solutions/confirm_multiple.html', {'ids': ids})
@@ -88,4 +91,35 @@ class RejudgeView(View):
             judgements = [Judgement(solution_id=solution_id, rejudge=rejudge) for solution_id in ids]
             Judgement.objects.bulk_create(judgements)
 
-        return render(request, 'solutions/confirm_multiple.html', {'ids': ids})
+        return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge.id]))
+
+
+RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
+
+
+class RejudgeView(View):
+    def get(self, request, rejudge_id):
+        rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
+        object_list = []
+        for new_judgement in rejudge.judgement_set.all().select_related('solution').select_related('solution__best_judgement'):
+            solution = new_judgement.solution
+            object_list.append(RejudgeInfo(solution, solution.best_judgement, new_judgement))
+
+        return render(request, 'solutions/rejudge.html', {'committed': rejudge.committed, 'object_list': object_list})
+
+    def post(self, request, rejudge_id):
+        need_commit = ('commit' in request.POST)
+        need_rollback = ('rollback' in request.POST)
+
+        if (need_commit ^ need_rollback):
+            target = True if need_commit else False
+            num_rows = Rejudge.objects.filter(id=rejudge_id, committed=None).update(committed=target)
+            if num_rows and need_commit:
+                with transaction.atomic():
+                    rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
+                    for new_judgement in rejudge.judgement_set.all().select_related('solution'):
+                        solution = new_judgement.solution
+                        solution.best_judgement = new_judgement
+                        solution.save()
+
+        return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge_id]))
