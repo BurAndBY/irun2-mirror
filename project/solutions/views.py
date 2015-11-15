@@ -4,9 +4,10 @@ from django.views import generic
 from django.views.generic import View
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404, render
+from django.db import transaction
 
 from .forms import AdHocForm
-from .models import AdHocRun, Solution, Judgement
+from .models import AdHocRun, Solution, Judgement, Rejudge
 from .actions import enqueue_new
 
 from storage.storage import ResourceId, create_storage
@@ -45,7 +46,7 @@ class AdHocView(View):
             solution = Solution(
                 ad_hoc_run=run,
                 resource_id=resource_id,
-                programming_language=form.cleaned_data['programming_language'],
+                compiler=form.cleaned_data['compiler'],
                 filename='',
             )
 
@@ -73,3 +74,18 @@ def show_judgement(request, judgement_id):
         'judgement': judgement,
         'test_results': test_results,
     })
+
+
+class RejudgeView(View):
+    def get(self, request, *args, **kwargs):
+        ids = request.GET.getlist('id')
+        return render(request, 'solutions/confirm_multiple.html', {'ids': ids})
+
+    def post(self, request, *args, **kwargs):
+        ids = request.GET.getlist('id')
+        with transaction.atomic():
+            rejudge = Rejudge.objects.create()
+            judgements = [Judgement(solution_id=solution_id, rejudge=rejudge) for solution_id in ids]
+            Judgement.objects.bulk_create(judgements)
+
+        return render(request, 'solutions/confirm_multiple.html', {'ids': ids})

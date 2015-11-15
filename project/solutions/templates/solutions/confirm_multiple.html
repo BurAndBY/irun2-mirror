@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load solution_extras %}
+{% load limitboxes %}
+
+{% block content %}
+
+{% if ids %}
+    <h1>{% trans 'Confirm' %}</h1>
+    <ul>
+    {% for id in ids %}
+        <li>{{ id }}</li>
+    {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for id in ids %}
+            <input type="hidden" name="id" value="{{ id }}">
+        {% endfor %}
+        <input type="submit" value="Yes"></input>
+    </form>
+{% else %}
+    <div class="alert alert-danger" role="alert">
+        There are no solutions selected.
+    </div>
+{% endif %}
+
+{% endblock %}

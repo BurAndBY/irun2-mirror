@@ -29,6 +29,7 @@ h1, h2, h3, h4, h5 {
 .ir-table-more-condensed > tbody > tr > td,
 .ir-table-more-condensed > tfoot > tr > td {
     padding: 1px;
+    vertical-align: middle;
 }
 
 .ir-data {

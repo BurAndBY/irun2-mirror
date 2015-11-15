@@ -8,8 +8,14 @@
 <h1>{% trans 'Judgement' %}</h1>
 
 <dl class="dl-horizontal">
-    <dt>Judgement Outcome</dt>
+    <dt>Code</dt>
+    <dd>{% judgementbox judgement %}</dd>
+
+    <dt>Judgement outcome</dt>
     <dd>{{ judgement.show_status }}</dd>
+
+    <dt>Score</dt>
+    <dd>{{ judgement.score }} {% trans 'of' %} {{ judgement.max_score }}</dd>
 </dl>
 
 <table class="table ir-table-more-condensed">

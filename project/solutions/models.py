@@ -53,6 +53,10 @@ class Outcome(object):
     )
 
 
+class Rejudge(models.Model):
+    committed = models.NullBooleanField()
+
+
 class Judgement(models.Model):
     DONE = 0
     WAITING = 1
@@ -71,10 +75,11 @@ class Judgement(models.Model):
     )
 
     solution = models.ForeignKey(Solution)
+    rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL)
 
     compilation_log = ResourceIdField()
 
-    status = models.IntegerField(default=DONE, choices=STATUS_CHOICES)
+    status = models.IntegerField(default=WAITING, choices=STATUS_CHOICES)
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
     test_number = models.IntegerField(default=0)
 

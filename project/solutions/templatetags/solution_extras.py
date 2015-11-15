@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import template
 from solutions.models import Judgement, Outcome
 
@@ -37,7 +39,7 @@ def judgementbox(judgement):
         }
     else:
         return {
-            'code': '',
+            'code': '…',
             'style': '',
             'test_no': 0
         }

@@ -62,14 +62,14 @@ class TestCase(models.Model):
     ordinal_number = models.PositiveIntegerField(default=0)
     description = models.TextField()
 
-    input_file = ResourceIdField()
+    input_resource_id = ResourceIdField()
     input_size = models.IntegerField(default=0)
 
-    answer_file = ResourceIdField()
+    answer_resource_id = ResourceIdField()
     answer_size = models.IntegerField(default=0)
 
     time_limit = models.IntegerField()
-    memory_limit = models.IntegerField(null=True)
+    memory_limit = models.IntegerField(default=0)
     points = models.IntegerField(default=1)
 
     class Meta:
