@@ -143,8 +143,8 @@ def show_test(request, problem_id, test_number):
     test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
     total_tests = TestCase.objects.filter(problem_id=problem_id).count()
 
-    input_repr = storage.represent(test_case.input_file)
-    answer_repr = storage.represent(test_case.answer_file)
+    input_repr = storage.represent(test_case.input_resource_id)
+    answer_repr = storage.represent(test_case.answer_resource_id)
 
     return render(request, 'problems/show_test.html', {
         'problem_id': problem_id,
