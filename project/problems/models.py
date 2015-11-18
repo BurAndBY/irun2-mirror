@@ -1,5 +1,17 @@
 from django.db import models
 from storage.storage import ResourceIdField
+from mptt.models import MPTTModel, TreeForeignKey
+
+
+class ProblemFolder(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+
+    def __unicode__(self):
+        return self.name
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
 
 class Problem(models.Model):
@@ -13,6 +25,8 @@ class Problem(models.Model):
 
     input_filename = models.CharField(max_length=32, blank=True)
     output_filename = models.CharField(max_length=32, blank=True)
+
+    folders = models.ManyToManyField(ProblemFolder)
 
     def _numbered_name(self, name):
         if self.number:

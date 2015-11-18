@@ -1,8 +1,11 @@
 from django.forms import ModelForm
-from .models import Problem
+from .models import Problem, ProblemFolder
+from mptt.forms import TreeNodeMultipleChoiceField
 
 
 class ProblemForm(ModelForm):
+    folders = TreeNodeMultipleChoiceField(queryset=ProblemFolder.objects.all())
+
     class Meta:
         model = Problem
-        fields = ['number', 'short_name', 'full_name', 'complexity']
+        fields = ['number', 'short_name', 'full_name', 'complexity', 'folders']

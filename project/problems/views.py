@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.shortcuts import get_object_or_404, render, render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.views.generic import View
@@ -9,7 +9,11 @@ from django.shortcuts import redirect
 from storage.storage import create_storage
 from django.http import StreamingHttpResponse
 
-from .models import Problem, ProblemRelatedFile, TestCase
+import json
+from mptt.templatetags.mptt_tags import cache_tree_children
+
+
+from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .forms import ProblemForm
 from .filters import ProblemFilter
 import mimetypes
@@ -156,3 +160,54 @@ def show_test(request, problem_id, test_number):
         'answer_repr': answer_repr,
         'description': test_case.description,
     })
+
+
+def recursive_node_to_dict(node):
+    result = {
+        'key': node.pk,
+        'title': node.name,
+        'folder': True,
+    }
+    children = [recursive_node_to_dict(c) for c in node.get_children()]
+    if children:
+        result['children'] = children
+    return result
+
+
+def _list_folders():
+    root_nodes = cache_tree_children(ProblemFolder.objects.all())
+    dicts = []
+    for n in root_nodes:
+        dicts.append(recursive_node_to_dict(n))
+
+    return json.dumps(dicts)
+
+
+def _list_folder_contents(folder_id):
+    #lb = int(folder_id) * 1000
+    #ub = (int(folder_id) + 1) * 1000
+    #problems = Problem.objects.filter(id__gte=lb, id__lt=ub)
+    problems = Problem.objects.filter(folders__id=folder_id)
+    result = [[str(p.id), p.full_name] for p in problems]
+    return result
+
+
+def show_tree(request):
+    tree_data = _list_folders()
+    return render(request, 'problems/tree.html', {
+        'tree_data': tree_data
+    })
+
+
+def show_folder(request, folder_id):
+    tree_data = _list_folders()
+    return render(request, 'problems/tree.html', {
+        'tree_data': tree_data,
+        'cur_folder_id': folder_id,
+        'table_data': json.dumps(_list_folder_contents(folder_id))
+    })
+
+
+def show_folder_json(request, folder_id):
+    result = _list_folder_contents(folder_id)
+    return JsonResponse({'aaData': result}, safe=True)
