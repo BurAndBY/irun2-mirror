@@ -8,6 +8,7 @@ from django.views.generic import View
 from django.shortcuts import redirect
 from storage.storage import create_storage
 from django.http import StreamingHttpResponse
+from django.utils.translation import ugettext as _
 
 import json
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -200,14 +201,18 @@ def show_tree(request):
 
 
 def show_folder(request, folder_id):
+    folder = get_object_or_404(ProblemFolder, pk=folder_id)
     tree_data = _list_folders()
     return render(request, 'problems/tree.html', {
         'tree_data': tree_data,
-        'cur_folder_id': folder_id,
+        'cur_folder_id': folder.id,
+        'cur_folder_name': folder.name,
         'table_data': json.dumps(_list_folder_contents(folder_id))
     })
 
 
 def show_folder_json(request, folder_id):
-    result = _list_folder_contents(folder_id)
-    return JsonResponse({'aaData': result}, safe=True)
+    folder = ProblemFolder.objects.filter(pk=folder_id).first()
+    name = folder.name if folder is not None else ''
+    data = _list_folder_contents(folder_id)
+    return JsonResponse({'id': folder_id, 'name': name, 'data': data}, safe=True)
