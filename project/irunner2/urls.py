@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^solutions/', include('solutions.urls', namespace='solutions')),
     url(r'^courses/', include('courses.urls', namespace='courses')),
-    url(r'^about/', common.views.about, name='about')
+    url(r'^about/', common.views.about, name='about'),
+    url('^', include('django.contrib.auth.urls'))
 ]

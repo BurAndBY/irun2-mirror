@@ -170,3 +170,5 @@ LANGUAGES = (
 LOCALE_PATHS = (
     'c:\\Users\\sobols\\Documents\\Programming\\irunner2\\project\\locale\\',
 )
+
+LOGIN_REDIRECT_URL = '/'
