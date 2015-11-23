@@ -1,18 +1,61 @@
-.ir-course-standings .row1 {
-    font-size: 0.9em;
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
 }
-.ir-course-standings .row2 {
-    font-size: 0.8em;
-}
-.ir-course-standings .complexity {
-    color: blue;
-}
-.ir-course-standings .score {
-}
-.ir-course-standings .eps {
-    color: green;
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.ir-footer {
+    margin: 10px 0;
+    text-align: center;
+    color: #777;
+}
+
+.ir-course-standings .ir-row1 {
+    font-size: 11px;
+}
+.ir-course-standings .ir-row2 {
+    font-size: 11px;
+}
+.ir-course-standings .ir-score {
+    min-width: 40px;
+}
+.ir-course-standings .ir-letter {
+    width: 20px;
+}
+.ir-course-standings .ir-box {
+    display: inline-block;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.ir-course-standings .ir-complexity {
+    background-color: #d9edf7;
+    color: #333;
+}
+.ir-course-standings .ir-yes {
+    background-color: #5cb85c;
+}
+.ir-course-standings .ir-no {
+    background-color: #ccc;
+}
 
 textarea {
 	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;

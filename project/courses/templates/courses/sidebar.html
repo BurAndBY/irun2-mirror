@@ -1,0 +1,22 @@
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
+        <i class="glyphicon-info-sign glyphicon"></i>
+        {{ course_name }}
+    </a>
+    <a href="#" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
+        <i class="glyphicon-book glyphicon"></i>
+        Журнал
+    </a>
+    <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
+        <i class="glyphicon-tasks glyphicon"></i>
+        Решения
+    </a>
+    <a href="#" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
+        <i class="glyphicon-send glyphicon"></i>
+        Отправить решение
+    </a>
+    <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
+        <i class="glyphicon-cog glyphicon"></i>
+        Настройки
+    </a>
+</div>

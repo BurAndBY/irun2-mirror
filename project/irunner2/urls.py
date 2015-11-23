@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import common.views
 
 urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
@@ -27,4 +28,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^solutions/', include('solutions.urls', namespace='solutions')),
+    url(r'^courses/', include('courses.urls', namespace='courses')),
+    url(r'^about/', common.views.about, name='about')
 ]

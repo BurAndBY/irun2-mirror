@@ -1,0 +1,45 @@
+{% extends 'courses/base.html' %}
+
+{% block main %}
+<table class="table ir-table-more-condensed table-striped ir-course-standings">
+    <tbody>
+        {% for sr in results %}
+        <tr>
+            <td>
+                <b>{{sr.surname}}</b><br>
+                <small>{{sr.name}}
+                {% if sr.insubgroup %}<span class="eps">(eps)</span>{% endif %}
+                </small>
+            </td>
+            {% for spr in sr.problemresults %}
+            <td class="text-nowrap">
+                <div class="ir-row1">
+                    {{spr.short_name}}
+                </div>
+                <div class="ir-row2">
+                    <div class="ir-box ir-letter ir-complexity">{{ spr.complexity }}</div>
+                    {% for letter, state in spr.criteria %}
+                        <div class="ir-box ir-letter ir-{{ state|yesno:"yes,no" }}">{{ letter }}</div>
+                    {% endfor %}
+                    <span class="ir-box ir-score ir-{{ spr.is_full_solution|yesno:"yes,no" }}">
+                    {% if spr.submitted %}
+                        {% if spr.is_full_solution %}
+                            {{spr.points}}
+                        {% else %}
+                            {{spr.points}}&nbsp;/&nbsp;{{spr.max_points}}
+                        {% endif %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                    </span>
+                </div>
+            </td>
+            {% endfor %}
+            <td>
+                {{sr.summary}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

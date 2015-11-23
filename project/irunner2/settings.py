@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     'proglangs',
     'solutions',
     'api',
-    'common'
+    'common',
+    'courses'
 )
 
 MIDDLEWARE_CLASSES = (
