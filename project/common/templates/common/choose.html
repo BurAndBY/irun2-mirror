@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load systemname %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-5 col-sm-offset-7">
+        {{ form.folders }}
+    </div>
+</div>
+<script>
+
+    $("#{{ form.folders.auto_id }}").change(function() {
+        var folderId = $("#{{ form.folders.auto_id }} option:selected").val();
+        $.getJSON("/list/" + folderId + "/", function(json) {
+            var items = json.data || [];
+            var lst = $("#folder-selection-src");
+            lst.empty();
+            $.each(items, function() {
+                lst.append($("<option />").val(this.id).text(this.name).attr('disabled', 'disabled'));
+            });
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-sm-5">
+        <select multiple class="form-control" id="folder-selection-dst" style="height:300px;">
+        </select>
+    </div>
+    <div class="col-sm-2 text-center">
+        <div>
+            <input class="btn btn-default" type="button" value="Add">
+        </div>
+        <div>
+            <input class="btn btn-default" type="button" value="Add all">
+        </div>
+        <div>
+            <input class="btn btn-default" type="button" value="Remove">
+        </div>
+        <div>
+            <input class="btn btn-default" type="button" value="Remove all">
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <select multiple class="form-control" id="folder-selection-src" style="height:300px;">
+        </select>
+    </div>
+</div>
+
+{% endblock %}

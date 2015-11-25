@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'^solutions/', include('solutions.urls', namespace='solutions')),
     url(r'^courses/', include('courses.urls', namespace='courses')),
     url(r'^about/', common.views.about, name='about'),
+    url(r'^choose/', common.views.choose, name='about'),
+    url(r'^list/(?P<folder_id>[0-9]+)/', common.views.listf, name='listf'),
     url('^', include('django.contrib.auth.urls'))
 ]
