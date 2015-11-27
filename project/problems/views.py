@@ -93,51 +93,68 @@ def add_test(request, problem_id):
     return render(request, 'problems/test.html', {'problem': problem})
 
 
-def statement_file(request, problem_id, filename):
-    related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, name=filename)
-    storage = create_storage()
+class ProblemStatementView(generic.View):
+    @staticmethod
+    def _normalize(filename):
+        return filename.rstrip('/')
 
-    mime_type, _ = mimetypes.guess_type(filename)
-    data = storage.serve(related_file.resource_id)
+    def is_aux_file(self, filename):
+        return filename is not None and len(ProblemStatementView._normalize(filename)) > 0
 
-    response = StreamingHttpResponse(data.generator, content_type=mime_type)
-    response['Content-Length'] = data.size
-    return response
+    def serve_aux_file(self, problem_id, filename):
+        filename = ProblemStatementView._normalize(filename)
 
-
-def statement(request, problem_id):
-    problem = get_object_or_404(Problem, pk=problem_id)
-    related_files = problem.problemrelatedfile_set.all()
-
-    tex_statement_resource_id = None
-    html_statement_name = None
-
-    for related_file in related_files:
-        ft = related_file.file_type
-
-        if ft == ProblemRelatedFile.STATEMENT_HTML:
-            if html_statement_name is None:
-                html_statement_name = related_file.name
-
-        elif ft == ProblemRelatedFile.STATEMENT_TEX:
-            if tex_statement_resource_id is None:
-                tex_statement_resource_id = related_file.resource_id
-
-    st = StatementRepresentation()
-
-    # TeX
-    if st.is_empty and tex_statement_resource_id is not None:
+        related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, name=filename)
         storage = create_storage()
-        tex_data = storage.represent(tex_statement_resource_id)
-        if tex_data is not None and tex_data.complete_text is not None:
-            renderer = TeXRenderer.create(problem, tex_data.complete_text)
-            st.content = renderer.render_inner_html()
 
-    # HTML
-    if st.is_empty and html_statement_name is not None:
-        st.iframe_name = html_statement_name
+        mime_type, encoding = mimetypes.guess_type(filename)
+        data = storage.serve(related_file.resource_id)
 
-    return render(request, 'problems/statement.html', {'statement': st})
+        response = StreamingHttpResponse(data.generator, content_type=mime_type)
+        response['Content-Length'] = data.size
+        return response
+
+    def make_statement(self, problem):
+        related_files = problem.problemrelatedfile_set.all()
+
+        tex_statement_resource_id = None
+        html_statement_name = None
+
+        for related_file in related_files:
+            ft = related_file.file_type
+
+            if ft == ProblemRelatedFile.STATEMENT_HTML:
+                if html_statement_name is None:
+                    html_statement_name = related_file.name
+
+            elif ft == ProblemRelatedFile.STATEMENT_TEX:
+                if tex_statement_resource_id is None:
+                    tex_statement_resource_id = related_file.resource_id
+
+        st = StatementRepresentation()
+
+        # TeX
+        if st.is_empty and tex_statement_resource_id is not None:
+            storage = create_storage()
+            tex_data = storage.represent(tex_statement_resource_id)
+            if tex_data is not None and tex_data.complete_text is not None:
+                renderer = TeXRenderer.create(problem, tex_data.complete_text)
+                st.content = renderer.render_inner_html()
+
+        # HTML
+        if st.is_empty and html_statement_name is not None:
+            st.iframe_name = html_statement_name
+
+        return st
+
+    def get(self, request, problem_id, filename):
+        if self.is_aux_file(filename):
+            return self.serve_aux_file(problem_id, filename)
+
+        problem = get_object_or_404(Problem, pk=problem_id)
+
+        st = self.make_statement(problem)
+        return render(request, 'problems/statement.html', {'statement': st})
 
 
 def show_test(request, problem_id, test_number):
