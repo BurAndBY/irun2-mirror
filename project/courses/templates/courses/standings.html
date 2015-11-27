@@ -1,10 +1,24 @@
 {% extends 'courses/base.html' %}
 
+{% load i18n %}
+
 {% block main %}
 <table class="table ir-table-more-condensed table-striped ir-course-standings">
+    <thead>
+        <tr>
+            <th>{% trans '#' %}</th>
+            <th>{% trans 'Student' %}</th>
+            {% for name, width in header_topics %}
+                <th {% if width > 1 %}colspan="{{ width }}"{% endif %}>{{ name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
     <tbody>
         {% for sr in results %}
         <tr>
+            <td>
+                {{ forloop.counter }}
+            </td>
             <td>
                 <b>{{sr.surname}}</b><br>
                 <small>{{sr.name}}

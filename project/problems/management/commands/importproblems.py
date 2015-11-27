@@ -13,19 +13,25 @@ from problems.models import Problem, ProblemRelatedFile, ProblemFolder
 from storage.storage import create_storage
 
 
+def int_or_none(obj):
+    return int(obj) if obj is not None else None
+
+
 def _split_name(s):
-    number = ''
+    number = None
+    subnumber = None
     name = ''
     complexity = None  # TODO
 
-    rx = re.compile(r'^(\d+(\.\d+)?)?\.?\s*(.*)$')
+    rx = re.compile(r'^((\d+)(\.(\d+))?)?\.?\s*(.*)$')
     m = rx.match(s)
     if m is not None:
-        number = m.group(1)
-        name = m.group(3)
+        number = int_or_none(m.group(2))
+        subnumber = int_or_none(m.group(4))
+        name = m.group(5)
     else:
         name = s
-    return (number, name, complexity)
+    return (number, subnumber, name, complexity)
 
 
 def _import_problem_tree(db, folder_id, obj=None):
@@ -65,12 +71,13 @@ class Command(BaseCommand):
 
                 problem, created = Problem.objects.get_or_create(id=task_id)
 
-                short_number, short_name, short_complexity = _split_name(row[1])
-                full_number, full_name, full_complexity = _split_name(row[2])
+                short_number, short_subnumber, short_name, short_complexity = _split_name(row[1])
+                full_number, full_subnumber, full_name, full_complexity = _split_name(row[2])
                 memory_limit = parse_memory(row[3]) if row[3] else 0
                 folder_id = row[4]
 
-                problem.number = full_number or short_number or ''
+                problem.number = full_number
+                problem.subnumber = full_subnumber
                 problem.short_name = short_name.strip()
                 problem.full_name = full_name.strip()
                 problem.complexity = full_complexity or short_complexity

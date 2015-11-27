@@ -1,0 +1,29 @@
+{% extends 'courses/settings_base.html' %}
+
+{% block submain %}
+
+<ul>
+{% for topic in topics %}
+    <li>
+        <a href="{% url 'courses:course_settings_topics_update' course.id topic.id %}">{{ topic.name }}</a>
+        <dl class="dl-horizontal">
+            <dt>Problem folder</dt>
+            <dd>
+                {% if topic.problem_folder %}
+                    &laquo;{{ topic.problem_folder }}&raquo; ({{ topic.problem_folder.problem_set.count }} problems)
+                {% else %}
+                    no
+                {% endif %}
+            </dd>
+            <dt>Problems to solve</dt>
+            <dd>{{ topic.slot_set.count }}</dd>
+        </dl>
+    </li>
+{% endfor %}
+    <hr>
+    <li>
+        <strong><a href="{% url 'courses:course_settings_topics_create' course.id %}">Create new topic</a></strong>
+    </li>
+</ul>
+
+{% endblock %}

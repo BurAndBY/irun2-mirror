@@ -1,22 +1,32 @@
+{% load bootstrap3 %}
+
 <div class="list-group">
     <a href="#" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
-        <i class="glyphicon-info-sign glyphicon"></i>
-        {{ course_name }}
+        {% bootstrap_icon 'info-sign' %}
+        {{ course.name }}
     </a>
-    <a href="#" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
-        <i class="glyphicon-book glyphicon"></i>
+    <a href="#" class="list-group-item{% if active_tab == 'my' %} active{% endif %}">
+        {% bootstrap_icon 'th-large' %}
+        Мои задачи
+    </a>
+    <a href="{% url 'courses:course_problems' course.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
+        {% bootstrap_icon 'th' %}
+        Задачи по курсу
+    </a>
+    <a href="{% url 'courses:course_standings' course.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
+        {% bootstrap_icon 'book' %}
         Журнал
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
-        <i class="glyphicon-tasks glyphicon"></i>
+        {% bootstrap_icon 'tasks' %}
         Решения
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
-        <i class="glyphicon-send glyphicon"></i>
+        {% bootstrap_icon 'send' %}
         Отправить решение
     </a>
-    <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
-        <i class="glyphicon-cog glyphicon"></i>
+    <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
+        {% bootstrap_icon 'cog' %}
         Настройки
     </a>
 </div>

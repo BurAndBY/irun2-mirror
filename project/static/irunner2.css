@@ -146,28 +146,34 @@ h1, h2, h3, h4, h5 {
  */
 .ir-langbox {
     border-radius: 4px;
-    color: black;
-    font-size: 8pt;
+    color: #333;
+    font-size: 11px;
     font-weight: bold;
     padding-bottom: 2px;
     padding-top: 2px;
     text-align: center;
     width: 50px;
+    display: inline-block;
 }
 .ir-langbox-cpp, .ir-langbox-c {
-    background-color: #DD7E6B;
+    /*background-color: #DD7E6B;*/
+    background-color: #FFCAB6;
 }
 .ir-langbox-java {
-    background-color: #FFE599;
+    /*background-color: #FFE599;*/
+    background-color: #FFFFB3;
 }
 .ir-langbox-pas, .ir-langbox-dpr {
-    background-color: #A4C2F4;
+    /*background-color: #A4C2F4;*/
+    background-color: #d2e0f9;
 }
 .ir-langbox-py {
-    background-color: #B4A7D6;
+    /*background-color: #B4A7D6;*/
+    background-color: #d8cef3;
 }
 .ir-langbox-cs {
-    background-color: #B6D7A8;
+    /*background-color: #B6D7A8;*/
+    background-color: #D0F1C2;
 }
 
 
@@ -264,4 +270,50 @@ h1, h2, h3, h4, h5 {
     white-space: pre;
     overflow: auto;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+
+
+/**
+ * Tabs
+ */
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.ir-pill-content {
+    padding-top: 10px;
+}
+
+
+/**
+ * Complexity box
+ */
+.ir-complexitybox {
+    display: inline-block;
+    background: #d9edf7;
+    border-color: #d9edf7;
+    color: #337ab7;
+    height: 20px;
+    line-height: 22px;
+    position: relative;
+    vertical-align: middle;
+    font-weight: 700;
+    font-size: 12px;
+    margin-right: 14px;
+    width: 25px;
+    text-align: center;
+}
+.ir-complexitybox:after {
+    left: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    border-width: 10px 0 10px 5px;
+    border-left-color: inherit;
 }

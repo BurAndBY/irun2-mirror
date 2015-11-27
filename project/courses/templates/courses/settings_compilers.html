@@ -1,0 +1,32 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load proglang_extras %}
+{% load partition %}
+{% block submain %}
+
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+        {% for column in form.compilers|rows:2 %}
+        <div class="col-md-6">
+            <div class="form-group">
+                {% for checkbox in column %}
+                    <div class="checkbox">
+                        <label>
+                            {{ checkbox.tag }}
+                            {% langboxbyid checkbox.choice_value False %} {{ checkbox.choice_label }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">
+            Save
+        </button>
+    </div>
+</form>
+
+{% endblock %}

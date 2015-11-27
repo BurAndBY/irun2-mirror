@@ -30,3 +30,6 @@ class Compiler(models.Model):
 
     def __unicode__(self):
         return self.description
+
+    class Meta:
+        ordering = ['description']

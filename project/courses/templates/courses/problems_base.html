@@ -1,0 +1,23 @@
+{% extends 'courses/base.html' %}
+
+{% block main %}
+
+<div>
+    <ul class="nav nav-pills">
+        {% for topic in topics %}
+            <li role="presentation"{% if active_topic == topic %} class="active"{% endif %}>
+                <a href="{% url 'courses:course_problems_topic' course.id topic.id %}">{{ topic.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="ir-pill-content">
+        <ul>
+            {% for problem in problems %}
+                <li>
+                    <div class="ir-complexitybox">{% if problem.complexity %}{{ problem.complexity }}{% else %}&nbsp;{% endif %}</div>
+                    <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id problem.id %}">{{ problem.numbered_full_name }}</a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

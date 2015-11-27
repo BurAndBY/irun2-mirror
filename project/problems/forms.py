@@ -8,4 +8,4 @@ class ProblemForm(ModelForm):
 
     class Meta:
         model = Problem
-        fields = ['number', 'short_name', 'full_name', 'complexity', 'folders']
+        fields = ['number', 'subnumber', 'short_name', 'full_name', 'complexity', 'folders']

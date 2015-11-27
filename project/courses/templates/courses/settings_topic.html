@@ -1,0 +1,23 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load bootstrap3 %}
+
+{% block submain %}
+
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" name="save" class="btn btn-primary">
+            {% bootstrap_icon 'ok' %} Save
+        </button>
+        <a href="{% url 'courses:course_settings_topics' course.id %}" role="button" class="btn btn-default">
+            {% bootstrap_icon 'remove' %} Cancel
+        </a>
+        <button type="submit" name="delete" class="btn btn-danger">
+            {% bootstrap_icon 'trash' %} Remove
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

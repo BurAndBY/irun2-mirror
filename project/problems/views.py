@@ -43,11 +43,11 @@ class ProblemFormNewView(View):
     template_name = 'problems/edit.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.ProblemForm()
+        form = ProblemForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.ProblemForm(request.POST)
+        form = ProblemForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('problems:index'))

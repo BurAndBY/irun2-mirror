@@ -1,0 +1,29 @@
+{% extends 'courses/base.html' %}
+
+{% block main %}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_properties' course.id %}">Свойства</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'topics' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_topics' course.id %}">Темы</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_compilers' course.id %}">Компиляторы</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_users' course.id %}">Пользователи</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'subgroups' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_subgroups' course.id %}">Подгруппы</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        {% block submain %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

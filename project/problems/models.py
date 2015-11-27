@@ -15,22 +15,31 @@ class ProblemFolder(MPTTModel):
 
 
 class Problem(models.Model):
-    number = models.CharField(max_length=8)
+    number = models.IntegerField(blank=True, null=True, default=None)
+    subnumber = models.IntegerField(blank=True, null=True, default=None)
     full_name = models.CharField(max_length=200, blank=True)
     short_name = models.CharField(max_length=32, blank=True)
-    complexity = models.IntegerField(null=True)
-    offered = models.TextField()  # public
-    description = models.TextField()  # public
-    hint = models.TextField()  # private
+    complexity = models.IntegerField(blank=True, null=True, default=None)
+    offered = models.TextField(blank=True)  # public
+    description = models.TextField(blank=True)  # public
+    hint = models.TextField(blank=True)  # private
 
     input_filename = models.CharField(max_length=32, blank=True)
     output_filename = models.CharField(max_length=32, blank=True)
 
     folders = models.ManyToManyField(ProblemFolder)
 
+    def _number(self):
+        if self.number is None:
+            return u''
+        if self.subnumber is None:
+            return u'{0}'.format(self.number)
+        else:
+            return u'{0}.{1}'.format(self.number, self.subnumber)
+
     def _numbered_name(self, name):
         if self.number:
-            return u'{1}. {0}'.format(name, self.number)
+            return u'{1}. {0}'.format(name, self._number())
         else:
             return u'{0}'.format(name)
 
