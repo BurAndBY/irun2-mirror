@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 21:32+0300\n"
+"POT-Creation-Date: 2015-11-28 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: .\common\templates\common\home.html:9
+msgid "Automatic testing system"
+msgstr "Система автоматического тестирования"
+
+#: .\courses\templates\courses\problems_base.html:25
+#: .\solutions\templates\solutions\judgement.html:18
+msgid "of"
+msgstr "из"
+
+#: .\courses\templates\courses\standings.html:9
+#: .\solutions\templates\solutions\judgement.html:24
+#: .\users\templates\users\mass_confirm.html:14
+msgid "#"
+msgstr "№"
+
+#: .\courses\templates\courses\standings.html:10
+msgid "Student"
+msgstr "Студент"
+
+#: .\feedback\templates\feedback\confirm.html:8
+msgid "Are you sure you want to delete the feedback message?"
+msgstr "Вы уверены, что хотите удалить сообщение обратной связи?"
+
+#: .\feedback\templates\feedback\confirm.html:10
+#: .\solutions\templates\solutions\confirm_multiple.html:10
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#: .\feedback\templates\feedback\list.html:7
+msgid "Feedback Messages"
+msgstr "Сообщения обратной связи"
+
+#: .\feedback\templates\feedback\list.html:15
+msgid "Anonymous user"
+msgstr "Анонимный пользователь"
+
+#: .\feedback\templates\feedback\list.html:30
+msgid "Attachment"
+msgstr "Вложение"
+
+#: .\feedback\templates\feedback\new.html:7
+msgid "Feedback Form"
+msgstr "Форма обратной связи"
+
+#: .\feedback\templates\feedback\new.html:12
+msgid "Send"
+msgstr "Отправить"
+
+#: .\feedback\templates\feedback\thanks.html:7
+msgid "Thanks!"
+msgstr "Спасибо!"
+
+#: .\feedback\templates\feedback\thanks.html:9
+msgid "Your message has been saved."
+msgstr "Ваше сообщение сохранено."
 
 #: .\solutions\models.py:42
 msgid "N/A"
@@ -63,27 +119,27 @@ msgstr "Нарушение безопасности"
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\models.py:65
+#: .\solutions\models.py:69
 msgid "Done"
 msgstr "Готово"
 
-#: .\solutions\models.py:66
+#: .\solutions\models.py:70
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\models.py:67
+#: .\solutions\models.py:71
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\models.py:68
+#: .\solutions\models.py:72
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\models.py:69
+#: .\solutions\models.py:73
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\models.py:70
+#: .\solutions\models.py:74
 msgid "Finishing"
 msgstr "Завершение"
 
@@ -91,34 +147,50 @@ msgstr "Завершение"
 msgid "Judgement"
 msgstr "Запуск"
 
-#: .\solutions\templates\solutions\judgement.html:18
-msgid "#"
-msgstr "№"
-
-#: .\solutions\templates\solutions\judgement.html:19
+#: .\solutions\templates\solutions\judgement.html:25
 msgid "Outcome"
 msgstr "Вердикт"
 
-#: .\solutions\templates\solutions\judgement.html:20
+#: .\solutions\templates\solutions\judgement.html:26
 msgid "Score"
 msgstr "Очки"
 
-#: .\solutions\templates\solutions\judgement.html:21
+#: .\solutions\templates\solutions\judgement.html:27
 msgid "Time"
 msgstr "Время"
 
-#: .\solutions\templates\solutions\judgement.html:22
+#: .\solutions\templates\solutions\judgement.html:28
 msgid "Memory"
 msgstr "Память"
 
-#: .\solutions\templates\solutions\memorylimitbox.html:3
+#: .\solutions\templates\solutions\judgement.html:29
+msgid "Exit Code"
+msgstr "Код выхода"
+
+#: .\solutions\templates\solutions\judgement.html:30
+msgid "Checker Message"
+msgstr "Сообщение чекера"
+
+#: .\solutions\templates\solutions\memorylimitbox.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
 
-#: .\solutions\templates\solutions\memorylimitbox.html:3
-#: .\solutions\templates\solutions\memorylimitbox.html:5
+#: .\solutions\templates\solutions\memorylimitbox.html:4
+#: .\solutions\templates\solutions\memorylimitbox.html:6
 msgid "KB"
 msgstr "КБ"
+
+#: .\solutions\templates\solutions\rejudge.html:8
+msgid "Rejudge"
+msgstr "Перетестирование"
+
+#: .\solutions\templates\solutions\rejudge.html:19
+msgid "Current"
+msgstr "Текущий"
+
+#: .\solutions\templates\solutions\rejudge.html:20
+msgid "After Rejudge"
+msgstr "После перетестирования"
 
 #: .\solutions\templates\solutions\solution_list.html:9
 msgid "List of Solutions"
@@ -132,3 +204,15 @@ msgstr "Ограничение по времени"
 #: .\solutions\templates\solutions\timelimitbox.html:5
 msgid "s"
 msgstr "с"
+
+#: .\templates\base.html:59
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#: .\users\templates\users\mass_confirm.html:35
+msgid "Next"
+msgstr "Далее"
+
+#: .\users\templates\users\mass_final.html:13
+msgid "No users were created."
+msgstr "Пользователи не были созданы."
