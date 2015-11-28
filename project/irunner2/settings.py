@@ -51,7 +51,8 @@ INSTALLED_APPS = (
     'common',
     'courses',
     'users',
-    'feedback'
+    'feedback',
+    'cauth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -175,3 +176,6 @@ LOCALE_PATHS = (
 )
 
 LOGIN_REDIRECT_URL = '/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year

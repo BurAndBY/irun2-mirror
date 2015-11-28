@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^problems/', include('problems.urls', namespace='problems')),
     url(r'^prog-langs/', include('proglangs.urls', namespace='proglangs')),
     url(r'^worker/', include('worker.urls', namespace='worker')),
-    #url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^solutions/', include('solutions.urls', namespace='solutions')),
@@ -35,5 +34,6 @@ urlpatterns = [
     url(r'^about/', common.views.about, name='about'),
     url(r'^choose/', common.views.choose, name='choose'),
     url(r'^list/(?P<folder_id>[0-9]+)/', common.views.listf, name='listf'),
-    url('^', include('django.contrib.auth.urls'))
+    url('^', include('cauth.urls'))
+    #url(r'^admin/', include(admin.site.urls)),
 ]
