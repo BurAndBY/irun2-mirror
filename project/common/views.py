@@ -6,7 +6,10 @@ from problems.models import Problem, ProblemFolder
 from django import forms
 
 
-# Create your views here.
+def home(request):
+    return render(request, 'common/home.html', {})
+
+
 def about(request):
     return render(request, 'common/about.html', {})
 

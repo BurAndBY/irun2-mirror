@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+
+{% load i18n %}
 {% load systemname %}
 
 {% block content %}
-
+<div class="jumbotron">
+    <h1>{% system_short_name %}</h1>
+    <p>{% trans 'Automatic testing system' %}</p>
+</div>
 {% endblock %}

@@ -18,6 +18,7 @@ from django.contrib import admin
 import common.views
 
 urlpatterns = [
+    url(r'^$', common.views.home, name='home'),
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
     url(r'^demo/', include('demo.urls', namespace='demo')),
     url(r'^storage/', include('storage.urls', namespace='storage')),
@@ -31,7 +32,7 @@ urlpatterns = [
     url(r'^courses/', include('courses.urls', namespace='courses')),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^about/', common.views.about, name='about'),
-    url(r'^choose/', common.views.choose, name='about'),
+    url(r'^choose/', common.views.choose, name='choose'),
     url(r'^list/(?P<folder_id>[0-9]+)/', common.views.listf, name='listf'),
     url('^', include('django.contrib.auth.urls'))
 ]
