@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <p>{% trans 'Are you sure you want to delete the feedback message?' %}</p>
+    {% buttons %}
+        <button type="submit" class="btn btn-danger">{% trans 'Confirm' %}</button>
+    {% endbuttons %}
+</form>
+{% endblock %}

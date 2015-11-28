@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans 'Feedback Messages' %}</h1>
+{% bootstrap_pagination page_obj %}
+{% for message in object_list %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% if message.author %}
+                {{ message.author }}
+            {% else %}
+                {% trans 'Anonymous user' %}
+            {% endif %}
+            {% if message.email %}
+                (<a href="mailto:{{ message.email }}">{{ message.email }}</a>)
+            {% endif %}
+
+            <div class="ir-float-right">
+                {% bootstrap_icon 'time' %}
+                {{ message.when }}
+                <a href="{% url 'feedback:delete' message.id %}">{% bootstrap_icon 'remove' %}</a>
+            </div>
+        </div>
+        <div class="panel-body"><div class="ir-data">{{ message.body|urlize }}</div></div>
+        {% if message.attachment %}
+            <div class="panel-footer">
+                {% trans 'Attachment' %}: {% bootstrap_icon 'paperclip' %} <a href="{% url 'feedback:download' message.id message.attachment.filename %}">{{ message.attachment.filename }}</a> ({{ message.attachment.size|filesizeformat }})
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

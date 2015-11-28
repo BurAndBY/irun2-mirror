@@ -19,6 +19,7 @@ import common.views
 
 urlpatterns = [
     url(r'^$', common.views.home, name='home'),
+    url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
     url(r'^demo/', include('demo.urls', namespace='demo')),
     url(r'^storage/', include('storage.urls', namespace='storage')),

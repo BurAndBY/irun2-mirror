@@ -50,7 +50,8 @@ INSTALLED_APPS = (
     'api',
     'common',
     'courses',
-    'users'
+    'users',
+    'feedback'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,7 +103,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 

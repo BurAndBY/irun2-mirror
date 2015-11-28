@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans 'Feedback Form' %}</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <p class="text-center">
+        <button type="submit" class="btn btn-default btn-lg">{% trans 'Send' %}</button>
+    </p>
+</form>
+{% endblock %}
