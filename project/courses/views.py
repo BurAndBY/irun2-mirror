@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from proglangs.models import Compiler
 from django.db import transaction
+from problems.views import ProblemStatementMixin
+from problems.models import Problem
 
 import random
 
@@ -207,6 +209,15 @@ class BaseCourseView(generic.View):
 
     def _load(self, course_id):
         return get_object_or_404(Course, pk=course_id)
+
+    def _load_topic(self, course, topic_id):
+        topic = course.topic_set.filter(id=topic_id).first()
+        if topic is None:
+            raise Http404('Topic does not exist in the course')
+        return topic
+
+    def _load_problem_from_topic(self, course, topic, problem_id):
+        return get_object_or_404(Problem, pk=problem_id)
 
     def _make_context(self, course):
         context = {
@@ -434,9 +445,7 @@ class CourseSettingsTopicsUpdateView(CourseSettingsView):
 
     def post(self, request, course_id, topic_id):
         course = self._load(course_id)
-        topic = course.topic_set.filter(id=topic_id).first()
-        if topic is None:
-            raise Http404('Topic does not exist')
+        topic = self._load_topic(course, topic_id)
 
         form = TopicForm(request.POST, instance=topic)
 
@@ -473,7 +482,7 @@ class CourseProblemsView(BaseCourseView):
 
 class CourseProblemsTopicView(BaseCourseView):
     tab = 'problems'
-    template_name = 'courses/problems_base.html'
+    template_name = 'courses/problems_list.html'
 
     def get(self, request, course_id, topic_id):
         course = self._load(course_id)
@@ -493,14 +502,47 @@ class CourseProblemsTopicView(BaseCourseView):
         return render(request, self.template_name, context)
 
 
-class CourseProblemsTopicProblemView(BaseCourseView):
+def _locate_in_list(lst, x):
+    try:
+        pos = lst.index(x)
+    except ValueError:
+        return None
+    length = len(lst)
+    return ((pos + length - 1) % length, pos, (pos + 1) % length)
+
+
+class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
     tab = 'problems'
-    template_name = 'courses/problems_base.html'
+    template_name = 'courses/problems_statement.html'
 
-    def get(self, request, course_id, topic_id):
+    def get(self, request, course_id, topic_id, problem_id, filename):
         course = self._load(course_id)
-        topics = course.topic_set.all()
+        topic = self._load_topic(course, topic_id)
+        problem = self._load_problem_from_topic(course, topic, problem_id)
 
-        context = self._make_context(course)
-        context['topics'] = topics
-        return render(request, self.template_name, context)
+        if self.is_aux_file(filename):
+            return self.serve_aux_file(problem_id, filename)
+
+        if topic.problem_folder is not None:
+            problem_ids = topic.problem_folder.problem_set.order_by('number', 'subnumber').values_list('id', flat=True)
+            problem_ids = list(problem_ids)  # evaluate the queryset
+            problem_id = int(problem_id)  # save because of regexp in urls.py
+
+            positions = _locate_in_list(problem_ids, problem_id)
+            if positions is not None:
+                context = self._make_context(course)
+                prev, cur, next = positions
+
+                context['prev_next'] = True
+                context['prev_problem_id'] = problem_ids[prev]
+                context['cur_position'] = cur + 1  # 1-based
+                context['total_positions'] = len(problem_ids)
+                context['next_problem_id'] = problem_ids[next]
+                context['statement'] = self.make_statement(problem)
+
+                context['topics'] = course.topic_set.all()
+                context['active_topic'] = topic
+                return render(request, self.template_name, context)
+
+        # fallback
+        return redirect('courses:course_problems', course_id=course_id)

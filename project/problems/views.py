@@ -93,7 +93,7 @@ def add_test(request, problem_id):
     return render(request, 'problems/test.html', {'problem': problem})
 
 
-class ProblemStatementView(generic.View):
+class ProblemStatementMixin(object):
     @staticmethod
     def _normalize(filename):
         return filename.rstrip('/')
@@ -147,6 +147,8 @@ class ProblemStatementView(generic.View):
 
         return st
 
+
+class ProblemStatementView(ProblemStatementMixin, generic.View):
     def get(self, request, problem_id, filename):
         if self.is_aux_file(filename):
             return self.serve_aux_file(problem_id, filename)

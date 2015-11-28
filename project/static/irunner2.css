@@ -317,3 +317,16 @@ h1, h2, h3, h4, h5 {
     border-width: 10px 0 10px 5px;
     border-left-color: inherit;
 }
+
+/**
+ * Right pills
+ */
+.ir-inline-block {
+    display: inline-block;
+}
+.ir-condensed-pills > li > a {
+    padding: 6px 8px;
+}
+.ir-pagination-no-margin {
+    margin: 0;
+}
