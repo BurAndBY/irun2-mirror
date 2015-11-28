@@ -49,7 +49,8 @@ INSTALLED_APPS = (
     'solutions',
     'api',
     'common',
-    'courses'
+    'courses',
+    'users'
 )
 
 MIDDLEWARE_CLASSES = (

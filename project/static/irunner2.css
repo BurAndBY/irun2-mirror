@@ -330,3 +330,10 @@ h1, h2, h3, h4, h5 {
 .ir-pagination-no-margin {
     margin: 0;
 }
+
+
+/**
+ * Mass reg
+ */
+.ir-mass-field {
+}

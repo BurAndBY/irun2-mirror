@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{% if users %}
+<ol>
+    {% for user in users %}
+        <li>{{ user }}</li>
+    {% endfor %}
+</ol>
+{% else %}
+    {% trans 'No users were created.' %}
+{% endif %}
+{% endblock %}
