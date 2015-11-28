@@ -8,7 +8,7 @@
 {% bootstrap_pagination page_obj %}
 {% for message in object_list %}
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading ir-panel-heading ir-float-parent">
             {% if message.author %}
                 {{ message.author }}
             {% else %}
