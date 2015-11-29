@@ -68,7 +68,7 @@ class FeedbackDownloadView(generic.View):
         if message.attachment.filename != filename:
             raise Http404()
 
-        return fsutils.serve_get(message.attachment)
+        return fsutils.serve_resource_metadata(request, message.attachment)
 
 
 class FeedbackDeleteView(generic.DeleteView):

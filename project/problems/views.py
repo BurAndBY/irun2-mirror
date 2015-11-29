@@ -22,6 +22,7 @@ import mimetypes
 from .texrenderer import TeXRenderer
 
 from .statement import StatementRepresentation
+import storage.utils as fsutils
 
 
 # Create your views here.
@@ -101,18 +102,12 @@ class ProblemStatementMixin(object):
     def is_aux_file(self, filename):
         return filename is not None and len(ProblemStatementView._normalize(filename)) > 0
 
-    def serve_aux_file(self, problem_id, filename):
+    def serve_aux_file(self, request, problem_id, filename):
         filename = ProblemStatementView._normalize(filename)
 
         related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, name=filename)
-        storage = create_storage()
-
         mime_type, encoding = mimetypes.guess_type(filename)
-        data = storage.serve(related_file.resource_id)
-
-        response = StreamingHttpResponse(data.generator, content_type=mime_type)
-        response['Content-Length'] = data.size
-        return response
+        return fsutils.serve_resource(request, related_file.resource_id, content_type=mime_type)
 
     def make_statement(self, problem):
         related_files = problem.problemrelatedfile_set.all()
@@ -151,7 +146,7 @@ class ProblemStatementMixin(object):
 class ProblemStatementView(ProblemStatementMixin, generic.View):
     def get(self, request, problem_id, filename):
         if self.is_aux_file(filename):
-            return self.serve_aux_file(problem_id, filename)
+            return self.serve_aux_file(request, problem_id, filename)
 
         problem = get_object_or_404(Problem, pk=problem_id)
 

@@ -521,7 +521,7 @@ class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
         problem = self._load_problem_from_topic(course, topic, problem_id)
 
         if self.is_aux_file(filename):
-            return self.serve_aux_file(problem_id, filename)
+            return self.serve_aux_file(request, problem_id, filename)
 
         if topic.problem_folder is not None:
             problem_ids = topic.problem_folder.problem_set.order_by('number', 'subnumber').values_list('id', flat=True)
