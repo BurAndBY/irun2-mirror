@@ -1,6 +1,5 @@
 {% load staticfiles %}
 {% load i18n %}
-{% load systemname %}
 
 <!DOCTYPE html>
 <html>
@@ -33,7 +32,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'home' %}">{% system_short_name %}</a>
+                    <a class="navbar-brand" href="{% url 'home' %}">{{ system_short_name }}</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -53,7 +52,7 @@
                                 <li><a href="#">Separated link</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">One more separated link</a></li>
-                                <li><a href="{% url 'feedback:list' %}">View Feedback</a></li>
+                                <li><a href="{% url 'feedback:list' %}">{% trans 'View Feedback' %}</a></li>
                             </ul>
                         </li>
                         <li><a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a></li>
@@ -61,9 +60,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
                             <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
-                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> {% trans 'Logout' %}</a></li>
                         {% else %}
-                            <li><a href="{% url 'login' %}?next={{request.path}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>
                         {% endif %}
                         <li>
                             <a>
@@ -92,9 +91,9 @@
         <footer class="footer">
             <div class="container">
                 <div class="ir-footer">
-                    &copy; 2001&thinsp;&ndash;&thinsp;2015 Кафедра ДМА ФМПИ БГУ
+                    &copy; 2001&thinsp;&ndash;&thinsp;2015 {% trans 'DMA department of FAMCS BSU' %}
                     <br>
-                    <a href="{% url 'about' %}">О системе {% system_full_name %}</a>
+                    <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %} {{ system_full_name }}</a>
                 </div>
             </div>
         </footer>

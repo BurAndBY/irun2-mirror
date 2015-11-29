@@ -64,6 +64,9 @@ textarea {
 h1, h2, h3, h4, h5 {
     margin-top: 4px;
 }
+h1 { font-size: 32px; line-height: 32px; }
+h2 { font-size: 24px; line-height: 32px; }
+h3 { font-size: 20px; line-height: 32px; }
 
 .ir-table-more-condensed > thead > tr > th,
 .ir-table-more-condensed > tbody > tr > th,
@@ -354,4 +357,13 @@ h1, h2, h3, h4, h5 {
  */
 .ir-panel-heading {
     padding: 6px 15px;
+}
+
+
+/**
+ * Log in/out form
+ */
+.ir-login-panel {
+    max-width: 340px;
+    margin: 0 auto;
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-28 20:22+0300\n"
+"POT-Creation-Date: 2015-11-29 11:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,57 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: .\common\templates\common\home.html:9
+#: .\cauth\forms.py:7
+msgid "Remember me"
+msgstr "Запомнить меня"
+
+#: .\cauth\templates\registration\logged_out.html:8
+msgid "You are now logged out. Any automatic login has also been stopped."
+msgstr "Теперь вы вышли из системы. Автоматический вход больше невозможен."
+
+#: .\cauth\templates\registration\logged_out.html:9
+msgid "Didn't mean to log out?"
+msgstr "Не хотели выходить?"
+
+#: .\cauth\templates\registration\logged_out.html:9
+msgid "Log in again."
+msgstr "Войдите снова."
+
+#: .\cauth\templates\registration\login.html:14
+msgid ""
+"Your account doesn't have access to this page. To proceed, please log in "
+"with an account that has access."
+msgstr ""
+"Ваша учётная запись не имеет права доступа к этой странице. Пожалуйста, "
+"войдите под другим именем, чтобы продолжить."
+
+#: .\cauth\templates\registration\login.html:16
+msgid "Please log in to see this page."
+msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
+
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:65
+msgid "Login"
+msgstr "Вход"
+
+#: .\common\templates\common\about.html:6 .\templates\base.html:96
+msgctxt "about the system"
+msgid "About"
+msgstr "О системе"
+
+#: .\common\templates\common\about.html:9
+#, python-format
+msgid ""
+"\n"
+"%(system_full_name)s is a software designed to serve programming contests of "
+"algorithm nature and help teachers in practicals labs on algorithm basics "
+"and related courses.\n"
+msgstr ""
+"\n"
+"%(system_full_name)s — это учебно-методический комплекс, предназначенный для обслуживания "
+"олимпиад по программированию, проведения практических занятий по основам алгоритмизации "
+"и смежным наукам.\n"
+
+#: .\common\templates\common\home.html:8
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
 
@@ -27,6 +77,10 @@ msgstr "Система автоматического тестирования"
 #: .\solutions\templates\solutions\judgement.html:18
 msgid "of"
 msgstr "из"
+
+#: .\courses\templates\courses\problems_base.html:39
+msgid "Select a topic to view problems."
+msgstr "Выберите тему, чтобы посмотреть задачи."
 
 #: .\courses\templates\courses\standings.html:9
 #: .\solutions\templates\solutions\judgement.html:24
@@ -37,6 +91,26 @@ msgstr "№"
 #: .\courses\templates\courses\standings.html:10
 msgid "Student"
 msgstr "Студент"
+
+#: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:30
+msgid "Attachment"
+msgstr "Вложение"
+
+#: .\feedback\forms.py:19
+msgid "You can attach an arbitrary file to your message"
+msgstr "Вы можете прикрепить к сообщению произвольный файл"
+
+#: .\feedback\models.py:12
+msgid "subject"
+msgstr "тема"
+
+#: .\feedback\models.py:13
+msgid "message body"
+msgstr "тело сообщения"
+
+#: .\feedback\models.py:14
+msgid "attachment"
+msgstr "Вложение"
 
 #: .\feedback\templates\feedback\confirm.html:8
 msgid "Are you sure you want to delete the feedback message?"
@@ -54,10 +128,6 @@ msgstr "Сообщения обратной связи"
 #: .\feedback\templates\feedback\list.html:15
 msgid "Anonymous user"
 msgstr "Анонимный пользователь"
-
-#: .\feedback\templates\feedback\list.html:30
-msgid "Attachment"
-msgstr "Вложение"
 
 #: .\feedback\templates\feedback\new.html:7
 msgid "Feedback Form"
@@ -205,9 +275,21 @@ msgstr "Ограничение по времени"
 msgid "s"
 msgstr "с"
 
-#: .\templates\base.html:59
+#: .\templates\base.html:55
+msgid "View Feedback"
+msgstr "Просмотр сообщений обратной связи"
+
+#: .\templates\base.html:58
 msgid "Feedback"
 msgstr "Обратная связь"
+
+#: .\templates\base.html:63
+msgid "Logout"
+msgstr "Выход"
+
+#: .\templates\base.html:94
+msgid "DMA department of FAMCS BSU"
+msgstr "Кафедра ДМА ФМПИ БГУ"
 
 #: .\users\templates\users\mass_confirm.html:35
 msgid "Next"

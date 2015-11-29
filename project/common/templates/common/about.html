@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
-{% load systemname %}
+
+{% load i18n %}
 
 {% block content %}
-<h1>О системе {% system_short_name %}</h1>
+<h1>{% trans 'About' context 'about the system' %} {{ system_short_name }}</h1>
 
 <p>
-{% system_full_name %} — это учебно-методический комплекс, предназначенный для обслуживания
-олимпиад по программированию, проведения практических занятий по основам алгоритмизации и
-смежным наукам.
+{% blocktrans %}
+{{ system_full_name }} is a software designed to serve programming contests of algorithm nature and help teachers in practicals labs on algorithm basics and related courses.
+{% endblocktrans %}
 </p>
 
 <p>
-{% system_full_name %} — простой инструмент с эффективной функциональностью контроля, тренинга и самостоятельной работы.
+{{ system_full_name }} — простой инструмент с эффективной функциональностью контроля, тренинга и самостоятельной работы.
 
 Система позволят переложить на компьютер сугубо механическую работу преподавателя при проверке решений.
 Комплекс легко осваивается и интегрируется в учебный процесс.

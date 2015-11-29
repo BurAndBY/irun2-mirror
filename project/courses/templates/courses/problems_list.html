@@ -1,7 +1,7 @@
 {% extends 'courses/problems_base.html' %}
 
 {% block submain %}
-<ul>
+<ul class="list-unstyled">
     {% for problem in problems %}
         <li>
             <div class="ir-complexitybox">{% if problem.complexity %}{{ problem.complexity }}{% else %}&nbsp;{% endif %}</div>
