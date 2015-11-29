@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 11:55+0300\n"
+"POT-Creation-Date: 2015-11-29 13:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,13 +65,33 @@ msgid ""
 "and related courses.\n"
 msgstr ""
 "\n"
-"%(system_full_name)s — это учебно-методический комплекс, предназначенный для обслуживания "
-"олимпиад по программированию, проведения практических занятий по основам алгоритмизации "
-"и смежным наукам.\n"
+"%(system_full_name)s — это учебно-методический комплекс, предназначенный для "
+"обслуживания олимпиад по программированию, проведения практических занятий "
+"по основам алгоритмизации и смежным наукам.\n"
 
 #: .\common\templates\common\home.html:8
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
+
+#: .\courses\forms.py:28
+msgid "Problem folder"
+msgstr "Папка с задачами"
+
+#: .\courses\forms.py:29
+msgid "Problems to assign per student in the course"
+msgstr "Число задач для назначения студенту в курсе"
+
+#: .\courses\models.py:14 .\courses\models.py:19
+msgid "name"
+msgstr "название"
+
+#: .\courses\models.py:21
+msgid "problem folder"
+msgstr "папка с задачами"
+
+#: .\courses\models.py:22
+msgid "criteria"
+msgstr "критерии"
 
 #: .\courses\templates\courses\problems_base.html:25
 #: .\solutions\templates\solutions\judgement.html:18
@@ -81,6 +101,86 @@ msgstr "из"
 #: .\courses\templates\courses\problems_base.html:39
 msgid "Select a topic to view problems."
 msgstr "Выберите тему, чтобы посмотреть задачи."
+
+#: .\courses\templates\courses\settings_base.html:10
+msgid "Properties"
+msgstr "Свойства"
+
+#: .\courses\templates\courses\settings_base.html:13
+msgid "Topics"
+msgstr "Темы"
+
+#: .\courses\templates\courses\settings_base.html:16
+msgid "Compilers"
+msgstr "Компиляторы"
+
+#: .\courses\templates\courses\settings_base.html:19
+msgid "Users"
+msgstr "Пользователи"
+
+#: .\courses\templates\courses\settings_base.html:22
+msgid "Subgroups"
+msgstr "Подгруппы"
+
+#: .\courses\templates\courses\settings_compilers.html:28
+#: .\courses\templates\courses\settings_properties.html:13
+#: .\courses\templates\courses\settings_topic.html:13
+msgid "Save"
+msgstr "Сохранить"
+
+#: .\courses\templates\courses\settings_topic.html:16
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\courses\templates\courses\settings_topic.html:19
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\courses\templates\courses\settings_topics.html:12
+msgid "Folder"
+msgstr "Папка"
+
+#: .\courses\templates\courses\settings_topics.html:16
+#: .\courses\templates\courses\settings_topics.html:22
+#, python-format
+msgid "%(counter)s problem"
+msgid_plural "%(counter)s problems"
+msgstr[0] "%(counter)s задача"
+msgstr[1] "%(counter)s задачи"
+msgstr[2] "%(counter)s задач"
+
+#: .\courses\templates\courses\settings_topics.html:21
+msgid "To assign"
+msgstr "Для назначения"
+
+#: .\courses\templates\courses\settings_topics.html:28
+msgid "Create new topic"
+msgstr "Создать новую тему"
+
+#: .\courses\templates\courses\sidebar.html:11
+msgid "My problems"
+msgstr "Мои задачи"
+
+#: .\courses\templates\courses\sidebar.html:15
+msgid "Course problems"
+msgstr "Задачи по курсу"
+
+#: .\courses\templates\courses\sidebar.html:19
+msgctxt "course"
+msgid "Standings"
+msgstr "Журнал"
+
+#: .\courses\templates\courses\sidebar.html:23
+msgid "My solutions"
+msgstr "Мои решения"
+
+#: .\courses\templates\courses\sidebar.html:27
+msgid "Submit solution"
+msgstr "Отправить решение"
+
+#: .\courses\templates\courses\sidebar.html:31
+msgid "Settings"
+msgstr "Настройки"
 
 #: .\courses\templates\courses\standings.html:9
 #: .\solutions\templates\solutions\judgement.html:24
@@ -298,3 +398,6 @@ msgstr "Далее"
 #: .\users\templates\users\mass_final.html:13
 msgid "No users were created."
 msgstr "Пользователи не были созданы."
+
+#~ msgid "Problems to solve"
+#~ msgstr "Задач для решения"

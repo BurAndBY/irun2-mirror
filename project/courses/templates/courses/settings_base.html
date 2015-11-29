@@ -1,23 +1,25 @@
 {% extends 'courses/base.html' %}
 
+{% load i18n %}
+
 {% block main %}
 
 <div>
     <ul class="nav nav-tabs">
         <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_properties' course.id %}">Свойства</a>
+            <a href="{% url 'courses:course_settings_properties' course.id %}">{% trans 'Properties' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'topics' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_topics' course.id %}">Темы</a>
+            <a href="{% url 'courses:course_settings_topics' course.id %}">{% trans 'Topics' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_compilers' course.id %}">Компиляторы</a>
+            <a href="{% url 'courses:course_settings_compilers' course.id %}">{% trans 'Compilers' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_users' course.id %}">Пользователи</a>
+            <a href="{% url 'courses:course_settings_users' course.id %}">{% trans 'Users' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'subgroups' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_subgroups' course.id %}">Подгруппы</a>
+            <a href="{% url 'courses:course_settings_subgroups' course.id %}">{% trans 'Subgroups' %}</a>
         </li>
     </ul>
 

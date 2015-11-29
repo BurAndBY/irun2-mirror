@@ -1,6 +1,5 @@
 from django.db import models
-
-from collections import namedtuple
+from django.utils.translation import ugettext_lazy as _
 
 from problems.models import ProblemFolder
 from proglangs.models import Compiler
@@ -12,15 +11,15 @@ class Criterion(models.Model):
 
 
 class Course(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(_('name'), max_length=64)
     compilers = models.ManyToManyField(Compiler, blank=True)
 
 
 class Topic(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(_('name'), max_length=64)
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
-    problem_folder = models.ForeignKey(ProblemFolder, null=True, on_delete=models.SET_NULL)
-    criteria = models.ManyToManyField(Criterion, blank=True)
+    problem_folder = models.ForeignKey(ProblemFolder, null=True, on_delete=models.SET_NULL, verbose_name=_('problem folder'))
+    criteria = models.ManyToManyField(Criterion, blank=True, verbose_name=_('criteria'))
 
 
 class Slot(models.Model):

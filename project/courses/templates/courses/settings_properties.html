@@ -1,6 +1,7 @@
 {% extends 'courses/settings_base.html' %}
 
 {% load bootstrap3 %}
+{% load i18n %}
 
 {% block submain %}
 
@@ -9,7 +10,7 @@
     {% bootstrap_form form %}
     {% buttons %}
         <button type="submit" class="btn btn-default">
-            Save
+            {% trans 'Save' %}
         </button>
     {% endbuttons %}
 </form>

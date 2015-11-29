@@ -1,4 +1,5 @@
 {% load bootstrap3 %}
+{% load i18n %}
 
 <div class="list-group">
     <a href="#" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
@@ -7,26 +8,26 @@
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'my' %} active{% endif %}">
         {% bootstrap_icon 'th-large' %}
-        Мои задачи
+        {% trans 'My problems' %}
     </a>
     <a href="{% url 'courses:course_problems' course.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
         {% bootstrap_icon 'th' %}
-        Задачи по курсу
+        {% trans 'Course problems' %}
     </a>
     <a href="{% url 'courses:course_standings' course.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
         {% bootstrap_icon 'book' %}
-        Журнал
+        {% trans 'Standings' context 'course' %}
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
         {% bootstrap_icon 'tasks' %}
-        Решения
+        {% trans 'My solutions' %}
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
         {% bootstrap_icon 'send' %}
-        Отправить решение
+        {% trans 'Submit solution' %}
     </a>
     <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
         {% bootstrap_icon 'cog' %}
-        Настройки
+        {% trans 'Settings' %}
     </a>
 </div>
