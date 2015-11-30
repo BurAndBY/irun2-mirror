@@ -18,6 +18,10 @@
         {% bootstrap_icon 'book' %}
         {% trans 'Standings' context 'course' %}
     </a>
+    <a href="{% url 'courses:course_sheet' course.id %}" class="list-group-item{% if active_tab == 'sheet' %} active{% endif %}">
+        {% bootstrap_icon 'book' %}
+        {% trans 'Sheet' %}
+    </a>
     <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
         {% bootstrap_icon 'tasks' %}
         {% trans 'My solutions' %}

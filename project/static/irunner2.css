@@ -367,3 +367,26 @@ h3 { font-size: 20px; line-height: 32px; }
     max-width: 340px;
     margin: 0 auto;
 }
+
+
+/**
+ * Sheet
+ */
+.ir-sheet table, .ir-sheet td, .ir-sheet th {
+    border: 1px solid #333;
+}
+.ir-sheet td, .ir-sheet th {
+    font-family: "Arial", sans-serif;
+    font-size: 12px;
+    padding: 4px;
+    margin: 0;
+}
+.ir-sheet th {
+    text-align: center;
+}
+.ir-score {
+    text-align: right;
+}
+.ir-sheet td:focus {
+    background-color: orange;
+}

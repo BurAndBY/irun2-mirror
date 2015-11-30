@@ -11,6 +11,7 @@ from proglangs.models import Compiler
 from django.db import transaction
 from problems.views import ProblemStatementMixin
 from problems.models import Problem
+from collections import namedtuple
 
 import random
 
@@ -294,6 +295,45 @@ class CourseStandingsView(BaseCourseView):
         context = self._make_context(course)
         context['results'] = results
         context['header_topics'] = header
+        return render(request, self.template_name, context)
+
+Activity = namedtuple('Activity', 'name weight')
+SheetRow = namedtuple('SheetRow', 'user main_activity_scores final_score extra_activity_scores')
+
+
+class CourseSheetView(BaseCourseView):
+    tab = 'sheet'
+    template_name = 'courses/sheet.html'
+
+    def get(self, request, course_id):
+        course = self._load(course_id)
+        rnd = random.Random(1)
+
+        main_activities = (
+            Activity(u'Инд. задания', 0.5),
+            Activity(u'Контр. раб. 1', 0.3),
+            Activity(u'Промеж. тест.', 0.1),
+            Activity(u'Итогов. тест.', 0.1),
+        )
+
+        extra_activities = (
+            Activity(u'Контр. работа №2 AVL-деревья', None),
+            Activity(u'Домашнее задание', None),
+        )
+
+        rows = []
+        for user in USERS:
+            rows.append(SheetRow(
+                user,
+                [rnd.randint(4, 10) for _ in main_activities],
+                rnd.randint(4, 10),
+                [rnd.randint(4, 10) for _ in extra_activities],
+            ))
+
+        context = self._make_context(course)
+        context['main_activities'] = main_activities
+        context['extra_activities'] = extra_activities
+        context['data'] = rows
         return render(request, self.template_name, context)
 
 
