@@ -373,12 +373,12 @@ h3 { font-size: 20px; line-height: 32px; }
  * Sheet
  */
 .ir-sheet table, .ir-sheet td, .ir-sheet th {
-    border: 1px solid #333;
+    border: 1px solid #ccc;
 }
 .ir-sheet td, .ir-sheet th {
     font-family: "Arial", sans-serif;
-    font-size: 12px;
-    padding: 4px;
+    font-size: 14px;
+    padding: 0 4px;
     margin: 0;
 }
 .ir-sheet th {

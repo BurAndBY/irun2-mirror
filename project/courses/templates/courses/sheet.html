@@ -1,0 +1,49 @@
+{% extends 'courses/base.html' %}
+
+{% load i18n %}
+
+{% block main %}
+<table class="ir-sheet" id="sheet">
+    <thead>
+        <tr>
+            <th rowspan="3">{% trans '#' %}</th>
+            <th rowspan="3">{% trans 'Student' %}</th>
+            <th colspan="{{ main_activities|length }}">Оценка по виду деятельности</th>
+            <th rowspan="3">Оценка текущего контроля</th>
+            <th colspan="{{ extra_activities|length }}">Дополнительные проверочные работы</th>
+        </tr>
+        <tr>
+            {% for activity in main_activities %}
+                <th>{{ activity.name }}</th>
+            {% endfor %}
+            {% for activity in extra_activities %}
+                <th rowspan="2">{{ activity.name }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for activity in main_activities %}
+                <th>{{ activity.weight }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ row.user.last_name }}&nbsp;{{ row.user.first_name }}</td>
+                {% for score in row.main_activity_scores %}
+                    <td class="ir-score">{{ score }}</td>
+                {% endfor %}
+                <td class="ir-score">{{ row.final_score }}</td>
+                {% for score in row.extra_activity_scores %}
+                    <td>{{ score }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+$('#sheet').editableTableWidget();
+</script>
+{% endblock %}
