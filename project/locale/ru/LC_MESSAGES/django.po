@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 13:52+0300\n"
+"POT-Creation-Date: 2015-12-03 00:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:65
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:66
 msgid "Login"
 msgstr "Вход"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:96
+#: .\common\templates\common\about.html:6 .\templates\base.html:97
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -81,7 +81,11 @@ msgstr "Папка с задачами"
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\models.py:14 .\courses\models.py:19
+#: .\courses\forms.py:37
+msgid "Weight coefficient"
+msgstr "Весовой коэффициент"
+
+#: .\courses\models.py:14 .\courses\models.py:19 .\courses\models.py:41
 msgid "name"
 msgstr "название"
 
@@ -92,6 +96,26 @@ msgstr "папка с задачами"
 #: .\courses\models.py:22
 msgid "criteria"
 msgstr "критерии"
+
+#: .\courses\models.py:35
+msgid "solving problems within the course"
+msgstr "решение задач в рамках курса"
+
+#: .\courses\models.py:36
+msgid "mark"
+msgstr "оценка"
+
+#: .\courses\models.py:37
+msgid "passed or not passed"
+msgstr "зачёт/незачёт"
+
+#: .\courses\models.py:42
+msgid "kind"
+msgstr "вид"
+
+#: .\courses\models.py:43 .\courses\templates\courses\settings_sheet.html:18
+msgid "weight"
+msgstr "вес"
 
 #: .\courses\templates\courses\problems_base.html:25
 #: .\solutions\templates\solutions\judgement.html:18
@@ -122,19 +146,37 @@ msgstr "Пользователи"
 msgid "Subgroups"
 msgstr "Подгруппы"
 
+#: .\courses\templates\courses\settings_base.html:25
+#: .\courses\templates\courses\sidebar.html:23
+msgid "Sheet"
+msgstr "Ведомость"
+
 #: .\courses\templates\courses\settings_compilers.html:28
+#: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
-#: .\courses\templates\courses\settings_topic.html:13
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\courses\templates\courses\settings_topic.html:16
+#: .\courses\templates\courses\settings_component.html:16
 msgid "Cancel"
 msgstr "Отмена"
 
-#: .\courses\templates\courses\settings_topic.html:19
+#: .\courses\templates\courses\settings_component.html:19
 msgid "Delete"
 msgstr "Удалить"
+
+#: .\courses\templates\courses\settings_sheet.html:9
+#, python-format
+msgid ""
+"<strong>Warning!</strong> Sum of weights is %(sum_actual)s, but "
+"%(sum_expected)s is required."
+msgstr ""
+"<strong>Внимание!</strong> Сумма весов равна %(sum_actual)s, хотя необходима "
+"сумма %(sum_expected)s."
+
+#: .\courses\templates\courses\settings_sheet.html:35
+msgid "Add new kind of activity"
+msgstr "Добавить новый вид деятельности"
 
 #: .\courses\templates\courses\settings_topics.html:12
 msgid "Folder"
@@ -157,6 +199,18 @@ msgstr "Для назначения"
 msgid "Create new topic"
 msgstr "Создать новую тему"
 
+#: .\courses\templates\courses\sheet.html:9
+#: .\courses\templates\courses\standings.html:9
+#: .\solutions\templates\solutions\judgement.html:24
+#: .\users\templates\users\mass_confirm.html:14
+msgid "#"
+msgstr "№"
+
+#: .\courses\templates\courses\sheet.html:10
+#: .\courses\templates\courses\standings.html:10
+msgid "Student"
+msgstr "Студент"
+
 #: .\courses\templates\courses\sidebar.html:11
 msgid "My problems"
 msgstr "Мои задачи"
@@ -170,27 +224,17 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:23
+#: .\courses\templates\courses\sidebar.html:27
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\courses\templates\courses\sidebar.html:27
+#: .\courses\templates\courses\sidebar.html:31
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\courses\templates\courses\sidebar.html:31
+#: .\courses\templates\courses\sidebar.html:35
 msgid "Settings"
 msgstr "Настройки"
-
-#: .\courses\templates\courses\standings.html:9
-#: .\solutions\templates\solutions\judgement.html:24
-#: .\users\templates\users\mass_confirm.html:14
-msgid "#"
-msgstr "№"
-
-#: .\courses\templates\courses\standings.html:10
-msgid "Student"
-msgstr "Студент"
 
 #: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:30
 msgid "Attachment"
@@ -375,19 +419,19 @@ msgstr "Ограничение по времени"
 msgid "s"
 msgstr "с"
 
-#: .\templates\base.html:55
+#: .\templates\base.html:56
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:58
+#: .\templates\base.html:59
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:63
+#: .\templates\base.html:64
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:94
+#: .\templates\base.html:95
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 

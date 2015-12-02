@@ -1,0 +1,37 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load i18n %}
+
+{% block submain %}
+
+{% if sum_is_bad %}
+    <div class="alert alert-warning" role="alert">
+        {% blocktrans %}<strong>Warning!</strong> Sum of weights is {{ sum_actual }}, but {{ sum_expected }} is required.{% endblocktrans %}
+    </div>
+{% endif %}
+
+{% if main_activities %}
+    <h3>Основные зачётные виды деятельности</h3>
+    <ul>
+    {% for activity in main_activities %}
+        <li>
+            <a href="{% url 'courses:course_settings_sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {% trans 'weight' %} <strong>{{ activity.weight }}</strong>: {{ activity.get_kind_display }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if extra_activities %}
+    <h3>Дополнительные виды деятельности</h3>
+    <ul>
+    {% for activity in extra_activities %}
+        <li>
+            <a href="{% url 'courses:course_settings_sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {{ activity.get_kind_display }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<a href="{% url 'courses:course_settings_sheet_activity_create' course.id %}" class="btn btn-default">{% trans 'Add new kind of activity' %}</a>
+
+{% endblock %}

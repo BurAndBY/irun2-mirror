@@ -5,7 +5,7 @@
 {% block submain %}
 
 <ul>
-{% for topic in topics %}
+{% for topic in object_list %}
     <li>
         <a href="{% url 'courses:course_settings_topics_update' course.id topic.id %}">{{ topic.name }}</a>
         <dl class="dl-horizontal">

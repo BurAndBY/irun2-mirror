@@ -24,3 +24,20 @@ class Topic(models.Model):
 
 class Slot(models.Model):
     topic = models.ForeignKey(Topic, null=False, on_delete=models.CASCADE)
+
+
+class Activity(models.Model):
+    PROBLEM_SOLVING = 0
+    MARK = 1
+    PASSED_OR_NOT = 2
+
+    KIND_CHOICES = (
+        (PROBLEM_SOLVING, _('solving problems within the course')),
+        (MARK, _('mark')),
+        (PASSED_OR_NOT, _('passed or not passed'))
+    )
+
+    course = models.ForeignKey(Course)
+    name = models.CharField(_('name'), max_length=64)
+    kind = models.IntegerField(_('kind'), choices=KIND_CHOICES)
+    weight = models.FloatField(_('weight'), default=0.0)

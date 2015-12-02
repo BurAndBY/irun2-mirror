@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
 from .models import Course, Topic
-from .forms import TopicForm, PropertiesForm, CompilersForm
+from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from proglangs.models import Compiler
@@ -12,6 +12,7 @@ from django.db import transaction
 from problems.views import ProblemStatementMixin
 from problems.models import Problem
 from collections import namedtuple
+from django.forms import inlineformset_factory
 
 import random
 
@@ -297,7 +298,7 @@ class CourseStandingsView(BaseCourseView):
         context['header_topics'] = header
         return render(request, self.template_name, context)
 
-Activity = namedtuple('Activity', 'name weight')
+#Activity = namedtuple('Activity', 'name weight')
 SheetRow = namedtuple('SheetRow', 'user main_activity_scores final_score extra_activity_scores')
 
 
@@ -309,17 +310,20 @@ class CourseSheetView(BaseCourseView):
         course = self._load(course_id)
         rnd = random.Random(1)
 
-        main_activities = (
-            Activity(u'Инд. задания', 0.5),
-            Activity(u'Контр. раб. 1', 0.3),
-            Activity(u'Промеж. тест.', 0.1),
-            Activity(u'Итогов. тест.', 0.1),
-        )
+        #main_activities = (
+        #    Activity(u'Инд. задания', 0.5),
+        #    Activity(u'Контр. раб. 1', 0.3),
+        #    Activity(u'Промеж. тест.', 0.1),
+        #    Activity(u'Итогов. тест.', 0.1),
+        #)
 
-        extra_activities = (
-            Activity(u'Контр. работа №2 AVL-деревья', None),
-            Activity(u'Домашнее задание', None),
-        )
+        main_activities = course.activity_set.filter(weight__gt=0.0)
+        extra_activities = course.activity_set.filter(weight=0.0)
+
+        #extra_activities = (
+        #    Activity(u'Контр. работа №2 AVL-деревья', None),
+        #    Activity(u'Домашнее задание', None),
+        #)
 
         rows = []
         for user in USERS:
@@ -416,91 +420,249 @@ class CourseSettingsSubgroupsView(CourseSettingsView):
         return render(request, self.template_name, context)
 
 
-class CourseSettingsTopicsView(CourseSettingsView):
-    subtab = 'topics'
-    template_name = 'courses/settings_topics.html'
+from models import Activity
+
+
+class CourseSettingsSheetView(CourseSettingsView):
+    subtab = 'sheet'
+    template_name = 'courses/settings_sheet.html'
 
     def get(self, request, course_id):
         course = self._load(course_id)
-        topics = course.topic_set.all().prefetch_related('slot_set')
         context = self._make_context(course)
-        context['topics'] = topics
+        ActivityFormSet = inlineformset_factory(Course, Activity, fields=('name', 'kind', 'weight'))
+        formset = ActivityFormSet(instance=course)
+        context['formset'] = formset
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, course_id):
+        course = self._load(course_id)
+        context = self._make_context(course)
+        ActivityFormSet = inlineformset_factory(Course, Activity, fields=('name', 'kind', 'weight'))
+        formset = ActivityFormSet(request.POST, instance=course)
+        if formset.is_valid():
+            formset.save()
+            return redirect('courses:course_settings_sheet', course_id=course_id)
+
+        context['formset'] = formset
         return render(request, self.template_name, context)
 
 
-def _save_topic(form, course):
-    with transaction.atomic():
-        topic = form.save(commit=False)
-        topic.course = course
-        topic.save()
+'''
+Base views to view and edit course-to-many relationships in course settings.
+'''
 
+
+class CourseSettingsBaseListView(CourseSettingsView):
+    '''
+    You should:
+    * set subtab
+    * set template_name
+    * override get_queryset()
+    '''
+
+    def get_queryset(self, course):
+        raise NotImplementedError()
+
+    def get(self, request, course_id):
+        course = self._load(course_id)
+        object_list = self.get_queryset(course)
+        context = self._make_context(course)
+        context['object_list'] = object_list
+        self._do_init_context(course, object_list, context)
+        return render(request, self.template_name, context)
+
+    def _do_init_context(self, course, object_list, context):
+        # you can fill pass some additional calculated data to context
+        pass
+
+
+class CourseSettingsBaseCreateView(CourseSettingsView):
+    '''
+    You should:
+    * set subtab
+    * set form_class
+    * set list_url_name
+    '''
+    template_name = 'courses/settings_component.html'
+
+    def _make_context_form(self, course, form):
+        context = self._make_context(course)
+        context['form'] = form
+        context['cancel_url'] = reverse(self.list_url_name, args=(course.id,))
+        return context
+
+    def get(self, request, course_id):
+        course = self._load(course_id)
+        form = self.form_class()
+
+        context = self._make_context_form(course, form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course_id):
+        course = self._load(course_id)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                obj = form.save(commit=False)
+                obj.course = course
+                obj.save()
+                self._do_save(course, form, obj)
+            return redirect(self.list_url_name, course_id=course_id)
+
+        context = self._make_context_form(course, form)
+        return render(request, self.template_name, context)
+
+    def _do_save(self, course, form, obj):
+        # you can do something after object has been saved (in the same transaction)
+        pass
+
+
+class CourseSettingsBaseUpdateView(CourseSettingsView):
+    '''
+    You should:
+    * set subtab
+    * set form_class
+    * set list_url_name
+    '''
+    template_name = 'courses/settings_component.html'
+
+    def _make_context_form(self, course, form):
+        context = self._make_context(course)
+        context['form'] = form
+        context['can_delete'] = True
+        context['cancel_url'] = reverse(self.list_url_name, args=(course.id,))
+        return context
+
+    def _get_object(self, course_id, pk):
+        model = self.form_class.Meta.model
+        return get_object_or_404(model, course_id=course_id, pk=pk)
+
+    def get(self, request, course_id, pk):
+        course = self._load(course_id)
+        obj = self._get_object(course_id, pk)
+        form = self.form_class(instance=obj)
+        self._do_load(course, form, obj)
+
+        context = self._make_context_form(course, form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course_id, pk):
+        course = self._load(course_id)
+        obj = self._get_object(course_id, pk)
+        form = self.form_class(request.POST, instance=obj)
+
+        if 'save' in request.POST:
+            if form.is_valid():
+                with transaction.atomic():
+                    obj = form.save()
+                    self._do_save(course, form, obj)
+                return redirect(self.list_url_name, course_id=course_id)
+
+        elif 'delete' in request.POST:
+            obj.delete()
+            return redirect(self.list_url_name, course_id=course_id)
+
+        context = self._make_context_form(course, form)
+        return render(request, self.template_name, context)
+
+    def _do_load(self, course, form, obj):
+        pass
+
+    def _do_save(self, course, form, obj):
+        pass
+
+'''
+Topics
+'''
+
+
+class TopicMixin(object):
+    subtab = 'topics'
+    form_class = TopicForm
+    list_url_name = 'courses:course_settings_topics'
+
+    def _do_save(self, course, form, obj):
         target_num_problems = form.cleaned_data['num_problems']
+        topic = obj
+
         slots = topic.slot_set.all()
         if len(slots) < target_num_problems:
             diff = target_num_problems - len(slots)
-            for _ in range(diff):
+            for i in range(diff):
                 topic.slot_set.create()
         else:
             for slot in slots[target_num_problems:]:
                 slot.delete()
 
-
-class CourseSettingsTopicsCreateView(CourseSettingsView):
-    subtab = 'topics'
-    template_name = 'courses/settings_topic.html'
-
-    def get(self, request, course_id):
-        course = self._load(course_id)
-        form = TopicForm(initial={'num_problems': 1})
-        context = self._make_context(course)
-        context['form'] = form
-        return render(request, self.template_name, context)
-
-    def post(self, request, course_id):
-        course = self._load(course_id)
-        form = TopicForm(request.POST, initial={'course_id': course_id})
-        if form.is_valid():
-            _save_topic(form, course)
-            return redirect('courses:course_settings_topics', course_id=course_id)
-
-        context = self._make_context(course)
-        context['form'] = form
-        return render(request, self.template_name, context)
+    def _do_load(self, course, form, obj):
+        form.fields['num_problems'].initial = obj.slot_set.count()
 
 
-class CourseSettingsTopicsUpdateView(CourseSettingsView):
-    subtab = 'topics'
-    template_name = 'courses/settings_topic.html'
+class CourseSettingsTopicsListView(TopicMixin, CourseSettingsBaseListView):
+    template_name = 'courses/settings_topics.html'
 
-    def get(self, request, course_id, topic_id):
-        course = self._load(course_id)
+    def get_queryset(self, course):
+        return course.topic_set.all().prefetch_related('slot_set')
 
-        topic = get_object_or_404(Topic, pk=topic_id)
-        num_problems = topic.slot_set.count()
 
-        form = TopicForm(instance=topic, initial={'num_problems': num_problems})
-        context = self._make_context(course)
-        context['form'] = form
-        return render(request, self.template_name, context)
+class CourseSettingsTopicsCreateView(TopicMixin, CourseSettingsBaseCreateView):
+    pass
 
-    def post(self, request, course_id, topic_id):
-        course = self._load(course_id)
-        topic = self._load_topic(course, topic_id)
 
-        form = TopicForm(request.POST, instance=topic)
+class CourseSettingsTopicsUpdateView(TopicMixin, CourseSettingsBaseUpdateView):
+    pass
 
-        if 'save' in request.POST:
-            if form.is_valid():
-                _save_topic(form, course)
-                return redirect('courses:course_settings_topics', course_id=course_id)
 
-        elif 'delete' in request.POST:
-            topic.delete()
-            return redirect('courses:course_settings_topics', course_id=course_id)
+'''
+Sheet
+'''
 
-        context = self._make_context(course)
-        context['form'] = form
-        return render(request, self.template_name, context)
+
+class SheetMixin(object):
+    subtab = 'sheet'
+    form_class = ActivityForm
+    list_url_name = 'courses:course_settings_sheet'
+
+
+class CourseSettingsSheetActivityListView(SheetMixin, CourseSettingsBaseListView):
+    template_name = 'courses/settings_sheet.html'
+
+    def get_queryset(self, course):
+        return course.activity_set.all()
+
+    def _do_init_context(self, course, object_list, context):
+
+        sum_weights = 0.0
+        main_activities = []
+        extra_activities = []
+
+        for activity in object_list:
+            w = activity.weight
+            sum_weights += w
+            if w != 0.0:
+                main_activities.append(activity)
+            else:
+                extra_activities.append(activity)
+
+        context['main_activities'] = main_activities
+        context['extra_activities'] = extra_activities
+
+        EPS = 1.E-6
+        TARGET_SUM = 1.0
+        if (sum_weights > EPS) and (abs(sum_weights - TARGET_SUM) > EPS):
+            context['sum_actual'] = sum_weights
+            context['sum_expected'] = TARGET_SUM
+            context['sum_is_bad'] = True
+
+
+class CourseSettingsSheetActivityCreateView(SheetMixin, CourseSettingsBaseCreateView):
+    pass
+
+
+class CourseSettingsSheetActivityUpdateView(SheetMixin, CourseSettingsBaseUpdateView):
+    pass
 
 '''
 Problems

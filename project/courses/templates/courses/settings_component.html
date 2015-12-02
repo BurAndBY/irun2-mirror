@@ -12,12 +12,14 @@
         <button type="submit" name="save" class="btn btn-primary">
             {% bootstrap_icon 'ok' %} {% trans 'Save' %}
         </button>
-        <a href="{% url 'courses:course_settings_topics' course.id %}" role="button" class="btn btn-default">
+        <a href="{{ cancel_url }}" role="button" class="btn btn-default">
             {% bootstrap_icon 'remove' %} {% trans 'Cancel' %}
         </a>
+        {% if can_delete %}
         <button type="submit" name="delete" class="btn btn-danger">
             {% bootstrap_icon 'trash' %} {% trans 'Delete' %}
         </button>
+        {% endif %}
     {% endbuttons %}
 </form>
 

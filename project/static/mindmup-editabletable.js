@@ -91,7 +91,7 @@ $.fn.editableTableWidget = function (options) {
 				editor.removeClass('error');
 			}
 		});
-		element.on('click keypress dblclick', showEditor)
+		element.on('dblclick', showEditor)
 		//.css('cursor', 'pointer')
 		.keydown(function (e) {
 			var prevent = true,
@@ -99,7 +99,7 @@ $.fn.editableTableWidget = function (options) {
 			if (possibleMove.length > 0) {
 				possibleMove.focus();
 			} else if (e.which === ENTER) {
-				showEditor(false);
+				showEditor(true);
 			} else if (e.which === 17 || e.which === 91 || e.which === 93) {
 				showEditor(true);
 				prevent = false;
