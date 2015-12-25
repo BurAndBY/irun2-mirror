@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import include, url
 #from django.contrib import admin
 import common.views
+from django_js_reverse.views import urls_js
+from django.views.decorators.cache import cache_page
+
 
 urlpatterns = [
     url(r'^$', common.views.home, name='home'),
@@ -34,6 +37,7 @@ urlpatterns = [
     url(r'^about/', common.views.about, name='about'),
     url(r'^choose/', common.views.choose, name='choose'),
     url(r'^list/(?P<folder_id>[0-9]+)/', common.views.listf, name='listf'),
-    url('^', include('cauth.urls'))
+    url('^', include('cauth.urls')),
     #url(r'^admin/', include(admin.site.urls)),
+    url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),
 ]

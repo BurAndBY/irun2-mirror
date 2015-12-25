@@ -390,3 +390,50 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-sheet td:focus {
     background-color: orange;
 }
+
+/**
+ * Multi choose
+ */
+.ir-multiselect-tab {
+    min-height: 320px;
+}
+.ir-multiselect-tab > option {
+    color: #000;
+}
+.ir-multiselect-tab > option:disabled {
+    color: #ccc;
+}
+
+
+/**
+ *
+ */
+.ir-opt {
+    color: #000;
+}
+.ir-opt-gray {
+    color: #ccc;
+}
+
+.ir-icon-links {
+    font-size: 1.1em;
+}
+
+.ir-assignment {
+    margin-bottom: 6px;
+}
+.ir-assignment > div {
+    padding: 6px 8px;
+}
+.ir-assignment > ul > li {
+    padding: 6px 8px;
+}
+.ir-assignment .input-group-addon {
+    padding: 4px 8px;
+}
+.ir-assignment .form-control {
+    padding: 4px 8px;
+}
+.ir-assignment select.form-control {
+    height: 28px;
+}

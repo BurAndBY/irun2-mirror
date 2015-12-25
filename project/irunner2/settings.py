@@ -52,7 +52,8 @@ INSTALLED_APPS = (
     'courses',
     'users',
     'feedback',
-    'cauth'
+    'cauth',
+    'django_js_reverse'
 )
 
 MIDDLEWARE_CLASSES = (

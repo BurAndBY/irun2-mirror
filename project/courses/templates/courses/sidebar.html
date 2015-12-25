@@ -10,6 +10,10 @@
         {% bootstrap_icon 'th-large' %}
         {% trans 'My problems' %}
     </a>
+    <a href="#" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
+        {% bootstrap_icon 'link' %}
+        {% trans 'Assignment of problems' %}
+    </a>
     <a href="{% url 'courses:course_problems' course.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
         {% bootstrap_icon 'th' %}
         {% trans 'Course problems' %}

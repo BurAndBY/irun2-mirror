@@ -3,8 +3,10 @@
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
-from .models import Course, Topic
-from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm
+from .models import Course, Topic, Membership, Assignment
+from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm
+from django.conf import settings
+
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from proglangs.models import Compiler
@@ -13,6 +15,7 @@ from problems.views import ProblemStatementMixin
 from problems.models import Problem
 from collections import namedtuple
 from django.forms import inlineformset_factory
+from django.contrib import messages
 
 import random
 
@@ -270,11 +273,23 @@ class CourseStandingsView(BaseCourseView):
         course = self._load(course_id)
         rnd = random.Random(1)
 
+        students = Membership.objects\
+            .filter(course=course, role=Membership.STUDENT)\
+            .select_related(settings.AUTH_USER_MODEL)\
+            .order_by('last_name', 'first_name')
+
         topics = course.topic_set.all().prefetch_related('slot_set')
+
+        slot_indices = {}
 
         header = []
         for topic in topics:
-            header.append((topic.name, topic.slot_set.count()))
+            slots = list(topic.slot_set.all())
+            for slot in slots:
+                index = len(slot_indices)
+                slot_indices[slot.id] = index
+
+            header.append((topic.name, len(slots)))
 
         results = []
         for student in USERS:
@@ -406,7 +421,27 @@ class CourseSettingsUsersView(CourseSettingsView):
 
     def get(self, request, course_id):
         course = self._load(course_id)
+
+        students = course.members.filter(membership__role=Membership.STUDENT).order_by('last_name')
+        teachers = course.members.filter(membership__role=Membership.TEACHER).order_by('last_name')
+
         context = self._make_context(course)
+        context['students'] = students
+        context['teachers'] = teachers
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsUsersStudentsView(CourseSettingsView):
+    subtab = 'users'
+    template_name = 'courses/settings_users_edit.html'
+
+    def get(self, request, course_id):
+        course = self._load(course_id)
+
+        students = course.members.all()
+
+        context = self._make_context(course)
+        context['students'] = students
         return render(request, self.template_name, context)
 
 
@@ -692,9 +727,7 @@ class CourseProblemsTopicView(BaseCourseView):
         if topic is None:
             return redirect('courses:course_problems', course_id=course_id)
 
-        problems = []
-        if topic.problem_folder is not None:
-            problems = topic.problem_folder.problem_set.all().order_by('number', 'subnumber')
+        problems = topic.list_problems()
 
         context = self._make_context(course)
         topics = course.topic_set.all()
@@ -748,3 +781,127 @@ class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
 
         # fallback
         return redirect('courses:course_problems', course_id=course_id)
+
+
+AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topics extra_form')
+TopicRepresentation = namedtuple('TopicRepresentation', 'topic_id name slots')
+SlotRepresentation = namedtuple('SlotRepresentation', 'slot_id form is_penalty extra_requirements')
+
+
+def create_assignment_form(membership, topic, post_data, slot=None, assignment=None):
+    prefix = ''  # form prefix to distinguish forms on page
+    if slot is not None:
+        prefix = 'm{0}t{1}s{2}'.format(membership.id, topic.id, slot.id)
+    elif assignment is not None:
+        prefix = 'm{0}t{1}a{2}'.format(membership.id, topic.id, assignment.id)
+    else:
+        prefix = 'm{0}t{1}new'.format(membership.id, topic.id)
+
+    form = ProblemAssignmentForm(data=post_data, instance=assignment, prefix=prefix)
+
+    # Prepare for form validation
+    form.fields['problem'].queryset = topic.list_problems()
+
+    widget = form.fields['problem'].widget
+    widget.attrs.update({'data-topic': topic.id})  # to use from JS
+
+    form.fields['criteria'].queryset = topic.criteria
+
+    return form
+
+
+def prepare_assignment(course, membership, new_penalty_topic=None, post_data=None):
+    topic_reprs = []
+    topics = course.topic_set.all()
+    for topic in topics:
+        slot_reprs = []
+
+        for slot in topic.slot_set.all():
+            assignment = Assignment.objects.filter(membership=membership, topic=topic, slot=slot).first()
+            form = create_assignment_form(
+                membership=membership,
+                topic=topic,
+                post_data=post_data,
+                slot=slot,
+                assignment=assignment,
+            )
+            extra_requirements = (assignment and assignment.extra_requirements) or ''
+            slot_reprs.append(SlotRepresentation(slot.id, form, False, extra_requirements))
+
+        penalty_assignments = Assignment.objects.filter(membership=membership, topic=topic, slot=None)
+        for assignment in penalty_assignments:
+            form = create_assignment_form(
+                membership=membership,
+                topic=topic,
+                post_data=post_data,
+                assignment=assignment,
+            )
+            slot_reprs.append(SlotRepresentation(None, form, True, assignment.extra_requirements))
+
+        if new_penalty_topic == topic.id:
+            form = create_assignment_form(
+                membership=membership,
+                topic=topic,
+                post_data=post_data,
+            )
+            slot_reprs.append(SlotRepresentation(None, form, True, ''))
+
+        topic_reprs.append(TopicRepresentation(topic.id, topic.name, slot_reprs))
+
+    extra_form = AddExtraProblemSlotForm()
+    extra_form.fields['penaltytopic'].queryset = topics
+    return AssignmentDataRepresentation(topic_reprs, extra_form)
+
+
+class CourseAssignView(BaseCourseView):
+    tab = 'assign'
+    template_name = 'courses/assign.html'
+
+    def _extract_new_penalty_topic(self, request):
+        value = request.GET.get('penaltytopic')
+        return int(value) if value is not None else None
+
+    def get(self, request, course_id, membership_id):
+        course = self._load(course_id)
+        membership = get_object_or_404(Membership, id=membership_id, course=course)
+
+        ass = prepare_assignment(course, membership, self._extract_new_penalty_topic(request))
+
+        context = self._make_context(course)
+        context['data'] = ass
+        return render(request, self.template_name, context)
+
+    def post(self, request, course_id, membership_id):
+        course = self._load(course_id)
+        membership = get_object_or_404(Membership, id=membership_id, course=course)
+
+        adr = prepare_assignment(course, membership, self._extract_new_penalty_topic(request), post_data=request.POST)
+
+        all_valid = True
+
+        for topic in adr.topics:
+            for slot in topic.slots:
+                if not slot.form.is_valid():
+                    all_valid = False
+
+        if all_valid:
+            with transaction.atomic():
+                for topic in adr.topics:
+                    for slot in topic.slots:
+                        form = slot.form
+                        assignment = form.save(commit=False)
+                        assignment.membership = membership
+                        assignment.topic_id = topic.topic_id
+                        assignment.slot_id = slot.slot_id
+                        assignment.save()
+                        form.save_m2m()
+
+                        if slot.is_penalty and assignment.problem is None:
+                            assignment.delete()
+
+            #messages.add_message(request, messages.INFO, 'Hello world.')
+            return redirect('courses:course_assignment', course_id=course_id, membership_id=membership_id)
+
+        context = self._make_context(course)
+        context['data'] = adr
+        return render(request, self.template_name, context)

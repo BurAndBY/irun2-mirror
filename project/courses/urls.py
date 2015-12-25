@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/problemset/(?P<topic_id>[0-9]+)/$', views.CourseProblemsTopicView.as_view(), name='course_problems_topic'),
     url(r'^(?P<course_id>[0-9]+)/problemset/(?P<topic_id>[0-9]+)/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', views.CourseProblemsTopicProblemView.as_view(), name='course_problems_topic_problem'),
 
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/$', views.CourseAssignView.as_view(), name='course_assignment'),
+
     # Settings
 
     url(r'^(?P<course_id>[0-9]+)/settings/$', views.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
@@ -25,6 +27,8 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/(?P<pk>[0-9]+)/$', views.CourseSettingsSheetActivityUpdateView.as_view(), name='course_settings_sheet_activity_update'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/users/$', views.CourseSettingsUsersView.as_view(), name='course_settings_users'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/students/$', views.CourseSettingsUsersStudentsView.as_view(), name='course_settings_users_students'),
+
     url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', views.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
     url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', views.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/$', views.CourseSettingsSheetView.as_view(), name='course_settings_sheet'),

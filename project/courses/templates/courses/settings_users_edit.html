@@ -1,0 +1,11 @@
+{% extends 'courses/settings_base.html' %}
+
+{% block submain %}
+Course Users
+
+<ol>
+{% for user in students %}
+<li> {{ user.first_name }}
+{% endfor %}
+</ol>
+{% endblock %}
