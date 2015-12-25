@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% load django_tables2 %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans 'List of Solutions' %}</h1>
+{% render_table table %}
+{% endblock %}

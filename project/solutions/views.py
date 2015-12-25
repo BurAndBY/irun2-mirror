@@ -6,12 +6,15 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadReque
 from django.views import generic
 from django.views.generic import View
 from django.core.files.base import ContentFile
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
+from django.template import RequestContext
 
 from .forms import AdHocForm
 from .models import AdHocRun, Solution, Judgement, Rejudge
 from .actions import enqueue_new
+from .tables import SolutionTable
+from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
 
@@ -123,3 +126,11 @@ class RejudgeView(View):
                         solution.save()
 
         return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge_id]))
+
+
+def ilist(request):
+    objects = Solution.objects.all().prefetch_related('compiler').select_related('best_judgement')
+    table = SolutionTable(objects)
+    #return render(request, "solutions/ilist.html", {'table': table})
+    return render_to_response("solutions/ilist.html", {"table": table},
+                              context_instance=RequestContext(request))

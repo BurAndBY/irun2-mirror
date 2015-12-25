@@ -53,7 +53,9 @@ INSTALLED_APPS = (
     'users',
     'feedback',
     'cauth',
-    'django_js_reverse'
+    'django_js_reverse',
+    'table',
+    'django_tables2'
 )
 
 MIDDLEWARE_CLASSES = (
