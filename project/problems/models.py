@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from storage.storage import ResourceIdField
 from mptt.models import MPTTModel, TreeForeignKey
+from django.utils.translation import ugettext_lazy as _
 
 
 class ProblemFolder(MPTTModel):
@@ -15,21 +18,21 @@ class ProblemFolder(MPTTModel):
 
 
 class Problem(models.Model):
-    number = models.IntegerField(blank=True, null=True, default=None)
-    subnumber = models.IntegerField(blank=True, null=True, default=None)
-    full_name = models.CharField(max_length=200, blank=True)
-    short_name = models.CharField(max_length=32, blank=True)
-    complexity = models.IntegerField(blank=True, null=True, default=None)
-    offered = models.TextField(blank=True)  # public
-    description = models.TextField(blank=True)  # public
-    hint = models.TextField(blank=True)  # private
+    number = models.IntegerField(_('number'), blank=True, null=True, default=None)
+    subnumber = models.IntegerField(_('subnumber'), blank=True, null=True, default=None)
+    full_name = models.CharField(_('full name'), max_length=200, blank=True)
+    short_name = models.CharField(_('short name'), max_length=32, blank=True)
+    complexity = models.IntegerField(_('complexity'), blank=True, null=True, default=None)
+    offered = models.TextField(_('where the problem was offered'), blank=True)  # public
+    description = models.TextField(_('description'), blank=True)  # public
+    hint = models.TextField(_('hint'), blank=True)  # private
 
-    input_filename = models.CharField(max_length=32, blank=True)
-    output_filename = models.CharField(max_length=32, blank=True)
+    input_filename = models.CharField(_('input file name'), max_length=32, blank=True)
+    output_filename = models.CharField(_('output file name'), max_length=32, blank=True)
 
-    folders = models.ManyToManyField(ProblemFolder)
+    folders = models.ManyToManyField(ProblemFolder, verbose_name=_('folders'))
 
-    def _number(self):
+    def get_formatted_number(self):
         if self.number is None:
             return u''
         if self.subnumber is None:
@@ -39,7 +42,7 @@ class Problem(models.Model):
 
     def _numbered_name(self, name):
         if self.number:
-            return u'{1}. {0}'.format(name, self._number())
+            return u'{1}. {0}'.format(name, self.get_formatted_number())
         else:
             return u'{0}'.format(name)
 
@@ -61,14 +64,14 @@ class ProblemRelatedFile(models.Model):
     AUTHORS_SOLUTION = 215
 
     FILE_TYPE_CHOICES = (
-        (USER_FILE, 'User File'),
-        (GENERATOR, 'Generator'),
-        (STATEMENT_HTML, 'HTML Statement'),
-        (STATEMENT_TEX, 'TeX Statement'),
-        (LIBRARY, 'Library'),
-        (CHECKER, 'Checker'),
-        (SOLUTION_DESCRIPTION, 'Solution Description'),
-        (AUTHORS_SOLUTION, 'Author\'s Solution'),
+        (USER_FILE, _('User file')),
+        (GENERATOR, _('Generator')),
+        (STATEMENT_HTML, _('HTML statement')),
+        (STATEMENT_TEX, _('TeX statement')),
+        (LIBRARY, _('Library')),
+        (CHECKER, _('Checker')),
+        (SOLUTION_DESCRIPTION, _('Solution description')),
+        (AUTHORS_SOLUTION, _('Author\'s solution')),
     )
 
     problem = models.ForeignKey(Problem)

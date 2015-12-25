@@ -56,44 +56,6 @@ class ProblemFormNewView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class ProblemFormEditView(View):
-    def get(self, request, problem_id):
-        problem = get_object_or_404(Problem, pk=problem_id)
-        form = ProblemForm(instance=problem)
-        return render(request, 'problems/edit.html', {'form': form})
-
-    def post(self, request, problem_id):
-        problem = get_object_or_404(Problem, pk=problem_id)
-        form = ProblemForm(request.POST, instance=problem)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('problems:index'))
-
-        return render(request, 'problems/edit.html', {'form': form})
-
-
-def overview(request, problem_id):
-    problem = get_object_or_404(Problem, pk=problem_id)
-    related_files = problem.problemrelatedfile_set.all()
-    test_cases = problem.testcase_set.all()
-
-    return render(request, 'problems/overview.html', {
-        'problem': problem,
-        'related_files': related_files,
-        'test_cases': test_cases
-    })
-
-
-def tests(request, problem_id):
-    problem = get_object_or_404(Problem, pk=problem_id)
-    return render(request, 'problems/tests.html', {'problem': problem})
-
-
-def add_test(request, problem_id):
-    problem = get_object_or_404(Problem, pk=problem_id)
-    return render(request, 'problems/test.html', {'problem': problem})
-
-
 class ProblemStatementMixin(object):
     @staticmethod
     def _normalize(filename):
@@ -141,17 +103,6 @@ class ProblemStatementMixin(object):
             st.iframe_name = html_statement_name
 
         return st
-
-
-class ProblemStatementView(ProblemStatementMixin, generic.View):
-    def get(self, request, problem_id, filename):
-        if self.is_aux_file(filename):
-            return self.serve_aux_file(request, problem_id, filename)
-
-        problem = get_object_or_404(Problem, pk=problem_id)
-
-        st = self.make_statement(problem)
-        return render(request, 'problems/statement.html', {'statement': st})
 
 
 def show_test(request, problem_id, test_number):
@@ -230,3 +181,112 @@ def show_folder_json(request, folder_id):
     name = folder.name if folder is not None else ''
     data = _list_folder_contents(folder_id)
     return JsonResponse({'id': folder_id, 'name': name, 'data': data}, safe=True)
+
+
+class BaseProblemView(generic.View):
+    tab = None
+
+    def _load(self, problem_id):
+        return get_object_or_404(Problem, pk=problem_id)
+
+    def _make_context(self, problem, extra=None):
+        context = {
+            'problem': problem,
+            'active_tab': self.tab,
+        }
+        if extra is not None:
+            context.update(extra)
+        return context
+
+
+class ProblemOverviewView(BaseProblemView):
+    tab = 'overview'
+    template_name = 'problems/overview.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        context = self._make_context(problem)
+        context['test_count'] = problem.testcase_set.count()
+        context['solution_count'] = problem.solution_set.count()
+        context['file_count'] = problem.problemrelatedfile_set.count()
+        return render(request, self.template_name, context)
+
+
+class ProblemSolutionsView(BaseProblemView):
+    tab = 'solutions'
+    template_name = 'problems/solutions.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        context = self._make_context(problem)
+        return render(request, self.template_name, context)
+
+
+class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
+    tab = 'statement'
+    template_name = 'problems/statement.html'
+
+    def get(self, request, problem_id, filename):
+        problem = self._load(problem_id)
+
+        if self.is_aux_file(filename):
+            return self.serve_aux_file(request, problem_id, filename)
+
+        st = self.make_statement(problem)
+
+        context = self._make_context(problem)
+        context['statement'] = st
+        return render(request, self.template_name, context)
+
+
+class ProblemEditView(BaseProblemView):
+    tab = 'overview'
+    template_name = 'problems/edit.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = ProblemForm(instance=problem)
+
+        context = self._make_context(problem)
+        context['form'] = form
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = ProblemForm(request.POST, instance=problem)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('problems:overview', args=(problem.id,)))
+
+        context = self._make_context(problem)
+        context['form'] = form
+        return render(request, self.template_name, context)
+
+
+class ProblemTestsView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/tests.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        test_cases = problem.testcase_set.all()
+
+        context = self._make_context(problem, {'test_cases': test_cases})
+        return render(request, self.template_name, context)
+
+
+class ProblemFilesView(BaseProblemView):
+    tab = 'files'
+    template_name = 'problems/files.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        related_files = problem.problemrelatedfile_set.all()
+
+        context = self._make_context(problem, {'related_files': related_files})
+        return render(request, self.template_name, context)

@@ -1,59 +1,112 @@
 {% extends 'problems/base.html' %}
 
+{% load i18n %}
+{% load complexitybox %}
+{% load bootstrap3 %}
+
 {% block main %}
-<h1>Problem {{problem.id}}</h1>
 
-<p>Full name: {{problem.full_name}}</p>
-<p>Input: {{problem.input_filename}}</p>
-<p>Output: {{problem.output_filename}}</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% trans 'Main properties' %}
+        <div class="pull-right"><a href="{% url 'problems:edit' problem.id %}" class="btn btn-default btn-xs">{% trans 'Edit' %}</a></div>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            {% if problem.get_formatted_number %}
+                <dt>{% trans 'Number' %}</dt>
+                <dd>{{ problem.get_formatted_number }}</dd>
+            {% endif %}
 
-<a class="btn btn-default" href="{% url 'problems:edit' problem.id %}" role="button">Edit</a>
+            {% if problem.short_name and problem.full_name != problem.short_name %}
+                <dt>{% trans 'Full name' %}</dt>
+                <dd>{{ problem.full_name }}</dd>
 
-<table class="table table-condensed">
-	<thead>
-		<tr>
-			<th>File</th>
-			<th>Type</th>
-			<th>Description</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for f in related_files %}
-		<tr>
-			<td>{{f.name}}</td>
-			<td>{{f.get_file_type_display}}</td>
-			<td>{{f.description}}</td>
-			<td><a href="{% url 'storage:show' f.resource_id %}">Open</a></td>
-		</tr>
-	{% endfor %}
-	</tbody>
-</th>
-</table>
+                <dt>{% trans 'Short name' %}</dt>
+                <dd>{{ problem.short_name }}</dd>
+            {% else %}
+                <dt>{% trans 'Name' %}</dt>
+                <dd>{{ problem.full_name }}</dd>
+            {% endif %}
 
-<h3>Tests</h3>
-<table class="table table-condensed">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>#</th>
-			<th>Time Limit</th>
-			<th>Input</th>
-			<th>Output</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for tc in test_cases %}
-		<tr>
-			<td>{{ tc.id }}</td>
-			<td>{{ tc.ordinal_number }}</td>
-			<td>{{ tc.time_limit }}</td>
-			<td>{{ tc.input_file }} {{ tc.input_size|filesizeformat }}</td>
-			<td>{{ tc.answer_file }} {{ tc.answer_size|filesizeformat }}</td>
-		</tr>
-	{% endfor %}
-	</tbody>
-</th>
-</table>
+            {% if problem.complexity != None %}
+                <dt>{% trans 'Complexity level' %}</dt>
+                <dd>{% complexitybox problem.complexity %}</dd>
+            {% endif %}
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{% trans 'Input file name' %}</dt>
+            <dd><tt>{{ problem.input_filename }}</tt></dd>
+
+            <dt>{% trans 'Output file name' %}</dt>
+            <dd><tt>{{ problem.output_filename }}</tt></dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            {% if problem.description %}
+                <dt>{% trans 'Description' %}</dt>
+                <dd>{{ problem.description }}</dd>
+            {% endif %}
+            {% if problem.hint %}
+                <dt>{% trans 'Hint' %}</dt>
+                <dd>{{ problem.hint }}</dd>
+            {% endif %}
+        </dl>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="ir-huge">
+                            {% bootstrap_icon 'list-alt' %}
+                        </div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="ir-huge">{{ test_count }}</div>
+                        <div>тестов</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="ir-huge">
+                            {% bootstrap_icon 'tasks' %}
+                        </div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="ir-huge">{{ solution_count }}</div>
+                        <div>решений</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="ir-huge">
+                            {% bootstrap_icon 'paperclip' %}
+                        </div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="ir-huge">{{ file_count }}</div>
+                        <div>файлов</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-03 00:57+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2015-12-25 23:01+0300\n"
+"PO-Revision-Date: 2015-12-25 23:03+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: .\cauth\forms.py:7
 msgid "Remember me"
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:66
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:67
 msgid "Login"
 msgstr "Вход"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:97
+#: .\common\templates\common\about.html:6 .\templates\base.html:98
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -69,53 +69,93 @@ msgstr ""
 "обслуживания олимпиад по программированию, проведения практических занятий "
 "по основам алгоритмизации и смежным наукам.\n"
 
+#: .\common\templates\common\choose.html:24
+msgid "Add"
+msgstr "Добавить"
+
+#: .\common\templates\common\choose.html:25
+msgid "Add all"
+msgstr "Добавить всё"
+
+#: .\common\templates\common\choose.html:26
+msgid "Remove"
+msgstr "Удалить"
+
+#: .\common\templates\common\choose.html:27
+msgid "Remove all"
+msgstr "Удалить всё"
+
 #: .\common\templates\common\home.html:8
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
 
-#: .\courses\forms.py:28
+#: .\courses\forms.py:31 .\problems\forms.py:8
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:29
+#: .\courses\forms.py:32
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:37
+#: .\courses\forms.py:43
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\models.py:14 .\courses\models.py:19 .\courses\models.py:41
+#: .\courses\forms.py:57 .\problems\templates\problems\sidebar.html:7
+msgid "Problem"
+msgstr "Задача"
+
+#: .\courses\forms.py:70
+msgid "Topic:"
+msgstr "Тема:"
+
+#: .\courses\models.py:18 .\courses\models.py:24 .\courses\models.py:55
 msgid "name"
 msgstr "название"
 
-#: .\courses\models.py:21
+#: .\courses\models.py:26
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:22
+#: .\courses\models.py:27 .\courses\models.py:79
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:35
+#: .\courses\models.py:49
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:36
+#: .\courses\models.py:50
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:37
+#: .\courses\models.py:51
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:42
+#: .\courses\models.py:56
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:43 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:57 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
+
+#: .\courses\models.py:65
+msgid "student"
+msgstr "студент"
+
+#: .\courses\models.py:66
+msgid "teacher"
+msgstr "преподаватель"
+
+#: .\courses\models.py:71
+msgid "role"
+msgstr "роль"
+
+#: .\courses\models.py:77
+msgid "problem"
+msgstr "задача"
 
 #: .\courses\templates\courses\problems_base.html:25
 #: .\solutions\templates\solutions\judgement.html:18
@@ -147,13 +187,14 @@ msgid "Subgroups"
 msgstr "Подгруппы"
 
 #: .\courses\templates\courses\settings_base.html:25
-#: .\courses\templates\courses\sidebar.html:23
+#: .\courses\templates\courses\sidebar.html:27
 msgid "Sheet"
 msgstr "Ведомость"
 
 #: .\courses\templates\courses\settings_compilers.html:28
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
+#: .\problems\templates\problems\edit.html:14
 msgid "Save"
 msgstr "Сохранить"
 
@@ -161,7 +202,7 @@ msgstr "Сохранить"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: .\courses\templates\courses\settings_component.html:19
+#: .\courses\templates\courses\settings_component.html:20
 msgid "Delete"
 msgstr "Удалить"
 
@@ -201,6 +242,7 @@ msgstr "Создать новую тему"
 
 #: .\courses\templates\courses\sheet.html:9
 #: .\courses\templates\courses\standings.html:9
+#: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\judgement.html:24
 #: .\users\templates\users\mass_confirm.html:14
 msgid "#"
@@ -216,23 +258,28 @@ msgid "My problems"
 msgstr "Мои задачи"
 
 #: .\courses\templates\courses\sidebar.html:15
+msgid "Assignment of problems"
+msgstr "Назначение задач"
+
+#: .\courses\templates\courses\sidebar.html:19
 msgid "Course problems"
 msgstr "Задачи по курсу"
 
-#: .\courses\templates\courses\sidebar.html:19
+#: .\courses\templates\courses\sidebar.html:23
 msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:27
+#: .\courses\templates\courses\sidebar.html:31
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\courses\templates\courses\sidebar.html:31
+#: .\courses\templates\courses\sidebar.html:35
+#: .\problems\templates\problems\sidebar.html:27
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\courses\templates\courses\sidebar.html:35
+#: .\courses\templates\courses\sidebar.html:39
 msgid "Settings"
 msgstr "Настройки"
 
@@ -288,6 +335,177 @@ msgstr "Спасибо!"
 #: .\feedback\templates\feedback\thanks.html:9
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
+
+#: .\problems\models.py:21
+msgid "number"
+msgstr "номер"
+
+#: .\problems\models.py:22
+msgid "subnumber"
+msgstr "подномер"
+
+#: .\problems\models.py:23
+msgid "full name"
+msgstr "полное название"
+
+#: .\problems\models.py:24
+msgid "short name"
+msgstr "короткое название"
+
+#: .\problems\models.py:25
+msgid "complexity"
+msgstr "уровень сложности"
+
+#: .\problems\models.py:26
+msgid "where the problem was offered"
+msgstr "где задача была предложена"
+
+#: .\problems\models.py:27
+msgid "description"
+msgstr "описание"
+
+#: .\problems\models.py:28
+msgid "hint"
+msgstr "подсказка"
+
+#: .\problems\models.py:30
+msgid "input file name"
+msgstr "имя входного файла"
+
+#: .\problems\models.py:31
+msgid "output file name"
+msgstr "имя выходного файла"
+
+#: .\problems\models.py:33
+msgid "folders"
+msgstr "папки"
+
+#: .\problems\models.py:67
+msgid "User file"
+msgstr "Файл пользователя"
+
+#: .\problems\models.py:68
+msgid "Generator"
+msgstr "Генератор"
+
+#: .\problems\models.py:69
+msgid "HTML statement"
+msgstr "Условие в формате HTML"
+
+#: .\problems\models.py:70
+msgid "TeX statement"
+msgstr "Условие в формате TeX"
+
+#: .\problems\models.py:71
+msgid "Library"
+msgstr "Библиотека"
+
+#: .\problems\models.py:72
+msgid "Checker"
+msgstr "Программа проверки"
+
+#: .\problems\models.py:73
+msgid "Solution description"
+msgstr "Описание решения"
+
+#: .\problems\models.py:74
+msgid "Author's solution"
+msgstr "Авторское решение"
+
+#: .\problems\templates\problems\files.html:9
+#: .\problems\templates\problems\solutions.html:12
+msgid "File"
+msgstr "Файл"
+
+#: .\problems\templates\problems\files.html:10
+msgid "Type"
+msgstr "Тип"
+
+#: .\problems\templates\problems\files.html:11
+#: .\problems\templates\problems\overview.html:47
+msgid "Description"
+msgstr "Описание"
+
+#: .\problems\templates\problems\files.html:12
+msgid "Action"
+msgstr "Действие"
+
+#: .\problems\templates\problems\overview.html:11
+msgid "Main properties"
+msgstr "Основные свойства"
+
+#: .\problems\templates\problems\overview.html:12
+msgid "Edit"
+msgstr "Правка"
+
+#: .\problems\templates\problems\overview.html:17
+msgid "Number"
+msgstr "Номер"
+
+#: .\problems\templates\problems\overview.html:22
+msgid "Full name"
+msgstr "Полное название"
+
+#: .\problems\templates\problems\overview.html:25
+msgid "Short name"
+msgstr "Короткое название"
+
+#: .\problems\templates\problems\overview.html:28
+msgid "Name"
+msgstr "Название"
+
+#: .\problems\templates\problems\overview.html:33
+msgid "Complexity level"
+msgstr "Уровень сложности"
+
+#: .\problems\templates\problems\overview.html:38
+msgid "Input file name"
+msgstr "Имя входного файла"
+
+#: .\problems\templates\problems\overview.html:41
+msgid "Output file name"
+msgstr "Имя выходного файла"
+
+#: .\problems\templates\problems\overview.html:51
+msgid "Hint"
+msgstr "Подсказка"
+
+#: .\problems\templates\problems\problemstatement_tag.html:19
+msgid "There is no statement for this problem"
+msgstr "В системе нет условия для этой задачи"
+
+#: .\problems\templates\problems\sidebar.html:11
+msgid "Statement"
+msgstr "Условие"
+
+#: .\problems\templates\problems\sidebar.html:15
+msgid "Tests"
+msgstr "Тесты"
+
+#: .\problems\templates\problems\sidebar.html:19
+msgid "Solutions"
+msgstr "Решения"
+
+#: .\problems\templates\problems\sidebar.html:23
+msgid "Files"
+msgstr "Файлы"
+
+#: .\problems\templates\problems\solutions.html:10
+msgid "Author"
+msgstr "Автор"
+
+#: .\problems\templates\problems\solutions.html:11
+msgid "Submission time"
+msgstr "Время отправления"
+
+#: .\problems\templates\problems\solutions.html:13
+msgid "Status"
+msgstr "Статус"
+
+#: .\problems\templates\problems\tests.html:11
+#: .\solutions\templates\solutions\timelimitbox.html:3
+msgid "Time limit"
+msgstr "Ограничение по времени"
 
 #: .\solutions\models.py:42
 msgid "N/A"
@@ -357,6 +575,11 @@ msgstr "Тестирование"
 msgid "Finishing"
 msgstr "Завершение"
 
+#: .\solutions\templates\solutions\ilist.html:7
+#: .\solutions\templates\solutions\solution_list.html:9
+msgid "List of Solutions"
+msgstr "Список решений"
+
 #: .\solutions\templates\solutions\judgement.html:8
 msgid "Judgement"
 msgstr "Запуск"
@@ -406,32 +629,24 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\solution_list.html:9
-msgid "List of Solutions"
-msgstr "Список решений"
-
-#: .\solutions\templates\solutions\timelimitbox.html:3
-msgid "Time limit"
-msgstr "Ограничение по времени"
-
 #: .\solutions\templates\solutions\timelimitbox.html:3
 #: .\solutions\templates\solutions\timelimitbox.html:5
 msgid "s"
 msgstr "с"
 
-#: .\templates\base.html:56
+#: .\templates\base.html:57
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:59
+#: .\templates\base.html:60
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:65
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:95
+#: .\templates\base.html:96
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 

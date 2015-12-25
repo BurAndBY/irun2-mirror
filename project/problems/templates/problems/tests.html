@@ -1,12 +1,29 @@
-{% extends "base.html" %}
+{% extends 'problems/base.html' %}
 
-{% block content %}
-<h1>Problem {{problem.id}} Tests</h1>
+{% load i18n %}
 
-
-
-<p>Full name: {{problem.full_name}}</p>
-
-<a class="btn btn-default" href="{% url 'problems:edit' problem.id %}" role="button">Add Test</a>
-
+{% block main %}
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>{% trans '#' %}</th>
+            <th>{% trans 'Time limit' %}</th>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for tc in test_cases %}
+        <tr>
+            <td>{{ tc.id }}</td>
+            <td>{{ tc.ordinal_number }}</td>
+            <td>{{ tc.time_limit }}</td>
+            <td>{{ tc.input_file }} {{ tc.input_size|filesizeformat }}</td>
+            <td>{{ tc.answer_file }} {{ tc.answer_size|filesizeformat }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</th>
+</table>
 {% endblock %}

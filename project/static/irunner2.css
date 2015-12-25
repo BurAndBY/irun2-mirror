@@ -437,3 +437,25 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-assignment select.form-control {
     height: 28px;
 }
+
+
+/*
+Yellow menu
+*/
+.ir-list-group-item-warning.active,
+.ir-list-group-item-warning.active:hover,
+.ir-list-group-item-warning.active:focus {
+  text-shadow: 0 -1px 0 #c78f41;
+  background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #c78f41 100%);
+  background-image:      -o-linear-gradient(top, #f0ad4e 0%, #c78f41 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f0ad4e), to(#c78f41));
+  background-image:         linear-gradient(to bottom, #f0ad4e 0%, #c78f41 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2b669a', GradientType=0);
+  background-repeat: repeat-x;
+  border-color: #c78f41;
+}
+
+
+.ir-huge {
+    font-size: 40px;
+}

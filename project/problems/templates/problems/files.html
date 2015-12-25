@@ -1,0 +1,27 @@
+{% extends 'problems/base.html' %}
+
+{% load i18n %}
+
+{% block main %}
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans 'File' %}</th>
+            <th>{% trans 'Type' %}</th>
+            <th>{% trans 'Description' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for f in related_files %}
+        <tr>
+            <td>{{f.name}}</td>
+            <td>{{f.get_file_type_display}}</td>
+            <td>{{f.description}}</td>
+            <td><a href="{% url 'storage:show' f.resource_id %}">Open</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</th>
+</table>
+{% endblock %}
