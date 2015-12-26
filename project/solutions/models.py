@@ -77,8 +77,6 @@ class Judgement(models.Model):
     solution = models.ForeignKey(Solution)
     rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL, default=None)
 
-    compilation_log = ResourceIdField()
-
     status = models.IntegerField(default=WAITING, choices=STATUS_CHOICES)
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
     test_number = models.IntegerField(default=0)
@@ -97,6 +95,18 @@ class Judgement(models.Model):
             if self.test_number != 0:
                 result += ' ({0})'.format(self.test_number)
         return result
+
+
+class JudgementLog(models.Model):
+    COMPILATION = 0
+
+    LOG_KIND_CHOICES = (
+        (COMPILATION, _('Compilation log')),
+    )
+
+    judgement = models.ForeignKey(Judgement)
+    resource_id = ResourceIdField()
+    kind = models.IntegerField(default=COMPILATION, choices=LOG_KIND_CHOICES)
 
 
 class TestCaseResult(models.Model):
