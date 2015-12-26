@@ -23,6 +23,7 @@ from .texrenderer import TeXRenderer
 
 from .statement import StatementRepresentation
 import storage.utils as fsutils
+from common.views import IRunnerBaseListView
 
 
 # Create your views here.
@@ -213,13 +214,18 @@ class ProblemOverviewView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
-class ProblemSolutionsView(BaseProblemView):
+class ProblemSolutionsView(BaseProblemView, IRunnerBaseListView):
     tab = 'solutions'
     template_name = 'problems/solutions.html'
+    paginate_by = 12
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
-        context = self._make_context(problem)
+
+        solutions = problem.solution_set.prefetch_related('compiler').select_related('best_judgement')
+        self.object_list = solutions
+
+        context = self.get_context_data(**self._make_context(problem))
         return render(request, self.template_name, context)
 
 

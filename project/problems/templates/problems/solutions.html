@@ -1,9 +1,14 @@
 {% extends 'problems/base.html' %}
 
 {% load i18n %}
+{% load proglang_extras %}
+{% load solution_extras %}
+{% load irunnerpagination %} 
 
 {% block main %}
-<table class="table ir-table-more-condensed table-striped">
+
+{% irunnerpagination pagination_context %}
+<table class="table table-condensed table-striped">
     <thead>
         <tr>
             <th>ID</th>
@@ -14,6 +19,18 @@
         </tr>
     </thead>
     <tbody>
+        {% for solution in object_list %}
+        <tr>
+            <td>{{ solution.id }}</td>
+            <td>Anonymous</td>
+            <td>2015</td>
+            <td>{% langbox solution.compiler %} <small><tt>{{solution.filename}}</tt></small></td>
+            <td>
+                {% judgementbox solution.best_judgement %}
+                {% if solution.best_judgement %}{{ solution.best_judgement.show_status }}{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}

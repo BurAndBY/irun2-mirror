@@ -466,6 +466,7 @@ Yellow menu
 
 .ir-pagination {
     margin-bottom: 10px;
+    margin-top: 0;
 }
 .ir-pagination > li > span,
 .ir-pagination > li > a {

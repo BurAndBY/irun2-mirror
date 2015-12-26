@@ -4,10 +4,11 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 from problems.models import Problem, ProblemFolder
 from django import forms
-from django.views import generic
 from django.http import Http404
 from django.core.paginator import Paginator
 from collections import namedtuple
+
+import django.views.generic.list
 
 
 def home(request):
@@ -48,7 +49,7 @@ class IRunnerPaginationContext(object):
         self.page_size_constants = []
 
 
-class IRunnerPaginatedList(generic.ListView):
+class IRunnerBaseListView(django.views.generic.list.BaseListView):
     page_size_constants = [7, 12, 25, 50, 100]
     size_kwarg = 'size'
 
@@ -136,7 +137,7 @@ class IRunnerPaginatedList(generic.ListView):
             return paginator.per_page
 
     def get_context_data(self, **kwargs):
-        context = super(IRunnerPaginatedList, self).get_context_data(**kwargs)
+        context = super(IRunnerBaseListView, self).get_context_data(**kwargs)
 
         pc = IRunnerPaginationContext()
 
@@ -152,3 +153,7 @@ class IRunnerPaginatedList(generic.ListView):
 
         context['pagination_context'] = pc
         return context
+
+
+class IRunnerListView(django.views.generic.list.MultipleObjectTemplateResponseMixin, IRunnerBaseListView):
+    pass
