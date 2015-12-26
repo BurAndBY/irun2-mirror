@@ -29,19 +29,21 @@ def _get_style(outcome, code):
 
 
 @register.inclusion_tag('solutions/extras.html')
-def judgementbox(judgement):
+def judgementbox(judgement, header=False):
     if judgement is not None and judgement.status == Judgement.DONE:
         code = TWO_LETTER_CODES.get(judgement.outcome)
         return {
             'code': code,
             'style': _get_style(judgement.outcome, code),
-            'test_no': judgement.test_number
+            'test_no': judgement.test_number,
+            'header': header
         }
     else:
         return {
             'code': '…' if judgement is not None else '—',
             'style': '',
-            'test_no': 0
+            'test_no': 0,
+            'header': header
         }
 
 

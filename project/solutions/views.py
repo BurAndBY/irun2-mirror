@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views import generic
-from django.views.generic import View
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
@@ -17,11 +16,13 @@ from .tables import SolutionTable
 from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
+from storage.utils import serve_resource
 
 from common.views import IRunnerListView
+from proglangs.utils import get_highlightjs_class
 
 
-class AdHocView(View):
+class AdHocView(generic.View):
     template_name = 'solutions/ad_hoc.html'
 
     def get(self, request, *args, **kwargs):
@@ -86,7 +87,7 @@ def show_judgement(request, judgement_id):
     })
 
 
-class CreateRejudgeView(View):
+class CreateRejudgeView(generic.View):
     def get(self, request, *args, **kwargs):
         ids = request.GET.getlist('id')
         return render(request, 'solutions/confirm_multiple.html', {'ids': ids})
@@ -104,7 +105,7 @@ class CreateRejudgeView(View):
 RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
 
 
-class RejudgeView(View):
+class RejudgeView(generic.View):
     def get(self, request, rejudge_id):
         rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
         object_list = []
@@ -138,3 +139,39 @@ def ilist(request):
     #return render(request, "solutions/ilist.html", {'table': table})
     return render_to_response("solutions/ilist.html", {"table": table},
                               context_instance=RequestContext(request))
+
+
+class SolutionSourceView(generic.View):
+    def get(self, request, solution_id):
+        solution = get_object_or_404(Solution, pk=solution_id)
+
+        storage = create_storage()
+        representation = storage.represent(solution.resource_id)
+
+        return render(request, 'solutions/solution_source.html', {
+            'solution': solution,
+            'language': get_highlightjs_class(solution.compiler.language),
+            'source_repr': representation
+        })
+
+
+class SolutionTestsView(generic.View):
+    def get(self, request, solution_id):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        test_results = solution.best_judgement.testcaseresult_set.all()
+        return render(request, 'solutions/solution_tests.html', {
+            'solution': solution,
+            'test_results': test_results,
+        })
+
+
+class SolutionSourceOpenView(generic.View):
+    def get(self, request, solution_id, filename):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        return serve_resource(request, solution.resource_id, 'text/plain')
+
+
+class SolutionSourceDownloadView(generic.View):
+    def get(self, request, solution_id, filename):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        return serve_resource(request, solution.resource_id, 'application/octet-stream')

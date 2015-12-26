@@ -1,0 +1,34 @@
+{% extends "solutions/solution.html" %}
+
+{% load i18n %}
+{% load solution_extras %}
+{% load proglang_extras %}
+{% load limitboxes %}
+{% load resource_extras %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block head %}
+
+{% if language %}
+    <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
+{% endif %}
+
+{% endblock %}
+
+{% block main %}
+
+<p>
+    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.filename %}" role="button">{% bootstrap_icon 'folder-open' %} {% trans 'Open' %}</a>
+    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.filename %}" role="button">{% bootstrap_icon 'save' %} {% trans 'Download' %}</a>
+</p>
+
+{% show_resource source_repr language %} 
+
+{% if language %}
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endif %}
+
+{% endblock %}

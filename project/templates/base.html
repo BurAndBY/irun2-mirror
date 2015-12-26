@@ -12,6 +12,7 @@
         <link href="{% static 'fancytree-2.13.0/skin-win8/ui.fancytree.min.css' %}" rel="stylesheet">
         <link href="{% static 'irunner2.css' %}" rel="stylesheet">
         <link href="{% static 'DataTables-1.10.10/media/css/dataTables.bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'Highlight.js/styles/default.css' %}" rel="stylesheet">
         <script src="{% static 'jquery/jquery-1.11.3.min.js' %}"></script>
         <script src="{% static 'jquery-ui-1.11.4.custom/jquery-ui.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
@@ -21,9 +22,10 @@
         <script src="{% static 'mindmup-editabletable.js' %}"></script>
         <script src="{% static 'irunner2.js' %}"></script>
         <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
+        {% block head %}
+        {% endblock %}
     </head>
     <body>
-
         <nav class="navbar navbar-default">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
