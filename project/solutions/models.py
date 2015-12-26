@@ -3,6 +3,7 @@ from storage.storage import ResourceIdField
 from proglangs.models import Compiler
 from problems.models import Problem, TestCase
 from django.utils.translation import ugettext_lazy as _
+from storage.models import FileMetadata
 
 
 class AdHocRun(models.Model):
@@ -18,8 +19,7 @@ class Solution(models.Model):
     problem = models.ForeignKey(Problem, null=True, on_delete=models.SET_NULL)
     ad_hoc_run = models.ForeignKey(AdHocRun, null=True, on_delete=models.SET_NULL)
 
-    filename = models.CharField(max_length=256, blank=True)
-    resource_id = ResourceIdField()
+    source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')

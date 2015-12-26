@@ -16,10 +16,11 @@ from .tables import SolutionTable
 from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
-from storage.utils import serve_resource
+from storage.utils import serve_resource, serve_resource_metadata
 
 from common.views import IRunnerListView
 from proglangs.utils import get_highlightjs_class
+from django.http import Http404
 
 
 class AdHocView(generic.View):
@@ -146,7 +147,7 @@ class SolutionSourceView(generic.View):
         solution = get_object_or_404(Solution, pk=solution_id)
 
         storage = create_storage()
-        representation = storage.represent(solution.resource_id)
+        representation = storage.represent(solution.source_code.resource_id)
 
         return render(request, 'solutions/solution_source.html', {
             'solution': solution,
@@ -168,10 +169,16 @@ class SolutionTestsView(generic.View):
 class SolutionSourceOpenView(generic.View):
     def get(self, request, solution_id, filename):
         solution = get_object_or_404(Solution, pk=solution_id)
-        return serve_resource(request, solution.resource_id, 'text/plain')
+        if filename != solution.source_code.filename:
+            raise Http404()
+
+        return serve_resource(request, solution.source_code.resource_id, 'text/plain')
 
 
 class SolutionSourceDownloadView(generic.View):
     def get(self, request, solution_id, filename):
         solution = get_object_or_404(Solution, pk=solution_id)
-        return serve_resource(request, solution.resource_id, 'application/octet-stream')
+        if filename != solution.source_code.filename:
+            raise Http404()
+
+        return serve_resource_metadata(request, solution.source_code, force_download=True)

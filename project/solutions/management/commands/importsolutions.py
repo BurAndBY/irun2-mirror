@@ -8,6 +8,7 @@ from common.memory_string import parse_memory
 from solutions.models import Solution, Judgement, Outcome, TestCaseResult
 from problems.models import Problem
 from storage.storage import create_storage
+from storage.models import FileMetadata
 
 import logging
 
@@ -129,15 +130,21 @@ class Command(BaseCommand):
             if file_fetched is None:
                 logger.warning('Unable to fetch source code for solution %d', solution_id)
                 continue
-            filename, resource_id = file_fetched
+            filename, size, resource_id = file_fetched
 
             status, outcome, number = _unpack_state(irunner_state)
 
             with transaction.atomic():
+                metadata = FileMetadata(
+                    filename=filename,
+                    size=size,
+                    resource_id=resource_id,
+                )
+                metadata.save()
+
                 solution, _ = Solution.objects.update_or_create(id=solution_id, defaults={
                     'problem_id': problem_id,
-                    'filename': filename,
-                    'resource_id': resource_id,
+                    'source_code': metadata,
                     'compiler_id': compiler_id,
                 })
 

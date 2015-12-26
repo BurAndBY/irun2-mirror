@@ -19,4 +19,13 @@ class Migration(migrations.Migration):
                 ('resource_id', storage.storage.ResourceIdField()),
             ],
         ),
+        migrations.CreateModel(
+            name='FileMetadata',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('filename', models.CharField(max_length=255)),
+                ('size', models.IntegerField()),
+                ('resource_id', storage.storage.ResourceIdField()),
+            ],
+        ),
     ]

@@ -19,5 +19,8 @@ class Migration(migrations.Migration):
                 ('description', models.CharField(max_length=255, blank=True)),
                 ('legacy', models.BooleanField(default=False)),
             ],
+            options={
+                'ordering': ['description'],
+            },
         ),
     ]

@@ -19,8 +19,8 @@
 {% block main %}
 
 <p>
-    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.filename %}" role="button">{% bootstrap_icon 'folder-open' %} {% trans 'Open' %}</a>
-    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.filename %}" role="button">{% bootstrap_icon 'save' %} {% trans 'Download' %}</a>
+    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'folder-open' %} {% trans 'Open' %}</a>
+    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'save' %} {% trans 'Download' %}</a>
 </p>
 
 {% show_resource source_repr language %} 

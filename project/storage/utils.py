@@ -24,7 +24,7 @@ def store_with_metadata(f):
     return FileMetadata.objects.create(filename=f.name, size=f.size, resource_id=resource_id)
 
 
-def serve_resource(request, resource_id, content_type=None):
+def serve_resource(request, resource_id, content_type=None, force_download=False):
     '''
     Fulfils HTTP GET request serving a file.
     '''
@@ -41,16 +41,18 @@ def serve_resource(request, resource_id, content_type=None):
         response['Content-Length'] = data.size
         # No cross-browser way to put non-ASCII file name.
         # response['Content-Disposition'] = 'inline; filename="{0}"'.format(filename)
+        if force_download:
+            response['Content-Disposition'] = 'attachment'
         return response
 
     return do_actually_serve(request)
 
 
-def serve_resource_metadata(request, metadata):
+def serve_resource_metadata(request, metadata, force_download=False):
     if metadata is None:
         raise Http404()
 
     # guess MIME type from file extension
     mime_type, _ = mimetypes.guess_type(metadata.filename)
 
-    return serve_resource(request, metadata.resource_id, content_type=mime_type)
+    return serve_resource(request, metadata.resource_id, content_type=mime_type, force_download=force_download)

@@ -24,7 +24,10 @@
             <td>{{ solution.id }}</td>
             <td>Anonymous</td>
             <td>2015</td>
-            <td>{% langbox solution.compiler %} <small><tt><a href="{% url 'solutions:source' solution.id %}">{{solution.filename}}</a></tt></small></td>
+            <td>
+                {% langbox solution.compiler %}
+                <small><tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt></small>
+            </td>
             <td>
                 {% judgementbox solution.best_judgement %}
                 {% if solution.best_judgement %} <small><a href="{% url 'solutions:tests' solution.id %}">{{ solution.best_judgement.show_status }}</a></small>{% endif %}

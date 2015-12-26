@@ -24,7 +24,7 @@
 		{% for solution in object_list %}
 		<tr>
 			<td><a href="{% url 'problems:overview' solution.id %}">{{solution.id}}</a></td>
-			<td><tt>{{solution.filename}}</tt></td>
+			<td><tt>{{solution.source_code.filename}}</tt></td>
 			<td>{% langbox solution.compiler %}</td>
 			<td>{% judgementbox solution.best_judgement %}</td>
 			<td>{% if solution.best_judgement %}{{ solution.best_judgement.show_status }}{% endif %}</td>

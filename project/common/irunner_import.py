@@ -21,7 +21,8 @@ def fetch_irunner_file(db, file_id, storage):
 
     for row in cur:
         filename = row[0]
+        size = len(row[1])
         resource_id = storage.save(ContentFile(row[1]))
-        return (filename, resource_id)
+        return (filename, size, resource_id)
 
     return None
