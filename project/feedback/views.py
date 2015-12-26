@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
 import storage.utils as fsutils
+from common.views import IRunnerPaginatedList
 
 import forms
 import models
@@ -51,10 +52,10 @@ class FeedbackThanksView(generic.View):
         return render(request, 'feedback/thanks.html', {})
 
 
-class ListFeedbackView(generic.ListView):
+class ListFeedbackView(IRunnerPaginatedList):
     model = models.FeedbackMessage
     template_name = 'feedback/list.html'
-    paginate_by = 10
+    paginate_by = 7
 
     def get_queryset(self):
         return ListFeedbackView.model.objects.order_by('-when')

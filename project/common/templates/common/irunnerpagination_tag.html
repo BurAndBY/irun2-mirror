@@ -1,0 +1,84 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+<nav>
+    <ul class="pagination pagination-sm ir-pagination">
+        {% if ctxt.page_obj and ctxt.page_obj.has_previous %}
+            <li>
+                <a href="?page=1{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                    {% bootstrap_icon 'fast-backward' %}
+                </a>
+            </li>
+            <li>
+                <a href="?page={{ ctxt.page_obj.previous_page_number }}{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                    {% bootstrap_icon 'step-backward' %}
+                </a>
+            </li>
+        {% else %}
+            <li>
+                <span>
+                    {% bootstrap_icon 'fast-backward' %}
+                </span>
+            </li>
+            <li>
+                <span>
+                    {% bootstrap_icon 'step-backward' %}
+                </span>
+            </li>
+        {% endif %}
+
+        {% if ctxt.object_count > 0 %}
+        <li>
+            <span class="ir-info">
+                {% if ctxt.page_obj %}
+                    {% trans 'Page' %} {{ ctxt.page_obj.number }}: {{ ctxt.page_obj.start_index }}–{{ ctxt.page_obj.end_index }} {% trans 'of' %} {{ ctxt.object_count }}
+                {% else %}
+                    1–{{ ctxt.object_count }}
+                {% endif %}
+            </span>
+        </li>
+        {% endif %}
+
+        {% if ctxt.page_obj and ctxt.page_obj.has_next %}
+        <li>
+            <a href="?page={{ ctxt.page_obj.next_page_number }}{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                {% bootstrap_icon 'step-forward' %}
+            </a>
+        </li>
+        <li>
+            <a href="?page=last{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                {% bootstrap_icon 'fast-forward' %}
+            </a>
+        </li>
+        {% else %}
+            <li>
+                <span>
+                    {% bootstrap_icon 'step-forward' %}
+                </span>
+            </li>
+            <li>
+                <span>
+                    {% bootstrap_icon 'fast-forward' %}
+                </span>
+            </li>
+        {% endif %}
+    </ul>
+    <ul class="pagination pagination-sm ir-pagination pull-right">
+        {% for size in ctxt.page_size_constants %}
+            <li>
+                {% if ctxt.per_page_count == size %}
+                    <span class="ir-selected">{{ size }}</span>
+                {% else %}
+                    <a href="?size={{ size }}{{ ctxt.query_params_other }}">{{ size }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+        <li>
+            {% if ctxt.per_page_count == 0 %}
+                <span class="ir-selected">{% trans 'All' %}</span>
+            {% else %}
+                <a href="?size=0{{ ctxt.query_params_other }}">{% trans 'All' %}</a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>

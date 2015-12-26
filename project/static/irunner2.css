@@ -459,3 +459,37 @@ Yellow menu
 .ir-huge {
     font-size: 40px;
 }
+
+.ir-no-margin {
+    margin: 0;
+}
+
+.ir-pagination {
+    margin-bottom: 10px;
+}
+.ir-pagination > li > span,
+.ir-pagination > li > a {
+    padding: 4px 8px;
+}
+.ir-pagination > li > span,
+.ir-pagination > li > span:hover,
+.ir-pagination > li > span:focus {
+    color: #ddd;
+    background-color: #fff;
+}
+.ir-pagination > li > a,
+.ir-pagination > li > a:hover,
+.ir-pagination > li > a:focus {
+    color: #000;
+}
+.ir-pagination > li > span.ir-selected,
+.ir-pagination > li > span.ir-selected:hover,
+.ir-pagination > li > span.ir-selected:focus {
+    color: black;
+    font-weight: bold;
+}
+.ir-pagination > li > span.ir-info,
+.ir-pagination > li > span.ir-info:hover,
+.ir-pagination > li > span.ir-info:focus {
+    color: #333;
+}
