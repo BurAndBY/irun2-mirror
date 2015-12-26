@@ -18,6 +18,7 @@ from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
 
+from common.views import IRunnerPaginatedList
 
 class AdHocView(View):
     template_name = 'solutions/ad_hoc.html'
@@ -67,9 +68,11 @@ class AdHocView(View):
         return render(request, self.template_name, {'form': form, 'judgement_id': judgement_id})
 
 
-class SolutionListView(generic.ListView):
+class SolutionListView(IRunnerPaginatedList):
+    paginate_by = 25
+
     def get_queryset(self):
-        return Solution.objects.all().prefetch_related('compiler').select_related('best_judgement')
+        return Solution.objects.prefetch_related('compiler').select_related('best_judgement')
 
 
 def show_judgement(request, judgement_id):
