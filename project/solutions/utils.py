@@ -1,0 +1,29 @@
+from django.core.files.base import ContentFile
+
+from solutions.models import Solution, Judgement
+import storage.utils
+import proglangs.utils
+
+
+def new_solution(compiler, text, upload, problem=None):
+    '''
+    Returns new Solution object.
+    '''
+    if upload is None:
+        # real file is not uploaded, we use text
+        filename = proglangs.utils.guess_filename(compiler.language, text)
+        upload = ContentFile(text.encode('utf-8'), name=filename)
+
+    source_code = storage.utils.store_with_metadata(upload)
+    solution = Solution(source_code=source_code, compiler=compiler, problem=problem)
+    solution.save()
+    return solution
+
+
+def judge(solution, rejudge=None):
+    judgement = Judgement(solution=solution, rejudge=rejudge)
+    judgement.save()
+
+    if solution.best_judgement is None:
+        solution.best_judgement = judgement
+        solution.save()

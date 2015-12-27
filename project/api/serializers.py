@@ -47,8 +47,8 @@ class OutcomeField(serializers.Field):
 
 class SolutionSerializer(serializers.Serializer):
     compiler = serializers.CharField(read_only=True, source='compiler.handle')
-    resource_id = ResourceIdField(read_only=True)
-    filename = serializers.CharField(read_only=True)
+    resource_id = ResourceIdField(read_only=True, source='source_code.resource_id')
+    filename = serializers.CharField(read_only=True, source='source_code.filename')
 
 
 class WorkerFileSerializer(serializers.Serializer):

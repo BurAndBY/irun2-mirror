@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-26 23:51+0300\n"
-"PO-Revision-Date: 2015-12-26 23:54+0300\n"
+"POT-Creation-Date: 2015-12-27 12:12+0300\n"
+"PO-Revision-Date: 2015-12-27 12:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -117,7 +117,7 @@ msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
 #: .\courses\forms.py:57 .\problems\templates\problems\sidebar.html:7
-#: .\solutions\templates\solutions\solution.html:25
+#: .\solutions\templates\solutions\solution.html:23
 msgid "Problem"
 msgstr "Задача"
 
@@ -255,6 +255,7 @@ msgstr "Создать новую тему"
 #: .\courses\templates\courses\standings.html:9
 #: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\judgement.html:24
+#: .\solutions\templates\solutions\solution_tests.html:13
 #: .\users\templates\users\mass_confirm.html:14
 msgid "#"
 msgstr "№"
@@ -506,7 +507,7 @@ msgid "Author"
 msgstr "Автор"
 
 #: .\problems\templates\problems\solutions.html:16
-#: .\solutions\templates\solutions\solution.html:29
+#: .\solutions\templates\solutions\solution.html:27
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -518,6 +519,22 @@ msgstr "Статус"
 #: .\solutions\templates\solutions\timelimitbox.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
+
+#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:33
+msgid "Compiler"
+msgstr "Компилятор"
+
+#: .\solutions\forms.py:19
+msgid "Enter source code"
+msgstr "Введите исходный код"
+
+#: .\solutions\forms.py:25
+msgid "... or upload a file"
+msgstr "... или загрузите файл"
+
+#: .\solutions\forms.py:29
+msgid "If you select a file, text field content is ignored."
+msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
 #: .\solutions\models.py:42
 msgid "N/A"
@@ -587,6 +604,10 @@ msgstr "Тестирование"
 msgid "Finishing"
 msgstr "Завершение"
 
+#: .\solutions\models.py:104
+msgid "Compilation log"
+msgstr "Журнал компиляции"
+
 #: .\solutions\templates\solutions\ilist.html:7
 #: .\solutions\templates\solutions\solution_list.html:9
 msgid "List of Solutions"
@@ -597,26 +618,32 @@ msgid "Judgement"
 msgstr "Запуск"
 
 #: .\solutions\templates\solutions\judgement.html:25
+#: .\solutions\templates\solutions\solution_tests.html:14
 msgid "Outcome"
 msgstr "Вердикт"
 
 #: .\solutions\templates\solutions\judgement.html:26
+#: .\solutions\templates\solutions\solution_tests.html:15
 msgid "Score"
 msgstr "Очки"
 
 #: .\solutions\templates\solutions\judgement.html:27
+#: .\solutions\templates\solutions\solution_tests.html:16
 msgid "Time"
 msgstr "Время"
 
 #: .\solutions\templates\solutions\judgement.html:28
+#: .\solutions\templates\solutions\solution_tests.html:17
 msgid "Memory"
 msgstr "Память"
 
 #: .\solutions\templates\solutions\judgement.html:29
+#: .\solutions\templates\solutions\solution_tests.html:18
 msgid "Exit Code"
 msgstr "Код выхода"
 
 #: .\solutions\templates\solutions\judgement.html:30
+#: .\solutions\templates\solutions\solution_tests.html:19
 msgid "Checker Message"
 msgstr "Сообщение чекера"
 
@@ -641,23 +668,19 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\solution.html:20
+#: .\solutions\templates\solutions\solution.html:18
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\solution.html:32
+#: .\solutions\templates\solutions\solution.html:30
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:35
-msgid "Compiler"
-msgstr "Компилятор"
-
-#: .\solutions\templates\solutions\solution.html:40
+#: .\solutions\templates\solutions\solution_source.html:22
 msgid "Open"
 msgstr "Открыть"
 
-#: .\solutions\templates\solutions\solution.html:41
+#: .\solutions\templates\solutions\solution_source.html:23
 msgid "Download"
 msgstr "Загрузить"
 

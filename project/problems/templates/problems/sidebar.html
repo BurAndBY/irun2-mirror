@@ -22,7 +22,7 @@
         {% bootstrap_icon 'paperclip' %} 
         {% trans 'Files' %} 
     </a>
-    <a href="{% url 'problems:solutions' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'submit' %} active{% endif %}">
+    <a href="{% url 'problems:submit' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'submit' %} active{% endif %}">
         {% bootstrap_icon 'send' %} 
         {% trans 'Submit solution' %} 
     </a>

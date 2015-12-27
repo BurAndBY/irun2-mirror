@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from storage.storage import create_storage
 from django.http import StreamingHttpResponse
 from django.utils.translation import ugettext as _
+from django.db import transaction
 
 import json
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -16,6 +17,8 @@ from mptt.templatetags.mptt_tags import cache_tree_children
 
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .forms import ProblemForm
+from solutions.forms import SolutionForm
+
 from .filters import ProblemFilter
 import mimetypes
 
@@ -24,6 +27,7 @@ from .texrenderer import TeXRenderer
 from .statement import StatementRepresentation
 import storage.utils as fsutils
 from common.views import IRunnerBaseListView
+import solutions.utils
 
 
 # Create your views here.
@@ -295,4 +299,35 @@ class ProblemFilesView(BaseProblemView):
         related_files = problem.problemrelatedfile_set.all()
 
         context = self._make_context(problem, {'related_files': related_files})
+        return render(request, self.template_name, context)
+
+
+class ProblemSubmitView(BaseProblemView):
+    tab = 'submit'
+    template_name = 'problems/submit.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = SolutionForm()
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = SolutionForm(request.POST, request.FILES)
+        if form.is_valid():
+            with transaction.atomic():
+                solution = solutions.utils.new_solution(
+                    form.cleaned_data['compiler'],
+                    form.cleaned_data['text'],
+                    form.cleaned_data['upload'],
+                    problem=problem
+                )
+                solutions.utils.judge(solution)
+
+            return redirect('problems:solutions', problem.id)
+
+        context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)

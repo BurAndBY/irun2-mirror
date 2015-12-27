@@ -140,6 +140,10 @@ REST_FRAMEWORK = {
     )
 }
 
+BOOTSTRAP3 = {
+    'set_placeholder': False
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
