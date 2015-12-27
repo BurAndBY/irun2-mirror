@@ -23,7 +23,7 @@
         <tr>
             <td>{{ solution.id }}</td>
             <td>Anonymous</td>
-            <td>2015</td>
+            <td>{{ solution.reception_time }}</td>
             <td>
                 {% langbox solution.compiler %}
                 <small><tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt></small>

@@ -88,6 +88,11 @@ class TestCaseResultSerializer(serializers.Serializer):
     score = serializers.IntegerField(min_value=0, default=0)
     max_score = serializers.IntegerField(min_value=0, default=0)
     checker_message = serializers.CharField(allow_blank=True, default='')
+    input_resource_id = ResourceIdField(allow_null=True)
+    output_resource_id = ResourceIdField(allow_null=True)
+    answer_resource_id = ResourceIdField(allow_null=True)
+    stdout_resource_id = ResourceIdField(allow_null=True)
+    stderr_resource_id = ResourceIdField(allow_null=True)
 
     def create(self, validated_data):
         return TestCaseResult(**validated_data)

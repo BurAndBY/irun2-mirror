@@ -1,4 +1,5 @@
 from django.core.files.base import ContentFile
+from django.utils import timezone
 
 from solutions.models import Solution, Judgement
 import storage.utils
@@ -15,7 +16,7 @@ def new_solution(compiler, text, upload, problem=None):
         upload = ContentFile(text.encode('utf-8'), name=filename)
 
     source_code = storage.utils.store_with_metadata(upload)
-    solution = Solution(source_code=source_code, compiler=compiler, problem=problem)
+    solution = Solution(source_code=source_code, compiler=compiler, reception_time=timezone.now(), problem=problem)
     solution.save()
     return solution
 

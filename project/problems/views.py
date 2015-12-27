@@ -226,7 +226,7 @@ class ProblemSolutionsView(BaseProblemView, IRunnerBaseListView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        solutions = problem.solution_set.prefetch_related('compiler').select_related('source_code', 'best_judgement')
+        solutions = problem.solution_set.prefetch_related('compiler').select_related('source_code', 'best_judgement').order_by('-reception_time', 'id')
         self.object_list = solutions
 
         context = self.get_context_data(**self._make_context(problem))
