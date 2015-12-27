@@ -10,7 +10,7 @@ from django.db import transaction
 from django.template import RequestContext
 
 from .forms import AdHocForm
-from .models import AdHocRun, Solution, Judgement, Rejudge
+from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult
 from .actions import enqueue_new
 from .tables import SolutionTable
 from table.views import FeedDataView
@@ -182,3 +182,44 @@ class SolutionSourceDownloadView(generic.View):
             raise Http404()
 
         return serve_resource_metadata(request, solution.source_code, force_download=True)
+
+
+class SolutionTestCaseResultView(generic.View):
+    def get(self, request, solution_id, testcaseresult_id):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        if solution.best_judgement is None:
+            raise Http404('Solution is not judged')
+
+        testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
+
+        storage = create_storage()
+        context = {
+            'solution': solution,
+            'testcaseresult': testcaseresult,
+            'input_repr': storage.represent(testcaseresult.input_resource_id),
+            'output_repr': storage.represent(testcaseresult.output_resource_id),
+            'answer_repr': storage.represent(testcaseresult.answer_resource_id),
+            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id),
+            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id),
+        }
+
+        return render(request, 'solutions/testcaseresult.html', context)
+
+
+class SolutionTestCaseResultDataView(generic.View):
+    def get(self, request, solution_id, testcaseresult_id, mode):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        if solution.best_judgement is None:
+            raise Http404('Solution is not judged')
+
+        testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
+
+        resource_id = {
+            'input': testcaseresult.input_resource_id,
+            'output': testcaseresult.output_resource_id,
+            'answer': testcaseresult.answer_resource_id,
+            'stdout': testcaseresult.stdout_resource_id,
+            'stderr': testcaseresult.stderr_resource_id,
+        }.get(mode)
+
+        return serve_resource(request, resource_id, 'text/plain')

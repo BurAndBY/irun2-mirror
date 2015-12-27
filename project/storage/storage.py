@@ -258,6 +258,8 @@ class FileSystemStorage(IDataStorage):
             return self._do_save(f)
 
     def represent(self, resource_id):
+        if resource_id is None:
+            return None
         blob = _get_data_directly(resource_id)
         if blob is not None:
             return _represent(blob, len(blob))

@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^$', views.ilist),
     url(r'^(?P<solution_id>[0-9]+)/source/$', views.SolutionSourceView.as_view(), name='source'),
     url(r'^(?P<solution_id>[0-9]+)/tests/$', views.SolutionTestsView.as_view(), name='tests'),
+    url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.SolutionTestCaseResultView.as_view(), name='test_case_result'),
+    url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.SolutionTestCaseResultDataView.as_view(), name='test_data'),
     #url(r'^table/data/$', views.MyDataView.as_view(), name='table_data'),
 
     url(r'^(?P<solution_id>[0-9]+)/source/open/(?P<filename>.*)$', views.SolutionSourceOpenView.as_view(), name='source_open'),

@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load bootstrap3 %}
+{% load resource_extras %}
+
+{% if input_repr %}
+    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'input' %}">{% trans 'Input file' %}</a>
+    <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
+    {% show_resource input_repr %}
+{% endif %}
+
+{% if output_repr %}
+    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'output' %}">{% trans 'Output file' %}</a>
+    <span class="ir-file-size">[{{ output_repr.size|filesizeformat }}]</span>
+    {% show_resource output_repr %}
+{% endif %}
+
+{% if answer_repr %}
+    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'answer' %}">{% trans 'Answer file' %}</a>
+    <span class="ir-file-size">[{{ answer_repr.size|filesizeformat }}]</span>
+    {% show_resource answer_repr %}
+{% endif %}
+
+{% if stdout_repr %}
+    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'stdout' %}">{% trans 'Standard output (stdout)' %}</a>
+    <span class="ir-file-size">[{{ stdout_repr.size|filesizeformat }}]</span>
+    {% show_resource stdout_repr %}
+{% endif %}
+
+{% if stderr_repr %}
+    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'stderr' %}">{% trans 'Standard error (stderr)' %}</a>
+    <span class="ir-file-size">[{{ stderr_repr.size|filesizeformat }}]</span>
+    {% show_resource stderr_repr %}
+{% endif %}
+
+{% if not input_repr and not output_repr and not answer_repr and not stdout_repr and not stderr_repr %}
+<div class="ir-ajax-message">
+{% trans 'No data' %}
+</div>
+{% endif %}

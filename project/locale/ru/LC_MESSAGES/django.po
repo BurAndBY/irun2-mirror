@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-27 12:12+0300\n"
-"PO-Revision-Date: 2015-12-27 12:14+0300\n"
+"POT-Creation-Date: 2015-12-27 22:09+0300\n"
+"PO-Revision-Date: 2015-12-27 22:11+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -337,6 +337,7 @@ msgid "Feedback Form"
 msgstr "Форма обратной связи"
 
 #: .\feedback\templates\feedback\new.html:12
+#: .\problems\templates\problems\submit.html:11
 msgid "Send"
 msgstr "Отправить"
 
@@ -536,75 +537,75 @@ msgstr "... или загрузите файл"
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
-#: .\solutions\models.py:42
+#: .\solutions\models.py:43
 msgid "N/A"
 msgstr "N/A"
 
-#: .\solutions\models.py:43
+#: .\solutions\models.py:44
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\solutions\models.py:44
+#: .\solutions\models.py:45
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\solutions\models.py:45
+#: .\solutions\models.py:46
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\solutions\models.py:46
+#: .\solutions\models.py:47
 msgid "Time Limit Exceeded"
 msgstr "Превышен предел времени"
 
-#: .\solutions\models.py:47
+#: .\solutions\models.py:48
 msgid "Memory Limit Exceeded"
 msgstr "Превышен предел памяти"
 
-#: .\solutions\models.py:48
+#: .\solutions\models.py:49
 msgid "Idleness Limit Exceeded"
 msgstr "Превышен предел ожидания"
 
-#: .\solutions\models.py:49
+#: .\solutions\models.py:50
 msgid "Runtime Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\solutions\models.py:50
+#: .\solutions\models.py:51
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\solutions\models.py:51
+#: .\solutions\models.py:52
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\solutions\models.py:52
+#: .\solutions\models.py:53
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\models.py:69
+#: .\solutions\models.py:70
 msgid "Done"
 msgstr "Готово"
 
-#: .\solutions\models.py:70
+#: .\solutions\models.py:71
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\models.py:71
+#: .\solutions\models.py:72
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\models.py:72
+#: .\solutions\models.py:73
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\models.py:73
+#: .\solutions\models.py:74
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\models.py:74
+#: .\solutions\models.py:75
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\models.py:104
+#: .\solutions\models.py:105
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
@@ -683,6 +684,34 @@ msgstr "Открыть"
 #: .\solutions\templates\solutions\solution_source.html:23
 msgid "Download"
 msgstr "Загрузить"
+
+#: .\solutions\templates\solutions\solution_tests.html:57
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: .\solutions\templates\solutions\solution_tests.html:64
+msgid "Error while getting data from server."
+msgstr "Ошибка получения данных с сервера."
+
+#: .\solutions\templates\solutions\testcaseresult.html:6
+msgid "Input file"
+msgstr "Входной файл"
+
+#: .\solutions\templates\solutions\testcaseresult.html:12
+msgid "Output file"
+msgstr "Выходной файл"
+
+#: .\solutions\templates\solutions\testcaseresult.html:18
+msgid "Answer file"
+msgstr "Файл правильного ответа"
+
+#: .\solutions\templates\solutions\testcaseresult.html:24
+msgid "Standard output (stdout)"
+msgstr "Стандартный вывод (stdout)"
+
+#: .\solutions\templates\solutions\testcaseresult.html:30
+msgid "Standard error (stderr)"
+msgstr "Стандартный вывод ошибок (stderr)"
 
 #: .\solutions\templates\solutions\timelimitbox.html:3
 #: .\solutions\templates\solutions\timelimitbox.html:5
