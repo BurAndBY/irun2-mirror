@@ -99,15 +99,15 @@ class Judgement(models.Model):
 
 
 class JudgementLog(models.Model):
-    COMPILATION = 0
+    SOLUTION_COMPILATION = 0
 
     LOG_KIND_CHOICES = (
-        (COMPILATION, _('Compilation log')),
+        (SOLUTION_COMPILATION, _('Solution compilation log')),
     )
 
     judgement = models.ForeignKey(Judgement)
     resource_id = ResourceIdField()
-    kind = models.IntegerField(default=COMPILATION, choices=LOG_KIND_CHOICES)
+    kind = models.IntegerField(default=SOLUTION_COMPILATION, choices=LOG_KIND_CHOICES)
 
 
 class TestCaseResult(models.Model):
