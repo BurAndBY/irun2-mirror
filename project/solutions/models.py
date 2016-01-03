@@ -93,8 +93,8 @@ class Judgement(models.Model):
             result = self.get_status_display()
         else:
             result = self.get_outcome_display()
-            if self.test_number != 0:
-                result += ' ({0})'.format(self.test_number)
+        if self.test_number != 0:
+            result += ' ({0})'.format(self.test_number)
         return result
 
 

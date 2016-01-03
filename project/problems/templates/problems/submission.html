@@ -1,0 +1,54 @@
+{% extends 'problems/base.html' %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block main %}
+<div class="row" id="12345">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+                </div>
+                <p class="text-center">
+                    <a href="{% url 'solutions:main' solution_id %}" target="_blank">
+                        <strong><span>{% trans 'Loading...' %}</span></strong>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<script>
+function poll_12345() {
+    $.getJSON("{% url 'solutions:status_json' solution_id %}", function(data) {
+        var panel = $("#12345");
+        panel.find("span:first").text(data["text"]);
+        if (data["final"] === true) {
+            var pbar = panel.find(".progress-bar");
+            pbar.removeClass("active").removeClass("progress-bar-striped");
+            if (typeof data["ok"] !== "undefined") {
+                pbar.removeClass("progress-bar-info");
+                if (data["ok"] === false) {
+                    pbar.addClass("progress-bar-danger");
+                }
+                if (data["ok"] === true) {
+                    pbar.addClass("progress-bar-success");
+                }
+            }
+        } else {
+            setTimeout(poll_12345, 1000);
+        }
+    }).fail(function() {
+        $("#12345").find("span:first").text("{% trans 'Error while getting data from server.' %}");
+        setTimeout(poll_12345, 10000);
+    });
+}
+
+$(document).ready(function() { poll_12345(); });
+</script>
+{% endblock %}

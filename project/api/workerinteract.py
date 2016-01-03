@@ -1,9 +1,13 @@
+import threading
+
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from solutions.models import Judgement, JudgementLog, TestCaseResult
 
 from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase
+
+condvar = threading.Condition()
 
 
 def _make_problem(solution):
@@ -56,6 +60,11 @@ def _make_job(judgement):
     return job
 
 
+def notify():
+    with condvar:
+        condvar.notify()
+
+
 def get_testing_job():
     judgement = Judgement.objects.filter(status=Judgement.WAITING).first()
     if judgement is not None:
@@ -65,6 +74,23 @@ def get_testing_job():
             judgement = Judgement.objects.filter(id=judgement.id).first()
             return _make_job(judgement)
     return None
+
+
+def wait_for_testing_job():
+    job = None
+
+    NUM_ITERATIONS = 2
+
+    with condvar:
+        for x in range(NUM_ITERATIONS):
+            if x != 0:
+                condvar.wait(timeout=5.0)
+
+            job = get_testing_job()
+            if job is not None:
+                break
+
+    return job
 
 
 def put_testing_report(judgement_id, report):
@@ -90,3 +116,13 @@ def put_testing_report(judgement_id, report):
         for log in report.logs:
             log.judgement_id = judgement_id
         JudgementLog.objects.bulk_create(report.logs)
+
+
+def put_state(judgement_id, state):
+    with transaction.atomic():
+        rows_updated = Judgement.objects\
+            .filter(id=judgement_id)\
+            .exclude(status=Judgement.WAITING).exclude(status=Judgement.DONE)\
+            .update(status=state.status, test_number=state.test_number)
+
+        assert rows_updated in (0, 1)

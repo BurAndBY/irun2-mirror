@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
 from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 
 from .forms import AdHocForm
@@ -253,6 +254,24 @@ class SolutionMainView(BaseSolutionView):
             raise PermissionDenied()
 
         return cls().do_get(request, solution, permissions)
+
+
+class SolutionStatusJsonView(BaseSolutionView):
+    def do_get(self, request, solution, permissions):
+        judgement = solution.best_judgement
+        if judgement is not None:
+            data = {
+                'text': judgement.show_status(),
+                'final': judgement.status == Judgement.DONE
+            }
+            if judgement.status == Judgement.DONE:
+                data['ok'] = judgement.outcome == Outcome.ACCEPTED
+        else:
+            data = {
+                'text': 'N/A',
+                'final': False
+            }
+        return JsonResponse(data)
 
 
 class SolutionSourceOpenView(generic.View):

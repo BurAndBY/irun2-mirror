@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^fs/(?P<filename>[0-9a-f]*)$', views.FileView.as_view(), name='fs_status'),
     url(r'^jobs/take$', views.JobTakeView.as_view(), name='take_job'),
     url(r'^jobs/(?P<job_id>\d+)/result$', views.JobPutResult.as_view()),
+    url(r'^jobs/(?P<job_id>\d+)/state$', views.JobPutState.as_view()),
 ]

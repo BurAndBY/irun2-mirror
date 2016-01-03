@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^(?P<solution_id>[0-9]+)/source/$', views.SolutionSourceView.as_view(), name='source'),
     url(r'^(?P<solution_id>[0-9]+)/log/$', views.SolutionLogView.as_view(), name='log'),
     url(r'^(?P<solution_id>[0-9]+)/tests/$', views.SolutionTestsView.as_view(), name='tests'),
+    url(r'^(?P<solution_id>[0-9]+)/status/json/$', views.SolutionStatusJsonView.as_view(), name='status_json'),
 
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.SolutionTestCaseResultView.as_view(), name='test_case_result'),
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.SolutionTestCaseResultDataView.as_view(), name='test_data'),

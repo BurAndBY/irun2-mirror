@@ -38,3 +38,9 @@ class WorkerTestingReport(object):
         self.score = score
         self.max_score = max_score
         self.logs = logs
+
+
+class WorkerState(object):
+    def __init__(self, status, test_number):
+        self.status = status
+        self.test_number = test_number

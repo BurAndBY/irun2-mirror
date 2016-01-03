@@ -10,6 +10,7 @@ from storage.storage import create_storage
 from django.http import StreamingHttpResponse
 from django.utils.translation import ugettext as _
 from django.db import transaction
+from django.http import Http404
 
 import json
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -327,7 +328,20 @@ class ProblemSubmitView(BaseProblemView):
                 )
                 solutions.utils.judge(solution)
 
-            return redirect('problems:solutions', problem.id)
+            return redirect('problems:submission', problem.id, solution.id)
 
         context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+
+class ProblemSubmissionView(BaseProblemView):
+    tab = 'submit'
+    template_name = 'problems/submission.html'
+
+    def get(self, request, problem_id, solution_id):
+        problem = self._load(problem_id)
+        if problem.solution_set.filter(id=solution_id).count() == 0:
+            raise Http404()
+
+        context = self._make_context(problem, {'solution_id': solution_id})
         return render(request, self.template_name, context)

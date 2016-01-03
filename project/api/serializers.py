@@ -3,9 +3,9 @@ import six
 
 from rest_framework import serializers
 
-from solutions.models import Outcome, JudgementLog, TestCaseResult
+from solutions.models import Outcome, Judgement, JudgementLog, TestCaseResult
 from storage.storage import ResourceId
-from .workerstructs import WorkerTestingReport
+from .workerstructs import WorkerTestingReport, WorkerState
 
 
 def parse_resource_id(string):
@@ -43,6 +43,11 @@ class ResourceIdField(serializers.Field):
 class OutcomeField(serializers.Field):
     def to_internal_value(self, data):
         return _enum_from_string(Outcome, data)
+
+
+class StatusField(serializers.Field):
+    def to_internal_value(self, data):
+        return _enum_from_string(Judgement, data)
 
 
 class LogKindField(serializers.Field):
@@ -135,3 +140,11 @@ class WorkerTestingReportSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return WorkerTestingReport(**validated_data)
+
+
+class WorkerStateSerializer(serializers.Serializer):
+    status = StatusField()
+    test_number = serializers.IntegerField(min_value=0, default=0)
+
+    def create(self, validated_data):
+        return WorkerState(**validated_data)

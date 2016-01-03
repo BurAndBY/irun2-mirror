@@ -18,4 +18,5 @@ urlpatterns = [
 
     url(r'^(?P<problem_id>[0-9]+)/files/$', views.ProblemFilesView.as_view(), name='files'),
     url(r'^(?P<problem_id>[0-9]+)/submit/$', views.ProblemSubmitView.as_view(), name='submit'),
+    url(r'^(?P<problem_id>[0-9]+)/submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
 ]

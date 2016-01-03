@@ -4,6 +4,7 @@ from django.utils import timezone
 from solutions.models import Solution, Judgement
 import storage.utils
 import proglangs.utils
+from api.workerinteract import notify
 
 
 def new_solution(compiler, text, upload, problem=None):
@@ -24,6 +25,7 @@ def new_solution(compiler, text, upload, problem=None):
 def judge(solution, rejudge=None):
     judgement = Judgement(solution=solution, rejudge=rejudge)
     judgement.save()
+    notify()
 
     if solution.best_judgement is None:
         solution.best_judgement = judgement

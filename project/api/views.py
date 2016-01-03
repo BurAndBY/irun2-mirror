@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from storage.storage import create_storage
 
-from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, parse_resource_id
+from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, parse_resource_id
 import workerinteract
 
 #
@@ -78,8 +78,9 @@ class JobTakeView(APIView):
         return self.post(request, format)
 
     def post(self, request, format=None):
+        # job = workerinteract.get_testing_job()
+        job = workerinteract.wait_for_testing_job()
         print request.data
-        job = workerinteract.get_testing_job()
         if job is None:
             raise Http404('Nothing to test')
 
@@ -94,4 +95,14 @@ class JobPutResult(APIView):
         report = serializer.save()
 
         workerinteract.put_testing_report(job_id, report)
+        return Response(['ok'])
+
+
+class JobPutState(APIView):
+    def put(self, request, job_id, format=None):
+        serializer = WorkerStateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        state = serializer.save()
+
+        workerinteract.put_state(job_id, state)
         return Response(['ok'])
