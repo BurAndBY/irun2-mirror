@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from mptt.forms import TreeNodeChoiceField
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from problems.models import Problem, ProblemFolder
 from django import forms
@@ -157,3 +159,13 @@ class IRunnerBaseListView(django.views.generic.list.BaseListView):
 
 class IRunnerListView(django.views.generic.list.MultipleObjectTemplateResponseMixin, IRunnerBaseListView):
     pass
+
+
+def error403(request):
+    return render(request, 'common/error403.html', {})
+
+
+class LoginRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)

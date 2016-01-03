@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import uuid
+
 from django import template
 from solutions.models import Judgement, Outcome
+from solutions.permissions import SolutionPermissions
+
 
 register = template.Library()
 
@@ -57,3 +61,25 @@ def outcomebox(outcome):
             'style': _get_style(outcome, code)
         }
     return ctx
+
+
+@register.inclusion_tag('solutions/irunner_testresults_tag.html')
+def irunner_testresults(test_results, solution_permissions, url_pattern=None, first_placeholder=None):
+    '''
+    Displays a table with results per tests.
+    '''
+    if not isinstance(solution_permissions, SolutionPermissions):
+        raise TypeError('SolutionPermissions required')
+
+    uid = unicode(uuid.uuid1().hex)
+
+    enable_tests_data = solution_permissions.tests_data and url_pattern
+
+    return {
+        'test_results': test_results,
+        'solution_permissions': solution_permissions,
+        'url_pattern': url_pattern,
+        'first_placeholder': first_placeholder,
+        'uid': uid,
+        'enable_tests_data': enable_tests_data,
+    }

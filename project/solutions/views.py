@@ -8,11 +8,15 @@ from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
 from django.template import RequestContext
+from django.core.exceptions import PermissionDenied
+
 
 from .forms import AdHocForm
-from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult
+from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
 from .actions import enqueue_new
 from .tables import SolutionTable
+from .permissions import SolutionPermissions
+from common.views import LoginRequiredMixin
 from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
@@ -142,28 +146,113 @@ def ilist(request):
                               context_instance=RequestContext(request))
 
 
-class SolutionSourceView(generic.View):
-    def get(self, request, solution_id):
+class BaseSolutionView(LoginRequiredMixin, generic.View):
+    tab = None
+
+    def _load(self, request, solution_id):
         solution = get_object_or_404(Solution, pk=solution_id)
+        permissions = SolutionPermissions()
+        return solution, permissions
+
+    def _require(self, value):
+        if not value:
+            raise PermissionDenied()
+
+    def _make_context(self, solution, permissions, extra=None):
+        context = {
+            'solution': solution,
+            'solution_permissions': permissions,
+            'active_tab': self.tab,
+        }
+        if extra is not None:
+            context.update(extra)
+        return context
+
+    def get(self, request, solution_id, *args, **kwargs):
+        self.solution, self.permissions = self._load(request, solution_id)
+        result = self.do_get(request, self.solution, self.permissions, *args, **kwargs)
+        return result
+
+    def do_get(self, *args, **kwargs):
+        raise NotImplementedError()
+
+
+class SolutionSourceView(BaseSolutionView):
+    tab = 'source'
+    template_name = 'solutions/solution_source.html'
+
+    def do_get(self, request, solution, permissions):
+        self._require(permissions.source_code)
 
         storage = create_storage()
-        representation = storage.represent(solution.source_code.resource_id)
+        source_repr = storage.represent(solution.source_code.resource_id)
 
-        return render(request, 'solutions/solution_source.html', {
-            'solution': solution,
+        context = self._make_context(solution, permissions, {
             'language': get_highlightjs_class(solution.compiler.language),
-            'source_repr': representation
+            'source_repr': source_repr,
         })
+        return render(request, self.template_name, context)
 
 
-class SolutionTestsView(generic.View):
-    def get(self, request, solution_id):
-        solution = get_object_or_404(Solution, pk=solution_id)
+class SolutionTestsView(BaseSolutionView):
+    tab = 'tests'
+    template_name = 'solutions/solution_tests.html'
+
+    def do_get(self, request, solution, permissions):
+        self._require(permissions.results)
+
         test_results = solution.best_judgement.testcaseresult_set.all()
-        return render(request, 'solutions/solution_tests.html', {
-            'solution': solution,
-            'test_results': test_results,
+
+        context = self._make_context(solution, permissions, {
+            'test_results': test_results
         })
+        return render(request, self.template_name, context)
+
+
+class SolutionLogView(BaseSolutionView):
+    tab = 'log'
+    template_name = 'solutions/solution_log.html'
+
+    def do_get(self, request, solution, permissions):
+        self._require(permissions.compilation_log)
+
+        log_repr = None
+
+        if solution.best_judgement is not None:
+            judgementlog = solution.best_judgement.judgementlog_set.filter(kind=JudgementLog.SOLUTION_COMPILATION).first()
+            if judgementlog is not None:
+                storage = create_storage()
+                log_repr = storage.represent(judgementlog.resource_id)
+
+        context = self._make_context(solution, permissions, {
+            'log_repr': log_repr
+        })
+        return render(request, self.template_name, context)
+
+
+class SolutionMainView(BaseSolutionView):
+    def do_get(self, request, solution, permissions):
+        judgement = solution.best_judgement
+
+        cls = None
+
+        if cls is None and permissions.results:
+            if judgement is not None:
+                test_results_count = judgement.testcaseresult_set.count()
+                if test_results_count > 0:
+                    cls = SolutionTestsView
+
+        if cls is None and permissions.compilation_log:
+            if judgement is not None:
+                cls = SolutionLogView
+
+        if cls is None and permissions.source_code:
+            cls = SolutionSourceView
+
+        if cls is None:
+            raise PermissionDenied()
+
+        return cls().do_get(request, solution, permissions)
 
 
 class SolutionSourceOpenView(generic.View):

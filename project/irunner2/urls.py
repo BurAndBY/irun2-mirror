@@ -41,3 +41,5 @@ urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),
 ]
+
+handler403 = 'common.views.error403'

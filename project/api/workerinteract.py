@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
-from solutions.models import Judgement, TestCaseResult
+from solutions.models import Judgement, JudgementLog, TestCaseResult
 
 from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase
 
@@ -85,3 +85,8 @@ def put_testing_report(judgement_id, report):
         for t in report.tests:
             t.judgement_id = judgement.id
         TestCaseResult.objects.bulk_create(report.tests)
+
+        judgement.judgementlog_set.all().delete()
+        for log in report.logs:
+            log.judgement_id = judgement_id
+        JudgementLog.objects.bulk_create(report.logs)

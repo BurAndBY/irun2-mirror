@@ -208,9 +208,9 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-judgementbox-header {
     background-color: #f5f5f5;
     color: #333;
-    padding: 6px;
+    padding: 2px;
     text-align: center;
-    min-width: 80px;
+    min-width: 3em;
     display: inline-block;
     border-radius: 4px;
 }
@@ -532,4 +532,20 @@ Yellow menu
 }
 .ir-hidden-data {
     padding-left: 40px;
+}
+
+.ir-solution-nav-pills > li > a {
+    padding: 4px 15px;
+}
+.ir-solution-nav-pills {
+    display: inline-block;
+    /*margin-top: 4px;
+    margin-bottom: 10px;*/
+}
+
+.ir-solution-panel {
+    /*margin-bottom: 0;*/
+}
+.ir-solution-panel dl {
+    /*margin-bottom: 0;*/
 }

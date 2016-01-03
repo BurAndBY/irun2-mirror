@@ -9,41 +9,54 @@
 {% load bootstrap3 %}
 
 {% block content %}
-<div class="panel panel-default">
-<div class="panel-body">
-<div class="row">
-    <div class="col-sm-9">
-        <h1>
+<div class="panel panel-default ir-solution-panel">
+    <div class="panel-body">
+        <h2>
             {% judgementbox solution.best_judgement header=True %}
             {% trans 'Solution' %} {{ solution.id }}
-        </h1>
+        </h2>
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    {% if solution.problem %}
+                        <dt>{% trans 'Problem' %}</dt>
+                        <dd>{{ solution.problem.numbered_full_name }}</dd>
+                    {% endif %}
 
-        <dl class="dl-horizontal">
-            {% if solution.problem %}
-                <dt>{% trans 'Problem' %}</dt>
-                <dd>{{ solution.problem.numbered_full_name }}</dd>
-            {% endif %}
+                    <dt>{% trans 'Submission time' %}</dt>
+                    <dd>{{ solution.reception_time }}</dd>
 
-            <dt>{% trans 'Submission time' %}</dt>
-            <dd>2015</dd>
+                    <dt>{% trans 'IP address' %}</dt>
+                    <dd><tt>192.168.1.1</tt></dd>
 
-            <dt>{% trans 'IP address' %}</dt>
-            <dd><tt>192.168.1.1</tt></dd>
+                    <dt>{% trans 'Compiler' %}</dt>
+                    <dd>{% langbox solution.compiler %} {{ solution.compiler }}</dd>
+                </dl>
+            </div>
 
-            <dt>{% trans 'Compiler' %}</dt>
-            <dd>{% langbox solution.compiler %} {{ solution.compiler }}</dd>
-        </dl>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12 text-center">
+                <ul class="nav nav-pills ir-solution-nav-pills">
+                    {% if solution_permissions.source_code %}
+                        <li role="presentation"{% if active_tab == 'source' %} class="active"{% endif %}><a href="{% url 'solutions:source' solution.id %}">Исходный код</a></li>
+                    {% endif %}
+                    {% if solution_permissions.compilation_log %}
+                        <li role="presentation"{% if active_tab == 'log' %} class="active"{% endif %}><a href="{% url 'solutions:log' solution.id %}">Журнал компиляции</a></li>
+                    {% endif %}
+                    {% if solution_permissions.results %}
+                        <li role="presentation"{% if active_tab == 'tests' %} class="active"{% endif %}><a href="{% url 'solutions:tests' solution.id %}">Результаты по тестам</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-3">
-        <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="active"><a href="#">Исходный код</a></li>
-            <li role="presentation"><a href="#">Журнал компиляции</a></li>
-            <li role="presentation"><a href="#">Результаты по тестам</a></li>
-        </ul>
-    </div>
 </div>
-</div>
-</div>
+
 {% block main %}
 {% endblock %}
 

@@ -3,7 +3,7 @@ import six
 
 from rest_framework import serializers
 
-from solutions.models import Outcome, TestCaseResult
+from solutions.models import Outcome, JudgementLog, TestCaseResult
 from storage.storage import ResourceId
 from .workerstructs import WorkerTestingReport
 
@@ -43,6 +43,11 @@ class ResourceIdField(serializers.Field):
 class OutcomeField(serializers.Field):
     def to_internal_value(self, data):
         return _enum_from_string(Outcome, data)
+
+
+class LogKindField(serializers.Field):
+    def to_internal_value(self, data):
+        return _enum_from_string(JudgementLog, data)
 
 
 class SolutionSerializer(serializers.Serializer):
@@ -98,9 +103,24 @@ class TestCaseResultSerializer(serializers.Serializer):
         return TestCaseResult(**validated_data)
 
 
+class JudgementLogSerializer(serializers.Serializer):
+    kind = LogKindField()
+    resource_id = ResourceIdField()
+
+    def create(self, validated_data):
+        return JudgementLog(**validated_data)
+
+
 class TestCaseResultField(serializers.Field):
     def to_internal_value(self, data):
         serializer = TestCaseResultSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.save()
+
+
+class JudgementLogField(serializers.Field):
+    def to_internal_value(self, data):
+        serializer = JudgementLogSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         return serializer.save()
 
@@ -111,6 +131,7 @@ class WorkerTestingReportSerializer(serializers.Serializer):
     score = serializers.IntegerField(min_value=0, required=False, default=0)
     max_score = serializers.IntegerField(min_value=0, required=False, default=0)
     tests = serializers.ListField(child=TestCaseResultField())
+    logs = serializers.ListField(child=JudgementLogField())
 
     def create(self, validated_data):
         return WorkerTestingReport(**validated_data)
