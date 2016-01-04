@@ -93,9 +93,12 @@ class ShowFolderView(generic.View):
     def get(self, request, folder_id):
         cached_trees = UserFolder.objects.all().get_cached_trees()
         node_ex = lookup_node_ex(folder_id, cached_trees)
+        can_delete = (node_ex.object is not None) and (node_ex.object.get_descendant_count() == 0)
+
         context = {
             'folder_id': node_ex.id,
             'cached_trees': cached_trees,
+            'can_delete': can_delete,
         }
         return render(request, self.template_name, context)
 
