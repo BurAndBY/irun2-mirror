@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+
+{% block content %}
+    {% trans "Users" as root %}
+    <div class="row">
+        <div class="col-md-3">
+            {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root %}
+        </div>
+        <div class="col-md-9">
+            {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root %}
+            <p>
+                <a class="btn btn-default btn-sm" href="{% url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}</a>
+                <a class="btn btn-default btn-sm" href="{% url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}</a>
+            </p>
+            {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
+
+        </div>
+    </div>
+{% endblock %}

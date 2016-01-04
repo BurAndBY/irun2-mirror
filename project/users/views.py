@@ -1,9 +1,13 @@
 from django.views import generic
-
+import json
 from django.contrib import auth
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 import forms
 from django.forms import formset_factory
+from collections import namedtuple
+from django.utils.translation import ugettext_lazy as _
+from models import UserFolder
+from common.folderutils import lookup_node_ex
 
 
 class IndexView(generic.ListView):
@@ -81,3 +85,49 @@ class MassUserCreateView(generic.View):
                 return render(request, 'users/mass_final.html', context)
 
         return redirect('users:mass_create')
+
+
+class ShowFolderView(generic.View):
+    template_name = 'users/folder.html'
+
+    def get(self, request, folder_id):
+        cached_trees = UserFolder.objects.all().get_cached_trees()
+        node_ex = lookup_node_ex(folder_id, cached_trees)
+        context = {
+            'folder_id': node_ex.id,
+            'cached_trees': cached_trees,
+        }
+        return render(request, self.template_name, context)
+
+
+class CreateFolderView(generic.View):
+    template_name = 'users/create_folder.html'
+
+    def get(self, request, folder_id):
+        cached_trees = UserFolder.objects.all().get_cached_trees()
+        node_ex = lookup_node_ex(folder_id, cached_trees)
+        form = forms.CreateFolderForm()
+        context = {
+            'folder_id': node_ex.id,
+            'cur_folder': node_ex.object,
+            'cached_trees': cached_trees,
+            'form': form,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, folder_id):
+        form = forms.CreateFolderForm(request.POST)
+        cached_trees = UserFolder.objects.all().get_cached_trees()
+        node_ex = lookup_node_ex(folder_id, cached_trees)
+
+        if form.is_valid():
+            UserFolder.objects.create(name=form.cleaned_data['name'], parent=node_ex.object)
+            return redirect('users:show_folder', node_ex.id)
+
+        context = {
+            'folder_id': node_ex.id,
+            'cur_folder': node_ex.object,
+            'cached_trees': cached_trees,
+            'form': form,
+        }
+        return render(request, self.template_name, context)

@@ -549,3 +549,13 @@ Yellow menu
 .ir-solution-panel dl {
     /*margin-bottom: 0;*/
 }
+
+
+.ir-folder-tree ul {
+    list-style-type: none;
+    margin: 2px;
+    padding-left: 10px;
+}
+.ir-folder-tree li {
+    font-size: 12px;
+}

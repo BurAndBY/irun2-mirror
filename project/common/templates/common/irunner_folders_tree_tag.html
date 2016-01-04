@@ -1,0 +1,46 @@
+{% if it_data %}
+    {# irunner-like tree #}
+    <div class="ir-folder-tree">
+    {% for item in it_data %}
+        {% if item.kind == '(' %}
+            <ul>
+        {% elif item.kind == ')' %}
+            </ul>
+        {% else %}
+            <li>
+                <tt>
+                {% if item.kind == '+' %}
+                    +
+                {% elif item.kind == '-' %}
+                    &minus;
+                {% else %}
+                    &middot;
+                {% endif %}
+                </tt>
+                {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id %}">{% else %}<strong>{% endif %}
+                    {{ item.breadcrumb.name }}
+                {% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if ft_data %}
+    {# FancyTree tree #}
+    <div id="{{ uid }}"></div>
+
+    <script>
+        $(document).ready(function() {
+            var fancyTree = $("#{{ uid }}").fancytree({
+                source: {{ ft_data|safe }}
+            });
+            {% if folder_id %}
+                $("#{{ uid }}").fancytree("getTree").activateKey("{{ folder_id }}");
+            {% endif %}
+            fancyTree.bind("fancytreeactivate", function(event, data) {
+                location.href = Urls["{{ url_pattern }}"](data.node.key.toString());
+            });
+        });
+    </script>
+{% endif %}
