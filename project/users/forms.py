@@ -17,4 +17,4 @@ class MassUserSingleForm(forms.Form):
 
 
 class CreateFolderForm(forms.Form):
-    name = forms.CharField(label=_('Folder name'))
+    name = forms.CharField(label=_('Folder name'), widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))

@@ -14,9 +14,9 @@
             {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root %}
             <h3>
                 {% trans 'Create new folder' %}
-                {% if cur_folder %}
+                {% if folder %}
                     <small>
-                        &nbsp;{% blocktrans with nn=cur_folder.name %}inside ‘{{ nn }}’{% endblocktrans %}
+                        &nbsp;{% blocktrans with nn=folder.name %}inside ‘{{ nn }}’{% endblocktrans %}
                     </small>
                 {% endif %}
             </h3>

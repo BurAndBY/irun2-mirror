@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-27 22:09+0300\n"
-"PO-Revision-Date: 2015-12-27 22:11+0300\n"
+"POT-Creation-Date: 2016-01-05 02:56+0300\n"
+"PO-Revision-Date: 2016-01-05 02:58+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -85,6 +85,10 @@ msgstr "Удалить"
 msgid "Remove all"
 msgstr "Удалить всё"
 
+#: .\common\templates\common\error403.html:7
+msgid "Access denied."
+msgstr "Доступ запрещён."
+
 #: .\common\templates\common\home.html:8
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
@@ -117,7 +121,7 @@ msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
 #: .\courses\forms.py:57 .\problems\templates\problems\sidebar.html:7
-#: .\solutions\templates\solutions\solution.html:23
+#: .\solutions\templates\solutions\solution.html:22
 msgid "Problem"
 msgstr "Задача"
 
@@ -126,6 +130,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\models.py:18 .\courses\models.py:24 .\courses\models.py:55
+#: .\users\models.py:11
 msgid "name"
 msgstr "название"
 
@@ -190,6 +195,9 @@ msgid "Compilers"
 msgstr "Компиляторы"
 
 #: .\courses\templates\courses\settings_base.html:19
+#: .\users\templates\users\create_folder.html:8
+#: .\users\templates\users\delete_folder.html:8
+#: .\users\templates\users\folder.html:9
 msgid "Users"
 msgstr "Пользователи"
 
@@ -206,6 +214,8 @@ msgstr "Ведомость"
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
 #: .\problems\templates\problems\edit.html:14
+#: .\users\templates\users\create_folder.html:28
+#: .\users\templates\users\delete_folder.html:28
 msgid "Save"
 msgstr "Сохранить"
 
@@ -254,8 +264,8 @@ msgstr "Создать новую тему"
 #: .\courses\templates\courses\sheet.html:9
 #: .\courses\templates\courses\standings.html:9
 #: .\problems\templates\problems\tests.html:10
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:8
 #: .\solutions\templates\solutions\judgement.html:24
-#: .\solutions\templates\solutions\solution_tests.html:13
 #: .\users\templates\users\mass_confirm.html:14
 msgid "#"
 msgstr "№"
@@ -508,7 +518,7 @@ msgid "Author"
 msgstr "Автор"
 
 #: .\problems\templates\problems\solutions.html:16
-#: .\solutions\templates\solutions\solution.html:27
+#: .\solutions\templates\solutions\solution.html:26
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -516,12 +526,22 @@ msgstr "Время отправления"
 msgid "Status"
 msgstr "Статус"
 
+#: .\problems\templates\problems\submission.html:17
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:68
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: .\problems\templates\problems\submission.html:47
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:73
+msgid "Error while getting data from server."
+msgstr "Ошибка получения данных с сервера."
+
 #: .\problems\templates\problems\tests.html:11
 #: .\solutions\templates\solutions\timelimitbox.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
-#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:33
+#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:32
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -606,47 +626,47 @@ msgid "Finishing"
 msgstr "Завершение"
 
 #: .\solutions\models.py:105
-msgid "Compilation log"
-msgstr "Журнал компиляции"
+msgid "Solution compilation log"
+msgstr "Журнал компиляции решения"
 
 #: .\solutions\templates\solutions\ilist.html:7
 #: .\solutions\templates\solutions\solution_list.html:9
 msgid "List of Solutions"
 msgstr "Список решений"
 
-#: .\solutions\templates\solutions\judgement.html:8
-msgid "Judgement"
-msgstr "Запуск"
-
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:9
 #: .\solutions\templates\solutions\judgement.html:25
-#: .\solutions\templates\solutions\solution_tests.html:14
 msgid "Outcome"
 msgstr "Вердикт"
 
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:10
 #: .\solutions\templates\solutions\judgement.html:26
-#: .\solutions\templates\solutions\solution_tests.html:15
 msgid "Score"
 msgstr "Очки"
 
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:11
 #: .\solutions\templates\solutions\judgement.html:27
-#: .\solutions\templates\solutions\solution_tests.html:16
 msgid "Time"
 msgstr "Время"
 
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:12
 #: .\solutions\templates\solutions\judgement.html:28
-#: .\solutions\templates\solutions\solution_tests.html:17
 msgid "Memory"
 msgstr "Память"
 
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:13
 #: .\solutions\templates\solutions\judgement.html:29
-#: .\solutions\templates\solutions\solution_tests.html:18
 msgid "Exit Code"
 msgstr "Код выхода"
 
+#: .\solutions\templates\solutions\irunner_testresults_tag.html:16
 #: .\solutions\templates\solutions\judgement.html:30
-#: .\solutions\templates\solutions\solution_tests.html:19
 msgid "Checker Message"
 msgstr "Сообщение чекера"
+
+#: .\solutions\templates\solutions\judgement.html:8
+msgid "Judgement"
+msgstr "Запуск"
 
 #: .\solutions\templates\solutions\memorylimitbox.html:4
 msgid "Memory limit"
@@ -669,29 +689,25 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\solution.html:18
+#: .\solutions\templates\solutions\solution.html:16
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\solution.html:30
+#: .\solutions\templates\solutions\solution.html:29
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution_source.html:22
+#: .\solutions\templates\solutions\solution_log.html:10
+msgid "Compilation log is not available."
+msgstr "Журнал компиляции недоступен."
+
+#: .\solutions\templates\solutions\solution_source.html:30
 msgid "Open"
 msgstr "Открыть"
 
-#: .\solutions\templates\solutions\solution_source.html:23
+#: .\solutions\templates\solutions\solution_source.html:31
 msgid "Download"
 msgstr "Загрузить"
-
-#: .\solutions\templates\solutions\solution_tests.html:57
-msgid "Loading..."
-msgstr "Загрузка..."
-
-#: .\solutions\templates\solutions\solution_tests.html:64
-msgid "Error while getting data from server."
-msgstr "Ошибка получения данных с сервера."
 
 #: .\solutions\templates\solutions\testcaseresult.html:6
 msgid "Input file"
@@ -712,6 +728,10 @@ msgstr "Стандартный вывод (stdout)"
 #: .\solutions\templates\solutions\testcaseresult.html:30
 msgid "Standard error (stderr)"
 msgstr "Стандартный вывод ошибок (stderr)"
+
+#: .\solutions\templates\solutions\testcaseresult.html:37
+msgid "No data"
+msgstr "Нет данных"
 
 #: .\solutions\templates\solutions\timelimitbox.html:3
 #: .\solutions\templates\solutions\timelimitbox.html:5
@@ -747,6 +767,33 @@ msgstr "Выход"
 #: .\templates\base.html:98
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
+
+#: .\users\forms.py:20
+msgid "Folder name"
+msgstr "Имя папки"
+
+#: .\users\models.py:21
+msgid "folder"
+msgstr "папка"
+
+#: .\users\templates\users\create_folder.html:16
+#: .\users\templates\users\delete_folder.html:16
+msgid "Create new folder"
+msgstr "Создать новую папку"
+
+#: .\users\templates\users\create_folder.html:19
+#: .\users\templates\users\delete_folder.html:19
+#, python-format
+msgid "inside ‘%(nn)s’"
+msgstr "в папке «%(nn)s»"
+
+#: .\users\templates\users\folder.html:17
+msgid "Create folder"
+msgstr "Создать папку"
+
+#: .\users\templates\users\folder.html:19
+msgid "Delete folder"
+msgstr "Удалить папку"
 
 #: .\users\templates\users\mass_confirm.html:35
 msgid "Next"

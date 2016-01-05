@@ -3,6 +3,7 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_folders %}
+{% load irunnerpagination %} 
 
 {% block content %}
     {% trans "Users" as root %}
@@ -13,13 +14,18 @@
         <div class="col-md-9">
             {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root %}
             <p>
-                <a class="btn btn-default btn-sm" href="{% url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}</a>
+                <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}</a>
                 {% if can_delete %}
-                    <a class="btn btn-default btn-sm" href="{% url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}</a>
+                    <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}</a>
                 {% endif %}
             </p>
             {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
 
+            {% irunnerpagination pagination_context %}
+
+            {% for obj in object_list %}
+                <p>{{ obj }}</p>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

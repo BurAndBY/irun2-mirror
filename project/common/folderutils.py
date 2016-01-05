@@ -6,13 +6,19 @@ from django.http import Http404
 ROOT = 'root'
 
 # id may be integer (then object is not None) or ROOT (the object is None)
-NodeEx = namedtuple('NodeEx', 'object id')
+NodeEx = namedtuple('NodeEx', 'object folder_id')
 
 
 def cast_id(folder_id):
+    '''
+    cast is idempotent:
+    cast_id(cast_id(x)) = cast_id(x)
+    '''
     if folder_id is None:
-        raise TypeError('folder id cannot be None')
-    return ROOT if folder_id == ROOT else int(folder_id)
+        return None
+    if folder_id == ROOT:
+        return None
+    return int(folder_id)
 
 
 def ensure_trees(cached_trees):
@@ -20,10 +26,10 @@ def ensure_trees(cached_trees):
         raise ValueError('cached_trees must be a list returned by get_cached_trees() from MPTT module')
 
 
-def lookup_node_ex(folder_id, cached_trees):
-    folder_id = cast_id(folder_id)
-    if folder_id == ROOT:
-        return NodeEx(None, ROOT)
+def lookup_node_ex(folder_id_or_root, cached_trees):
+    folder_id = cast_id(folder_id_or_root)
+    if folder_id is None:
+        return NodeEx(None, None)
     else:
         obj = find_in_tree(cached_trees, folder_id)
         if obj is None:

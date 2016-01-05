@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
     {% for item in breadcrumbs %}
         {% if item.is_link %}
-            <li><a href="{% url url_pattern item.folder_id %}">{{ item.name }}</a></li>
+            <li><a href="{% url url_pattern item.folder_id_or_root %}">{{ item.name }}</a></li>
         {% else %}
             <li class="active">{{ item.name }}</li>
         {% endif %}

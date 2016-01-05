@@ -7,7 +7,11 @@ from django.forms import formset_factory
 from collections import namedtuple
 from django.utils.translation import ugettext_lazy as _
 from models import UserFolder
-from common.folderutils import lookup_node_ex
+from common.folderutils import lookup_node_ex, cast_id
+from common.views import IRunnerListView
+from problems.models import Problem
+from django.conf import settings
+from django.contrib import auth
 
 
 class IndexView(generic.ListView):
@@ -87,50 +91,33 @@ class MassUserCreateView(generic.View):
         return redirect('users:mass_create')
 
 
-class ShowFolderView(generic.View):
+class UserFolderMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(UserFolderMixin, self).get_context_data(**kwargs)
+        cached_trees = UserFolder.objects.all().get_cached_trees()
+        node_ex = lookup_node_ex(self.kwargs['folder_id_or_root'], cached_trees)
+
+        context['cached_trees'] = cached_trees
+        context['folder'] = node_ex.object
+        context['folder_id'] = node_ex.folder_id
+        return context
+
+
+class ShowFolderView(UserFolderMixin, IRunnerListView):
     template_name = 'users/folder.html'
+    paginate_by = 12
 
-    def get(self, request, folder_id):
-        cached_trees = UserFolder.objects.all().get_cached_trees()
-        node_ex = lookup_node_ex(folder_id, cached_trees)
-        can_delete = (node_ex.object is not None) and (node_ex.object.get_descendant_count() == 0)
-
-        context = {
-            'folder_id': node_ex.id,
-            'cached_trees': cached_trees,
-            'can_delete': can_delete,
-        }
-        return render(request, self.template_name, context)
+    def get_queryset(self):
+        folder_id = cast_id(self.kwargs['folder_id_or_root'])
+        return auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
 
 
-class CreateFolderView(generic.View):
+class CreateFolderView(UserFolderMixin, generic.FormView):
     template_name = 'users/create_folder.html'
+    form_class = forms.CreateFolderForm
 
-    def get(self, request, folder_id):
-        cached_trees = UserFolder.objects.all().get_cached_trees()
-        node_ex = lookup_node_ex(folder_id, cached_trees)
-        form = forms.CreateFolderForm()
-        context = {
-            'folder_id': node_ex.id,
-            'cur_folder': node_ex.object,
-            'cached_trees': cached_trees,
-            'form': form,
-        }
-        return render(request, self.template_name, context)
-
-    def post(self, request, folder_id):
-        form = forms.CreateFolderForm(request.POST)
-        cached_trees = UserFolder.objects.all().get_cached_trees()
-        node_ex = lookup_node_ex(folder_id, cached_trees)
-
-        if form.is_valid():
-            UserFolder.objects.create(name=form.cleaned_data['name'], parent=node_ex.object)
-            return redirect('users:show_folder', node_ex.id)
-
-        context = {
-            'folder_id': node_ex.id,
-            'cur_folder': node_ex.object,
-            'cached_trees': cached_trees,
-            'form': form,
-        }
-        return render(request, self.template_name, context)
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        folder_id = cast_id(folder_id_or_root)
+        UserFolder.objects.create(name=form.cleaned_data['name'], parent_id=folder_id)
+        return redirect('users:show_folder', folder_id_or_root)
