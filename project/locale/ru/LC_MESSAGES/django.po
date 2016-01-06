@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-06 14:12+0300\n"
-"PO-Revision-Date: 2016-01-06 14:14+0300\n"
+"POT-Creation-Date: 2016-01-06 15:43+0300\n"
+"PO-Revision-Date: 2016-01-06 15:45+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -47,11 +47,27 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:76
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:70
 msgid "Login"
 msgstr "Вход"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:107
+#: .\cauth\templates\registration\password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Ваш пароль был изменён."
+
+#: .\cauth\templates\registration\password_change_form.html:11
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"В целях безопасности, пожалуйста, введите свой старый пароль, затем введите "
+"новый пароль дважды, чтобы мы могли убедиться в правильности написания."
+
+#: .\cauth\templates\registration\password_change_form.html:17
+msgid "Change my password"
+msgstr "Изменить мой пароль"
+
+#: .\common\templates\common\about.html:6 .\templates\base.html:101
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -194,7 +210,7 @@ msgstr "Темы"
 msgid "Compilers"
 msgstr "Компиляторы"
 
-#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:63
+#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:62
 #: .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
@@ -761,23 +777,15 @@ msgstr ""
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:65 .\users\templates\users\base.html:14
-msgid "Search"
-msgstr "Поиск"
-
-#: .\templates\base.html:66
-msgid "Management"
-msgstr "Управление"
-
-#: .\templates\base.html:69
+#: .\templates\base.html:63
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:74
+#: .\templates\base.html:68
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:105
+#: .\templates\base.html:99
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
@@ -822,6 +830,10 @@ msgstr "папка"
 #: .\users\templates\users\base.html:11
 msgid "Folders"
 msgstr "Папки"
+
+#: .\users\templates\users\base.html:14
+msgid "Search"
+msgstr "Поиск"
 
 #: .\users\templates\users\create_form.html:21
 #: .\users\templates\users\delete_folder.html:19
@@ -903,6 +915,9 @@ msgstr "Вы уверены, что хотите переместить поль
 #: .\users\views.py:125
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "Management"
+#~ msgstr "Управление"
 
 #~ msgid "Next"
 #~ msgstr "Далее"

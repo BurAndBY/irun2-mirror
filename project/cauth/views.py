@@ -5,6 +5,8 @@ Checking 'remember_me' has been added (see CUSTOM_CODE block)
 Inspired by https://djangosnippets.org/snippets/1881/ (wrong).
 '''
 
+import django.contrib.auth.views
+
 from django.conf import settings
 # Avoid shadowing the login() and logout() views below.
 from django.contrib.auth import (
@@ -71,3 +73,9 @@ def login(request, template_name='registration/login.html',
         request.current_app = current_app
 
     return TemplateResponse(request, template_name, context)
+
+
+def password_change(request):
+    template_response = django.contrib.auth.views.password_change(request)
+    # Do something with `template_response`
+    return template_response
