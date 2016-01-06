@@ -14,6 +14,8 @@ BreadcrumbItem = namedtuple('BreadcrumbItem', 'folder_id_or_root name is_link')
 SubfolderItem = namedtuple('SubfolderItem', 'folder_id_or_root name')
 TemplateTreeItem = namedtuple('TemplateTreeItem', 'kind breadcrumb')
 
+def _name_extractor(f):
+    return f.name
 
 @register.inclusion_tag('common/irunner_folders_tree_tag.html')
 def irunner_folders_tree(cached_trees, url_pattern, folder_id, root_name, mode='irunner'):
@@ -89,6 +91,8 @@ def irunner_folders_subfolders(cached_trees, url_pattern, folder_id):
         for node in current.get_children():
             subfolders.append(SubfolderItem(node.id, node.name))
 
+    subfolders.sort(key=_name_extractor)
+
     return {
         'subfolders': subfolders,
         'url_pattern': url_pattern
@@ -120,7 +124,7 @@ def _fill_irunnertree_data(cached_trees, folder_id, root_name):
     output.append(TemplateTreeItem('(', None))
 
     output.append(TemplateTreeItem('-', BreadcrumbItem(ROOT, root_name, folder_id is not None)))
-    for root in cached_trees:
+    for root in sorted(cached_trees, key=_name_extractor):
         output.append(TemplateTreeItem('(', None))
         _irunnertree_traverse(root, folder_id, output)
         output.append(TemplateTreeItem(')', None))
@@ -136,7 +140,7 @@ def _irunnertree_traverse(node, target_id, output):
 
     target = None
     temp_output = []
-    for child in children:
+    for child in sorted(children, key=_name_extractor):
         result = _irunnertree_traverse(child, target_id, temp_output)
         if result is not None:
             target = result
