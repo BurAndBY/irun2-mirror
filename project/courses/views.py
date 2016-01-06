@@ -905,3 +905,12 @@ class CourseAssignView(BaseCourseView):
         context = self._make_context(course)
         context['data'] = adr
         return render(request, self.template_name, context)
+
+
+class CourseListView(generic.ListView):
+    model = Course
+
+
+class CourseCreateView(generic.CreateView):
+    model = Course
+    fields = ['name']

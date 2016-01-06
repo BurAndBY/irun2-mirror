@@ -4,6 +4,7 @@ from django.conf import settings
 
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
+from django.core.urlresolvers import reverse
 
 
 class Criterion(models.Model):
@@ -18,6 +19,9 @@ class Course(models.Model):
     name = models.CharField(_('name'), max_length=64)
     compilers = models.ManyToManyField(Compiler, blank=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
+
+    def get_absolute_url(self):
+        return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 
 
 class Topic(models.Model):
