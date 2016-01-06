@@ -1,25 +1,56 @@
-{% extends "base.html" %}
+{% extends "users/base.html" %}
 
-{% block content %}
-<h1>List of Problems</h1>
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunnerpagination %}
 
-<table class="table table-condensed table-striped table-hover">
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>First Name</th>
-			<th>Last Name</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for user in object_list %}
-		<tr>
-			<td>{{ user.username }}</td>
-			<td>{{ user.first_name }}</td>
-			<td>{{ user.last_name }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+{% block main %}
 
+<form method="get" autocomplete="off">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="{% trans 'Search for...' %}"{% if query %} value="{{ query }}"{% endif %}>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">{% bootstrap_icon 'search' %}</button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% irunnerpagination pagination_context %}
+
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{% trans 'username' %}</th>
+                    <th>{% trans 'last name' %}</th>
+                    <th>{% trans 'first name' %}</th>
+                    <th>{% trans 'last login' %}</th>
+                    <th>{% trans 'folder' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in object_list %}
+                <tr>
+                    <td>{{ user.pk }}</td>
+                    <td><tt>{{ user.username }}</tt></td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{% if user.last_login %}{{ user.last_login }}{% else %}&mdash;{% endif %}</td>
+                    <td>
+                        {% with user.userprofile.folder as folder %}  
+                            {% if user.userprofile.folder %}
+                                <a href="{% url 'users:show_folder' folder.id %}">{{ folder }}</a>
+                            {% endif %}
+                        {% endwith %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_mass %}
+{% load irunner_users %}
+
+{% block content %}
+    {% if object_list %}
+        {% trans 'Are you sure you want to move the users to another folder?' %}
+        <ul>
+        {% for userprofile in object_list %}
+            <li><tt>{{ userprofile.user.username }}</tt>&nbsp;&mdash; {% irunner_users_show userprofile.user %}
+        {% endfor %}
+        </ul>
+
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            {% irunner_mass_hidden ids next %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-default">
+                    {% trans 'Confirm' %}
+                </button>
+                {% if next %}
+                    <a href="{{ next }}" class="btn btn-default">
+                        {% trans 'Cancel' %}
+                    </a>
+                {% endif %}
+            {% endbuttons %}
+        </form>
+    {% else %}
+        {% trans 'No users selected' %}
+    {% endif %}
+{% endblock %}

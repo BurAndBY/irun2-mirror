@@ -550,7 +550,10 @@ Yellow menu
     /*margin-bottom: 0;*/
 }
 
-
+.ir-folder-tree {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .ir-folder-tree ul {
     list-style-type: none;
     margin: 2px;

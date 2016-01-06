@@ -1,31 +1,83 @@
-{% extends "base.html" %}
+{% extends "users/base.html" %}
 
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_folders %}
-{% load irunnerpagination %} 
+{% load irunnerpagination %}
+{% load irunner_users %}
 
-{% block content %}
-    {% trans "Users" as root %}
-    <div class="row">
-        <div class="col-md-3">
-            {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root %}
-        </div>
-        <div class="col-md-9">
-            {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root %}
-            <p>
-                <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}</a>
-                {% if can_delete %}
-                    <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}</a>
-                {% endif %}
-            </p>
-            {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
+{% block sidebar %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+{% endblock %}
 
-            {% irunnerpagination pagination_context %}
+{% block main %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+    <p>
+        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">
+            {% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}
+        </a>
 
-            {% for obj in object_list %}
-                <p>{{ obj }}</p>
-            {% endfor %}
+        {% if can_delete_folder %}
+            <a class="btn btn-default btn-sm" href="#" role="button">
+                {% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}
+            </a>
+        {% endif %}
+
+        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_user' folder_id %}" role="button">
+            {% bootstrap_icon 'user' %}&nbsp; {% trans 'Create user' %}
+        </a>
+
+        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_users_mass' folder_id %}" role="button">
+            {% bootstrap_icon 'list' %}&nbsp; {% trans 'Mass registration' %}
+        </a>
+
+        {% if has_users %}
+
+            <button onclick="irPerformActionOnSelected('{% url 'users:move' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm" role="button">
+                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'transfer' %}&nbsp; {% trans 'Move' %}
+            </button>
+
+            <button onclick="irPerformActionOnSelected('{% url 'users:delete' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm" role="button">
+                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete' %}
+            </button>
+
+        {% endif %}
+    </p>
+    {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% if object_list %}
+                {% irunnerpagination pagination_context %}
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectall"></th>
+                            <th>{% trans 'username' %}</th>
+                            <th>{% trans 'full name' context 'human' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object_list %}
+                        <tr>
+                            <td><input type="checkbox" class="ir-checkbox" name="{{ user.id }}"></td>
+                            <td><tt>{{ user.username }}</tt></td>
+                            <td>{% irunner_users_show user %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">{% trans 'There are no users in the folder.' %}</p>
+            {% endif %}
         </div>
     </div>
+    <script>
+    $(document).ready(function () {
+        irSetUpSelectAll();
+    });
+    </script>
 {% endblock %}

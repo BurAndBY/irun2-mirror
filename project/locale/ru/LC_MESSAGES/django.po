@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-05 02:56+0300\n"
-"PO-Revision-Date: 2016-01-05 02:58+0300\n"
+"POT-Creation-Date: 2016-01-06 14:12+0300\n"
+"PO-Revision-Date: 2016-01-06 14:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:69
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:76
 msgid "Login"
 msgstr "Вход"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:100
+#: .\common\templates\common\about.html:6 .\templates\base.html:107
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -194,10 +194,12 @@ msgstr "Темы"
 msgid "Compilers"
 msgstr "Компиляторы"
 
-#: .\courses\templates\courses\settings_base.html:19
-#: .\users\templates\users\create_folder.html:8
+#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:63
+#: .\users\templates\users\create_form.html:8
+#: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
-#: .\users\templates\users\folder.html:9
+#: .\users\templates\users\folder.html:10
+#: .\users\templates\users\folder.html:15
 msgid "Users"
 msgstr "Пользователи"
 
@@ -214,16 +216,19 @@ msgstr "Ведомость"
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
 #: .\problems\templates\problems\edit.html:14
-#: .\users\templates\users\create_folder.html:28
+#: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:28
 msgid "Save"
 msgstr "Сохранить"
 
 #: .\courses\templates\courses\settings_component.html:16
+#: .\users\templates\users\create_form.html:36
+#: .\users\templates\users\delete.html:26 .\users\templates\users\move.html:27
 msgid "Cancel"
 msgstr "Отмена"
 
 #: .\courses\templates\courses\settings_component.html:20
+#: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
 
@@ -266,7 +271,6 @@ msgstr "Создать новую тему"
 #: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\irunner_testresults_tag.html:8
 #: .\solutions\templates\solutions\judgement.html:24
-#: .\users\templates\users\mass_confirm.html:14
 msgid "#"
 msgstr "№"
 
@@ -331,6 +335,7 @@ msgstr "Вы уверены, что хотите удалить сообщени
 
 #: .\feedback\templates\feedback\confirm.html:10
 #: .\solutions\templates\solutions\confirm_multiple.html:10
+#: .\users\templates\users\delete.html:22 .\users\templates\users\move.html:23
 msgid "Confirm"
 msgstr "Подтвердить"
 
@@ -756,52 +761,154 @@ msgstr ""
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:62
+#: .\templates\base.html:65 .\users\templates\users\base.html:14
+msgid "Search"
+msgstr "Поиск"
+
+#: .\templates\base.html:66
+msgid "Management"
+msgstr "Управление"
+
+#: .\templates\base.html:69
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:67
+#: .\templates\base.html:74
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:98
+#: .\templates\base.html:105
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\users\forms.py:20
+#: .\users\forms.py:25
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\models.py:21
+#: .\users\forms.py:34
+msgid "Data about users"
+msgstr "Данные о пользователях"
+
+#: .\users\forms.py:35
+msgid ""
+"Lines in the format of “[username] [last name] [first name]” or “[username] "
+"[last name] [first name] [patronymic]”."
+msgstr ""
+"Строки в формате «[имя пользователя] [фамилия] [имя]» или «[имя "
+"пользователя] [фамилия] [имя] [отчество]»."
+
+#: .\users\forms.py:36
+msgid "Password"
+msgstr "Пароль"
+
+#: .\users\forms.py:56
+#, python-format
+msgid "Line %(number)s does not match the template."
+msgstr "Строка %(number)s не соответствует шаблону."
+
+#: .\users\forms.py:60
+#, python-format
+msgid "User “%(username)s” is listed more than once."
+msgstr "Пользователь «%(username)s» указан несколько раз."
+
+#: .\users\forms.py:87
+msgid "Destination folder"
+msgstr "Папка назначения"
+
+#: .\users\models.py:21 .\users\templates\users\index.html:32
 msgid "folder"
 msgstr "папка"
 
-#: .\users\templates\users\create_folder.html:16
-#: .\users\templates\users\delete_folder.html:16
-msgid "Create new folder"
-msgstr "Создать новую папку"
+#: .\users\templates\users\base.html:11
+msgid "Folders"
+msgstr "Папки"
 
-#: .\users\templates\users\create_folder.html:19
+#: .\users\templates\users\create_form.html:21
 #: .\users\templates\users\delete_folder.html:19
 #, python-format
 msgid "inside ‘%(nn)s’"
 msgstr "в папке «%(nn)s»"
 
-#: .\users\templates\users\folder.html:17
+#: .\users\templates\users\create_form.html:23
+msgid "in the root folder"
+msgstr "в корневой папке"
+
+#: .\users\templates\users\delete.html:10
+msgid "Are you sure you want to delete the users?"
+msgstr "Вы уверены, что хотите удалить этих пользователей?"
+
+#: .\users\templates\users\delete.html:32
+#: .\users\templates\users\folder.html:38
+#: .\users\templates\users\folder.html:42 .\users\templates\users\move.html:33
+msgid "No users selected"
+msgstr "Пользователи не выбраны"
+
+#: .\users\templates\users\delete_folder.html:16
+msgid "Create new folder"
+msgstr "Создать новую папку"
+
+#: .\users\templates\users\folder.html:19 .\users\views.py:88
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\users\templates\users\folder.html:19
+#: .\users\templates\users\folder.html:24
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\users\templates\users\mass_confirm.html:35
-msgid "Next"
-msgstr "Далее"
+#: .\users\templates\users\folder.html:29 .\users\views.py:104
+msgid "Create user"
+msgstr "Создать пользователя"
 
-#: .\users\templates\users\mass_final.html:13
-msgid "No users were created."
-msgstr "Пользователи не были созданы."
+#: .\users\templates\users\folder.html:33
+msgid "Mass registration"
+msgstr "Массовая регистрация"
+
+#: .\users\templates\users\folder.html:39
+msgid "Move"
+msgstr "Переместить"
+
+#: .\users\templates\users\folder.html:59 .\users\templates\users\index.html:28
+msgid "username"
+msgstr "имя пользователя"
+
+#: .\users\templates\users\folder.html:60
+msgctxt "human"
+msgid "full name"
+msgstr "ФИО"
+
+#: .\users\templates\users\folder.html:74
+msgid "There are no users in the folder."
+msgstr "В этой папке нет пользователей."
+
+#: .\users\templates\users\index.html:12
+msgid "Search for..."
+msgstr "Искать..."
+
+#: .\users\templates\users\index.html:29
+msgid "last name"
+msgstr "фамилия"
+
+#: .\users\templates\users\index.html:30
+msgid "first name"
+msgstr "имя"
+
+#: .\users\templates\users\index.html:31
+msgid "last login"
+msgstr "последний вход"
+
+#: .\users\templates\users\move.html:10
+msgid "Are you sure you want to move the users to another folder?"
+msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
+
+#: .\users\views.py:125
+msgid "Mass user registration"
+msgstr "Массовая регистрация пользователей"
+
+#~ msgid "Next"
+#~ msgstr "Далее"
+
+#~ msgid "No users were created."
+#~ msgstr "Пользователи не были созданы."
 
 #~ msgid "Problems to solve"
 #~ msgstr "Задач для решения"

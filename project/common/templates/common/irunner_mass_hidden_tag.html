@@ -1,0 +1,6 @@
+{% for id in ids %}
+    <input type="hidden" name="id" value="{{ id }}">
+{% endfor %}
+{% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+{% endif %}

@@ -1,0 +1,40 @@
+{% extends "users/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+
+{% block sidebar %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+{% endblock %}
+
+{% block main %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+
+    {% if form_name %}
+        <h3>
+            {{ form_name }}
+            <small>
+            {% if folder %}
+                {% blocktrans with nn=folder.name %}inside ‘{{ nn }}’{% endblocktrans %}
+            {% else %}
+                {% trans 'in the root folder' %}
+            {% endif %}
+            </small>
+        </h3>
+    {% endif %}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Save' %}
+            </button>
+            <a href="{% irunner_folders_url 'users:show_folder' folder_id %}" class="btn btn-default">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}
