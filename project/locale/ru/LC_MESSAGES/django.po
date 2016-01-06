@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-06 15:43+0300\n"
-"PO-Revision-Date: 2016-01-06 15:45+0300\n"
+"POT-Creation-Date: 2016-01-06 18:38+0300\n"
+"PO-Revision-Date: 2016-01-06 18:40+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -19,9 +19,27 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: .\cauth\forms.py:7
+#: .\cauth\forms.py:10
 msgid "Remember me"
 msgstr "Запомнить меня"
+
+#: .\cauth\templates\cauth\profile.html:9
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+#: .\cauth\templates\cauth\profile.html:10 .\templates\base.html:96
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#: .\cauth\templates\cauth\profile_edit.html:15
+#: .\courses\templates\courses\settings_compilers.html:28
+#: .\courses\templates\courses\settings_component.html:13
+#: .\courses\templates\courses\settings_properties.html:13
+#: .\problems\templates\problems\edit.html:14
+#: .\users\templates\users\create_form.html:33
+#: .\users\templates\users\delete_folder.html:28
+msgid "Save"
+msgstr "Сохранить"
 
 #: .\cauth\templates\registration\logged_out.html:8
 msgid "You are now logged out. Any automatic login has also been stopped."
@@ -47,7 +65,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:70
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:71
 msgid "Login"
 msgstr "Вход"
 
@@ -67,7 +85,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:101
+#: .\common\templates\common\about.html:6 .\templates\base.html:109
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -210,7 +228,7 @@ msgstr "Темы"
 msgid "Compilers"
 msgstr "Компиляторы"
 
-#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:62
+#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:63
 #: .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
@@ -227,15 +245,6 @@ msgstr "Подгруппы"
 #: .\courses\templates\courses\sidebar.html:27
 msgid "Sheet"
 msgstr "Ведомость"
-
-#: .\courses\templates\courses\settings_compilers.html:28
-#: .\courses\templates\courses\settings_component.html:13
-#: .\courses\templates\courses\settings_properties.html:13
-#: .\problems\templates\problems\edit.html:14
-#: .\users\templates\users\create_form.html:33
-#: .\users\templates\users\delete_folder.html:28
-msgid "Save"
-msgstr "Сохранить"
 
 #: .\courses\templates\courses\settings_component.html:16
 #: .\users\templates\users\create_form.html:36
@@ -773,19 +782,23 @@ msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
 
-#: .\templates\base.html:59
+#: .\templates\base.html:60
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:63
+#: .\templates\base.html:64
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:68
+#: .\templates\base.html:69
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:99
+#: .\templates\base.html:96
+msgid "Please set up a new password instead of default one."
+msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
+
+#: .\templates\base.html:107
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
@@ -826,6 +839,14 @@ msgstr "Папка назначения"
 #: .\users\models.py:21 .\users\templates\users\index.html:32
 msgid "folder"
 msgstr "папка"
+
+#: .\users\models.py:22
+msgid "patronymic"
+msgstr "отчество"
+
+#: .\users\models.py:23
+msgid "password needs to be changed"
+msgstr "пароль необходимо изменить"
 
 #: .\users\templates\users\base.html:11
 msgid "Folders"

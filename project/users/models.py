@@ -18,7 +18,9 @@ class UserFolder(MPTTModel):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)  # required
-    folder = models.ForeignKey(UserFolder, verbose_name=_('folder'), on_delete=models.PROTECT, null=True)
+    folder = models.ForeignKey(UserFolder, verbose_name=_('folder'), on_delete=models.PROTECT, null=True, blank=True)
+    patronymic = models.CharField(_('patronymic'), max_length=30, blank=True)
+    needs_change_password = models.BooleanField(_('password needs to be changed'), null=False, default=False)
 
 
 def create_user_profile(sender, instance, created, **kwargs):

@@ -130,11 +130,11 @@ class CreateUsersMassView(UserFolderMixin, generic.FormView):
         folder_id = cast_id(folder_id_or_root)
         users = form.cleaned_data['tsv']
         with transaction.atomic():
-            for user in users:
+            for user, userprofile in users:
                 user.save()
-                profile = user.userprofile
-                profile.folder_id = folder_id
-                profile.save()
+                userprofile.user = user
+                userprofile.folder_id = folder_id
+                userprofile.save()
         return redirect('users:show_folder', folder_id_or_root)
 
 

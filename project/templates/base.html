@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load i18n %}
+{% load irunner_messagebox %}
 
 <!DOCTYPE html>
 <html>
@@ -64,7 +65,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
+                            <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
                             <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> {% trans 'Logout' %}</a></li>
                         {% else %}
                             <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>
@@ -89,6 +90,13 @@
         </nav>
 
         <div class="container">
+        {% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password and not disable_change_password_warning %}
+            {% irunner_messagebox 'warning' wide=True %}
+                <p class="text-center">
+                    {% trans 'Please set up a new password instead of default one.' %} <a href="{% url 'password_change' %}">{% trans 'Change password' %}.</a>
+                </p>
+            {% irunner_endmessagebox %}
+        {% endif %}
         {% block content %}
         {% endblock %}
         </div>

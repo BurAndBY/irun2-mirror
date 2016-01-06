@@ -3,7 +3,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
-from models import UserFolder
+from models import UserFolder, UserProfile
 from mptt.forms import TreeNodeChoiceField
 
 
@@ -62,7 +62,8 @@ class CreateUsersMassForm(forms.Form):
             usernames.add(username)
 
             user = user_model(username=username, first_name=first_name, last_name=last_name)
-            users.append(user)
+            userprofile = UserProfile(patronymic=patronymic, needs_change_password=True, folder=None)
+            users.append((user, userprofile))
 
         return users
 
@@ -73,11 +74,14 @@ class CreateUsersMassForm(forms.Form):
 
         if password is not None and users is not None:
             errors = []
-            for user in users:
+            for user, userprofile in users:
                 try:
                     user.set_password(password)
                     user.full_clean()
+
+                    userprofile.full_clean(exclude=['user'])
                 except forms.ValidationError as e:
+                    print e
                     errors.extend(e.messages)
             if errors:
                 raise forms.ValidationError(errors)
