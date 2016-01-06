@@ -26,3 +26,18 @@ def fetch_irunner_file(db, file_id, storage):
         return (filename, size, resource_id)
 
     return None
+
+
+def import_tree(model, db, folder_id, obj=None):
+    cur = db.cursor()
+    cur.execute('SELECT folderID, name, description FROM katrin_folder WHERE parentID = %s', (folder_id,))
+    rows = cur.fetchall()
+    for row in rows:
+        next_folder_id, name, description = row[0], row[1], row[2]
+        description = description or ''
+        folder, _ = model.objects.update_or_create(id=next_folder_id, defaults={
+            'name': name,
+            'description': description,
+            'parent': obj
+        })
+        import_tree(model, db, next_folder_id, folder)

@@ -11,6 +11,7 @@ class UserFolder(MPTTModel):
     name = models.CharField(_('name'), max_length=64)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    description = models.CharField(_('description'), max_length=255, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -21,6 +22,7 @@ class UserProfile(models.Model):
     folder = models.ForeignKey(UserFolder, verbose_name=_('folder'), on_delete=models.PROTECT, null=True, blank=True)
     patronymic = models.CharField(_('patronymic'), max_length=30, blank=True)
     needs_change_password = models.BooleanField(_('password needs to be changed'), null=False, default=False)
+    description = models.CharField(_('description'), max_length=255, blank=True)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
