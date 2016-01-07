@@ -21,6 +21,8 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/$', views.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
 
+    url(r'^(?P<course_id>[0-9]+)/settings/delete/$', views.ModernCourseSettingsDeleteView.as_view(), name='course_settings_delete'),
+
     url(r'^(?P<course_id>[0-9]+)/settings/topics/$', views.CourseSettingsTopicsListView.as_view(), name='course_settings_topics'),
     url(r'^(?P<course_id>[0-9]+)/settings/topics/create/$', views.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),
     url(r'^(?P<course_id>[0-9]+)/settings/topics/(?P<pk>[0-9]+)/$', views.CourseSettingsTopicsUpdateView.as_view(), name='course_settings_topics_update'),
@@ -34,5 +36,4 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', views.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
     url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', views.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),
-    url(r'^(?P<course_id>[0-9]+)/settings/sheet/$', views.CourseSettingsSheetView.as_view(), name='course_settings_sheet'),
 ]

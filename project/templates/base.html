@@ -98,6 +98,11 @@
                 </p>
             {% irunner_endmessagebox %}
         {% endif %}
+        {% if debug_message %}
+            {% irunner_messagebox 'info' wide=True %}
+                {{ debug_message }}
+            {% irunner_endmessagebox %}
+        {% endif %}
         {% block content %}
         {% endblock %}
         </div>

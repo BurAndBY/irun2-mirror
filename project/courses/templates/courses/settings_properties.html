@@ -15,4 +15,6 @@
     {% endbuttons %}
 </form>
 
+<a href="{% url 'courses:course_settings_delete' course.id %}">{% trans 'Delete the course' %}</a>
+
 {% endblock %}

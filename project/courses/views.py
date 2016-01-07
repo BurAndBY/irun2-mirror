@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, Http404
 from .models import Course, Topic, Membership, Assignment
 from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm
 from django.conf import settings
+from django.core.urlresolvers import reverse_lazy
 
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
@@ -16,6 +17,8 @@ from problems.models import Problem
 from collections import namedtuple
 from django.forms import inlineformset_factory
 from django.contrib import messages
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 import random
 
@@ -212,25 +215,21 @@ class BaseCourseView(generic.View):
     tab = None
     subtab = None
 
-    def _load(self, course_id):
-        return get_object_or_404(Course, pk=course_id)
-
-    def _load_topic(self, course, topic_id):
-        topic = course.topic_set.filter(id=topic_id).first()
-        if topic is None:
-            raise Http404('Topic does not exist in the course')
-        return topic
-
-    def _load_problem_from_topic(self, course, topic, problem_id):
-        return get_object_or_404(Problem, pk=problem_id)
-
-    def _make_context(self, course):
+    def get_context_data(self, **kwargs):
         context = {
-            'course': course,
+            'course': self.course,
             'active_tab': self.tab,
-            'active_subtab': self.subtab
+            'active_subtab': self.subtab,
+            'debug_message': 'Tralala'
         }
+        context.update(kwargs)
         return context
+
+    @method_decorator(login_required)
+    def dispatch(self, request, course_id, *args, **kwargs):
+        course = get_object_or_404(Course, pk=course_id)
+        self.course = course
+        return super(BaseCourseView, self).dispatch(request, course, *args, **kwargs)
 
 
 class CourseInfoView(BaseCourseView):
@@ -238,9 +237,7 @@ class CourseInfoView(BaseCourseView):
     template_name = 'courses/info.html'
 
     def get(self, request, course_id):
-        course = self._load(course_id)
-        context = self._make_context(course)
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, self.get_context_data())
 
 
 class StudentProblemResult(object):
@@ -269,8 +266,7 @@ class CourseStandingsView(BaseCourseView):
     tab = 'standings'
     template_name = 'courses/standings.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         rnd = random.Random(1)
 
         students = Membership.objects\
@@ -308,7 +304,7 @@ class CourseStandingsView(BaseCourseView):
             sr = StudentResult(name, surname, insubgroup, sprs)
             results.append(sr)
 
-        context = self._make_context(course)
+        context = self.get_context_data()
         context['results'] = results
         context['header_topics'] = header
         return render(request, self.template_name, context)
@@ -321,8 +317,7 @@ class CourseSheetView(BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         rnd = random.Random(1)
 
         #main_activities = (
@@ -349,7 +344,7 @@ class CourseSheetView(BaseCourseView):
                 [rnd.randint(4, 10) for _ in extra_activities],
             ))
 
-        context = self._make_context(course)
+        context = self.get_context_data()
         context['main_activities'] = main_activities
         context['extra_activities'] = extra_activities
         context['data'] = rows
@@ -360,9 +355,8 @@ class CourseSubmitView(BaseCourseView):
     tab = 'submit'
     template_name = 'courses/submit.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
-        context = self._make_context(course)
+    def get(self, request, course):
+        context = self.get_context_data()
         return render(request, self.template_name, context)
 
 
@@ -374,22 +368,19 @@ class CourseSettingsPropertiesView(CourseSettingsView):
     subtab = 'properties'
     template_name = 'courses/settings_properties.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         form = PropertiesForm(instance=course)
-        context = self._make_context(course)
-        context['form'] = form
+
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, course_id):
-        course = self._load(course_id)
+    def post(self, request, course):
         form = PropertiesForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses:course_settings_properties', course_id=course_id)
+            return redirect('courses:course_settings_properties', course_id=course.id)
 
-        context = self._make_context(course)
-        context['form'] = form
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
 
@@ -397,21 +388,19 @@ class CourseSettingsCompilersView(CourseSettingsView):
     subtab = 'compilers'
     template_name = 'courses/settings_compilers.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         form = CompilersForm(instance=course)
-        context = self._make_context(course)
-        context['form'] = form
+
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, course_id):
-        course = self._load(course_id)
+    def post(self, request, course):
         form = CompilersForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses:course_settings_compilers', course_id=course_id)
+            return redirect('courses:course_settings_compilers', course_id=course.id)
 
-        context = self._make_context(course)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
 
@@ -419,15 +408,11 @@ class CourseSettingsUsersView(CourseSettingsView):
     subtab = 'users'
     template_name = 'courses/settings_users.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
-
+    def get(self, request, course):
         students = course.members.filter(membership__role=Membership.STUDENT).order_by('last_name')
         teachers = course.members.filter(membership__role=Membership.TEACHER).order_by('last_name')
 
-        context = self._make_context(course)
-        context['students'] = students
-        context['teachers'] = teachers
+        context = self.get_context_data(students=students, teachers=teachers)
         return render(request, self.template_name, context)
 
 
@@ -435,13 +420,10 @@ class CourseSettingsUsersStudentsView(CourseSettingsView):
     subtab = 'users'
     template_name = 'courses/settings_users_edit.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
-
+    def get(self, request, course):
         students = course.members.all()
 
-        context = self._make_context(course)
-        context['students'] = students
+        context = self.get_context_data(students=students)
         return render(request, self.template_name, context)
 
 
@@ -449,39 +431,12 @@ class CourseSettingsSubgroupsView(CourseSettingsView):
     subtab = 'subgroups'
     template_name = 'courses/settings_subgroups.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
-        context = self._make_context(course)
+    def get(self, request, course):
+        context = self.get_context_data()
         return render(request, self.template_name, context)
 
 
 from models import Activity
-
-
-class CourseSettingsSheetView(CourseSettingsView):
-    subtab = 'sheet'
-    template_name = 'courses/settings_sheet.html'
-
-    def get(self, request, course_id):
-        course = self._load(course_id)
-        context = self._make_context(course)
-        ActivityFormSet = inlineformset_factory(Course, Activity, fields=('name', 'kind', 'weight'))
-        formset = ActivityFormSet(instance=course)
-        context['formset'] = formset
-
-        return render(request, self.template_name, context)
-
-    def post(self, request, course_id):
-        course = self._load(course_id)
-        context = self._make_context(course)
-        ActivityFormSet = inlineformset_factory(Course, Activity, fields=('name', 'kind', 'weight'))
-        formset = ActivityFormSet(request.POST, instance=course)
-        if formset.is_valid():
-            formset.save()
-            return redirect('courses:course_settings_sheet', course_id=course_id)
-
-        context['formset'] = formset
-        return render(request, self.template_name, context)
 
 
 '''
@@ -500,11 +455,9 @@ class CourseSettingsBaseListView(CourseSettingsView):
     def get_queryset(self, course):
         raise NotImplementedError()
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         object_list = self.get_queryset(course)
-        context = self._make_context(course)
-        context['object_list'] = object_list
+        context = self.get_context_data(object_list=object_list)
         self._do_init_context(course, object_list, context)
         return render(request, self.template_name, context)
 
@@ -522,21 +475,17 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
     '''
     template_name = 'courses/settings_component.html'
 
-    def _make_context_form(self, course, form):
-        context = self._make_context(course)
-        context['form'] = form
-        context['cancel_url'] = reverse(self.list_url_name, args=(course.id,))
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsBaseCreateView, self).get_context_data(**kwargs)
+        context['cancel_url'] = reverse(self.list_url_name, args=(self.course.id,))
         return context
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         form = self.form_class()
-
-        context = self._make_context_form(course, form)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, course_id):
-        course = self._load(course_id)
+    def post(self, request, course):
         form = self.form_class(request.POST)
         if form.is_valid():
             with transaction.atomic():
@@ -544,9 +493,9 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
                 obj.course = course
                 obj.save()
                 self._do_save(course, form, obj)
-            return redirect(self.list_url_name, course_id=course_id)
+            return redirect(self.list_url_name, course_id=course.id)
 
-        context = self._make_context_form(course, form)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def _do_save(self, course, form, obj):
@@ -563,29 +512,25 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
     '''
     template_name = 'courses/settings_component.html'
 
-    def _make_context_form(self, course, form):
-        context = self._make_context(course)
-        context['form'] = form
-        context['can_delete'] = True
-        context['cancel_url'] = reverse(self.list_url_name, args=(course.id,))
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsBaseUpdateView, self).get_context_data(**kwargs)
+        context['cancel_url'] = reverse(self.list_url_name, args=(self.course.id,))
         return context
 
     def _get_object(self, course_id, pk):
         model = self.form_class.Meta.model
         return get_object_or_404(model, course_id=course_id, pk=pk)
 
-    def get(self, request, course_id, pk):
-        course = self._load(course_id)
-        obj = self._get_object(course_id, pk)
+    def get(self, request, course, pk):
+        obj = self._get_object(course.id, pk)
         form = self.form_class(instance=obj)
         self._do_load(course, form, obj)
 
-        context = self._make_context_form(course, form)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, course_id, pk):
-        course = self._load(course_id)
-        obj = self._get_object(course_id, pk)
+    def post(self, request, course, pk):
+        obj = self._get_object(course, pk)
         form = self.form_class(request.POST, instance=obj)
 
         if 'save' in request.POST:
@@ -593,13 +538,13 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
                 with transaction.atomic():
                     obj = form.save()
                     self._do_save(course, form, obj)
-                return redirect(self.list_url_name, course_id=course_id)
+                return redirect(self.list_url_name, course_id=course.id)
 
         elif 'delete' in request.POST:
             obj.delete()
-            return redirect(self.list_url_name, course_id=course_id)
+            return redirect(self.list_url_name, course_id=course.id)
 
-        context = self._make_context_form(course, form)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def _do_load(self, course, form, obj):
@@ -708,12 +653,10 @@ class CourseProblemsView(BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_base.html'
 
-    def get(self, request, course_id):
-        course = self._load(course_id)
+    def get(self, request, course):
         topics = course.topic_set.all()
 
-        context = self._make_context(course)
-        context['topics'] = topics
+        context = self.get_context_data(topics=topics)
         return render(request, self.template_name, context)
 
 
@@ -721,15 +664,14 @@ class CourseProblemsTopicView(BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_list.html'
 
-    def get(self, request, course_id, topic_id):
-        course = self._load(course_id)
+    def get(self, request, course, topic_id):
         topic = course.topic_set.filter(id=topic_id).first()
         if topic is None:
-            return redirect('courses:course_problems', course_id=course_id)
+            return redirect('courses:course_problems', course_id=course.id)
 
         problems = topic.list_problems()
 
-        context = self._make_context(course)
+        context = self.get_context_data()
         topics = course.topic_set.all()
         context['topics'] = topics
         context['active_topic'] = topic
@@ -750,37 +692,40 @@ class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
     tab = 'problems'
     template_name = 'courses/problems_statement.html'
 
-    def get(self, request, course_id, topic_id, problem_id, filename):
-        course = self._load(course_id)
-        topic = self._load_topic(course, topic_id)
-        problem = self._load_problem_from_topic(course, topic, problem_id)
+    def get(self, request, course, topic_id, problem_id, filename):
+        topic = get_object_or_404(Topic, pk=topic_id, course_id=course.id)
+        if topic.problem_folder is None:
+            return redirect('courses:course_problems', course_id=course.id)
+
+        problem = topic.problem_folder.problem_set.filter(pk=problem_id).first()
+        if problem is None:
+            return redirect('courses:course_problems_topic', course_id=course.id, topic_id=topic.id)
 
         if self.is_aux_file(filename):
-            return self.serve_aux_file(request, problem_id, filename)
+            return self.serve_aux_file(request, problem.id, filename)
 
-        if topic.problem_folder is not None:
-            problem_ids = topic.problem_folder.problem_set.order_by('number', 'subnumber').values_list('id', flat=True)
-            problem_ids = list(problem_ids)  # evaluate the queryset
-            problem_id = int(problem_id)  # save because of regexp in urls.py
+        problem_ids = topic.problem_folder.problem_set.order_by('number', 'subnumber').values_list('id', flat=True)
+        problem_ids = list(problem_ids)  # evaluate the queryset
+        problem_id = int(problem_id)  # safe because of regexp in urls.py
 
-            positions = _locate_in_list(problem_ids, problem_id)
-            if positions is not None:
-                context = self._make_context(course)
-                prev, cur, next = positions
+        positions = _locate_in_list(problem_ids, problem_id)
+        if positions is not None:
+            context = self.get_context_data()
+            prev, cur, next = positions
 
-                context['prev_next'] = True
-                context['prev_problem_id'] = problem_ids[prev]
-                context['cur_position'] = cur + 1  # 1-based
-                context['total_positions'] = len(problem_ids)
-                context['next_problem_id'] = problem_ids[next]
-                context['statement'] = self.make_statement(problem)
+            context['prev_next'] = True
+            context['prev_problem_id'] = problem_ids[prev]
+            context['cur_position'] = cur + 1  # 1-based
+            context['total_positions'] = len(problem_ids)
+            context['next_problem_id'] = problem_ids[next]
+            context['statement'] = self.make_statement(problem)
 
-                context['topics'] = course.topic_set.all()
-                context['active_topic'] = topic
-                return render(request, self.template_name, context)
+            context['topics'] = course.topic_set.all()
+            context['active_topic'] = topic
+            return render(request, self.template_name, context)
 
         # fallback
-        return redirect('courses:course_problems', course_id=course_id)
+        return redirect('courses:course_problems', course_id=course.id)
 
 
 AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topics extra_form')
@@ -861,18 +806,15 @@ class CourseAssignView(BaseCourseView):
         value = request.GET.get('penaltytopic')
         return int(value) if value is not None else None
 
-    def get(self, request, course_id, membership_id):
-        course = self._load(course_id)
+    def get(self, request, course, membership_id):
         membership = get_object_or_404(Membership, id=membership_id, course=course)
 
         ass = prepare_assignment(course, membership, self._extract_new_penalty_topic(request))
 
-        context = self._make_context(course)
-        context['data'] = ass
+        context = self.get_context_data(data=ass)
         return render(request, self.template_name, context)
 
-    def post(self, request, course_id, membership_id):
-        course = self._load(course_id)
+    def post(self, request, course, membership_id):
         membership = get_object_or_404(Membership, id=membership_id, course=course)
 
         adr = prepare_assignment(course, membership, self._extract_new_penalty_topic(request), post_data=request.POST)
@@ -900,17 +842,34 @@ class CourseAssignView(BaseCourseView):
                             assignment.delete()
 
             #messages.add_message(request, messages.INFO, 'Hello world.')
-            return redirect('courses:course_assignment', course_id=course_id, membership_id=membership_id)
+            return redirect('courses:course_assignment', course_id=course.id, membership_id=membership_id)
 
-        context = self._make_context(course)
-        context['data'] = adr
+        context = self.get_context_data(data=adr)
         return render(request, self.template_name, context)
 
 
-class CourseListView(generic.ListView):
+class ModernCourseMixin(object):
     model = Course
+    pk_url_kwarg = 'course_id'
+
+    def get_context_data(self, **kwargs):
+        context = super(ModernCourseMixin, self).get_context_data(**kwargs)
+        context['active_tab'] = getattr(self, 'tab', None)
+        context['active_subtab'] = getattr(self, 'subtab', None)
+        return context
 
 
-class CourseCreateView(generic.CreateView):
-    model = Course
+class CourseListView(ModernCourseMixin, generic.ListView):
+    pass
+
+
+class CourseCreateView(ModernCourseMixin, generic.CreateView):
     fields = ['name']
+
+
+class ModernSettingsMixin(object):
+    tab = 'settings'
+
+
+class ModernCourseSettingsDeleteView(ModernCourseMixin, ModernSettingsMixin, generic.DeleteView):
+    success_url = reverse_lazy('courses:index')
