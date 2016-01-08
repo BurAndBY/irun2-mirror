@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-08 16:59+0300\n"
-"PO-Revision-Date: 2016-01-08 17:00+0300\n"
+"POT-Creation-Date: 2016-01-08 23:30+0300\n"
+"PO-Revision-Date: 2016-01-08 23:31+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -181,8 +181,12 @@ msgstr "Тема:"
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\courses\models.py:19 .\courses\models.py:28 .\courses\models.py:59
-#: .\users\models.py:11
+#: .\courses\models.py:11
+msgid "criterion label"
+msgstr "обозначение критерия"
+
+#: .\courses\models.py:12 .\courses\models.py:19 .\courses\models.py:28
+#: .\courses\models.py:59 .\users\models.py:11
 msgid "name"
 msgstr "название"
 
@@ -255,6 +259,7 @@ msgid "New course"
 msgstr "Новый курс"
 
 #: .\courses\templates\courses\course_form.html:12
+#: .\courses\templates\courses\criterion_form.html:12
 msgid "Create"
 msgstr "Создать"
 
@@ -265,6 +270,20 @@ msgstr "Курсы"
 #: .\courses\templates\courses\course_list.html:15
 msgid "There are no courses available."
 msgstr "Нет доступных курсов."
+
+#: .\courses\templates\courses\criterion_form.html:7
+#: .\courses\templates\courses\criterion_list.html:18
+msgid "New criterion"
+msgstr "Новый критерий"
+
+#: .\courses\templates\courses\criterion_list.html:8
+#: .\courses\templates\courses\settings_topics.html:26
+msgid "Criteria"
+msgstr "Критерии"
+
+#: .\courses\templates\courses\criterion_list.html:16
+msgid "There are no criteria defined."
+msgstr "Критерии не определены."
 
 #: .\courses\templates\courses\problems_base.html:39
 msgid "Select a topic to view problems."
@@ -332,12 +351,12 @@ msgstr "Новый вид деятельности"
 msgid "Not implemented yet."
 msgstr "Функциональность не реализована."
 
-#: .\courses\templates\courses\settings_topics.html:12
+#: .\courses\templates\courses\settings_topics.html:13
 msgid "Folder"
 msgstr "Папка"
 
-#: .\courses\templates\courses\settings_topics.html:16
-#: .\courses\templates\courses\settings_topics.html:22
+#: .\courses\templates\courses\settings_topics.html:17
+#: .\courses\templates\courses\settings_topics.html:24
 #, python-format
 msgid "%(counter)s problem"
 msgid_plural "%(counter)s problems"
@@ -345,15 +364,15 @@ msgstr[0] "%(counter)s задача"
 msgstr[1] "%(counter)s задачи"
 msgstr[2] "%(counter)s задач"
 
-#: .\courses\templates\courses\settings_topics.html:21
+#: .\courses\templates\courses\settings_topics.html:23
 msgid "To assign"
 msgstr "Для назначения"
 
-#: .\courses\templates\courses\settings_topics.html:28
+#: .\courses\templates\courses\settings_topics.html:37
 msgid "No topics."
 msgstr "Нет тем."
 
-#: .\courses\templates\courses\settings_topics.html:31
+#: .\courses\templates\courses\settings_topics.html:40
 msgid "New topic"
 msgstr "Новая тема"
 
@@ -380,6 +399,7 @@ msgstr "Редактирование списка преподавателей"
 
 #: .\courses\templates\courses\sheet.html:9
 #: .\courses\templates\courses\standings.html:9
+#: .\courses\templates\courses\standings2.html:10
 #: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\irunner_testresults_tag.html:8
 #: .\solutions\templates\solutions\judgement.html:24
@@ -388,6 +408,7 @@ msgstr "№"
 
 #: .\courses\templates\courses\sheet.html:10
 #: .\courses\templates\courses\standings.html:10
+#: .\courses\templates\courses\standings2.html:11
 msgid "Student"
 msgstr "Студент"
 
@@ -421,7 +442,7 @@ msgstr "Отправить решение"
 msgid "Settings"
 msgstr "Настройки"
 
-#: .\courses\views.py:444
+#: .\courses\views.py:449
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -429,7 +450,7 @@ msgstr[0] "Добавлен %(count)d пользователь."
 msgstr[1] "Добавлены %(count)d пользователя."
 msgstr[2] "Добавлено %(count)d пользователей."
 
-#: .\courses\views.py:452
+#: .\courses\views.py:457
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
