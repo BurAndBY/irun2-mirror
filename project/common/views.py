@@ -9,6 +9,7 @@ from django import forms
 from django.http import Http404
 from django.core.paginator import Paginator
 from collections import namedtuple
+from django.contrib import auth
 
 import django.views.generic.list
 
@@ -35,8 +36,10 @@ def choose(request):
 
 
 def listf(request, folder_id):
-    problems = Problem.objects.filter(folders__id=folder_id)
-    data = [{'id': p.id, 'name': p.full_name} for p in problems]
+    #problems = Problem.objects.filter(folders__id=folder_id)
+    problems = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
+    #data = [{'id': p.id, 'name': p.full_name} for p in problems]
+    data = [{'id': p.id, 'name': p.get_full_name()} for p in problems]
 
     return JsonResponse({'data': data}, safe=True)
 

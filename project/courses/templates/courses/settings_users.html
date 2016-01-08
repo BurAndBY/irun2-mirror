@@ -1,17 +1,31 @@
 {% extends 'courses/settings_base.html' %}
 
-{% block submain %}
-<h3>Студенты</h3>
-<ol>
-{% for user in students %}
-	<li> {{ user.last_name }} {{ user.first_name }}
-{% endfor %}
-</ol>
+{% load i18n %}
+{% load irunner_users %}
+{% load bootstrap3 %}
 
-<h3>Преподаватели</h3>
-<ol>
-{% for user in teachers %}
-	<li> {{ user.last_name }} {{ user.first_name }}
-{% endfor %}
-</ol>
+{% block submain %}
+    {% bootstrap_messages %}
+
+    <h3><a href="{% url 'courses:course_settings_users_students' course.id %}">{% trans 'Students' %}</a></h3>
+    {% if students %}
+        <ol>
+        {% for user in students %}
+            <li>{% irunner_users_show user %}</li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        {% trans 'No users are set.' %}
+    {% endif %}
+
+    <h3><a href="{% url 'courses:course_settings_users_teachers' course.id %}">{% trans 'Teachers' %}</a></h3>
+    {% if teachers %}
+        <ul>
+        {% for user in teachers %}
+            <li>{% irunner_users_show user %}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        {% trans 'No users are set.' %}
+    {% endif %}
 {% endblock %}

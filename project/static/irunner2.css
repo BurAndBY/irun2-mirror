@@ -402,15 +402,15 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 /**
- * Multi choose
+ * Two-panel multi choose
  */
-.ir-multiselect-tab {
+.ir-twopanel-tab {
     min-height: 320px;
 }
-.ir-multiselect-tab > option {
+.ir-twopanel-tab > option {
     color: #000;
 }
-.ir-multiselect-tab > option:disabled {
+.ir-twopanel-tab > option:disabled {
     color: #ccc;
 }
 

@@ -1,11 +1,24 @@
 {% extends 'courses/settings_base.html' %}
 
-{% block submain %}
-Course Users
+{% load i18n %}
+{% load bootstrap3 %}
 
-<ol>
-{% for user in students %}
-<li> {{ user.first_name }}
-{% endfor %}
-</ol>
+{% block submain %}
+    {% if role == 'students' %}
+        <h3>{% trans 'Edit students list' %}</h3>
+    {% elif role == 'teachers' %}
+        <h3>{% trans 'Edit teachers list' %}</h3>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form show_label=False %}
+        {% buttons %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Save' %}
+            </button>
+            <a href="{% url 'courses:course_settings_users' course.id %}" role="button" class="btn btn-default">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
 {% endblock %}

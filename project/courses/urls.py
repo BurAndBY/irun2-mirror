@@ -33,6 +33,8 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/users/$', views.CourseSettingsUsersView.as_view(), name='course_settings_users'),
     url(r'^(?P<course_id>[0-9]+)/settings/users/students/$', views.CourseSettingsUsersStudentsView.as_view(), name='course_settings_users_students'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/teachers/$', views.CourseSettingsUsersTeachersView.as_view(), name='course_settings_users_teachers'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/list/(?P<folder_id>[0-9]+)/$', views.CourseSettingsUsersJsonListView.as_view(), name='course_settings_users_json_list'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', views.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
     url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', views.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),

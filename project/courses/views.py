@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
 from .models import Course, Topic, Membership, Assignment
-from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm
+from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 
@@ -18,7 +18,8 @@ from collections import namedtuple
 from django.forms import inlineformset_factory
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+from django.contrib import auth
+from django.utils.translation import ungettext
 
 import random
 
@@ -225,7 +226,7 @@ class BaseCourseView(generic.View):
         context.update(kwargs)
         return context
 
-    @method_decorator(login_required)
+    @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         course = get_object_or_404(Course, pk=course_id)
         self.course = course
@@ -403,6 +404,10 @@ class CourseSettingsCompilersView(CourseSettingsView):
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
+'''
+Users
+'''
+
 
 class CourseSettingsUsersView(CourseSettingsView):
     subtab = 'users'
@@ -416,15 +421,103 @@ class CourseSettingsUsersView(CourseSettingsView):
         return render(request, self.template_name, context)
 
 
-class CourseSettingsUsersStudentsView(CourseSettingsView):
+class CourseSettingsUsersCommonView(CourseSettingsView):
     subtab = 'users'
     template_name = 'courses/settings_users_edit.html'
 
-    def get(self, request, course):
-        students = course.members.all()
+    def get_role(self):
+        raise NotImplementedError()
 
-        context = self.get_context_data(students=students)
+    def _list_users(self, course):
+        return list(course.members.filter(membership__role=self.get_role()))
+
+    def get(self, request, course):
+        form = CourseUsersForm(initial={'users': self._list_users(course)})
+        form.fields['users'].widget.url_params = [course.id]
+
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
+
+    def _put_message(self, request, users_added, users_removed):
+        msgs = []
+        if users_added > 0:
+            msg = ungettext(
+                '%(count)d user was added.',
+                '%(count)d users were added.',
+                users_added) % {
+                'count': users_added,
+                }
+            msgs.append(msg)
+        if users_removed > 0:
+            msg = ungettext(
+                '%(count)d user was removed.',
+                '%(count)d users were removed.',
+                users_removed) % {
+                'count': users_removed,
+                }
+            msgs.append(msg)
+        if msgs:
+            messages.add_message(request, messages.INFO, ' '.join(msgs))
+
+    def post(self, request, course):
+        role = self.get_role()
+        present_users = self._list_users(course)
+        present_ids = set(user.id for user in present_users)
+
+        form = CourseUsersForm(request.POST, initial={'users': present_users})
+        if form.is_valid():
+            target_users = form.cleaned_data['users']
+            target_ids = set(user.id for user in target_users)
+
+            users_added = 0
+            users_removed = 0
+
+            with transaction.atomic():
+                for user in present_users:
+                    if user.id not in target_ids:
+                        Membership.objects.filter(role=role, course=course, user=user).delete()
+                        users_removed += 1
+
+                for user in target_users:
+                    if user.id not in present_ids:
+                        Membership.objects.create(role=role, course=course, user=user)
+                        users_added += 1
+
+            self._put_message(request, users_added, users_removed)
+            return redirect('courses:course_settings_users', course.id)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsUsersStudentsView(CourseSettingsUsersCommonView):
+    def get_role(self):
+        return Membership.STUDENT
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsUsersStudentsView, self).get_context_data(**kwargs)
+        context['role'] = 'students'
+        return context
+
+
+class CourseSettingsUsersTeachersView(CourseSettingsUsersCommonView):
+    def get_role(self):
+        return Membership.TEACHER
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsUsersTeachersView, self).get_context_data(**kwargs)
+        context['role'] = 'teachers'
+        return context
+
+
+class CourseSettingsUsersJsonListView(CourseSettingsView):
+    def get(self, request, course, folder_id):
+        users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
+        return TwoPanelUserMultipleChoiceField.ajax(users)
+
+'''
+Subgroups
+'''
 
 
 class CourseSettingsSubgroupsView(CourseSettingsView):

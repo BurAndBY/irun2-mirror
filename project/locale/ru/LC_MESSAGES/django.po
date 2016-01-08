@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-06 18:38+0300\n"
-"PO-Revision-Date: 2016-01-06 18:40+0300\n"
+"POT-Creation-Date: 2016-01-08 13:56+0300\n"
+"PO-Revision-Date: 2016-01-08 13:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:10 .\templates\base.html:96
+#: .\cauth\templates\cauth\profile.html:10 .\templates\base.html:97
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -35,6 +35,7 @@ msgstr "Изменить пароль"
 #: .\courses\templates\courses\settings_compilers.html:28
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
+#: .\courses\templates\courses\settings_users_edit.html:17
 #: .\problems\templates\problems\edit.html:14
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:28
@@ -65,7 +66,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:71
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:72
 msgid "Login"
 msgstr "Вход"
 
@@ -73,7 +74,7 @@ msgstr "Вход"
 msgid "Your password was changed."
 msgstr "Ваш пароль был изменён."
 
-#: .\cauth\templates\registration\password_change_form.html:11
+#: .\cauth\templates\registration\password_change_form.html:12
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
@@ -81,11 +82,11 @@ msgstr ""
 "В целях безопасности, пожалуйста, введите свой старый пароль, затем введите "
 "новый пароль дважды, чтобы мы могли убедиться в правильности написания."
 
-#: .\cauth\templates\registration\password_change_form.html:17
+#: .\cauth\templates\registration\password_change_form.html:19
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:109
+#: .\common\templates\common\about.html:6 .\templates\base.html:115
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -104,18 +105,22 @@ msgstr ""
 "по основам алгоритмизации и смежным наукам.\n"
 
 #: .\common\templates\common\choose.html:24
+#: .\common\templates\common\twopanelselectmultiple_widget.html:22
 msgid "Add"
 msgstr "Добавить"
 
 #: .\common\templates\common\choose.html:25
+#: .\common\templates\common\twopanelselectmultiple_widget.html:23
 msgid "Add all"
 msgstr "Добавить всё"
 
 #: .\common\templates\common\choose.html:26
+#: .\common\templates\common\twopanelselectmultiple_widget.html:24
 msgid "Remove"
 msgstr "Удалить"
 
 #: .\common\templates\common\choose.html:27
+#: .\common\templates\common\twopanelselectmultiple_widget.html:25
 msgid "Remove all"
 msgstr "Удалить всё"
 
@@ -142,75 +147,124 @@ msgstr "из"
 msgid "All"
 msgstr "Все"
 
-#: .\courses\forms.py:31 .\problems\forms.py:8
+#: .\common\templates\common\twopanelselectmultiple_widget.html:11
+msgid "Loading"
+msgstr "Загрузка"
+
+#: .\courses\forms.py:34 .\problems\forms.py:8
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:32
+#: .\courses\forms.py:35
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:43
+#: .\courses\forms.py:46
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:57 .\problems\templates\problems\sidebar.html:7
+#: .\courses\forms.py:60 .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:22
 msgid "Problem"
 msgstr "Задача"
 
-#: .\courses\forms.py:70
+#: .\courses\forms.py:73
 msgid "Topic:"
 msgstr "Тема:"
 
-#: .\courses\models.py:18 .\courses\models.py:24 .\courses\models.py:55
+#: .\courses\forms.py:83 .\courses\templates\courses\settings_base.html:19
+#: .\templates\base.html:64 .\users\templates\users\create_form.html:8
+#: .\users\templates\users\create_form.html:13
+#: .\users\templates\users\delete_folder.html:8
+#: .\users\templates\users\folder.html:10
+#: .\users\templates\users\folder.html:15
+msgid "Users"
+msgstr "Пользователи"
+
+#: .\courses\models.py:19 .\courses\models.py:28 .\courses\models.py:59
 #: .\users\models.py:11
 msgid "name"
 msgstr "название"
 
-#: .\courses\models.py:26
+#: .\courses\models.py:30
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:27 .\courses\models.py:79
+#: .\courses\models.py:31 .\courses\models.py:83
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:49
+#: .\courses\models.py:53
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:50
+#: .\courses\models.py:54
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:51
+#: .\courses\models.py:55
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:56
+#: .\courses\models.py:60
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:57 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:61 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:65
+#: .\courses\models.py:69
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:66
+#: .\courses\models.py:70
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:71
+#: .\courses\models.py:75
 msgid "role"
 msgstr "роль"
 
-#: .\courses\models.py:77
+#: .\courses\models.py:81
 msgid "problem"
 msgstr "задача"
+
+#: .\courses\templates\courses\course_confirm_delete.html:7
+msgid "Delete course"
+msgstr "Удалить курс"
+
+#: .\courses\templates\courses\course_confirm_delete.html:8
+msgid ""
+"Are you sure you want to permanently delete the course? This action cannot "
+"be undone."
+msgstr ""
+"Вы уверены, что хотите полностью удалить этот курс? Это действие не может "
+"быть отменено."
+
+#: .\courses\templates\courses\course_confirm_delete.html:12
+#: .\feedback\templates\feedback\confirm.html:10
+#: .\solutions\templates\solutions\confirm_multiple.html:10
+#: .\users\templates\users\delete.html:22 .\users\templates\users\move.html:23
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#: .\courses\templates\courses\course_form.html:7
+#: .\courses\templates\courses\course_list.html:17
+msgid "New course"
+msgstr "Новый курс"
+
+#: .\courses\templates\courses\course_form.html:12
+msgid "Create"
+msgstr "Создать"
+
+#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:63
+msgid "Courses"
+msgstr "Курсы"
+
+#: .\courses\templates\courses\course_list.html:15
+msgid "There are no courses available."
+msgstr "Нет доступных курсов."
 
 #: .\courses\templates\courses\problems_base.html:39
 msgid "Select a topic to view problems."
@@ -227,15 +281,6 @@ msgstr "Темы"
 #: .\courses\templates\courses\settings_base.html:16
 msgid "Compilers"
 msgstr "Компиляторы"
-
-#: .\courses\templates\courses\settings_base.html:19 .\templates\base.html:63
-#: .\users\templates\users\create_form.html:8
-#: .\users\templates\users\create_form.html:13
-#: .\users\templates\users\delete_folder.html:8
-#: .\users\templates\users\folder.html:10
-#: .\users\templates\users\folder.html:15
-msgid "Users"
-msgstr "Пользователи"
 
 #: .\courses\templates\courses\settings_base.html:22
 msgid "Subgroups"
@@ -256,6 +301,10 @@ msgstr "Отмена"
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
+
+#: .\courses\templates\courses\settings_properties.html:18
+msgid "Delete the course"
+msgstr "Удалить курс"
 
 #: .\courses\templates\courses\settings_sheet.html:9
 #, python-format
@@ -290,6 +339,27 @@ msgstr "Для назначения"
 #: .\courses\templates\courses\settings_topics.html:28
 msgid "Create new topic"
 msgstr "Создать новую тему"
+
+#: .\courses\templates\courses\settings_users.html:10
+msgid "Students"
+msgstr "Студенты"
+
+#: .\courses\templates\courses\settings_users.html:18
+#: .\courses\templates\courses\settings_users.html:29
+msgid "No users are set."
+msgstr "Пользователи не заданы."
+
+#: .\courses\templates\courses\settings_users.html:21
+msgid "Teachers"
+msgstr "Преподаватели"
+
+#: .\courses\templates\courses\settings_users_edit.html:8
+msgid "Edit students list"
+msgstr "Редактирование списка студентов"
+
+#: .\courses\templates\courses\settings_users_edit.html:10
+msgid "Edit teachers list"
+msgstr "Редактирование списка преподавателей"
 
 #: .\courses\templates\courses\sheet.html:9
 #: .\courses\templates\courses\standings.html:9
@@ -334,6 +404,22 @@ msgstr "Отправить решение"
 msgid "Settings"
 msgstr "Настройки"
 
+#: .\courses\views.py:445
+#, python-format
+msgid "%(count)d user was added."
+msgid_plural "%(count)d users were added."
+msgstr[0] "Добавлен %(count)d пользователь."
+msgstr[1] "Добавлены %(count)d пользователя."
+msgstr[2] "Добавлено %(count)d пользователей."
+
+#: .\courses\views.py:453
+#, python-format
+msgid "%(count)d user was removed."
+msgid_plural "%(count)d users were removed."
+msgstr[0] "Удалён %(count)d пользователь."
+msgstr[1] "Удалены %(count)d пользователя."
+msgstr[2] "Удалено %(count)d пользователей."
+
 #: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
 msgid "Attachment"
 msgstr "Вложение"
@@ -357,12 +443,6 @@ msgstr "Вложение"
 #: .\feedback\templates\feedback\confirm.html:8
 msgid "Are you sure you want to delete the feedback message?"
 msgstr "Вы уверены, что хотите удалить сообщение обратной связи?"
-
-#: .\feedback\templates\feedback\confirm.html:10
-#: .\solutions\templates\solutions\confirm_multiple.html:10
-#: .\users\templates\users\delete.html:22 .\users\templates\users\move.html:23
-msgid "Confirm"
-msgstr "Подтвердить"
 
 #: .\feedback\templates\feedback\list.html:8
 msgid "Feedback Messages"
@@ -413,7 +493,7 @@ msgstr "уровень сложности"
 msgid "where the problem was offered"
 msgstr "где задача была предложена"
 
-#: .\problems\models.py:27
+#: .\problems\models.py:27 .\users\models.py:14 .\users\models.py:25
 msgid "description"
 msgstr "описание"
 
@@ -786,19 +866,19 @@ msgstr ""
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:65
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:69
+#: .\templates\base.html:70
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:96
+#: .\templates\base.html:97
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:107
+#: .\templates\base.html:113
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
@@ -832,19 +912,19 @@ msgstr "Строка %(number)s не соответствует шаблону."
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:87
+#: .\users\forms.py:91
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\models.py:21 .\users\templates\users\index.html:32
+#: .\users\models.py:22 .\users\templates\users\index.html:32
 msgid "folder"
 msgstr "папка"
 
-#: .\users\models.py:22
+#: .\users\models.py:23
 msgid "patronymic"
 msgstr "отчество"
 
-#: .\users\models.py:23
+#: .\users\models.py:24
 msgid "password needs to be changed"
 msgstr "пароль необходимо изменить"
 
@@ -942,9 +1022,6 @@ msgstr "Массовая регистрация пользователей"
 
 #~ msgid "Next"
 #~ msgstr "Далее"
-
-#~ msgid "No users were created."
-#~ msgstr "Пользователи не были созданы."
 
 #~ msgid "Problems to solve"
 #~ msgstr "Задач для решения"

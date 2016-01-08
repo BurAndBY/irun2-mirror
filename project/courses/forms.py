@@ -3,10 +3,13 @@
 from django import forms
 from .models import Topic, Course, Activity, Assignment
 from problems.models import ProblemFolder
+from users.models import UserFolder
 from proglangs.models import Compiler
 from mptt.forms import TreeNodeChoiceField
 from django.utils.translation import ugettext_lazy as _
-from common.widgets import SelectWithGrayOut
+import common.widgets
+import common.fields
+from django.contrib import auth
 
 
 class PropertiesForm(forms.ModelForm):
@@ -55,7 +58,7 @@ class ProblemModelChoiceField(forms.ModelChoiceField):
 
 class ProblemAssignmentForm(forms.ModelForm):
     problem = ProblemModelChoiceField(label=_('Problem'), queryset=None, required=False,
-                                      widget=SelectWithGrayOut(attrs={'class': 'form-control ir-choose-problem'}))
+                                      widget=common.widgets.SelectWithGrayOut(attrs={'class': 'form-control ir-choose-problem'}))
 
     class Meta:
         model = Assignment
@@ -68,3 +71,15 @@ class ProblemAssignmentForm(forms.ModelForm):
 
 class AddExtraProblemSlotForm(forms.Form):
     penaltytopic = forms.ModelChoiceField(label=_('Topic:'), queryset=None)
+
+
+class TwoPanelUserMultipleChoiceField(common.fields.TwoPanelModelMultipleChoiceField):
+    @classmethod
+    def label_from_instance(cls, obj):
+        return obj.get_full_name()
+
+
+class CourseUsersForm(forms.Form):
+    users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
+                                            model=auth.get_user_model(), folder_model=UserFolder,
+                                            url_pattern='courses:course_settings_users_json_list')
