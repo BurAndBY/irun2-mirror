@@ -2,7 +2,7 @@
 
 from django import forms
 from .models import Topic, Course, Activity, Assignment
-from problems.models import ProblemFolder
+from problems.models import Problem, ProblemFolder
 from users.models import UserFolder
 from proglangs.models import Compiler
 from mptt.forms import TreeNodeChoiceField
@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 import common.widgets
 import common.fields
 from django.contrib import auth
+import solutions.forms
 
 
 class PropertiesForm(forms.ModelForm):
@@ -83,3 +84,10 @@ class CourseUsersForm(forms.Form):
     users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
                                             model=auth.get_user_model(), folder_model=UserFolder,
                                             url_pattern='courses:course_settings_users_json_list')
+
+
+class SolutionForm(solutions.forms.SolutionForm):
+    def __init__(self, problem_choices, compiler_queryset, *args, **kwargs):
+        super(SolutionForm, self).__init__(*args, **kwargs)
+        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
+        self.fields['compiler'].queryset = compiler_queryset

@@ -30,7 +30,7 @@
         {% bootstrap_icon 'tasks' %}
         {% trans 'My solutions' %}
     </a>
-    <a href="#" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
+    <a href="{% url 'courses:course_submit' course.id %}" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
         {% bootstrap_icon 'send' %}
         {% trans 'Submit solution' %}
     </a>

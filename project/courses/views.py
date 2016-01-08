@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
 from .models import Course, Topic, Membership, Assignment, Criterion
-from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
+from .forms import SolutionForm, TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 
@@ -22,7 +22,7 @@ from django.contrib import auth
 from django.utils.translation import ungettext
 
 import random
-from services import CourseDescr, UserResult
+from services import CourseDescr, UserResult, ProblemChoicesBuilder
 
 
 def human_order(queryset):
@@ -360,8 +360,23 @@ class CourseSubmitView(BaseCourseView):
     tab = 'submit'
     template_name = 'courses/submit.html'
 
+    def _make_choices(self):
+        builder = ProblemChoicesBuilder()
+        for topic in self.course.topic_set.all():
+            if topic.problem_folder is not None:
+                builder.add(topic.name, topic.problem_folder.problem_set.all().order_by('number', 'subnumber', 'full_name'))
+        return builder.get()
+
     def get(self, request, course):
-        context = self.get_context_data()
+        form = SolutionForm(problem_choices=self._make_choices(), compiler_queryset=course.compilers)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        form = SolutionForm(problem_choices=self._make_choices(), compiler_queryset=course.compilers)
+        if form.is_valid():
+            pass
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
 

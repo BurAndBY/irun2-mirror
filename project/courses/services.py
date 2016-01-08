@@ -1,21 +1,20 @@
-from collections import namedtuple
+# -*- coding: utf-8 -*-
+
+from django.utils.translation import ugettext_lazy as _
 
 
-class ProblemResult(object):
-    def __init__(self, points, max_points):
-        self.points = points
-        self.max_points = max_points
+class ProblemChoicesBuilder(object):
+    '''
+    Helper to build dynamic choices for TypedChoiceField
+    '''
+    def __init__(self):
+        self._data = [(None, _(u'— not set —'))]
 
-    def is_full_solution(self):
-        return self.points == self.max_points
+    def add(self, name, problems):
+        self._data.append((name, tuple((problem.id, problem.numbered_full_name()) for problem in problems)))
 
-
-class CourseResultsManager(object):
-    def __init__(self, course):
-        pass
-
-    def get(self, user_id, problem_id):
-        return None
+    def get(self):
+        return tuple(self._data)
 
 '''
 descr means description

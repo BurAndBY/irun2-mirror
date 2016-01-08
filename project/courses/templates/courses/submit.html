@@ -1,5 +1,24 @@
 {% extends 'courses/base.html' %}
 
+{% load bootstrap3 %}
+{% load i18n %}
+
 {% block main %}
-Tralala
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <div class="row">
+            <div class="col-md-7">
+                {% bootstrap_field form.problem %}
+            </div>
+            <div class="col-md-5">
+                {% bootstrap_field form.compiler %}
+            </div>
+        </div>
+        {% bootstrap_field form.text %}
+        {% bootstrap_field form.upload %}
+        {% buttons %}
+            <button type="submit" class="btn btn-default">{% bootstrap_icon 'send' %} {% trans 'Send' %}</button>
+        {% endbuttons %}
+    </form>
 {% endblock %}
