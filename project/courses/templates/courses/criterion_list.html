@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses_criterion %}
+
+{% block content %}
+    <h1>{% trans 'Criteria' %}</h1>
+    {% if object_list %}
+        <ul>
+            {% for criterion in object_list %}
+                <li>{% irunner_courses_criterion criterion False %} {% irunner_courses_criterion criterion True %} {{ criterion.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% trans 'There are no criteria defined.' %}</p>
+    {% endif %}
+    <p><a href="{% url 'courses:criterion_new' %}">{% trans 'New criterion' %}</a></p>
+{% endblock %}

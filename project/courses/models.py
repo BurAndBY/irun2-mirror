@@ -8,8 +8,8 @@ from django.core.urlresolvers import reverse
 
 
 class Criterion(models.Model):
-    label = models.CharField(max_length=8)
-    name = models.CharField(max_length=64)
+    label = models.CharField(_('criterion label'), max_length=8, unique=True)
+    name = models.CharField(_('name'), max_length=64)
 
     def __unicode__(self):
         return self.name

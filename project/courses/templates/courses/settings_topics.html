@@ -1,6 +1,7 @@
 {% extends 'courses/settings_base.html' %}
 
 {% load i18n %}
+{% load irunner_courses_criterion %}
 
 {% block submain %}
     {% if object_list %}
@@ -18,8 +19,16 @@
                             &mdash;
                         {% endif %}
                     </dd>
+
                     <dt>{% trans 'To assign' %}</dt>
                     <dd>{% blocktrans count counter=topic.slot_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %}</dd>
+
+                    <dt>{% trans 'Criteria' %}</dt>
+                    <dd>
+                        {% for criterion in topic.criteria.all %}
+                            {% irunner_courses_criterion criterion True %}
+                        {% endfor %}
+                    </dd>
                 </dl>
             </li>
         {% endfor %}

@@ -3,7 +3,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
-from .models import Course, Topic, Membership, Assignment
+from .models import Course, Topic, Membership, Assignment, Criterion
 from .forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
@@ -1005,3 +1005,20 @@ class ModernCourseStandingsView(BaseCourseView):
         context['course_descr'] = course_descr
         context['results'] = results
         return render(request, self.template_name, context)
+
+
+'''
+Criterion
+'''
+
+
+class CriterionListView(generic.ListView):
+    model = Criterion
+
+
+class CriterionCreateView(generic.CreateView):
+    model = Criterion
+    fields = ['label', 'name']
+
+    def get_success_url(self):
+        return reverse('courses:criterion_index')
