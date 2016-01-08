@@ -8,6 +8,7 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/$', views.CourseInfoView.as_view(), name='show_course_info'),
     url(r'^(?P<course_id>[0-9]+)/standings/$', views.CourseStandingsView.as_view(), name='course_standings'),
+    url(r'^(?P<course_id>[0-9]+)/standings2/$', views.ModernCourseStandingsView.as_view(), name='course_standings2'),
     url(r'^(?P<course_id>[0-9]+)/sheet/$', views.CourseSheetView.as_view(), name='course_sheet'),
     url(r'^(?P<course_id>[0-9]+)/submit/$', views.CourseSubmitView.as_view(), name='show_course_submit'),
 

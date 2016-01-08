@@ -22,6 +22,11 @@ from django.contrib import auth
 from django.utils.translation import ungettext
 
 import random
+from services import CourseDescr, UserResult
+
+
+def human_order(queryset):
+    return queryset.order_by('last_name', 'first_name', 'id')
 
 
 class FakeUser(object):
@@ -967,3 +972,36 @@ class CourseSettingsDeleteView(CourseSettingsView):
     def post(self, request, course):
         course.delete()
         return redirect('courses:index')
+
+
+class ModernCourseStandingsView(BaseCourseView):
+    tab = 'standings'
+    template_name = 'courses/standings2.html'
+
+    def get(self, request, course):
+        course_descr = CourseDescr(course)
+        memberships = Membership.objects.filter(course=course, role=Membership.STUDENT)\
+                                        .select_related('user')\
+                                        .order_by('user__last_name', 'user__first_name')
+
+        results = []
+        # indexes for fast lookup to results array items
+        user_id_result = {}
+        membership_id_result = {}
+
+        for membership in memberships:
+            user = membership.user
+            result = UserResult(course_descr, user, membership)
+            results.append(result)
+
+            user_id_result[user.id] = result
+            membership_id_result[membership.id] = result
+
+        for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT):
+            mid = assignment.membership_id
+            membership_id_result[mid].register_assignment(assignment)
+
+        context = self.get_context_data()
+        context['course_descr'] = course_descr
+        context['results'] = results
+        return render(request, self.template_name, context)

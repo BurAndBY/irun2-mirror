@@ -1,0 +1,75 @@
+{% extends 'courses/base.html' %}
+
+{% load complexitybox %}
+{% load i18n %}
+
+{% block main %}
+<table class="table ir-table-more-condensed table-striped ir-course-standings">
+    <thead>
+        <tr>
+            <th>{% trans '#' %}</th>
+            <th>{% trans 'Student' %}</th>
+            {% for topic_descr in course_descr.topic_descrs %}
+                {% with topic_descr.get_slot_count as width %}
+                    <th {% if width > 1 %}colspan="{{ width }}"{% endif %}>
+                        <a href="{% url 'courses:course_problems_topic' course.id topic_descr.topic.id %}">{{ topic_descr.topic.name }}</a>
+                    </th>
+                {% endwith %}
+            {% endfor %}
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user_result in results %}
+        <tr>
+            <td>
+                {{ forloop.counter }}
+            </td>
+
+            <td>
+                <a href="{% url 'courses:course_assignment' course.id user_result.membership.id %}">
+                    <b>{{ user_result.user.last_name }}</b><br>
+                    <small>{{ user_result.user.first_name }}</small>
+                </a>
+            </td>
+
+            {% for topic_result in user_result.topic_results %}
+                {% for slot_result in topic_result.slot_results %}
+                    <td class="text-nowrap">
+                        {% if slot_result.should_show_in_standings %}
+                            {% with slot_result.assignment.problem as problem %}
+                                <div class="ir-row1">
+                                    <a href="{% url 'courses:course_problems_topic_problem' course.id topic_result.topic_id problem.id %}">
+                                        {{ problem.numbered_short_name }}
+                                    </a>
+                                </div>
+                                <div class="ir-row2">
+                                    {% complexitybox problem.complexity %}
+                                    {% for letter, state in spr.criteria %}
+                                        <div class="ir-box ir-letter ir-{{ state|yesno:"yes,no" }}">{{ letter }}</div>
+                                    {% endfor %}
+                                    <span class="ir-box ir-score ir-{{ spr.is_full_solution|yesno:"yes,no" }}">
+                                    {% if spr.submitted %}
+                                        {% if spr.is_full_solution %}
+                                            {{spr.points}}
+                                        {% else %}
+                                            {{spr.points}}&nbsp;/&nbsp;{{spr.max_points}}
+                                        {% endif %}
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                    </span>
+                                </div>
+                            {% endwith %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            {% endfor %}
+            <td>
+                S
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
