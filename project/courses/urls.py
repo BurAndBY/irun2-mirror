@@ -21,7 +21,7 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/$', views.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/delete/$', views.ModernCourseSettingsDeleteView.as_view(), name='course_settings_delete'),
+    url(r'^(?P<course_id>[0-9]+)/settings/delete/$', views.CourseSettingsDeleteView.as_view(), name='course_settings_delete'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/topics/$', views.CourseSettingsTopicsListView.as_view(), name='course_settings_topics'),
     url(r'^(?P<course_id>[0-9]+)/settings/topics/create/$', views.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),

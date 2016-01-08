@@ -221,7 +221,6 @@ class BaseCourseView(generic.View):
             'course': self.course,
             'active_tab': self.tab,
             'active_subtab': self.subtab,
-            'debug_message': 'Tralala'
         }
         context.update(kwargs)
         return context
@@ -941,28 +940,23 @@ class CourseAssignView(BaseCourseView):
         return render(request, self.template_name, context)
 
 
-class ModernCourseMixin(object):
+class CourseListView(generic.ListView):
     model = Course
-    pk_url_kwarg = 'course_id'
-
-    def get_context_data(self, **kwargs):
-        context = super(ModernCourseMixin, self).get_context_data(**kwargs)
-        context['active_tab'] = getattr(self, 'tab', None)
-        context['active_subtab'] = getattr(self, 'subtab', None)
-        return context
 
 
-class CourseListView(ModernCourseMixin, generic.ListView):
-    pass
-
-
-class CourseCreateView(ModernCourseMixin, generic.CreateView):
+class CourseCreateView(generic.CreateView):
+    model = Course
     fields = ['name']
 
 
-class ModernSettingsMixin(object):
-    tab = 'settings'
+class CourseSettingsDeleteView(CourseSettingsView):
+    subtab = 'properties'
+    template_name = 'courses/course_confirm_delete.html'
 
+    def get(self, request, course):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 
-class ModernCourseSettingsDeleteView(ModernCourseMixin, ModernSettingsMixin, generic.DeleteView):
-    success_url = reverse_lazy('courses:index')
+    def post(self, request, course):
+        course.delete()
+        return redirect('courses:index')
