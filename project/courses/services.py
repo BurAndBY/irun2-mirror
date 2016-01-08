@@ -39,6 +39,7 @@ class CourseDescr(object):
 class TopicDescr(object):
     def __init__(self, topic):
         self.topic = topic
+        self.criteria = list(topic.criteria.all())
 
         self.slots = []
         self._id_to_index = {}
@@ -54,14 +55,30 @@ class TopicDescr(object):
         return self._id_to_index[slot_id]
 
 
+class CriterionDescr(object):
+    def __init__(self, criterion):
+        self.criterion = criterion
+        self.ok = False
+
+
 class SlotResult(object):
-    def __init__(self, slot=None):
+    def __init__(self, topic_descr, slot=None):
         self.slot = slot
         self.assignment = None
+        self.criterion_descrs = [CriterionDescr(criterion) for criterion in topic_descr.criteria]
 
     def register_assignment(self, assignment):
         assert self.assignment is None, 'duplicate problem assignment for the same slot'
         self.assignment = assignment
+        for criterion in assignment.criteria.all():
+            self._set_criterion(criterion)
+
+    def _set_criterion(self, criterion):
+        for criterion_descr in self.criterion_descrs:
+            if criterion_descr.criterion.id == criterion.id:
+                criterion_descr.ok = True
+                return
+        assert False, 'unknown criterion'
 
     def should_show_in_standings(self):
         return self.assignment is not None and self.assignment.problem is not None
@@ -71,7 +88,7 @@ class TopicResult(object):
     def __init__(self, topic_descr):
         self.topic_id = topic_descr.topic.id
         self.topic_descr = topic_descr
-        self.slot_results = [SlotResult(slot) for slot in topic_descr.slots]
+        self.slot_results = [SlotResult(topic_descr, slot) for slot in topic_descr.slots]
         self.penalty_problem_results = []
 
     def register_assignment(self, assignment):
@@ -79,7 +96,7 @@ class TopicResult(object):
             idx = self.topic_descr.get_slot_index(assignment.slot_id)
             self.slot_results[idx].register_assignment(assignment)
         else:
-            slot_result = SlotResult()
+            slot_result = SlotResult(self.topic_descr)
             slot_result.register_assignment(assignment)
             self.penalty_problem_results.append(slot_result)
 

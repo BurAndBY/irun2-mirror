@@ -1,10 +1,12 @@
 {% extends 'courses/problems_base.html' %}
 
+{% load irunner_problems_complexity %}
+
 {% block submain %}
 <ul class="list-unstyled">
     {% for problem in problems %}
         <li>
-            <div class="ir-complexitybox">{% if problem.complexity %}{{ problem.complexity }}{% else %}&nbsp;{% endif %}</div>
+            {% irunner_problems_complexity problem.complexity %}
             <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id problem.id %}">{{ problem.numbered_full_name }}</a>
         </li>
     {% endfor %}

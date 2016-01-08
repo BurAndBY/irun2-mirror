@@ -1,7 +1,7 @@
 {% extends 'problems/base.html' %}
 
 {% load i18n %}
-{% load complexitybox %}
+{% load irunner_problems_complexity %}
 {% load bootstrap3 %}
 
 {% block main %}
@@ -31,7 +31,7 @@
 
             {% if problem.complexity != None %}
                 <dt>{% trans 'Complexity level' %}</dt>
-                <dd>{% complexitybox problem.complexity %}</dd>
+                <dd>{% irunner_problems_complexity problem.complexity %}</dd>
             {% endif %}
         </dl>
         <dl class="dl-horizontal">

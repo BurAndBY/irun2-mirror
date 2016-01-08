@@ -1,6 +1,7 @@
 {% extends 'courses/base.html' %}
 
-{% load complexitybox %}
+{% load irunner_problems_complexity %}
+{% load irunner_courses_criterion %}
 {% load i18n %}
 
 {% block main %}
@@ -44,21 +45,10 @@
                                     </a>
                                 </div>
                                 <div class="ir-row2">
-                                    {% complexitybox problem.complexity %}
-                                    {% for letter, state in spr.criteria %}
-                                        <div class="ir-box ir-letter ir-{{ state|yesno:"yes,no" }}">{{ letter }}</div>
+                                    {% irunner_problems_complexity problem.complexity %}
+                                    {% for criterion_descr in slot_result.criterion_descrs %}
+                                        {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                     {% endfor %}
-                                    <span class="ir-box ir-score ir-{{ spr.is_full_solution|yesno:"yes,no" }}">
-                                    {% if spr.submitted %}
-                                        {% if spr.is_full_solution %}
-                                            {{spr.points}}
-                                        {% else %}
-                                            {{spr.points}}&nbsp;/&nbsp;{{spr.max_points}}
-                                        {% endif %}
-                                    {% else %}
-                                        &nbsp;
-                                    {% endif %}
-                                    </span>
                                 </div>
                             {% endwith %}
                         {% endif %}

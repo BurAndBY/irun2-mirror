@@ -997,7 +997,7 @@ class ModernCourseStandingsView(BaseCourseView):
             user_id_result[user.id] = result
             membership_id_result[membership.id] = result
 
-        for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT):
+        for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT).prefetch_related('criteria'):
             mid = assignment.membership_id
             membership_id_result[mid].register_assignment(assignment)
 
