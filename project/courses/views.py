@@ -948,6 +948,13 @@ class CourseCreateView(generic.CreateView):
     model = Course
     fields = ['name']
 
+    def form_valid(self, form):
+        with transaction.atomic():
+            result = super(CourseCreateView, self).form_valid(form)
+            course = self.object
+            course.compilers = Compiler.objects.filter(legacy=False)
+            return result
+
 
 class CourseSettingsDeleteView(CourseSettingsView):
     subtab = 'properties'
