@@ -11,7 +11,7 @@
 {% endif %}
 
 {% if main_activities %}
-    <h3>Основные зачётные виды деятельности</h3>
+    <h3>{% trans 'Main kinds of activity' %}</h3>
     <ul>
     {% for activity in main_activities %}
         <li>
@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if extra_activities %}
-    <h3>Дополнительные виды деятельности</h3>
+    <h3>{% trans 'Extra kinds of activity' %}</h3>
     <ul>
     {% for activity in extra_activities %}
         <li>
@@ -32,6 +32,7 @@
     </ul>
 {% endif %}
 
-<a href="{% url 'courses:course_settings_sheet_activity_create' course.id %}" class="btn btn-default">{% trans 'Add new kind of activity' %}</a>
-
+<p>
+    <a href="{% url 'courses:course_settings_sheet_activity_create' course.id %}">{% trans 'New kind of activity' %}</a>
+</p>
 {% endblock %}

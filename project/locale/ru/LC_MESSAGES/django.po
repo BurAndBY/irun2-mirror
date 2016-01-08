@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-08 13:56+0300\n"
-"PO-Revision-Date: 2016-01-08 13:57+0300\n"
+"POT-Creation-Date: 2016-01-08 16:59+0300\n"
+"PO-Revision-Date: 2016-01-08 17:00+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -292,6 +292,7 @@ msgid "Sheet"
 msgstr "Ведомость"
 
 #: .\courses\templates\courses\settings_component.html:16
+#: .\courses\templates\courses\settings_users_edit.html:20
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\delete.html:26 .\users\templates\users\move.html:27
 msgid "Cancel"
@@ -315,9 +316,21 @@ msgstr ""
 "<strong>Внимание!</strong> Сумма весов равна %(sum_actual)s, хотя необходима "
 "сумма %(sum_expected)s."
 
-#: .\courses\templates\courses\settings_sheet.html:35
-msgid "Add new kind of activity"
-msgstr "Добавить новый вид деятельности"
+#: .\courses\templates\courses\settings_sheet.html:14
+msgid "Main kinds of activity"
+msgstr "Основные зачётные виды деятельности"
+
+#: .\courses\templates\courses\settings_sheet.html:25
+msgid "Extra kinds of activity"
+msgstr "Дополнительные виды деятельности"
+
+#: .\courses\templates\courses\settings_sheet.html:36
+msgid "New kind of activity"
+msgstr "Новый вид деятельности"
+
+#: .\courses\templates\courses\settings_subgroups.html:6
+msgid "Not implemented yet."
+msgstr "Функциональность не реализована."
 
 #: .\courses\templates\courses\settings_topics.html:12
 msgid "Folder"
@@ -337,8 +350,12 @@ msgid "To assign"
 msgstr "Для назначения"
 
 #: .\courses\templates\courses\settings_topics.html:28
-msgid "Create new topic"
-msgstr "Создать новую тему"
+msgid "No topics."
+msgstr "Нет тем."
+
+#: .\courses\templates\courses\settings_topics.html:31
+msgid "New topic"
+msgstr "Новая тема"
 
 #: .\courses\templates\courses\settings_users.html:10
 msgid "Students"
@@ -404,7 +421,7 @@ msgstr "Отправить решение"
 msgid "Settings"
 msgstr "Настройки"
 
-#: .\courses\views.py:445
+#: .\courses\views.py:444
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -412,7 +429,7 @@ msgstr[0] "Добавлен %(count)d пользователь."
 msgstr[1] "Добавлены %(count)d пользователя."
 msgstr[2] "Добавлено %(count)d пользователей."
 
-#: .\courses\views.py:453
+#: .\courses\views.py:452
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."

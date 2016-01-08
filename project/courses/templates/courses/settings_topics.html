@@ -3,30 +3,31 @@
 {% load i18n %}
 
 {% block submain %}
-
-<ul>
-{% for topic in object_list %}
-    <li>
-        <a href="{% url 'courses:course_settings_topics_update' course.id topic.id %}">{{ topic.name }}</a>
-        <dl class="dl-horizontal">
-            <dt>{% trans 'Folder' %}</dt>
-            <dd>
-                {% if topic.problem_folder %}
-                    &laquo;{{ topic.problem_folder }}&raquo;
-                    ({% blocktrans count counter=topic.problem_folder.problem_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %})
-                {% else %}
-                    no
-                {% endif %}
-            </dd>
-            <dt>{% trans 'To assign' %}</dt>
-            <dd>{% blocktrans count counter=topic.slot_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %}</dd>
-        </dl>
-    </li>
-{% endfor %}
-    <hr>
-    <li>
-        <strong><a href="{% url 'courses:course_settings_topics_create' course.id %}">{% trans 'Create new topic' %}</a></strong>
-    </li>
-</ul>
-
+    {% if object_list %}
+        <ul>
+        {% for topic in object_list %}
+            <li>
+                <a href="{% url 'courses:course_settings_topics_update' course.id topic.id %}">{{ topic.name }}</a>
+                <dl class="dl-horizontal">
+                    <dt>{% trans 'Folder' %}</dt>
+                    <dd>
+                        {% if topic.problem_folder %}
+                            &laquo;{{ topic.problem_folder }}&raquo;
+                            ({% blocktrans count counter=topic.problem_folder.problem_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %})
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </dd>
+                    <dt>{% trans 'To assign' %}</dt>
+                    <dd>{% blocktrans count counter=topic.slot_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %}</dd>
+                </dl>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        {% trans 'No topics.' %}
+    {% endif %}
+    <p>
+        <a href="{% url 'courses:course_settings_topics_create' course.id %}">{% trans 'New topic' %}</a>
+    </p>
 {% endblock %}
