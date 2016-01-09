@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import views
+from . import views, settingsviews
 
 urlpatterns = [
     url(r'^$', views.CourseListView.as_view(), name='index'),
@@ -11,8 +11,9 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/$', views.CourseInfoView.as_view(), name='show_course_info'),
     url(r'^(?P<course_id>[0-9]+)/standings/$', views.CourseStandingsView.as_view(), name='course_standings'),
-    url(r'^(?P<course_id>[0-9]+)/standings2/$', views.ModernCourseStandingsView.as_view(), name='course_standings2'),
     url(r'^(?P<course_id>[0-9]+)/sheet/$', views.CourseSheetView.as_view(), name='course_sheet'),
+    url(r'^(?P<course_id>[0-9]+)/sheet/edit/$', views.CourseSheetEditView.as_view(), name='course_sheet_edit'),
+
     url(r'^(?P<course_id>[0-9]+)/submit/$', views.CourseSubmitView.as_view(), name='course_submit'),
 
     url(r'^(?P<course_id>[0-9]+)/problemset/$', views.CourseProblemsView.as_view(), name='course_problems'),
@@ -26,23 +27,23 @@ urlpatterns = [
 
     # Settings
 
-    url(r'^(?P<course_id>[0-9]+)/settings/$', views.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
+    url(r'^(?P<course_id>[0-9]+)/settings/$', settingsviews.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/delete/$', views.CourseSettingsDeleteView.as_view(), name='course_settings_delete'),
+    url(r'^(?P<course_id>[0-9]+)/settings/delete/$', settingsviews.CourseSettingsDeleteView.as_view(), name='course_settings_delete'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/$', views.CourseSettingsTopicsListView.as_view(), name='course_settings_topics'),
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/create/$', views.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/(?P<pk>[0-9]+)/$', views.CourseSettingsTopicsUpdateView.as_view(), name='course_settings_topics_update'),
+    url(r'^(?P<course_id>[0-9]+)/settings/topics/$', settingsviews.CourseSettingsTopicsListView.as_view(), name='course_settings_topics'),
+    url(r'^(?P<course_id>[0-9]+)/settings/topics/create/$', settingsviews.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/topics/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsTopicsUpdateView.as_view(), name='course_settings_topics_update'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/sheet/$', views.CourseSettingsSheetActivityListView.as_view(), name='course_settings_sheet'),
-    url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/create/$', views.CourseSettingsSheetActivityCreateView.as_view(), name='course_settings_sheet_activity_create'),
-    url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/(?P<pk>[0-9]+)/$', views.CourseSettingsSheetActivityUpdateView.as_view(), name='course_settings_sheet_activity_update'),
+    url(r'^(?P<course_id>[0-9]+)/settings/sheet/$', settingsviews.CourseSettingsSheetActivityListView.as_view(), name='course_settings_sheet'),
+    url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/create/$', settingsviews.CourseSettingsSheetActivityCreateView.as_view(), name='course_settings_sheet_activity_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsSheetActivityUpdateView.as_view(), name='course_settings_sheet_activity_update'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/users/$', views.CourseSettingsUsersView.as_view(), name='course_settings_users'),
-    url(r'^(?P<course_id>[0-9]+)/settings/users/students/$', views.CourseSettingsUsersStudentsView.as_view(), name='course_settings_users_students'),
-    url(r'^(?P<course_id>[0-9]+)/settings/users/teachers/$', views.CourseSettingsUsersTeachersView.as_view(), name='course_settings_users_teachers'),
-    url(r'^(?P<course_id>[0-9]+)/settings/users/list/(?P<folder_id>[0-9]+)/$', views.CourseSettingsUsersJsonListView.as_view(), name='course_settings_users_json_list'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/$', settingsviews.CourseSettingsUsersView.as_view(), name='course_settings_users'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/students/$', settingsviews.CourseSettingsUsersStudentsView.as_view(), name='course_settings_users_students'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/teachers/$', settingsviews.CourseSettingsUsersTeachersView.as_view(), name='course_settings_users_teachers'),
+    url(r'^(?P<course_id>[0-9]+)/settings/users/list/(?P<folder_id>[0-9]+)/$', settingsviews.CourseSettingsUsersJsonListView.as_view(), name='course_settings_users_json_list'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', views.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
-    url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', views.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),
+    url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', settingsviews.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
+    url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', settingsviews.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),
 ]

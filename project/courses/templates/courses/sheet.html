@@ -1,49 +1,84 @@
 {% extends 'courses/base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_messagebox %}
 
 {% block main %}
+
+{% if edit_mode %}
+    {% irunner_messagebox 'warning' %}
+        {% trans 'Edit mode is on.' %} {% trans 'All changes are saved automatically.' %}
+        <a href="{% url 'courses:course_sheet' course.id %}">{% trans 'Return to view mode (read-only).' %}</a>
+    {% irunner_endmessagebox %}
+{% endif %}
+
 <table class="ir-sheet" id="sheet">
-    <thead>
-        <tr>
-            <th rowspan="3">{% trans '#' %}</th>
-            <th rowspan="3">{% trans 'Student' %}</th>
-            <th colspan="{{ main_activities|length }}">Оценка по виду деятельности</th>
-            <th rowspan="3">Оценка текущего контроля</th>
-            <th colspan="{{ extra_activities|length }}">Дополнительные проверочные работы</th>
-        </tr>
-        <tr>
-            {% for activity in main_activities %}
-                <th>{{ activity.name }}</th>
-            {% endfor %}
-            {% for activity in extra_activities %}
-                <th rowspan="2">{{ activity.name }}</th>
-            {% endfor %}
-        </tr>
-        <tr>
-            {% for activity in main_activities %}
-                <th>{{ activity.weight }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
+    {% with data.course_descr.get_main_activities as main_activities %}
+        {% with data.course_descr.get_extra_activities as extra_activities %}
+            <thead>
+                <tr>
+                    <th rowspan="3">{% trans '#' %}</th>
+                    <th rowspan="3">{% trans 'Student' %}</th>
+                    {% if main_activities %}
+                        <th colspan="{{ main_activities|length }}">Оценка по виду деятельности</th>
+                    {% endif %}
+
+                    {% if not edit_mode %}
+                        <th rowspan="3">Оценка текущего контроля</th>
+                    {% endif %}
+
+                    {% if extra_activities %}
+                        <th colspan="{{ extra_activities|length }}">Дополнительные проверочные работы</th>
+                    {% endif %}
+                </tr>
+                <tr>
+                    {% for activity in main_activities %}
+                        <th>{{ activity.name }}</th>
+                    {% endfor %}
+                    {% for activity in extra_activities %}
+                        <th rowspan="2">{{ activity.name }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for activity in main_activities %}
+                        <th>{{ activity.weight }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% endwith %}
+    {% endwith %}
+
     <tbody>
-        {% for row in data %}
+        {% for ur in data.user_results %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ row.user.last_name }}&nbsp;{{ row.user.first_name }}</td>
-                {% for score in row.main_activity_scores %}
-                    <td class="ir-score">{{ score }}</td>
+                <td>{{ ur.user.last_name }}&nbsp;{{ ur.user.first_name }}</td>
+                {% for r in ur.get_main_activity_results %}
+                    <td class="ir-score">main</td>
                 {% endfor %}
-                <td class="ir-score">{{ row.final_score }}</td>
-                {% for score in row.extra_activity_scores %}
-                    <td>{{ score }}</td>
+
+                {% if not edit_mode %}
+                    <td class="ir-score">final</td>
+                {% endif %}
+
+                {% for r in ur.get_extra_activity_results %}
+                    <td>extra</td>
                 {% endfor %}
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<script>
-$('#sheet').editableTableWidget();
-</script>
+{% if edit_mode %}
+    <script>
+        $('#sheet').editableTableWidget();
+    </script>
+{% else %}
+    <br>
+    <p>
+        {% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a>
+    </p>
+{% endif %}
+
 {% endblock %}

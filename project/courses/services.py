@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from collections import namedtuple
+
 from common.constants import EMPTY_SELECT
 from problems.models import Problem
+
+from models import Assignment, Membership
 
 '''
 Helpers to build <select> field with a list of problems.
@@ -48,19 +52,58 @@ Cousre results calculation
 descr means description
 '''
 
+CourseResults = namedtuple('CourseResults', 'course_descr user_results')
+
+
+def make_course_results(course):
+    '''
+    main function
+    '''
+    course_descr = CourseDescr(course)
+    memberships = Membership.objects.filter(course=course, role=Membership.STUDENT)\
+                                    .select_related('user')\
+                                    .order_by('user__last_name', 'user__first_name')
+
+    results = []
+    # indexes for fast lookup to results array items
+    user_id_result = {}
+    membership_id_result = {}
+
+    for membership in memberships:
+        user = membership.user
+        result = UserResult(course_descr, user, membership)
+        results.append(result)
+
+        user_id_result[user.id] = result
+        membership_id_result[membership.id] = result
+
+    for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT).prefetch_related('criteria'):
+        mid = assignment.membership_id
+        membership_id_result[mid].register_assignment(assignment)
+
+    return CourseResults(course_descr, results)
+
 
 class CourseDescr(object):
     def __init__(self, course):
         self.topic_descrs = []
-        self._id_to_index = {}
+        self._topic_id_to_index = {}
 
         for topic in course.topic_set.all():
             descr = TopicDescr(topic)
-            self._id_to_index[topic.id] = len(self.topic_descrs)
+            self._topic_id_to_index[topic.id] = len(self.topic_descrs)
             self.topic_descrs.append(descr)
 
+        self.activities = list(course.activity_set.all())
+
     def get_topic_index(self, topic_id):
-        return self._id_to_index[topic_id]
+        return self._topic_id_to_index[topic_id]
+
+    def get_main_activities(self):
+        return [activity for activity in self.activities if activity.weight > 0.0]
+
+    def get_extra_activities(self):
+        return [activity for activity in self.activities if activity.weight == 0.0]
 
 
 class TopicDescr(object):
@@ -128,17 +171,30 @@ class TopicResult(object):
             self.penalty_problem_results.append(slot_result)
 
 
+class ActivityResult(object):
+    def __init__(self, activity):
+        self.activity = activity
+        self.value = (activity.id % 7) + 4
+
+
 class UserResult(object):
     def __init__(self, course_descr, user, membership):
         self.course_descr = course_descr
         self.user = user
         self.membership = membership
         self.topic_results = [TopicResult(topic_descr) for topic_descr in course_descr.topic_descrs]
+        self.activity_results = [ActivityResult(activity) for activity in course_descr.activities]
 
     def get_slot_results(self):
         for topic_result in self.topic_results:
             for slot_result in topic_result.slot_results:
                 yield slot_result
+
+    def get_main_activity_results(self):
+        return [res for res in self.activity_results if res.activity.weight > 0.0]
+
+    def get_extra_activity_results(self):
+        return [res for res in self.activity_results if res.activity.weight == 0.0]
 
     def register_assignment(self, assignment):
         if assignment.topic_id is not None:
