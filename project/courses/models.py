@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -90,3 +92,22 @@ class Assignment(models.Model):
 class CourseSolution(models.Model):
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
     solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)
+
+
+class ActivityRecord(models.Model):
+    UNDEFINED = 0
+    PASS = 1
+    NO_PASS = 2
+    ABSENCE = 3
+
+    CHOICES = (
+        (UNDEFINED, ''),
+        (PASS, _('pass')),
+        (NO_PASS, _('no pass')),
+        (ABSENCE, _('absence')),
+    )
+
+    membership = models.ForeignKey(Membership, null=False, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, null=False, on_delete=models.CASCADE)
+    mark = models.IntegerField(null=False, default=0)
+    enum = models.IntegerField(null=False, choices=CHOICES, default=UNDEFINED)

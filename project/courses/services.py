@@ -5,7 +5,7 @@ from collections import namedtuple
 from common.constants import EMPTY_SELECT
 from problems.models import Problem
 
-from models import Assignment, Membership
+from models import Assignment, Membership, Activity, ActivityRecord
 
 '''
 Helpers to build <select> field with a list of problems.
@@ -81,6 +81,10 @@ def make_course_results(course):
         mid = assignment.membership_id
         membership_id_result[mid].register_assignment(assignment)
 
+    for record in ActivityRecord.objects.filter(membership__course=course, membership__role=Membership.STUDENT):
+        mid = record.membership_id
+        membership_id_result[mid].register_activity_record(record)
+
     return CourseResults(course_descr, results)
 
 
@@ -94,10 +98,17 @@ class CourseDescr(object):
             self._topic_id_to_index[topic.id] = len(self.topic_descrs)
             self.topic_descrs.append(descr)
 
-        self.activities = list(course.activity_set.all())
+        self.activities = []
+        self._activity_id_to_index = {}
+        for activity in course.activity_set.all():
+            self._activity_id_to_index[activity.id] = len(self.activities)
+            self.activities.append(activity)
 
     def get_topic_index(self, topic_id):
         return self._topic_id_to_index[topic_id]
+
+    def get_activity_index(self, activity_id):
+        return self._activity_id_to_index[activity_id]
 
     def get_main_activities(self):
         return [activity for activity in self.activities if activity.weight > 0.0]
@@ -174,7 +185,31 @@ class TopicResult(object):
 class ActivityResult(object):
     def __init__(self, activity):
         self.activity = activity
-        self.value = (activity.id % 7) + 4
+        self.record = None
+
+    def register_activity_record(self, record):
+        assert self.record is None, 'two activity records'
+        self.record = record
+
+    def get_html_class(self):
+        if self.activity.kind == Activity.MARK:
+            return 'ir-sheet-editable ir-sheet-editable-mark'
+        elif self.activity.kind == Activity.PASSED_OR_NOT:
+            return 'ir-sheet-editable ir-sheet-editable-enum'
+        else:
+            return 'ir-sheet-readonly'
+
+    def get_html_contents(self):
+        if self.activity.kind == Activity.PROBLEM_SOLVING:
+            return u''  # TODO
+        if self.record is not None:
+            if self.activity.kind == Activity.MARK:
+                if self.record.mark > 0:
+                    return unicode(self.record.mark)
+            elif self.activity.kind == Activity.PASSED_OR_NOT:
+                return self.record.get_enum_display()
+
+        return u''
 
 
 class UserResult(object):
@@ -203,3 +238,7 @@ class UserResult(object):
         else:
             # TODO: this is extra problem
             pass
+
+    def register_activity_record(self, record):
+        idx = self.course_descr.get_activity_index(record.activity_id)
+        self.activity_results[idx].register_activity_record(record)

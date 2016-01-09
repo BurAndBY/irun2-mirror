@@ -387,14 +387,17 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-sheet th {
     text-align: center;
+    padding: 2px 6px;
 }
 .ir-score {
     text-align: right;
 }
 .ir-sheet td:focus {
-    background-color: orange;
+    background-color: #D9EDF7;
 }
-
+.ir-sheet-editable-mark {
+    text-align: right;
+}
 /**
  * Two-panel multi choose
  */

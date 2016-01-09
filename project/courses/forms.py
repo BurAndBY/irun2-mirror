@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from .models import Topic, Course, Activity, Assignment
+from .models import Topic, Course, Activity, Assignment, ActivityRecord
 from problems.models import Problem, ProblemFolder
 from users.models import UserFolder
 from proglangs.models import Compiler
@@ -105,3 +105,8 @@ class SolutionListProblemForm(forms.Form):
         super(SolutionListProblemForm, self).__init__(**kwargs)
         self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int, empty_value=None, required=False)
         self.fields['problem'].widget.attrs['class'] = 'form-control'
+
+
+class ActivityRecordFakeForm(forms.Form):
+    mark = forms.IntegerField(required=False)
+    enum = forms.TypedChoiceField(required=False, empty_value=None, choices=ActivityRecord.CHOICES, coerce=int)

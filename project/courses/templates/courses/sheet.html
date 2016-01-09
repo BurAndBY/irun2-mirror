@@ -3,6 +3,11 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_messagebox %}
+{% load staticfiles %}
+
+{% block head %}
+    <script src="{% static 'mindmup-editabletable.js' %}"></script>
+{% endblock %}
 
 {% block main %}
 
@@ -51,19 +56,19 @@
 
     <tbody>
         {% for ur in data.user_results %}
-            <tr>
+            <tr{% if edit_mode %} data-membership="{{ ur.membership.id }}"{% endif %}>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ ur.user.last_name }}&nbsp;{{ ur.user.first_name }}</td>
                 {% for r in ur.get_main_activity_results %}
-                    <td class="ir-score">main</td>
+                    <td class="{{ r.get_html_class }}"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
                 {% endfor %}
 
                 {% if not edit_mode %}
-                    <td class="ir-score">final</td>
+                    <td class="ir-score"></td>
                 {% endif %}
 
                 {% for r in ur.get_extra_activity_results %}
-                    <td>extra</td>
+                    <td class="{{ r.get_html_class }}"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -72,13 +77,38 @@
 
 {% if edit_mode %}
     <script>
-        $('#sheet').editableTableWidget();
+        $(document).ready(function() {
+            function doCommit(cell, key, value) {
+                var membership = cell.parents("tr").first().data("membership");
+                var activity = cell.data("activity");
+                var url = Urls["courses:course_sheet_edit_api"]({{ course.id }}, membership, activity);
+                var data = {};
+                data[key] = value;
+                $.post(url, data);
+            };
+            function onCommit(cell, editor) {
+                doCommit(cell, "mark", editor.val() || 0);
+            }
+            function onCommitSelect(cell, editor) {
+                doCommit(cell, "enum", editor.val());
+            }
+
+            $('.ir-sheet-editable-mark').on('validate', function(evt, newValue) {
+                return /^([1-9]|(10))?$/.test(newValue);
+            });
+
+            $('#sheet').editableTableWidget({
+                walkableSelector: ".ir-sheet-editable",
+                editableSelector: ".ir-sheet-editable-mark",
+                editableSelectSelector: ".ir-sheet-editable-enum",
+                editorSelect: $('<select>{% for value, text in choices %}<option value="{{ value }}">{{ text }}<\/option>{% endfor %}<\/select>'),
+                onCommit: onCommit,
+                onCommitSelect: onCommitSelect,
+            });
+        });
     </script>
 {% else %}
-    <br>
-    <p>
-        {% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a>
-    </p>
+    <br><p>{% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a></p>
 {% endif %}
 
 {% endblock %}

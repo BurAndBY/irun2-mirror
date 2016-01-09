@@ -8,10 +8,11 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
+from django.http import HttpResponse, Http404
+from django.views.decorators.csrf import csrf_exempt
 
-
-from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListUserForm, SolutionListProblemForm
-from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution
+from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
+from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord
 from services import make_problem_choices, make_course_results
 
 from common.constants import EMPTY_SELECT
@@ -35,7 +36,7 @@ class BaseCourseView(generic.View):
         context.update(kwargs)
         return context
 
-    @method_decorator(auth.decorators.login_required)
+    #@method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         course = get_object_or_404(Course, pk=course_id)
         self.course = course
@@ -88,8 +89,35 @@ class CourseSheetEditView(BaseCourseView):
 
     def get(self, request, course):
         data = make_course_results(course)
-        context = self.get_context_data(data=data, edit_mode=True)
+        context = self.get_context_data(data=data, edit_mode=True, choices=ActivityRecord.CHOICES)
         return render(request, self.template_name, context)
+
+
+class CourseSheetEditApiView(BaseCourseView):
+    def post(self, request, course, membership_id, activity_id):
+        if not Membership.objects.filter(pk=membership_id, course=course).exists():
+            raise Http404('no such membership in the course')
+
+        if not Activity.objects.filter(pk=activity_id, course=course).exists():
+            raise Http404('no such activity in the course')
+
+        form = ActivityRecordFakeForm(request.POST)
+        if form.is_valid():
+            to_update = {}
+            for k, v in form.cleaned_data.iteritems():
+                if v is not None:
+                    to_update[k] = v
+
+            if len(to_update) > 0:
+                ActivityRecord.objects.update_or_create(defaults=to_update, membership_id=membership_id, activity_id=activity_id)
+
+            return HttpResponse('OK')
+
+        return HttpResponse('Error', status=400)
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(CourseSheetEditApiView, self).dispatch(*args, **kwargs)
 
 
 class CourseSubmitView(BaseCourseView):
