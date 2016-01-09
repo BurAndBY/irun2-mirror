@@ -4,6 +4,7 @@
 {% load proglang_extras %}
 {% load solution_extras %}
 {% load irunnerpagination %} 
+{% load irunner_users %}
 
 {% block main %}
 
@@ -22,7 +23,7 @@
         {% for solution in object_list %}
         <tr>
             <td>{{ solution.id }}</td>
-            <td>Anonymous</td>
+            <td>{% irunner_users_show solution.author %}</td>
             <td>{{ solution.reception_time }}</td>
             <td>
                 {% langbox solution.compiler %}

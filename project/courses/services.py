@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 
 class ProblemChoicesBuilder(object):
@@ -8,7 +8,7 @@ class ProblemChoicesBuilder(object):
     Helper to build dynamic choices for TypedChoiceField
     '''
     def __init__(self):
-        self._data = [(None, _(u'— not set —'))]
+        self._data = [(None, pgettext_lazy('problem', u'— not selected —'))]
 
     def add(self, name, problems):
         self._data.append((name, tuple((problem.id, problem.numbered_full_name()) for problem in problems)))

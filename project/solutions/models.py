@@ -4,6 +4,7 @@ from proglangs.models import Compiler
 from problems.models import Problem, TestCase
 from django.utils.translation import ugettext_lazy as _
 from storage.models import FileMetadata
+from django.conf import settings
 
 
 class AdHocRun(models.Model):
@@ -19,6 +20,7 @@ class Solution(models.Model):
     problem = models.ForeignKey(Problem, null=True, on_delete=models.SET_NULL)
     ad_hoc_run = models.ForeignKey(AdHocRun, null=True, on_delete=models.SET_NULL)
 
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     reception_time = models.DateTimeField()
     source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)

@@ -87,7 +87,7 @@ class CourseUsersForm(forms.Form):
 
 
 class SolutionForm(solutions.forms.SolutionForm):
-    def __init__(self, problem_choices, compiler_queryset, *args, **kwargs):
-        super(SolutionForm, self).__init__(*args, **kwargs)
+    def __init__(self, problem_choices, compiler_queryset, **kwargs):
+        super(SolutionForm, self).__init__(**kwargs)
         self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
         self.fields['compiler'].queryset = compiler_queryset

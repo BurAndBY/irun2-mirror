@@ -367,15 +367,51 @@ class CourseSubmitView(BaseCourseView):
                 builder.add(topic.name, topic.problem_folder.problem_set.all().order_by('number', 'subnumber', 'full_name'))
         return builder.get()
 
+    def _make_initial(self):
+        initial = {}
+
+        problem_id = self.request.GET.get('problem')
+        if problem_id is not None:
+            try:
+                problem_id = int(problem_id)
+            except (TypeError,):
+                problem_id = None
+
+        if problem_id:
+            initial['problem'] = problem_id
+
+        last_used_compiler = self.request.user.userprofile.last_used_compiler
+        if last_used_compiler is not None:
+            initial['compiler'] = last_used_compiler
+
+        return initial
+
+    def _make_form(self, data=None, files=None):
+        form = SolutionForm(
+            data=data,
+            files=files,
+            problem_choices=self._make_choices(),
+            compiler_queryset=self.course.compilers,
+            initial=self._make_initial(),
+        )
+        return form
+
     def get(self, request, course):
-        form = SolutionForm(problem_choices=self._make_choices(), compiler_queryset=course.compilers)
+        form = self._make_form()
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, course):
-        form = SolutionForm(problem_choices=self._make_choices(), compiler_queryset=course.compilers)
+        form = self._make_form(request.POST, request.FILES)
         if form.is_valid():
-            pass
+            print 'HEHE'
+            with transaction.atomic():
+                # remember used compiler to select it again later
+                userprofile = request.user.userprofile
+                userprofile.last_used_compiler = form.cleaned_data['compiler']
+                userprofile.save()
+
+            return redirect('courses:show_course_info', course.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 

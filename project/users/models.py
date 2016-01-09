@@ -5,6 +5,8 @@ from django.db.models.signals import post_save
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from proglangs.models import Compiler
+
 
 # Create your models here.
 class UserFolder(MPTTModel):
@@ -23,6 +25,7 @@ class UserProfile(models.Model):
     patronymic = models.CharField(_('patronymic'), max_length=30, blank=True)
     needs_change_password = models.BooleanField(_('password needs to be changed'), null=False, default=False)
     description = models.CharField(_('description'), max_length=255, blank=True)
+    last_used_compiler = models.ForeignKey(Compiler, verbose_name=_('last used compiler'), on_delete=models.SET_NULL, null=True)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
