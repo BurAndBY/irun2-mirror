@@ -4,6 +4,7 @@ from django.conf import settings
 
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
+from solutions.models import Solution
 from django.core.urlresolvers import reverse
 
 
@@ -84,3 +85,8 @@ class Assignment(models.Model):
     extra_requirements = models.TextField(max_length=1024, blank=True)
     extra_requirements_ok = models.BooleanField(blank=True, default=False)
     bonus_attempts = models.IntegerField(default=0)
+
+
+class CourseSolution(models.Model):
+    course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
+    solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)

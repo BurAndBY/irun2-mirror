@@ -7,7 +7,7 @@ import proglangs.utils
 from api.workerinteract import notify
 
 
-def new_solution(author, compiler, text, upload, problem=None):
+def new_solution(author, compiler, text, upload, problem_id=None):
     '''
     Returns new Solution object.
     '''
@@ -17,7 +17,7 @@ def new_solution(author, compiler, text, upload, problem=None):
         upload = ContentFile(text.encode('utf-8'), name=filename)
 
     source_code = storage.utils.store_with_metadata(upload)
-    solution = Solution(author=author, source_code=source_code, compiler=compiler, reception_time=timezone.now(), problem=problem)
+    solution = Solution(author=author, source_code=source_code, compiler=compiler, reception_time=timezone.now(), problem_id=problem_id)
     solution.save()
     return solution
 

@@ -325,7 +325,7 @@ class ProblemSubmitView(BaseProblemView):
                     form.cleaned_data['compiler'],
                     form.cleaned_data['text'],
                     form.cleaned_data['upload'],
-                    problem=problem
+                    problem_id=problem.id
                 )
                 solutions.utils.judge(solution)
 

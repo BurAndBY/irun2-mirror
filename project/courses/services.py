@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.utils.translation import pgettext_lazy
+from common.constants import EMPTY_SELECT
+from problems.models import Problem
+
+'''
+Helpers to build <select> field with a list of problems.
+'''
 
 
 class ProblemChoicesBuilder(object):
@@ -8,15 +13,38 @@ class ProblemChoicesBuilder(object):
     Helper to build dynamic choices for TypedChoiceField
     '''
     def __init__(self):
-        self._data = [(None, pgettext_lazy('problem', u'— not selected —'))]
+        self._data = [(None, EMPTY_SELECT)]
 
     def add(self, name, problems):
-        self._data.append((name, tuple((problem.id, problem.numbered_full_name()) for problem in problems)))
+        group = tuple((problem.id, problem.numbered_full_name()) for problem in problems)
+        if group:
+            self._data.append((name, group))
 
     def get(self):
         return tuple(self._data)
 
+
+def make_problem_choices(course, full=False, user_id=None):
+    builder = ProblemChoicesBuilder()
+    topics = course.topic_set.all()
+
+    def reorder(qs):
+        return qs.order_by('number', 'subnumber', 'full_name')
+
+    if full:
+        for topic in topics:
+            if topic.problem_folder is not None:
+                builder.add(topic.name, reorder(topic.problem_folder.problem_set.all()))
+
+    if user_id is not None:
+        for topic in topics:
+            problems = Problem.objects.filter(assignment__topic=topic, assignment__membership__user_id=user_id)
+            builder.add(topic.name, reorder(problems))
+    return builder.get()
+
 '''
+Cousre results calculation
+
 descr means description
 '''
 

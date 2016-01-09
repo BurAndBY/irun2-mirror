@@ -91,3 +91,17 @@ class SolutionForm(solutions.forms.SolutionForm):
         super(SolutionForm, self).__init__(**kwargs)
         self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
         self.fields['compiler'].queryset = compiler_queryset
+
+
+class SolutionListUserForm(forms.Form):
+    def __init__(self, user_choices, **kwargs):
+        super(SolutionListUserForm, self).__init__(**kwargs)
+        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=False)
+        self.fields['user'].widget.attrs['class'] = 'form-control'
+
+
+class SolutionListProblemForm(forms.Form):
+    def __init__(self, problem_choices, **kwargs):
+        super(SolutionListProblemForm, self).__init__(**kwargs)
+        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int, empty_value=None, required=False)
+        self.fields['problem'].widget.attrs['class'] = 'form-control'

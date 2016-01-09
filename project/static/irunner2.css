@@ -581,3 +581,25 @@ Yellow menu
     background-color: #cccccc;
     color: white;
 }
+
+
+/*
+ * Solution filter
+ */
+.ir-solution-filter > select {
+    min-width: 300px;
+    max-width: 300px;
+    padding: 4px 12px;
+    height: auto;
+}
+.ir-solution-filter > button {
+    padding: 2px 12px;
+    height: auto;
+}
+.ir-solution-filter {
+    background-color: #efefef;
+    text-align: right;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    padding: 7px;
+}

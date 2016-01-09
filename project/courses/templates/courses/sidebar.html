@@ -2,9 +2,13 @@
 {% load i18n %}
 
 <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
+    <a href="{% url 'courses:show_course_info' course.id %}" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
         {% bootstrap_icon 'info-sign' %}
         {{ course.name }}
+    </a>
+    <a href="{% url 'courses:course_problems' course.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
+        {% bootstrap_icon 'th' %}
+        {% trans 'Course problems' %}
     </a>
     <a href="#" class="list-group-item{% if active_tab == 'my' %} active{% endif %}">
         {% bootstrap_icon 'th-large' %}
@@ -14,19 +18,19 @@
         {% bootstrap_icon 'link' %}
         {% trans 'Assignment of problems' %}
     </a>
-    <a href="{% url 'courses:course_problems' course.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
-        {% bootstrap_icon 'th' %}
-        {% trans 'Course problems' %}
-    </a>
     <a href="{% url 'courses:course_standings' course.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
         {% bootstrap_icon 'book' %}
         {% trans 'Standings' context 'course' %}
     </a>
     <a href="{% url 'courses:course_sheet' course.id %}" class="list-group-item{% if active_tab == 'sheet' %} active{% endif %}">
-        {% bootstrap_icon 'book' %}
+        {% bootstrap_icon 'list-alt' %}
         {% trans 'Sheet' %}
     </a>
-    <a href="#" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
+    <a href="{% url 'courses:all_solutions' course.id %}" class="list-group-item{% if active_tab == 'all_solutions' %} active{% endif %}">
+        {% bootstrap_icon 'tasks' %}
+        {% trans 'All solutions' %}
+    </a>
+    <a href="{% url 'courses:my_solutions' course.id %}" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
         {% bootstrap_icon 'tasks' %}
         {% trans 'My solutions' %}
     </a>

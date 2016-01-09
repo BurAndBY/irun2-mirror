@@ -21,6 +21,9 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/$', views.CourseAssignView.as_view(), name='course_assignment'),
 
+    url(r'^(?P<course_id>[0-9]+)/solutions/$', views.CourseAllSolutionsView.as_view(), name='all_solutions'),
+    url(r'^(?P<course_id>[0-9]+)/mysolutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
+
     # Settings
 
     url(r'^(?P<course_id>[0-9]+)/settings/$', views.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),

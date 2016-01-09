@@ -1,0 +1,58 @@
+{% extends 'courses/base.html' %}
+
+{% load i18n %}
+{% load proglang_extras %}
+{% load solution_extras %}
+{% load irunnerpagination %} 
+{% load irunner_users %}
+{% load bootstrap3 %}
+
+{% block main %}
+    <form method="get" class="form-inline">
+        <div class="ir-solution-filter">
+            {% if user_form %}
+                {{ user_form.user }}
+            {% endif %}
+            {{ problem_form.problem }}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Apply' %}
+            </button>
+        </div>
+    </form>
+
+    {% irunnerpagination pagination_context %}
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                {% if show_author %}
+                    <th>{% trans 'Author' %}</th>
+                {% endif %}
+                <th>{% trans 'Problem' %}</th>
+                <th>{% trans 'Submission time' %}</th>
+                <th>{% trans 'File' %}</th>
+                <th>{% trans 'Status' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solution in object_list %}
+            <tr>
+                {% if show_author %}
+                    <td>{% irunner_users_show solution.author %}</td>
+                {% endif %}
+                <td>{% if solution.problem %}{{ solution.problem.numbered_full_name }}{% else %}&mdash;{% endif %}</td>
+                <td>{{ solution.reception_time }}</td>
+                <td>
+                    {% langbox solution.compiler %}
+                    <small>
+                        <tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt>
+                    </small>                    
+                </td>
+                <td>
+                    {% judgementbox solution.best_judgement %}
+                    {% if solution.best_judgement %} <small><a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a></small>{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -3,8 +3,8 @@
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
-from .models import Course, Topic, Membership, Assignment, Criterion
-from .forms import SolutionForm, TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
+from .models import Course, Topic, Membership, Assignment, Criterion, CourseSolution
+from .forms import SolutionForm, TopicForm, ActivityForm, PropertiesForm, CompilersForm, ProblemAssignmentForm, AddExtraProblemSlotForm, CourseUsersForm, TwoPanelUserMultipleChoiceField, SolutionListUserForm, SolutionListProblemForm
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 
@@ -20,10 +20,14 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.utils.translation import ungettext
-
+import solutions.utils
+from solutions.models import Solution
 import random
-from services import CourseDescr, UserResult, ProblemChoicesBuilder
-
+from services import CourseDescr, UserResult, make_problem_choices
+from common.views import IRunnerBaseListView
+from common.pageutils import paginate
+from django.forms import TypedChoiceField
+from common.constants import EMPTY_SELECT
 
 def human_order(queryset):
     return queryset.order_by('last_name', 'first_name', 'id')
@@ -361,11 +365,7 @@ class CourseSubmitView(BaseCourseView):
     template_name = 'courses/submit.html'
 
     def _make_choices(self):
-        builder = ProblemChoicesBuilder()
-        for topic in self.course.topic_set.all():
-            if topic.problem_folder is not None:
-                builder.add(topic.name, topic.problem_folder.problem_set.all().order_by('number', 'subnumber', 'full_name'))
-        return builder.get()
+        return make_problem_choices(self.course, full=True)
 
     def _make_initial(self):
         initial = {}
@@ -404,12 +404,21 @@ class CourseSubmitView(BaseCourseView):
     def post(self, request, course):
         form = self._make_form(request.POST, request.FILES)
         if form.is_valid():
-            print 'HEHE'
             with transaction.atomic():
                 # remember used compiler to select it again later
                 userprofile = request.user.userprofile
                 userprofile.last_used_compiler = form.cleaned_data['compiler']
                 userprofile.save()
+
+                solution = solutions.utils.new_solution(
+                    request.user,
+                    form.cleaned_data['compiler'],
+                    form.cleaned_data['text'],
+                    form.cleaned_data['upload'],
+                    problem_id=form.cleaned_data['problem']
+                )
+                CourseSolution.objects.create(solution=solution, course=course)
+                solutions.utils.judge(solution)
 
             return redirect('courses:show_course_info', course.id)
         context = self.get_context_data(form=form)
@@ -1073,3 +1082,78 @@ class CriterionCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('courses:criterion_index')
+
+
+'''
+Solutions list
+'''
+
+
+class CourseAllSolutionsView(BaseCourseView):
+    tab = 'all_solutions'
+    template_name = 'courses/solutions.html'
+    paginate_by = 12
+
+    def get(self, request, course):
+        # filters
+        user_id = None
+        problem_id = None
+
+        users = course.members.order_by('last_name', 'first_name', 'id')
+        user_choices = tuple([(None, EMPTY_SELECT)] + [(user.id, user.get_full_name()) for user in users])
+        user_form = SolutionListUserForm(data=request.GET, user_choices=user_choices)
+        if user_form.is_valid():
+            user_id = user_form.cleaned_data['user']
+
+        if user_id is not None:
+            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, user_id=user_id))
+        else:
+            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, full=True))
+        if problem_form.is_valid():
+            problem_id = problem_form.cleaned_data['problem']
+
+        solutions = Solution.objects.all()\
+            .filter(coursesolution__course=course)\
+            .prefetch_related('compiler')\
+            .select_related('source_code', 'best_judgement')\
+            .order_by('-reception_time', 'id')
+
+        if user_id is not None:
+            solutions = solutions.filter(author_id=user_id)
+
+        if problem_id is not None:
+            solutions = solutions.filter(problem_id=problem_id)
+
+        context = paginate(request, solutions, self.paginate_by)
+
+        context['user_form'] = user_form
+        context['problem_form'] = problem_form
+        context = self.get_context_data(**context)
+        return render(request, self.template_name, context)
+
+
+class CourseMySolutionsView(BaseCourseView):
+    tab = 'my_solutions'
+    template_name = 'courses/solutions.html'
+    paginate_by = 12
+
+    def get(self, request, course):
+        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, user_id=request.user.id))
+        if problem_form.is_valid():
+            problem_id = problem_form.cleaned_data['problem']
+        else:
+            problem_id = None
+
+        solutions = Solution.objects.all()\
+            .filter(coursesolution__course=course, author=request.user)\
+            .prefetch_related('compiler')\
+            .select_related('source_code', 'best_judgement')\
+            .order_by('-reception_time', 'id')
+
+        if problem_id is not None:
+            solutions = solutions.filter(problem_id=problem_id)
+
+        context = paginate(request, solutions, self.paginate_by)
+        context['problem_form'] = problem_form
+        context = self.get_context_data(**context)
+        return render(request, self.template_name, context)
