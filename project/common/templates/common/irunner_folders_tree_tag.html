@@ -1,14 +1,15 @@
 {% if it_data %}
     {# irunner-like tree #}
     <div class="ir-folder-tree">
+        <ul>
     {% for item in it_data %}
         {% if item.kind == '(' %}
-            <ul>
+            <li><ul>
         {% elif item.kind == ')' %}
-            </ul>
+            </ul></li>
         {% else %}
             <li>
-                <tt>
+                <span class="ir-bullet">
                 {% if item.kind == '+' %}
                     +
                 {% elif item.kind == '-' %}
@@ -16,13 +17,14 @@
                 {% else %}
                     &middot;
                 {% endif %}
-                </tt>
+                </span>
                 {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id_or_root %}">{% else %}<strong>{% endif %}
                     {{ item.breadcrumb.name }}
                 {% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
             </li>
         {% endif %}
     {% endfor %}
+        </ul>
     </div>
 {% endif %}
 

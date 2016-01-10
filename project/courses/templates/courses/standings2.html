@@ -17,20 +17,20 @@
                     </th>
                 {% endwith %}
             {% endfor %}
-            <th>Summary</th>
+            <th>{% trans 'Result' %}</th>
         </tr>
     </thead>
     <tbody>
         {% for user_result in results %}
         <tr>
-            <td>
+            <td class="ir-seq-no">
                 {{ forloop.counter }}
             </td>
 
             <td>
                 <a href="{% url 'courses:course_assignment' course.id user_result.membership.id %}">
                     <b>{{ user_result.user.last_name }}</b><br>
-                    <small>{{ user_result.user.first_name }}</small>
+                    {{ user_result.user.first_name }}
                 </a>
             </td>
 
@@ -56,7 +56,6 @@
                 {% endfor %}
             {% endfor %}
             <td>
-                S
             </td>
         </tr>
         {% endfor %}

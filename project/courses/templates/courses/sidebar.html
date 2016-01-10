@@ -30,7 +30,7 @@
         {% bootstrap_icon 'tasks' %}
         {% trans 'All solutions' %}
     </a>
-    <a href="{% url 'courses:my_solutions' course.id %}" class="list-group-item{% if active_tab == 'tab1' %} active{% endif %}">
+    <a href="{% url 'courses:my_solutions' course.id %}" class="list-group-item{% if active_tab == 'my_solutions' %} active{% endif %}">
         {% bootstrap_icon 'tasks' %}
         {% trans 'My solutions' %}
     </a>

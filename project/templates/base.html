@@ -1,8 +1,9 @@
+<!DOCTYPE html>
+
 {% load staticfiles %}
 {% load i18n %}
 {% load irunner_messagebox %}
 
-<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -24,6 +25,7 @@
         <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
         {% block head %}
         {% endblock %}
+        <title>{{ system_full_name }}</title>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -71,7 +73,6 @@
                             <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>
                         {% endif %}
                         <li>
-                            <a>
                                 {% get_current_language as LANGUAGE_CODE %}
                                 {% get_available_languages as LANGUAGES %}
                                 {% get_language_info_list for LANGUAGES as languages %}
@@ -82,7 +83,6 @@
                                     <input type="submit" value="{{ language.code }}" title="{{ language.name_local }}" {% if language.code == LANGUAGE_CODE %} disabled="disabled"{% endif %} class="btn btn-link btn-xs" />
                                 </form>
                                 {% endfor %}
-                            </a>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->

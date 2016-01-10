@@ -9,14 +9,14 @@
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
-        <button type="submit" name="save" class="btn btn-primary">
+        <button type="submit" name="save" class="btn btn-default">
             {% bootstrap_icon 'ok' %} {% trans 'Save' %}
         </button>
         <a href="{{ cancel_url }}" role="button" class="btn btn-default">
             {% bootstrap_icon 'remove' %} {% trans 'Cancel' %}
         </a>
         {% if can_delete %}
-        <button type="submit" name="delete" class="btn btn-danger">
+        <button type="submit" name="delete" class="btn btn-default">
             {% bootstrap_icon 'trash' %} {% trans 'Delete' %}
         </button>
         {% endif %}

@@ -121,7 +121,6 @@ def _fill_fancytree_data(cached_trees, root_name):
 
 def _fill_irunnertree_data(cached_trees, folder_id, root_name):
     output = []
-    output.append(TemplateTreeItem('(', None))
 
     output.append(TemplateTreeItem('-', BreadcrumbItem(ROOT, root_name, folder_id is not None)))
     for root in sorted(cached_trees, key=_name_extractor):
@@ -129,7 +128,6 @@ def _fill_irunnertree_data(cached_trees, folder_id, root_name):
         _irunnertree_traverse(root, folder_id, output)
         output.append(TemplateTreeItem(')', None))
 
-    output.append(TemplateTreeItem(')', None))
     return {
         'it_data': output
     }

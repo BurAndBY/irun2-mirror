@@ -36,7 +36,7 @@ class BaseCourseView(generic.View):
         context.update(kwargs)
         return context
 
-    #@method_decorator(auth.decorators.login_required)
+    @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         course = get_object_or_404(Course, pk=course_id)
         self.course = course
@@ -478,6 +478,7 @@ class CourseAllSolutionsView(BaseCourseView):
 
         context['user_form'] = user_form
         context['problem_form'] = problem_form
+        context['show_author'] = True
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
 
@@ -505,5 +506,6 @@ class CourseMySolutionsView(BaseCourseView):
 
         context = paginate(request, solutions, self.paginate_by)
         context['problem_form'] = problem_form
+        context['show_author'] = False  # all solutions belong to the same author
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)

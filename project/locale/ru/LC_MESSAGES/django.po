@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-10 02:19+0300\n"
-"PO-Revision-Date: 2016-01-10 02:24+0300\n"
+"POT-Creation-Date: 2016-01-10 13:36+0300\n"
+"PO-Revision-Date: 2016-01-10 13:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -522,6 +522,10 @@ msgstr "Файл"
 #: .\problems\templates\problems\solutions.html:19
 msgid "Status"
 msgstr "Статус"
+
+#: .\courses\templates\courses\standings2.html:20
+msgid "Result"
+msgstr "Итог"
 
 #: .\courses\templates\courses\submit.html:21
 #: .\feedback\templates\feedback\new.html:12

@@ -35,11 +35,11 @@
 
         {% if has_users %}
 
-            <button onclick="irPerformActionOnSelected('{% url 'users:move' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm" role="button">
+            <button onclick="irPerformActionOnSelected('{% url 'users:move' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
                 {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'transfer' %}&nbsp; {% trans 'Move' %}
             </button>
 
-            <button onclick="irPerformActionOnSelected('{% url 'users:delete' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm" role="button">
+            <button onclick="irPerformActionOnSelected('{% url 'users:delete' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
                 {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete' %}
             </button>
 
@@ -64,7 +64,7 @@
                         {% for user in object_list %}
                         <tr>
                             <td><input type="checkbox" class="ir-checkbox" name="{{ user.id }}"></td>
-                            <td><tt>{{ user.username }}</tt></td>
+                            <td class="ir-monospace">{{ user.username }}</td>
                             <td>{% irunner_users_show user %}</td>
                         </tr>
                         {% endfor %}

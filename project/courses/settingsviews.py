@@ -253,6 +253,7 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsBaseUpdateView, self).get_context_data(**kwargs)
         context['cancel_url'] = reverse(self.list_url_name, args=(self.course.id,))
+        context['can_delete'] = True
         return context
 
     def _get_object(self, course_id, pk):

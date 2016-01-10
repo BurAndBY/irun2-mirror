@@ -36,7 +36,7 @@
                 {% for user in object_list %}
                 <tr>
                     <td>{{ user.pk }}</td>
-                    <td><tt>{{ user.username }}</tt></td>
+                    <td class="ir-monospace">{{ user.username }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.first_name }}</td>
                     <td>{% if user.last_login %}{{ user.last_login }}{% else %}&mdash;{% endif %}</td>

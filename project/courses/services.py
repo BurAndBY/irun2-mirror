@@ -159,7 +159,8 @@ class SlotResult(object):
             if criterion_descr.criterion.id == criterion.id:
                 criterion_descr.ok = True
                 return
-        assert False, 'unknown criterion'
+        # We can get here if some criteria were checked for students and then removed from the course.
+        # assert False, 'unknown criterion'
 
     def should_show_in_standings(self):
         return self.assignment is not None and self.assignment.problem is not None

@@ -24,11 +24,29 @@ body {
     color: #777;
 }
 
+/**
+ * Course standings
+ */
+.ir-course-standings > thead:first-child > tr:first-child > th {
+    border-top: 2px solid #ddd;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.ir-course-standings tbody > tr > td {
+    border: 1px solid #ddd;
+    font-size: 12px;
+}
+.ir-course-standings thead > tr > th {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    font-size: 12px;
+    text-align: center;
+}
 .ir-course-standings .ir-row1 {
     font-size: 11px;
 }
 .ir-course-standings .ir-row2 {
-    font-size: 11px;
+    font-size: 9px;
 }
 .ir-course-standings .ir-score {
     min-width: 40px;
@@ -36,21 +54,16 @@ body {
 .ir-course-standings .ir-letter {
     width: 20px;
 }
-.ir-course-standings .ir-box {
-    display: inline-block;
-    text-align: center;
-    padding-left: 2px;
-    padding-right: 2px;
+.ir-course-standings .ir-seq-no {
+    text-align: right;
+    padding-right: 4px;
+    vertical-align: top;
 }
-.ir-course-standings .ir-complexity {
-    background-color: #d9edf7;
-    color: #333;
-}
-.ir-course-standings .ir-yes {
-    background-color: #5cb85c;
-}
-.ir-course-standings .ir-no {
-    background-color: #ccc;
+/**
+ * Common tuning
+ */
+.ir-monospace {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 textarea {
@@ -547,6 +560,9 @@ Yellow menu
     /*margin-bottom: 0;*/
 }
 
+/**
+ * old iRunner-like folder tree
+ */
 .ir-folder-tree {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -559,7 +575,9 @@ Yellow menu
 .ir-folder-tree li {
     font-size: 12px;
 }
-
+.ir-folder-tree .ir-bullet {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
 
 /**
  * criterion
@@ -605,4 +623,19 @@ Yellow menu
     margin-bottom: 5px;
     border-radius: 4px;
     padding: 7px;
+}
+
+/**
+ * User interface language
+ */
+.navbar-nav > li > form > input[type="submit"] {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+@media (min-width: 768px) {
+  .navbar-nav > li > form > input[type="submit"] {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
 }
