@@ -1,0 +1,46 @@
+{% load i18n %}
+{% load irunner_users %}
+{% load irunnerpagination %}
+
+{% if pagination_context %}
+    {% irunnerpagination pagination_context %}
+{% endif %}
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            {% if show_checkbox %}
+                <th><input type="checkbox" id="selectall"></th>
+            {% endif %}
+            <th>{% trans 'username' %}</th>
+            <th>{% trans 'full name' context 'human' %}</th>
+            <th>{% trans 'last login' %}</th>
+            {% if show_folder %}
+                <th>{% trans 'folder' %}</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            {% if show_checkbox %}
+                <td><input type="checkbox" class="ir-checkbox" name="{{ user.id }}"></td>
+            {% endif %}
+            <td class="ir-monospace"><a href="{% url 'users:profile_show' user.id %}">{{ user.username }}</a></td>
+            <td>{% irunner_users_show user %}</td>
+            <td>{% if user.last_login %}{{ user.last_login }}{% else %}&mdash;{% endif %}</td>
+            {% if show_folder %}
+                <td>
+                {% with user.userprofile.folder as folder %}  
+                    {% if user.userprofile.folder %}
+                        <a href="{% url 'users:show_folder' folder.id %}">{{ folder }}</a>
+                    {% else %}
+                        <a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a>
+                    {% endif %}
+                {% endwith %}
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

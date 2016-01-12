@@ -2,55 +2,38 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunnerpagination %}
+{% load widget_tweaks %}
+{% load irunner_users %}
 
 {% block main %}
 
-<form method="get" autocomplete="off">
-    <div class="form-group">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control" placeholder="{% trans 'Search for...' %}"{% if query %} value="{{ query }}"{% endif %}>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">{% bootstrap_icon 'search' %}</button>
-            </span>
-        </div>
-    </div>
-</form>
-
 <div class="panel panel-default">
     <div class="panel-body">
-        {% irunnerpagination pagination_context %}
-
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>{% trans 'username' %}</th>
-                    <th>{% trans 'last name' %}</th>
-                    <th>{% trans 'first name' %}</th>
-                    <th>{% trans 'last login' %}</th>
-                    <th>{% trans 'folder' %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in object_list %}
-                <tr>
-                    <td>{{ user.pk }}</td>
-                    <td class="ir-monospace">{{ user.username }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{% if user.last_login %}{{ user.last_login }}{% else %}&mdash;{% endif %}</td>
-                    <td>
-                        {% with user.userprofile.folder as folder %}  
-                            {% if user.userprofile.folder %}
-                                <a href="{% url 'users:show_folder' folder.id %}">{{ folder }}</a>
-                            {% endif %}
-                        {% endwith %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form method="get" autocomplete="off">
+            <div class="form-group">
+                <div class="input-group">
+                    {% trans 'Search for...' as search_for %}
+                    {% render_field form.query type="search" class="form-control" placeholder=search_for %}
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">{% bootstrap_icon 'search' %}</button>
+                    </span>
+                </div>
+            </div>
+            <div class="checkbox">
+                <label>
+                    {{ form.staff }}{{ form.staff.label }}
+                </label>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% if object_list %}
+            {% irunner_users_list object_list pagination_context show_folder=True %}
+        {% else %}
+            <p class="text-center">{% trans 'No users found.' %}</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

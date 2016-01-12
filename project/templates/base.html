@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load irunner_messagebox %}
+{% load irunner_users %}
 
 <html>
     <head>
@@ -62,12 +63,14 @@
                             </ul>
                         </li>
                         <li><a href="{% url 'courses:index' %}">{% trans 'Courses' %}</a></li>
-                        <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
+                        {% if user.is_staff %}
+                            <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
+                        {% endif %}
                         <li><a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
+                            <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> {% irunner_users_show user %}</a></li>
                             <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> {% trans 'Logout' %}</a></li>
                         {% else %}
                             <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>

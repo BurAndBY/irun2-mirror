@@ -10,4 +10,10 @@ urlpatterns = [
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/mass-registration/$', views.CreateUsersMassView.as_view(), name='create_users_mass'),
     url(r'^delete/$', views.DeleteUsersView.as_view(), name='delete'),
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
+
+    # single user profile
+    url(r'^(?P<user_id>[0-9]+)/$', views.ProfileShowView.as_view(), name='profile_show'),
+    url(r'^(?P<user_id>[0-9]+)/update/$', views.ProfileUpdateView.as_view(), name='profile_update'),
+    url(r'^(?P<user_id>[0-9]+)/password/$', views.ProfilePasswordView.as_view(), name='profile_password'),
+    url(r'^(?P<user_id>[0-9]+)/permissions/$', views.ProfilePermissionsView.as_view(), name='profile_permissions'),
 ]

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-10 13:36+0300\n"
-"PO-Revision-Date: 2016-01-10 13:38+0300\n"
+"POT-Creation-Date: 2016-01-12 02:35+0300\n"
+"PO-Revision-Date: 2016-01-12 02:36+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -23,11 +23,12 @@ msgstr ""
 msgid "Remember me"
 msgstr "Запомнить меня"
 
-#: .\cauth\templates\cauth\profile.html:9
+#: .\cauth\templates\cauth\profile.html:10
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:10 .\templates\base.html:96
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:97
+#: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -39,6 +40,8 @@ msgstr "Изменить пароль"
 #: .\problems\templates\problems\edit.html:14
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:28
+#: .\users\templates\users\profile_password.html:16
+#: .\users\templates\users\profile_update.html:15
 msgid "Save"
 msgstr "Сохранить"
 
@@ -66,7 +69,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:71
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:74
 msgid "Login"
 msgstr "Вход"
 
@@ -86,7 +89,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:114
+#: .\common\templates\common\about.html:6 .\templates\base.html:115
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -175,11 +178,12 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:84 .\courses\templates\courses\settings_base.html:19
-#: .\templates\base.html:63 .\users\templates\users\create_form.html:8
+#: .\templates\base.html:66 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
 #: .\users\templates\users\folder.html:15
+#: .\users\templates\users\irunner_users_list_tag.html:38
 msgid "Users"
 msgstr "Пользователи"
 
@@ -297,7 +301,7 @@ msgstr "Новый курс"
 msgid "Create"
 msgstr "Создать"
 
-#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:62
+#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:65
 msgid "Courses"
 msgstr "Курсы"
 
@@ -948,23 +952,23 @@ msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
 
-#: .\templates\base.html:59
+#: .\templates\base.html:62
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:64
+#: .\templates\base.html:67
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:69
+#: .\templates\base.html:72
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:96
+#: .\templates\base.html:97
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:112
+#: .\templates\base.html:113
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
@@ -1002,7 +1006,25 @@ msgstr "Пользователь «%(username)s» указан нескольк�
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\models.py:24 .\users\templates\users\index.html:32
+#: .\users\forms.py:100
+msgid "Staff only"
+msgstr "Только сотрудники"
+
+#: .\users\forms.py:120
+msgid ""
+"User will see a warning message until he sets a new password. This prevents "
+"usage of insecure default passwords."
+msgstr ""
+"Пользователь будет видеть предупреждение, пока не установит новый пароль. "
+"Таким образом предотвращается использование небезопасных паролей по "
+"умолчанию."
+
+#: .\users\forms.py:137
+msgid "For service accounts used by the testing module."
+msgstr ""
+"Для служебных учётных записей, которые используются модулем тестирования."
+
+#: .\users\models.py:24 .\users\templates\users\irunner_users_list_tag.html:19
 msgid "folder"
 msgstr "папка"
 
@@ -1011,12 +1033,16 @@ msgid "patronymic"
 msgstr "отчество"
 
 #: .\users\models.py:26
-msgid "password needs to be changed"
-msgstr "пароль необходимо изменить"
+msgid "password needs to be changed by user"
+msgstr "пользователю необходимо изменить пароль"
 
 #: .\users\models.py:28
 msgid "last used compiler"
 msgstr "последний использованный компилятор"
+
+#: .\users\models.py:29
+msgid "API access"
+msgstr "Доступ к API"
 
 #: .\users\templates\users\base.html:11
 msgid "Folders"
@@ -1050,7 +1076,7 @@ msgstr "Пользователи не выбраны"
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: .\users\templates\users\folder.html:19 .\users\views.py:88
+#: .\users\templates\users\folder.html:19 .\users\views.py:124
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -1058,7 +1084,7 @@ msgstr "Создать папку"
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\users\templates\users\folder.html:29 .\users\views.py:104
+#: .\users\templates\users\folder.html:29 .\users\views.py:140
 msgid "Create user"
 msgstr "Создать пользователя"
 
@@ -1070,32 +1096,28 @@ msgstr "Массовая регистрация"
 msgid "Move"
 msgstr "Переместить"
 
-#: .\users\templates\users\folder.html:59 .\users\templates\users\index.html:28
+#: .\users\templates\users\folder.html:55
+msgid "There are no users in the folder."
+msgstr "В этой папке нет пользователей."
+
+#: .\users\templates\users\index.html:15
+msgid "Search for..."
+msgstr "Искать..."
+
+#: .\users\templates\users\index.html:35
+msgid "No users found."
+msgstr "Пользователи не найдены."
+
+#: .\users\templates\users\irunner_users_list_tag.html:15
 msgid "username"
 msgstr "имя пользователя"
 
-#: .\users\templates\users\folder.html:60
+#: .\users\templates\users\irunner_users_list_tag.html:16
 msgctxt "human"
 msgid "full name"
 msgstr "ФИО"
 
-#: .\users\templates\users\folder.html:74
-msgid "There are no users in the folder."
-msgstr "В этой папке нет пользователей."
-
-#: .\users\templates\users\index.html:12
-msgid "Search for..."
-msgstr "Искать..."
-
-#: .\users\templates\users\index.html:29
-msgid "last name"
-msgstr "фамилия"
-
-#: .\users\templates\users\index.html:30
-msgid "first name"
-msgstr "имя"
-
-#: .\users\templates\users\index.html:31
+#: .\users\templates\users\irunner_users_list_tag.html:17
 msgid "last login"
 msgstr "последний вход"
 
@@ -1103,9 +1125,73 @@ msgstr "последний вход"
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:125
+#: .\users\templates\users\profile_password.html:7
+msgid ""
+"Raw passwords are not stored, so there is no way to see this user's "
+"password, but you can set a new password."
+msgstr ""
+"Пароли не хранятся в открытом виде, поэтому нет возможности увидеть пароль "
+"этого пользователя. Но вы можете установить новый пароль."
+
+#: .\users\templates\users\profile_show.html:11
+msgid "The user belongs to staff and has extended access permissions."
+msgstr ""
+"Пользователь входит в число сотрудников и обладает расширенными правами."
+
+#: .\users\templates\users\profile_show.html:15
+msgid "First name"
+msgstr "Имя"
+
+#: .\users\templates\users\profile_show.html:18
+msgid "Patronymic"
+msgstr "Отчество"
+
+#: .\users\templates\users\profile_show.html:21
+msgid "Last name"
+msgstr "Фамилия"
+
+#: .\users\templates\users\profile_show.html:29
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: .\users\templates\users\profile_show.html:34
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#: .\users\templates\users\profile_show.html:39
+msgid "Last login"
+msgstr "Последний вход"
+
+#: .\users\templates\users\profile_show.html:40
+#: .\users\templates\users\profile_show.html:43
+msgid "no data"
+msgstr "нет данных"
+
+#: .\users\templates\users\profile_show.html:42
+msgid "Date joined"
+msgstr "Дата регистрации"
+
+#: .\users\templates\users\profile_show.html:47
+msgid "Prompt to change password"
+msgstr "Предложить изменить пароль"
+
+#: .\users\templates\users\profile_sidebar.html:13
+msgid "Update profile"
+msgstr "Обновить профиль"
+
+#: .\users\templates\users\profile_sidebar.html:21
+msgid "Permissions"
+msgstr "Права доступа"
+
+#: .\users\views.py:161
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "last name"
+#~ msgstr "фамилия"
+
+#~ msgid "first name"
+#~ msgstr "имя"
 
 #~ msgid "Management"
 #~ msgstr "Управление"

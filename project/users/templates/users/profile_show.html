@@ -1,0 +1,51 @@
+{% extends 'users/profile_base.html' %}
+
+{% load i18n %}
+{% load irunner_users %}
+
+{% block main %}
+
+<h1>{% irunner_users_show edited_user %} <small>{{ edited_user.username }}</small></h1>
+
+{% if edited_user.is_staff %}
+<div class="alert alert-danger" role="alert">{% trans 'The user belongs to staff and has extended access permissions.' %}</div>
+{% endif %}
+
+<dl class="dl-horizontal">
+    <dt>{% trans 'First name' %}</dt>
+    <dd>{{ edited_user.first_name }}</dd>
+
+    <dt>{% trans 'Patronymic' %}</dt>
+    <dd>{{ edited_profile.patronymic }}</dd>
+
+    <dt>{% trans 'Last name' %}</dt>
+    <dd>{{ edited_user.last_name }}</dd>
+</dl>
+
+<dl class="dl-horizontal">
+    <dt>ID</dt>
+    <dd>{{ edited_user.id }}</dd>
+
+    <dt>{% trans 'Username' %}</dt>
+    <dd class="ir-monospace">{{ edited_user.username }}</dd>
+</dl>
+
+<dl class="dl-horizontal">
+    <dt>{% trans 'Email address' %}</dt>
+    <dd>{% if edited_user.email %}<a href="mailto:{{ edited_user.email }}">{{ edited_user.email }}</a>{% endif %}</dd>
+</dl>
+
+<dl class="dl-horizontal">
+    <dt>{% trans 'Last login' %}</dt>
+    <dd>{% if edited_user.last_login %}{{ edited_user.last_login }}{% else %}{% trans 'no data' %}{% endif %}</dd>
+
+    <dt>{% trans 'Date joined' %}</dt>
+    <dd>{% if edited_user.date_joined %}{{ edited_user.date_joined }}{% else %}{% trans 'no data' %}{% endif %}</dd>
+</dl>
+
+<dl class="dl-horizontal">
+	<dt>{% trans 'Prompt to change password' %}</dt>
+	<dd>{{ edited_profile.needs_change_password|yesno }}</dd>
+</dl>
+
+{% endblock %}

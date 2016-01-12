@@ -89,3 +89,50 @@ class CreateUsersMassForm(forms.Form):
 
 class MoveUsersForm(forms.Form):
     folder = TreeNodeChoiceField(label=_('Destination folder'), queryset=UserFolder.objects.all(), required=False)
+
+'''
+User search
+'''
+
+
+class UserSearchForm(forms.Form):
+    query = forms.CharField(required=False)
+    staff = forms.BooleanField(label=_('Staff only'), required=False)
+
+
+'''
+User profile
+'''
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = auth.get_user_model()
+        fields = ['is_active', 'email', 'last_name', 'first_name']
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['patronymic', 'needs_change_password']
+
+        help_texts = {
+            'needs_change_password': _('User will see a warning message until he sets a new password. '
+                                       'This prevents usage of insecure default passwords.')
+        }
+
+
+class UserPermissionsForm(forms.ModelForm):
+    class Meta:
+        model = auth.get_user_model()
+        fields = ['is_staff']
+
+
+class UserProfilePermissionsForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['has_api_access']
+
+        help_texts = {
+            'has_api_access': _('For service accounts used by the testing module.')
+        }

@@ -1,17 +1,16 @@
-from django.shortcuts import render
-from mptt.forms import TreeNodeChoiceField
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.contrib.auth.decorators import login_required
+from django import forms
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.http import JsonResponse, Http404
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
+from django.views import generic
+
+from mptt.forms import TreeNodeChoiceField
 
 from problems.models import Problem, ProblemFolder
-from django import forms
-from django.http import Http404
-from django.core.paginator import Paginator
-from collections import namedtuple
-from django.contrib import auth
-
-import django.views.generic.list
 
 
 def home(request):
@@ -54,7 +53,7 @@ class IRunnerPaginationContext(object):
         self.page_size_constants = []
 
 
-class IRunnerBaseListView(django.views.generic.list.BaseListView):
+class IRunnerBaseListView(generic.list.BaseListView):
     page_size_constants = [7, 12, 25, 50, 100]
     size_kwarg = 'size'
 
@@ -160,7 +159,7 @@ class IRunnerBaseListView(django.views.generic.list.BaseListView):
         return context
 
 
-class IRunnerListView(django.views.generic.list.MultipleObjectTemplateResponseMixin, IRunnerBaseListView):
+class IRunnerListView(generic.list.MultipleObjectTemplateResponseMixin, IRunnerBaseListView):
     pass
 
 
@@ -172,3 +171,93 @@ class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+def _is_staff(user):
+    if not user.is_staff:
+        raise PermissionDenied
+    return True
+
+
+class StaffMemberRequiredMixin(object):
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(_is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super(StaffMemberRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class MassOperationView(generic.View):
+    template_name = None
+    form_class = None
+    success_url = '/'
+
+    @staticmethod
+    def _make_int_list(ids):
+        result = set()
+        for x in ids:
+            try:
+                x = int(x)
+            except:
+                raise Http404('bad id')
+            result.add(x)
+
+        return list(result)
+
+    def _make_context(self, query_dict, queryset):
+        # take really existing ids
+        ids = [object.pk for object in queryset]
+
+        context = {
+            'object_list': queryset,
+            'ids': ids,
+            'next': query_dict.get('next')
+        }
+        return context
+
+    def _redirect(self):
+        next = self.request.POST.get('next')
+        if next is None:
+            next = self.success_url
+        return redirect(next)
+
+    def get(self, request, *args, **kwargs):
+        ids = MassOperationView._make_int_list(request.GET.getlist('id'))
+
+        queryset = self.get_queryset().filter(pk__in=ids)
+
+        context = self._make_context(request.GET, queryset)
+
+        if self.form_class is not None:
+            form = self.form_class()
+            context['form'] = form
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        ids = MassOperationView._make_int_list(request.POST.getlist('id'))
+
+        queryset = self.get_queryset().filter(pk__in=ids)
+
+        if self.form_class is not None:
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                self.perform(queryset, form)
+                return self._redirect()
+            else:
+                context = self._make_context(request.POST, queryset)
+                context['form'] = form
+                return render(request, self.template_name, context)
+
+        self.perform(queryset, None)
+        return self._redirect()
+
+    '''
+    Methods that may be overridden.
+    '''
+    def perform(self, queryset, form):
+        # form is passed only if form_class is not None.
+        # form is valid.
+        raise NotImplementedError()
+
+    def get_queryset(self):
+        raise NotImplementedError()

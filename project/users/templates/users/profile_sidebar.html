@@ -1,0 +1,23 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% load irunner_users %}
+
+<div class="list-group ir-list-group-users">
+    <a href="{% url 'users:profile_show' edited_user.id %}" class="list-group-item{% if active_tab == 'show' %} active{% endif %}">
+        {% bootstrap_icon 'user' %}
+        {% irunner_users_show edited_user %}
+    </a>
+    <a href="{% url 'users:profile_update' edited_user.id %}" class="list-group-item{% if active_tab == 'update' %} active{% endif %}">
+        {% bootstrap_icon 'pencil' %}
+        {% trans 'Update profile' %}
+    </a>
+    <a href="{% url 'users:profile_password' edited_user.id %}" class="list-group-item{% if active_tab == 'password' %} active{% endif %}">
+        {% bootstrap_icon 'asterisk' %}
+        {% trans 'Change password' %}
+    </a>
+    <a href="{% url 'users:profile_permissions' edited_user.id %}" class="list-group-item{% if active_tab == 'permissions' %} active{% endif %}">
+        {% bootstrap_icon 'lock' %}
+        {% trans 'Permissions' %}
+    </a>
+</div>

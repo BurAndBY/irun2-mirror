@@ -1,48 +1,53 @@
-import operator
-from django.views import generic
-import json
-from django.contrib import auth
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 import forms
-from django.forms import formset_factory
-from collections import namedtuple
-from django.utils.translation import ugettext_lazy as _
-from models import UserFolder, UserProfile
-from common.folderutils import lookup_node_ex, cast_id
-from common.views import IRunnerListView
-from problems.models import Problem
-from django.conf import settings
+import operator
+
 from django.contrib import auth
 from django.db import transaction
-from django.http import Http404
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.translation import ugettext_lazy as _
+from django.views import generic
+
+from common.folderutils import lookup_node_ex, cast_id
+from common.pageutils import paginate
+from common.views import IRunnerListView, MassOperationView, StaffMemberRequiredMixin
+
+from models import UserFolder, UserProfile
 
 
-class IndexView(IRunnerListView):
+class IndexView(StaffMemberRequiredMixin, generic.View):
     template_name = 'users/index.html'
     paginate_by = 12
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        context['query'] = self.request.GET.get('query')
-        context['active_tab'] = 'search'
-        return context
-
-    def get_queryset(self):
+    def get_queryset(self, query=None, staff=False):
         queryset = auth.get_user_model().objects.all().select_related('userprofile').select_related('userprofile__folder')
 
-        query = self.request.GET.get('query')
-        if query:
+        if query is not None:
             terms = query.split()
             if terms:
                 search_args = []
                 for term in terms:
-                    for sql in ('username__icontains', 'first_name__icontains', 'last_name__icontains'):
-                        search_args.append(Q(**{sql: term}))
+                    search_args.append(Q(username__icontains=term) | Q(first_name__icontains=term) | Q(last_name__icontains=term))
 
-                queryset = queryset.filter(reduce(operator.or_, search_args))
+                queryset = queryset.filter(reduce(operator.and_, search_args))
+
+        if staff:
+            queryset = queryset.filter(is_staff=True)
+
         queryset = queryset.order_by('id')
         return queryset
+
+    def get(self, request):
+        form = forms.UserSearchForm(request.GET)
+        if form.is_valid():
+            queryset = self.get_queryset(form.cleaned_data['query'], form.cleaned_data['staff'])
+        else:
+            queryset = self.get_queryset()
+
+        context = paginate(request, queryset, self.paginate_by)
+        context['active_tab'] = 'search'
+        context['form'] = form
+        return render(request, self.template_name, context)
 
 
 class UserFolderMixin(object):
@@ -58,7 +63,7 @@ class UserFolderMixin(object):
         return context
 
 
-class ShowFolderView(UserFolderMixin, IRunnerListView):
+class ShowFolderView(StaffMemberRequiredMixin, UserFolderMixin, IRunnerListView):
     template_name = 'users/folder.html'
     paginate_by = 50
 
@@ -79,7 +84,7 @@ class ShowFolderView(UserFolderMixin, IRunnerListView):
         return auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
 
 
-class CreateFolderView(UserFolderMixin, generic.FormView):
+class CreateFolderView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = forms.CreateFolderForm
 
@@ -95,7 +100,7 @@ class CreateFolderView(UserFolderMixin, generic.FormView):
         return redirect('users:show_folder', folder_id_or_root)
 
 
-class CreateUserView(UserFolderMixin, generic.FormView):
+class CreateUserView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = forms.CreateUserForm
 
@@ -115,7 +120,7 @@ class CreateUserView(UserFolderMixin, generic.FormView):
         return redirect('users:show_folder', folder_id_or_root)
 
 
-class CreateUsersMassView(UserFolderMixin, generic.FormView):
+class CreateUsersMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = forms.CreateUsersMassForm
     initial = {'password': '11111'}
@@ -138,84 +143,7 @@ class CreateUsersMassView(UserFolderMixin, generic.FormView):
         return redirect('users:show_folder', folder_id_or_root)
 
 
-class MassOperationView(generic.View):
-    template_name = None
-    form_class = None
-    success_url = '/'
-
-    @staticmethod
-    def _make_int_list(ids):
-        result = set()
-        for x in ids:
-            try:
-                x = int(x)
-            except:
-                raise Http404('bad id')
-            result.add(x)
-
-        return list(result)
-
-    def _make_context(self, query_dict, queryset):
-        # take really existing ids
-        ids = [object.pk for object in queryset]
-
-        context = {
-            'object_list': queryset,
-            'ids': ids,
-            'next': query_dict.get('next')
-        }
-        return context
-
-    def _redirect(self):
-        next = self.request.POST.get('next')
-        if next is None:
-            next = self.success_url
-        return redirect(next)
-
-    def get(self, request, *args, **kwargs):
-        ids = MassOperationView._make_int_list(request.GET.getlist('id'))
-
-        queryset = self.get_queryset().filter(pk__in=ids)
-
-        context = self._make_context(request.GET, queryset)
-
-        if self.form_class is not None:
-            form = self.form_class()
-            context['form'] = form
-
-        return render(request, self.template_name, context)
-
-    def post(self, request, *args, **kwargs):
-        ids = MassOperationView._make_int_list(request.POST.getlist('id'))
-
-        queryset = self.get_queryset().filter(pk__in=ids)
-
-        if self.form_class is not None:
-            form = self.form_class(request.POST)
-            if form.is_valid():
-                self.perform(queryset, form)
-                return self._redirect()
-            else:
-                context = self._make_context(request.POST, queryset)
-                context['form'] = form
-                return render(request, self.template_name, context)
-
-        self.perform(queryset, None)
-        return self._redirect()
-
-    '''
-    Methods that may be overridden.
-    '''
-    def perform(self, queryset, form):
-        # form is passed only if form_class is not None.
-        # form is valid.
-        raise NotImplementedError()
-
-    def get_queryset(self):
-        raise NotImplementedError()
-
-
-class DeleteUsersView(MassOperationView):
+class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'users/delete.html'
 
     def get_queryset(self):
@@ -225,7 +153,7 @@ class DeleteUsersView(MassOperationView):
         queryset.delete()
 
 
-class MoveUsersView(MassOperationView):
+class MoveUsersView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'users/move.html'
     form_class = forms.MoveUsersForm
 
@@ -235,3 +163,82 @@ class MoveUsersView(MassOperationView):
     def perform(self, queryset, form):
         folder = form.cleaned_data['folder']
         queryset.update(folder=folder)
+
+
+class BaseProfileView(StaffMemberRequiredMixin):
+    tab = None
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'edited_user': self.user,
+            'edited_profile': self.user.userprofile,
+            'active_tab': self.tab,
+        }
+        context.update(kwargs)
+        return context
+
+    def dispatch(self, request, user_id, *args, **kwargs):
+        user = get_object_or_404(auth.get_user_model(), pk=user_id)
+        self.user = user
+        return super(BaseProfileView, self).dispatch(request, user, *args, **kwargs)
+
+
+class ProfileShowView(BaseProfileView, generic.View):
+    tab = 'show'
+    template_name = 'users/profile_show.html'
+
+    def get(self, request, user):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+
+class ProfileTwoFormsView(BaseProfileView, generic.View):
+    user_form_class = None
+    userprofile_form_class = None
+
+    def get(self, request, user):
+        user_form = self.user_form_class(instance=user)
+        userprofile_form = self.userprofile_form_class(instance=user.userprofile)
+        return render(request, self.template_name, self.get_context_data(user_form=user_form, userprofile_form=userprofile_form))
+
+    def post(self, request, user):
+        user_form = self.user_form_class(request.POST, instance=user)
+        userprofile_form = self.userprofile_form_class(request.POST, instance=user.userprofile)
+
+        if user_form.is_valid() and userprofile_form.is_valid():
+            with transaction.atomic():
+                user_form.save()
+                userprofile_form.save()
+            return redirect('users:profile_show', user.id)
+
+        return render(request, self.template_name, self.get_context_data(user_form=user_form, userprofile_form=userprofile_form))
+
+
+class ProfileUpdateView(ProfileTwoFormsView):
+    tab = 'update'
+    template_name = 'users/profile_update.html'
+    user_form_class = forms.UserForm
+    userprofile_form_class = forms.UserProfileForm
+
+
+class ProfilePasswordView(BaseProfileView, generic.View):
+    tab = 'password'
+    template_name = 'users/profile_password.html'
+
+    def get(self, request, user):
+        form = auth.forms.AdminPasswordChangeForm(user)
+        return render(request, self.template_name, self.get_context_data(form=form))
+
+    def post(self, request, user):
+        form = auth.forms.AdminPasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('users:profile_show', user.id)
+        return render(request, self.template_name, self.get_context_data(form=form))
+
+
+class ProfilePermissionsView(ProfileTwoFormsView):
+    tab = 'permissions'
+    template_name = 'users/profile_update.html'
+    user_form_class = forms.UserPermissionsForm
+    userprofile_form_class = forms.UserProfilePermissionsForm

@@ -55,7 +55,8 @@ INSTALLED_APPS = (
     'cauth',
     'django_js_reverse',
     'table',
-    'django_tables2'
+    'django_tables2',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (
