@@ -112,9 +112,11 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    folder = TreeNodeChoiceField(label=_('Folder'), queryset=UserFolder.objects.all(), required=False)
+
     class Meta:
         model = UserProfile
-        fields = ['patronymic', 'needs_change_password']
+        fields = ['patronymic', 'folder', 'needs_change_password', 'description']
 
         help_texts = {
             'needs_change_password': _('User will see a warning message until he sets a new password. '

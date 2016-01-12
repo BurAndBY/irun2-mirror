@@ -16,7 +16,7 @@ class ShowProfileView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class EditProfileView(generic.View):
+class EditProfileView(LoginRequiredMixin, generic.View):
     template_name = 'cauth/profile_edit.html'
 
     def get_context_data(self, user_form, userprofile_form):
