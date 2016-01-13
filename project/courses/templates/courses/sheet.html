@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     {% for activity in main_activities %}
-                        <th>{{ activity.name }}</th>
+                        <th{% if activity.description %} title="{{ activity.description }}"{% endif %}>{{ activity.name }}</th>
                     {% endfor %}
                     {% for activity in extra_activities %}
                         <th rowspan="2">{{ activity.name }}</th>

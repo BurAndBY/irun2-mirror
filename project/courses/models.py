@@ -60,6 +60,7 @@ class Activity(models.Model):
 
     course = models.ForeignKey(Course)
     name = models.CharField(_('name'), max_length=64)
+    description = models.TextField(_('description'), blank=True, max_length=255)
     kind = models.IntegerField(_('kind'), choices=KIND_CHOICES)
     weight = models.FloatField(_('weight'), default=0.0)
 

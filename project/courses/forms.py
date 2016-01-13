@@ -49,7 +49,7 @@ class ActivityForm(forms.ModelForm):
 
     class Meta:
         model = Activity
-        fields = ['name', 'kind', 'weight']
+        fields = ['name', 'description', 'kind', 'weight']
 
 
 class ProblemModelChoiceField(forms.ModelChoiceField):
