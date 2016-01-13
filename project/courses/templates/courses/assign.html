@@ -30,9 +30,12 @@
                 <tr>
                     {% if forloop.first %}
                         <td rowspan="{{ topic.slots|length }}" class="ir-topic">
-                            {{ topic.name }}
-                            <br>
-                            <a href="?penaltytopic={{ topic.topic_id }}">{% trans 'Add problem' %}</a>
+                            <div class="ir-topic-name">
+                                {{ topic.name }}
+                            </div>
+                            <div class="ir-penalty-link">
+                                <a href="?penaltytopic={{ topic.topic_id }}">{% trans 'Add penalty problem' %}</a>
+                            </div>
                         </td>
                     {% endif %}
 

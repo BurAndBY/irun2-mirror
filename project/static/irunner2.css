@@ -469,12 +469,14 @@ h3 { font-size: 20px; line-height: 32px; }
     margin-bottom: 4px;
 }
 .ir-assignment .ir-topic {
-    font-weight: bold;
-    padding-right: 20px;
     background-color: #fafafa;
 }
-.ir-assignment .ir-topic > a {
-    font-weight: normal;
+.ir-assignment .ir-topic .ir-topic-name {
+    font-weight: bold;
+    padding-right: 20px;
+}
+.ir-assignment .ir-topic .ir-penalty-link {
+    margin-top: 4px;
     font-size: 11px;
 }
 .ir-assignment .ir-penalty {

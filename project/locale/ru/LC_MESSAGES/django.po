@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 08:45+0300\n"
-"PO-Revision-Date: 2016-01-13 08:46+0300\n"
+"POT-Creation-Date: 2016-01-13 20:44+0300\n"
+"PO-Revision-Date: 2016-01-13 20:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:99
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:108
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:76
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:85
 msgid "Login"
 msgstr "Вход"
 
@@ -90,7 +90,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:117
+#: .\common\templates\common\about.html:6 .\templates\base.html:126
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -179,7 +179,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:84 .\courses\templates\courses\settings_base.html:19
-#: .\templates\base.html:67 .\users\templates\users\create_form.html:8
+#: .\templates\base.html:76 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
@@ -205,7 +205,7 @@ msgstr "название"
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:34 .\courses\models.py:86
+#: .\courses\models.py:34 .\courses\models.py:87
 msgid "criteria"
 msgstr "критерии"
 
@@ -221,39 +221,44 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:63
+#: .\courses\models.py:63 .\problems\models.py:27 .\users\models.py:16
+#: .\users\models.py:27
+msgid "description"
+msgstr "описание"
+
+#: .\courses\models.py:64
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:64 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:65 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:72
+#: .\courses\models.py:73
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:73
+#: .\courses\models.py:74
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:78
+#: .\courses\models.py:79
 msgid "role"
 msgstr "роль"
 
-#: .\courses\models.py:84
+#: .\courses\models.py:85
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:105
+#: .\courses\models.py:106
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:106
+#: .\courses\models.py:107
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:107
+#: .\courses\models.py:108
 msgid "absence"
 msgstr "отсутствие"
 
@@ -279,8 +284,8 @@ msgid "Apply"
 msgstr "Применить"
 
 #: .\courses\templates\courses\assign.html:35
-msgid "Add problem"
-msgstr "Добавить задачу"
+msgid "Add penalty problem"
+msgstr "Добавить штрафную задачу"
 
 #: .\courses\templates\courses\assign.html:91
 msgid "Extra problems"
@@ -320,7 +325,7 @@ msgstr "Новый курс"
 msgid "Create"
 msgstr "Создать"
 
-#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:65
+#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:74
 msgid "Courses"
 msgstr "Курсы"
 
@@ -615,10 +620,6 @@ msgstr "уровень сложности"
 #: .\problems\models.py:26
 msgid "where the problem was offered"
 msgstr "где задача была предложена"
-
-#: .\problems\models.py:27 .\users\models.py:16 .\users\models.py:27
-msgid "description"
-msgstr "описание"
 
 #: .\problems\models.py:28
 msgid "hint"
@@ -964,23 +965,23 @@ msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
 
-#: .\templates\base.html:62
+#: .\templates\base.html:71
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:69
+#: .\templates\base.html:78
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:74
+#: .\templates\base.html:83
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:99
+#: .\templates\base.html:108
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:115
+#: .\templates\base.html:124
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
