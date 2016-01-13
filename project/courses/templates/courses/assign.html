@@ -1,93 +1,98 @@
 {% extends 'courses/base.html' %}
 
 {% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_cache %}
+{% load irunner_courses_criterion %}
 
 {% block main %}
 
 {% bootstrap_messages %}
 
+<form method="get" class="form-inline">
+    <div class="ir-solution-filter">
+        {% if user_form %}
+            {{ user_form.user }}
+        {% endif %}
+        <button type="submit" class="btn btn-default">
+            {% trans 'Apply' %}
+        </button>
+    </div>
+</form>
+
 <form method="post">
 {% csrf_token %}
 
-{% for topic in data.topics %}
-    <div class="panel panel-default ir-assignment">
-        <div class="panel-heading">{{ topic.name }}</div>
-        <ul class="list-group">
-        {% for slot in topic.slots %}
-            <li class="list-group-item{% if slot.is_penalty %} list-group-item-warning{% endif %}">
-                {% bootstrap_form_errors slot.form %}
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="form-group {%if slot.form.problem.errors %}has-error{%endif%}">
-                            <div class="input-group">
-                                {{ slot.form.problem }}
-                                <div class="input-group-addon ir-icon-links">
-                                    <a href="#" id="{{ slot.form.problem.auto_id }}-statement">{% bootstrap_icon 'film' %}</a>&nbsp;&nbsp;<a href="#" id="{{ slot.form.problem.auto_id }}-manage">{% bootstrap_icon 'pencil' %}</a>
+<table class="table ir-assignment">
+    <tbody>
+        {% for topic in data.topics %}
+            {% for slot in topic.slots %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ topic.slots|length }}" class="ir-topic">
+                            {{ topic.name }}
+                            <br>
+                            <a href="?penaltytopic={{ topic.topic_id }}">{% trans 'Add problem' %}</a>
+                        </td>
+                    {% endif %}
+
+                    <td{% if slot.is_penalty %} class="ir-penalty"{% endif %}>
+                        {% bootstrap_form_errors slot.form %}
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group {%if slot.form.problem.errors %}has-error{%endif%}">
+                                    <div class="input-group">
+                                        {{ slot.form.problem }}
+                                        <div class="input-group-addon ir-icon-links">
+                                            <a href="#" id="{{ slot.form.problem.auto_id }}-statement">{% bootstrap_icon 'film' %}</a>&nbsp;&nbsp;<a href="#" id="{{ slot.form.problem.auto_id }}-manage">{% bootstrap_icon 'pencil' %}</a>
+                                        </div>
+                                    </div>
+                                    {% if slot.form.problem.errors %}
+                                        {% for error in slot.form.problem.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    нет решений
                                 </div>
                             </div>
-                            {% if slot.form.problem.errors %}
-                            {% for error in slot.form.problem.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                            {% endif %}
+                            <div class="col-sm-4">
+                                {#{% bootstrap_field slot.form.criteria show_label=False %}#}
+                                {% for checkbox in slot.form.criteria %}
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ checkbox.tag }}
+                                            {% irunner_cache_lookup criterion_cache checkbox.choice_value as criterion %}
+                                            {% irunner_courses_criterion criterion checkbox.is_checked %}
+                                            {{ checkbox.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                                {% if slot.extra_requirements %}
+                                    {% bootstrap_field slot.form.extra_requirements_ok %}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        {% bootstrap_field slot.form.criteria show_label=False %}
-                        {% if slot.extra_requirements %}
-                            {% bootstrap_field slot.form.extra_requirements_ok %}
-                        {% endif %}
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#{{ slot.form.problem.auto_id }}-collapse" aria-expanded="false" aria-controls="collapseExample">...</button>
-                    </div>
-                </div>
-                <div class="collapse" id="{{ slot.form.problem.auto_id }}-collapse">
-                    <div class="row">
-                        <div class="col-md-7">
-                            ddd
-                        </div>
-                        <div class="col-md-4">
-                            {% bootstrap_field slot.form.extra_requirements show_label=False %}
-                            {% if not slot.extra_requirements %}
-                                {% bootstrap_field slot.form.extra_requirements_ok %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </li>
+                    </td>
+                </tr>
+            {% endfor %}
         {% endfor %}
-        </ul>
-    </div>
-{% endfor %}
+    </tbody>
+</table>
 
-<div class="panel panel-default ir-assignment">
-    <div class="panel-body">
-        <button type="submit" class="btn btn-default">Submit</button>
-    </div>
+<div class="form-group">
+    <button type="submit" class="btn btn-default">{% trans 'Save' %}</button>
 </div>
 
 </form>
 
 <div class="panel panel-success ir-assignment">
-    <div class="panel-heading">Дополнительные задачи</div>
+    <div class="panel-heading">{% trans 'Extra problems' %}</div>
     <div class="panel-body">
-        
+        {% trans 'Not implemented yet.' %}
     </div>
 </div>
-
-<div class="panel panel-warning ir-assignment">
-    <div class="panel-heading">Штрафные задачи</div>
-    <div class="panel-body">
-        <form class="form-inline">
-            <div class="form-group">
-                {% bootstrap_field data.extra_form.penaltytopic %}
-            </div>
-            <button type="submit" class="btn btn-default">Добавить</button>
-        </form>
-    </div>
-</div>
-
 
 <script>
     function setLinks(select) {

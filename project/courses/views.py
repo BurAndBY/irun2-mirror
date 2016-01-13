@@ -17,6 +17,7 @@ from services import make_problem_choices, make_course_results
 
 from common.constants import EMPTY_SELECT
 from common.pageutils import paginate
+from common.cacheutils import AllObjectsCache
 from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
 from solutions.models import Solution
@@ -346,6 +347,11 @@ class CourseAssignView(BaseCourseView):
     def _extract_new_penalty_topic(self, request):
         value = request.GET.get('penaltytopic')
         return int(value) if value is not None else None
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseAssignView, self).get_context_data(**kwargs)
+        context['criterion_cache'] = AllObjectsCache(Criterion)
+        return context
 
     def get(self, request, course, membership_id):
         membership = get_object_or_404(Membership, id=membership_id, course=course)

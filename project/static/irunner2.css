@@ -458,11 +458,28 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-assignment .form-control {
     padding: 4px 8px;
 }
+.ir-assignment .form-group {
+    margin-bottom: 4px;
+}
 .ir-assignment select.form-control {
     height: 28px;
 }
-
-
+.ir-assignment .checkbox {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+.ir-assignment .ir-topic {
+    font-weight: bold;
+    padding-right: 20px;
+    background-color: #fafafa;
+}
+.ir-assignment .ir-topic > a {
+    font-weight: normal;
+    font-size: 11px;
+}
+.ir-assignment .ir-penalty {
+    background-color: #FCF8E3;
+}
 /*
 Yellow menu
 */

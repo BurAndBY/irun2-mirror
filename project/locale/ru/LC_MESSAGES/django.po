@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-12 02:35+0300\n"
-"PO-Revision-Date: 2016-01-12 02:36+0300\n"
+"POT-Creation-Date: 2016-01-13 08:45+0300\n"
+"PO-Revision-Date: 2016-01-13 08:46+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,12 +27,13 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:97
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:99
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
 
 #: .\cauth\templates\cauth\profile_edit.html:15
+#: .\courses\templates\courses\assign.html:85
 #: .\courses\templates\courses\settings_compilers.html:28
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
@@ -69,7 +70,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:74
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:76
 msgid "Login"
 msgstr "Вход"
 
@@ -89,7 +90,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:115
+#: .\common\templates\common\about.html:6 .\templates\base.html:117
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -127,7 +128,7 @@ msgstr "Удалить"
 msgid "Remove all"
 msgstr "Удалить всё"
 
-#: .\common\templates\common\error403.html:7
+#: .\common\templates\common\error403.html:8
 msgid "Access denied."
 msgstr "Доступ запрещён."
 
@@ -178,7 +179,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:84 .\courses\templates\courses\settings_base.html:19
-#: .\templates\base.html:66 .\users\templates\users\create_form.html:8
+#: .\templates\base.html:67 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
@@ -271,6 +272,24 @@ msgid_plural "%(count)d users were removed."
 msgstr[0] "Удалён %(count)d пользователь."
 msgstr[1] "Удалены %(count)d пользователя."
 msgstr[2] "Удалено %(count)d пользователей."
+
+#: .\courses\templates\courses\assign.html:18
+#: .\courses\templates\courses\solutions.html:18
+msgid "Apply"
+msgstr "Применить"
+
+#: .\courses\templates\courses\assign.html:35
+msgid "Add problem"
+msgstr "Добавить задачу"
+
+#: .\courses\templates\courses\assign.html:91
+msgid "Extra problems"
+msgstr "Дополнительные задачи"
+
+#: .\courses\templates\courses\assign.html:93
+#: .\courses\templates\courses\settings_subgroups.html:6
+msgid "Not implemented yet."
+msgstr "Функциональность не реализована."
 
 #: .\courses\templates\courses\course_confirm_delete.html:7
 msgid "Delete course"
@@ -385,11 +404,7 @@ msgstr "Дополнительные виды деятельности"
 msgid "New kind of activity"
 msgstr "Новый вид деятельности"
 
-#: .\courses\templates\courses\settings_subgroups.html:6
-msgid "Not implemented yet."
-msgstr "Функциональность не реализована."
-
-#: .\courses\templates\courses\settings_topics.html:13
+#: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:115
 msgid "Folder"
 msgstr "Папка"
 
@@ -500,10 +515,6 @@ msgstr "Отправить решение"
 #: .\courses\templates\courses\sidebar.html:43
 msgid "Settings"
 msgstr "Настройки"
-
-#: .\courses\templates\courses\solutions.html:18
-msgid "Apply"
-msgstr "Применить"
 
 #: .\courses\templates\courses\solutions.html:28
 #: .\problems\templates\problems\solutions.html:16
@@ -663,6 +674,7 @@ msgstr "Тип"
 
 #: .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\overview.html:47
+#: .\users\templates\users\profile_show.html:27
 msgid "Description"
 msgstr "Описание"
 
@@ -956,19 +968,19 @@ msgstr ""
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:67
+#: .\templates\base.html:69
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:72
+#: .\templates\base.html:74
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:97
+#: .\templates\base.html:99
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:113
+#: .\templates\base.html:115
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
@@ -1010,7 +1022,7 @@ msgstr "Папка назначения"
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:120
+#: .\users\forms.py:122
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -1019,7 +1031,7 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:137
+#: .\users\forms.py:139
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
@@ -1076,7 +1088,7 @@ msgstr "Пользователи не выбраны"
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: .\users\templates\users\folder.html:19 .\users\views.py:124
+#: .\users\templates\users\folder.html:19 .\users\views.py:93
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -1084,7 +1096,7 @@ msgstr "Создать папку"
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\users\templates\users\folder.html:29 .\users\views.py:140
+#: .\users\templates\users\folder.html:29 .\users\views.py:109
 msgid "Create user"
 msgstr "Создать пользователя"
 
@@ -1150,28 +1162,28 @@ msgstr "Отчество"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\users\templates\users\profile_show.html:29
+#: .\users\templates\users\profile_show.html:36
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: .\users\templates\users\profile_show.html:34
+#: .\users\templates\users\profile_show.html:41
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: .\users\templates\users\profile_show.html:39
+#: .\users\templates\users\profile_show.html:46
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\profile_show.html:40
-#: .\users\templates\users\profile_show.html:43
+#: .\users\templates\users\profile_show.html:47
+#: .\users\templates\users\profile_show.html:50
 msgid "no data"
 msgstr "нет данных"
 
-#: .\users\templates\users\profile_show.html:42
+#: .\users\templates\users\profile_show.html:49
 msgid "Date joined"
 msgstr "Дата регистрации"
 
-#: .\users\templates\users\profile_show.html:47
+#: .\users\templates\users\profile_show.html:54
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
@@ -1183,7 +1195,7 @@ msgstr "Обновить профиль"
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:161
+#: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
 
