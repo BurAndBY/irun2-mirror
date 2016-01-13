@@ -108,7 +108,7 @@ User profile
 class UserForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['is_active', 'email', 'last_name', 'first_name']
+        fields = ['is_active', 'username', 'email', 'last_name', 'first_name']
 
 
 class UserProfileForm(forms.ModelForm):

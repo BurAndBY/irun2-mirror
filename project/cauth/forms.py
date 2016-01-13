@@ -28,7 +28,7 @@ PasswordChangeForm.base_fields = auth.forms.PasswordChangeForm.base_fields
 class UserForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['email', 'last_name', 'first_name']
+        fields = ['username', 'email', 'last_name', 'first_name']
 
 
 class UserProfileForm(forms.ModelForm):
