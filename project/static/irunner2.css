@@ -42,10 +42,10 @@ body {
     font-size: 12px;
     text-align: center;
 }
-.ir-course-standings .ir-row1 {
+.ir-course-standings .ir-slot .ir-row1 {
     font-size: 11px;
 }
-.ir-course-standings .ir-row2 {
+.ir-course-standings .ir-slot .ir-row2 {
     font-size: 9px;
 }
 .ir-course-standings .ir-score {
@@ -58,6 +58,10 @@ body {
     text-align: right;
     padding-right: 4px;
     vertical-align: top;
+}
+.ir-course-standings .ir-seq-no .ir-row2 {
+    font-size: 9px;
+    color: #aaa;
 }
 /**
  * Common tuning

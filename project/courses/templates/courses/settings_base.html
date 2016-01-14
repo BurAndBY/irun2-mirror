@@ -15,11 +15,11 @@
         <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
             <a href="{% url 'courses:course_settings_compilers' course.id %}">{% trans 'Compilers' %}</a>
         </li>
-        <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_users' course.id %}">{% trans 'Users' %}</a>
-        </li>
         <li role="presentation"{% if active_subtab == 'subgroups' %} class="active"{% endif %}>
             <a href="{% url 'courses:course_settings_subgroups' course.id %}">{% trans 'Subgroups' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_users' course.id %}">{% trans 'Users' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'sheet' %} class="active"{% endif %}>
             <a href="{% url 'courses:course_settings_sheet' course.id %}">{% trans 'Sheet' %}</a>

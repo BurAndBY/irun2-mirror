@@ -40,6 +40,10 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/create/$', settingsviews.CourseSettingsSheetActivityCreateView.as_view(), name='course_settings_sheet_activity_create'),
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsSheetActivityUpdateView.as_view(), name='course_settings_sheet_activity_update'),
 
+    url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', settingsviews.CourseSettingsSubgroupListView.as_view(), name='course_settings_subgroups'),
+    url(r'^(?P<course_id>[0-9]+)/settings/subgroups/new/$', settingsviews.CourseSettingsSubgroupCreateView.as_view(), name='course_settings_subgroup_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/subgroups/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsSubgroupUpdateView.as_view(), name='course_settings_subgroup_update'),
+
     url(r'^(?P<course_id>[0-9]+)/settings/users/$', settingsviews.CourseSettingsUsersView.as_view(), name='course_settings_users'),
     url(r'^(?P<course_id>[0-9]+)/settings/users/students/$', settingsviews.CourseSettingsUsersStudentsView.as_view(), name='course_settings_users_students'),
     url(r'^(?P<course_id>[0-9]+)/settings/users/teachers/$', settingsviews.CourseSettingsUsersTeachersView.as_view(), name='course_settings_users_teachers'),

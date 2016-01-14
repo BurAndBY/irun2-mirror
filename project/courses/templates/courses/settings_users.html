@@ -7,25 +7,41 @@
 {% block submain %}
     {% bootstrap_messages %}
 
-    <h3><a href="{% url 'courses:course_settings_users_students' course.id %}">{% trans 'Students' %}</a></h3>
-    {% if students %}
-        <ol>
-        {% for user in students %}
-            <li>{% irunner_users_show user %}</li>
-        {% endfor %}
-        </ol>
-    {% else %}
-        {% trans 'No users are set.' %}
-    {% endif %}
+    <form class="form-inline" method="post">
+        {% csrf_token %}
 
-    <h3><a href="{% url 'courses:course_settings_users_teachers' course.id %}">{% trans 'Teachers' %}</a></h3>
-    {% if teachers %}
-        <ul>
-        {% for user in teachers %}
-            <li>{% irunner_users_show user %}</li>
+        {% for view_model in view_models %}
+            {# view_model is RoleUsersViewModel #}
+            {{ view_model.formset.management_form }}
+            <h3><a href="{% url view_model.url_pattern course.id %}">{{ view_model.name_plural }}</a></h3>
+            {% if view_model.pairs %}
+                <table class="table table-hover ir-table-more-condensed">
+                    <thead>
+                        <tr>
+                            <th>{% trans '#' %}</th>
+                            <th>{{ view_model.name_singular }}</th>
+                            <th>{% trans 'Subgroup' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pair in view_model.pairs %}
+                            <tr>
+                                <td>{{ forloop.counter }}.</td>
+                                <td>{% irunner_users_show pair.user %}</td>
+                                <td>{% bootstrap_form pair.form layout='inline' %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>{% trans 'No users are set.' %}<p>
+            {% endif %}
         {% endfor %}
-        </ul>
-    {% else %}
-        {% trans 'No users are set.' %}
-    {% endif %}
+
+        {% buttons %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Save' %}
+            </button>
+        {% endbuttons %}
+    </form>
 {% endblock %}

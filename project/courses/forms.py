@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from .models import Topic, Course, Activity, Assignment, ActivityRecord
+from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership
 from problems.models import Problem, ProblemFolder
 from users.models import UserFolder
 from proglangs.models import Compiler
@@ -50,6 +50,12 @@ class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = ['name', 'description', 'kind', 'weight']
+
+
+class SubgroupForm(forms.ModelForm):
+    class Meta:
+        model = Subgroup
+        fields = ['name']
 
 
 class ProblemModelChoiceField(forms.ModelChoiceField):
@@ -110,3 +116,24 @@ class SolutionListProblemForm(forms.Form):
 class ActivityRecordFakeForm(forms.Form):
     mark = forms.IntegerField(required=False)
     enum = forms.TypedChoiceField(required=False, empty_value=None, choices=ActivityRecord.CHOICES, coerce=int)
+
+
+def create_member_subgroup_form_class(course):
+    '''
+    Subgroups are different for different courses, so we define the form class dynamically.
+    '''
+    queryset = course.subgroup_set.all().order_by('id')
+
+    class MemberSubgroupForm(forms.ModelForm):
+        subgroup = forms.ModelChoiceField(queryset=queryset, widget=forms.RadioSelect, empty_label=_('no'), required=False)
+
+        class Meta:
+            model = Membership
+            fields = ['subgroup']
+
+    return MemberSubgroupForm
+
+
+def create_member_subgroup_formset_class(course):
+    form = create_member_subgroup_form_class(course)
+    return forms.modelformset_factory(Membership, form=form)

@@ -65,6 +65,14 @@ class Activity(models.Model):
     weight = models.FloatField(_('weight'), default=0.0)
 
 
+class Subgroup(models.Model):
+    course = models.ForeignKey(Course)
+    name = models.CharField(max_length=16, blank=False)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Membership(models.Model):
     STUDENT = 0
     TEACHER = 1
@@ -77,6 +85,7 @@ class Membership(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     course = models.ForeignKey(Course)
     role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
+    subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, on_delete=models.SET_NULL)
 
 
 class Assignment(models.Model):

@@ -24,7 +24,14 @@
         {% for user_result in results %}
         <tr>
             <td class="ir-seq-no">
-                {{ forloop.counter }}
+                <div class="ir-row1">
+                    {{ forloop.counter }}
+                </div>
+                {% if user_result.membership.subgroup %}
+                    <div class="ir-row2">
+                        {{ user_result.membership.subgroup }}
+                    </div>
+                {% endif %}
             </td>
 
             <td>
@@ -36,7 +43,7 @@
 
             {% for topic_result in user_result.topic_results %}
                 {% for slot_result in topic_result.slot_results %}
-                    <td class="text-nowrap">
+                    <td class="text-nowrap ir-slot">
                         {% if slot_result.should_show_in_standings %}
                             {% with slot_result.assignment.problem as problem %}
                                 <div class="ir-row1">

@@ -1,10 +1,14 @@
+from collections import namedtuple
+
 from django.contrib import auth, messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
-from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, TwoPanelUserMultipleChoiceField
+from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, SubgroupForm, TwoPanelUserMultipleChoiceField
+from forms import create_member_subgroup_formset_class
 from models import Membership
 from views import BaseCourseView
 
@@ -56,16 +60,44 @@ class CourseSettingsCompilersView(CourseSettingsView):
 Users
 '''
 
+UserFormPair = namedtuple('UserFormPair', 'user form')
+RoleUsersViewModel = namedtuple('RoleUsersViewModel', 'name_singular name_plural url_pattern pairs formset')
+
 
 class CourseSettingsUsersView(CourseSettingsView):
     subtab = 'users'
     template_name = 'courses/settings_users.html'
 
-    def get(self, request, course):
-        students = course.members.filter(membership__role=Membership.STUDENT).order_by('last_name')
-        teachers = course.members.filter(membership__role=Membership.TEACHER).order_by('last_name')
+    def _make_view_model(self, role, name_singular, name_plural, url_pattern, data):
+        course = self.course
 
-        context = self.get_context_data(students=students, teachers=teachers)
+        queryset = Membership.objects.filter(course=course, role=role).select_related('user').order_by('user__last_name')
+        formset_class = create_member_subgroup_formset_class(course)
+        formset = formset_class(queryset=queryset, data=data, prefix=str(role))
+        pairs = [UserFormPair(membership.user, form) for membership, form in zip(queryset, formset)]
+
+        return RoleUsersViewModel(name_singular, name_plural, url_pattern, pairs, formset)
+
+    def _make_view_models(self, data=None):
+        return [
+            self._make_view_model(Membership.STUDENT, _('Student'), _('Students'), 'courses:course_settings_users_students', data),
+            self._make_view_model(Membership.TEACHER, _('Teacher'), _('Teachers'), 'courses:course_settings_users_teachers', data),
+        ]
+
+    def get(self, request, course):
+        view_models = self._make_view_models()
+        context = self.get_context_data(view_models=view_models)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        view_models = self._make_view_models(request.POST)
+        if all(view_model.formset.is_valid() for view_model in view_models):
+            with transaction.atomic():
+                for view_model in view_models:
+                    view_model.formset.save()
+            return redirect('courses:course_settings_users', course.id)
+
+        context = self.get_context_data(view_models=view_models)
         return render(request, self.template_name, context)
 
 
@@ -381,6 +413,32 @@ class CourseSettingsSheetActivityCreateView(SheetMixin, CourseSettingsBaseCreate
 
 
 class CourseSettingsSheetActivityUpdateView(SheetMixin, CourseSettingsBaseUpdateView):
+    pass
+
+
+'''
+Subgroups
+'''
+
+
+class SubroupMixin(object):
+    subtab = 'subgroups'
+    form_class = SubgroupForm
+    list_url_name = 'courses:course_settings_subgroups'
+
+
+class CourseSettingsSubgroupListView(SubroupMixin, CourseSettingsBaseListView):
+    template_name = 'courses/settings_subgroups.html'
+
+    def get_queryset(self, course):
+        return course.subgroup_set.all()
+
+
+class CourseSettingsSubgroupCreateView(SubroupMixin, CourseSettingsBaseCreateView):
+    pass
+
+
+class CourseSettingsSubgroupUpdateView(SubroupMixin, CourseSettingsBaseUpdateView):
     pass
 
 

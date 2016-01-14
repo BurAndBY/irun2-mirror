@@ -3,5 +3,18 @@
 {% load i18n %}
 
 {% block submain %}
-	{% trans 'Not implemented yet.' %}
+    {% if object_list %}
+        <ul>
+        {% for subgroup in object_list %}
+            <li>
+                <a href="{% url 'courses:course_settings_subgroup_update' course.id subgroup.id %}">{{ subgroup.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        {% trans 'No subgroups.' %}
+    {% endif %}
+    <p>
+        <a href="{% url 'courses:course_settings_subgroup_create' course.id %}">{% trans 'New subgroup' %}</a>
+    </p>
 {% endblock %}
