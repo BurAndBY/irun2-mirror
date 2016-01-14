@@ -52,7 +52,9 @@
             {% if object_list %}
                 {% irunner_users_list object_list pagination_context show_checkbox=True %}
             {% else %}
-                <p class="text-center">{% trans 'There are no users in the folder.' %}</p>
+                <div class="ir-absence">
+                    {% trans 'There are no users in the folder.' %}
+                </div>
             {% endif %}
         </div>
     </div>

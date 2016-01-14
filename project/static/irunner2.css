@@ -684,3 +684,13 @@ Yellow menu
     background-repeat: repeat-x;
     border-color: #b54542;
 }
+
+
+/*
+ * No objects message
+ */
+.ir-absence {
+    padding: 20px 10px;
+    text-align: center;
+    font-style: italic;
+}
