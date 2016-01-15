@@ -8,7 +8,7 @@
 <table class="table ir-table-more-condensed table-striped ir-course-standings">
     <thead>
         <tr>
-            <th>{% trans '#' %}</th>
+            <th class="ir-seq-no">{% trans '#' %}</th>
             <th>{% trans 'Student' %}</th>
             {% for topic_descr in course_descr.topic_descrs %}
                 {% with topic_descr.get_slot_count as width %}
@@ -23,7 +23,7 @@
     <tbody>
         {% for user_result in results %}
         <tr>
-            <td class="ir-seq-no">
+            <td class="ir-seq-no{% if user_result.membership.subgroup %} ir-subgroup-1{% else %} ir-subgroup-0{% endif %}">
                 <div class="ir-row1">
                     {{ forloop.counter }}
                 </div>
