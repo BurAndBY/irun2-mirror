@@ -1,0 +1,44 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses_criterion %}
+
+{% block main %}
+
+<table class="table ir-assignment">
+    <tbody>
+        {% for topic_result in user_result.topic_results %}
+            {% with topic_result.get_slot_and_penalty_results as joint_results %}
+                {% for slot_result in joint_results %}
+                    <tr>
+                        {% if forloop.first %}
+                            <td rowspan="{{ joint_results|length }}" class="ir-topic">
+                                <div class="ir-topic-name">
+                                    {{ topic_result.topic_descr.topic.name }}
+                                </div>
+                            </td>
+                        {% endif %}
+
+                        <td{% if slot_result.is_penalty %} class="ir-penalty"{% endif %}>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                </div>
+                                <div class="col-sm-4">
+                                    {% for criterion_descr in slot_result.criterion_descrs %}
+                                        <div>
+                                            {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
+                                            {{ criterion_descr.criterion.name }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endwith %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

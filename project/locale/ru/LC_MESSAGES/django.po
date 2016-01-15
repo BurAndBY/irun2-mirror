@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-15 03:53+0300\n"
-"PO-Revision-Date: 2016-01-15 02:27+0300\n"
+"POT-Creation-Date: 2016-01-15 23:08+0300\n"
+"PO-Revision-Date: 2016-01-15 23:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -156,30 +156,34 @@ msgstr "Все"
 msgid "Loading"
 msgstr "Загрузка"
 
-#: .\courses\forms.py:36 .\problems\forms.py:8
+#: .\courses\forms.py:22
+msgid "Each access level includes all the previous onces."
+msgstr "Каждый уровень доступа включает все предыдущие."
+
+#: .\courses\forms.py:39 .\problems\forms.py:8
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:37
+#: .\courses\forms.py:40
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:48
+#: .\courses\forms.py:51
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:68 .\courses\forms.py:99 .\courses\forms.py:114
+#: .\courses\forms.py:71 .\courses\forms.py:102 .\courses\forms.py:117
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:22
 msgid "Problem"
 msgstr "Задача"
 
-#: .\courses\forms.py:81
+#: .\courses\forms.py:84
 msgid "Topic:"
 msgstr "Тема:"
 
-#: .\courses\forms.py:91 .\courses\templates\courses\settings_base.html:22
+#: .\courses\forms.py:94 .\courses\templates\courses\settings_base.html:22
 #: .\templates\base.html:76 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
@@ -189,85 +193,93 @@ msgstr "Тема:"
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\courses\forms.py:107
+#: .\courses\forms.py:110
 msgid "User"
 msgstr "Пользователь"
 
-#: .\courses\forms.py:130
+#: .\courses\forms.py:133
 msgid "no"
 msgstr "нет"
 
-#: .\courses\models.py:14
+#: .\courses\models.py:15
 msgid "criterion label"
 msgstr "обозначение критерия"
 
-#: .\courses\models.py:15 .\courses\models.py:22 .\courses\models.py:43
-#: .\courses\models.py:74 .\users\models.py:13
+#: .\courses\models.py:16 .\courses\models.py:23 .\courses\models.py:50
+#: .\courses\models.py:81 .\users\models.py:13
 msgid "name"
 msgstr "название"
 
-#: .\courses\models.py:45
+#: .\courses\models.py:27
+msgid "student’s access to his own solutions"
+msgstr "доступ студента к его собственным решениям"
+
+#: .\courses\models.py:30
+msgid "student’s access to all solutions of the course"
+msgstr "доступ студента ко всем решениям курса"
+
+#: .\courses\models.py:52
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:46 .\courses\models.py:114
+#: .\courses\models.py:53 .\courses\models.py:121
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:68
+#: .\courses\models.py:75
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:69
+#: .\courses\models.py:76
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:70
+#: .\courses\models.py:77
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:75 .\problems\models.py:27 .\users\models.py:16
+#: .\courses\models.py:82 .\problems\models.py:27 .\users\models.py:16
 #: .\users\models.py:27
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:76
+#: .\courses\models.py:83
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:77 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:84 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:93
+#: .\courses\models.py:100
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:94
+#: .\courses\models.py:101
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:99
+#: .\courses\models.py:106
 msgid "role"
 msgstr "роль"
 
-#: .\courses\models.py:100
+#: .\courses\models.py:107
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:112
+#: .\courses\models.py:119
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:133
+#: .\courses\models.py:140
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:134
+#: .\courses\models.py:141
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:135
+#: .\courses\models.py:142
 msgid "absence"
 msgstr "отсутствие"
 
@@ -866,6 +878,34 @@ msgstr "Завершение"
 #: .\solutions\models.py:107
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
+
+#: .\solutions\permissions.py:21
+msgid "no access"
+msgstr "нет доступа"
+
+#: .\solutions\permissions.py:22
+msgid "view current solution state"
+msgstr "просмотр текущего состояния решения"
+
+#: .\solutions\permissions.py:23
+msgid "view compilation log"
+msgstr "просмотр журнала компиляции"
+
+#: .\solutions\permissions.py:24
+msgid "view source code"
+msgstr "просмотр исходного кода"
+
+#: .\solutions\permissions.py:25
+msgid "view testing details"
+msgstr "просмотр деталей тестирования"
+
+#: .\solutions\permissions.py:26
+msgid "view testing details with checker messages"
+msgstr "просмотр деталей тестирования с сообщениями чекера"
+
+#: .\solutions\permissions.py:27
+msgid "view testing details and test data"
+msgstr "просмотр деталей тестирования и данных тестов"
 
 #: .\solutions\templates\solutions\ilist.html:7
 #: .\solutions\templates\solutions\solution_list.html:9

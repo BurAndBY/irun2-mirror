@@ -74,6 +74,7 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
 
 {% if edit_mode %}
     <script>
@@ -108,7 +109,9 @@
         });
     </script>
 {% else %}
-    <br><p>{% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a></p>
+    {% if permissions.sheet_edit %}
+        <p>{% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a></p>
+    {% endif %}
 {% endif %}
 
 {% endblock %}

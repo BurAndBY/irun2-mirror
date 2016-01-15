@@ -66,9 +66,9 @@ def make_course_results(course):
     main function
     '''
     course_descr = CourseDescr(course)
-    memberships = Membership.objects.filter(course=course, role=Membership.STUDENT)\
-                                    .select_related('user')\
-                                    .order_by('user__last_name', 'user__first_name')
+
+    # fetch all students from the course in conventional order
+    memberships = course.get_student_memberships()
 
     results = []
     # indexes for fast lookup to results array items
@@ -83,15 +83,42 @@ def make_course_results(course):
         user_id_result[user.id] = result
         membership_id_result[membership.id] = result
 
+    # assignments
     for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT).prefetch_related('criteria'):
         mid = assignment.membership_id
         membership_id_result[mid].register_assignment(assignment)
 
+    # activity records
     for record in ActivityRecord.objects.filter(membership__course=course, membership__role=Membership.STUDENT):
         mid = record.membership_id
         membership_id_result[mid].register_activity_record(record)
 
+    # TODO: solutions
+
     return CourseResults(course_descr, results)
+
+
+def make_course_single_result(course, membership):
+    '''
+    Works like above, but returns results only for one student.
+    '''
+    assert membership.course == course
+    assert membership.role == Membership.STUDENT
+
+    course_descr = CourseDescr(course)
+    result = UserResult(course_descr, membership.user, membership)
+
+    # assignments
+    for assignment in Assignment.objects.filter(membership=membership).prefetch_related('criteria'):
+        result.register_assignment(assignment)
+
+    # activity records
+    for record in ActivityRecord.objects.filter(membership=membership):
+        result.register_activity_record(record)
+
+    # TODO: solutions
+
+    return result
 
 
 class CourseDescr(object):
@@ -160,6 +187,9 @@ class SlotResult(object):
         for criterion in assignment.criteria.all():
             self._set_criterion(criterion)
 
+    def is_penalty(self):
+        return self.slot is None
+
     def _set_criterion(self, criterion):
         for criterion_descr in self.criterion_descrs:
             if criterion_descr.criterion.id == criterion.id:
@@ -178,6 +208,9 @@ class TopicResult(object):
         self.topic_descr = topic_descr
         self.slot_results = [SlotResult(topic_descr, slot) for slot in topic_descr.slots]
         self.penalty_problem_results = []
+
+    def get_slot_and_penalty_results(self):
+        return self.slot_results + self.penalty_problem_results
 
     def register_assignment(self, assignment):
         if assignment.slot_id is not None:

@@ -17,7 +17,10 @@ import solutions.forms
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['name']
+        fields = ['name', 'student_own_solutions_access', 'student_all_solutions_access', 'enable_sheet']
+        help_texts = {
+            'student_own_solutions_access': _('Each access level includes all the previous onces.')
+        }
 
 
 class CompilersForm(forms.ModelForm):

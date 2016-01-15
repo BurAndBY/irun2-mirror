@@ -26,7 +26,9 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/assign/redirect/$', views.assignment_redirect_view, name='course_assignment_redirect'),
 
     url(r'^(?P<course_id>[0-9]+)/solutions/$', views.CourseAllSolutionsView.as_view(), name='all_solutions'),
-    url(r'^(?P<course_id>[0-9]+)/mysolutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
+    url(r'^(?P<course_id>[0-9]+)/my/solutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
+
+    url(r'^(?P<course_id>[0-9]+)/my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
 
     # Settings
 

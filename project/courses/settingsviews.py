@@ -16,6 +16,9 @@ from views import BaseCourseView
 class CourseSettingsView(BaseCourseView):
     tab = 'settings'
 
+    def is_allowed(self, permissions):
+        return permissions.settings
+
 
 class CourseSettingsPropertiesView(CourseSettingsView):
     subtab = 'properties'

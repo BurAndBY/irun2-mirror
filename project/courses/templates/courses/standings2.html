@@ -22,7 +22,7 @@
     </thead>
     <tbody>
         {% for user_result in results %}
-        <tr>
+        <tr{% if user_result.user == user %} class="ir-me"{% endif %}>
             <td class="ir-seq-no{% if user_result.membership.subgroup %} ir-subgroup-1{% else %} ir-subgroup-0{% endif %}">
                 <div class="ir-row1">
                     {{ forloop.counter }}
@@ -35,10 +35,16 @@
             </td>
 
             <td>
-                <a href="{% url 'courses:course_assignment' course.id user_result.membership.id %}">
-                    <b>{{ user_result.user.last_name }}</b><br>
-                    {{ user_result.user.first_name }}
-                </a>
+                {% if permissions.assign %}
+                    <a href="{% url 'courses:course_assignment' course.id user_result.membership.id %}">
+                {% endif %}
+
+                <b>{{ user_result.user.last_name }}</b><br>
+                {{ user_result.user.first_name }}
+
+                {% if permissions.assign %}
+                    </a>
+                {% endif %}
             </td>
 
             {% for topic_result in user_result.topic_results %}

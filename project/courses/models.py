@@ -7,6 +7,7 @@ from django.conf import settings
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
 from solutions.models import Solution
+from solutions.permissions import SolutionAccessLevel
 from django.core.urlresolvers import reverse
 
 
@@ -22,6 +23,14 @@ class Course(models.Model):
     name = models.CharField(_('name'), max_length=64)
     compilers = models.ManyToManyField(Compiler, blank=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
+
+    student_own_solutions_access = models.IntegerField(_(u'student’s access to his own solutions'),
+                                                       choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS)
+
+    student_all_solutions_access = models.IntegerField(_(u'student’s access to all solutions of the course'),
+                                                       choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.STATE)
+
+    enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
 
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})

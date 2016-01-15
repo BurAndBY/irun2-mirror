@@ -49,7 +49,7 @@
                         <tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt>
                     </small>                    
                 </td>
-                <td>
+                <td class="text-nowrap">
                     {% judgementbox solution.best_judgement %}
                     {% if solution.best_judgement %} <small><a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a></small>{% endif %}
                 </td>

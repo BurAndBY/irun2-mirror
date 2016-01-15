@@ -4,6 +4,7 @@ from collections import namedtuple
 
 from django.contrib import auth
 from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
@@ -13,11 +14,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord
-from services import make_problem_choices, make_course_results
+from services import make_problem_choices, make_course_results, make_course_single_result
+from permissions import CoursePermissions
 
-from common.constants import EMPTY_SELECT
 from common.pageutils import paginate
 from common.cacheutils import AllObjectsCache
+from common.views import StaffMemberRequiredMixin
 from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
 from solutions.models import Solution
@@ -31,22 +33,48 @@ class BaseCourseView(generic.View):
     def get_context_data(self, **kwargs):
         context = {
             'course': self.course,
+            'permissions': self.permissions,
             'active_tab': self.tab,
             'active_subtab': self.subtab,
         }
         context.update(kwargs)
         return context
 
+    def is_allowed(self, permissions):
+        return False
+
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         course = get_object_or_404(Course, pk=course_id)
+
+        permissions = CoursePermissions()
+
+        for membership in Membership.objects.filter(course=course, user=request.user):
+            if membership.role == Membership.STUDENT:
+                permissions.set_student(course.student_own_solutions_access, course.student_all_solutions_access)
+            elif membership.role == Membership.TEACHER:
+                permissions.set_teacher()
+
+        if request.user.is_staff:
+            permissions.set_admin()
+
+        if not course.enable_sheet:
+            permissions.sheet = False
+
         self.course = course
+        self.permissions = permissions
+
+        if not self.is_allowed(permissions):
+            raise PermissionDenied()
         return super(BaseCourseView, self).dispatch(request, course, *args, **kwargs)
 
 
 class CourseInfoView(BaseCourseView):
     tab = 'info'
     template_name = 'courses/info.html'
+
+    def is_allowed(self, permissions):
+        return permissions.info
 
     def get(self, request, course_id):
         return render(request, self.template_name, self.get_context_data())
@@ -78,6 +106,9 @@ class CourseSheetView(BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
 
+    def is_allowed(self, permissions):
+        return permissions.sheet
+
     def get(self, request, course):
         data = make_course_results(course)
         context = self.get_context_data(data=data)
@@ -88,6 +119,9 @@ class CourseSheetEditView(BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
 
+    def is_allowed(self, permissions):
+        return permissions.sheet_edit
+
     def get(self, request, course):
         data = make_course_results(course)
         context = self.get_context_data(data=data, edit_mode=True, choices=ActivityRecord.CHOICES)
@@ -95,6 +129,9 @@ class CourseSheetEditView(BaseCourseView):
 
 
 class CourseSheetEditApiView(BaseCourseView):
+    def is_allowed(self, permissions):
+        return permissions.sheet_edit
+
     def post(self, request, course, membership_id, activity_id):
         if not Membership.objects.filter(pk=membership_id, course=course).exists():
             raise Http404('no such membership in the course')
@@ -125,8 +162,11 @@ class CourseSubmitView(BaseCourseView):
     tab = 'submit'
     template_name = 'courses/submit.html'
 
+    def is_allowed(self, permissions):
+        return permissions.submit
+
     def _make_choices(self):
-        return make_problem_choices(self.course, full=True)
+        return make_problem_choices(self.course, full=self.permissions.submit_all_problems, user_id=self.request.user.id)
 
     def _make_initial(self):
         initial = {}
@@ -195,6 +235,9 @@ class CourseProblemsView(BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_base.html'
 
+    def is_allowed(self, permissions):
+        return permissions.problems
+
     def get(self, request, course):
         topics = course.topic_set.all()
 
@@ -205,6 +248,9 @@ class CourseProblemsView(BaseCourseView):
 class CourseProblemsTopicView(BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_list.html'
+
+    def is_allowed(self, permissions):
+        return permissions.problems
 
     def get(self, request, course, topic_id):
         topic = course.topic_set.filter(id=topic_id).first()
@@ -233,6 +279,9 @@ def _locate_in_list(lst, x):
 class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
     tab = 'problems'
     template_name = 'courses/problems_statement.html'
+
+    def is_allowed(self, permissions):
+        return permissions.problems
 
     def get(self, request, course, topic_id, problem_id, filename):
         topic = get_object_or_404(Topic, pk=topic_id, course_id=course.id)
@@ -344,6 +393,9 @@ class CourseAssignView(BaseCourseView):
     tab = 'assign'
     template_name = 'courses/assign.html'
 
+    def is_allowed(self, permissions):
+        return permissions.assign
+
     def _extract_new_penalty_topic(self, request):
         value = request.GET.get('penaltytopic')
         return int(value) if value is not None else None
@@ -417,11 +469,11 @@ def assignment_redirect_view(request, course_id):
         raise Http404(e)
 
 
-class CourseListView(generic.ListView):
+class CourseListView(StaffMemberRequiredMixin, generic.ListView):
     model = Course
 
 
-class CourseCreateView(generic.CreateView):
+class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Course
     fields = ['name']
 
@@ -437,6 +489,9 @@ class CourseStandingsView(BaseCourseView):
     tab = 'standings'
     template_name = 'courses/standings2.html'
 
+    def is_allowed(self, permissions):
+        return permissions.standings
+
     def get(self, request, course):
         context = self.get_context_data()
         res = make_course_results(course)
@@ -450,11 +505,11 @@ Criterion
 '''
 
 
-class CriterionListView(generic.ListView):
+class CriterionListView(StaffMemberRequiredMixin, generic.ListView):
     model = Criterion
 
 
-class CriterionCreateView(generic.CreateView):
+class CriterionCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Criterion
     fields = ['label', 'name']
 
@@ -471,6 +526,9 @@ class CourseAllSolutionsView(BaseCourseView):
     tab = 'all_solutions'
     template_name = 'courses/solutions.html'
     paginate_by = 12
+
+    def is_allowed(self, permissions):
+        return permissions.all_solutions
 
     def get(self, request, course):
         # filters
@@ -515,6 +573,9 @@ class CourseMySolutionsView(BaseCourseView):
     template_name = 'courses/solutions.html'
     paginate_by = 12
 
+    def is_allowed(self, permissions):
+        return permissions.my_solutions
+
     def get(self, request, course):
         problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, user_id=request.user.id))
         if problem_form.is_valid():
@@ -535,4 +596,23 @@ class CourseMySolutionsView(BaseCourseView):
         context['problem_form'] = problem_form
         context['show_author'] = False  # all solutions belong to the same author
         context = self.get_context_data(**context)
+        return render(request, self.template_name, context)
+
+
+'''
+My problems
+'''
+
+
+class CourseMyProblemsView(BaseCourseView):
+    tab = 'my_problems'
+    template_name = 'courses/my_problems.html'
+
+    def is_allowed(self, permissions):
+        return permissions.my_problems
+
+    def get(self, request, course):
+        membership = get_object_or_404(Membership, course=course, user=request.user, role=Membership.STUDENT)
+        user_result = make_course_single_result(course, membership)
+        context = self.get_context_data(user_result=user_result)
         return render(request, self.template_name, context)
