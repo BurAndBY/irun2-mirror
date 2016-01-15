@@ -14,7 +14,7 @@
         {% bootstrap_icon 'th-large' %}
         {% trans 'My problems' %}
     </a>
-    <a href="#" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
+    <a href="{% url 'courses:course_assignment_empty' course.id %}" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
         {% bootstrap_icon 'link' %}
         {% trans 'Assignment of problems' %}
     </a>

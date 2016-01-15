@@ -9,16 +9,18 @@
 
 {% bootstrap_messages %}
 
-<form method="get" class="form-inline">
+<form method="get" class="form-inline" action="{% url 'courses:course_assignment_redirect' course.id %}">
     <div class="ir-solution-filter">
-        {% if user_form %}
-            {{ user_form.user }}
-        {% endif %}
+        {{ membership_form.membership }}
         <button type="submit" class="btn btn-default">
             {% trans 'Apply' %}
         </button>
     </div>
 </form>
+
+{% if not data %}
+    <div class="ir-absence">{% trans 'No users selected' %}</div>
+{% else %}
 
 <form method="post">
 {% csrf_token %}
@@ -128,5 +130,7 @@
         });
     });
 </script>
+
+{% endif %}
 
 {% endblock %}

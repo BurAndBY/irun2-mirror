@@ -10,8 +10,8 @@
 {% block main %}
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
-            {% if user_form %}
-                {{ user_form.user }}
+            {% if membership_form %}
+                {{ membership_form.membership }}
             {% endif %}
             {{ problem_form.problem }}
             <button type="submit" class="btn btn-default">

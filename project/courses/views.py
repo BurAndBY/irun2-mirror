@@ -3,7 +3,7 @@
 from collections import namedtuple
 
 from django.contrib import auth
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
@@ -11,7 +11,7 @@ from django.views import generic
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 
-from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
+from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord
 from services import make_problem_choices, make_course_results
 
@@ -353,16 +353,23 @@ class CourseAssignView(BaseCourseView):
         context['criterion_cache'] = AllObjectsCache(Criterion)
         return context
 
-    def get(self, request, course, membership_id):
-        membership = get_object_or_404(Membership, id=membership_id, course=course)
+    def get(self, request, course, membership_id=None):
+        if membership_id is not None:
+            membership = get_object_or_404(Membership, id=membership_id, course=course)
+            ass = prepare_assignment(course, membership, self._extract_new_penalty_topic(request))
+        else:
+            # 'no selected user' empty view
+            membership = None
+            ass = None
 
-        ass = prepare_assignment(course, membership, self._extract_new_penalty_topic(request))
+        membership_form = SolutionListMemberForm(initial={'membership': membership}, queryset=course.get_student_memberships())
 
-        context = self.get_context_data(data=ass)
+        context = self.get_context_data(data=ass, membership_form=membership_form)
         return render(request, self.template_name, context)
 
     def post(self, request, course, membership_id):
         membership = get_object_or_404(Membership, id=membership_id, course=course)
+        membership_form = SolutionListMemberForm(initial={'membership': membership}, queryset=course.get_student_memberships())
 
         adr = prepare_assignment(course, membership, self._extract_new_penalty_topic(request), post_data=request.POST)
 
@@ -391,8 +398,23 @@ class CourseAssignView(BaseCourseView):
             #messages.add_message(request, messages.INFO, 'Hello world.')
             return redirect('courses:course_assignment', course_id=course.id, membership_id=membership_id)
 
-        context = self.get_context_data(data=adr)
+        context = self.get_context_data(data=adr, membership_form=membership_form)
         return render(request, self.template_name, context)
+
+
+def assignment_redirect_view(request, course_id):
+    '''
+    This view does not checks permissions because it does not retrieve any data from DB.
+    It is safe but useless.
+    '''
+    membership_id = request.GET.get('membership')
+    try:
+        if not membership_id:
+            return redirect('courses:course_assignment_empty', course_id)
+        else:
+            return redirect('courses:course_assignment', course_id, membership_id)
+    except NoReverseMatch as e:
+        raise Http404(e)
 
 
 class CourseListView(generic.ListView):
@@ -452,17 +474,16 @@ class CourseAllSolutionsView(BaseCourseView):
 
     def get(self, request, course):
         # filters
-        user_id = None
+        membership = None
         problem_id = None
 
-        users = course.members.order_by('last_name', 'first_name', 'id')
-        user_choices = tuple([(None, EMPTY_SELECT)] + [(user.id, user.get_full_name()) for user in users])
-        user_form = SolutionListUserForm(data=request.GET, user_choices=user_choices)
-        if user_form.is_valid():
-            user_id = user_form.cleaned_data['user']
+        memberships = course.get_student_memberships()
+        membership_form = SolutionListMemberForm(data=request.GET, queryset=memberships)
+        if membership_form.is_valid():
+            membership = membership_form.cleaned_data['membership']
 
-        if user_id is not None:
-            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, user_id=user_id))
+        if membership is not None:
+            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, membership_id=membership.id))
         else:
             problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, full=True))
         if problem_form.is_valid():
@@ -474,15 +495,15 @@ class CourseAllSolutionsView(BaseCourseView):
             .select_related('source_code', 'best_judgement')\
             .order_by('-reception_time', 'id')
 
-        if user_id is not None:
-            solutions = solutions.filter(author_id=user_id)
+        if membership is not None:
+            solutions = solutions.filter(author=membership.user)
 
         if problem_id is not None:
             solutions = solutions.filter(problem_id=problem_id)
 
         context = paginate(request, solutions, self.paginate_by)
 
-        context['user_form'] = user_form
+        context['membership_form'] = membership_form
         context['problem_form'] = problem_form
         context['show_author'] = True
         context = self.get_context_data(**context)

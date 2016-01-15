@@ -7,6 +7,7 @@ from users.models import UserFolder
 from proglangs.models import Compiler
 from mptt.forms import TreeNodeChoiceField
 from django.utils.translation import ugettext_lazy as _
+from common.constants import EMPTY_SELECT
 import common.widgets
 import common.fields
 from django.contrib import auth
@@ -99,11 +100,12 @@ class SolutionForm(solutions.forms.SolutionForm):
         self.fields['compiler'].queryset = compiler_queryset
 
 
-class SolutionListUserForm(forms.Form):
-    def __init__(self, user_choices, **kwargs):
-        super(SolutionListUserForm, self).__init__(**kwargs)
-        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=False)
-        self.fields['user'].widget.attrs['class'] = 'form-control'
+class SolutionListMemberForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        queryset = kwargs.pop('queryset')
+        super(SolutionListMemberForm, self).__init__(*args, **kwargs)
+        self.fields['membership'] = forms.ModelChoiceField(label=_('User'), empty_label=EMPTY_SELECT, queryset=queryset, required=False)
+        self.fields['membership'].widget.attrs['class'] = 'form-control'
 
 
 class SolutionListProblemForm(forms.Form):

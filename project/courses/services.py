@@ -28,7 +28,7 @@ class ProblemChoicesBuilder(object):
         return tuple(self._data)
 
 
-def make_problem_choices(course, full=False, user_id=None):
+def make_problem_choices(course, full=False, user_id=None, membership_id=None):
     builder = ProblemChoicesBuilder()
     topics = course.topic_set.all()
 
@@ -44,6 +44,12 @@ def make_problem_choices(course, full=False, user_id=None):
         for topic in topics:
             problems = Problem.objects.filter(assignment__topic=topic, assignment__membership__user_id=user_id)
             builder.add(topic.name, reorder(problems))
+
+    if membership_id is not None:
+        for topic in topics:
+            problems = Problem.objects.filter(assignment__topic=topic, assignment__membership_id=membership_id)
+            builder.add(topic.name, reorder(problems))
+
     return builder.get()
 
 '''

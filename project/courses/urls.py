@@ -21,7 +21,9 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/problemset/(?P<topic_id>[0-9]+)/$', views.CourseProblemsTopicView.as_view(), name='course_problems_topic'),
     url(r'^(?P<course_id>[0-9]+)/problemset/(?P<topic_id>[0-9]+)/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', views.CourseProblemsTopicProblemView.as_view(), name='course_problems_topic_problem'),
 
+    url(r'^(?P<course_id>[0-9]+)/assign/$', views.CourseAssignView.as_view(), name='course_assignment_empty'),
     url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/$', views.CourseAssignView.as_view(), name='course_assignment'),
+    url(r'^(?P<course_id>[0-9]+)/assign/redirect/$', views.assignment_redirect_view, name='course_assignment_redirect'),
 
     url(r'^(?P<course_id>[0-9]+)/solutions/$', views.CourseAllSolutionsView.as_view(), name='all_solutions'),
     url(r'^(?P<course_id>[0-9]+)/mysolutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
