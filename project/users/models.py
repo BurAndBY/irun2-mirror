@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     patronymic = models.CharField(_('patronymic'), max_length=30, blank=True)
     needs_change_password = models.BooleanField(_('password needs to be changed by user'), null=False, default=False)
     description = models.CharField(_('description'), max_length=255, blank=True)
-    last_used_compiler = models.ForeignKey(Compiler, verbose_name=_('last used compiler'), on_delete=models.SET_NULL, null=True)
+    last_used_compiler = models.ForeignKey(Compiler, verbose_name=_('last used compiler'), on_delete=models.SET_NULL, null=True, blank=True)
     has_api_access = models.BooleanField(_('API access'), default=False)
 
 
