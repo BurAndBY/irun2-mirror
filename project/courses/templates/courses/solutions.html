@@ -50,8 +50,10 @@
                     </small>                    
                 </td>
                 <td class="text-nowrap">
-                    {% judgementbox solution.best_judgement %}
-                    {% if solution.best_judgement %} <small><a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a></small>{% endif %}
+                    {% judgementbox solution.best_judgement tooltip=False %}
+                    {% if solution.best_judgement %}
+                        <a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

@@ -9,7 +9,7 @@ from solutions.permissions import SolutionPermissions
 
 register = template.Library()
 
-TWO_LETTER_CODES = {
+TWO_LETTER_OUTCOME_CODES = {
     Outcome.ACCEPTED: 'AC',
     Outcome.COMPILATION_ERROR: 'CE',
     Outcome.WRONG_ANSWER: 'WA',
@@ -22,6 +22,11 @@ TWO_LETTER_CODES = {
     Outcome.CHECK_FAILED: 'CF'
 }
 
+ONE_LETTER_STATUS_CODES = {
+    Judgement.COMPILING: 'C',
+    Judgement.TESTING: 'T',
+}
+
 
 def _get_style(outcome, code):
     if outcome == Outcome.ACCEPTED:
@@ -32,26 +37,35 @@ def _get_style(outcome, code):
         return ''
 
 
-@register.inclusion_tag('solutions/extras.html')
-def judgementbox(judgement, header=False):
-    if judgement is not None and judgement.status == Judgement.DONE:
-        code = TWO_LETTER_CODES.get(judgement.outcome)
-        return {
-            'code': code,
-            'style': _get_style(judgement.outcome, code),
-            'test_no': judgement.test_number,
-            'header': header
-        }
-    else:
-        return {
-            'code': '…' if judgement is not None else '—',
-            'style': '',
-            'test_no': 0,
-            'header': header
-        }
+@register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
+def judgementbox(judgement, tooltip=True):
+    '''
+    Displays judgement state.
+
+    args:
+        judgement(solutions.models.Judgement)
+        tooltip: show hint (localized explanation) in tooltip
+    '''
+    context = {
+        'code': '—',
+        'style': '',
+        'test_no': 0,
+        'tooltip': judgement.show_status() if (tooltip and (judgement is not None)) else '',
+    }
+
+    if judgement is not None:
+        if judgement.status == Judgement.DONE:
+            code = TWO_LETTER_OUTCOME_CODES.get(judgement.outcome)
+            context['code'] = code
+            context['style'] = _get_style(judgement.outcome, code)
+            context['test_no'] = judgement.test_number
+        else:
+            context['code'] = ONE_LETTER_STATUS_CODES.get(judgement.status, u'…')
+            context['test_no'] = judgement.test_number
+    return context
 
 
-@register.inclusion_tag('solutions/extras.html')
+@register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
 def irunner_solutions_outcomebox(outcome):
     '''
     Displays outcome for a single test.
@@ -59,20 +73,20 @@ def irunner_solutions_outcomebox(outcome):
     args:
         outcome(int): value of solutions.models.Outcome enum
     '''
-    ctx = {}
+    context = {}
     if outcome is not None:
-        code = TWO_LETTER_CODES.get(outcome)
-        ctx = {
+        code = TWO_LETTER_OUTCOME_CODES.get(outcome)
+        context = {
             'code': code,
-            'style': _get_style(outcome, code)
+            'style': _get_style(outcome, code),
         }
-    return ctx
+    return context
 
 
-@register.inclusion_tag('solutions/irunner_testresults_tag.html')
-def irunner_testresults(test_results, solution_permissions, url_pattern=None, first_placeholder=None):
+@register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')
+def irunner_solutions_testresults(test_results, solution_permissions, url_pattern=None, first_placeholder=None):
     '''
-    Displays a table with results per tests.
+    Displays a table with results per test.
     '''
     if not isinstance(solution_permissions, SolutionPermissions):
         raise TypeError('SolutionPermissions required')
