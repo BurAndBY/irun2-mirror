@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load solution_extras %}
-{% load limitboxes %}
+{% load irunner_solutions %}
 
 {% block content %}
 <h1>{% trans 'Judgement' %}</h1>
@@ -36,8 +35,8 @@
             <td class="ir-col-no">{{ forloop.counter }}</td>
             <td class="ir-col-outcome">{% irunner_solutions_outcomebox test.outcome %}</td>
             <td class="ir-col-score">{{ test.score }} of {{ test.max_score }}</td>
-            <td class="ir-col-limit">{% timelimitbox test.time_used test.time_limit %}</td>
-            <td class="ir-col-limit">{% memorylimitbox test.memory_used test.memory_limit %}</td>
+            <td class="ir-col-limit">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
+            <td class="ir-col-limit">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
             <td class="ir-col-code">{{ test.exit_code }}</td>
             <td class="ir-col-msg">
                 <div class="ir-checker-msg" title="{{ test.checker_message }}">{{ test.checker_message }}</div>

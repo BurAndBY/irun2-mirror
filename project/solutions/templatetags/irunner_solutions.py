@@ -3,6 +3,7 @@
 import uuid
 
 from django import template
+
 from solutions.models import Judgement, Outcome
 from solutions.permissions import SolutionPermissions
 
@@ -102,4 +103,37 @@ def irunner_solutions_testresults(test_results, solution_permissions, url_patter
         'first_placeholder': first_placeholder,
         'uid': uid,
         'enable_tests_data': enable_tests_data,
+    }
+
+
+def _prepare_limit(actual, limit, preparer):
+    if limit:
+        clamped = min(max(0, actual), limit)
+        percent = int(round(100.0 * clamped / limit))
+    else:
+        percent = 0
+
+    return {
+        'actual': preparer(actual),
+        'limit': preparer(limit),
+        'percent': percent,
+    }
+
+
+@register.inclusion_tag('solutions/irunner_solutions_timelimitbox_tag.html')
+def irunner_solutions_timelimitbox(actual, limit):
+    return _prepare_limit(actual, limit, lambda x: x * 0.001)
+
+
+@register.inclusion_tag('solutions/irunner_solutions_memorylimitbox_tag.html')
+def irunner_solutions_memorylimitbox(actual, limit):
+    return _prepare_limit(actual, limit, lambda x: x // 1024)
+
+
+@register.inclusion_tag('solutions/irunner_solutions_livesubmission_tag.html')
+def irunner_solutions_livesubmission(solution_id):
+    assert solution_id is not None
+    return {
+        'solution_id': solution_id,
+        'uid': uuid.uuid1().hex,
     }
