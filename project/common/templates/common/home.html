@@ -7,4 +7,13 @@
     <h1>{{ system_short_name }}</h1>
     <p>{% trans 'Automatic testing system' %}</p>
 </div>
+
+{% if courses %}
+    <h2>{% trans 'My courses' %}</h2>
+    <ul>
+    {% for course in courses %}
+        <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
 {% endblock %}

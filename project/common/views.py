@@ -10,11 +10,17 @@ from django.views import generic
 
 from mptt.forms import TreeNodeChoiceField
 
+from courses.models import Course
 from problems.models import Problem, ProblemFolder
 
 
 def home(request):
-    return render(request, 'common/home.html', {})
+    context = {}
+
+    if request.user.is_authenticated():
+        context['courses'] = Course.objects.filter(membership__user=request.user).distinct()
+
+    return render(request, 'common/home.html', context)
 
 
 def about(request):
