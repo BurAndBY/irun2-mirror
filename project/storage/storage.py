@@ -106,6 +106,9 @@ class ResourseRepresentation(object):
     def has_bom(self):
         return bool(ResourseRepresentation.HAS_BOM & self.flags)
 
+    def is_empty(self):
+        return self.size == 0
+
     @property
     def complete_text(self):
         return self.text if self.is_complete() else None
@@ -187,12 +190,14 @@ def _represent(blob, full_size):
 def _serve_string(s):
     return ServedData(len(s), (s,))
 
+DEFAULT_REPRESENTATION_LIMIT = 2**16
+
 
 class IDataStorage(object):
     def save(self, f):
         raise NotImplementedError()
 
-    def represent(self, resource_id):
+    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT):
         raise NotImplementedError()
 
     def serve(self, resource_id):
@@ -257,7 +262,7 @@ class FileSystemStorage(IDataStorage):
         else:
             return self._do_save(f)
 
-    def represent(self, resource_id):
+    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT):
         if resource_id is None:
             return None
         blob = _get_data_directly(resource_id)
@@ -272,7 +277,7 @@ class FileSystemStorage(IDataStorage):
             fd.seek(0, os.SEEK_END)
             size = fd.tell()
 
-            part = size if size < 2**17 else 2**16
+            part = size if size <= limit else limit
 
             fd.seek(0, os.SEEK_SET)
             blob = fd.read(part)

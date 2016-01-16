@@ -300,15 +300,17 @@ class SolutionTestCaseResultView(generic.View):
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
 
+        limit = 2**12
+
         storage = create_storage()
         context = {
             'solution': solution,
             'testcaseresult': testcaseresult,
-            'input_repr': storage.represent(testcaseresult.input_resource_id),
-            'output_repr': storage.represent(testcaseresult.output_resource_id),
-            'answer_repr': storage.represent(testcaseresult.answer_resource_id),
-            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id),
-            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id),
+            'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit),
+            'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit),
+            'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit),
+            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit),
+            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit),
         }
 
         return render(request, 'solutions/testcaseresult.html', context)

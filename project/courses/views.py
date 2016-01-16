@@ -221,10 +221,24 @@ class CourseSubmitView(BaseCourseView):
                 CourseSolution.objects.create(solution=solution, course=course)
                 judge(solution)
 
-            return redirect('courses:show_course_info', course.id)
+            return redirect('courses:course_submission', course.id, solution.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
+
+class CourseSubmissionView(BaseCourseView):
+    tab = 'submit'
+    template_name = 'courses/submission.html'
+
+    def is_allowed(self, permissions):
+        return permissions.submit
+
+    def get(self, request, course, solution_id):
+        if not CourseSolution.objects.filter(course=course, solution_id=solution_id).exists():
+            raise Http404('solution does not exist in the course')
+
+        context = self.get_context_data(solution_id=solution_id)
+        return render(request, self.template_name, context)
 
 '''
 Problems

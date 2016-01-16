@@ -12,10 +12,10 @@
             </div>
             {% endif %}
 
-            {% if programming_language %}
+            {% if programming_language and representation.is_complete %}
                 <pre class="ir-pre"><code class="{{ programming_language }} hljs">{{ representation.text }}</code></pre>
             {% else %}
-                <pre class="ir-pre"><code class="hljs">{{ representation.text }}</code></pre>
+                <pre class="ir-pre"><code class="hljs">{{ representation.text }}{% if not representation.is_complete %}...{% endif %}</code></pre>
             {% endif %}
         {% endif %}
     {% endif %}

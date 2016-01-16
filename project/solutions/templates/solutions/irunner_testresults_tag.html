@@ -49,8 +49,8 @@
 
 {% if enable_tests_data %}
 <script>
-function showHideTest_{{ uid }}() {
-    var testcaseresultId = $(this).data("testid");
+function showHideTest_{{ uid }}(row) {
+    var testcaseresultId = row.data("testid");
     {% if first_placeholder %}
         var url = Urls["{{ url_pattern }}"]("{{ first_placeholder }}", testcaseresultId);
     {% else %}
@@ -59,8 +59,8 @@ function showHideTest_{{ uid }}() {
     if (!url) {
         return;
     }
-    var detailsRow = $(this).next("tr");
-    var arrowSpan = $(this).find(".ir-arrow");
+    var detailsRow = row.next("tr");
+    var arrowSpan = row.find(".ir-arrow");
     if (detailsRow.css("display") === "none") {
         if (!detailsRow.data("fetched")) {
             var dataDiv = detailsRow.find(".ir-ajax-data");
@@ -81,7 +81,14 @@ function showHideTest_{{ uid }}() {
     }
 }
 $(document).ready(function() {
-    $("#{{ uid }}").find(".ir-toggle-row").click(showHideTest_{{ uid }});
+    var table = $("#{{ uid }}");
+    table.find(".ir-toggle-row").click(function() {
+        showHideTest_{{ uid }}($(this));
+    });
+    table.on("click", ".ir-btn-hide", function() {
+        var row = $(this).parents("tr").first().prev();
+        showHideTest_{{ uid }}(row);
+    });
 });
 </script>
 {% endif %}
