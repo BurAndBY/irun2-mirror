@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'bootstrap3',
     'mptt',
-    'demo',
     'problems',
     'worker',
     'storage',
