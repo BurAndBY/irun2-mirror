@@ -38,7 +38,7 @@ def _get_style(outcome, code):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def judgementbox(judgement, tooltip=True):
+def irunner_solutions_judgementbox(judgement, tooltip=True):
     '''
     Displays judgement state.
 

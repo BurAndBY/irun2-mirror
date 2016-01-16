@@ -50,7 +50,7 @@
                     </small>                    
                 </td>
                 <td class="text-nowrap">
-                    {% judgementbox solution.best_judgement tooltip=False %}
+                    {% irunner_solutions_judgementbox solution.best_judgement tooltip=False %}
                     {% if solution.best_judgement %}
                         <a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a>
                     {% endif %}

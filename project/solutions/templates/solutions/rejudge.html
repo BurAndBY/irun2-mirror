@@ -23,8 +23,8 @@
     <tbody>
         {% for info in object_list %}
         <tr>
-            <td>{% judgementbox info.before %}{% if info.before %}<a href="{% url 'solutions:show_judgement' info.before.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
-            <td>{% judgementbox info.after %}{% if info.after %}<a href="{% url 'solutions:show_judgement' info.after.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
+            <td>{% irunner_solutions_judgementbox info.before %}{% if info.before %}<a href="{% url 'solutions:show_judgement' info.before.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
+            <td>{% irunner_solutions_judgementbox info.after %}{% if info.after %}<a href="{% url 'solutions:show_judgement' info.after.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
