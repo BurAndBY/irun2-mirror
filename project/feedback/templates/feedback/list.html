@@ -2,12 +2,12 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunnerpagination %}
+{% load irunner_pagination %}
 
 {% block content %}
 <h1>{% trans 'Feedback Messages' %}</h1>
 
-{% irunnerpagination pagination_context %}
+{% irunner_pagination pagination_context %}
 {% for message in object_list %}
     <div class="panel panel-default">
         <div class="panel-heading ir-panel-heading ir-float-parent">

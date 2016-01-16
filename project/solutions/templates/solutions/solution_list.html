@@ -3,12 +3,12 @@
 {% load proglang_extras %}
 {% load i18n %}
 {% load irunner_solutions %}
-{% load irunnerpagination %}
+{% load irunner_pagination %}
 
 {% block content %}
 <h1>{% trans 'List of Solutions' %}</h1>
 
-{% irunnerpagination pagination_context %}
+{% irunner_pagination pagination_context %}
 <table class="table table-condensed table-striped table-hover">
 	<thead>
 		<tr>
