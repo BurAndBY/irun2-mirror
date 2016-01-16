@@ -7,6 +7,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
+from common.cacheutils import AllObjectsCache
+from proglangs.models import Compiler
+
 from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, SubgroupForm, TwoPanelUserMultipleChoiceField
 from forms import create_member_subgroup_formset_class
 from models import Membership
@@ -43,6 +46,11 @@ class CourseSettingsPropertiesView(CourseSettingsView):
 class CourseSettingsCompilersView(CourseSettingsView):
     subtab = 'compilers'
     template_name = 'courses/settings_compilers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsCompilersView, self).get_context_data(**kwargs)
+        context['compiler_cache'] = AllObjectsCache(Compiler)
+        return context
 
     def get(self, request, course):
         form = CompilersForm(instance=course)

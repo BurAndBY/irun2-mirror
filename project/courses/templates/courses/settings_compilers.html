@@ -3,6 +3,8 @@
 {% load i18n %}
 {% load proglang_extras %}
 {% load partition %}
+{% load irunner_cache %}
+
 {% block submain %}
 
 <form method="post" autocomplete="off">
@@ -15,7 +17,8 @@
                     <div class="checkbox">
                         <label>
                             {{ checkbox.tag }}
-                            {% langboxbyid checkbox.choice_value False %} {{ checkbox.choice_label }}
+                            {% irunner_cache_lookup compiler_cache checkbox.choice_value as compiler %}
+                            {% langbox compiler tooltip=False %} {{ checkbox.choice_label }}
                         </label>
                     </div>
                 {% endfor %}
