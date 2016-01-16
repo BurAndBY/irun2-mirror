@@ -1,7 +1,7 @@
 {% extends 'courses/settings_base.html' %}
 
 {% load i18n %}
-{% load irunner_courses_criterion %}
+{% load irunner_courses %}
 
 {% block submain %}
     {% if object_list %}
@@ -26,7 +26,7 @@
                     <dt>{% trans 'Criteria' %}</dt>
                     <dd>
                         {% for criterion in topic.criteria.all %}
-                            {% irunner_courses_criterion criterion True %}
+                            {% irunner_courses_criterion criterion True tooltip=True %}
                         {% endfor %}
                     </dd>
                 </dl>
