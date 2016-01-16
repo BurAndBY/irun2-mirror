@@ -4,6 +4,8 @@ from collections import namedtuple
 
 from common.constants import EMPTY_SELECT
 from problems.models import Problem
+from solutions.models import Solution, Judgement
+
 
 from models import Assignment, Membership, Activity, ActivityRecord
 
@@ -93,7 +95,11 @@ def make_course_results(course):
         mid = record.membership_id
         membership_id_result[mid].register_activity_record(record)
 
-    # TODO: solutions
+    # solutions
+    for solution in Solution.objects.filter(coursesolution__course=course).select_related('best_judgement'):
+        user_result = user_id_result.get(solution.author.id)
+        if user_result is not None:
+            user_result.register_solution(solution)
 
     return CourseResults(course_descr, results)
 
@@ -175,10 +181,59 @@ class CriterionDescr(object):
         self.ok = False
 
 
+def _choose_better_solution(s1, s2):
+    j1, j2 = s1.best_judgement, s2.best_judgement
+    # diff = (j2.score / j2.max_score) - (j1.score / j1.max_score)
+    diff_sign = j2.score * j1.max_score - j2.max_score * j1.score
+
+    if diff_sign < 0:
+        return s1
+    elif diff_sign > 0:
+        return s2
+    else:
+        return (s2 if (s1.reception_time <= s2.reception_time) else s1)
+
+
+class ProblemResult(object):
+    def __init__(self, problem):
+        assert problem is not None
+        self.problem = problem
+        self.best_solution = None
+
+    def register_solution(self, solution):
+        if self.problem != solution.problem:
+            return
+
+        judgement = solution.best_judgement
+
+        if judgement is None:
+            return
+        if judgement.status != Judgement.DONE:
+            return
+
+        if self.best_solution is None:
+            self.best_solution = solution
+        else:
+            self.best_solution = _choose_better_solution(self.best_solution, solution)
+
+    def was_submitted(self):
+        return self.best_solution is not None
+
+    def get_score(self):
+        return self.best_solution.best_judgement.score
+
+    def get_max_score(self):
+        return self.best_solution.best_judgement.max_score
+
+    def is_ok(self):
+        return self.best_solution.best_judgement.score == self.best_solution.best_judgement.max_score
+
+
 class SlotResult(object):
     def __init__(self, topic_descr, slot=None):
         self.slot = slot
         self.assignment = None
+        self.problem_result = None
         self.criterion_descrs = [CriterionDescr(criterion) for criterion in topic_descr.criteria]
 
     def register_assignment(self, assignment):
@@ -186,6 +241,13 @@ class SlotResult(object):
         self.assignment = assignment
         for criterion in assignment.criteria.all():
             self._set_criterion(criterion)
+
+        if assignment.problem is not None:
+            self.problem_result = ProblemResult(assignment.problem)
+
+    def register_solution(self, solution):
+        if self.problem_result is not None:
+            self.problem_result.register_solution(solution)
 
     def is_penalty(self):
         return self.slot is None
@@ -199,7 +261,7 @@ class SlotResult(object):
         # assert False, 'unknown criterion'
 
     def should_show_in_standings(self):
-        return self.assignment is not None and self.assignment.problem is not None
+        return self.problem_result is not None
 
 
 class TopicResult(object):
@@ -220,6 +282,12 @@ class TopicResult(object):
             slot_result = SlotResult(self.topic_descr)
             slot_result.register_assignment(assignment)
             self.penalty_problem_results.append(slot_result)
+
+    def register_solution(self, solution):
+        for slot_result in self.slot_results:
+            slot_result.register_solution(solution)
+        for slot_result in self.penalty_problem_results:
+            slot_result.register_solution(solution)
 
 
 class ActivityResult(object):
@@ -278,6 +346,11 @@ class UserResult(object):
         else:
             # TODO: this is extra problem
             pass
+
+    def register_solution(self, solution):
+        for topic_result in self.topic_results:
+            topic_result.register_solution(solution)
+        # TODO: extra problems
 
     def register_activity_record(self, record):
         idx = self.course_descr.get_activity_index(record.activity_id)

@@ -62,6 +62,13 @@
                                     {% for criterion_descr in slot_result.criterion_descrs %}
                                         {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                     {% endfor %}
+                                    {% with slot_result.problem_result as pr %}
+                                        {% if pr %}
+                                            {% if pr.was_submitted %}
+                                                {{ pr.get_score }}&thinsp;/&thinsp;{{ pr.get_max_score }}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endwith %}
                                 </div>
                             {% endwith %}
                         {% endif %}
