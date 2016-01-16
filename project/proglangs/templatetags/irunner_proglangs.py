@@ -3,8 +3,8 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('proglangs/extras.html')
-def langbox(compiler, tooltip=False):
+@register.inclusion_tag('proglangs/irunner_proglangs_compilerbox.html')
+def irunner_proglangs_compilerbox(compiler, tooltip=False):
     return {
         'compiler': compiler,
         'tooltip': tooltip,

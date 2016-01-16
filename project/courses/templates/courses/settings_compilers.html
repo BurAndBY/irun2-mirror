@@ -1,7 +1,7 @@
 {% extends 'courses/settings_base.html' %}
 
 {% load i18n %}
-{% load proglang_extras %}
+{% load irunner_proglangs %}
 {% load partition %}
 {% load irunner_cache %}
 
@@ -18,7 +18,7 @@
                         <label>
                             {{ checkbox.tag }}
                             {% irunner_cache_lookup compiler_cache checkbox.choice_value as compiler %}
-                            {% langbox compiler tooltip=False %} {{ checkbox.choice_label }}
+                            {% irunner_proglangs_compilerbox compiler tooltip=False %} {{ checkbox.choice_label }}
                         </label>
                     </div>
                 {% endfor %}

@@ -2,7 +2,7 @@
 
 {% load i18n %}
 {% load irunner_solutions %}
-{% load proglang_extras %}
+{% load irunner_proglangs %}
 {% load resource_extras %}
 {% load staticfiles %}
 {% load bootstrap3 %}
@@ -29,7 +29,7 @@
                     <dd><tt>192.168.1.1</tt></dd>
 
                     <dt>{% trans 'Compiler' %}</dt>
-                    <dd>{% langbox solution.compiler %} {{ solution.compiler }}</dd>
+                    <dd>{% irunner_proglangs_compilerbox solution.compiler tooltip=False %} {{ solution.compiler }}</dd>
                 </dl>
             </div>
 

@@ -1,7 +1,7 @@
 {% extends 'courses/base.html' %}
 
 {% load i18n %}
-{% load proglang_extras %}
+{% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_pagination %}
 {% load irunner_users %}
@@ -44,7 +44,7 @@
                 <td>{% if solution.problem %}{{ solution.problem.numbered_full_name }}{% else %}&mdash;{% endif %}</td>
                 <td>{{ solution.reception_time }}</td>
                 <td>
-                    {% langbox solution.compiler %}
+                    {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
                     <small>
                         <tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt>
                     </small>                    
