@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import calendar
+import json
 from collections import namedtuple
 
 from django.contrib import auth
@@ -76,8 +78,17 @@ class CourseInfoView(BaseCourseView):
     def is_allowed(self, permissions):
         return permissions.info
 
-    def get(self, request, course_id):
-        return render(request, self.template_name, self.get_context_data())
+    def get(self, request, course):
+        solutions = Solution.objects.all()\
+            .filter(coursesolution__course=course)\
+            .order_by('reception_time')
+
+        activity_data = [
+            (calendar.timegm(solution.reception_time.timetuple()) * 1000, i + 1)
+            for i, solution in enumerate(solutions)
+        ]
+        activity_data_json = json.dumps(activity_data)
+        return render(request, self.template_name, self.get_context_data(activity_data_json=activity_data_json))
 
 
 class StudentProblemResult(object):

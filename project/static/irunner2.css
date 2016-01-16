@@ -701,3 +701,7 @@ Yellow menu
     text-align: center;
     font-style: italic;
 }
+
+.ir-activity-plot {
+    height: 250px;
+}

@@ -1,5 +1,52 @@
 {% extends 'courses/base.html' %}
 
+{% load i18n %}
+{% load staticfiles %}
+
+{% block head %}
+    <script src="{% static 'flot-0.8.3/jquery.flot.min.js' %}"></script>
+    <script src="{% static 'flot-0.8.3/jquery.flot.time.min.js' %}"></script>
+    <script src="{% static 'flot-0.8.3/jquery.flot.resize.min.js' %}"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{% static 'flot-0.8.3/excanvas.min.js' %}"></script><![endif]-->
+{% endblock %}
+
 {% block main %}
-Tralala
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">{% trans 'Notices' %}</div>
+                <div class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">{% trans 'Number of submitted solutions' %}</div>
+                <div class="panel-body">
+                    <div class="ir-activity-plot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var activitySeries = {
+                color: "#337ab7",
+                data: {{ activity_data_json|safe }}
+            };
+            var data = [activitySeries];
+            var options = {
+                series: {
+                    lines: { show: true },
+                    points: { show: true, radius: 1, fill: true, fillColor: "#337ab7" }
+                },
+                xaxis: {
+                    mode: "time",
+                    timeformat: "%d %b"
+                }
+            };
+            $.plot($(".ir-activity-plot").first(), data, options);
+        });
+    </script>
 {% endblock %}

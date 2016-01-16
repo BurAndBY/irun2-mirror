@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 19:40+0300\n"
-"PO-Revision-Date: 2016-01-16 19:42+0300\n"
+"POT-Creation-Date: 2016-01-16 21:31+0300\n"
+"PO-Revision-Date: 2016-01-16 21:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -137,6 +137,10 @@ msgstr "Доступ запрещён."
 #: .\common\templates\common\home.html:8
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
+
+#: .\common\templates\common\home.html:12
+msgid "My courses"
+msgstr "Мои курсы"
 
 #: .\common\templates\common\irunner_pagination_tag.html:34
 msgid "Page"
@@ -396,6 +400,14 @@ msgstr "Критерии"
 #: .\courses\templates\courses\criterion_list.html:16
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
+
+#: .\courses\templates\courses\info.html:17
+msgid "Notices"
+msgstr "Объявления"
+
+#: .\courses\templates\courses\info.html:24
+msgid "Number of submitted solutions"
+msgstr "Количество отправленных решений"
 
 #: .\courses\templates\courses\problems_base.html:39
 msgid "Select a topic to view problems."
@@ -864,15 +876,15 @@ msgstr "Неправильный ответ"
 
 #: .\solutions\models.py:49
 msgid "Time Limit Exceeded"
-msgstr "Превышен предел времени"
+msgstr "Нарушен предел времени"
 
 #: .\solutions\models.py:50
 msgid "Memory Limit Exceeded"
-msgstr "Превышен предел памяти"
+msgstr "Нарушен предел памяти"
 
 #: .\solutions\models.py:51
 msgid "Idleness Limit Exceeded"
-msgstr "Превышен предел ожидания"
+msgstr "Нарушен предел ожидания"
 
 #: .\solutions\models.py:52
 msgid "Runtime Error"
