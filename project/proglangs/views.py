@@ -7,7 +7,7 @@ from .models import Compiler
 
 class IndexView(ListView):
     template_name = 'proglangs/index.html'
-    context_object_name = 'programming_languages'
+    context_object_name = 'compilers'
 
     def get_queryset(self):
         return Compiler.objects.all()

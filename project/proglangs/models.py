@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Compiler(models.Model):
     CSHARP = 'cs'
 
     LANGUAGE_CHOICES = (
-        (UNKNOWN, 'Unknown'),
+        (UNKNOWN, _('Unknown')),
         (C, 'C'),
         (CPP, 'C++'),
         (JAVA, 'Java'),
@@ -23,10 +24,10 @@ class Compiler(models.Model):
         (CSHARP, 'C#'),
     )
 
-    handle = models.CharField(max_length=30, unique=True)
-    language = models.CharField(max_length=8, choices=LANGUAGE_CHOICES, default=UNKNOWN, blank=True)
-    description = models.CharField(max_length=255, blank=True)
-    legacy = models.BooleanField(default=False)
+    handle = models.CharField(_('string identifier'), max_length=30, unique=True)
+    language = models.CharField(_('language'), max_length=8, choices=LANGUAGE_CHOICES, default=UNKNOWN, blank=True)
+    description = models.CharField(_('description'), max_length=255, blank=True)
+    legacy = models.BooleanField(_('compiler is considered legacy'), default=False)
 
     def __unicode__(self):
         return self.description

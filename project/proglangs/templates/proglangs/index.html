@@ -1,33 +1,37 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load irunner_proglangs %}
 
 {% block content %}
-<h1>Compilers</h1>
+
+<h1>{% trans 'Compilers' %}</h1>
 
 <table class="table">
 	<thead>
 		<tr>
 			<th>ID</th>
-			<th>Handle</th>
-			<th>Description</th>
-			<th>Family</th>
-			<th>Is Legacy?</th>
+			<th>{% trans 'String identifier' %}</th>
+			<th>{% trans 'Description' %}</th>
+			<th>{% trans 'Language' %}</th>
+			<th>{% trans 'Legacy?' %}</th>
 		</tr>
 	</thead>
 	<tbody>
-    {% for lang in programming_languages %}
-        <tr {% if lang.legacy %} class="active" {% endif %}>
-            <td>{{ lang.id }}</td>
-            <td><a href="{% url 'proglangs:update' lang.id %}">{{ lang.handle }}</a></td>
-            <td>{{ lang.description }}</td>
-            <td>{% irunner_proglangs_compilerbox lang tooltip=False %}</td>
-            <td>{{ lang.legacy|yesno }}</td>
+    {% for compiler in compilers %}
+        <tr {% if compiler.legacy %} class="active" {% endif %}>
+            <td>{{ compiler.id }}</td>
+            <td><a href="{% url 'proglangs:update' compiler.id %}">{{ compiler.handle }}</a></td>
+            <td>{{ compiler.description }}</td>
+            <td>{% irunner_proglangs_compilerbox compiler tooltip=False %}</td>
+            <td>{{ compiler.legacy|yesno }}</td>
         </tr>
     {% endfor %}
 	</tbody>
 </table>
 
-<a href="{% url 'proglangs:create' %}">Add New</a>
+<p>
+	<a href="{% url 'proglangs:create' %}">{% trans 'New compiler' %}</a>
+</p>
 
 {% endblock %}
