@@ -121,7 +121,7 @@
         <footer class="footer">
             <div class="container">
                 <div class="ir-footer">
-                    &copy; 2001&thinsp;&ndash;&thinsp;2015 {% trans 'DMA department of FAMCS BSU' %}
+                    &copy; 2001&thinsp;&ndash;&thinsp;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}
                     <br>
                     <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %} {{ system_full_name }}</a>
                 </div>
