@@ -23,7 +23,7 @@
         <tr{% if enable_tests_data %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
             {# arrow > is shown only when the row can be expanded #}
             <td class="ir-col-no">{{ forloop.counter }}{% if enable_tests_data %}&nbsp;<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
-            <td class="ir-col-outcome">{% outcomebox test.outcome %}</td>
+            <td class="ir-col-outcome">{% irunner_solutions_outcomebox test.outcome %}</td>
             <td class="ir-col-score">{{ test.score }} of {{ test.max_score }}</td>
             <td class="ir-col-limit">{% timelimitbox test.time_used test.time_limit %}</td>
             <td class="ir-col-limit">{% memorylimitbox test.memory_used test.memory_limit %}</td>

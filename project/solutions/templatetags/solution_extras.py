@@ -52,7 +52,13 @@ def judgementbox(judgement, header=False):
 
 
 @register.inclusion_tag('solutions/extras.html')
-def outcomebox(outcome):
+def irunner_solutions_outcomebox(outcome):
+    '''
+    Displays outcome for a single test.
+
+    args:
+        outcome(int): value of solutions.models.Outcome enum
+    '''
     ctx = {}
     if outcome is not None:
         code = TWO_LETTER_CODES.get(outcome)
