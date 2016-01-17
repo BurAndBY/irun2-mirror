@@ -481,6 +481,7 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-assignment .ir-topic {
     background-color: #fafafa;
+    width: 180px;
 }
 .ir-assignment .ir-topic .ir-topic-name {
     font-weight: bold;
@@ -728,4 +729,10 @@ Yellow menu
  */
 .ir-col-time {
     min-width: 140px;
+}
+
+
+.ir-best-solution {
+    font-size: 12px;
+    margin-top: 10px;
 }

@@ -122,7 +122,9 @@ def make_course_single_result(course, membership):
     for record in ActivityRecord.objects.filter(membership=membership):
         result.register_activity_record(record)
 
-    # TODO: solutions
+    # solutions
+    for solution in Solution.objects.filter(coursesolution__course=course, author=membership.user).select_related('best_judgement'):
+        result.register_solution(solution)
 
     return result
 
@@ -199,11 +201,14 @@ class ProblemResult(object):
         assert problem is not None
         self.problem = problem
         self.best_solution = None
+        self.attempts = 0
+        self.max_attempts = None
 
     def register_solution(self, solution):
         if self.problem != solution.problem:
             return
 
+        self.attempts += 1
         judgement = solution.best_judgement
 
         if judgement is None:

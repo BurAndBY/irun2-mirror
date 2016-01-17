@@ -637,6 +637,7 @@ class CourseAllSolutionsView(BaseCourseView):
         context['show_compilerbox'] = True
         context['show_filename'] = False
         context['show_verbose_outcome'] = False
+        context['show_outcome_tooltip'] = True
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
@@ -674,6 +675,7 @@ class CourseMySolutionsView(BaseCourseView):
         context['show_compilerbox'] = False
         context['show_filename'] = True
         context['show_verbose_outcome'] = True
+        context['show_outcome_tooltip'] = False
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)

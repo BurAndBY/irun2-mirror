@@ -3,6 +3,8 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_courses %}
+{% load irunner_solutions %}
+{% load irunner_problems_complexity %}
 
 {% block main %}
 
@@ -21,18 +23,33 @@
                         {% endif %}
 
                         <td{% if slot_result.is_penalty %} class="ir-penalty"{% endif %}>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                </div>
-                                <div class="col-sm-4">
-                                    {% for criterion_descr in slot_result.criterion_descrs %}
-                                        <div>
-                                            {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
-                                            {{ criterion_descr.criterion.name }}
+                            {% with slot_result.problem_result as problem_result %}
+                                {% if problem_result %}
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                                <div>
+                                                    {% irunner_problems_complexity problem_result.problem.complexity %}
+                                                    <a href="{% url 'courses:course_problems_problem' course.id problem_result.problem.id %}">
+                                                        {{ problem_result.problem.numbered_full_name }}
+                                                    </a>
+                                                </div>
+                                                {% if problem_result.best_solution %}
+                                                    <div class="ir-best-solution">
+                                                        {% trans 'Best solution' %}: <a href="{% url 'solutions:main' problem_result.best_solution.id %}">{% irunner_solutions_scorebox problem_result.best_solution.best_judgement %}</a>
+                                                    </div>
+                                                {% endif %}
                                         </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
+                                        <div class="col-sm-4">
+                                            {% for criterion_descr in slot_result.criterion_descrs %}
+                                                <div>
+                                                    {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
+                                                    {{ criterion_descr.criterion.name }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
                         </td>
                     </tr>
                 {% endfor %}
