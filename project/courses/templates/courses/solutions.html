@@ -30,7 +30,7 @@
                     <th>{% trans 'Author' %}</th>
                 {% endif %}
                 <th>{% trans 'Problem' %}</th>
-                <th>{% trans 'Submission time' %}</th>
+                <th class="ir-col-time">{% trans 'Time' %}</th>
                 <th>{% trans 'File' %}</th>
                 <th>{% trans 'Status' %}</th>
             </tr>
@@ -41,17 +41,27 @@
                 {% if show_author %}
                     <td>{% irunner_users_show solution.author %}</td>
                 {% endif %}
-                <td>{% if solution.problem %}{{ solution.problem.numbered_full_name }}{% else %}&mdash;{% endif %}</td>
-                <td>{{ solution.reception_time }}</td>
                 <td>
-                    {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
-                    <small>
-                        <tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt>
-                    </small>                    
+                    {% if solution.problem %}
+                        <a href="{% url 'courses:course_problems_problem' course.id solution.problem.id %}">{{ solution.problem.numbered_full_name }}</a>
+                    {% else %}
+                        &mdash;
+                    {% endif %}
+                </td>
+                <td class="ir-col-time">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td>
+                    {% if show_compilerbox %}
+                        <a href="{% url 'solutions:source' solution.id %}">{% irunner_proglangs_compilerbox solution.compiler tooltip=True %}</a>
+                    {% endif %}
+                    {% if show_filename %}
+                        <small><tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt></small>
+                    {% endif %}
                 </td>
                 <td class="text-nowrap">
-                    {% irunner_solutions_judgementbox solution.best_judgement tooltip=False %}
-                    {% if solution.best_judgement %}
+                    <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
+                    <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=False %}</a>
+
+                    {% if show_verbose_outcome and solution.best_judgement %}
                         <a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a>
                     {% endif %}
                 </td>
@@ -62,7 +72,7 @@
 
     {% else %}
         <div class="ir-absence">
-            {% trans 'No solutions.' %}
+            {% trans 'No solutions' %}
         </div>
     {% endif %}
 {% endblock %}

@@ -46,7 +46,7 @@ body {
     font-size: 12px;
 }
 .ir-course-standings .ir-slot .ir-row2 {
-    font-size: 9px;
+    font-size: 12px;
 }
 .ir-course-standings .ir-score {
     min-width: 40px;
@@ -336,8 +336,8 @@ h3 { font-size: 20px; line-height: 32px; }
     color: #337ab7;
     height: 1.4em;
     position: relative;
-    vertical-align: middle;
     font-weight: 700;
+    font-size: 0.9em;
     margin-right: 0.5em;
     width: 1.6em;
     text-align: center;
@@ -623,6 +623,7 @@ Yellow menu
 
 .ir-criterion {
     font-weight: bold;
+    font-size: 0.9em;
     min-width: 1.3em;
     border-radius: 2px;
 }
@@ -704,4 +705,27 @@ Yellow menu
 
 .ir-activity-plot {
     height: 250px;
+}
+
+/**
+ * Score box
+ */
+.ir-scorebox {
+    min-width: 4em;
+    border-radius: 2px;
+    background-color: #f5f5f5;
+    color: #888;
+    font-size: 0.9em;
+}
+.ir-scorebox-accepted {
+    color: #5cb85c;
+    background-color: #dff0d8;
+}
+
+
+/**
+ * Solutions
+ */
+.ir-col-time {
+    min-width: 140px;
 }

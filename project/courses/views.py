@@ -22,6 +22,7 @@ from permissions import CoursePermissions
 from common.pageutils import paginate
 from common.cacheutils import AllObjectsCache
 from common.views import StaffMemberRequiredMixin
+from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
 from solutions.models import Solution
@@ -266,7 +267,7 @@ class CourseProblemsView(BaseCourseView):
     def get(self, request, course):
         topics = course.topic_set.all()
 
-        context = self.get_context_data(topics=topics)
+        context = self.get_context_data(topics=topics, navigate_topics=True)
         return render(request, self.template_name, context)
 
 
@@ -286,6 +287,7 @@ class CourseProblemsTopicView(BaseCourseView):
 
         context = self.get_context_data()
         topics = course.topic_set.all()
+        context['navigate_topics'] = True
         context['topics'] = topics
         context['active_topic'] = topic
         context['problems'] = problems
@@ -301,7 +303,7 @@ def _locate_in_list(lst, x):
     return ((pos + length - 1) % length, pos, (pos + 1) % length)
 
 
-class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
+class CourseProblemsTopicProblemView(ProblemStatementMixin, BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_statement.html'
 
@@ -329,6 +331,7 @@ class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
             context = self.get_context_data()
             prev, cur, next = positions
 
+            context['navigate_topics'] = True
             context['prev_next'] = True
             context['prev_problem_id'] = problem_ids[prev]
             context['cur_position'] = cur + 1  # 1-based
@@ -342,6 +345,46 @@ class CourseProblemsTopicProblemView(BaseCourseView, ProblemStatementMixin):
 
         # fallback
         return redirect('courses:course_problems', course_id=course.id)
+
+
+class CourseProblemsProblemView(ProblemStatementMixin, BaseCourseView):
+    tab = 'problems'
+    template_name = 'courses/problems_statement.html'
+
+    def is_allowed(self, permissions):
+        if not permissions.problems:
+            return False
+
+        # We show the statement if the problem belongs to the set of problems that can be assigned now
+        course_id = self.kwargs['course_id']
+        problem_id = self.kwargs['problem_id']
+
+        course_folders = ProblemFolder.objects.filter(topic__course_id=course_id)
+        problem_folders = ProblemFolder.objects.filter(problem__id=problem_id)
+
+        if (course_folders & problem_folders).exists():
+            return True
+
+        # We show the problem if it has already been assigned
+        if Assignment.objects.filter(membership__course_id=course_id, problem_id=problem_id).exists():
+            return True
+
+        # We show the problem if it has already been submitted in the course
+        if CourseSolution.objects.filter(course_id=course_id, solution__problem_id=problem_id).exists():
+            return True
+
+        return False
+
+    def get(self, request, course, problem_id, filename):
+        problem = get_object_or_404(Problem, pk=problem_id)
+
+        if self.is_aux_file(filename):
+            return self.serve_aux_file(request, problem.id, filename)
+
+        context = self.get_context_data()
+        context['navigate_topics'] = False
+        context['statement'] = self.make_statement(problem)
+        return render(request, self.template_name, context)
 
 
 AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topics extra_form')
@@ -588,7 +631,13 @@ class CourseAllSolutionsView(BaseCourseView):
 
         context['membership_form'] = membership_form
         context['problem_form'] = problem_form
+
+        # tune visual representation for better fitting screen width
         context['show_author'] = True
+        context['show_compilerbox'] = True
+        context['show_filename'] = False
+        context['show_verbose_outcome'] = False
+
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
 
@@ -619,7 +668,13 @@ class CourseMySolutionsView(BaseCourseView):
 
         context = paginate(request, solutions, self.paginate_by)
         context['problem_form'] = problem_form
+
+        # tune visual representation for better fitting screen width
         context['show_author'] = False  # all solutions belong to the same author
+        context['show_compilerbox'] = False
+        context['show_filename'] = True
+        context['show_verbose_outcome'] = True
+
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
 

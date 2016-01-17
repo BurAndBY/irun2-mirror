@@ -4,6 +4,7 @@
 
 {% block main %}
 <div>
+    {% if navigate_topics %}
     <div>
         <ul class="nav nav-pills ir-inline-block ir-condensed-pills">
             {% for topic in topics %}
@@ -35,9 +36,12 @@
     </div>
 
     <div class="ir-pill-content">
+    {% endif %}
         {% block submain %}
             {% trans 'Select a topic to view problems.' %}
         {% endblock %}
+    {% if navigate_topics %}
     </div>
+    {% endif %}
 </div>
 {% endblock %}

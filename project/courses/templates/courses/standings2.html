@@ -2,6 +2,7 @@
 
 {% load irunner_problems_complexity %}
 {% load irunner_courses %}
+{% load irunner_solutions %}
 {% load i18n %}
 
 {% block main %}
@@ -65,7 +66,7 @@
                                     {% with slot_result.problem_result as pr %}
                                         {% if pr %}
                                             {% if pr.was_submitted %}
-                                                {{ pr.get_score }}&thinsp;/&thinsp;{{ pr.get_max_score }}
+                                                {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
                                             {% endif %}
                                         {% endif %}
                                     {% endwith %}

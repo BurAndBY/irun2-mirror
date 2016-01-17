@@ -84,6 +84,25 @@ def irunner_solutions_outcomebox(outcome):
     return context
 
 
+@register.inclusion_tag('solutions/irunner_solutions_scorebox_tag.html')
+def irunner_solutions_scorebox(judgement):
+    '''
+    Displays score for a judgement.
+
+    args:
+        judgement
+    '''
+    context = {}
+    if judgement is not None and judgement.status == Judgement.DONE:
+        context = {
+            'defined': True,
+            'score': judgement.score,
+            'max_score': judgement.max_score,
+            'accepted': (judgement.outcome == Outcome.ACCEPTED),
+        }
+    return context
+
+
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')
 def irunner_solutions_testresults(test_results, solution_permissions, url_pattern=None, first_placeholder=None):
     '''
