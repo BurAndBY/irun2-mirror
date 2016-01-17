@@ -7,7 +7,7 @@ from problems.models import Problem
 from solutions.models import Solution, Judgement
 
 
-from models import Assignment, Membership, Activity, ActivityRecord
+from models import Assignment, Criterion, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate
 
 '''
 Helpers to build <select> field with a list of problems.
@@ -85,45 +85,70 @@ def make_course_results(course):
         user_id_result[user.id] = result
         membership_id_result[membership.id] = result
 
+    # assignment criteria
+    assignment_criterion_ids = {}
+    for ac in AssignmentCriteriaIntermediate.objects.filter(assignment__membership__course=course):
+        assignment_criterion_ids.setdefault(ac.assignment_id, []).append(ac.criterion_id)
+
     # assignments
-    for assignment in Assignment.objects.filter(membership__course=course, membership__role=Membership.STUDENT).prefetch_related('criteria'):
+    for assignment in Assignment.objects.\
+            filter(membership__course=course, membership__role=Membership.STUDENT).\
+            select_related('problem'):
         mid = assignment.membership_id
-        membership_id_result[mid].register_assignment(assignment)
+        criterion_ids = assignment_criterion_ids.get(assignment.id, [])
+        membership_id_result[mid].register_assignment(assignment, criterion_ids)
 
     # activity records
-    for record in ActivityRecord.objects.filter(membership__course=course, membership__role=Membership.STUDENT):
+    for record in ActivityRecord.objects.\
+            filter(membership__course=course, membership__role=Membership.STUDENT):
         mid = record.membership_id
         membership_id_result[mid].register_activity_record(record)
 
     # solutions
-    for solution in Solution.objects.filter(coursesolution__course=course).select_related('best_judgement'):
-        user_result = user_id_result.get(solution.author.id)
+    for solution in Solution.objects.\
+            filter(coursesolution__course=course).\
+            select_related('best_judgement'):
+        user_result = user_id_result.get(solution.author_id)
         if user_result is not None:
             user_result.register_solution(solution)
 
     return CourseResults(course_descr, results)
 
 
-def make_course_single_result(course, membership):
+def make_course_single_result(course, membership, user=None):
     '''
     Works like above, but returns results only for one student.
     '''
-    assert membership.course == course
+    assert membership.course_id == course.id
     assert membership.role == Membership.STUDENT
 
+    if user is not None:
+        # save one SQL query
+        assert membership.user_id == user.id
+    else:
+        user = membership.user
+
     course_descr = CourseDescr(course)
-    result = UserResult(course_descr, membership.user, membership)
+    result = UserResult(course_descr, user, membership)
+
+    # assignment criteria
+    assignment_criterion_ids = {}
+    for ac in AssignmentCriteriaIntermediate.objects.filter(assignment__membership=membership):
+        assignment_criterion_ids.setdefault(ac.assignment_id, []).append(ac.criterion_id)
 
     # assignments
-    for assignment in Assignment.objects.filter(membership=membership).prefetch_related('criteria'):
-        result.register_assignment(assignment)
+    for assignment in Assignment.objects.filter(membership=membership).\
+            select_related('problem'):
+        criterion_ids = assignment_criterion_ids.get(assignment.id, [])
+        result.register_assignment(assignment, criterion_ids)
 
     # activity records
     for record in ActivityRecord.objects.filter(membership=membership):
         result.register_activity_record(record)
 
     # solutions
-    for solution in Solution.objects.filter(coursesolution__course=course, author=membership.user).select_related('best_judgement'):
+    for solution in Solution.objects.filter(coursesolution__course=course, author_id=membership.user_id).\
+            select_related('best_judgement'):
         result.register_solution(solution)
 
     return result
@@ -134,7 +159,7 @@ class CourseDescr(object):
         self.topic_descrs = []
         self._topic_id_to_index = {}
 
-        for topic in course.topic_set.all():
+        for topic in course.topic_set.prefetch_related('criteria').prefetch_related('slot_set').all():
             descr = TopicDescr(topic)
             self._topic_id_to_index[topic.id] = len(self.topic_descrs)
             self.topic_descrs.append(descr)
@@ -205,7 +230,7 @@ class ProblemResult(object):
         self.max_attempts = None
 
     def register_solution(self, solution):
-        if self.problem != solution.problem:
+        if self.problem.id != solution.problem_id:
             return
 
         self.attempts += 1
@@ -241,11 +266,12 @@ class SlotResult(object):
         self.problem_result = None
         self.criterion_descrs = [CriterionDescr(criterion) for criterion in topic_descr.criteria]
 
-    def register_assignment(self, assignment):
+    def register_assignment(self, assignment, criterion_ids):
         assert self.assignment is None, 'duplicate problem assignment for the same slot'
         self.assignment = assignment
-        for criterion in assignment.criteria.all():
-            self._set_criterion(criterion)
+        # do not touch assignment.criteria because it spawns a DB query!
+        for criterion_id in criterion_ids:
+            self._set_criterion(criterion_id)
 
         if assignment.problem is not None:
             self.problem_result = ProblemResult(assignment.problem)
@@ -257,9 +283,9 @@ class SlotResult(object):
     def is_penalty(self):
         return self.slot is None
 
-    def _set_criterion(self, criterion):
+    def _set_criterion(self, criterion_id):
         for criterion_descr in self.criterion_descrs:
-            if criterion_descr.criterion.id == criterion.id:
+            if criterion_descr.criterion.id == criterion_id:
                 criterion_descr.ok = True
                 return
         # We can get here if some criteria were checked for students and then removed from the course.
@@ -279,13 +305,13 @@ class TopicResult(object):
     def get_slot_and_penalty_results(self):
         return self.slot_results + self.penalty_problem_results
 
-    def register_assignment(self, assignment):
+    def register_assignment(self, assignment, criterion_ids):
         if assignment.slot_id is not None:
             idx = self.topic_descr.get_slot_index(assignment.slot_id)
-            self.slot_results[idx].register_assignment(assignment)
+            self.slot_results[idx].register_assignment(assignment, criterion_ids)
         else:
             slot_result = SlotResult(self.topic_descr)
-            slot_result.register_assignment(assignment)
+            slot_result.register_assignment(assignment, criterion_ids)
             self.penalty_problem_results.append(slot_result)
 
     def register_solution(self, solution):
@@ -344,10 +370,10 @@ class UserResult(object):
     def get_extra_activity_results(self):
         return [res for res in self.activity_results if res.activity.weight == 0.0]
 
-    def register_assignment(self, assignment):
+    def register_assignment(self, assignment, criterion_ids):
         if assignment.topic_id is not None:
             idx = self.course_descr.get_topic_index(assignment.topic_id)
-            self.topic_results[idx].register_assignment(assignment)
+            self.topic_results[idx].register_assignment(assignment, criterion_ids)
         else:
             # TODO: this is extra problem
             pass

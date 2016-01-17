@@ -618,7 +618,7 @@ class CourseAllSolutionsView(BaseCourseView):
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
             .prefetch_related('compiler')\
-            .select_related('source_code', 'best_judgement')\
+            .select_related('author', 'problem', 'source_code', 'best_judgement')\
             .order_by('-reception_time', 'id')
 
         if membership is not None:
@@ -661,7 +661,7 @@ class CourseMySolutionsView(BaseCourseView):
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course, author=request.user)\
             .prefetch_related('compiler')\
-            .select_related('source_code', 'best_judgement')\
+            .select_related('problem', 'source_code', 'best_judgement')\
             .order_by('-reception_time', 'id')
 
         if problem_id is not None:
@@ -695,6 +695,6 @@ class CourseMyProblemsView(BaseCourseView):
 
     def get(self, request, course):
         membership = get_object_or_404(Membership, course=course, user=request.user, role=Membership.STUDENT)
-        user_result = make_course_single_result(course, membership)
+        user_result = make_course_single_result(course, membership, request.user)
         context = self.get_context_data(user_result=user_result)
         return render(request, self.template_name, context)

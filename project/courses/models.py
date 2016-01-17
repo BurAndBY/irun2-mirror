@@ -126,6 +126,18 @@ class Assignment(models.Model):
     bonus_attempts = models.IntegerField(default=0)
 
 
+class AssignmentCriteriaIntermediate(models.Model):
+    '''
+    This model is used to get direct access to many-to-many relation.
+    '''
+    assignment = models.ForeignKey(Assignment)
+    criterion = models.ForeignKey(Criterion)
+
+    class Meta:
+        managed = False
+        db_table = 'courses_assignment_criteria'
+
+
 class CourseSolution(models.Model):
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
     solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)

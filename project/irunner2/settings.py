@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'table',
     'django_tables2',
     'widget_tweaks',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
