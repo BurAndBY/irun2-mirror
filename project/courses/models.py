@@ -106,7 +106,7 @@ class Membership(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     course = models.ForeignKey(Course)
     role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
-    subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, on_delete=models.SET_NULL)
+    subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
 
     def __unicode__(self):
         result = self.user.get_full_name()

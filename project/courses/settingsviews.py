@@ -79,20 +79,19 @@ class CourseSettingsUsersView(CourseSettingsView):
     subtab = 'users'
     template_name = 'courses/settings_users.html'
 
-    def _make_view_model(self, role, name_singular, name_plural, url_pattern, data):
-        course = self.course
-
-        queryset = Membership.objects.filter(course=course, role=role).select_related('user').order_by('user__last_name')
-        formset_class = create_member_subgroup_formset_class(course)
+    def _make_view_model(self, role, name_singular, name_plural, url_pattern, data, subgroups):
+        queryset = Membership.objects.filter(course=self.course, role=role).select_related('user').order_by('user__last_name')
+        formset_class = create_member_subgroup_formset_class(subgroups)
         formset = formset_class(queryset=queryset, data=data, prefix=str(role))
         pairs = [UserFormPair(membership.user, form) for membership, form in zip(queryset, formset)]
 
         return RoleUsersViewModel(name_singular, name_plural, url_pattern, pairs, formset)
 
     def _make_view_models(self, data=None):
+        subgroups = self.course.subgroup_set.all().order_by('id')
         return [
-            self._make_view_model(Membership.STUDENT, _('Student'), _('Students'), 'courses:course_settings_users_students', data),
-            self._make_view_model(Membership.TEACHER, _('Teacher'), _('Teachers'), 'courses:course_settings_users_teachers', data),
+            self._make_view_model(Membership.STUDENT, _('Student'), _('Students'), 'courses:course_settings_users_students', data, subgroups),
+            self._make_view_model(Membership.TEACHER, _('Teacher'), _('Teachers'), 'courses:course_settings_users_teachers', data, subgroups),
         ]
 
     def get(self, request, course):

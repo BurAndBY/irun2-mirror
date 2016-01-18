@@ -123,14 +123,25 @@ class ActivityRecordFakeForm(forms.Form):
     enum = forms.TypedChoiceField(required=False, empty_value=None, choices=ActivityRecord.CHOICES, coerce=int)
 
 
-def create_member_subgroup_form_class(course):
+def create_member_subgroup_form_class(subgroups):
     '''
     Subgroups are different for different courses, so we define the form class dynamically.
+
+    args:
+        subgroups: queryset of Subgroup objects
     '''
-    queryset = course.subgroup_set.all().order_by('id')
+
+    # hacks saves us from queryset evaluation for each user
+    choices = [('', _('no'))]
+    for subgroup in subgroups:
+        choices.append((str(subgroup.id), subgroup.name))
 
     class MemberSubgroupForm(forms.ModelForm):
-        subgroup = forms.ModelChoiceField(queryset=queryset, widget=forms.RadioSelect, empty_label=_('no'), required=False)
+        subgroup = forms.ModelChoiceField(queryset=subgroups, widget=forms.RadioSelect, required=False)
+
+        def __init__(self, *args, **kwargs):
+            super(MemberSubgroupForm, self).__init__(*args, **kwargs)
+            self.fields['subgroup'].choices = choices
 
         class Meta:
             model = Membership
@@ -139,6 +150,6 @@ def create_member_subgroup_form_class(course):
     return MemberSubgroupForm
 
 
-def create_member_subgroup_formset_class(course):
-    form = create_member_subgroup_form_class(course)
+def create_member_subgroup_formset_class(subgroups):
+    form = create_member_subgroup_form_class(subgroups)
     return forms.modelformset_factory(Membership, form=form)
