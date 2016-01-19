@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block content %}
-<h1>Storage Index</h1>
+    <h1>{% trans 'File storage' %}</h1>
 
-<table class="table">
-    {% for rec in records %}
-        <tr>
-            <td>{{ rec.timestamp }}</td>
-            <td><a href="{% url 'storage:show' rec.resource_id %}">{{ rec.resource_id }}</a></td>
-        </tr>
-    {% endfor %}
-</table>
+    <p>{% trans 'This is internal debug page.' %}</p>
 
+    <p>{% trans 'You can get access to any resource by its id:' %}</p>
+
+    {% url 'storage:show' '32202b2032203d2034' as link %}
+    <p><a href="{{ link }}">{{ link }}</a></p>
 {% endblock %}

@@ -1,16 +1,18 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 
 class TextOrUploadForm(forms.Form):
     text = forms.CharField(
-        label='Enter text here',
+        label=_('Enter text here'),
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control'}),
+        widget=forms.Textarea(),
         max_length=2**20
     )
     upload = forms.FileField(
-        label='... or upload a file',
+        label=_('... or upload a file'),
         required=False,
         widget=forms.FileInput,
-        max_length=256
+        max_length=256,
+        help_text=_('If you select a file, text field content is ignored.')
     )

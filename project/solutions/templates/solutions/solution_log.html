@@ -1,11 +1,11 @@
 {% extends "solutions/solution.html" %}
 
 {% load i18n %}
-{% load resource_extras %}
+{% load irunner_storage %}
 
 {% block main %}
     {% if log_repr %}
-        {% show_resource log_repr %} 
+        {% irunner_storage_show log_repr %} 
     {% else %}
         {% trans 'Compilation log is not available.' %}
     {% endif %}

@@ -1,23 +1,16 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
+{% load i18n %}
+
 {% block content %}
-<h1>Upload</h1>
+    <h1>{% trans 'New resource' %}</h1>
 
-<form method="post" action="{% url 'storage:upload' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="form-group">
-        {{ form.text.errors }}
-        {{ form.text.label_tag }}
-        {{ form.text }}
-    </div>
-    <div class="form-group">
-        {{ form.upload.errors }}
-        {{ form.upload.label_tag }}
-        {{ form.upload }}
-        <p class="help-block">If you select a file, text field content is ignored.</p>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
-
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {{ buttons }}
+            <button type="submit" class="btn btn-default">{% trans 'Submit' %}</button>
+        {{ endbuttons }}
+    </form>
 {% endblock %}

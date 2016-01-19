@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-17 13:07+0300\n"
-"PO-Revision-Date: 2016-01-17 13:07+0300\n"
+"POT-Creation-Date: 2016-01-20 00:15+0300\n"
+"PO-Revision-Date: 2016-01-20 00:17+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:108
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:109
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:85
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:86
 msgid "Login"
 msgstr "Вход"
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:126
+#: .\common\templates\common\about.html:6 .\templates\base.html:127
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -148,6 +148,7 @@ msgstr "Страница"
 
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:26
+#: .\problems\templates\problems\show_test.html:15
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:26
 #: .\solutions\templates\solutions\judgement.html:17
 msgid "of"
@@ -181,7 +182,7 @@ msgstr "Весовой коэффициент"
 #: .\courses\forms.py:71 .\courses\forms.py:102 .\courses\forms.py:117
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
-#: .\solutions\templates\solutions\solution.html:21
+#: .\solutions\templates\solutions\solution.html:20
 msgid "Problem"
 msgstr "Задача"
 
@@ -190,7 +191,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:94 .\courses\templates\courses\settings_base.html:22
-#: .\templates\base.html:76 .\users\templates\users\create_form.html:8
+#: .\templates\base.html:77 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
@@ -203,7 +204,7 @@ msgstr "Пользователи"
 msgid "User"
 msgstr "Пользователь"
 
-#: .\courses\forms.py:133
+#: .\courses\forms.py:135
 msgid "no"
 msgstr "нет"
 
@@ -281,37 +282,37 @@ msgstr "подгруппа"
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:142
+#: .\courses\models.py:154
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:143
+#: .\courses\models.py:155
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:144
+#: .\courses\models.py:156
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\settingsviews.py:94 .\courses\templates\courses\sheet.html:27
+#: .\courses\settingsviews.py:93 .\courses\templates\courses\sheet.html:27
 #: .\courses\templates\courses\standings.html:10
 #: .\courses\templates\courses\standings2.html:13
 msgid "Student"
 msgstr "Студент"
 
-#: .\courses\settingsviews.py:94
+#: .\courses\settingsviews.py:93
 msgid "Students"
 msgstr "Студенты"
 
-#: .\courses\settingsviews.py:95
+#: .\courses\settingsviews.py:94
 msgid "Teacher"
 msgstr "Преподаватель"
 
-#: .\courses\settingsviews.py:95
+#: .\courses\settingsviews.py:94
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:136
+#: .\courses\settingsviews.py:135
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -319,7 +320,7 @@ msgstr[0] "Добавлен %(count)d пользователь."
 msgstr[1] "Добавлены %(count)d пользователя."
 msgstr[2] "Добавлено %(count)d пользователей."
 
-#: .\courses\settingsviews.py:144
+#: .\courses\settingsviews.py:143
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
@@ -377,7 +378,7 @@ msgstr "Новый курс"
 msgid "Create"
 msgstr "Создать"
 
-#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:74
+#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:75
 msgid "Courses"
 msgstr "Курсы"
 
@@ -482,7 +483,7 @@ msgstr "Нет подгрупп."
 msgid "New subgroup"
 msgstr "Новая подгруппа"
 
-#: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:115
+#: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:117
 msgid "Folder"
 msgstr "Папка"
 
@@ -742,6 +743,7 @@ msgstr "Тип"
 
 #: .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\overview.html:47
+#: .\problems\templates\problems\show_test.html:25
 #: .\proglangs\templates\proglangs\index.html:15
 #: .\users\templates\users\profile_show.html:27
 msgid "Description"
@@ -791,6 +793,20 @@ msgstr "Подсказка"
 msgid "There is no statement for this problem"
 msgstr "В системе нет условия для этой задачи"
 
+#: .\problems\templates\problems\show_test.html:15
+msgid "Test"
+msgstr "Тест"
+
+#: .\problems\templates\problems\show_test.html:31
+#: .\solutions\templates\solutions\testcaseresult.html:8
+msgid "Input file"
+msgstr "Входной файл"
+
+#: .\problems\templates\problems\show_test.html:35
+#: .\solutions\templates\solutions\testcaseresult.html:20
+msgid "Answer file"
+msgstr "Файл правильного ответа"
+
 #: .\problems\templates\problems\sidebar.html:11
 msgid "Statement"
 msgstr "Условие"
@@ -808,7 +824,7 @@ msgid "Files"
 msgstr "Файлы"
 
 #: .\problems\templates\problems\solutions.html:17
-#: .\solutions\templates\solutions\solution.html:25
+#: .\solutions\templates\solutions\solution.html:24
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -849,7 +865,7 @@ msgstr "Устарел?"
 msgid "New compiler"
 msgstr "Новый компилятор"
 
-#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:31
+#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:30
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -857,11 +873,11 @@ msgstr "Компилятор"
 msgid "Enter source code"
 msgstr "Введите исходный код"
 
-#: .\solutions\forms.py:25
+#: .\solutions\forms.py:25 .\storage\forms.py:13
 msgid "... or upload a file"
 msgstr "... или загрузите файл"
 
-#: .\solutions\forms.py:29
+#: .\solutions\forms.py:29 .\storage\forms.py:17
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
@@ -1035,11 +1051,11 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\solution.html:15
+#: .\solutions\templates\solutions\solution.html:14
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\solution.html:28
+#: .\solutions\templates\solutions\solution.html:27
 msgid "IP address"
 msgstr "IP-адрес"
 
@@ -1047,49 +1063,57 @@ msgstr "IP-адрес"
 msgid "Compilation log is not available."
 msgstr "Журнал компиляции недоступен."
 
-#: .\solutions\templates\solutions\solution_source.html:27
+#: .\solutions\templates\solutions\solution_source.html:24
 msgid "Open"
 msgstr "Открыть"
 
-#: .\solutions\templates\solutions\solution_source.html:28
+#: .\solutions\templates\solutions\solution_source.html:25
 msgid "Download"
 msgstr "Загрузить"
 
-#: .\solutions\templates\solutions\testcaseresult.html:6
-msgid "Input file"
-msgstr "Входной файл"
-
-#: .\solutions\templates\solutions\testcaseresult.html:12
+#: .\solutions\templates\solutions\testcaseresult.html:14
 msgid "Output file"
 msgstr "Выходной файл"
 
-#: .\solutions\templates\solutions\testcaseresult.html:18
-msgid "Answer file"
-msgstr "Файл правильного ответа"
-
-#: .\solutions\templates\solutions\testcaseresult.html:24
+#: .\solutions\templates\solutions\testcaseresult.html:26
 msgid "Standard output (stdout)"
 msgstr "Стандартный вывод (stdout)"
 
-#: .\solutions\templates\solutions\testcaseresult.html:30
+#: .\solutions\templates\solutions\testcaseresult.html:32
 msgid "Standard error (stderr)"
 msgstr "Стандартный вывод ошибок (stderr)"
 
-#: .\solutions\templates\solutions\testcaseresult.html:37
+#: .\solutions\templates\solutions\testcaseresult.html:39
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\templates\solutions\testcaseresult.html:42
+#: .\solutions\templates\solutions\testcaseresult.html:44
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\storage\templates\storage\extras.html:5
+#: .\storage\forms.py:7
+msgid "Enter text here"
+msgstr "Введите текст здесь"
+
+#: .\storage\templates\storage\index.html:6
+msgid "File storage"
+msgstr "Хранилище файлов"
+
+#: .\storage\templates\storage\index.html:8
+msgid "This is internal debug page."
+msgstr "Это внутренняя отладочная страница."
+
+#: .\storage\templates\storage\index.html:10
+msgid "You can get access to any resource by its id:"
+msgstr "Вы можете получить доступ к любому ресурсу по его идентификатору:"
+
+#: .\storage\templates\storage\irunner_storage_show_tag.html:5
 msgid ""
 "The file is <strong>binary</strong> and its content can not be displayed."
 msgstr ""
 "Файл <strong>бинарный</strong> и его содержимое не может быть показано."
 
-#: .\storage\templates\storage\extras.html:11
+#: .\storage\templates\storage\irunner_storage_show_tag.html:11
 msgid ""
 "The file is <strong>too big</strong>, so it is displayed truncated. You can "
 "download the full version."
@@ -1097,35 +1121,63 @@ msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
 
-#: .\templates\base.html:71
+#: .\storage\templates\storage\new.html:7
+msgid "New resource"
+msgstr "Новый ресурс"
+
+#: .\storage\templates\storage\new.html:13
+msgid "Submit"
+msgstr "Отправить"
+
+#: .\storage\templates\storage\show.html:7
+msgid "View resource"
+msgstr "Просмотр ресурса"
+
+#: .\storage\templates\storage\show.html:15
+msgid "Size"
+msgstr "Размер"
+
+#: .\storage\templates\storage\show.html:18
+msgid "Is binary"
+msgstr "Является бинарным"
+
+#: .\storage\templates\storage\show.html:21
+msgid "Is UTF-8"
+msgstr "В кодировке UTF-8"
+
+#: .\storage\templates\storage\show.html:24
+msgid "Has BOM"
+msgstr "Имеет BOM"
+
+#: .\templates\base.html:72
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:78
+#: .\templates\base.html:79
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:83
+#: .\templates\base.html:84
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:108
+#: .\templates\base.html:109
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:124
+#: .\templates\base.html:125
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\users\forms.py:25
+#: .\users\forms.py:27
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:34
+#: .\users\forms.py:36
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:35
+#: .\users\forms.py:37
 msgid ""
 "Lines in the format of “[username] [last name] [first name]” or “[username] "
 "[last name] [first name] [patronymic]”."
@@ -1133,29 +1185,29 @@ msgstr ""
 "Строки в формате «[имя пользователя] [фамилия] [имя]» или «[имя "
 "пользователя] [фамилия] [имя] [отчество]»."
 
-#: .\users\forms.py:36
+#: .\users\forms.py:38
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:56
+#: .\users\forms.py:58
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:60
+#: .\users\forms.py:62
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:91
+#: .\users\forms.py:93
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:100
+#: .\users\forms.py:102
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:122
+#: .\users\forms.py:124
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -1164,7 +1216,7 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:139
+#: .\users\forms.py:141
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."

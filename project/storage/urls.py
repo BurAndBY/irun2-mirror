@@ -3,9 +3,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^new/$', views.new, name='new'),
-    url(r'^upload/$', views.upload, name='upload'),
-    url(r'^resource/(?P<resource_id>[0-9a-f]*)/$', views.show, name='show'),
-    url(r'^resource/(?P<resource_id>[0-9a-f]*)/download/$', views.download, name='download'),
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^new/$', views.NewView.as_view(), name='new'),
+    url(r'^resource/(?P<resource_id>[0-9a-f]*)/$', views.ShowView.as_view(), name='show'),
+    url(r'^resource/(?P<resource_id>[0-9a-f]*)/download/$', views.DownloadView.as_view(), name='download'),
 ]

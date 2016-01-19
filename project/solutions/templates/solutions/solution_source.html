@@ -1,31 +1,27 @@
 {% extends "solutions/solution.html" %}
 
 {% load i18n %}
-{% load resource_extras %}
+{% load irunner_storage %}
 {% load staticfiles %}
 {% load bootstrap3 %}
 
 {% block head %}
-
-{% if language %}
-    <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
-{% endif %}
-
+    {% if language %}
+        <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block main %}
+    {% irunner_storage_show source_repr language %} 
 
-{% show_resource source_repr language %} 
+    {% if language %}
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
+    {% endif %}
 
-{% if language %}
-    <script>
-        hljs.initHighlightingOnLoad();
-    </script>
-{% endif %}
-
-<p>
-    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'folder-open' %} {% trans 'Open' %}</a>
-    <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'save' %} {% trans 'Download' %}</a>
-</p>
-
+    <p>
+        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'folder-open' %} {% trans 'Open' %}</a>
+        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'save' %} {% trans 'Download' %}</a>
+    </p>
 {% endblock %}

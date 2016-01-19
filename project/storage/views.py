@@ -1,13 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.core.files.base import ContentFile
-from django.core.urlresolvers import reverse
 from django.http import Http404
-from django.http import StreamingHttpResponse
+from django.shortcuts import render, redirect
+from django.views import generic
 
-from .models import AuditRecord
-from .forms import TextOrUploadForm
-from .storage import create_storage, ResourceId
+from common.views import StaffMemberRequiredMixin
+
+from utils import serve_resource
+from forms import TextOrUploadForm
+from storage import create_storage, ResourceId
 
 
 def _parse_resource(resource_id):
@@ -17,22 +17,11 @@ def _parse_resource(resource_id):
         raise Http404("Invalid resource id")
 
 
-# Create your views here.
-def new(request):
-    form = TextOrUploadForm()
-    context = {'form': form}
-    return render(request, 'storage/new.html', context)
+class NewView(StaffMemberRequiredMixin, generic.FormView):
+    template_name = 'storage/new.html'
+    form_class = TextOrUploadForm
 
-
-def upload(request):
-    form = TextOrUploadForm(request.POST, request.FILES)
-
-    # check whether it's valid:
-    if form.is_valid():
-        # process the data in form.cleaned_data as required
-        # ...
-        # redirect to a new URL:
-
+    def form_valid(self, form):
         upload = form.cleaned_data['upload']
 
         if upload is not None:
@@ -44,44 +33,33 @@ def upload(request):
         storage = create_storage()
         resource_id = storage.save(f)
 
-        event = AuditRecord()
-        event.resource_id = resource_id
-        event.save()
-
-        url = reverse('storage:show', kwargs={'resource_id': str(resource_id)})
-        return HttpResponseRedirect(url)
+        return redirect('storage:show', str(resource_id))
 
 
-def show(request, resource_id):
-    resource_id = _parse_resource(resource_id)
+class ShowView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'storage/show.html'
 
-    storage = create_storage()
-    representation = storage.represent(resource_id)
+    def get(self, request, resource_id):
+        resource_id = _parse_resource(resource_id)
 
-    if representation is None:
-        raise Http404("Resource does not exist")
+        storage = create_storage()
+        representation = storage.represent(resource_id)
 
-    context = {
-        'resource_id': resource_id,
-        'representation': representation
-    }
-    return render(request, 'storage/show.html', context)
+        if representation is None:
+            raise Http404('Resource does not exist')
 
-
-def download(request, resource_id):
-    resource_id = _parse_resource(resource_id)
-
-    storage = create_storage()
-    data = storage.serve(resource_id)
-
-    if data is None:
-        raise Http404("Resource does not exist")
-
-    response = StreamingHttpResponse(data.generator, content_type='application/octet-stream')
-    response['Content-Length'] = data.size
-    return response
+        context = {
+            'resource_id': resource_id,
+            'representation': representation
+        }
+        return render(request, self.template_name, context)
 
 
-def index(request):
-    context = {'records': AuditRecord.objects.all()}
-    return render(request, 'storage/index.html', context)
+class DownloadView(StaffMemberRequiredMixin, generic.View):
+    def get(self, request, resource_id):
+        resource_id = _parse_resource(resource_id)
+        return serve_resource(request, resource_id, content_type='application/octet-stream', force_download=True)
+
+
+class IndexView(StaffMemberRequiredMixin, generic.TemplateView):
+    template_name = 'storage/index.html'
