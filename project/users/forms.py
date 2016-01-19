@@ -3,8 +3,10 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
-from models import UserFolder, UserProfile
+
 from mptt.forms import TreeNodeChoiceField
+
+from models import UserFolder, UserProfile
 
 
 class MassUserInitForm(forms.Form):

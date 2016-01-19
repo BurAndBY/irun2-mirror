@@ -1,4 +1,3 @@
-import forms
 import operator
 
 from django.contrib import auth
@@ -12,6 +11,7 @@ from common.folderutils import lookup_node_ex, cast_id
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView, StaffMemberRequiredMixin
 
+import forms
 from models import UserFolder, UserProfile
 
 
