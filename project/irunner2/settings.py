@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'bootstrap3',
     'mptt',
     'problems',
-    'worker',
     'storage',
     'proglangs',
     'solutions',
