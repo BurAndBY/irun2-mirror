@@ -111,7 +111,7 @@ class Command(BaseCommand):
         storage = create_storage()
 
         cur = db.cursor()
-        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime FROM irunner_solution WHERE solutionID > 10000')
+        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime, senderIP FROM irunner_solution WHERE solutionID > 10000')
 
         for row in cur.fetchall()[:1000]:
             solution_id = row[0]
@@ -120,6 +120,7 @@ class Command(BaseCommand):
             file_id = row[3]
             irunner_state = row[4]
             reception_time = row[5]
+            sender_ip = row[6]
 
             logger.info('Importing solution %d...', solution_id)
 
@@ -149,6 +150,7 @@ class Command(BaseCommand):
                     'source_code': metadata,
                     'compiler_id': compiler_id,
                     'reception_time': make_aware(reception_time),
+                    'ip_address': sender_ip,
                 })
 
                 judgement, _ = Judgement.objects.update_or_create(id=solution_id, defaults={

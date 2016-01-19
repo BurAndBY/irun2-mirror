@@ -24,8 +24,10 @@
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ solution.reception_time }}</dd>
 
-                    <dt>{% trans 'IP address' %}</dt>
-                    <dd><tt>192.168.1.1</tt></dd>
+                    {% if solution.ip_address %}
+                        <dt>{% trans 'IP address' %}</dt>
+                        <dd><tt>{{ solution.ip_address }}</tt></dd>
+                    {% endif %}
 
                     <dt>{% trans 'Compiler' %}</dt>
                     <dd>{% irunner_proglangs_compilerbox solution.compiler tooltip=False %} {{ solution.compiler }}</dd>

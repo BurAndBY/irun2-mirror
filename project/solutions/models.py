@@ -22,6 +22,7 @@ class Solution(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     reception_time = models.DateTimeField()
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
     source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)
 

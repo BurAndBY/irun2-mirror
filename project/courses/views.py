@@ -224,7 +224,7 @@ class CourseSubmitView(BaseCourseView):
                 userprofile.save()
 
                 solution = new_solution(
-                    request.user,
+                    request,
                     form.cleaned_data['compiler'],
                     form.cleaned_data['text'],
                     form.cleaned_data['upload'],

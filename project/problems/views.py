@@ -321,7 +321,7 @@ class ProblemSubmitView(BaseProblemView):
         if form.is_valid():
             with transaction.atomic():
                 solution = solutions.utils.new_solution(
-                    request.user,
+                    request,
                     form.cleaned_data['compiler'],
                     form.cleaned_data['text'],
                     form.cleaned_data['upload'],
