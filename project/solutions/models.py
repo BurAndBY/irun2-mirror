@@ -59,6 +59,8 @@ class Outcome(object):
 
 class Rejudge(models.Model):
     committed = models.NullBooleanField()
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT)
+    creation_time = models.DateTimeField(auto_now_add=True)
 
 
 class Judgement(models.Model):

@@ -156,3 +156,8 @@ def irunner_solutions_livesubmission(solution_id):
         'solution_id': solution_id,
         'uid': uuid.uuid1().hex,
     }
+
+
+@register.inclusion_tag('solutions/irunner_solutions_rejudgestate_tag.html')
+def irunner_solutions_rejudgestate(committed):
+    return {'committed': committed}

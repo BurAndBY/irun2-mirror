@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 13:38+0300\n"
-"PO-Revision-Date: 2016-01-20 13:40+0300\n"
+"POT-Creation-Date: 2016-01-20 23:24+0300\n"
+"PO-Revision-Date: 2016-01-20 23:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -586,6 +586,8 @@ msgstr "Настройки"
 
 #: .\courses\templates\courses\solutions.html:30
 #: .\problems\templates\problems\solutions.html:16
+#: .\solutions\templates\solutions\rejudge.html:31
+#: .\solutions\templates\solutions\rejudge_list.html:14
 msgid "Author"
 msgstr "Автор"
 
@@ -923,31 +925,31 @@ msgstr "Нарушение безопасности"
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\models.py:73
+#: .\solutions\models.py:75
 msgid "Done"
 msgstr "Готово"
 
-#: .\solutions\models.py:74
+#: .\solutions\models.py:76
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\models.py:75
+#: .\solutions\models.py:77
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\models.py:76
+#: .\solutions\models.py:78
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\models.py:77
+#: .\solutions\models.py:79
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\models.py:78
+#: .\solutions\models.py:80
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\models.py:108
+#: .\solutions\models.py:110
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -1003,6 +1005,16 @@ msgstr "Ограничение по памяти"
 msgid "KB"
 msgstr "КБ"
 
+#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:4
+#: .\solutions\templates\solutions\rejudge_list.html:29
+msgid "committed"
+msgstr "зафиксировано"
+
+#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:6
+#: .\solutions\templates\solutions\rejudge_list.html:31
+msgid "rolled back"
+msgstr "отменено"
+
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:10
 msgid "Outcome"
 msgstr "Вердикт"
@@ -1052,21 +1064,60 @@ msgstr "Результаты тестов"
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
-#: .\solutions\templates\solutions\rejudge.html:7
+#: .\solutions\templates\solutions\rejudge.html:10
 msgid "Rejudge"
 msgstr "Перетестирование"
 
-#: .\solutions\templates\solutions\rejudge.html:18
-msgid "Current"
-msgstr "Текущий"
+#: .\solutions\templates\solutions\rejudge.html:13
+msgid "Creator of the rejudge"
+msgstr "Создатель перетестирования"
+
+#: .\solutions\templates\solutions\rejudge.html:16
+msgid "Created"
+msgstr "Создано"
 
 #: .\solutions\templates\solutions\rejudge.html:19
-msgid "After Rejudge"
-msgstr "После перетестирования"
+#: .\solutions\templates\solutions\rejudge_list.html:17
+msgid "State"
+msgstr "Состояние"
 
+#: .\solutions\templates\solutions\rejudge.html:22
+#: .\solutions\templates\solutions\rejudge_list.html:16
+msgid "Number of solutions"
+msgstr "Количество решений"
+
+#: .\solutions\templates\solutions\rejudge.html:30
 #: .\solutions\templates\solutions\solution.html:14
 msgid "Solution"
 msgstr "Решение"
+
+#: .\solutions\templates\solutions\rejudge.html:32
+msgid "Current"
+msgstr "Текущий"
+
+#: .\solutions\templates\solutions\rejudge.html:33
+msgid "After Rejudge"
+msgstr "После перетестирования"
+
+#: .\solutions\templates\solutions\rejudge.html:71
+msgid "Commit"
+msgstr "Фиксировать"
+
+#: .\solutions\templates\solutions\rejudge.html:72
+msgid "Rollback"
+msgstr "Откатить"
+
+#: .\solutions\templates\solutions\rejudge.html:78
+msgid "To the list of rejudges"
+msgstr "К списку перетестирований"
+
+#: .\solutions\templates\solutions\rejudge_list.html:8
+msgid "Rejudges"
+msgstr "Перетестирования"
+
+#: .\solutions\templates\solutions\rejudge_list.html:15
+msgid "Time created"
+msgstr "Время создания"
 
 #: .\solutions\templates\solutions\solution.html:28
 msgid "IP address"

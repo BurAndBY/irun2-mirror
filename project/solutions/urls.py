@@ -28,8 +28,9 @@ judgements_urlpatterns = [
 
 urlpatterns = [
     url(r'^ad-hoc/$', views.AdHocView.as_view(), name='ad_hoc'),
-    url(r'^rejudge/$', views.CreateRejudgeView.as_view(), name='create_rejudge'),
+    url(r'^rejudges/new/$', views.CreateRejudgeView.as_view(), name='create_rejudge'),
     url(r'^rejudges/(?P<rejudge_id>[0-9]+)/$', views.RejudgeView.as_view(), name='rejudge'),
+    url(r'^rejudges/$', views.RejudgeListView.as_view(), name='rejudge_list'),
     url(r'^$', views.ilist),
 
     url(r'^solutions/', include(solutions_urlpatterns)),

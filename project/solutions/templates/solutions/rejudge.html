@@ -1,40 +1,80 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_solutions %}
+{% load irunner_users %}
+{% load irunner_proglangs %}
 
 {% block content %}
-<h1>{% trans 'Rejudge' %}</h1>
+    <h2>{% trans 'Rejudge' %} {{ rejudge.id }}</h2>
 
-{% if committed == True %}
-<div class="alert alert-success" role="alert">The results of this rejudge have been committed.</div>
-{% elif committed == False %}
-<div class="alert alert-danger" role="alert">The results of this rejudge have been cancelled.</div>
-{% endif %}
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Creator of the rejudge' %}</dt>
+        <dd>{% irunner_users_show rejudge.author %}</dd>
 
-<table class="table ">
-    <thead>
-        <tr>
-            <th>{% trans 'Current' %}</th>
-            <th>{% trans 'After Rejudge' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for info in object_list %}
-        <tr>
-            <td>{% irunner_solutions_judgementbox info.before %}{% if info.before %}<a href="{% url 'solutions:show_judgement' info.before.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
-            <td>{% irunner_solutions_judgementbox info.after %}{% if info.after %}<a href="{% url 'solutions:show_judgement' info.after.id %}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <dt>{% trans 'Created' %}</dt>
+        <dd>{{ rejudge.creation_time }}</dd>
 
-{% if committed == None %}
-<form class="form-inline" method="post">
-    {% csrf_token %}
-    <button type="submit" name="commit" class="btn btn-success">Commit</button>
-    <button type="submit" name="rollback" class="btn btn-danger">Rollback</button>
-</form>
-{% endif %}
+        <dt>{% trans 'State' %}</dt>
+        <dd>{% irunner_solutions_rejudgestate rejudge.committed %}</dd>
 
+        <dt>{% trans 'Number of solutions' %}</dt>
+        <dd>{{ object_list|length }}</dd>
+    </dl>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>{% trans 'Solution' %}</th>
+                <th>{% trans 'Author' %}</th>
+                <th>{% trans 'Current' %}</th>
+                <th>{% trans 'After Rejudge' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for info in object_list %}
+            <tr>
+                <td>
+                    {{ info.solution.id }}
+                </td>
+                <td>
+                    {% url 'solutions:source' info.solution.id as source_url %}
+                    <a href="{{ source_url }}">
+                        {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
+                    </a>
+                    <small><tt><a href="{{ source_url }}">{{ info.solution.source_code.filename }}</a></tt></small>
+                </td>
+                <td>
+                    {% irunner_users_show info.solution.author %}
+                </td>
+                <td>
+                    <a href="{% url 'solutions:show_judgement' info.before.id %}">
+                        {% irunner_solutions_judgementbox info.before %}{% irunner_solutions_scorebox info.before %}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'solutions:show_judgement' info.after.id %}">
+                        {% irunner_solutions_judgementbox info.after %}{% irunner_solutions_scorebox info.after %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if rejudge.committed == None %}
+        <form method="post">
+            {% csrf_token %}
+            {% buttons %}
+                <button type="submit" name="commit" class="btn btn-success">{% trans 'Commit' %}</button>
+                <button type="submit" name="rollback" class="btn btn-danger">{% trans 'Rollback' %}</button>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'solutions:rejudge_list' %}">{% trans 'To the list of rejudges' %}</a>
+    </p>
 {% endblock %}

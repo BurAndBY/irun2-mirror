@@ -7,6 +7,7 @@ from django.views import generic
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
+from django.db.models import Count
 from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -156,6 +157,13 @@ Rejudge
 '''
 
 
+class RejudgeListView(generic.ListView):
+    template_name = 'solutions/rejudge_list.html'
+
+    def get_queryset(self):
+        return Rejudge.objects.all().annotate(num_judgements=Count('judgement')).order_by('-creation_time', '-id')
+
+
 class CreateRejudgeView(generic.View):
     def get(self, request, *args, **kwargs):
         ids = request.GET.getlist('id')
@@ -175,14 +183,23 @@ RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
 
 
 class RejudgeView(generic.View):
+    template_name = 'solutions/rejudge.html'
+
     def get(self, request, rejudge_id):
         rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
         object_list = []
-        for new_judgement in rejudge.judgement_set.all().select_related('solution').select_related('solution__best_judgement'):
+        for new_judgement in rejudge.judgement_set.all().\
+                select_related('solution').\
+                select_related('solution__best_judgement').\
+                select_related('solution__author'):
             solution = new_judgement.solution
             object_list.append(RejudgeInfo(solution, solution.best_judgement, new_judgement))
 
-        return render(request, 'solutions/rejudge.html', {'committed': rejudge.committed, 'object_list': object_list})
+        context = {
+            'rejudge': rejudge,
+            'object_list': object_list
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request, rejudge_id):
         need_commit = ('commit' in request.POST)

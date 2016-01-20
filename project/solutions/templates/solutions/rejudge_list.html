@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+
+{% block content %}
+<h1>{% trans 'Rejudges' %}</h1>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>{% trans 'Author' %}</th>
+            <th>{% trans 'Time created' %}</th>
+            <th>{% trans 'Number of solutions' %}</th>
+            <th>{% trans 'State' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rejudge in object_list %}
+            <tr>
+                <td><a href="{% url 'solutions:rejudge' rejudge.id %}">{{ rejudge.id }}</a></td>
+                <td>{% irunner_users_show rejudge.author %}</td>
+                <td>{{ rejudge.creation_time }}</td>
+                <td>{{ rejudge.num_judgements }}</td>
+                <td>
+                    {% if rejudge.committed == True %}
+                        <span class="text-success">{% trans 'committed' %}</span>
+                    {% elif rejudge.committed == False %}
+                        <span class="text-danger">{% trans 'rolled back' %}</span>
+                    {% else %}
+                        &mdash;
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

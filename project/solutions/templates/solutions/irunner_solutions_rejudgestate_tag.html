@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if committed == True %}
+    <span class="text-success">{% trans 'committed' %}</span>
+{% elif committed == False %}
+    <span class="text-danger">{% trans 'rolled back' %}</span>
+{% else %}
+    &mdash;
+{% endif %}

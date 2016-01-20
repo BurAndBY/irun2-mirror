@@ -233,7 +233,7 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-judgementbox {
     background-color: #f5f5f5;
     color: #333;
-    width: 3em;
+    min-width: 3.5em;
     border-radius: 2px;
     font-size: 0.9em;
     font-weight: bold;
