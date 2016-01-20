@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 00:15+0300\n"
-"PO-Revision-Date: 2016-01-20 00:17+0300\n"
+"POT-Creation-Date: 2016-01-20 13:38+0300\n"
+"PO-Revision-Date: 2016-01-20 13:40+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -149,8 +149,8 @@ msgstr "Страница"
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:26
 #: .\problems\templates\problems\show_test.html:15
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:26
-#: .\solutions\templates\solutions\judgement.html:17
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:28
+#: .\solutions\templates\solutions\judgement.html:16
 msgid "of"
 msgstr "из"
 
@@ -513,8 +513,7 @@ msgstr "Новая тема"
 #: .\courses\templates\courses\standings.html:9
 #: .\courses\templates\courses\standings2.html:12
 #: .\problems\templates\problems\tests.html:10
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:7
-#: .\solutions\templates\solutions\judgement.html:23
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 msgid "#"
 msgstr "№"
 
@@ -591,8 +590,7 @@ msgid "Author"
 msgstr "Автор"
 
 #: .\courses\templates\courses\solutions.html:33
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:10
-#: .\solutions\templates\solutions\judgement.html:26
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 msgid "Time"
 msgstr "Время"
 
@@ -865,7 +863,7 @@ msgstr "Устарел?"
 msgid "New compiler"
 msgstr "Новый компилятор"
 
-#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:30
+#: .\solutions\forms.py:15 .\solutions\templates\solutions\solution.html:32
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -881,75 +879,75 @@ msgstr "... или загрузите файл"
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
-#: .\solutions\models.py:45
+#: .\solutions\models.py:46
 msgid "N/A"
 msgstr "N/A"
 
-#: .\solutions\models.py:46
+#: .\solutions\models.py:47
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\solutions\models.py:47
+#: .\solutions\models.py:48
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\solutions\models.py:48
+#: .\solutions\models.py:49
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\solutions\models.py:49
+#: .\solutions\models.py:50
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\solutions\models.py:50
+#: .\solutions\models.py:51
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\solutions\models.py:51
+#: .\solutions\models.py:52
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\solutions\models.py:52
+#: .\solutions\models.py:53
 msgid "Runtime Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\solutions\models.py:53
+#: .\solutions\models.py:54
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\solutions\models.py:54
+#: .\solutions\models.py:55
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\solutions\models.py:55
+#: .\solutions\models.py:56
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\models.py:72
+#: .\solutions\models.py:73
 msgid "Done"
 msgstr "Готово"
 
-#: .\solutions\models.py:73
+#: .\solutions\models.py:74
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\models.py:74
+#: .\solutions\models.py:75
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\models.py:75
+#: .\solutions\models.py:76
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\models.py:76
+#: .\solutions\models.py:77
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\models.py:77
+#: .\solutions\models.py:78
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\models.py:107
+#: .\solutions\models.py:108
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -987,12 +985,12 @@ msgid "List of Solutions"
 msgstr "Список решений"
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:67
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:73
 msgid "Loading..."
 msgstr "Загрузка..."
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:72
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:78
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
@@ -1005,39 +1003,54 @@ msgstr "Ограничение по памяти"
 msgid "KB"
 msgstr "КБ"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:8
-#: .\solutions\templates\solutions\judgement.html:24
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:10
 msgid "Outcome"
 msgstr "Вердикт"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
-#: .\solutions\templates\solutions\judgement.html:25
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 msgid "Score"
 msgstr "Очки"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
-#: .\solutions\templates\solutions\judgement.html:27
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:13
 msgid "Memory"
 msgstr "Память"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
-#: .\solutions\templates\solutions\judgement.html:28
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:14
 msgid "Exit Code"
 msgstr "Код выхода"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:15
-#: .\solutions\templates\solutions\judgement.html:29
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:17
 msgid "Checker Message"
 msgstr "Сообщение чекера"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:47
+msgid "Hide"
+msgstr "Скрыть"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:103
+msgid "No test results"
+msgstr "Нет результатов по тестам"
 
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
 msgid "s"
 msgstr "с"
 
-#: .\solutions\templates\solutions\judgement.html:7
+#: .\solutions\templates\solutions\judgement.html:10
 msgid "Judgement"
 msgstr "Запуск"
+
+#: .\solutions\templates\solutions\judgement.html:11
+msgid "of solution"
+msgstr "решения"
+
+#: .\solutions\templates\solutions\judgement.html:20
+msgid "Test results"
+msgstr "Результаты тестов"
+
+#: .\solutions\templates\solutions\judgement.html:25
+msgid "Compilation log"
+msgstr "Журнал компиляции"
 
 #: .\solutions\templates\solutions\rejudge.html:7
 msgid "Rejudge"
@@ -1055,19 +1068,24 @@ msgstr "После перетестирования"
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\solution.html:27
+#: .\solutions\templates\solutions\solution.html:28
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution_log.html:10
-msgid "Compilation log is not available."
-msgstr "Журнал компиляции недоступен."
+#: .\solutions\templates\solutions\solution.html:54
+msgid "Judgements"
+msgstr "Запуски"
+
+#: .\solutions\templates\solutions\solution_log.html:11
+msgid "Compilation log is not available"
+msgstr "Журнал компиляции недоступен"
 
 #: .\solutions\templates\solutions\solution_source.html:24
 msgid "Open"
 msgstr "Открыть"
 
 #: .\solutions\templates\solutions\solution_source.html:25
+#: .\storage\templates\storage\show.html:9
 msgid "Download"
 msgstr "Загрузить"
 
@@ -1084,12 +1102,9 @@ msgid "Standard error (stderr)"
 msgstr "Стандартный вывод ошибок (stderr)"
 
 #: .\solutions\templates\solutions\testcaseresult.html:39
+#: .\storage\templates\storage\irunner_storage_show_tag.html:24
 msgid "No data"
 msgstr "Нет данных"
-
-#: .\solutions\templates\solutions\testcaseresult.html:44
-msgid "Hide"
-msgstr "Скрыть"
 
 #: .\storage\forms.py:7
 msgid "Enter text here"
@@ -1107,13 +1122,13 @@ msgstr "Это внутренняя отладочная страница."
 msgid "You can get access to any resource by its id:"
 msgstr "Вы можете получить доступ к любому ресурсу по его идентификатору:"
 
-#: .\storage\templates\storage\irunner_storage_show_tag.html:5
+#: .\storage\templates\storage\irunner_storage_show_tag.html:6
 msgid ""
 "The file is <strong>binary</strong> and its content can not be displayed."
 msgstr ""
 "Файл <strong>бинарный</strong> и его содержимое не может быть показано."
 
-#: .\storage\templates\storage\irunner_storage_show_tag.html:11
+#: .\storage\templates\storage\irunner_storage_show_tag.html:12
 msgid ""
 "The file is <strong>too big</strong>, so it is displayed truncated. You can "
 "download the full version."

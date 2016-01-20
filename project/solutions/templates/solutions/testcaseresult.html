@@ -5,31 +5,31 @@
 {% load irunner_storage %}
 
 {% if input_repr %}
-    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'input' %}">{% trans 'Input file' %}</a>
+    <a href="{% url data_url_pattern item_id testcaseresult.id 'input' %}">{% trans 'Input file' %}</a>
     <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
     {% irunner_storage_show input_repr %}
 {% endif %}
 
 {% if output_repr %}
-    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'output' %}">{% trans 'Output file' %}</a>
+    <a href="{% url data_url_pattern item_id testcaseresult.id 'output' %}">{% trans 'Output file' %}</a>
     <span class="ir-file-size">[{{ output_repr.size|filesizeformat }}]</span>
     {% irunner_storage_show output_repr %}
 {% endif %}
 
 {% if answer_repr %}
-    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'answer' %}">{% trans 'Answer file' %}</a>
+    <a href="{% url data_url_pattern item_id testcaseresult.id 'answer' %}">{% trans 'Answer file' %}</a>
     <span class="ir-file-size">[{{ answer_repr.size|filesizeformat }}]</span>
     {% irunner_storage_show answer_repr %}
 {% endif %}
 
 {% if stdout_repr and not stdout_repr.is_empty %}
-    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'stdout' %}">{% trans 'Standard output (stdout)' %}</a>
+    <a href="{% url data_url_pattern item_id testcaseresult.id 'stdout' %}">{% trans 'Standard output (stdout)' %}</a>
     <span class="ir-file-size">[{{ stdout_repr.size|filesizeformat }}]</span>
     {% irunner_storage_show stdout_repr %}
 {% endif %}
 
 {% if stderr_repr and not stderr_repr.is_empty %}
-    <a href="{% url 'solutions:test_data' solution.id testcaseresult.id 'stderr' %}">{% trans 'Standard error (stderr)' %}</a>
+    <a href="{% url data_url_pattern item_id testcaseresult.id 'stderr' %}">{% trans 'Standard error (stderr)' %}</a>
     <span class="ir-file-size">[{{ stderr_repr.size|filesizeformat }}]</span>
     {% irunner_storage_show stderr_repr %}
 {% endif %}
@@ -39,7 +39,3 @@
         {% trans 'No data' %}
     </div>
 {% endif %}
-
-<div>
-    <button class="btn btn-default ir-btn-hide" type="button">{% trans 'Hide' %}</button>
-</div>

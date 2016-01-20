@@ -7,6 +7,8 @@
     {% if log_repr %}
         {% irunner_storage_show log_repr %} 
     {% else %}
-        {% trans 'Compilation log is not available.' %}
+        <div class="ir-absence">
+            {% trans 'Compilation log is not available' %}
+        </div>
     {% endif %}
 {% endblock %}

@@ -1,6 +1,8 @@
 {% load i18n %}
 {% load irunner_solutions %}
 
+{% if test_results %}
+
 <table class="table ir-table-more-condensed" id="{{ uid }}">
     <thead>
         <tr>
@@ -39,6 +41,10 @@
                 <div class="ir-ajax-data">
                     <div class="ir-ajax-message">
                     </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-default btn-sm ir-btn-hide" type="button">{% trans 'Hide' %}</button>
                 </div>
             </td>
         </tr>
@@ -84,10 +90,16 @@ $(document).ready(function() {
     table.find(".ir-toggle-row").click(function() {
         showHideTest_{{ uid }}($(this));
     });
-    table.on("click", ".ir-btn-hide", function() {
+    table.find(".ir-btn-hide").click(function() {
         var row = $(this).parents("tr").first().prev();
         showHideTest_{{ uid }}(row);
     });
 });
 </script>
+{% endif %}
+
+{% else %}{# if not test_results #}
+<div class="ir-absence">
+    {% trans 'No test results' %}
+</div>
 {% endif %}

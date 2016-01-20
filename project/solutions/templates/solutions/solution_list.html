@@ -23,7 +23,7 @@
 	<tbody>
 		{% for solution in object_list %}
 		<tr>
-			<td><a href="{% url 'problems:overview' solution.id %}">{{solution.id}}</a></td>
+			<td><a href="{% url 'solutions:main' solution.id %}">{{solution.id}}</a></td>
 			<td><tt>{{solution.source_code.filename}}</tt></td>
 			<td>{% irunner_proglangs_compilerbox solution.compiler %}</td>
 			<td>{% irunner_solutions_judgementbox solution.best_judgement %}</td>

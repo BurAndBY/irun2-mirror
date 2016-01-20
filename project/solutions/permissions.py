@@ -35,6 +35,7 @@ class SolutionPermissions(object):
         self.source_code = True
         self.compilation_log = True
         self.results = True
+        self.judgements = True
 
     @staticmethod
     def all():

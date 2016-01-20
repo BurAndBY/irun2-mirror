@@ -1,22 +1,26 @@
 {% load i18n %}
 <div>
-    {% if representation.is_binary %}
-        <div class="alert alert-warning">
-            {% trans "The file is <strong>binary</strong> and its content can not be displayed." %}
-        </div>
-    {% else %}
-        {% if representation.text != None %}
-            {% if not representation.is_complete %}
-            <div class="alert alert-info">
-                {% trans "The file is <strong>too big</strong>, so it is displayed truncated. You can download the full version." %}
+    {% if representation %}
+        {% if representation.is_binary %}
+            <div class="alert alert-warning">
+                {% trans "The file is <strong>binary</strong> and its content can not be displayed." %}
             </div>
-            {% endif %}
+        {% else %}
+            {% if representation.text != None %}
+                {% if not representation.is_complete %}
+                <div class="alert alert-info">
+                    {% trans "The file is <strong>too big</strong>, so it is displayed truncated. You can download the full version." %}
+                </div>
+                {% endif %}
 
-            {% if programming_language and representation.is_complete %}
-                <pre class="ir-pre"><code class="{{ programming_language }} hljs">{{ representation.text }}</code></pre>
-            {% else %}
-                <pre class="ir-pre"><code class="hljs">{{ representation.text }}{% if not representation.is_complete %}...{% endif %}</code></pre>
+                {% if programming_language and representation.is_complete %}
+                    <pre class="ir-pre"><code class="{{ programming_language }} hljs">{{ representation.text }}</code></pre>
+                {% else %}
+                    <pre class="ir-pre"><code class="hljs">{{ representation.text }}{% if not representation.is_complete %}...{% endif %}</code></pre>
+                {% endif %}
             {% endif %}
         {% endif %}
+    {% else %}
+        <div class="ir-absence">{% trans 'No data' %}</div>
     {% endif %}
 </div>

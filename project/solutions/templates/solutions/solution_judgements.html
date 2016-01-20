@@ -1,0 +1,27 @@
+{% extends "solutions/solution.html" %}
+
+{% load irunner_solutions %}
+
+{% block main %}
+    <table class="table table-condensed">
+        <tbody>
+            {% for judgement in judgements %}
+                <tr{% if judgement == solution.best_judgement %} class="info"{% endif %}>
+                    <td><a href="{% url 'solutions:show_judgement' judgement.id %}">{{ judgement.id }}</a></td>
+                    <td>
+                        {% irunner_solutions_scorebox judgement %}
+                        {% irunner_solutions_judgementbox judgement tooltip=False %}
+                        {{ judgement.show_status }}
+                    </td>
+                    <td>
+                        {% if judgement.rejudge_id %}
+                            {{ judgement.rejudge_id }}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

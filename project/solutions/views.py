@@ -28,6 +28,35 @@ from proglangs.utils import get_highlightjs_class
 from django.http import Http404
 
 
+class TestCaseResultMixin(object):
+    def serve_testcaseresult_page(self, request, testcaseresult, data_url_pattern, item_id):
+        limit = 2**12
+        storage = create_storage()
+        context = {
+            'testcaseresult': testcaseresult,
+            'data_url_pattern': data_url_pattern,
+            'item_id': item_id,
+            'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit),
+            'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit),
+            'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit),
+            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit),
+            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit),
+        }
+        template_name = 'solutions/testcaseresult.html'
+        return render(request, template_name, context)
+
+    def serve_testcaseresult_data(self, request, mode, testcaseresult):
+        resource_id = {
+            'input': testcaseresult.input_resource_id,
+            'output': testcaseresult.output_resource_id,
+            'answer': testcaseresult.answer_resource_id,
+            'stdout': testcaseresult.stdout_resource_id,
+            'stderr': testcaseresult.stderr_resource_id,
+        }.get(mode)
+
+        return serve_resource(request, resource_id, 'text/plain')
+
+
 class AdHocView(generic.View):
     template_name = 'solutions/ad_hoc.html'
 
@@ -80,17 +109,51 @@ class SolutionListView(IRunnerListView):
     paginate_by = 25
 
     def get_queryset(self):
-        return Solution.objects.prefetch_related('compiler').select_related('best_judgement')
+        return Solution.objects.prefetch_related('compiler').select_related('best_judgement').select_related('source_code')
 
 
-def show_judgement(request, judgement_id):
-    judgement = get_object_or_404(Judgement, pk=judgement_id)
-    test_results = judgement.testcaseresult_set.all()
+'''
+Judgement
+'''
 
-    return render(request, 'solutions/judgement.html', {
-        'judgement': judgement,
-        'test_results': test_results,
-    })
+
+class JudgementView(generic.View):
+    template_name = 'solutions/judgement.html'
+
+    def get(self, request, judgement_id):
+        judgement = get_object_or_404(Judgement, pk=judgement_id)
+        test_results = judgement.testcaseresult_set.all()
+
+        storage = create_storage()
+        logs = [storage.represent(log.resource_id) for log in JudgementLog.objects.filter(judgement_id=judgement.id)]
+
+        permissions = SolutionPermissions.all()
+
+        return render(request, self.template_name, {
+            'judgement': judgement,
+            'logs': logs,
+            'test_results': test_results,
+            'solution_permissions': permissions,
+        })
+
+
+class JudgementTestCaseResultView(TestCaseResultMixin, generic.View):
+    template_name = 'solutions/testcaseresult.html'
+
+    def get(self, request, judgement_id, testcaseresult_id):
+        testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
+        return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:judgement_testdata', judgement_id)
+
+
+class JudgementTestCaseResultDataView(TestCaseResultMixin, generic.View):
+    def get(self, request, judgement_id, testcaseresult_id, mode):
+        testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
+        return self.serve_testcaseresult_data(request, mode, testcaseresult)
+
+
+'''
+Rejudge
+'''
 
 
 class CreateRejudgeView(generic.View):
@@ -210,6 +273,19 @@ class SolutionTestsView(BaseSolutionView):
         return render(request, self.template_name, context)
 
 
+class SolutionJudgementsView(BaseSolutionView):
+    tab = 'judgements'
+    template_name = 'solutions/solution_judgements.html'
+
+    def do_get(self, request, solution, permissions):
+        self._require(permissions.judgements)
+
+        context = self._make_context(solution, permissions, {
+            'judgements': solution.judgement_set.all()
+        })
+        return render(request, self.template_name, context)
+
+
 class SolutionLogView(BaseSolutionView):
     tab = 'log'
     template_name = 'solutions/solution_log.html'
@@ -292,44 +368,23 @@ class SolutionSourceDownloadView(generic.View):
         return serve_resource_metadata(request, solution.source_code, force_download=True)
 
 
-class SolutionTestCaseResultView(generic.View):
+class SolutionTestCaseResultView(TestCaseResultMixin, generic.View):
+    template_name = 'solutions/testcaseresult.html'
+
     def get(self, request, solution_id, testcaseresult_id):
         solution = get_object_or_404(Solution, pk=solution_id)
         if solution.best_judgement is None:
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
-
-        limit = 2**12
-
-        storage = create_storage()
-        context = {
-            'solution': solution,
-            'testcaseresult': testcaseresult,
-            'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit),
-            'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit),
-            'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit),
-            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit),
-            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit),
-        }
-
-        return render(request, 'solutions/testcaseresult.html', context)
+        return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:test_data', solution.id)
 
 
-class SolutionTestCaseResultDataView(generic.View):
+class SolutionTestCaseResultDataView(TestCaseResultMixin, generic.View):
     def get(self, request, solution_id, testcaseresult_id, mode):
         solution = get_object_or_404(Solution, pk=solution_id)
         if solution.best_judgement is None:
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
-
-        resource_id = {
-            'input': testcaseresult.input_resource_id,
-            'output': testcaseresult.output_resource_id,
-            'answer': testcaseresult.answer_resource_id,
-            'stdout': testcaseresult.stdout_resource_id,
-            'stderr': testcaseresult.stderr_resource_id,
-        }.get(mode)
-
-        return serve_resource(request, resource_id, 'text/plain')
+        return self.serve_testcaseresult_data(request, mode, testcaseresult)
