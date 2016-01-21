@@ -172,7 +172,7 @@ class CreateRejudgeView(generic.View):
     def post(self, request, *args, **kwargs):
         ids = request.GET.getlist('id')
         with transaction.atomic():
-            rejudge = Rejudge.objects.create()
+            rejudge = Rejudge.objects.create(author=request.user)
             judgements = [Judgement(solution_id=solution_id, rejudge=rejudge) for solution_id in ids]
             Judgement.objects.bulk_create(judgements)
 
