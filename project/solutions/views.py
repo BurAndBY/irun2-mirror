@@ -13,7 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 
-from .forms import AdHocForm
+from .forms import AdHocForm, AllSolutionsFilterForm
 from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
 from .actions import enqueue_new
 from .tables import SolutionTable
@@ -24,6 +24,7 @@ from table.views import FeedDataView
 from storage.storage import ResourceId, create_storage
 from storage.utils import serve_resource, serve_resource_metadata
 
+from common.pageutils import paginate
 from common.views import IRunnerListView
 from proglangs.utils import get_highlightjs_class
 from django.http import Http404
@@ -106,13 +107,58 @@ class AdHocView(generic.View):
         return render(request, self.template_name, {'form': form, 'judgement_id': judgement_id})
 
 
-class SolutionListView(IRunnerListView):
+'''
+All solutions list
+'''
+
+
+class SolutionListView(generic.View):
     paginate_by = 25
+    template_name = 'solutions/solution_list.html'
 
-    def get_queryset(self):
-        return Solution.objects.prefetch_related('compiler').select_related('best_judgement').select_related('source_code')
+    state_filters = {
+        'waiting': lambda q: q.filter(best_judgement__status=Judgement.WAITING),
+        'preparing': lambda q: q.filter(best_judgement__status=Judgement.PREPARING),
+        'compiling': lambda q: q.filter(best_judgement__status=Judgement.COMPILING),
+        'testing': lambda q: q.filter(best_judgement__status=Judgement.TESTING),
+        'finishing': lambda q: q.filter(best_judgement__status=Judgement.FINISHING),
+        'done': lambda q: q.filter(best_judgement__status=Judgement.DONE),
+        'not-done': lambda q: q.exclude(best_judgement__status=Judgement.DONE),
+        'ac': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED),
+        'ce': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.COMPILATION_ERROR),
+        'wa': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.WRONG_ANSWER),
+        'tl': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.TIME_LIMIT_EXCEEDED),
+        'ml': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.MEMORY_LIMIT_EXCEEDED),
+        'il': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.IDLENESS_LIMIT_EXCEEDED),
+        're': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.RUNTIME_ERROR),
+        'pe': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.PRESENTATION_ERROR),
+        'sv': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.SECURITY_VIOLATION),
+        'cf': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.CHECK_FAILED),
+    }
 
+    def _apply_filters(self, queryset, form):
+        state_filter = self.state_filters.get(form.cleaned_data['state'])
+        if state_filter is not None:
+            queryset = state_filter(queryset)
+        return queryset
 
+    def get(self, request):
+        form = AllSolutionsFilterForm(request.GET)
+
+        queryset = Solution.objects.\
+            prefetch_related('compiler').\
+            prefetch_related('problem').\
+            prefetch_related('author').\
+            select_related('best_judgement').\
+            select_related('source_code').\
+            order_by('-id')
+
+        if form.is_valid():
+            queryset = self._apply_filters(queryset, form)
+
+        context = paginate(request, queryset, self.paginate_by)
+        context['form'] = form
+        return render(request, self.template_name, context)
 '''
 Judgement
 '''
@@ -191,7 +237,9 @@ class RejudgeView(generic.View):
         for new_judgement in rejudge.judgement_set.all().\
                 select_related('solution').\
                 select_related('solution__best_judgement').\
-                select_related('solution__author'):
+                select_related('solution__author').\
+                select_related('solution__source_code').\
+                prefetch_related('solution__compiler'):
             solution = new_judgement.solution
             object_list.append(RejudgeInfo(solution, solution.best_judgement, new_judgement))
 

@@ -23,7 +23,7 @@
         <dd>{{ object_list|length }}</dd>
     </dl>
 
-    <table class="table">
+    <table class="table table-condensed">
         <thead>
             <tr>
                 <th>ID</th>
@@ -50,14 +50,18 @@
                     {% irunner_users_show info.solution.author %}
                 </td>
                 <td>
-                    <a href="{% url 'solutions:show_judgement' info.before.id %}">
-                        {% irunner_solutions_judgementbox info.before %}{% irunner_solutions_scorebox info.before %}
-                    </a>
+                    {% if info.before %}
+                        <a href="{% url 'solutions:show_judgement' info.before.id %}">
+                            {% irunner_solutions_judgementbox info.before %}{% irunner_solutions_scorebox info.before %}
+                        </a>
+                    {% endif %}
                 </td>
                 <td>
-                    <a href="{% url 'solutions:show_judgement' info.after.id %}">
-                        {% irunner_solutions_judgementbox info.after %}{% irunner_solutions_scorebox info.after %}
-                    </a>
+                    {% if info.after %}
+                        <a href="{% url 'solutions:show_judgement' info.after.id %}">
+                            {% irunner_solutions_judgementbox info.after %}{% irunner_solutions_scorebox info.after %}
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

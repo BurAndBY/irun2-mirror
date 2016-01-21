@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import EMPTY_SELECT
 from proglangs.models import Compiler
 
 
@@ -28,3 +29,31 @@ class SolutionForm(forms.Form):
         max_length=255,
         help_text=_('If you select a file, text field content is ignored.')
     )
+
+
+class AllSolutionsFilterForm(forms.Form):
+    STATE_CHOICES = (
+        ('', EMPTY_SELECT),
+        (_('state'), (
+            ('waiting', _('Waiting')),
+            ('preparing', _('Preparing')),
+            ('compiling', _('Compiling')),
+            ('testing', _('Testing')),
+            ('finishing', _('Finishing')),
+            ('done', _('Done')),
+            ('not-done', _('Not Done')),
+        )),
+        (_('outcome'), (
+            ('ac', _('Accepted')),
+            ('ce', _('Compilation Error')),
+            ('wa', _('Wrong Answer')),
+            ('tl', _('Time Limit Exceeded')),
+            ('ml', _('Memory Limit Exceeded')),
+            ('il', _('Idleness Limit Exceeded')),
+            ('re', _('Runtime Error')),
+            ('pe', _('Presentation Error')),
+            ('sv', _('Security Violation')),
+            ('cf', _('Check Failed'))
+        )),
+    )
+    state = forms.ChoiceField(choices=STATE_CHOICES, required=False)

@@ -1,46 +1,67 @@
 {% extends "base.html" %}
 
-{% load irunner_proglangs %}
+{% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_solutions %}
 {% load irunner_pagination %}
+{% load irunner_proglangs %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+{% load widget_tweaks %}
 
 {% block content %}
-<h1>{% trans 'List of Solutions' %}</h1>
+    <h2>{% trans 'Solutions' %}</h2>
+    <form method="get" class="form-inline">
+        <div class="ir-solution-filter">
+            {% render_field form.state class='form-control' %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Apply' %}
+            </button>
+        </div>
+    </form>
 
-{% irunner_pagination pagination_context %}
-<table class="table table-condensed table-striped table-hover">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Filename</th>
-			<th>Language</th>
-			<th>Status</th>
-			<th>Verbose status</th>
-			<th>Links</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for solution in object_list %}
-		<tr>
-			<td><a href="{% url 'solutions:main' solution.id %}">{{solution.id}}</a></td>
-			<td><tt>{{solution.source_code.filename}}</tt></td>
-			<td>{% irunner_proglangs_compilerbox solution.compiler %}</td>
-			<td>{% irunner_solutions_judgementbox solution.best_judgement %}</td>
-			<td>{% if solution.best_judgement %}{{ solution.best_judgement.show_status }}{% endif %}</td>
-			<td>
-				{% if solution.best_judgement %}
-					<a href="{% url 'solutions:show_judgement' solution.best_judgement_id %}">
-						<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-					</a>
-				{% endif %}
-				<a href="{% url 'solutions:create_rejudge' %}?id={{ solution.id }}">
-					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-				</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+    {% irunner_pagination pagination_context %}
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectall"></th>
+                <th>ID</th>
+                <th>{% trans 'Problem' %}</th>
+                <th>{% trans 'Author' %}</th>
+                <th class="ir-col-time">{% trans 'Time' %}</th>
+                <th>{% trans 'File' %}</th>
+                <th>{% trans 'Status' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solution in object_list %}
+            <tr>
+                <td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td> 
+                <td><a href="{% url 'solutions:main' solution.id %}">{{solution.id}}</a></td>
+                <td>{% if solution.problem %}<a href="{% url 'problems:overview' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>{% else %}&mdash;{% endif %}</td>
+                <td>{% irunner_users_show solution.author %}</td>
+                <td class="ir-col-time">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td>{% irunner_proglangs_compilerbox solution.compiler %} <tt>{{ solution.source_code.filename }}</tt></td>
+                <td>{% irunner_solutions_judgementbox solution.best_judgement tooltip=False %} {% irunner_solutions_scorebox solution.best_judgement %}{% if solution.best_judgement %} {{ solution.best_judgement.show_status }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
+    {% buttons %}
+        <button id="ir-btn-rejudge" class="btn btn-default btn-sm">
+            {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
+        </button>
+        <button id="ir-btn-delete" class="btn btn-default btn-sm">
+            {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
+        </button>
+    {% endbuttons %}
+
+    <script>
+    $(document).ready(function () {
+        irSetUpSelectAll();
+        $("#ir-btn-rejudge").click(function() {
+            irPerformActionOnSelected("{% url 'solutions:create_rejudge' %}", "{{ request.path }}", "{% trans 'No solutions selected' %}")
+        });
+    });
+    </script>
 {% endblock %}
