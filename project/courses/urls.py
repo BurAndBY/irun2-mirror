@@ -11,6 +11,7 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/$', views.CourseInfoView.as_view(), name='show_course_info'),
     url(r'^(?P<course_id>[0-9]+)/standings/$', views.CourseStandingsView.as_view(), name='course_standings'),
+    url(r'^(?P<course_id>[0-9]+)/standings/wide/$', views.CourseStandingsWideView.as_view(), name='course_standings_wide'),
     url(r'^(?P<course_id>[0-9]+)/sheet/$', views.CourseSheetView.as_view(), name='course_sheet'),
     url(r'^(?P<course_id>[0-9]+)/sheet/edit/$', views.CourseSheetEditView.as_view(), name='course_sheet_edit'),
     url(r'^(?P<course_id>[0-9]+)/sheet/edit/api/(?P<membership_id>[0-9]+)/(?P<activity_id>[0-9]+)/$', views.CourseSheetEditApiView.as_view(), name='course_sheet_edit_api'),

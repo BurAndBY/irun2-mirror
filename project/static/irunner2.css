@@ -736,3 +736,7 @@ Yellow menu
     font-size: 12px;
     margin-top: 10px;
 }
+
+.ir-subgroup-label {
+    color: #ccc;
+}

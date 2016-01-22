@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-22 16:37+0300\n"
-"PO-Revision-Date: 2016-01-22 16:42+0300\n"
+"POT-Creation-Date: 2016-01-22 20:10+0300\n"
+"PO-Revision-Date: 2016-01-22 20:10+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:109
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:110
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:86
+#: .\cauth\templates\registration\login.html:21 .\templates\base.html:87
 msgid "Login"
 msgstr "Вход"
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:127
+#: .\common\templates\common\about.html:6 .\templates\base.html:129
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -192,7 +192,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:94 .\courses\templates\courses\settings_base.html:22
-#: .\templates\base.html:77 .\users\templates\users\create_form.html:8
+#: .\templates\base.html:78 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
@@ -296,8 +296,9 @@ msgid "absence"
 msgstr "отсутствие"
 
 #: .\courses\settingsviews.py:93 .\courses\templates\courses\sheet.html:27
-#: .\courses\templates\courses\standings.html:10
-#: .\courses\templates\courses\standings2.html:13
+#: .\courses\templates\courses\standings.html:11
+#: .\courses\templates\courses\standings2.html:22
+#: .\courses\templates\courses\standings_wide.html:17
 msgid "Student"
 msgstr "Студент"
 
@@ -380,7 +381,7 @@ msgstr "Новый курс"
 msgid "Create"
 msgstr "Создать"
 
-#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:75
+#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:76
 msgid "Courses"
 msgstr "Курсы"
 
@@ -513,8 +514,9 @@ msgstr "Новая тема"
 
 #: .\courses\templates\courses\settings_users.html:21
 #: .\courses\templates\courses\sheet.html:26
-#: .\courses\templates\courses\standings.html:9
-#: .\courses\templates\courses\standings2.html:12
+#: .\courses\templates\courses\standings.html:10
+#: .\courses\templates\courses\standings2.html:21
+#: .\courses\templates\courses\standings_wide.html:16
 #: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
@@ -567,6 +569,7 @@ msgid "Assignment of problems"
 msgstr "Назначение задач"
 
 #: .\courses\templates\courses\sidebar.html:36
+#: .\courses\templates\courses\standings_wide.html:11
 msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
@@ -619,9 +622,18 @@ msgstr "Статус"
 msgid "No solutions"
 msgstr "Решений нет"
 
-#: .\courses\templates\courses\standings2.html:21
+#: .\courses\templates\courses\standings2.html:12
+msgid "Wide version"
+msgstr "Широкая версия"
+
+#: .\courses\templates\courses\standings2.html:30
+#: .\courses\templates\courses\standings_wide.html:25
 msgid "Result"
 msgstr "Итог"
+
+#: .\courses\templates\courses\standings_wide.html:89
+msgid "Back"
+msgstr "Назад"
 
 #: .\courses\templates\courses\submit.html:21
 #: .\feedback\templates\feedback\new.html:12
@@ -1203,12 +1215,12 @@ msgstr "Стандартный вывод ошибок (stderr)"
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\views.py:245
+#: .\solutions\views.py:230
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
 
-#: .\solutions\views.py:314
+#: .\solutions\views.py:299
 msgid "delete"
 msgstr "удалить"
 
@@ -1270,23 +1282,23 @@ msgstr "В кодировке UTF-8"
 msgid "Has BOM"
 msgstr "Имеет BOM"
 
-#: .\templates\base.html:72
+#: .\templates\base.html:73
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:79
+#: .\templates\base.html:80
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\base.html:84
+#: .\templates\base.html:85
 msgid "Logout"
 msgstr "Выход"
 
-#: .\templates\base.html:109
+#: .\templates\base.html:110
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:125
+#: .\templates\base.html:127
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 

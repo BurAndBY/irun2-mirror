@@ -39,6 +39,7 @@
         {% endblock %}
     </head>
     <body>
+        {% block allbody %}
         <nav class="navbar navbar-default">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -118,6 +119,7 @@
         {% block content %}
         {% endblock %}
         </div>
+        {% endblock %}{# allbody #}
 
         <footer class="footer">
             <div class="container">

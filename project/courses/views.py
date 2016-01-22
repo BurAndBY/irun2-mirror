@@ -555,7 +555,7 @@ class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
 
 class CourseStandingsView(BaseCourseView):
     tab = 'standings'
-    template_name = 'courses/standings2.html'
+    template_name = 'courses/standings.html'
 
     def is_allowed(self, permissions):
         return permissions.standings
@@ -566,6 +566,10 @@ class CourseStandingsView(BaseCourseView):
         context['course_descr'] = res.course_descr
         context['results'] = res.user_results
         return render(request, self.template_name, context)
+
+
+class CourseStandingsWideView(CourseStandingsView):
+    template_name = 'courses/standings_wide.html'
 
 
 '''
