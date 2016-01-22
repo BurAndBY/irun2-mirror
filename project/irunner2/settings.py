@@ -84,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'common.context_processors.system_name',
+                'dealer.contrib.django.context_processor',
             ],
         },
     },

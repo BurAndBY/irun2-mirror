@@ -77,7 +77,7 @@
                         {% if user.is_staff %}
                             <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
                         {% endif %}
-                        <li><a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a></li>
+                        <li></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
@@ -124,9 +124,12 @@
         <footer class="footer">
             <div class="container">
                 <div class="ir-footer">
-                    &copy; 2001&thinsp;&ndash;&thinsp;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}
-                    <br>
-                    <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %} {{ system_full_name }}</a>
+                    <div>{{ system_full_name }} #{{ REVISION }}</div>
+                    <div>&copy; 2001&thinsp;&ndash;&thinsp;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>
+                    <div>
+                        <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
+                        <a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a>
+                    </div>
                 </div>
             </div>
         </footer>

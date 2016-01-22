@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-22 20:10+0300\n"
-"PO-Revision-Date: 2016-01-22 20:10+0300\n"
+"POT-Creation-Date: 2016-01-23 01:32+0300\n"
+"PO-Revision-Date: 2016-01-23 01:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:129
+#: .\common\templates\common\about.html:6 .\templates\base.html:130
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -109,6 +109,10 @@ msgstr ""
 "%(system_full_name)s — это учебно-методический комплекс, предназначенный для "
 "обслуживания олимпиад по программированию, проведения практических занятий "
 "по основам алгоритмизации и смежным наукам.\n"
+
+#: .\common\templates\common\about.html:27
+msgid "Source code"
+msgstr "Исходный код"
 
 #: .\common\templates\common\choose.html:24
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
@@ -296,8 +300,7 @@ msgid "absence"
 msgstr "отсутствие"
 
 #: .\courses\settingsviews.py:93 .\courses\templates\courses\sheet.html:27
-#: .\courses\templates\courses\standings.html:11
-#: .\courses\templates\courses\standings2.html:22
+#: .\courses\templates\courses\standings.html:22
 #: .\courses\templates\courses\standings_wide.html:17
 msgid "Student"
 msgstr "Студент"
@@ -514,8 +517,7 @@ msgstr "Новая тема"
 
 #: .\courses\templates\courses\settings_users.html:21
 #: .\courses\templates\courses\sheet.html:26
-#: .\courses\templates\courses\standings.html:10
-#: .\courses\templates\courses\standings2.html:21
+#: .\courses\templates\courses\standings.html:21
 #: .\courses\templates\courses\standings_wide.html:16
 #: .\problems\templates\problems\tests.html:10
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
@@ -622,18 +624,14 @@ msgstr "Статус"
 msgid "No solutions"
 msgstr "Решений нет"
 
-#: .\courses\templates\courses\standings2.html:12
+#: .\courses\templates\courses\standings.html:12
 msgid "Wide version"
 msgstr "Широкая версия"
 
-#: .\courses\templates\courses\standings2.html:30
+#: .\courses\templates\courses\standings.html:30
 #: .\courses\templates\courses\standings_wide.html:25
 msgid "Result"
 msgstr "Итог"
-
-#: .\courses\templates\courses\standings_wide.html:89
-msgid "Back"
-msgstr "Назад"
 
 #: .\courses\templates\courses\submit.html:21
 #: .\feedback\templates\feedback\new.html:12
@@ -1286,10 +1284,6 @@ msgstr "Имеет BOM"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\base.html:80
-msgid "Feedback"
-msgstr "Обратная связь"
-
 #: .\templates\base.html:85
 msgid "Logout"
 msgstr "Выход"
@@ -1298,9 +1292,13 @@ msgstr "Выход"
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:127
+#: .\templates\base.html:128
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
+
+#: .\templates\base.html:131
+msgid "Feedback"
+msgstr "Обратная связь"
 
 #: .\users\forms.py:27
 msgid "Folder name"
@@ -1516,6 +1514,9 @@ msgstr "Права доступа"
 #: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "Back"
+#~ msgstr "Назад"
 
 #~ msgid "last name"
 #~ msgstr "фамилия"
