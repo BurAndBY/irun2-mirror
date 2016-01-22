@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views import generic
@@ -11,7 +11,7 @@ from django.db.models import Count
 from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-
+from django.utils.translation import ugettext_lazy, pgettext_lazy
 
 from .forms import AdHocForm, AllSolutionsFilterForm
 from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
@@ -26,7 +26,7 @@ from storage.utils import serve_resource, serve_resource_metadata
 from proglangs.models import Compiler
 
 from common.pageutils import paginate
-from common.views import IRunnerListView
+from common.views import IRunnerListView, MassOperationView
 from proglangs.utils import get_highlightjs_class
 from django.http import Http404
 
@@ -222,19 +222,26 @@ class RejudgeListView(generic.ListView):
         return Rejudge.objects.all().annotate(num_judgements=Count('judgement')).order_by('-creation_time', '-id')
 
 
-class CreateRejudgeView(generic.View):
-    def get(self, request, *args, **kwargs):
-        ids = request.GET.getlist('id')
-        return render(request, 'solutions/confirm_multiple.html', {'ids': ids})
+class CreateRejudgeView(MassOperationView):
+    template_name = 'solutions/confirm_multiple.html'
 
-    def post(self, request, *args, **kwargs):
-        ids = request.GET.getlist('id')
+    def get_context_data(self, **kwargs):
+        context = super(CreateRejudgeView, self).get_context_data(**kwargs)
+        context['action'] = pgettext_lazy('verb', 'rejudge')
+        return context
+
+    def perform(self, filtered_queryset, form):
+        author = self.request.user
+
         with transaction.atomic():
-            rejudge = Rejudge.objects.create(author=request.user)
-            judgements = [Judgement(solution_id=solution_id, rejudge=rejudge) for solution_id in ids]
+            rejudge = Rejudge.objects.create(author=author)
+            judgements = [Judgement(solution=solution, rejudge=rejudge) for solution in filtered_queryset]
             Judgement.objects.bulk_create(judgements)
 
-        return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge.id]))
+        return redirect('solutions:rejudge', rejudge.id)
+
+    def get_queryset(self):
+        return Solution.objects.order_by('id')
 
 
 RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
@@ -279,12 +286,29 @@ class RejudgeView(generic.View):
         return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge_id]))
 
 
-def ilist(request):
-    objects = Solution.objects.all().prefetch_related('compiler').select_related('best_judgement')
-    table = SolutionTable(objects)
-    #return render(request, "solutions/ilist.html", {'table': table})
-    return render_to_response("solutions/ilist.html", {"table": table},
-                              context_instance=RequestContext(request))
+'''
+Mass delete
+'''
+
+
+class DeleteSolutionsView(MassOperationView):
+    template_name = 'solutions/confirm_multiple.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DeleteSolutionsView, self).get_context_data(**kwargs)
+        context['action'] = ugettext_lazy('delete')
+        return context
+
+    def perform(self, filtered_queryset, form):
+        filtered_queryset.delete()
+
+    def get_queryset(self):
+        return Solution.objects.order_by('id')
+
+
+'''
+Single solution
+'''
 
 
 class BaseSolutionView(LoginRequiredMixin, generic.View):

@@ -1,28 +1,34 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_mass %}
+{% load irunner_messagebox %}
 
 {% block content %}
+    {% if object_list %}
+        <h3>{% trans 'Confirmation required' %}</h3>
 
-{% if ids %}
-    <h1>{% trans 'Confirm' %}</h1>
-    <ul>
-    {% for id in ids %}
-        <li>{{ id }}</li>
-    {% endfor %}
-    </ul>
+        <p>
+            {% blocktrans %}Are you sure you want to {{ action }} these solutions?{% endblocktrans %}
+        </p>
 
-    <form method="post">
-        {% csrf_token %}
-        {% for id in ids %}
-            <input type="hidden" name="id" value="{{ id }}">
+        <ul>
+        {% for solution in object_list %}
+            <li><a href="{% url 'solutions:main' solution.id %}">{{ solution.id }}</a></li>
         {% endfor %}
-        <input type="submit" value="Yes"></input>
-    </form>
-{% else %}
-    <div class="alert alert-danger" role="alert">
-        There are no solutions selected.
-    </div>
-{% endif %}
+        </ul>
 
+        <form method="post">
+            {% csrf_token %}
+            {% irunner_mass_hidden ids next %}
+            {% buttons %}
+                <button type="submit" class="btn btn-default">{% trans 'Confirm' %}</button>
+            {% endbuttons %}
+        </form>
+    {% else %}
+        {% irunner_messagebox style='danger' %}
+            {% trans 'There are no solutions selected.' %}
+        {% irunner_endmessagebox %}
+    {% endif %}
 {% endblock %}

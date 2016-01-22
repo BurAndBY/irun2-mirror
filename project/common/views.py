@@ -209,6 +209,9 @@ class MassOperationView(generic.View):
 
         return list(result)
 
+    def get_context_data(self, **kwargs):
+        return kwargs
+
     def _make_context(self, query_dict, queryset):
         # take really existing ids
         ids = [object.pk for object in queryset]
@@ -218,9 +221,13 @@ class MassOperationView(generic.View):
             'ids': ids,
             'next': query_dict.get('next')
         }
+        context = self.get_context_data(**context)
         return context
 
-    def _redirect(self):
+    def _redirect(self, response):
+        if response is not None:
+            return response
+
         next = self.request.POST.get('next')
         if next is None:
             next = self.success_url
@@ -247,20 +254,20 @@ class MassOperationView(generic.View):
         if self.form_class is not None:
             form = self.form_class(request.POST)
             if form.is_valid():
-                self.perform(queryset, form)
-                return self._redirect()
+                response = self.perform(queryset, form)
+                return self._redirect(response)
             else:
                 context = self._make_context(request.POST, queryset)
                 context['form'] = form
                 return render(request, self.template_name, context)
 
-        self.perform(queryset, None)
-        return self._redirect()
+        response = self.perform(queryset, None)
+        return self._redirect(response)
 
     '''
     Methods that may be overridden.
     '''
-    def perform(self, queryset, form):
+    def perform(self, filtered_queryset, form):
         # form is passed only if form_class is not None.
         # form is valid.
         raise NotImplementedError()

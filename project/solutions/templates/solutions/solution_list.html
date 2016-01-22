@@ -65,7 +65,10 @@
     $(document).ready(function () {
         irSetUpSelectAll();
         $("#ir-btn-rejudge").click(function() {
-            irPerformActionOnSelected("{% url 'solutions:create_rejudge' %}", "{{ request.path }}", "{% trans 'No solutions selected' %}")
+            irPerformActionOnSelected("{% url 'solutions:create_rejudge' %}", null, "{% trans 'No solutions selected' %}");
+        });
+        $("#ir-btn-delete").click(function() {
+            irPerformActionOnSelected("{% url 'solutions:delete' %}", "{{ request.path }}?{{ request.GET.urlencode }}", "{% trans 'No solutions selected' %}");
         });
     });
     </script>

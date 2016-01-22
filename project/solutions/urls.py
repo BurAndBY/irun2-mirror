@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from . import views
 
 solutions_urlpatterns = [
-    url(r'^full/$', views.SolutionListView.as_view(), name='list'),
+    url(r'^$', views.SolutionListView.as_view(), name='list'),
 
     url(r'^(?P<solution_id>[0-9]+)/$', views.SolutionMainView.as_view(), name='main'),
     url(r'^(?P<solution_id>[0-9]+)/source/$', views.SolutionSourceView.as_view(), name='source'),
@@ -18,6 +18,8 @@ solutions_urlpatterns = [
 
     url(r'^(?P<solution_id>[0-9]+)/source/open/(?P<filename>.*)$', views.SolutionSourceOpenView.as_view(), name='source_open'),
     url(r'^(?P<solution_id>[0-9]+)/source/download/(?P<filename>.*)$', views.SolutionSourceDownloadView.as_view(), name='source_download'),
+
+    url(r'^delete/$', views.DeleteSolutionsView.as_view(), name='delete'),
 ]
 
 judgements_urlpatterns = [
@@ -31,7 +33,6 @@ urlpatterns = [
     url(r'^rejudges/new/$', views.CreateRejudgeView.as_view(), name='create_rejudge'),
     url(r'^rejudges/(?P<rejudge_id>[0-9]+)/$', views.RejudgeView.as_view(), name='rejudge'),
     url(r'^rejudges/$', views.RejudgeListView.as_view(), name='rejudge_list'),
-    url(r'^$', views.ilist),
 
     url(r'^solutions/', include(solutions_urlpatterns)),
     url(r'^runs/', include(judgements_urlpatterns)),
