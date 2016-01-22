@@ -23,6 +23,7 @@ from table.views import FeedDataView
 
 from storage.storage import ResourceId, create_storage
 from storage.utils import serve_resource, serve_resource_metadata
+from proglangs.models import Compiler
 
 from common.pageutils import paginate
 from common.views import IRunnerListView
@@ -140,6 +141,17 @@ class SolutionListView(generic.View):
         state_filter = self.state_filters.get(form.cleaned_data['state'])
         if state_filter is not None:
             queryset = state_filter(queryset)
+
+        compiler_value = form.cleaned_data['compiler']
+        if compiler_value:
+            ok = False
+            for language, _ in Compiler.LANGUAGE_CHOICES:
+                if language == compiler_value:
+                    queryset = queryset.filter(compiler__language=language)
+                    ok = True
+                    break
+            if not ok:
+                queryset = queryset.filter(compiler_id=compiler_value)
         return queryset
 
     def get(self, request):

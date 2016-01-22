@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-22 02:03+0300\n"
-"PO-Revision-Date: 2016-01-22 02:04+0300\n"
+"POT-Creation-Date: 2016-01-22 09:11+0300\n"
+"PO-Revision-Date: 2016-01-22 09:12+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -183,7 +183,7 @@ msgstr "Весовой коэффициент"
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:20
-#: .\solutions\templates\solutions\solution_list.html:28
+#: .\solutions\templates\solutions\solution_list.html:29
 msgid "Problem"
 msgstr "Задача"
 
@@ -331,7 +331,7 @@ msgstr[2] "Удалено %(count)d пользователей."
 
 #: .\courses\templates\courses\assign.html:16
 #: .\courses\templates\courses\solutions.html:18
-#: .\solutions\templates\solutions\solution_list.html:17
+#: .\solutions\templates\solutions\solution_list.html:18
 msgid "Apply"
 msgstr "Применить"
 
@@ -448,7 +448,7 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: .\courses\templates\courses\settings_component.html:20
-#: .\solutions\templates\solutions\solution_list.html:55
+#: .\solutions\templates\solutions\solution_list.html:56
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
@@ -591,26 +591,26 @@ msgstr "Настройки"
 #: .\problems\templates\problems\solutions.html:16
 #: .\solutions\templates\solutions\rejudge.html:31
 #: .\solutions\templates\solutions\rejudge_list.html:14
-#: .\solutions\templates\solutions\solution_list.html:29
+#: .\solutions\templates\solutions\solution_list.html:30
 msgid "Author"
 msgstr "Автор"
 
 #: .\courses\templates\courses\solutions.html:33
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
-#: .\solutions\templates\solutions\solution_list.html:30
+#: .\solutions\templates\solutions\solution_list.html:31
 msgid "Time"
 msgstr "Время"
 
 #: .\courses\templates\courses\solutions.html:34
 #: .\problems\templates\problems\files.html:9
 #: .\problems\templates\problems\solutions.html:18
-#: .\solutions\templates\solutions\solution_list.html:31
+#: .\solutions\templates\solutions\solution_list.html:32
 msgid "File"
 msgstr "Файл"
 
 #: .\courses\templates\courses\solutions.html:35
 #: .\problems\templates\problems\solutions.html:19
-#: .\solutions\templates\solutions\solution_list.html:32
+#: .\solutions\templates\solutions\solution_list.html:33
 msgid "Status"
 msgstr "Статус"
 
@@ -849,7 +849,7 @@ msgstr "Неизвестно"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:28
+#: .\proglangs\models.py:28 .\solutions\forms.py:63
 msgid "language"
 msgstr "язык"
 
@@ -964,6 +964,10 @@ msgstr "Нарушение безопасности"
 #: .\solutions\forms.py:56 .\solutions\models.py:56
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
+
+#: .\solutions\forms.py:70
+msgid "compiler"
+msgstr "компилятор"
 
 #: .\solutions\models.py:46
 msgid "N/A"
@@ -1118,15 +1122,15 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\rejudge.html:71
+#: .\solutions\templates\solutions\rejudge.html:75
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: .\solutions\templates\solutions\rejudge.html:72
+#: .\solutions\templates\solutions\rejudge.html:76
 msgid "Rollback"
 msgstr "Откатить"
 
-#: .\solutions\templates\solutions\rejudge.html:78
+#: .\solutions\templates\solutions\rejudge.html:82
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
@@ -1146,10 +1150,14 @@ msgstr "IP-адрес"
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_list.html:52
+#: .\solutions\templates\solutions\solution_list.html:53
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
+
+#: .\solutions\templates\solutions\solution_list.html:64
+msgid "No solutions selected"
+msgstr "Решения не выбраны"
 
 #: .\solutions\templates\solutions\solution_log.html:11
 msgid "Compilation log is not available"

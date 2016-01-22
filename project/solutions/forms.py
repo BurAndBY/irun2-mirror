@@ -57,3 +57,19 @@ class AllSolutionsFilterForm(forms.Form):
         )),
     )
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
+
+    DEFAULT_COMPILER_CHOICES = (
+        ('', EMPTY_SELECT),
+        (_('language'), Compiler.LANGUAGE_CHOICES[1:]),
+    )
+    compiler = forms.ChoiceField(choices=DEFAULT_COMPILER_CHOICES, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(AllSolutionsFilterForm, self).__init__(*args, **kwargs)
+
+        present_compiler_choices = ((_('compiler'), tuple(
+            (unicode(compiler.id), unicode(compiler))
+            for compiler in Compiler.objects.all()
+        )), )
+
+        self.fields['compiler'].choices = self.DEFAULT_COMPILER_CHOICES + present_compiler_choices
