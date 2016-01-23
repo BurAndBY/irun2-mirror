@@ -12,7 +12,7 @@ from users.models import UserFolder, UserProfile
 from django.contrib import auth
 
 
-def process_user(row):
+def process_user(user_folders, row):
     User = auth.get_user_model()
 
     user_id = int(row[0])
@@ -47,9 +47,7 @@ def process_user(row):
     userprofile.patronymic = row[4] or ''
     userprofile.description = row[8] or ''
 
-    folder_id = row[9]
-    if folder_id is not None and UserFolder.objects.filter(pk=folder_id).count() != 1:
-        folder_id = None
+    folder_id = user_folders.get(user_id)
 
     userprofile.folder_id = folder_id
     userprofile.clean_fields(exclude=['user'])
@@ -71,12 +69,21 @@ class Command(BaseCommand):
             with UserFolder.objects.delay_mptt_updates():
                 import_tree(UserFolder, db, ROOT_FOLDER)
 
+        user_folders = {}
+
         cur = db.cursor()
+        in_str = ', '.join(str(x) for x in UserFolder.objects.all().values_list('id', flat=True))
+        cur.execute('SELECT folderID, elementID FROM katrin_folder_element WHERE folderID IN ({0})'.format(in_str))
+
+        for row in cur.fetchall():
+            folder_id, user_id = row[0], row[1]
+            user_folders[user_id] = folder_id  # choose last if there are many folders
+
         cur.execute('SELECT userID, login, password, firstName, middleName, lastName, removed, email, description, userGroupID FROM katrin_user WHERE userID > 0')
 
         for row in cur.fetchall():
             try:
                 with transaction.atomic():
-                    process_user(row)
+                    process_user(user_folders, row)
             except Exception as e:
                 logger.error(u'Skipped user %d "%s":\n%s', row[0], row[1].decode('utf-8', errors='replace'), e)
