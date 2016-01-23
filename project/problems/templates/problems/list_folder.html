@@ -1,0 +1,29 @@
+{% extends "problems/list_base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+{% load irunner_pagination %}
+{% load irunner_users %}
+{% load irunner_problems %}
+
+{% block sidebar %}
+    {% trans "Problems" as root_name %}
+    {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
+{% endblock %}
+
+{% block main %}
+    {% trans "Problems" as root_name %}
+
+    {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
+
+    {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
+
+    {% irunner_problems_list object_list pagination_context %}
+
+    <script>
+    $(document).ready(function () {
+        irSetUpSelectAll();
+    });
+    </script>
+{% endblock %}

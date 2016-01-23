@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_pagination %}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% if problems %}
+            {% if pagination_context %}
+                {% irunner_pagination pagination_context %}
+            {% endif %}
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        {% if show_checkbox %}
+                            <th><input type="checkbox" id="selectall"></th>
+                        {% endif %}
+                        <th>ID</th>
+                        <th>{% trans 'name' %}</th>
+                        <th>{% trans 'short name' %}</th>
+                        <th>{% trans 'complexity' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for problem in problems %}
+                    <tr>
+                        {% if show_checkbox %}
+                            <td><input type="checkbox" class="ir-checkbox" name="{{ problem.id }}"></td>
+                        {% endif %}
+                        <td><a href="{% url 'problems:overview' problem.id %}">{{ problem.id }}</a></td>
+                        <td>{{ problem.numbered_full_name }}</td>
+                        <td>{{ problem.numbered_short_name }}</td>
+                        <td>{% irunner_problems_complexity problem.complexity %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="ir-absence">{% trans 'No problems' %}</div>
+        {% endif %}
+    </div>
+</div>

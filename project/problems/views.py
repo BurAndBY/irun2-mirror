@@ -11,11 +11,16 @@ from django.http import StreamingHttpResponse
 from django.utils.translation import ugettext as _
 from django.db import transaction
 from django.http import Http404
+from common.folderutils import lookup_node_ex, cast_id
+from django.db.models import Q
+from common.pageutils import paginate
 
+import operator
+import re
 import json
 from mptt.templatetags.mptt_tags import cache_tree_children
 
-
+from forms import ProblemSearchForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .forms import ProblemForm
 from solutions.forms import SolutionForm
@@ -27,7 +32,7 @@ from .texrenderer import TeXRenderer
 
 from .statement import StatementRepresentation
 import storage.utils as fsutils
-from common.views import IRunnerBaseListView
+from common.views import IRunnerBaseListView, IRunnerListView, StaffMemberRequiredMixin
 import solutions.utils
 
 
@@ -345,4 +350,71 @@ class ProblemSubmissionView(BaseProblemView):
             raise Http404()
 
         context = self._make_context(problem, {'solution_id': solution_id})
+        return render(request, self.template_name, context)
+
+
+'''
+All problems: folders
+'''
+
+
+class ProblemFolderMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(ProblemFolderMixin, self).get_context_data(**kwargs)
+        cached_trees = ProblemFolder.objects.all().get_cached_trees()
+        node_ex = lookup_node_ex(self.kwargs['folder_id_or_root'], cached_trees)
+
+        context['cached_trees'] = cached_trees
+        context['folder_id'] = node_ex.folder_id
+        context['active_tab'] = 'folders'
+        return context
+
+
+class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListView):
+    template_name = 'problems/list_folder.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        folder_id = cast_id(self.kwargs['folder_id_or_root'])
+        return Problem.objects.filter(folders__id=folder_id)
+
+
+'''
+All problems: search
+'''
+
+
+class SearchView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'problems/list_search.html'
+    paginate_by = 12
+    number_regex = re.compile(r'^(?P<number>\d+)(\.(?P<subnumber>\d+))?$')
+
+    def _create_posfilter(self, word):
+        m = self.number_regex.match(word)
+        if m:
+            posfilter = Q(number=m.group('number'))
+            if m.group('subnumber') is not None:
+                posfilter = posfilter & Q(subnumber=m.group('subnumber'))
+        else:
+            posfilter = Q(full_name__icontains=word)
+        return posfilter
+
+    def get_queryset(self, query=None):
+        queryset = Problem.objects.all()
+        if query is not None:
+            terms = query.split()
+            if terms:
+                queryset = queryset.filter(reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
+        return queryset
+
+    def get(self, request):
+        form = ProblemSearchForm(request.GET)
+        if form.is_valid():
+            queryset = self.get_queryset(form.cleaned_data['query'])
+        else:
+            queryset = self.get_queryset()
+
+        context = paginate(request, queryset, self.paginate_by)
+        context['active_tab'] = 'search'
+        context['form'] = form
         return render(request, self.template_name, context)

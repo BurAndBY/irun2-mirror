@@ -1,7 +1,7 @@
 {% extends 'problems/base.html' %}
 
-{% load problemstatement %}
+{% load irunner_problems %}
 
 {% block main %}
-{% problemstatement statement %}
+    {% irunner_problems_statement statement %}
 {% endblock %}

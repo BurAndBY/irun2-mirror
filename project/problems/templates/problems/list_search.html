@@ -1,13 +1,13 @@
-{% extends "users/base.html" %}
+{% extends "problems/list_base.html" %}
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_users %}
+{% load irunner_problems %}
 {% load widget_tweaks %}
 
 {% block main %}
     <ol class="breadcrumb">
-        <li>{% trans 'User search' %}</li>
+        <li>{% trans 'Problem search' %}</li>
     </ol>
 
     <form method="get" autocomplete="off">
@@ -20,22 +20,7 @@
                 </span>
             </div>
         </div>
-        <div class="checkbox">
-            <label>
-                {{ form.staff }}{{ form.staff.label }}
-            </label>
-        </div>
     </form>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            {% if object_list %}
-                {% irunner_users_list object_list pagination_context show_folder=True %}
-            {% else %}
-                <div class="ir-absence">
-                    {% trans 'No users found.' %}
-                </div>
-            {% endif %}
-        </div>
-    </div>
+    {% irunner_problems_list object_list pagination_context %}
 {% endblock %}

@@ -32,6 +32,9 @@ class Problem(models.Model):
 
     folders = models.ManyToManyField(ProblemFolder, verbose_name=_('folders'))
 
+    class Meta:
+        ordering = ['number', 'subnumber', 'full_name']
+
     def get_formatted_number(self):
         if self.number is None:
             return u''

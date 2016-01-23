@@ -1,7 +1,7 @@
 {% extends 'courses/problems_base.html' %}
 
-{% load problemstatement %}
+{% load irunner_problems %}
 
 {% block submain %}
-{% problemstatement statement %}
+    {% irunner_problems_statement statement %}
 {% endblock %}
