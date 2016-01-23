@@ -35,10 +35,10 @@
             {% endif %}
         </dl>
         <dl class="dl-horizontal">
-            <dt>{% trans 'Input file name' %}</dt>
+            <dt>{% trans 'Input' %}</dt>
             <dd><tt>{{ problem.input_filename }}</tt></dd>
 
-            <dt>{% trans 'Output file name' %}</dt>
+            <dt>{% trans 'Output' %}</dt>
             <dd><tt>{{ problem.output_filename }}</tt></dd>
         </dl>
 
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="ir-huge">{{ test_count }}</div>
-                        <div>тестов</div>
+                        <div>{% blocktrans count counter=test_count %}test{% plural %}tests{% endblocktrans %}</div>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="ir-huge">{{ solution_count }}</div>
-                        <div>решений</div>
+                        <div>{% blocktrans count counter=solution_count %}solution{% plural %}solutions{% endblocktrans %}</div>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="ir-huge">{{ file_count }}</div>
-                        <div>файлов</div>
+                        <div>{% blocktrans count counter=file_count %}file{% plural %}files{% endblocktrans %}</div>
                     </div>
                 </div>
             </div>

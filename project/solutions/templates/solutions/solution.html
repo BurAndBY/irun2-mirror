@@ -40,11 +40,6 @@
                             <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
                         {% endif %}
                     {% endif %}
-
-                    {% if solution_permissions.ip_address and solution.ip_address %}
-                        <dt>{% trans 'IP address' %}</dt>
-                        <dd><tt>{{ solution.ip_address }}</tt></dd>
-                    {% endif %}
                 </dl>
             </div>
 
@@ -52,6 +47,11 @@
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ solution.reception_time }}</dd>
+
+                    {% if solution_permissions.ip_address and solution.ip_address %}
+                        <dt>{% trans 'IP address' %}</dt>
+                        <dd><tt>{{ solution.ip_address }}</tt></dd>
+                    {% endif %}
 
                     <dt>{% trans 'File' %}</dt>
                     <dd><span class="ir-monospace">{{ solution.source_code.filename }}</span></dd>
@@ -65,19 +65,27 @@
             <div class="span12 text-center">
                 <ul class="nav nav-pills ir-solution-nav-pills">
                     {% if solution_permissions.source_code %}
-                        <li role="presentation"{% if active_tab == 'source' %} class="active"{% endif %}><a href="{% url 'solutions:source' solution.id %}">Исходный код</a></li>
+                        <li role="presentation"{% if active_tab == 'source' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:source' solution.id %}">{% trans 'Source code' %}</a>
+                        </li>
                     {% endif %}
 
                     {% if solution_permissions.compilation_log %}
-                        <li role="presentation"{% if active_tab == 'log' %} class="active"{% endif %}><a href="{% url 'solutions:log' solution.id %}">Журнал компиляции</a></li>
+                        <li role="presentation"{% if active_tab == 'log' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:log' solution.id %}">{% trans 'Compilation log' %}</a>
+                        </li>
                     {% endif %}
 
                     {% if solution_permissions.judgements %}
-                        <li role="presentation"{% if active_tab == 'judgements' %} class="active"{% endif %}><a href="{% url 'solutions:judgements' solution.id %}">{% trans 'Judgements' %}</a></li>
+                        <li role="presentation"{% if active_tab == 'judgements' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:judgements' solution.id %}">{% trans 'Judgements' %}</a>
+                        </li>
                     {% endif %}
 
                     {% if solution_permissions.results %}
-                        <li role="presentation"{% if active_tab == 'tests' %} class="active"{% endif %}><a href="{% url 'solutions:tests' solution.id %}">Результаты по тестам</a></li>
+                        <li role="presentation"{% if active_tab == 'tests' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:tests' solution.id %}">{% trans 'Test results' %}</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>

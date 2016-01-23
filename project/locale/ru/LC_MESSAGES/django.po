@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-23 03:14+0300\n"
-"PO-Revision-Date: 2016-01-23 03:16+0300\n"
+"POT-Creation-Date: 2016-01-24 01:40+0300\n"
+"PO-Revision-Date: 2016-01-24 01:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -111,25 +111,26 @@ msgstr ""
 "по основам алгоритмизации и смежным наукам.\n"
 
 #: .\common\templates\common\about.html:27
+#: .\solutions\templates\solutions\solution.html:69
 msgid "Source code"
 msgstr "Исходный код"
 
-#: .\common\templates\common\choose.html:24
+#: .\common\templates\common\choose.html:25
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
 msgid "Add"
 msgstr "Добавить"
 
-#: .\common\templates\common\choose.html:25
+#: .\common\templates\common\choose.html:28
 #: .\common\templates\common\twopanelselectmultiple_widget.html:23
 msgid "Add all"
 msgstr "Добавить всё"
 
-#: .\common\templates\common\choose.html:26
+#: .\common\templates\common\choose.html:31
 #: .\common\templates\common\twopanelselectmultiple_widget.html:24
 msgid "Remove"
 msgstr "Удалить"
 
-#: .\common\templates\common\choose.html:27
+#: .\common\templates\common\choose.html:35
 #: .\common\templates\common\twopanelselectmultiple_widget.html:25
 msgid "Remove all"
 msgstr "Удалить всё"
@@ -155,6 +156,7 @@ msgstr "Страница"
 #: .\problems\templates\problems\show_test.html:15
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:28
 #: .\solutions\templates\solutions\judgement.html:16
+#: .\solutions\templates\solutions\solution.html:40
 msgid "of"
 msgstr "из"
 
@@ -186,8 +188,8 @@ msgstr "Весовой коэффициент"
 #: .\courses\forms.py:71 .\courses\forms.py:102 .\courses\forms.py:117
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
-#: .\solutions\templates\solutions\solution.html:20
-#: .\solutions\templates\solutions\solution_list.html:29
+#: .\solutions\templates\solutions\solution.html:21
+#: .\solutions\templates\solutions\solution_list.html:28
 msgid "Problem"
 msgstr "Задача"
 
@@ -218,7 +220,9 @@ msgid "criterion label"
 msgstr "обозначение критерия"
 
 #: .\courses\models.py:16 .\courses\models.py:23 .\courses\models.py:52
-#: .\courses\models.py:83 .\users\models.py:13
+#: .\courses\models.py:83
+#: .\problems\templates\problems\irunner_problems_list_tag.html:19
+#: .\users\models.py:13
 msgid "name"
 msgstr "название"
 
@@ -335,7 +339,7 @@ msgstr[2] "Удалено %(count)d пользователей."
 
 #: .\courses\templates\courses\assign.html:16
 #: .\courses\templates\courses\solutions.html:18
-#: .\solutions\templates\solutions\solution_list.html:18
+#: .\solutions\templates\solutions\solution_list.html:17
 msgid "Apply"
 msgstr "Применить"
 
@@ -453,7 +457,7 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: .\courses\templates\courses\settings_component.html:20
-#: .\solutions\templates\solutions\solution_list.html:60
+#: .\solutions\templates\solutions\solution_list.html:59
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
@@ -520,7 +524,7 @@ msgstr "Новая тема"
 #: .\courses\templates\courses\sheet.html:26
 #: .\courses\templates\courses\standings.html:21
 #: .\courses\templates\courses\standings_wide.html:16
-#: .\problems\templates\problems\tests.html:10
+#: .\problems\templates\problems\tests.html:9
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
 msgid "#"
@@ -598,26 +602,27 @@ msgstr "Настройки"
 #: .\problems\templates\problems\solutions.html:16
 #: .\solutions\templates\solutions\rejudge.html:29
 #: .\solutions\templates\solutions\rejudge_list.html:14
-#: .\solutions\templates\solutions\solution_list.html:30
+#: .\solutions\templates\solutions\solution_list.html:29
 msgid "Author"
 msgstr "Автор"
 
 #: .\courses\templates\courses\solutions.html:33
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
-#: .\solutions\templates\solutions\solution_list.html:31
+#: .\solutions\templates\solutions\solution_list.html:30
 msgid "Time"
 msgstr "Время"
 
 #: .\courses\templates\courses\solutions.html:34
 #: .\problems\templates\problems\files.html:9
 #: .\problems\templates\problems\solutions.html:18
-#: .\solutions\templates\solutions\solution_list.html:32
+#: .\solutions\templates\solutions\solution.html:56
+#: .\solutions\templates\solutions\solution_list.html:31
 msgid "File"
 msgstr "Файл"
 
 #: .\courses\templates\courses\solutions.html:35
 #: .\problems\templates\problems\solutions.html:19
-#: .\solutions\templates\solutions\solution_list.html:33
+#: .\solutions\templates\solutions\solution_list.html:32
 msgid "Status"
 msgstr "Статус"
 
@@ -697,10 +702,12 @@ msgid "full name"
 msgstr "полное название"
 
 #: .\problems\models.py:24
+#: .\problems\templates\problems\irunner_problems_list_tag.html:20
 msgid "short name"
 msgstr "короткое название"
 
 #: .\problems\models.py:25
+#: .\problems\templates\problems\irunner_problems_list_tag.html:21
 msgid "complexity"
 msgstr "уровень сложности"
 
@@ -724,35 +731,35 @@ msgstr "имя выходного файла"
 msgid "folders"
 msgstr "папки"
 
-#: .\problems\models.py:67
+#: .\problems\models.py:70
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:68
+#: .\problems\models.py:71
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:69
+#: .\problems\models.py:72
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
 
-#: .\problems\models.py:70
+#: .\problems\models.py:73
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
-#: .\problems\models.py:71
+#: .\problems\models.py:74
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:72
+#: .\problems\models.py:75
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:73
+#: .\problems\models.py:76
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\problems\models.py:74
+#: .\problems\models.py:77
 msgid "Author's solution"
 msgstr "Авторское решение"
 
@@ -771,6 +778,42 @@ msgstr "Описание"
 #: .\problems\templates\problems\files.html:12
 msgid "Action"
 msgstr "Действие"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:40
+msgid "No problems"
+msgstr "Нет задач"
+
+#: .\problems\templates\problems\irunner_problems_statement_tag.html:19
+msgid "There is no statement for this problem"
+msgstr "В системе нет условия для этой задачи"
+
+#: .\problems\templates\problems\list_base.html:12
+#: .\users\templates\users\base.html:11
+msgid "Folders"
+msgstr "Папки"
+
+#: .\problems\templates\problems\list_base.html:15
+#: .\users\templates\users\base.html:14
+msgid "Search"
+msgstr "Поиск"
+
+#: .\problems\templates\problems\list_folder.html:11
+#: .\problems\templates\problems\list_folder.html:21 .\templates\navbar.html:23
+msgid "Problems"
+msgstr "Задачи"
+
+#: .\problems\templates\problems\list_folder.html:14
+msgid "Alternative view"
+msgstr "Альтернативный вид"
+
+#: .\problems\templates\problems\list_search.html:10
+msgid "Problem search"
+msgstr "Поиск задач"
+
+#: .\problems\templates\problems\list_search.html:16
+#: .\users\templates\users\index.html:16
+msgid "Search for..."
+msgstr "Искать..."
 
 #: .\problems\templates\problems\overview.html:11
 msgid "Main properties"
@@ -797,31 +840,48 @@ msgid "Complexity level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:38
-msgid "Input file name"
-msgstr "Имя входного файла"
+msgid "Input"
+msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:41
-msgid "Output file name"
-msgstr "Имя выходного файла"
+msgid "Output"
+msgstr "Выход"
 
 #: .\problems\templates\problems\overview.html:51
 msgid "Hint"
 msgstr "Подсказка"
 
-#: .\problems\templates\problems\problemstatement_tag.html:19
-msgid "There is no statement for this problem"
-msgstr "В системе нет условия для этой задачи"
+#: .\problems\templates\problems\overview.html:70
+msgid "test"
+msgid_plural "tests"
+msgstr[0] "тест"
+msgstr[1] "теста"
+msgstr[2] "тестов"
+
+#: .\problems\templates\problems\overview.html:87
+msgid "solution"
+msgid_plural "solutions"
+msgstr[0] "решение"
+msgstr[1] "решения"
+msgstr[2] "решений"
+
+#: .\problems\templates\problems\overview.html:104
+msgid "file"
+msgid_plural "files"
+msgstr[0] "файл"
+msgstr[1] "файла"
+msgstr[2] "файлов"
 
 #: .\problems\templates\problems\show_test.html:15
 msgid "Test"
 msgstr "Тест"
 
-#: .\problems\templates\problems\show_test.html:31
+#: .\problems\templates\problems\show_test.html:33
 #: .\solutions\templates\solutions\testcaseresult.html:8
 msgid "Input file"
 msgstr "Входной файл"
 
-#: .\problems\templates\problems\show_test.html:35
+#: .\problems\templates\problems\show_test.html:37
 #: .\solutions\templates\solutions\testcaseresult.html:20
 msgid "Answer file"
 msgstr "Файл правильного ответа"
@@ -834,9 +894,7 @@ msgstr "Условие"
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\problems\templates\problems\sidebar.html:19
-#: .\solutions\templates\solutions\solution_list.html:12
-#: .\templates\navbar.html:24
+#: .\problems\templates\problems\sidebar.html:19 .\templates\navbar.html:24
 msgid "Solutions"
 msgstr "Решения"
 
@@ -845,7 +903,7 @@ msgid "Files"
 msgstr "Файлы"
 
 #: .\problems\templates\problems\solutions.html:17
-#: .\solutions\templates\solutions\solution.html:24
+#: .\solutions\templates\solutions\solution.html:53
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -886,7 +944,7 @@ msgstr "Язык"
 msgid "Legacy?"
 msgstr "Устарел?"
 
-#: .\solutions\forms.py:16 .\solutions\templates\solutions\solution.html:32
+#: .\solutions\forms.py:16 .\solutions\templates\solutions\solution.html:59
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -1031,10 +1089,6 @@ msgstr "Вы уверены, что хотите %(action)s эти решени�
 msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
 
-#: .\solutions\templates\solutions\ilist.html:7
-msgid "List of Solutions"
-msgstr "Список решений"
-
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:73
 msgid "Loading..."
@@ -1069,6 +1123,7 @@ msgid "Outcome"
 msgstr "Вердикт"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
+#: .\solutions\templates\solutions\solution.html:39
 msgid "Score"
 msgstr "Очки"
 
@@ -1106,10 +1161,12 @@ msgid "of solution"
 msgstr "решения"
 
 #: .\solutions\templates\solutions\judgement.html:20
+#: .\solutions\templates\solutions\solution.html:87
 msgid "Test results"
 msgstr "Результаты тестов"
 
 #: .\solutions\templates\solutions\judgement.html:25
+#: .\solutions\templates\solutions\solution.html:75
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
@@ -1131,7 +1188,7 @@ msgid "State"
 msgstr "Состояние"
 
 #: .\solutions\templates\solutions\rejudge.html:28
-#: .\solutions\templates\solutions\solution.html:14
+#: .\solutions\templates\solutions\solution.html:15
 msgid "Solution"
 msgstr "Решение"
 
@@ -1168,21 +1225,29 @@ msgstr "Время создания"
 msgid "Number of solutions"
 msgstr "Количество решений"
 
-#: .\solutions\templates\solutions\solution.html:28
+#: .\solutions\templates\solutions\solution.html:30
+msgid "Input&thinsp;/&thinsp;output"
+msgstr "Ввод&thinsp;/&thinsp;вывод"
+
+#: .\solutions\templates\solutions\solution.html:35
+msgid "Course"
+msgstr "Курс"
+
+#: .\solutions\templates\solutions\solution.html:45
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:54
+#: .\solutions\templates\solutions\solution.html:81
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_list.html:57
+#: .\solutions\templates\solutions\solution_list.html:56
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\solutions\templates\solutions\solution_list.html:68
-#: .\solutions\templates\solutions\solution_list.html:71
+#: .\solutions\templates\solutions\solution_list.html:67
+#: .\solutions\templates\solutions\solution_list.html:70
 msgid "No solutions selected"
 msgstr "Решения не выбраны"
 
@@ -1216,12 +1281,12 @@ msgstr "Стандартный вывод ошибок (stderr)"
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\views.py:230
+#: .\solutions\views.py:173
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
 
-#: .\solutions\views.py:299
+#: .\solutions\views.py:242
 msgid "delete"
 msgstr "удалить"
 
@@ -1316,10 +1381,6 @@ msgstr "Кафедра ДМА ФМПИ БГУ"
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\navbar.html:23
-msgid "Problems"
-msgstr "Задачи"
-
 #: .\templates\navbar.html:26
 msgid "Administration"
 msgstr "Администрирование"
@@ -1404,14 +1465,6 @@ msgstr "последний использованный компилятор"
 msgid "API access"
 msgstr "Доступ к API"
 
-#: .\users\templates\users\base.html:11
-msgid "Folders"
-msgstr "Папки"
-
-#: .\users\templates\users\base.html:14
-msgid "Search"
-msgstr "Поиск"
-
 #: .\users\templates\users\create_form.html:21
 #: .\users\templates\users\delete_folder.html:19
 #, python-format
@@ -1457,12 +1510,12 @@ msgid "Move"
 msgstr "Переместить"
 
 #: .\users\templates\users\folder.html:56
-msgid "There are no users in the folder."
-msgstr "В этой папке нет пользователей."
+msgid "There are no users in the folder"
+msgstr "В этой папке нет пользователей"
 
-#: .\users\templates\users\index.html:15
-msgid "Search for..."
-msgstr "Искать..."
+#: .\users\templates\users\index.html:10
+msgid "User search"
+msgstr "Поиск пользователей"
 
 #: .\users\templates\users\index.html:36
 msgid "No users found."
@@ -1546,6 +1599,15 @@ msgstr "Права доступа"
 #: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "Input file name"
+#~ msgstr "Имя входного файла"
+
+#~ msgid "Output file name"
+#~ msgstr "Имя выходного файла"
+
+#~ msgid "List of Solutions"
+#~ msgstr "Список решений"
 
 #~ msgid "Back"
 #~ msgstr "Назад"
