@@ -16,31 +16,31 @@
     {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
     <p>
         <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">
-            {% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Create folder' %}
+            {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Create folder' %}</span>
         </a>
 
         {% if can_delete_folder %}
             <a class="btn btn-default btn-sm" href="#" role="button">
-                {% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete folder' %}
+                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete folder' %}</span>
             </a>
         {% endif %}
 
         <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_user' folder_id %}" role="button">
-            {% bootstrap_icon 'user' %}&nbsp; {% trans 'Create user' %}
+            {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% trans 'Create user' %}</span>
         </a>
 
         <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_users_mass' folder_id %}" role="button">
-            {% bootstrap_icon 'list' %}&nbsp; {% trans 'Mass registration' %}
+            {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Mass registration' %}</span>
         </a>
 
         {% if has_users %}
 
             <button onclick="irPerformActionOnSelected('{% url 'users:move' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
-                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'transfer' %}&nbsp; {% trans 'Move' %}
+                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span>
             </button>
 
             <button onclick="irPerformActionOnSelected('{% url 'users:delete' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
-                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %}&nbsp; {% trans 'Delete' %}
+                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
             </button>
 
         {% endif %}
@@ -53,7 +53,7 @@
                 {% irunner_users_list object_list pagination_context show_checkbox=True %}
             {% else %}
                 <div class="ir-absence">
-                    {% trans 'There are no users in the folder.' %}
+                    {% trans 'There are no users in the folder' %}
                 </div>
             {% endif %}
         </div>

@@ -10,14 +10,14 @@
     {% bootstrap_form form %}
     {% buttons %}
         <button type="submit" name="save" class="btn btn-default">
-            {% bootstrap_icon 'ok' %} {% trans 'Save' %}
+            {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Save' %}</span>
         </button>
         <a href="{{ cancel_url }}" role="button" class="btn btn-default">
-            {% bootstrap_icon 'remove' %} {% trans 'Cancel' %}
+            {% bootstrap_icon 'remove' %} <span class="ir-icon-label">{% trans 'Cancel' %}</span>
         </a>
         {% if can_delete %}
         <button type="submit" name="delete" class="btn btn-default">
-            {% bootstrap_icon 'trash' %} {% trans 'Delete' %}
+            {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
         </button>
         {% endif %}
     {% endbuttons %}

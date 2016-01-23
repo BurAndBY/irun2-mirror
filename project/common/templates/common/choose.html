@@ -21,10 +21,19 @@
     </div>
     <div class="col-sm-2 text-center">
         <div class="btn-group-vertical">
-            <button type="button" id="add" class="btn btn-default">{% bootstrap_icon 'triangle-right' %} {% trans 'Add' %}</button>
-            <button type="button" id="addAll" class="btn btn-default">{% bootstrap_icon 'forward' %} {% trans 'Add all' %}</button>
-            <button type="button" id="remove" class="btn btn-default">{% bootstrap_icon 'triangle-left' %} {% trans 'Remove' %}</button>
-            <button type="button" id="removeAll" class="btn btn-default">{% bootstrap_icon 'backward' %} {% trans 'Remove all' %}</button>
+            <button type="button" id="add" class="btn btn-default">
+                {% bootstrap_icon 'triangle-right' %} <span class="ir-icon-label">{% trans 'Add' %}</span>
+            </button>
+            <button type="button" id="addAll" class="btn btn-default">
+                {% bootstrap_icon 'forward' %} <span class="ir-icon-label">{% trans 'Add all' %}
+            </button>
+            <button type="button" id="remove" class="btn btn-default">
+                {% bootstrap_icon 'triangle-left' %} <span class="ir-icon-label">{% trans 'Remove' %}
+            </button>
+            <button type="button" id="removeAll" class="btn btn-default">
+                {% bootstrap_icon 'backward' %} <span class="ir-icon-label">
+                {% trans 'Remove all' %}
+            </button>
         </div>
     </div>
     <div class="col-sm-5">

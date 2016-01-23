@@ -110,7 +110,7 @@
     </script>
 {% else %}
     {% if permissions.sheet_edit %}
-        <p>{% bootstrap_icon 'pencil' %} <a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a></p>
+        <p>{% bootstrap_icon 'pencil' %} <span class="ir-icon-label"><a href="{% url 'courses:course_sheet_edit' course.id %}">{% trans 'Edit' %}</a></span></p>
     {% endif %}
 {% endif %}
 

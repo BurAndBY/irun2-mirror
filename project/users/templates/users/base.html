@@ -8,10 +8,10 @@
         <div class="col-md-3">
             <div class="btn-group" role="group" aria-label="...">
                 <a class="btn btn-default{% if active_tab == 'folders' %} active {% endif %}" href="{% url 'users:show_folder' 'root' %}" role="button">
-                    {% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Folders' %}
+                    {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folders' %}</span>
                 </a>
                 <a class="btn btn-default{% if active_tab == 'search' %} active {% endif %}" href="{% url 'users:index' %}" role="button">
-                    {% bootstrap_icon 'search' %}&nbsp; {% trans 'Search' %}
+                    {% bootstrap_icon 'search' %} <span class="ir-icon-label">{% trans 'Search' %}</span>
                 </a>
             </div>
             {% block sidebar %}

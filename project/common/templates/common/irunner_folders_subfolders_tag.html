@@ -8,7 +8,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <small>
                         {% url url_pattern item.folder_id_or_root as the_url %}
-                    <a href="{{ the_url }}">{% bootstrap_icon 'folder-close' %}</a>&nbsp; <a href="{{ the_url }}">{{ item.name }}</a>
+                    <a href="{{ the_url }}">{% bootstrap_icon 'folder-close' %}</a> <span class="ir-icon-label"><a href="{{ the_url }}">{{ item.name }}</a></span>
                     </small>
                 </div>
             {% endfor %}

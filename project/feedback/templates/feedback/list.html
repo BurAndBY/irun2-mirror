@@ -22,14 +22,18 @@
 
             <div class="ir-float-right">
                 {% bootstrap_icon 'time' %}
-                {{ message.when }}
+                <span class="ir-icon-label">{{ message.when }}</span>
                 <a href="{% url 'feedback:delete' message.id %}">{% bootstrap_icon 'remove' %}</a>
             </div>
         </div>
         <div class="panel-body"><div class="ir-data">{{ message.body|urlize }}</div></div>
         {% if message.attachment %}
             <div class="panel-footer">
-                {% trans 'Attachment' %}: {% bootstrap_icon 'paperclip' %} <a href="{% url 'feedback:download' message.id message.attachment.filename %}">{{ message.attachment.filename }}</a> ({{ message.attachment.size|filesizeformat }})
+                {% trans 'Attachment' %}:
+                {% bootstrap_icon 'paperclip' %}
+                <span class="ir-icon-label">
+                    <a href="{% url 'feedback:download' message.id message.attachment.filename %}">{{ message.attachment.filename }}</a> ({{ message.attachment.size|filesizeformat }})
+                </span>
             </div>
         {% endif %}
     </div>

@@ -4,26 +4,26 @@
 <div class="list-group">
     <a href="{% url 'problems:overview' problem.id %}" class="list-group-item list-group-item-warning ir-list-group-item-warning{% if active_tab == 'overview' %} active{% endif %}">
         {% bootstrap_icon 'info-sign' %}
-        {% trans 'Problem' %} {{ problem.numbered_full_name }}
+        <span class="ir-icon-label">{% trans 'Problem' %} {{ problem.numbered_full_name }}</span>
     </a>
     <a href="{% url 'problems:statement' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'statement' %} active{% endif %}">
         {% bootstrap_icon 'file' %} 
-        {% trans 'Statement' %} 
+        <span class="ir-icon-label">{% trans 'Statement' %}</span>
     </a>
     <a href="{% url 'problems:tests' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'tests' %} active{% endif %}">
         {% bootstrap_icon 'list-alt' %} 
-        {% trans 'Tests' %} 
+        <span class="ir-icon-label">{% trans 'Tests' %}</span>
     </a>
     <a href="{% url 'problems:solutions' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'solutions' %} active{% endif %}">
         {% bootstrap_icon 'tasks' %} 
-        {% trans 'Solutions' %} 
+        <span class="ir-icon-label">{% trans 'Solutions' %}</span>
     </a>
     <a href="{% url 'problems:files' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'files' %} active{% endif %}">
         {% bootstrap_icon 'paperclip' %} 
-        {% trans 'Files' %} 
+        <span class="ir-icon-label">{% trans 'Files' %}</span>
     </a>
     <a href="{% url 'problems:submit' problem.id %}" class="list-group-item ir-list-group-item-warning{% if active_tab == 'submit' %} active{% endif %}">
         {% bootstrap_icon 'send' %} 
-        {% trans 'Submit solution' %} 
+        <span class="ir-icon-label">{% trans 'Submit solution' %}</span>
     </a>
 </div>
