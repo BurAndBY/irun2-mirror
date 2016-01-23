@@ -3,9 +3,9 @@
 {% load staticfiles %}
 {% load i18n %}
 
-{% get_current_language as LANGUAGE_CODE %}
-
 {% block content %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 <script>
 var irSourceData = {{ tree_data|safe }};
@@ -16,7 +16,7 @@ function setFolderHeader(json) {
 
     var id = json["id"];
     if (id) {
-        var urlMask = "{% url 'problems:show_folder' 12345 %}".replace(/12345/, id);
+        var urlMask = "{% url 'problems:show_tree_folder' 12345 %}".replace(/12345/, id);
         history.pushState({}, name, urlMask);
     }
 }
@@ -42,7 +42,7 @@ $(document).ready(function() {
 
     fancyTree.bind("fancytreeactivate", function(event, data) {
         var node = data.node;
-        var urlMask = "{% url 'problems:show_folder_json' 12345 %}".replace(/12345/, node.key.toString());
+        var urlMask = "{% url 'problems:show_tree_folder_json' 12345 %}".replace(/12345/, node.key.toString());
         $("#datatable").dataTable().api().ajax.url(urlMask).load(setFolderHeader);
     });
 });

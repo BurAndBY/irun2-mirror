@@ -6,14 +6,17 @@
 {% block content %}
     <div class="row">
         <div class="col-md-3">
-            <div class="btn-group" role="group" aria-label="...">
-                <a class="btn btn-default{% if active_tab == 'folders' %} active {% endif %}" href="{% url 'problems:show_folder' 'root' %}" role="button">
-                    {% bootstrap_icon 'folder-open' %}&nbsp; {% trans 'Folders' %}
-                </a>
-                <a class="btn btn-default{% if active_tab == 'search' %} active {% endif %}" href="{% url 'problems:search' %}" role="button">
-                    {% bootstrap_icon 'search' %}&nbsp; {% trans 'Search' %}
-                </a>
+            <div class="ir-folders-search">
+                <div class="btn-group" role="group" aria-label="...">
+                    <a class="btn btn-default{% if active_tab == 'folders' %} active {% endif %}" href="{% url 'problems:show_folder' 'root' %}">
+                        {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folders' %}</span>
+                    </a>
+                    <a class="btn btn-default{% if active_tab == 'search' %} active {% endif %}" href="{% url 'problems:search' %}">
+                        {% bootstrap_icon 'search' %} <span class="ir-icon-label">{% trans 'Search' %}</span>
+                    </a>
+                </div>
             </div>
+
             {% block sidebar %}
             {% endblock %}
         </div>

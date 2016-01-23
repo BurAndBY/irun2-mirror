@@ -9,6 +9,11 @@
 
 {% block sidebar %}
     {% trans "Problems" as root_name %}
+
+    <p>
+        <a href="{% url 'problems:show_tree' %}">{% trans 'Alternative view' %}</a>
+    </p>
+
     {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
 {% endblock %}
 

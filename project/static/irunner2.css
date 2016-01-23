@@ -119,6 +119,10 @@ h3 { font-size: 20px; line-height: 32px; }
     vertical-align: middle;
 }
 
+.ir-icon-label {
+    margin-left: 0.2em;
+}
+
 .ir-data {
     white-space: pre;
     word-wrap: normal;
@@ -744,4 +748,8 @@ Yellow menu
 
 .ir-subgroup-label {
     color: #ccc;
+}
+
+.ir-folders-search {
+    margin-bottom: 10px;
 }

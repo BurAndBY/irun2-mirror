@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "problems/base.html" %}
 
 {% load i18n %}
 {% load irunner_storage %}
 
-{% block content %}
+{% block main %}
 
 <nav>
-    <ul class="pagination">
+    <ul class="pagination ir-pagination-no-margin">
         <li>
             <a href="{% url 'problems:show_test' problem_id prev_test %}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -23,7 +23,9 @@
 
 {% if description %}
     <h3>{% trans 'Description' %}</h3>
-    {{ description }}
+    <div>
+        {{ description }}
+    </div>
 {% endif %}
 
 <div class="row">

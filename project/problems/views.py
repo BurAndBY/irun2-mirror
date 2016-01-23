@@ -1,70 +1,34 @@
-from django.shortcuts import render
-
-from django.shortcuts import get_object_or_404, render, render_to_response
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.core.urlresolvers import reverse
-from django.views import generic
-from django.views.generic import View
-from django.shortcuts import redirect
-from storage.storage import create_storage
-from django.http import StreamingHttpResponse
-from django.utils.translation import ugettext as _
-from django.db import transaction
-from django.http import Http404
-from common.folderutils import lookup_node_ex, cast_id
-from django.db.models import Q
-from common.pageutils import paginate
-
+import json
+import mimetypes
 import operator
 import re
-import json
+
+from django.core.urlresolvers import reverse
+from django.db import transaction
+from django.db.models import Q
+from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views import generic
+
 from mptt.templatetags.mptt_tags import cache_tree_children
 
-from forms import ProblemSearchForm
-from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
-from .forms import ProblemForm
-from solutions.forms import SolutionForm
-
-from .filters import ProblemFilter
-import mimetypes
-
-from .texrenderer import TeXRenderer
-
-from .statement import StatementRepresentation
-import storage.utils as fsutils
+from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
+from common.pageutils import paginate
 from common.views import IRunnerBaseListView, IRunnerListView, StaffMemberRequiredMixin
+from solutions.forms import SolutionForm
+from storage.storage import create_storage
+from storage.utils import serve_resource
 import solutions.utils
 
-
-# Create your views here.
-class IndexView(generic.ListView):
-    template_name = 'problems/index.html'
-    context_object_name = 'latest_question_list'
-
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Problem.objects.all()
+from .forms import ProblemForm, ProblemSearchForm
+from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
+from .statement import StatementRepresentation
+from .texrenderer import TeXRenderer
 
 
-def problem_list(request):
-    f = ProblemFilter(request.GET, queryset=Problem.objects.all())
-    return render_to_response('problems/index.html', {'filter': f})
-
-
-class ProblemFormNewView(View):
-    template_name = 'problems/edit.html'
-
-    def get(self, request, *args, **kwargs):
-        form = ProblemForm()
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = ProblemForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('problems:index'))
-
-        return render(request, self.template_name, {'form': form})
+'''
+Problem statement
+'''
 
 
 class ProblemStatementMixin(object):
@@ -80,7 +44,7 @@ class ProblemStatementMixin(object):
 
         related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, name=filename)
         mime_type, encoding = mimetypes.guess_type(filename)
-        return fsutils.serve_resource(request, related_file.resource_id, content_type=mime_type)
+        return serve_resource(request, related_file.resource_id, content_type=mime_type)
 
     def make_statement(self, problem):
         related_files = problem.problemrelatedfile_set.all()
@@ -116,85 +80,62 @@ class ProblemStatementMixin(object):
         return st
 
 
-def show_test(request, problem_id, test_number):
-    problem_id = int(problem_id)
-    test_number = int(test_number)
-
-    storage = create_storage()
-    test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
-    total_tests = TestCase.objects.filter(problem_id=problem_id).count()
-
-    input_repr = storage.represent(test_case.input_resource_id)
-    answer_repr = storage.represent(test_case.answer_resource_id)
-
-    return render(request, 'problems/show_test.html', {
-        'problem_id': problem_id,
-        'current_test': test_number,
-        'prev_test': test_number - 1 if test_number > 1 else total_tests,
-        'next_test': test_number + 1 if test_number < total_tests else 1,
-        'total_tests': total_tests,
-        'input_repr': input_repr,
-        'answer_repr': answer_repr,
-        'description': test_case.description,
-    })
+'''
+Alternative folder tree
+'''
 
 
-def recursive_node_to_dict(node):
-    result = {
-        'key': node.pk,
-        'title': node.name,
-        'folder': True,
-    }
-    children = [recursive_node_to_dict(c) for c in node.get_children()]
-    if children:
-        result['children'] = children
-    return result
+class FancyTreeMixin(object):
+    @staticmethod
+    def _list_folders():
+        root_nodes = cache_tree_children(ProblemFolder.objects.all())
+        dicts = []
+        for n in root_nodes:
+            dicts.append(_fancytree_recursive_node_to_dict(n))
+
+        return json.dumps(dicts)
+
+    @staticmethod
+    def _list_folder_contents(folder_id):
+        problems = Problem.objects.filter(folders__id=folder_id)
+        result = [[str(p.id), p.full_name] for p in problems]
+        return result
 
 
-def _list_folders():
-    root_nodes = cache_tree_children(ProblemFolder.objects.all())
-    dicts = []
-    for n in root_nodes:
-        dicts.append(recursive_node_to_dict(n))
-
-    return json.dumps(dicts)
-
-
-def _list_folder_contents(folder_id):
-    #lb = int(folder_id) * 1000
-    #ub = (int(folder_id) + 1) * 1000
-    #problems = Problem.objects.filter(id__gte=lb, id__lt=ub)
-    problems = Problem.objects.filter(folders__id=folder_id)
-    result = [[str(p.id), p.full_name] for p in problems]
-    return result
+class ShowTreeView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
+    def get(self, request):
+        tree_data = self._list_folders()
+        return render(request, 'problems/tree.html', {
+            'tree_data': tree_data
+        })
 
 
-def show_tree(request):
-    tree_data = _list_folders()
-    return render(request, 'problems/tree.html', {
-        'tree_data': tree_data
-    })
+class ShowTreeFolderView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
+    def get(self, request, folder_id):
+        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+        tree_data = self._list_folders()
+        return render(request, 'problems/tree.html', {
+            'tree_data': tree_data,
+            'cur_folder_id': folder.id,
+            'cur_folder_name': folder.name,
+            'table_data': json.dumps(self._list_folder_contents(folder_id))
+        })
 
 
-def show_folder(request, folder_id):
-    folder = get_object_or_404(ProblemFolder, pk=folder_id)
-    tree_data = _list_folders()
-    return render(request, 'problems/tree.html', {
-        'tree_data': tree_data,
-        'cur_folder_id': folder.id,
-        'cur_folder_name': folder.name,
-        'table_data': json.dumps(_list_folder_contents(folder_id))
-    })
+class ShowTreeFolderJsonView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
+    def get(self, request, folder_id):
+        folder = ProblemFolder.objects.filter(pk=folder_id).first()
+        name = folder.name if folder is not None else ''
+        data = self._list_folder_contents(folder_id)
+        return JsonResponse({'id': folder_id, 'name': name, 'data': data}, safe=True)
 
 
-def show_folder_json(request, folder_id):
-    folder = ProblemFolder.objects.filter(pk=folder_id).first()
-    name = folder.name if folder is not None else ''
-    data = _list_folder_contents(folder_id)
-    return JsonResponse({'id': folder_id, 'name': name, 'data': data}, safe=True)
+'''
+Single problem management
+'''
 
 
-class BaseProblemView(generic.View):
+class BaseProblemView(StaffMemberRequiredMixin, generic.View):
     tab = None
 
     def _load(self, problem_id):
@@ -292,6 +233,35 @@ class ProblemTestsView(BaseProblemView):
         test_cases = problem.testcase_set.all()
 
         context = self._make_context(problem, {'test_cases': test_cases})
+        return render(request, self.template_name, context)
+
+
+class ProblemTestsTestView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/show_test.html'
+
+    def get(self, request, problem_id, test_number):
+        problem = self._load(problem_id)
+        problem_id = int(problem_id)
+        test_number = int(test_number)
+
+        storage = create_storage()
+        test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
+        total_tests = TestCase.objects.filter(problem_id=problem_id).count()
+
+        input_repr = storage.represent(test_case.input_resource_id)
+        answer_repr = storage.represent(test_case.answer_resource_id)
+
+        context = self._make_context(problem, {
+            'problem_id': problem_id,
+            'current_test': test_number,
+            'prev_test': test_number - 1 if test_number > 1 else total_tests,
+            'next_test': test_number + 1 if test_number < total_tests else 1,
+            'total_tests': total_tests,
+            'input_repr': input_repr,
+            'answer_repr': answer_repr,
+            'description': test_case.description,
+        })
         return render(request, self.template_name, context)
 
 
