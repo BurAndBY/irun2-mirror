@@ -30,13 +30,37 @@ class SolutionAccessLevel(object):
 
 class SolutionPermissions(object):
     def __init__(self):
-        self.tests_data = True
-        self.checker_messages = True
-        self.source_code = True
-        self.compilation_log = True
-        self.results = True
-        self.judgements = True
+        self.state = False
+        self.compilation_log = False
+        self.source_code = False
+        self.results = False
+        self.checker_messages = False
+        self.tests_data = False
 
-    @staticmethod
-    def all():
-        return SolutionPermissions()
+        # special permissions that are not included into the levels above
+        self.judgements = False
+        self.ip_address = False
+
+    def update(self, level):
+        if level >= SolutionAccessLevel.STATE:
+            self.state = True
+
+        if level >= SolutionAccessLevel.COMPILATION_LOG:
+            self.compilation_log = True
+
+        if level >= SolutionAccessLevel.SOURCE_CODE:
+            self.source_code = True
+
+        if level >= SolutionAccessLevel.TESTING_DETAILS:
+            self.results = True
+
+        if level >= SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES:
+            self.checker_messages = True
+
+        if level >= SolutionAccessLevel.TESTING_DETAILS_TEST_DATA:
+            self.tests_data = True
+
+    def set_all(self):
+        self.update(SolutionAccessLevel.FULL)
+        self.judgements = True
+        self.ip_address = True

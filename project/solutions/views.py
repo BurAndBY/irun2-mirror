@@ -10,7 +10,8 @@ from django.utils.translation import ugettext_lazy, pgettext_lazy
 from django.views import generic
 
 from common.pageutils import paginate
-from common.views import LoginRequiredMixin, MassOperationView
+from common.views import LoginRequiredMixin, MassOperationView, StaffMemberRequiredMixin
+from courses.permissions import calculate_course_solution_access_level
 from proglangs.models import Compiler
 from proglangs.utils import get_highlightjs_class
 from storage.storage import create_storage
@@ -18,7 +19,7 @@ from storage.utils import serve_resource, serve_resource_metadata
 
 from .forms import AllSolutionsFilterForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
-from .permissions import SolutionPermissions
+from .permissions import SolutionPermissions, SolutionAccessLevel
 
 
 class TestCaseResultMixin(object):
@@ -55,7 +56,7 @@ All solutions list
 '''
 
 
-class SolutionListView(generic.View):
+class SolutionListView(StaffMemberRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/solution_list.html'
 
@@ -118,7 +119,7 @@ Judgement
 '''
 
 
-class JudgementView(generic.View):
+class JudgementView(StaffMemberRequiredMixin, generic.View):
     template_name = 'solutions/judgement.html'
 
     def get(self, request, judgement_id):
@@ -138,7 +139,7 @@ class JudgementView(generic.View):
         })
 
 
-class JudgementTestCaseResultView(TestCaseResultMixin, generic.View):
+class JudgementTestCaseResultView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
     template_name = 'solutions/testcaseresult.html'
 
     def get(self, request, judgement_id, testcaseresult_id):
@@ -146,7 +147,7 @@ class JudgementTestCaseResultView(TestCaseResultMixin, generic.View):
         return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:judgement_testdata', judgement_id)
 
 
-class JudgementTestCaseResultDataView(TestCaseResultMixin, generic.View):
+class JudgementTestCaseResultDataView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
     def get(self, request, judgement_id, testcaseresult_id, mode):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
         return self.serve_testcaseresult_data(request, mode, testcaseresult)
@@ -157,14 +158,14 @@ Rejudge
 '''
 
 
-class RejudgeListView(generic.ListView):
+class RejudgeListView(StaffMemberRequiredMixin, generic.ListView):
     template_name = 'solutions/rejudge_list.html'
 
     def get_queryset(self):
         return Rejudge.objects.all().annotate(num_judgements=Count('judgement')).order_by('-creation_time', '-id')
 
 
-class CreateRejudgeView(MassOperationView):
+class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'solutions/confirm_multiple.html'
 
     def get_context_data(self, **kwargs):
@@ -189,7 +190,7 @@ class CreateRejudgeView(MassOperationView):
 RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
 
 
-class RejudgeView(generic.View):
+class RejudgeView(StaffMemberRequiredMixin, generic.View):
     template_name = 'solutions/rejudge.html'
 
     def get(self, request, rejudge_id):
@@ -233,7 +234,7 @@ Mass delete
 '''
 
 
-class DeleteSolutionsView(MassOperationView):
+class DeleteSolutionsView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'solutions/confirm_multiple.html'
 
     def get_context_data(self, **kwargs):
@@ -251,53 +252,106 @@ class DeleteSolutionsView(MassOperationView):
 '''
 Single solution
 '''
+# course/contest the solution belongs to
+SolutionEnvironment = namedtuple('SolutionEnvironment', 'course')
+
+
+def calculate_permissions(solution, user):
+    level = SolutionAccessLevel.NO_ACCESS
+
+    # course
+    in_course = calculate_course_solution_access_level(solution, user)
+    level = max(level, in_course.level)
+
+    # contest
+    # TODO when contests are ready
+
+    permissions = SolutionPermissions()
+    permissions.update(level)
+
+    if user.is_staff:
+        permissions.set_all()
+
+    return (permissions, SolutionEnvironment(in_course.course))
 
 
 class BaseSolutionView(LoginRequiredMixin, generic.View):
     tab = None
+    with_related = True
 
-    def _load(self, request, solution_id):
-        solution = get_object_or_404(Solution, pk=solution_id)
-        permissions = SolutionPermissions()
-        return solution, permissions
+    def _load_solution(self, solution_id):
+        if self.with_related:
+            queryset = Solution.objects.\
+                select_related('compiler').\
+                select_related('best_judgement').\
+                select_related('problem').\
+                select_related('source_code')
+        else:
+            queryset = Solution.objects
+
+        return get_object_or_404(queryset, pk=solution_id)
 
     def _require(self, value):
         if not value:
             raise PermissionDenied()
 
-    def _make_context(self, solution, permissions, extra=None):
+    def get_context_data(self, **kwargs):
         context = {
-            'solution': solution,
-            'solution_permissions': permissions,
+            'solution': self.solution,
+            'solution_environment': self.environment,
+            'solution_permissions': self.permissions,
             'active_tab': self.tab,
         }
-        if extra is not None:
-            context.update(extra)
+        context.update(**kwargs)
         return context
 
     def get(self, request, solution_id, *args, **kwargs):
-        self.solution, self.permissions = self._load(request, solution_id)
-        result = self.do_get(request, self.solution, self.permissions, *args, **kwargs)
+        self.solution = self._load_solution(solution_id)
+        self.permissions, self.environment = calculate_permissions(self.solution, request.user)
+
+        result = self.do_checked_get(request, self.solution, *args, **kwargs)
         return result
 
-    def do_get(self, *args, **kwargs):
+    def do_checked_get(self, *args, **kwargs):
+        if not self.is_allowed(self.permissions):
+            raise PermissionDenied()
+        return self.do_get(*args, **kwargs)
+
+    '''
+    methods that must be implemented
+    '''
+
+    def is_allowed(self, permissions):
         raise NotImplementedError()
+
+    def do_get(self, request, solution, *args, **kwargs):
+        raise NotImplementedError()
+
+
+class SolutionEmptyView(BaseSolutionView):
+    template_name = 'solutions/solution.html'
+
+    def is_allowed(self, permissions):
+        return permissions.state
+
+    def do_get(self, request, solution):
+        return render(request, self.template_name, self.get_context_data())
 
 
 class SolutionSourceView(BaseSolutionView):
     tab = 'source'
     template_name = 'solutions/solution_source.html'
 
-    def do_get(self, request, solution, permissions):
-        self._require(permissions.source_code)
+    def is_allowed(self, permissions):
+        return permissions.source_code
 
+    def do_get(self, request, solution):
         storage = create_storage()
         source_repr = storage.represent(solution.source_code.resource_id)
 
-        context = self._make_context(solution, permissions, {
-            'language': get_highlightjs_class(solution.compiler.language),
-            'source_repr': source_repr,
-        })
+        context = self.get_context_data()
+        context['language'] = get_highlightjs_class(solution.compiler.language)
+        context['source_repr'] = source_repr
         return render(request, self.template_name, context)
 
 
@@ -305,14 +359,12 @@ class SolutionTestsView(BaseSolutionView):
     tab = 'tests'
     template_name = 'solutions/solution_tests.html'
 
-    def do_get(self, request, solution, permissions):
-        self._require(permissions.results)
+    def is_allowed(self, permissions):
+        return permissions.results
 
+    def do_get(self, request, solution):
         test_results = solution.best_judgement.testcaseresult_set.all()
-
-        context = self._make_context(solution, permissions, {
-            'test_results': test_results
-        })
+        context = self.get_context_data(test_results=test_results)
         return render(request, self.template_name, context)
 
 
@@ -320,12 +372,12 @@ class SolutionJudgementsView(BaseSolutionView):
     tab = 'judgements'
     template_name = 'solutions/solution_judgements.html'
 
-    def do_get(self, request, solution, permissions):
-        self._require(permissions.judgements)
+    def is_allowed(self, permissions):
+        return permissions.judgements
 
-        context = self._make_context(solution, permissions, {
-            'judgements': solution.judgement_set.all()
-        })
+    def do_get(self, request, solution):
+        judgements = solution.judgement_set.all()
+        context = self.get_context_data(judgements=judgements)
         return render(request, self.template_name, context)
 
 
@@ -333,9 +385,10 @@ class SolutionLogView(BaseSolutionView):
     tab = 'log'
     template_name = 'solutions/solution_log.html'
 
-    def do_get(self, request, solution, permissions):
-        self._require(permissions.compilation_log)
+    def is_allowed(self, permissions):
+        return permissions.compilation_log
 
+    def do_get(self, request, solution):
         log_repr = None
 
         if solution.best_judgement is not None:
@@ -344,39 +397,52 @@ class SolutionLogView(BaseSolutionView):
                 storage = create_storage()
                 log_repr = storage.represent(judgementlog.resource_id)
 
-        context = self._make_context(solution, permissions, {
-            'log_repr': log_repr
-        })
+        context = self.get_context_data(log_repr=log_repr)
         return render(request, self.template_name, context)
 
 
 class SolutionMainView(BaseSolutionView):
-    def do_get(self, request, solution, permissions):
+    def _get_class(self, request, solution, permissions):
         judgement = solution.best_judgement
-
-        cls = None
-
-        if cls is None and permissions.results:
+        if permissions.results:
             if judgement is not None:
                 test_results_count = judgement.testcaseresult_set.count()
                 if test_results_count > 0:
-                    cls = SolutionTestsView
+                    return SolutionTestsView
 
-        if cls is None and permissions.compilation_log:
+        if permissions.compilation_log:
             if judgement is not None:
-                cls = SolutionLogView
+                return SolutionLogView
 
-        if cls is None and permissions.source_code:
-            cls = SolutionSourceView
+        if permissions.source_code:
+            return SolutionSourceView
 
+        if permissions.state:
+            return SolutionEmptyView
+
+    def do_checked_get(self, *args, **kwargs):
+        cls = self._get_class(self.request, self.solution, self.permissions)
         if cls is None:
             raise PermissionDenied()
-
-        return cls().do_get(request, solution, permissions)
+        # make a copy of self, but use specific class
+        instance = cls(
+            request=self.request,
+            solution=self.solution,
+            environment=self.environment,
+            permissions=self.permissions,
+            args=self.args,
+            kwargs=self.kwargs
+        )
+        return instance.do_checked_get(*args, **kwargs)
 
 
 class SolutionStatusJsonView(BaseSolutionView):
-    def do_get(self, request, solution, permissions):
+    with_related = False
+
+    def is_allowed(self, permissions):
+        return permissions.state
+
+    def do_get(self, request, solution):
         judgement = solution.best_judgement
         if judgement is not None:
             data = {
@@ -393,40 +459,54 @@ class SolutionStatusJsonView(BaseSolutionView):
         return JsonResponse(data)
 
 
-class SolutionSourceOpenView(generic.View):
-    def get(self, request, solution_id, filename):
-        solution = get_object_or_404(Solution, pk=solution_id)
+class BaseSolutionSourceCodeView(BaseSolutionView):
+    '''
+    Open/download source code
+    '''
+    with_related = False
+
+    def is_allowed(self, permissions):
+        return permissions.source_code
+
+
+class SolutionSourceOpenView(BaseSolutionSourceCodeView):
+    def do_get(self, request, solution, filename):
         if filename != solution.source_code.filename:
             raise Http404()
 
         return serve_resource(request, solution.source_code.resource_id, 'text/plain')
 
 
-class SolutionSourceDownloadView(generic.View):
-    def get(self, request, solution_id, filename):
-        solution = get_object_or_404(Solution, pk=solution_id)
+class SolutionSourceDownloadView(BaseSolutionSourceCodeView):
+    def do_get(self, request, solution, filename):
         if filename != solution.source_code.filename:
             raise Http404()
 
         return serve_resource_metadata(request, solution.source_code, force_download=True)
 
 
-class SolutionTestCaseResultView(TestCaseResultMixin, generic.View):
-    template_name = 'solutions/testcaseresult.html'
+class BaseSolutionTestDataView(BaseSolutionView):
+    '''
+    View test data
+    '''
+    with_related = False
 
-    def get(self, request, solution_id, testcaseresult_id):
-        solution = get_object_or_404(Solution, pk=solution_id)
-        if solution.best_judgement is None:
+    def is_allowed(self, permissions):
+        return permissions.tests_data
+
+
+class SolutionTestCaseResultView(TestCaseResultMixin, BaseSolutionTestDataView):
+    def do_get(self, request, solution, testcaseresult_id):
+        if solution.best_judgement_id is None:
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
         return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:test_data', solution.id)
 
 
-class SolutionTestCaseResultDataView(TestCaseResultMixin, generic.View):
-    def get(self, request, solution_id, testcaseresult_id, mode):
-        solution = get_object_or_404(Solution, pk=solution_id)
-        if solution.best_judgement is None:
+class SolutionTestCaseResultDataView(TestCaseResultMixin, BaseSolutionTestDataView):
+    def do_get(self, request, solution, testcaseresult_id, mode):
+        if solution.best_judgement_id is None:
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)

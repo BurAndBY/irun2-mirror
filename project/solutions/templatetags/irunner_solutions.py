@@ -39,7 +39,7 @@ def _get_style(outcome, code):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def irunner_solutions_judgementbox(judgement, tooltip=True):
+def irunner_solutions_judgementbox(judgement, tooltip=False):
     '''
     Displays judgement state.
 
@@ -66,8 +66,15 @@ def irunner_solutions_judgementbox(judgement, tooltip=True):
     return context
 
 
+def _find_in_choices(choices, what):
+    for pair in choices:
+        if pair[0] == what:
+            return pair[1]
+    return u''
+
+
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def irunner_solutions_outcomebox(outcome):
+def irunner_solutions_outcomebox(outcome, tooltip=False):
     '''
     Displays outcome for a single test.
 
@@ -80,6 +87,7 @@ def irunner_solutions_outcomebox(outcome):
         context = {
             'code': code,
             'style': _get_style(outcome, code),
+            'tooltip': _find_in_choices(Outcome.CHOICES, outcome)
         }
     return context
 
