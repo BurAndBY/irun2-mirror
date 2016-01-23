@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.http import Http404
 from django.http import StreamingHttpResponse
 
+from rest_framework import permissions
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.exceptions import NotFound
@@ -18,7 +20,19 @@ import workerinteract
 #
 
 
-class FileStatusView(APIView):
+class WorkerTokenPermission(permissions.BasePermission):
+    message = 'Correct Worker Token HTTP header is required.'
+
+    def has_permission(self, request, view):
+        token = request.META.get('HTTP_WORKER_TOKEN')
+        return token == settings.WORKER_TOKEN
+
+
+class WorkerAPIView(APIView):
+    permission_classes = (WorkerTokenPermission,)
+
+
+class FileStatusView(WorkerAPIView):
     '''
     Pass HTTP GET request with id query params.
 
@@ -38,7 +52,7 @@ class FileStatusView(APIView):
         return Response(result, status=status.HTTP_200_OK)
 
 
-class FileView(APIView):
+class FileView(WorkerAPIView):
     parser_classes = (FileUploadParser,)
 
     def put(self, request, filename, format=None):
@@ -73,7 +87,7 @@ class FileView(APIView):
 #
 
 
-class JobTakeView(APIView):
+class JobTakeView(WorkerAPIView):
     def get(self, request, format=None):
         return self.post(request, format)
 
@@ -88,7 +102,7 @@ class JobTakeView(APIView):
         return Response(serializer.data)
 
 
-class JobPutResult(APIView):
+class JobPutResult(WorkerAPIView):
     def put(self, request, job_id, format=None):
         serializer = WorkerTestingReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -98,7 +112,7 @@ class JobPutResult(APIView):
         return Response(['ok'])
 
 
-class JobPutState(APIView):
+class JobPutState(WorkerAPIView):
     def put(self, request, job_id, format=None):
         serializer = WorkerStateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

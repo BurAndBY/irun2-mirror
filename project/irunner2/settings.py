@@ -189,3 +189,5 @@ LOGIN_URL = '/login/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year
+
+WORKER_TOKEN = 'abacaba'
