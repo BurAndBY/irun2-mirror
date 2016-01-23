@@ -1,34 +1,24 @@
 from collections import namedtuple
 
-from django.shortcuts import render, redirect
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
-from django.views import generic
-from django.core.files.base import ContentFile
-from django.shortcuts import get_object_or_404, render, render_to_response
 from django.db import transaction
 from django.db.models import Count
-from django.template import RequestContext
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy, pgettext_lazy
-
-from .forms import AdHocForm, AllSolutionsFilterForm
-from .models import AdHocRun, Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
-from .actions import enqueue_new
-from .tables import SolutionTable
-from .permissions import SolutionPermissions
-from common.views import LoginRequiredMixin
-from table.views import FeedDataView
-
-from storage.storage import ResourceId, create_storage
-from storage.utils import serve_resource, serve_resource_metadata
-from proglangs.models import Compiler
+from django.views import generic
 
 from common.pageutils import paginate
-from common.views import IRunnerListView, MassOperationView
+from common.views import LoginRequiredMixin, MassOperationView
+from proglangs.models import Compiler
 from proglangs.utils import get_highlightjs_class
-from django.http import Http404
+from storage.storage import create_storage
+from storage.utils import serve_resource, serve_resource_metadata
+
+from .forms import AllSolutionsFilterForm
+from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
+from .permissions import SolutionPermissions
 
 
 class TestCaseResultMixin(object):
@@ -58,54 +48,6 @@ class TestCaseResultMixin(object):
         }.get(mode)
 
         return serve_resource(request, resource_id, 'text/plain')
-
-
-class AdHocView(generic.View):
-    template_name = 'solutions/ad_hoc.html'
-
-    def get(self, request, *args, **kwargs):
-        form = AdHocForm()
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = AdHocForm(request.POST)
-        judgement_id = None
-
-        if form.is_valid():
-
-            storage = create_storage()
-            f = ContentFile(form.cleaned_data['input_data'].encode('utf-8'))
-            resource_id = storage.save(f)
-
-            run = AdHocRun(
-                resource_id=resource_id,
-                input_file_name='input.txt',
-                output_file_name='output.txt',
-                time_limit=2000,
-                memory_limit=0,
-            )
-
-            run.save()
-
-            f = ContentFile(form.cleaned_data['source_code'].encode('utf-8'))
-            resource_id = storage.save(f)
-
-            solution = Solution(
-                ad_hoc_run=run,
-                resource_id=resource_id,
-                compiler=form.cleaned_data['compiler'],
-                filename='',
-            )
-
-            solution.save()
-
-            judjement = enqueue_new(solution)
-            judgement_id = judjement.id
-
-            #form.save()
-            #return HttpResponseRedirect(reverse('problems:index'))
-
-        return render(request, self.template_name, {'form': form, 'judgement_id': judgement_id})
 
 
 '''
