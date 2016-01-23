@@ -3,7 +3,6 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load irunner_messagebox %}
-{% load irunner_users %}
 
 <html>
     <head>
@@ -40,68 +39,8 @@
     </head>
     <body>
         {% block allbody %}
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{% url 'home' %}">{{ system_short_name }}</a>
-                </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <!--
-                            <li><a href="#">Solutions</a></li>
-                            <li><a href="#">Link</a></li>
-                        -->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
-                                <li><a href="{% url 'feedback:list' %}">{% trans 'View Feedback' %}</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{% url 'courses:index' %}">{% trans 'Courses' %}</a></li>
-                        {% if user.is_staff %}
-                            <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
-                        {% endif %}
-                        <li></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> {% irunner_users_show user %}</a></li>
-                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> {% trans 'Logout' %}</a></li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>
-                        {% endif %}
-                        <li>
-                                {% get_current_language as LANGUAGE_CODE %}
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                <form class="ir-lang-fake-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
-                                    <input name="language" type="hidden" value="{{ language.code }}" />
-                                    <input type="submit" value="{{ language.code }}" title="{{ language.name_local }}" {% if language.code == LANGUAGE_CODE %} disabled="disabled"{% endif %} class="btn btn-link btn-xs" />
-                                </form>
-                                {% endfor %}
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container -->
-        </nav>
+        {% include 'navbar.html' %}
 
         <div class="container">
         {% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password and not disable_change_password_warning %}

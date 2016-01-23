@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load i18n %}
+
+{% block content %}
+
+    <h1>{% trans 'Storage statistics' %}</h1>
+
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Resource count' %}</dt>
+        <dd>{{ total_count|intcomma }}</dd>
+        <dt>{% trans 'Total size' %}</dt>
+        <dd>{{ total_size|filesizeformat }}</dd>
+    </dl>
+
+    <h3>{% trans 'The largest resources' %}</h3>
+    <ul>
+    {% for name, size in top_list %}
+        <li>
+            <a href="{% url 'storage:show' name %}"><span class="ir-monospace">{{ name }}</span></a>
+            <span class="ir-file-size">[{{ size|filesizeformat }}]</span>
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

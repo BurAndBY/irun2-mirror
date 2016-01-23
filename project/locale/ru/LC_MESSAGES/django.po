@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-23 01:32+0300\n"
-"PO-Revision-Date: 2016-01-23 01:33+0300\n"
+"POT-Creation-Date: 2016-01-23 03:14+0300\n"
+"PO-Revision-Date: 2016-01-23 03:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:110
+#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:49
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\base.html:87
+#: .\cauth\templates\registration\login.html:21 .\templates\navbar.html:42
 msgid "Login"
 msgstr "Вход"
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:130
+#: .\common\templates\common\about.html:6 .\templates\base.html:69
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -196,7 +196,7 @@ msgid "Topic:"
 msgstr "Тема:"
 
 #: .\courses\forms.py:94 .\courses\templates\courses\settings_base.html:22
-#: .\templates\base.html:78 .\users\templates\users\create_form.html:8
+#: .\templates\navbar.html:22 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
 #: .\users\templates\users\folder.html:10
@@ -384,7 +384,7 @@ msgstr "Новый курс"
 msgid "Create"
 msgstr "Создать"
 
-#: .\courses\templates\courses\course_list.html:7 .\templates\base.html:76
+#: .\courses\templates\courses\course_list.html:7 .\templates\navbar.html:21
 msgid "Courses"
 msgstr "Курсы"
 
@@ -399,6 +399,7 @@ msgstr "Новый критерий"
 
 #: .\courses\templates\courses\criterion_list.html:8
 #: .\courses\templates\courses\settings_topics.html:26
+#: .\templates\navbar.html:31
 msgid "Criteria"
 msgstr "Критерии"
 
@@ -431,7 +432,7 @@ msgid "Topics"
 msgstr "Темы"
 
 #: .\courses\templates\courses\settings_base.html:16
-#: .\proglangs\templates\proglangs\index.html:8
+#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:30
 msgid "Compilers"
 msgstr "Компиляторы"
 
@@ -762,7 +763,7 @@ msgstr "Тип"
 #: .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\overview.html:47
 #: .\problems\templates\problems\show_test.html:25
-#: .\proglangs\templates\proglangs\index.html:15
+#: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:27
 msgid "Description"
 msgstr "Описание"
@@ -835,6 +836,7 @@ msgstr "Тесты"
 
 #: .\problems\templates\problems\sidebar.html:19
 #: .\solutions\templates\solutions\solution_list.html:12
+#: .\templates\navbar.html:24
 msgid "Solutions"
 msgstr "Решения"
 
@@ -868,21 +870,21 @@ msgstr "язык"
 msgid "compiler is considered legacy"
 msgstr "компилятор считается устаревшим"
 
-#: .\proglangs\templates\proglangs\index.html:14
+#: .\proglangs\templates\proglangs\index.html:11
+msgid "New compiler"
+msgstr "Новый компилятор"
+
+#: .\proglangs\templates\proglangs\index.html:18
 msgid "String identifier"
 msgstr "Строковый идентификатор"
 
-#: .\proglangs\templates\proglangs\index.html:16
+#: .\proglangs\templates\proglangs\index.html:20
 msgid "Language"
 msgstr "Язык"
 
-#: .\proglangs\templates\proglangs\index.html:17
+#: .\proglangs\templates\proglangs\index.html:21
 msgid "Legacy?"
 msgstr "Устарел?"
-
-#: .\proglangs\templates\proglangs\index.html:34
-msgid "New compiler"
-msgstr "Новый компилятор"
 
 #: .\solutions\forms.py:16 .\solutions\templates\solutions\solution.html:32
 msgid "Compiler"
@@ -1154,6 +1156,7 @@ msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
 #: .\solutions\templates\solutions\rejudge_list.html:8
+#: .\templates\navbar.html:28
 msgid "Rejudges"
 msgstr "Перетестирования"
 
@@ -1226,17 +1229,26 @@ msgstr "удалить"
 msgid "Enter text here"
 msgstr "Введите текст здесь"
 
-#: .\storage\templates\storage\index.html:6
+#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:32
 msgid "File storage"
 msgstr "Хранилище файлов"
 
-#: .\storage\templates\storage\index.html:8
+#: .\storage\templates\storage\index.html:9
 msgid "This is internal debug page."
 msgstr "Это внутренняя отладочная страница."
 
-#: .\storage\templates\storage\index.html:10
+#: .\storage\templates\storage\index.html:11
 msgid "You can get access to any resource by its id:"
 msgstr "Вы можете получить доступ к любому ресурсу по его идентификатору:"
+
+#: .\storage\templates\storage\index.html:16
+msgid "Upload new resource"
+msgstr "Загрузить новый ресурс"
+
+#: .\storage\templates\storage\index.html:18
+#: .\storage\templates\storage\statistics.html:8
+msgid "Storage statistics"
+msgstr "Статистика хранения"
 
 #: .\storage\templates\storage\irunner_storage_show_tag.html:6
 msgid ""
@@ -1280,25 +1292,45 @@ msgstr "В кодировке UTF-8"
 msgid "Has BOM"
 msgstr "Имеет BOM"
 
-#: .\templates\base.html:73
-msgid "View Feedback"
-msgstr "Просмотр сообщений обратной связи"
+#: .\storage\templates\storage\statistics.html:11
+msgid "Resource count"
+msgstr "Число ресурсов"
 
-#: .\templates\base.html:85
-msgid "Logout"
-msgstr "Выход"
+#: .\storage\templates\storage\statistics.html:13
+msgid "Total size"
+msgstr "Общий размер"
 
-#: .\templates\base.html:110
+#: .\storage\templates\storage\statistics.html:17
+msgid "The largest resources"
+msgstr "Самые большие ресурсы"
+
+#: .\templates\base.html:49
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:128
+#: .\templates\base.html:67
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\templates\base.html:131
+#: .\templates\base.html:70
 msgid "Feedback"
 msgstr "Обратная связь"
+
+#: .\templates\navbar.html:23
+msgid "Problems"
+msgstr "Задачи"
+
+#: .\templates\navbar.html:26
+msgid "Administration"
+msgstr "Администрирование"
+
+#: .\templates\navbar.html:29
+msgid "View Feedback"
+msgstr "Просмотр сообщений обратной связи"
+
+#: .\templates\navbar.html:40
+msgid "Logout"
+msgstr "Выход"
 
 #: .\users\forms.py:27
 msgid "Folder name"

@@ -7,17 +7,21 @@
 
 <h1>{% trans 'Compilers' %}</h1>
 
+<p>
+    <a href="{% url 'proglangs:create' %}">{% trans 'New compiler' %}</a>
+</p>
+
 <table class="table">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>{% trans 'String identifier' %}</th>
-			<th>{% trans 'Description' %}</th>
-			<th>{% trans 'Language' %}</th>
-			<th>{% trans 'Legacy?' %}</th>
-		</tr>
-	</thead>
-	<tbody>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>{% trans 'String identifier' %}</th>
+            <th>{% trans 'Description' %}</th>
+            <th>{% trans 'Language' %}</th>
+            <th>{% trans 'Legacy?' %}</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for compiler in compilers %}
         <tr {% if compiler.legacy %} class="active" {% endif %}>
             <td>{{ compiler.id }}</td>
@@ -27,11 +31,7 @@
             <td>{{ compiler.legacy|yesno }}</td>
         </tr>
     {% endfor %}
-	</tbody>
+    </tbody>
 </table>
-
-<p>
-	<a href="{% url 'proglangs:create' %}">{% trans 'New compiler' %}</a>
-</p>
 
 {% endblock %}

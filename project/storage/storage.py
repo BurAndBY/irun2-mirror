@@ -206,6 +206,13 @@ class IDataStorage(object):
     def check_availability(self, resource_ids):
         raise NotImplementedError()
 
+    def list_all(self):
+        '''
+        Generates tuples (resource_id, size) for each stored file.
+        Slow, used for debugging only.
+        '''
+        raise NotImplementedError()
+
 
 class FileSystemStorage(IDataStorage):
     def __init__(self, directory):
@@ -213,10 +220,15 @@ class FileSystemStorage(IDataStorage):
         if not os.path.exists(directory):
             os.mkdir(directory)
 
-            for x in range(256):
-                subdir = os.path.join(directory, binascii.b2a_hex(chr(x)))
+            for subdir in FileSystemStorage._list_subdirectory_names(directory):
                 if not os.path.exists(subdir):
                     os.mkdir(subdir)
+
+    @staticmethod
+    def _list_subdirectory_names(directory):
+        for x in range(256):
+            subdir = os.path.join(directory, binascii.b2a_hex(chr(x)))
+            yield subdir
 
     def _get_path(self, resource_id):
         s = str(resource_id)
@@ -312,6 +324,13 @@ class FileSystemStorage(IDataStorage):
 
     def check_availability(self, resource_ids):
         return [self._is_exist(resource_id) for resource_id in resource_ids]
+
+    def list_all(self):
+        for subdir in FileSystemStorage._list_subdirectory_names(self._directory):
+            assert os.path.isdir(subdir)
+            for filename in os.listdir(subdir):
+                path = os.path.join(subdir, filename)
+                yield (ResourceId.parse(filename), os.path.getsize(path))
 
 
 def create_storage():
