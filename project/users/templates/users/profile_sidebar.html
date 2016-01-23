@@ -3,8 +3,8 @@
 
 {% load irunner_users %}
 
-<div class="list-group ir-list-group-users">
-    <a href="{% url 'users:profile_show' edited_user.id %}" class="list-group-item{% if active_tab == 'show' %} active{% endif %}">
+<div class="list-group ir-list-group-danger">
+    <a href="{% url 'users:profile_show' edited_user.id %}" class="list-group-item list-group-item-danger{% if active_tab == 'show' %} active{% endif %}">
         {% bootstrap_icon 'user' %}
         <span class="ir-icon-label">{% irunner_users_show edited_user %}</span>
     </a>

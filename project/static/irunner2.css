@@ -506,19 +506,10 @@ h3 { font-size: 20px; line-height: 32px; }
 /*
 Yellow menu
 */
-.ir-list-group-item-warning.active,
-.ir-list-group-item-warning.active:hover,
-.ir-list-group-item-warning.active:focus {
-  text-shadow: 0 -1px 0 #c78f41;
-  background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #c78f41 100%);
-  background-image:      -o-linear-gradient(top, #f0ad4e 0%, #c78f41 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f0ad4e), to(#c78f41));
-  background-image:         linear-gradient(to bottom, #f0ad4e 0%, #c78f41 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffc78f41', GradientType=0);
-  background-repeat: repeat-x;
-  border-color: #c78f41;
+.ir-list-group-warning .active, .ir-list-group-warning .active:hover, .ir-list-group-warning .active:focus {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
 }
-
 
 .ir-huge {
     font-size: 40px;
@@ -687,22 +678,12 @@ Yellow menu
 
 
 /**
- * Custom ir-list-group
+ * Red menu
  */
-.ir-list-group-users > a.active,
-.ir-list-group-users > a.active:hover,
-.ir-list-group-users > a.active:focus {
-    text-shadow: 0 -1px 0 #b54542;
-    background-image: -webkit-linear-gradient(top, #d9534f 0%, #b54542 100%);
-    background-image:    -moz-linear-gradient(top, #d9534f 0%, #b54542 100%);
-    background-image:      -o-linear-gradient(top, #d9534f 0%, #b54542 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#d9534f), to(#b54542));
-    background-image:         linear-gradient(to bottom, #d9534f 0%, #b54542 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffb54542', GradientType=0);
-    background-repeat: repeat-x;
-    border-color: #b54542;
+.ir-list-group-danger .active, .ir-list-group-danger .active:hover, .ir-list-group-danger .active:focus {
+    background-color: #d9534f;
+    border-color: #d9534f;
 }
-
 
 /*
  * No objects message
