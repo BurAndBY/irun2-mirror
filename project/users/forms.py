@@ -3,6 +3,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
 
 from mptt.forms import TreeNodeChoiceField
 
@@ -27,7 +28,7 @@ class CreateFolderForm(forms.Form):
     name = forms.CharField(label=_('Folder name'), widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))
 
 
-class CreateUserForm(auth.forms.UserCreationForm):
+class CreateUserForm(UserCreationForm):
     pass
 
 

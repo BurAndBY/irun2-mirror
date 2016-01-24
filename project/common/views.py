@@ -1,17 +1,12 @@
-from django import forms
-from django.contrib import auth
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.http import JsonResponse, Http404
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from mptt.forms import TreeNodeChoiceField
-
 from courses.models import Course
-from problems.models import Problem, ProblemFolder
 
 
 def home(request):
@@ -25,28 +20,6 @@ def home(request):
 
 def about(request):
     return render(request, 'common/about.html', {})
-
-
-def make_folder_selection_form(Object, ObjectFolder):
-    class ObjectForm(forms.Form):
-        folders = TreeNodeChoiceField(queryset=ObjectFolder.objects.all(),
-                                      widget=forms.Select(attrs={'class': 'form-control'}))
-    return ObjectForm
-
-
-def choose(request):
-    ProblemForm = make_folder_selection_form(Problem, ProblemFolder)
-    form = ProblemForm()
-    return render(request, 'common/choose.html', {'form': form})
-
-
-def listf(request, folder_id):
-    #problems = Problem.objects.filter(folders__id=folder_id)
-    problems = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
-    #data = [{'id': p.id, 'name': p.full_name} for p in problems]
-    data = [{'id': p.id, 'name': p.get_full_name()} for p in problems]
-
-    return JsonResponse({'data': data}, safe=True)
 
 
 class IRunnerPaginationContext(object):
