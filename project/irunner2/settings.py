@@ -39,24 +39,26 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'rest_framework',
+
+    # external apps
     'bootstrap3',
+    'debug_toolbar',
+    'django_js_reverse',
     'mptt',
-    'problems',
-    'storage',
-    'proglangs',
-    'solutions',
+    'rest_framework',
+    'widget_tweaks',
+
+    # irunner2 apps
     'api',
+    'cauth',
     'common',
     'courses',
-    'users',
     'feedback',
-    'cauth',
-    'django_js_reverse',
-    'table',
-    'django_tables2',
-    'widget_tweaks',
-    'debug_toolbar',
+    'problems',
+    'proglangs',
+    'solutions',
+    'storage',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
