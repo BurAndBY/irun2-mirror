@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from django.db import transaction
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.timezone import make_aware
 
 from common.irunner_import import connect_irunner_db, fetch_irunner_file
 from common.memory_string import parse_memory
 from solutions.models import Solution, Judgement, Outcome, TestCaseResult
-from problems.models import Problem
+from problems.models import Problem, TestCase
 from storage.storage import create_storage
 from storage.models import FileMetadata
 
@@ -67,12 +68,12 @@ def _get_memory_limit(db, problem_id):
     return parse_memory(row[0]) if (row and row[0]) else 0
 
 
-def _fetch_test_results(db, storage, logger, problem, solution_id):
-    memory_limit = _get_memory_limit(db, problem.id) if problem is not None else 0
+def _fetch_test_results(db, storage, logger, problem_id, solution_id):
+    memory_limit = _get_memory_limit(db, problem_id)
 
     cur = db.cursor()
 
-    test_ids = set(problem.testcase_set.values_list('id', flat=True)) if problem is not None else set()
+    test_ids = set(TestCase.objects.filter(problem_id=problem_id).values_list('id', flat=True))
 
     cur.execute('''SELECT testResultID, errorType, irunner_testresult.testID,
                           memoryUsed, exitCode, checkerStr,
@@ -110,10 +111,13 @@ class Command(BaseCommand):
         db = connect_irunner_db()
         storage = create_storage()
 
-        cur = db.cursor()
-        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime, senderIP FROM irunner_solution WHERE solutionID > 10000')
+        present_users = set(get_user_model().objects.all().values_list('id', flat=True))
+        present_problems = set(Problem.objects.all().values_list('id', flat=True))
 
-        for row in cur.fetchall()[:1000]:
+        cur = db.cursor()
+        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime, senderIP, userID FROM irunner_solution WHERE solutionID')
+
+        for row in cur.fetchall():
             solution_id = row[0]
             problem_id = row[1]
             compiler_id = row[2]
@@ -121,11 +125,18 @@ class Command(BaseCommand):
             irunner_state = row[4]
             reception_time = row[5]
             sender_ip = row[6]
+            user_id = row[7]
 
             logger.info('Importing solution %d...', solution_id)
 
-            problem = Problem.objects.filter(id=problem_id).first()
-            if problem is None:
+            if not user_id:
+                logger.warning('Solution %d has %s user set', solution_id, user_id)
+                continue
+            if user_id not in present_users:
+                logger.warning('Solution %d has user %d that does not exist', solution_id, user_id)
+                continue
+
+            if problem_id not in present_problems:
                 logger.warning('Solution belongs to problem %d that does not exist', problem_id)
                 problem_id = None
 
@@ -151,6 +162,7 @@ class Command(BaseCommand):
                     'compiler_id': compiler_id,
                     'reception_time': make_aware(reception_time),
                     'ip_address': sender_ip,
+                    'author_id': user_id,
                 })
 
                 judgement, _ = Judgement.objects.update_or_create(id=solution_id, defaults={
@@ -163,4 +175,4 @@ class Command(BaseCommand):
                 solution.best_judgement = judgement
                 solution.save()
 
-                _fetch_test_results(db, storage, logger, problem, solution_id)
+                _fetch_test_results(db, storage, logger, problem_id, solution_id)

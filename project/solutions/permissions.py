@@ -64,3 +64,9 @@ class SolutionPermissions(object):
         self.update(SolutionAccessLevel.FULL)
         self.judgements = True
         self.ip_address = True
+
+    @staticmethod
+    def all():
+        permissions = SolutionPermissions()
+        permissions.set_all()
+        return permissions
