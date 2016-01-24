@@ -1,11 +1,11 @@
-import tex2html
+from django.utils.html import escape
 
 # for strings passed to external library
 TEX2HTML_ENCODING = 'utf-8'
 
 
 class TeXRenderer(object):
-    IMAGE_PATH = '/fIpZ6d9gT5GYgPFox3cO/'
+    IMAGE_PATH = u'/fIpZ6d9gT5GYgPFox3cO/'
 
     def __init__(self):
         self.tex_source = ''
@@ -32,9 +32,15 @@ class TeXRenderer(object):
         )
         end = u'\n\\end{problem}\n'
 
-        src = (begin + self.tex_source + end).encode(TEX2HTML_ENCODING)
-        dst, log = tex2html.convert(src)
-        dst, log = dst.decode(TEX2HTML_ENCODING), log.decode(TEX2HTML_ENCODING)
+        src = (begin + self.tex_source + end)
+
+        try:
+            import tex2html
+            src = src.encode(TEX2HTML_ENCODING)
+            dst, log = tex2html.convert(src)
+            dst, log = dst.decode(TEX2HTML_ENCODING), log.decode(TEX2HTML_ENCODING)
+        except ImportError as e:
+            dst, log = ('<pre>' + escape(src) + '</pre>'), unicode(e)
 
         dst = dst.replace(TeXRenderer.IMAGE_PATH, '')
         return (dst, log)
