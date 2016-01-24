@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APPEND_SLASH = True
 
 # Application definition
 
@@ -104,6 +105,11 @@ DATABASES = {
 }
 
 
+# File storage
+
+STORAGE_DIR = os.path.join(BASE_DIR, os.pardir, 'filestorage')
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -117,6 +123,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('en', 'English'),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -127,7 +141,17 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-APPEND_SLASH = True
+# Authentication
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year
+
+WORKER_TOKEN = 'abacaba'
+
+# External applications configuration
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -144,6 +168,8 @@ REST_FRAMEWORK = {
 BOOTSTRAP3 = {
     'set_placeholder': False
 }
+
+# Logging
 
 LOGGING = {
     'version': 1,
@@ -174,20 +200,3 @@ LOGGING = {
         },
     }
 }
-
-LANGUAGES = (
-    ('ru', 'Russian'),
-    ('en', 'English'),
-)
-
-LOCALE_PATHS = (
-    'c:\\Users\\sobols\\Documents\\Programming\\irunner2\\project\\locale\\',
-)
-
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year
-
-WORKER_TOKEN = 'abacaba'

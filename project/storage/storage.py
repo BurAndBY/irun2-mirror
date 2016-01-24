@@ -3,6 +3,7 @@ import hashlib
 import os
 import tempfile
 
+from django.conf import settings
 from django.core.files.base import File
 from django.core.servers.basehttp import FileWrapper
 from django.db import models
@@ -334,4 +335,4 @@ class FileSystemStorage(IDataStorage):
 
 
 def create_storage():
-    return FileSystemStorage('c:\\temp\\out2')
+    return FileSystemStorage(settings.STORAGE_DIR)
