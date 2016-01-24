@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils.timezone import make_aware
 
 from common.irunner_import import connect_irunner_db, import_tree
 from users.models import UserFolder, UserProfile
@@ -39,6 +40,10 @@ def process_user(user_folders, row):
             email = None
     user.email = email or ''
 
+    last_login = row[9]
+    if last_login:
+        user.last_login = make_aware(last_login)
+
     user.clean_fields()
     user.clean()
 
@@ -46,10 +51,7 @@ def process_user(user_folders, row):
     userprofile.user_id = user_id
     userprofile.patronymic = row[4] or ''
     userprofile.description = row[8] or ''
-
-    folder_id = user_folders.get(user_id)
-
-    userprofile.folder_id = folder_id
+    userprofile.folder_id = user_folders.get(user_id)
     userprofile.clean_fields(exclude=['user'])
     userprofile.clean()
 
@@ -79,7 +81,7 @@ class Command(BaseCommand):
             folder_id, user_id = row[0], row[1]
             user_folders[user_id] = folder_id  # choose last if there are many folders
 
-        cur.execute('SELECT userID, login, password, firstName, middleName, lastName, removed, email, description, userGroupID FROM katrin_user WHERE userID > 0')
+        cur.execute('SELECT userID, login, password, firstName, middleName, lastName, removed, email, description, lastLogin FROM katrin_user WHERE userID > 0')
 
         for row in cur.fetchall():
             try:
