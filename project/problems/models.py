@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from storage.storage import ResourceIdField
-from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import ugettext_lazy as _
+
+from mptt.models import MPTTModel, TreeForeignKey
+
+from proglangs.models import Compiler
+from storage.models import FileMetadataBase
+from storage.storage import ResourceIdField
 
 
 class ProblemFolder(MPTTModel):
@@ -56,40 +60,56 @@ class ProblemExtraInfo(models.Model):
     hint = models.TextField(_('hint'), blank=True)  # private
 
 
-class ProblemRelatedFile(models.Model):
-    USER_FILE = 222
-    GENERATOR = 218
-    STATEMENT_HTML = 212
+class ProblemRelatedFile(FileMetadataBase):
     STATEMENT_TEX = 211
-    LIBRARY = 219
-    CHECKER = 216
+    STATEMENT_HTML = 212
+    ADDITIONAL_STATEMENT_FILE = 213
     SOLUTION_DESCRIPTION = 214
-    AUTHORS_SOLUTION = 215
+    SAMPLE_INPUT_FILE = 220
+    SAMPLE_OUTPUT_FILE = 221
+    USER_FILE = 222
 
     FILE_TYPE_CHOICES = (
-        (USER_FILE, _('User file')),
-        (GENERATOR, _('Generator')),
-        (STATEMENT_HTML, _('HTML statement')),
         (STATEMENT_TEX, _('TeX statement')),
-        (LIBRARY, _('Library')),
-        (CHECKER, _('Checker')),
+        (STATEMENT_HTML, _('HTML statement')),
+        (ADDITIONAL_STATEMENT_FILE, _('Additional statement file')),
         (SOLUTION_DESCRIPTION, _('Solution description')),
-        (AUTHORS_SOLUTION, _('Author\'s solution')),
+        (SAMPLE_INPUT_FILE, _('Sample input file')),
+        (SAMPLE_OUTPUT_FILE, _('Sample output file')),
+        (USER_FILE, _('User file')),
     )
 
     problem = models.ForeignKey(Problem)
-    file_type = models.IntegerField(choices=FILE_TYPE_CHOICES, default=USER_FILE)
-    is_public = models.BooleanField(default=False)
-    name = models.CharField(max_length=100)
-    size = models.IntegerField()
-    description = models.TextField()
-    resource_id = ResourceIdField()
+    file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
+    description = models.TextField(_('description'))
+
+
+class ProblemRelatedSourceFile(FileMetadataBase):
+    AUTHORS_SOLUTION = 215
+    CHECKER = 216
+    CONTESTANT_SOLUTION = 217
+    GENERATOR = 218
+    LIBRARY = 219
+
+    FILE_TYPE_CHOICES = (
+        (AUTHORS_SOLUTION, _('Author\'s solution')),
+        (CHECKER, _('Checker')),
+        (CONTESTANT_SOLUTION, _('Contestant solution')),
+        (GENERATOR, _('Generator')),
+        (LIBRARY, _('Library')),
+    )
+
+    # null for global checkers
+    problem = models.ForeignKey(Problem, null=True)
+    file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
+    description = models.TextField(_('description'))
+    compiler = models.ForeignKey(Compiler, verbose_name=_('compiler'))
 
 
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem)
     ordinal_number = models.PositiveIntegerField(default=0)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     input_resource_id = ResourceIdField()
     input_size = models.IntegerField(default=0)

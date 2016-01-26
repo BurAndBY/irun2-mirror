@@ -17,7 +17,7 @@ from common.pageutils import paginate
 from common.views import IRunnerBaseListView, IRunnerListView, StaffMemberRequiredMixin
 from solutions.forms import SolutionForm
 from storage.storage import create_storage
-from storage.utils import serve_resource
+from storage.utils import serve_resource, serve_resource_metadata
 import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm
@@ -42,7 +42,7 @@ class ProblemStatementMixin(object):
     def serve_aux_file(self, request, problem_id, filename):
         filename = ProblemStatementView._normalize(filename)
 
-        related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, name=filename)
+        related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, filename=filename)
         mime_type, encoding = mimetypes.guess_type(filename)
         return serve_resource(request, related_file.resource_id, content_type=mime_type)
 
@@ -57,7 +57,7 @@ class ProblemStatementMixin(object):
 
             if ft == ProblemRelatedFile.STATEMENT_HTML:
                 if html_statement_name is None:
-                    html_statement_name = related_file.name
+                    html_statement_name = related_file.filename
 
             elif ft == ProblemRelatedFile.STATEMENT_TEX:
                 if tex_statement_resource_id is None:
@@ -273,9 +273,21 @@ class ProblemFilesView(BaseProblemView):
         problem = self._load(problem_id)
 
         related_files = problem.problemrelatedfile_set.all()
+        related_source_files = problem.problemrelatedsourcefile_set.all().prefetch_related('compiler')
 
-        context = self._make_context(problem, {'related_files': related_files})
+        context = self._make_context(problem, {
+            'related_files': related_files,
+            'related_source_files': related_source_files,
+        })
         return render(request, self.template_name, context)
+
+
+class ProblemFilesFileOpenView(BaseProblemView):
+    def get(self, request, problem_id, file_id, filename):
+        problem = self._load(problem_id)
+
+        related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id, filename=filename)
+        return serve_resource_metadata(request, related_file)
 
 
 class ProblemSubmitView(BaseProblemView):

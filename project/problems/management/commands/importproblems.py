@@ -9,8 +9,9 @@ from django.db import transaction
 
 from common.memory_string import parse_memory
 from common.irunner_import import connect_irunner_db
-from problems.models import Problem, ProblemExtraInfo, ProblemRelatedFile, ProblemFolder
+from problems.models import Problem, ProblemExtraInfo, ProblemRelatedFile, ProblemRelatedSourceFile, ProblemFolder
 from storage.storage import create_storage
+from storage.utils import store_with_metadata
 
 
 def int_or_none(obj):
@@ -64,8 +65,8 @@ class Command(BaseCommand):
 
         storage = create_storage()
 
-        with transaction.atomic():
-            for row in cur.fetchall():
+        for row in cur.fetchall():
+            with transaction.atomic():
                 task_id = int(row[0])
                 logger.info('Importing problem %d...', task_id)
 
@@ -125,7 +126,7 @@ class Command(BaseCommand):
 
                 # extra info
                 if description:
-                    ProblemExtraInfo.objects.create(problem=problem, description=description)
+                    ProblemExtraInfo.objects.update_or_create(problem_id=problem.id, defaults={'description': description})
 
                 folder = ProblemFolder.objects.filter(id=folder_id).first()
                 if folder is not None:
@@ -136,24 +137,32 @@ class Command(BaseCommand):
                     tc.save()
 
                 subc = db.cursor()
-                subc.execute('''SELECT taskFileID, flag, name, fileTypeID, data, description
+                subc.execute('''SELECT taskFileID, languageID, name, fileTypeID, data, description
                     FROM irunner_taskfile JOIN katrin_file ON irunner_taskfile.fileID = katrin_file.fileID
                     WHERE taskID = %s''', (task_id,))
 
                 for subrow in subc:
                     #print task_id, subrow
                     task_file_id = int(subrow[0])
+                    compiler_id = subrow[1]
+                    file_type = subrow[3]
+                    description = subrow[5] or ''
 
                     data = subrow[4]
+                    filename = subrow[2]
                     resource_id = storage.save(ContentFile(data))
 
-                    related_file, created = ProblemRelatedFile.objects.update_or_create(id=task_file_id, defaults={
+                    defaults = {
                         'problem': problem,
-                        'file_type': subrow[3],
-                        'is_public': (subrow[1] != 1),
-                        'name': subrow[2],
-                        'size': len(data),
-                        'description': subrow[5] or '',
-                        'resource_id': resource_id
-                        })
-                    related_file.save()
+                        'file_type': file_type,
+                        'description': description,
+                        'filename': filename,
+                        'resource_id': resource_id,
+                        'size': len(data)
+                    }
+
+                    if compiler_id:
+                        defaults['compiler_id'] = compiler_id
+                        ProblemRelatedSourceFile.objects.update_or_create(id=task_file_id, defaults=defaults)
+                    else:
+                        ProblemRelatedFile.objects.update_or_create(id=task_file_id, defaults=defaults)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-24 01:40+0300\n"
-"PO-Revision-Date: 2016-01-24 01:42+0300\n"
+"POT-Creation-Date: 2016-01-26 20:11+0300\n"
+"PO-Revision-Date: 2016-01-26 20:12+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -115,26 +115,6 @@ msgstr ""
 msgid "Source code"
 msgstr "Исходный код"
 
-#: .\common\templates\common\choose.html:25
-#: .\common\templates\common\twopanelselectmultiple_widget.html:22
-msgid "Add"
-msgstr "Добавить"
-
-#: .\common\templates\common\choose.html:28
-#: .\common\templates\common\twopanelselectmultiple_widget.html:23
-msgid "Add all"
-msgstr "Добавить всё"
-
-#: .\common\templates\common\choose.html:31
-#: .\common\templates\common\twopanelselectmultiple_widget.html:24
-msgid "Remove"
-msgstr "Удалить"
-
-#: .\common\templates\common\choose.html:35
-#: .\common\templates\common\twopanelselectmultiple_widget.html:25
-msgid "Remove all"
-msgstr "Удалить всё"
-
 #: .\common\templates\common\error403.html:8
 msgid "Access denied."
 msgstr "Доступ запрещён."
@@ -168,6 +148,22 @@ msgstr "Все"
 #: .\common\templates\common\twopanelselectmultiple_widget.html:11
 msgid "Loading"
 msgstr "Загрузка"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:22
+msgid "Add"
+msgstr "Добавить"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:23
+msgid "Add all"
+msgstr "Добавить всё"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:24
+msgid "Remove"
+msgstr "Удалить"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:25
+msgid "Remove all"
+msgstr "Удалить всё"
 
 #: .\courses\forms.py:22
 msgid "Each access level includes all the previous onces."
@@ -258,8 +254,9 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:84 .\problems\models.py:27 .\proglangs\models.py:29
-#: .\users\models.py:16 .\users\models.py:27
+#: .\courses\models.py:84 .\problems\models.py:59 .\problems\models.py:84
+#: .\problems\models.py:105 .\proglangs\models.py:29 .\users\models.py:16
+#: .\users\models.py:27
 msgid "description"
 msgstr "описание"
 
@@ -495,7 +492,7 @@ msgstr "Нет подгрупп."
 msgid "New subgroup"
 msgstr "Новая подгруппа"
 
-#: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:117
+#: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:118
 msgid "Folder"
 msgstr "Папка"
 
@@ -613,7 +610,8 @@ msgid "Time"
 msgstr "Время"
 
 #: .\courses\templates\courses\solutions.html:34
-#: .\problems\templates\problems\files.html:9
+#: .\problems\templates\problems\files.html:10
+#: .\problems\templates\problems\files.html:29
 #: .\problems\templates\problems\solutions.html:18
 #: .\solutions\templates\solutions\solution.html:56
 #: .\solutions\templates\solutions\solution_list.html:31
@@ -689,95 +687,118 @@ msgstr "Спасибо!"
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
 
-#: .\problems\models.py:21
+#: .\problems\models.py:22
 msgid "number"
 msgstr "номер"
 
-#: .\problems\models.py:22
+#: .\problems\models.py:23
 msgid "subnumber"
 msgstr "подномер"
 
-#: .\problems\models.py:23
+#: .\problems\models.py:24
 msgid "full name"
 msgstr "полное название"
 
-#: .\problems\models.py:24
+#: .\problems\models.py:25
 #: .\problems\templates\problems\irunner_problems_list_tag.html:20
 msgid "short name"
 msgstr "короткое название"
 
-#: .\problems\models.py:25
+#: .\problems\models.py:26
 #: .\problems\templates\problems\irunner_problems_list_tag.html:21
 msgid "complexity"
 msgstr "уровень сложности"
 
-#: .\problems\models.py:26
-msgid "where the problem was offered"
-msgstr "где задача была предложена"
-
 #: .\problems\models.py:28
-msgid "hint"
-msgstr "подсказка"
-
-#: .\problems\models.py:30
 msgid "input file name"
 msgstr "имя входного файла"
 
-#: .\problems\models.py:31
+#: .\problems\models.py:29
 msgid "output file name"
 msgstr "имя выходного файла"
 
-#: .\problems\models.py:33
+#: .\problems\models.py:31
 msgid "folders"
 msgstr "папки"
 
-#: .\problems\models.py:70
-msgid "User file"
-msgstr "Файл пользователя"
-
-#: .\problems\models.py:71
-msgid "Generator"
-msgstr "Генератор"
-
-#: .\problems\models.py:72
-msgid "HTML statement"
-msgstr "Условие в формате HTML"
+#: .\problems\models.py:60
+msgid "hint"
+msgstr "подсказка"
 
 #: .\problems\models.py:73
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
 #: .\problems\models.py:74
-msgid "Library"
-msgstr "Библиотека"
+msgid "HTML statement"
+msgstr "Условие в формате HTML"
 
 #: .\problems\models.py:75
-msgid "Checker"
-msgstr "Программа проверки"
+msgid "Additional statement file"
+msgstr "Дополнительный файл условия"
 
 #: .\problems\models.py:76
 msgid "Solution description"
 msgstr "Описание решения"
 
 #: .\problems\models.py:77
+msgid "Sample input file"
+msgstr "Пример входного файла"
+
+#: .\problems\models.py:78
+msgid "Sample output file"
+msgstr "Пример выходного файла"
+
+#: .\problems\models.py:79
+msgid "User file"
+msgstr "Файл пользователя"
+
+#: .\problems\models.py:83 .\problems\models.py:104
+msgid "file type"
+msgstr "тип файла"
+
+#: .\problems\models.py:95
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\templates\problems\files.html:10
+#: .\problems\models.py:96
+msgid "Checker"
+msgstr "Программа проверки"
+
+#: .\problems\models.py:97
+msgid "Contestant solution"
+msgstr "Решение участника"
+
+#: .\problems\models.py:98
+msgid "Generator"
+msgstr "Генератор"
+
+#: .\problems\models.py:99
+msgid "Library"
+msgstr "Библиотека"
+
+#: .\problems\models.py:106 .\solutions\forms.py:70
+msgid "compiler"
+msgstr "компилятор"
+
+#: .\problems\templates\problems\files.html:11
+#: .\problems\templates\problems\files.html:30
 msgid "Type"
 msgstr "Тип"
 
-#: .\problems\templates\problems\files.html:11
-#: .\problems\templates\problems\overview.html:47
+#: .\problems\templates\problems\files.html:12
+#: .\problems\templates\problems\files.html:31
+#: .\problems\templates\problems\overview.html:49
 #: .\problems\templates\problems\show_test.html:25
 #: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:27
 msgid "Description"
 msgstr "Описание"
 
-#: .\problems\templates\problems\files.html:12
-msgid "Action"
-msgstr "Действие"
+#: .\problems\templates\problems\files.html:32 .\solutions\forms.py:16
+#: .\solutions\templates\solutions\solution.html:59
+msgid "Compiler"
+msgstr "Компилятор"
 
 #: .\problems\templates\problems\irunner_problems_list_tag.html:40
 msgid "No problems"
@@ -847,25 +868,25 @@ msgstr "Вход"
 msgid "Output"
 msgstr "Выход"
 
-#: .\problems\templates\problems\overview.html:51
+#: .\problems\templates\problems\overview.html:53
 msgid "Hint"
 msgstr "Подсказка"
 
-#: .\problems\templates\problems\overview.html:70
+#: .\problems\templates\problems\overview.html:74
 msgid "test"
 msgid_plural "tests"
 msgstr[0] "тест"
 msgstr[1] "теста"
 msgstr[2] "тестов"
 
-#: .\problems\templates\problems\overview.html:87
+#: .\problems\templates\problems\overview.html:91
 msgid "solution"
 msgid_plural "solutions"
 msgstr[0] "решение"
 msgstr[1] "решения"
 msgstr[2] "решений"
 
-#: .\problems\templates\problems\overview.html:104
+#: .\problems\templates\problems\overview.html:108
 msgid "file"
 msgid_plural "files"
 msgstr[0] "файл"
@@ -903,7 +924,7 @@ msgid "Files"
 msgstr "Файлы"
 
 #: .\problems\templates\problems\solutions.html:17
-#: .\solutions\templates\solutions\solution.html:53
+#: .\solutions\templates\solutions\solution.html:48
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -943,10 +964,6 @@ msgstr "Язык"
 #: .\proglangs\templates\proglangs\index.html:21
 msgid "Legacy?"
 msgstr "Устарел?"
-
-#: .\solutions\forms.py:16 .\solutions\templates\solutions\solution.html:59
-msgid "Compiler"
-msgstr "Компилятор"
 
 #: .\solutions\forms.py:20
 msgid "Enter source code"
@@ -1035,10 +1052,6 @@ msgstr "Нарушение безопасности"
 #: .\solutions\forms.py:56 .\solutions\models.py:56
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
-
-#: .\solutions\forms.py:70
-msgid "compiler"
-msgstr "компилятор"
 
 #: .\solutions\models.py:46
 msgid "N/A"
@@ -1233,7 +1246,7 @@ msgstr "Ввод&thinsp;/&thinsp;вывод"
 msgid "Course"
 msgstr "Курс"
 
-#: .\solutions\templates\solutions\solution.html:45
+#: .\solutions\templates\solutions\solution.html:52
 msgid "IP address"
 msgstr "IP-адрес"
 
@@ -1393,15 +1406,15 @@ msgstr "Просмотр сообщений обратной связи"
 msgid "Logout"
 msgstr "Выход"
 
-#: .\users\forms.py:27
+#: .\users\forms.py:28
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:36
+#: .\users\forms.py:37
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:37
+#: .\users\forms.py:38
 msgid ""
 "Lines in the format of “[username] [last name] [first name]” or “[username] "
 "[last name] [first name] [patronymic]”."
@@ -1409,29 +1422,29 @@ msgstr ""
 "Строки в формате «[имя пользователя] [фамилия] [имя]» или «[имя "
 "пользователя] [фамилия] [имя] [отчество]»."
 
-#: .\users\forms.py:38
+#: .\users\forms.py:39
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:58
+#: .\users\forms.py:59
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:62
+#: .\users\forms.py:63
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:93
+#: .\users\forms.py:94
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:102
+#: .\users\forms.py:103
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:124
+#: .\users\forms.py:125
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -1440,7 +1453,7 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:141
+#: .\users\forms.py:142
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
@@ -1599,6 +1612,12 @@ msgstr "Права доступа"
 #: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "where the problem was offered"
+#~ msgstr "где задача была предложена"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
 
 #~ msgid "Input file name"
 #~ msgstr "Имя входного файла"

@@ -1,27 +1,46 @@
 {% extends 'problems/base.html' %}
 
 {% load i18n %}
+{% load irunner_proglangs %}
 
 {% block main %}
-<table class="table table-condensed">
-    <thead>
-        <tr>
-            <th>{% trans 'File' %}</th>
-            <th>{% trans 'Type' %}</th>
-            <th>{% trans 'Description' %}</th>
-            <th>{% trans 'Action' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for f in related_files %}
-        <tr>
-            <td>{{f.name}}</td>
-            <td>{{f.get_file_type_display}}</td>
-            <td>{{f.description}}</td>
-            <td><a href="{% url 'storage:show' f.resource_id %}">Open</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</th>
-</table>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>{% trans 'File' %}</th>
+                <th>{% trans 'Type' %}</th>
+                <th>{% trans 'Description' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in related_files %}
+            <tr>
+                <td><a href="{% url 'problems:file_open' problem.id f.id f.filename %}">{{ f.filename }}</a></td>
+                <td>{{ f.get_file_type_display }}</td>
+                <td>{{ f.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>{% trans 'File' %}</th>
+                <th>{% trans 'Type' %}</th>
+                <th>{% trans 'Description' %}</th>
+                <th>{% trans 'Compiler' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in related_source_files %}
+            <tr>
+                <td>{{ f.filename }}</td>
+                <td>{{ f.get_file_type_display }}</td>
+                <td>{{ f.description }}</td>
+                <td>{% irunner_proglangs_compilerbox f.compiler tooltip=True %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
