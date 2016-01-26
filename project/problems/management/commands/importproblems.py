@@ -11,7 +11,6 @@ from common.memory_string import parse_memory
 from common.irunner_import import connect_irunner_db
 from problems.models import Problem, ProblemExtraInfo, ProblemRelatedFile, ProblemRelatedSourceFile, ProblemFolder
 from storage.storage import create_storage
-from storage.utils import store_with_metadata
 
 
 def int_or_none(obj):
@@ -24,12 +23,13 @@ def _split_name(s):
     name = ''
     complexity = None  # TODO
 
-    rx = re.compile(r'^((\d+)(\.(\d+))?)?\.?\s*(.*)$')
+    rx = re.compile(r'^((?P<number>\d+)(\.(?P<subnumber>\d+))?)?\.?\s*(?P<name>[^\[]*)(\[(?P<complexity>\d{1,2})\])?$')
     m = rx.match(s)
     if m is not None:
-        number = int_or_none(m.group(2))
-        subnumber = int_or_none(m.group(4))
-        name = m.group(5)
+        number = int_or_none(m.group('number'))
+        subnumber = int_or_none(m.group('subnumber'))
+        name = m.group('name')
+        complexity = int_or_none(m.group('complexity'))
     else:
         name = s
     return (number, subnumber, name, complexity)

@@ -42,7 +42,7 @@ class Problem(models.Model):
             return u'{0}.{1}'.format(self.number, self.subnumber)
 
     def _numbered_name(self, name):
-        if self.number:
+        if self.number is not None:
             return u'{1}. {0}'.format(name, self.get_formatted_number())
         else:
             return u'{0}'.format(name)

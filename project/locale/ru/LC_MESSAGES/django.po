@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 20:11+0300\n"
-"PO-Revision-Date: 2016-01-26 20:12+0300\n"
+"POT-Creation-Date: 2016-01-26 22:59+0300\n"
+"PO-Revision-Date: 2016-01-26 22:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -416,6 +416,11 @@ msgstr "Объявления"
 msgid "Number of submitted solutions"
 msgstr "Количество отправленных решений"
 
+#: .\courses\templates\courses\info.html:29
+#: .\courses\templates\courses\solutions.html:76
+msgid "No solutions"
+msgstr "Решений нет"
+
 #: .\courses\templates\courses\my_problems.html:38
 msgid "Best solution"
 msgstr "Наилучшее решение"
@@ -624,10 +629,6 @@ msgstr "Файл"
 msgid "Status"
 msgstr "Статус"
 
-#: .\courses\templates\courses\solutions.html:76
-msgid "No solutions"
-msgstr "Решений нет"
-
 #: .\courses\templates\courses\standings.html:12
 msgid "Wide version"
 msgstr "Широкая версия"
@@ -707,7 +708,7 @@ msgstr "короткое название"
 #: .\problems\models.py:26
 #: .\problems\templates\problems\irunner_problems_list_tag.html:21
 msgid "complexity"
-msgstr "уровень сложности"
+msgstr "сложность"
 
 #: .\problems\models.py:28
 msgid "input file name"
