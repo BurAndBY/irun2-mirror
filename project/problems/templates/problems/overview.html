@@ -42,16 +42,20 @@
             <dd><tt>{{ problem.output_filename }}</tt></dd>
         </dl>
 
-        <dl class="dl-horizontal">
-            {% if problem.description %}
-                <dt>{% trans 'Description' %}</dt>
-                <dd>{{ problem.description }}</dd>
+        {% with problem.problemextrainfo as extra %}
+            {% if extra %}
+                <dl class="dl-horizontal">
+                    {% if extra.description %}
+                        <dt>{% trans 'Description' %}</dt>
+                        <dd>{{ extra.description }}</dd>
+                    {% endif %}
+                    {% if extra.hint %}
+                        <dt>{% trans 'Hint' %}</dt>
+                        <dd>{{ extra.hint }}</dd>
+                    {% endif %}
+                </dl>
             {% endif %}
-            {% if problem.hint %}
-                <dt>{% trans 'Hint' %}</dt>
-                <dd>{{ problem.hint }}</dd>
-            {% endif %}
-        </dl>
+        {% endwith %}
     </div>
 </div>
 

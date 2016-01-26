@@ -7,14 +7,11 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ProblemFolder(MPTTModel):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=64)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
     def __unicode__(self):
         return self.name
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
 
 
 class Problem(models.Model):
@@ -23,9 +20,6 @@ class Problem(models.Model):
     full_name = models.CharField(_('full name'), max_length=200, blank=True)
     short_name = models.CharField(_('short name'), max_length=32, blank=True)
     complexity = models.IntegerField(_('complexity'), blank=True, null=True, default=None)
-    offered = models.TextField(_('where the problem was offered'), blank=True)  # public
-    description = models.TextField(_('description'), blank=True)  # public
-    hint = models.TextField(_('hint'), blank=True)  # private
 
     input_filename = models.CharField(_('input file name'), max_length=32, blank=True)
     output_filename = models.CharField(_('output file name'), max_length=32, blank=True)
@@ -54,6 +48,12 @@ class Problem(models.Model):
 
     def numbered_short_name(self):
         return self._numbered_name(self.short_name)
+
+
+class ProblemExtraInfo(models.Model):
+    problem = models.OneToOneField(Problem, null=False, on_delete=models.CASCADE, primary_key=True)
+    description = models.TextField(_('description'), blank=True)  # public
+    hint = models.TextField(_('hint'), blank=True)  # private
 
 
 class ProblemRelatedFile(models.Model):

@@ -9,7 +9,7 @@ from django.db import transaction
 
 from common.memory_string import parse_memory
 from common.irunner_import import connect_irunner_db
-from problems.models import Problem, ProblemRelatedFile, ProblemFolder
+from problems.models import Problem, ProblemExtraInfo, ProblemRelatedFile, ProblemFolder
 from storage.storage import create_storage
 
 
@@ -60,7 +60,7 @@ class Command(BaseCommand):
                 _import_problem_tree(db, ROOT_FOLDER)
 
         cur = db.cursor()
-        cur.execute('SELECT taskID, shortName, name, memoryLimit, taskGroupID FROM irunner_task')
+        cur.execute('SELECT taskID, shortName, name, memoryLimit, taskGroupID, author, offered, place, authorContacts FROM irunner_task')
 
         storage = create_storage()
 
@@ -75,6 +75,8 @@ class Command(BaseCommand):
                 full_number, full_subnumber, full_name, full_complexity = _split_name(row[2])
                 memory_limit = parse_memory(row[3]) if row[3] else 0
                 folder_id = row[4]
+
+                description = u'\n'.join([unicode(t) for t in row[5:9] if t])
 
                 problem.number = full_number
                 problem.subnumber = full_subnumber
@@ -120,6 +122,10 @@ class Command(BaseCommand):
                             tc.set_answer(storage, ContentFile(r[1]))
 
                 problem.save()
+
+                # extra info
+                if description:
+                    ProblemExtraInfo.objects.create(problem=problem, description=description)
 
                 folder = ProblemFolder.objects.filter(id=folder_id).first()
                 if folder is not None:

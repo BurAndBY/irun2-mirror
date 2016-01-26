@@ -5,11 +5,16 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ProblemForm(forms.ModelForm):
-    folders = TreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all())
+    folders = TreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all(), required=False)
 
     class Meta:
         model = Problem
-        fields = ['number', 'subnumber', 'full_name', 'short_name', 'complexity', 'input_filename', 'output_filename', 'description', 'hint', 'folders']
+        fields = ['number', 'subnumber', 'full_name', 'short_name', 'complexity', 'input_filename', 'output_filename', 'folders']
+
+
+class ProblemExtraInfoForm(forms.ModelForm):
+    class Meta:
+        fields = ['offered', 'description', 'hint']
 
 
 '''
