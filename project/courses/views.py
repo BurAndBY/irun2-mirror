@@ -89,7 +89,8 @@ class CourseInfoView(BaseCourseView):
             for i, solution in enumerate(solutions)
         ]
         activity_data_json = json.dumps(activity_data)
-        return render(request, self.template_name, self.get_context_data(activity_data_json=activity_data_json))
+        show_activity_plot = (len(activity_data) > 0)
+        return render(request, self.template_name, self.get_context_data(activity_data_json=activity_data_json, show_activity_plot=show_activity_plot))
 
 
 class StudentProblemResult(object):

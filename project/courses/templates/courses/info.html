@@ -23,7 +23,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{% trans 'Number of submitted solutions' %}</div>
                 <div class="panel-body">
-                    <div class="ir-activity-plot"></div>
+                    {% if show_activity_plot %}
+                        <div class="ir-activity-plot"></div>
+                    {% else %}
+                        <div class="ir-absence">{% trans 'No solutions' %}</div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -44,9 +48,16 @@
                 xaxis: {
                     mode: "time",
                     timeformat: "%d %b"
+                },
+                yaxis: {
+                    tickDecimals: 0,
+                    min: 0,
                 }
             };
-            $.plot($(".ir-activity-plot").first(), data, options);
+            var div = $(".ir-activity-plot").first();
+            if (div) {
+                $.plot(div, data, options);
+            }
         });
     </script>
 {% endblock %}
