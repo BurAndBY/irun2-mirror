@@ -20,6 +20,7 @@
     sobols@magellan:~/irunner2$ source venv/bin/activate
     (venv)sobols@magellan:~/irunner2$ pip install -r requirements.txt
     (venv)sobols@magellan:~/irunner2$ cd project
+    (venv)sobols@magellan:~/irunner2$ export DJANGO_SETTINGS_MODULE="irunner2.settings_dev"
     (venv)sobols@magellan:~/irunner2/project$ python manage.py migrate
     (venv)sobols@magellan:~/irunner2/project$ python manage.py runserver
 
