@@ -17,16 +17,14 @@ class AdHocRun(models.Model):
 
 
 class Solution(models.Model):
-    problem = models.ForeignKey(Problem, null=True, on_delete=models.SET_NULL)
-    ad_hoc_run = models.ForeignKey(AdHocRun, null=True, on_delete=models.SET_NULL)
-
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    problem = models.ForeignKey(Problem)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     reception_time = models.DateTimeField()
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)
 
-    best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')
+    best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')  # '+' means 'do not create a backwards relation'
 
 
 class Outcome(object):

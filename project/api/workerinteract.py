@@ -11,20 +11,20 @@ condvar = threading.Condition()
 
 
 def _make_problem(solution):
-    if solution.ad_hoc_run is not None:
-        run = solution.ad_hoc_run
+    # if solution.ad_hoc_run is not None:
+    #     run = solution.ad_hoc_run
 
-        wtest = WorkerTestCase(0)
-        wtest.input_resource_id = run.resource_id
-        wtest.time_limit = run.time_limit
-        wtest.memory_limit = run.memory_limit
+    #     wtest = WorkerTestCase(0)
+    #     wtest.input_resource_id = run.resource_id
+    #     wtest.time_limit = run.time_limit
+    #     wtest.memory_limit = run.memory_limit
 
-        wproblem = WorkerProblem(run.id)
-        wproblem.name = 'ad hoc'
-        wproblem.input = WorkerFile(run.input_file_name)
-        wproblem.output = WorkerFile(run.output_file_name)
-        wproblem.tests = [wtest]
-        return wproblem
+    #     wproblem = WorkerProblem(run.id)
+    #     wproblem.name = 'ad hoc'
+    #     wproblem.input = WorkerFile(run.input_file_name)
+    #     wproblem.output = WorkerFile(run.output_file_name)
+    #     wproblem.tests = [wtest]
+    #     return wproblem
 
     if solution.problem is not None:
         problem = solution.problem
