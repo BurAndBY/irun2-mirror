@@ -1,3 +1,5 @@
+import os
+
 from settings_common import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -21,5 +23,18 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
     ]),
 ]
 
+# Database
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'irunner2', 'my.cnf'),
+        },
+        'CONN_MAX_AGE': 10 * 60,
+    }
+}
+
+# File storage
 
 STORAGE_DIR = os.path.join('/opt/irunner2/filestorage')
