@@ -19,8 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
-
 APPEND_SLASH = True
 
 # Application definition
@@ -126,8 +124,6 @@ LOGIN_URL = '/login/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year
-
-WORKER_TOKEN = 'abacaba'
 
 # External applications configuration
 

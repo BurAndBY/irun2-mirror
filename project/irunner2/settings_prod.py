@@ -2,13 +2,11 @@ import os
 
 from settings_common import *
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1@4i==7-0$*jmu_5-8o1x+i82vera$25&-x!qu7&g!u89z0a(l'
+# file is not in the repository
+from settings_prod_private import *
 
 DEBUG = False
 TEMPLATE_DEBUG = False
-
-ALLOWED_HOSTS = ['sobols.haze.yandex.net']
 
 STATIC_ROOT = '/opt/irunner2/static'
 
