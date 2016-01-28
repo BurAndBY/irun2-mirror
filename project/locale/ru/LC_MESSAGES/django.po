@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-29 00:34+0300\n"
-"PO-Revision-Date: 2016-01-29 00:34+0300\n"
+"POT-Creation-Date: 2016-01-29 01:36+0300\n"
+"PO-Revision-Date: 2016-01-29 01:37+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -174,23 +174,31 @@ msgstr "Удалить"
 msgid "Remove all"
 msgstr "Удалить всё"
 
-#: .\courses\forms.py:22
+#: .\courses\forms.py:24
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\courses\forms.py:39 .\problems\forms.py:8
+#: .\courses\forms.py:41 .\problems\forms.py:8
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:40
+#: .\courses\forms.py:42
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:51
+#: .\courses\forms.py:53
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:71 .\courses\forms.py:102 .\courses\forms.py:117
+#: .\courses\forms.py:66
+msgid ""
+"Use short subgroup names, e. g. &laquo;1st&raquo;, &laquo;2 s.&raquo;, "
+"&laquo;EPS&raquo;."
+msgstr ""
+"Используйте короткие названия подгрупп, например &laquo;1-я&raquo;, &laquo;2 "
+"п.&raquo;, &laquo;EPS&raquo;."
+
+#: .\courses\forms.py:76 .\courses\forms.py:107 .\courses\forms.py:122
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:21
@@ -198,11 +206,11 @@ msgstr "Весовой коэффициент"
 msgid "Problem"
 msgstr "Задача"
 
-#: .\courses\forms.py:84
+#: .\courses\forms.py:89
 msgid "Topic:"
 msgstr "Тема:"
 
-#: .\courses\forms.py:94 .\courses\templates\courses\settings_base.html:22
+#: .\courses\forms.py:99 .\courses\templates\courses\settings_base.html:22
 #: .\templates\navbar.html:22 .\users\templates\users\create_form.html:8
 #: .\users\templates\users\create_form.html:13
 #: .\users\templates\users\delete_folder.html:8
@@ -212,11 +220,11 @@ msgstr "Тема:"
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\courses\forms.py:110
+#: .\courses\forms.py:115
 msgid "User"
 msgstr "Пользователь"
 
-#: .\courses\forms.py:135
+#: .\courses\forms.py:140
 msgid "no"
 msgstr "нет"
 
@@ -225,7 +233,7 @@ msgid "criterion label"
 msgstr "обозначение критерия"
 
 #: .\courses\models.py:16 .\courses\models.py:23 .\courses\models.py:52
-#: .\courses\models.py:83
+#: .\courses\models.py:83 .\courses\models.py:91
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\users\models.py:13
 msgid "name"
@@ -697,7 +705,7 @@ msgstr "Спасибо!"
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
 
-#: .\irunner2\settings_common.py:183
+#: .\irunner2\settings_prod.py:43
 msgid "Wiki"
 msgstr "Вики"
 

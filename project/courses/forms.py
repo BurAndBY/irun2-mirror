@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership
-from problems.models import Problem, ProblemFolder
-from users.models import UserFolder
-from proglangs.models import Compiler
-from mptt.forms import TreeNodeChoiceField
-from django.utils.translation import ugettext_lazy as _
-from common.constants import EMPTY_SELECT
-import common.widgets
-import common.fields
 from django.contrib import auth
+from django.utils.translation import ugettext_lazy as _
+
+from mptt.forms import TreeNodeChoiceField
+
+from common.constants import EMPTY_SELECT
+from problems.models import ProblemFolder
+from users.models import UserFolder
+import common.fields
+import common.widgets
 import solutions.forms
+
+from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership
 
 
 class PropertiesForm(forms.ModelForm):
@@ -60,6 +62,9 @@ class SubgroupForm(forms.ModelForm):
     class Meta:
         model = Subgroup
         fields = ['name']
+        help_texts = {
+            'name': _(u'Use short subgroup names, e. g. &laquo;1st&raquo;, &laquo;2 s.&raquo;, &laquo;EPS&raquo;.')
+        }
 
 
 class ProblemModelChoiceField(forms.ModelChoiceField):
