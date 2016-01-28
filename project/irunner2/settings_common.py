@@ -174,3 +174,7 @@ LOGGING = {
         },
     }
 }
+
+# External links in the navbar
+
+EXTERNAL_LINKS = []

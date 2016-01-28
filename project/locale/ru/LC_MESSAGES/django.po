@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-29 00:23+0300\n"
-"PO-Revision-Date: 2016-01-29 00:20+0300\n"
+"POT-Creation-Date: 2016-01-29 00:34+0300\n"
+"PO-Revision-Date: 2016-01-29 00:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\registration\login.html:21 .\templates\navbar.html:42
+#: .\cauth\templates\registration\login.html:21 .\templates\navbar.html:45
 msgid "Login"
 msgstr "Вход"
 
@@ -697,6 +697,10 @@ msgstr "Спасибо!"
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
 
+#: .\irunner2\settings_common.py:183
+msgid "Wiki"
+msgstr "Вики"
+
 #: .\problems\models.py:22
 msgid "number"
 msgstr "номер"
@@ -829,8 +833,7 @@ msgid "Search"
 msgstr "Поиск"
 
 #: .\problems\templates\problems\list_folder.html:11
-#: .\problems\templates\problems\list_folder.html:21
-#: .\templates\navbar.html:23
+#: .\problems\templates\problems\list_folder.html:21 .\templates\navbar.html:23
 msgid "Problems"
 msgstr "Задачи"
 
@@ -1413,7 +1416,7 @@ msgstr "Администрирование"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\navbar.html:40
+#: .\templates\navbar.html:43
 msgid "Logout"
 msgstr "Выход"
 

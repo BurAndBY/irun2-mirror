@@ -33,6 +33,9 @@
                         </ul>
                     </li>
                 {% endif %}
+                {% for name, url in external_links %}
+                    <li><a href="{{ url }}">{{ name }}</a></li>
+                {% endfor %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}

@@ -1,5 +1,7 @@
 import os
 
+from django.utils.translation import ugettext_lazy as _
+
 from settings_common import *
 
 # file is not in the repository
@@ -36,3 +38,7 @@ DATABASES = {
 # File storage
 
 STORAGE_DIR = os.path.join('/opt/irunner2/filestorage')
+
+EXTERNAL_LINKS = [
+    (_('Wiki'), u'/wiki/')
+]
