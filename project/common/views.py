@@ -22,6 +22,11 @@ def about(request):
     return render(request, 'common/about.html', {})
 
 
+def language(request):
+    next = request.GET.get('next')
+    return render(request, 'common/language.html', {'redirect_to': next})
+
+
 class IRunnerPaginationContext(object):
     def __init__(self):
         self.page_obj = None

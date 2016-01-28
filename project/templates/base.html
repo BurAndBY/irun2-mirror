@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load irunner_messagebox %}
+{% load irunner_next %}
 
 <html>
     <head>
@@ -67,6 +68,7 @@
                     <div>&copy; 2001&thinsp;&ndash;&thinsp;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>
                     <div>
                         <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
+                        <a href="{% url 'language' %}?next={% irunner_next %}">Язык&thinsp;/&thinsp;Language</a>
                         <a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a>
                     </div>
                 </div>

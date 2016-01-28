@@ -2,6 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_next %}
 {% load irunner_users %}
 
 {% block content %}
@@ -9,5 +10,6 @@
     <div class="list-group">
         <a href="{% url 'profile_edit' %}" class="list-group-item">{% trans 'Edit profile' %}</a>
         <a href="{% url 'password_change' %}" class="list-group-item">{% trans 'Change password' %}</a>
+        <a href="{% url 'language' %}?next={% irunner_next %}" class="list-group-item">{% trans 'Change interface language' %}</a>
     </div>
 {% endblock %}

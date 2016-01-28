@@ -665,17 +665,30 @@ Yellow menu
  * User interface language
  */
 .navbar-nav > li > form > input[type="submit"] {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 20px;
 }
 @media (min-width: 768px) {
-  .navbar-nav > li > form > input[type="submit"] {
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
+    .navbar-nav > li > form > input[type="submit"] {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
 }
 
+.navbar-nav > li > .ir-current-time {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    line-height: 20px;
+    color: #777;
+}
+@media (min-width: 768px) {
+    .navbar-nav > li > .ir-current-time {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
 
 /**
  * Red menu

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 22:59+0300\n"
-"PO-Revision-Date: 2016-01-26 22:59+0300\n"
+"POT-Creation-Date: 2016-01-29 00:23+0300\n"
+"PO-Revision-Date: 2016-01-29 00:20+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -23,16 +23,21 @@ msgstr ""
 msgid "Remember me"
 msgstr "Запомнить меня"
 
-#: .\cauth\templates\cauth\profile.html:10
+#: .\cauth\templates\cauth\profile.html:11
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:11 .\templates\base.html:49
+#: .\cauth\templates\cauth\profile.html:12 .\templates\base.html:50
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
 
+#: .\cauth\templates\cauth\profile.html:13
+msgid "Change interface language"
+msgstr "Изменить язык интерфейса"
+
 #: .\cauth\templates\cauth\profile_edit.html:15
+#: .\common\templates\common\language.html:26
 #: .\courses\templates\courses\assign.html:90
 #: .\courses\templates\courses\settings_compilers.html:31
 #: .\courses\templates\courses\settings_component.html:13
@@ -92,7 +97,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:69
+#: .\common\templates\common\about.html:6 .\templates\base.html:70
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -144,6 +149,10 @@ msgstr "из"
 #: .\common\templates\common\irunner_pagination_tag.html:80
 msgid "All"
 msgstr "Все"
+
+#: .\common\templates\common\language.html:7
+msgid "Interface language"
+msgstr "Язык интерфейса"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:11
 msgid "Loading"
@@ -820,7 +829,8 @@ msgid "Search"
 msgstr "Поиск"
 
 #: .\problems\templates\problems\list_folder.html:11
-#: .\problems\templates\problems\list_folder.html:21 .\templates\navbar.html:23
+#: .\problems\templates\problems\list_folder.html:21
+#: .\templates\navbar.html:23
 msgid "Problems"
 msgstr "Задачи"
 
@@ -982,27 +992,27 @@ msgstr "Если вы выбираете файл, содержимое текс
 msgid "state"
 msgstr "состояние"
 
-#: .\solutions\forms.py:38 .\solutions\models.py:76
+#: .\solutions\forms.py:38 .\solutions\models.py:74
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\forms.py:39 .\solutions\models.py:77
+#: .\solutions\forms.py:39 .\solutions\models.py:75
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\forms.py:40 .\solutions\models.py:78
+#: .\solutions\forms.py:40 .\solutions\models.py:76
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\forms.py:41 .\solutions\models.py:79
+#: .\solutions\forms.py:41 .\solutions\models.py:77
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\forms.py:42 .\solutions\models.py:80
+#: .\solutions\forms.py:42 .\solutions\models.py:78
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\forms.py:43 .\solutions\models.py:75
+#: .\solutions\forms.py:43 .\solutions\models.py:73
 msgid "Done"
 msgstr "Готово"
 
@@ -1014,51 +1024,51 @@ msgstr "Не готово"
 msgid "outcome"
 msgstr "вердикт"
 
-#: .\solutions\forms.py:47 .\solutions\models.py:47
+#: .\solutions\forms.py:47 .\solutions\models.py:45
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\solutions\forms.py:48 .\solutions\models.py:48
+#: .\solutions\forms.py:48 .\solutions\models.py:46
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\solutions\forms.py:49 .\solutions\models.py:49
+#: .\solutions\forms.py:49 .\solutions\models.py:47
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\solutions\forms.py:50 .\solutions\models.py:50
+#: .\solutions\forms.py:50 .\solutions\models.py:48
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\solutions\forms.py:51 .\solutions\models.py:51
+#: .\solutions\forms.py:51 .\solutions\models.py:49
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\solutions\forms.py:52 .\solutions\models.py:52
+#: .\solutions\forms.py:52 .\solutions\models.py:50
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\solutions\forms.py:53 .\solutions\models.py:53
+#: .\solutions\forms.py:53 .\solutions\models.py:51
 msgid "Runtime Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\solutions\forms.py:54 .\solutions\models.py:54
+#: .\solutions\forms.py:54 .\solutions\models.py:52
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\solutions\forms.py:55 .\solutions\models.py:55
+#: .\solutions\forms.py:55 .\solutions\models.py:53
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\solutions\forms.py:56 .\solutions\models.py:56
+#: .\solutions\forms.py:56 .\solutions\models.py:54
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\models.py:46
+#: .\solutions\models.py:44
 msgid "N/A"
 msgstr "N/A"
 
-#: .\solutions\models.py:110
+#: .\solutions\models.py:108
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -1383,15 +1393,15 @@ msgstr "Общий размер"
 msgid "The largest resources"
 msgstr "Самые большие ресурсы"
 
-#: .\templates\base.html:49
+#: .\templates\base.html:50
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:67
+#: .\templates\base.html:68
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\templates\base.html:70
+#: .\templates\base.html:72
 msgid "Feedback"
 msgstr "Обратная связь"
 
@@ -1613,6 +1623,10 @@ msgstr "Права доступа"
 #: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgctxt "switch"
+#~ msgid "Language"
+#~ msgstr "Язык"
 
 #~ msgid "where the problem was offered"
 #~ msgstr "где задача была предложена"

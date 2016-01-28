@@ -22,6 +22,7 @@ from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     url(r'^$', common.views.home, name='home'),
+    url(r'^language/$', common.views.language, name='language'),
     url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
     url(r'^storage/', include('storage.urls', namespace='storage')),

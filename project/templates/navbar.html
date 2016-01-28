@@ -42,16 +42,7 @@
                     <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans 'Login' %}</a></li>
                 {% endif %}
                 <li>
-                    {% get_current_language as LANGUAGE_CODE %}
-                    {% get_available_languages as LANGUAGES %}
-                    {% get_language_info_list for LANGUAGES as languages %}
-                    {% for language in languages %}
-                    <form class="ir-lang-fake-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                        <input name="next" type="hidden" value="{{ redirect_to }}" />
-                        <input name="language" type="hidden" value="{{ language.code }}" />
-                        <input type="submit" value="{{ language.code }}" title="{{ language.name_local }}" {% if language.code == LANGUAGE_CODE %} disabled="disabled"{% endif %} class="btn btn-link btn-xs" />
-                    </form>
-                    {% endfor %}
+                    <div class="ir-current-time" title="{% now "DATE_FORMAT" %}">{% now "H:i:s" %}</div>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
