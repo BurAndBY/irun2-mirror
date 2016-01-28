@@ -170,6 +170,8 @@ class CourseDescr(object):
             self._activity_id_to_index[activity.id] = len(self.activities)
             self.activities.append(activity)
 
+        self.subgroups = list(course.subgroup_set.order_by('id'))
+
     def get_topic_index(self, topic_id):
         return self._topic_id_to_index[topic_id]
 
@@ -369,6 +371,19 @@ class UserResult(object):
 
     def get_extra_activity_results(self):
         return [res for res in self.activity_results if res.activity.weight == 0.0]
+
+    def get_subgroup_class_suffix(self):
+        '''
+        Returns empty string if user does not belong to subgroup.
+        Returns '1', '2', ... if he does.
+        '''
+        subgroup = self.membership.subgroup
+        try:
+            idx = self.course_descr.subgroups.index(subgroup)
+        except ValueError:
+            return u''
+
+        return unicode(idx + 1)
 
     def register_assignment(self, assignment, criterion_ids):
         if assignment.topic_id is not None:

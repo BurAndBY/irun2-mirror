@@ -33,7 +33,7 @@
     <tbody>
         {% for user_result in results %}
         <tr{% if user_result.user == user %} class="ir-me"{% endif %}>
-            <td class="ir-seq-no{% if user_result.membership.subgroup %} ir-subgroup-1{% else %} ir-subgroup-0{% endif %}">
+            <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }}">
                 {{ forloop.counter }}
             </td>
 

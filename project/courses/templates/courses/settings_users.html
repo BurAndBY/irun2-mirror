@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{ forloop.counter }}.</td>
                                 <td>{% irunner_users_show pair.user %}</td>
-                                <td>{% bootstrap_form pair.form layout='inline' %}</td>
+                                <td class="ir-choose-subgroup">{% bootstrap_form pair.form layout='inline' %}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

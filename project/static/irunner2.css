@@ -64,14 +64,11 @@ body {
     padding-right: 4px;
     vertical-align: top;
 }
-.ir-course-standings > tbody > tr > .ir-subgroup-0 {
-    border-left-color: #D9EDF7;
-}
 .ir-course-standings > tbody > tr > .ir-subgroup-1 {
-    border-left-color: #F7EFC6;
+    border-left-color: #F7EBAD;
 }
 .ir-course-standings > tbody > tr > .ir-subgroup-2 {
-    border-left-color: #97A9CC;
+    border-left-color: #D9EDF7;
 }
 .ir-course-standings > tbody > tr > .ir-subgroup-3 {
     border-left-color: #e1b16a;
@@ -746,4 +743,12 @@ Yellow menu
 
 .ir-folders-search {
     margin-bottom: 10px;
+}
+
+/*
+ * Choose subgroup in course settings
+ */
+.ir-choose-subgroup .radio {
+    margin-left: 10px;
+    margin-right: 10px;
 }
