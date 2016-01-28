@@ -138,7 +138,7 @@ class Command(BaseCommand):
 
             if problem_id not in present_problems:
                 logger.warning('Solution belongs to problem %d that does not exist', problem_id)
-                problem_id = None
+                continue
 
             file_fetched = fetch_irunner_file(db, file_id, storage)
             if file_fetched is None:
