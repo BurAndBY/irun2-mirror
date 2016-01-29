@@ -2,7 +2,6 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_problems %}
 {% load staticfiles %}
@@ -57,7 +56,7 @@
                     <dd><span class="ir-monospace">{{ solution.source_code.filename }}</span></dd>
 
                     <dt>{% trans 'Compiler' %}</dt>
-                    <dd>{% irunner_proglangs_compilerbox solution.compiler tooltip=False %} {{ solution.compiler }}</dd>
+                    <dd>{{ solution.compiler }}</dd>
                 </dl>
             </div>
         </div>
