@@ -55,7 +55,7 @@
                 }
             };
             var div = $(".ir-activity-plot").first();
-            if (div) {
+            if (div.length) {
                 $.plot(div, data, options);
             }
         });
