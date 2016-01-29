@@ -16,9 +16,7 @@
         <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
         <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
         {#<link href="{% static 'bootstrap/css/bootstrap-theme.css' %}" rel="stylesheet">#}
-        <link href="{% static 'fancytree-2.13.0/skin-win8/ui.fancytree.min.css' %}" rel="stylesheet">
         <link href="{% static 'irunner2.css' %}?{{ REVISION }}" rel="stylesheet">
-        <link href="{% static 'DataTables-1.10.10/media/css/dataTables.bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'Highlight.js/styles/github.css' %}" rel="stylesheet">
 
         <!--[if lt IE 9]>
@@ -27,12 +25,8 @@
         <![endif]-->
 
         <script src="{% static 'jquery/jquery-1.11.3.min.js' %}"></script>
-        <script src="{% static 'jquery-ui-1.11.4.custom/jquery-ui.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'fancytree-2.13.0/jquery.fancytree-all.min.js' %}"></script>
-        <script src="{% static 'DataTables-1.10.10/media/js/jquery.dataTables.min.js' %}"></script>
-        <script src="{% static 'DataTables-1.10.10/media/js/dataTables.bootstrap.min.js' %}"></script>
-        <script src="{% static 'irunner2.js?{{ REVISION }}' %}"></script>
+        <script src="{% static 'irunner2.js' %}?{{ REVISION }}"></script>
         <script src="{% url 'js_reverse' %}"></script>
 
         {% block head %}
