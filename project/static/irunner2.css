@@ -81,7 +81,7 @@ body {
     border-left-width: 5px;
     border-left-color: #ddd;
 }
-.ir-course-standings > tbody > .ir-me > td {
+.ir-me > td {
     background-color: #FFFFCC;
 }
 /**
