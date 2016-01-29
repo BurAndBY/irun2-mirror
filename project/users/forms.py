@@ -51,10 +51,10 @@ class CreateUsersMassForm(forms.Form):
                 continue
             tokens = line.split()
             if len(tokens) == 3:
-                username, first_name, last_name = tokens
+                username, last_name, first_name = tokens
                 patronymic = ''
             elif len(tokens) == 4:
-                username, first_name, last_name, patronymic = tokens
+                username, last_name, first_name, patronymic = tokens
             else:
                 raise forms.ValidationError(_(u'Line %(number)s does not match the template.'),
                                             code='tokens', params={'number': number + 1})
