@@ -44,7 +44,12 @@ class ProblemStatementMixin(object):
 
         related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, filename=filename)
         mime_type, encoding = mimetypes.guess_type(filename)
-        return serve_resource(request, related_file.resource_id, content_type=mime_type)
+
+        content_type = mime_type
+        if content_type == 'text/html':
+            content_type += '; charset=utf-8'
+
+        return serve_resource(request, related_file.resource_id, content_type=content_type)
 
     def make_statement(self, problem):
         related_files = problem.problemrelatedfile_set.all()
