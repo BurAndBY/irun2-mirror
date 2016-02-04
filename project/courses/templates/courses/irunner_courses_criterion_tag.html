@@ -1,1 +1,1 @@
-<div class="ir-box ir-criterion ir-criterion-{{ value|yesno:"yes,no" }}"{% if tooltip %} title="{{ criterion.name }}"{% endif %}>{{ criterion.label }}</div>
+<div class="ir-box ir-criterion ir-criterion-{{ value|yesno:"yes,no" }}{% if editable %} ir-criterion-editable{% endif %}"{% if tooltip %} title="{{ criterion.name }}"{% endif %}{% if editable %} data-criterion="{{ criterion.id }}"{% endif %}>{{ criterion.label }}</div>

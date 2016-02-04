@@ -86,7 +86,7 @@ class ProblemAssignmentForm(forms.ModelForm):
 
 
 class AddExtraProblemSlotForm(forms.Form):
-    penaltytopic = forms.ModelChoiceField(label=_('Topic:'), queryset=None)
+    penaltytopic = forms.ModelChoiceField(label=_('Topic'), queryset=None)
 
 
 class TwoPanelUserMultipleChoiceField(common.fields.TwoPanelModelMultipleChoiceField):

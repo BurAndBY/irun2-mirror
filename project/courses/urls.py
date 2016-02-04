@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import views, settingsviews
+from . import views, settingsviews, assignviews
 
 urlpatterns = [
     url(r'^$', views.CourseListView.as_view(), name='index'),
@@ -24,14 +24,20 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/problemset/(?P<topic_id>[0-9]+)/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', views.CourseProblemsTopicProblemView.as_view(), name='course_problems_topic_problem'),
     url(r'^(?P<course_id>[0-9]+)/problems/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', views.CourseProblemsProblemView.as_view(), name='course_problems_problem'),
 
-    url(r'^(?P<course_id>[0-9]+)/assign/$', views.CourseAssignView.as_view(), name='course_assignment_empty'),
-    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/$', views.CourseAssignView.as_view(), name='course_assignment'),
-    url(r'^(?P<course_id>[0-9]+)/assign/redirect/$', views.assignment_redirect_view, name='course_assignment_redirect'),
-
     url(r'^(?P<course_id>[0-9]+)/solutions/$', views.CourseAllSolutionsView.as_view(), name='all_solutions'),
     url(r'^(?P<course_id>[0-9]+)/my/solutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
 
     url(r'^(?P<course_id>[0-9]+)/my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
+
+    # Problem assignment
+
+    url(r'^(?P<course_id>[0-9]+)/assign/$', assignviews.CourseEmptyAssignView.as_view(), name='course_assignment_empty'),
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/$', assignviews.CourseAssignView.as_view(), name='course_assignment'),
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/new-penalty/$', assignviews.CourseAssignCreatePenaltyProblem.as_view(), name='course_assignment_new_penalty'),
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/delete-penalty/(?P<assignment_id>[0-9]+)/$', assignviews.CourseAssignDeletePenaltyProblem.as_view(), name='course_assignment_delete_penalty'),
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/api/problem/$', assignviews.CourseAssignProblemApiView.as_view(), name='course_assignment_api_problem'),
+    url(r'^(?P<course_id>[0-9]+)/assign/(?P<membership_id>[0-9]+)/api/criterion/$', assignviews.CourseAssignCriterionApiView.as_view(), name='course_assignment_api_criterion'),
+    url(r'^(?P<course_id>[0-9]+)/assign/redirect/$', assignviews.assignment_redirect_view, name='course_assignment_redirect'),
 
     # Settings
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-29 01:36+0300\n"
-"PO-Revision-Date: 2016-01-29 01:37+0300\n"
+"POT-Creation-Date: 2016-02-04 23:30+0300\n"
+"PO-Revision-Date: 2016-02-04 23:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:12 .\templates\base.html:50
+#: .\cauth\templates\cauth\profile.html:12 .\templates\base.html:44
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -38,7 +38,6 @@ msgstr "Изменить язык интерфейса"
 
 #: .\cauth\templates\cauth\profile_edit.html:15
 #: .\common\templates\common\language.html:26
-#: .\courses\templates\courses\assign.html:90
 #: .\courses\templates\courses\settings_compilers.html:31
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
@@ -97,7 +96,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:70
+#: .\common\templates\common\about.html:6 .\templates\base.html:64
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -116,7 +115,7 @@ msgstr ""
 "по основам алгоритмизации и смежным наукам.\n"
 
 #: .\common\templates\common\about.html:27
-#: .\solutions\templates\solutions\solution.html:69
+#: .\solutions\templates\solutions\solution.html:68
 msgid "Source code"
 msgstr "Исходный код"
 
@@ -141,7 +140,7 @@ msgstr "Страница"
 #: .\problems\templates\problems\show_test.html:15
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:28
 #: .\solutions\templates\solutions\judgement.html:16
-#: .\solutions\templates\solutions\solution.html:40
+#: .\solutions\templates\solutions\solution.html:39
 msgid "of"
 msgstr "из"
 
@@ -159,6 +158,7 @@ msgid "Loading"
 msgstr "Загрузка"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
+#: .\courses\templates\courses\assign.html:120
 msgid "Add"
 msgstr "Добавить"
 
@@ -167,6 +167,7 @@ msgid "Add all"
 msgstr "Добавить всё"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:24
+#: .\courses\templates\courses\assign.html:56
 msgid "Remove"
 msgstr "Удалить"
 
@@ -201,14 +202,14 @@ msgstr ""
 #: .\courses\forms.py:76 .\courses\forms.py:107 .\courses\forms.py:122
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
-#: .\solutions\templates\solutions\solution.html:21
+#: .\solutions\templates\solutions\solution.html:20
 #: .\solutions\templates\solutions\solution_list.html:28
 msgid "Problem"
 msgstr "Задача"
 
 #: .\courses\forms.py:89
-msgid "Topic:"
-msgstr "Тема:"
+msgid "Topic"
+msgstr "Тема"
 
 #: .\courses\forms.py:99 .\courses\templates\courses\settings_base.html:22
 #: .\templates\navbar.html:22 .\users\templates\users\create_form.html:8
@@ -234,6 +235,7 @@ msgstr "обозначение критерия"
 
 #: .\courses\models.py:16 .\courses\models.py:23 .\courses\models.py:52
 #: .\courses\models.py:83 .\courses\models.py:91
+#: .\courses\templates\courses\assign.html:75
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\users\models.py:13
 msgid "name"
@@ -351,27 +353,66 @@ msgstr[0] "Удалён %(count)d пользователь."
 msgstr[1] "Удалены %(count)d пользователя."
 msgstr[2] "Удалено %(count)d пользователей."
 
-#: .\courses\templates\courses\assign.html:16
+#: .\courses\templates\courses\assign.html:25
 #: .\courses\templates\courses\solutions.html:18
 #: .\solutions\templates\solutions\solution_list.html:17
 msgid "Apply"
 msgstr "Применить"
 
-#: .\courses\templates\courses\assign.html:22
+#: .\courses\templates\courses\assign.html:31
 msgid "No user selected"
 msgstr "Пользователь не выбран"
 
-#: .\courses\templates\courses\assign.html:39
-msgid "Add penalty problem"
-msgstr "Добавить штрафную задачу"
+#: .\courses\templates\courses\assign.html:51
+#: .\courses\templates\courses\my_problems.html:27
+msgid "Penalty problem"
+msgstr "Штрафная задача"
 
-#: .\courses\templates\courses\assign.html:96
-msgid "Extra problems"
-msgstr "Дополнительные задачи"
+#: .\courses\templates\courses\assign.html:68
+msgid "Select a problem to assign"
+msgstr "Выберите задачу для назначения"
 
-#: .\courses\templates\courses\assign.html:98
-msgid "Not implemented yet."
-msgstr "Функциональность не реализована."
+#: .\courses\templates\courses\assign.html:72
+msgid "c."
+msgstr "сл."
+
+#: .\courses\templates\courses\assign.html:74
+#: .\courses\templates\courses\settings_users.html:21
+#: .\courses\templates\courses\sheet.html:26
+#: .\courses\templates\courses\standings.html:21
+#: .\courses\templates\courses\standings_wide.html:16
+#: .\problems\templates\problems\tests.html:9
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
+#: .\solutions\templates\solutions\rejudge.html:26
+msgid "#"
+msgstr "№"
+
+#: .\courses\templates\courses\assign.html:83
+#: .\problems\templates\problems\sidebar.html:11
+msgid "Statement"
+msgstr "Условие"
+
+#: .\courses\templates\courses\assign.html:84
+#: .\courses\templates\courses\assign.html:85
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:20
+msgid "Assign"
+msgstr "Назначить"
+
+#: .\courses\templates\courses\assign.html:92
+#: .\courses\templates\courses\settings_component.html:16
+#: .\courses\templates\courses\settings_users_edit.html:20
+#: .\users\templates\users\create_form.html:36
+#: .\users\templates\users\delete.html:26 .\users\templates\users\move.html:27
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\courses\templates\courses\assign.html:93
+msgid "Reset"
+msgstr "Сброс"
+
+#: .\courses\templates\courses\assign.html:108
+msgid "Penalty problems"
+msgstr "Штрафные задачи"
 
 #: .\courses\templates\courses\course_confirm_delete.html:7
 msgid "Delete course"
@@ -434,13 +475,45 @@ msgid "Number of submitted solutions"
 msgstr "Количество отправленных решений"
 
 #: .\courses\templates\courses\info.html:29
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:43
 #: .\courses\templates\courses\solutions.html:76
 msgid "No solutions"
 msgstr "Решений нет"
 
-#: .\courses\templates\courses\my_problems.html:38
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:29
+msgid "No problem is assigned"
+msgstr "Задача не назначена"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:37
+#: .\problems\templates\problems\overview.html:91
+msgid "solution"
+msgid_plural "solutions"
+msgstr[0] "решение"
+msgstr[1] "решения"
+msgstr[2] "решений"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:48
 msgid "Best solution"
 msgstr "Наилучшее решение"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:68
+#: .\problems\templates\problems\sidebar.html:19 .\templates\navbar.html:24
+msgid "Solutions"
+msgstr "Решения"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:72
+#: .\courses\templates\courses\solutions.html:33
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
+#: .\solutions\templates\solutions\solution_list.html:30
+msgid "Time"
+msgstr "Время"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:73
+#: .\courses\templates\courses\solutions.html:35
+#: .\problems\templates\problems\solutions.html:19
+#: .\solutions\templates\solutions\solution_list.html:32
+msgid "Status"
+msgstr "Статус"
 
 #: .\courses\templates\courses\problems_base.html:41
 msgid "Select a topic to view problems."
@@ -468,15 +541,8 @@ msgstr "Подгруппы"
 msgid "Sheet"
 msgstr "Ведомость"
 
-#: .\courses\templates\courses\settings_component.html:16
-#: .\courses\templates\courses\settings_users_edit.html:20
-#: .\users\templates\users\create_form.html:36
-#: .\users\templates\users\delete.html:26 .\users\templates\users\move.html:27
-msgid "Cancel"
-msgstr "Отмена"
-
 #: .\courses\templates\courses\settings_component.html:20
-#: .\solutions\templates\solutions\solution_list.html:59
+#: .\solutions\templates\solutions\solution_list.html:61
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
@@ -538,16 +604,6 @@ msgstr "Нет тем."
 #: .\courses\templates\courses\settings_topics.html:40
 msgid "New topic"
 msgstr "Новая тема"
-
-#: .\courses\templates\courses\settings_users.html:21
-#: .\courses\templates\courses\sheet.html:26
-#: .\courses\templates\courses\standings.html:21
-#: .\courses\templates\courses\standings_wide.html:16
-#: .\problems\templates\problems\tests.html:9
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
-#: .\solutions\templates\solutions\rejudge.html:26
-msgid "#"
-msgstr "№"
 
 #: .\courses\templates\courses\settings_users.html:23
 msgid "Subgroup"
@@ -625,26 +681,14 @@ msgstr "Настройки"
 msgid "Author"
 msgstr "Автор"
 
-#: .\courses\templates\courses\solutions.html:33
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
-#: .\solutions\templates\solutions\solution_list.html:30
-msgid "Time"
-msgstr "Время"
-
 #: .\courses\templates\courses\solutions.html:34
 #: .\problems\templates\problems\files.html:10
 #: .\problems\templates\problems\files.html:29
 #: .\problems\templates\problems\solutions.html:18
-#: .\solutions\templates\solutions\solution.html:56
+#: .\solutions\templates\solutions\solution.html:55
 #: .\solutions\templates\solutions\solution_list.html:31
 msgid "File"
 msgstr "Файл"
-
-#: .\courses\templates\courses\solutions.html:35
-#: .\problems\templates\problems\solutions.html:19
-#: .\solutions\templates\solutions\solution_list.html:32
-msgid "Status"
-msgstr "Статус"
 
 #: .\courses\templates\courses\standings.html:12
 msgid "Wide version"
@@ -818,7 +862,7 @@ msgid "Description"
 msgstr "Описание"
 
 #: .\problems\templates\problems\files.html:32 .\solutions\forms.py:16
-#: .\solutions\templates\solutions\solution.html:59
+#: .\solutions\templates\solutions\solution.html:58
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -901,13 +945,6 @@ msgstr[0] "тест"
 msgstr[1] "теста"
 msgstr[2] "тестов"
 
-#: .\problems\templates\problems\overview.html:91
-msgid "solution"
-msgid_plural "solutions"
-msgstr[0] "решение"
-msgstr[1] "решения"
-msgstr[2] "решений"
-
 #: .\problems\templates\problems\overview.html:108
 msgid "file"
 msgid_plural "files"
@@ -929,24 +966,16 @@ msgstr "Входной файл"
 msgid "Answer file"
 msgstr "Файл правильного ответа"
 
-#: .\problems\templates\problems\sidebar.html:11
-msgid "Statement"
-msgstr "Условие"
-
 #: .\problems\templates\problems\sidebar.html:15
 msgid "Tests"
 msgstr "Тесты"
-
-#: .\problems\templates\problems\sidebar.html:19 .\templates\navbar.html:24
-msgid "Solutions"
-msgstr "Решения"
 
 #: .\problems\templates\problems\sidebar.html:23
 msgid "Files"
 msgstr "Файлы"
 
 #: .\problems\templates\problems\solutions.html:17
-#: .\solutions\templates\solutions\solution.html:48
+#: .\solutions\templates\solutions\solution.html:47
 msgid "Submission time"
 msgstr "Время отправления"
 
@@ -1158,7 +1187,7 @@ msgid "Outcome"
 msgstr "Вердикт"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
-#: .\solutions\templates\solutions\solution.html:39
+#: .\solutions\templates\solutions\solution.html:38
 msgid "Score"
 msgstr "Очки"
 
@@ -1196,12 +1225,12 @@ msgid "of solution"
 msgstr "решения"
 
 #: .\solutions\templates\solutions\judgement.html:20
-#: .\solutions\templates\solutions\solution.html:87
+#: .\solutions\templates\solutions\solution.html:86
 msgid "Test results"
 msgstr "Результаты тестов"
 
 #: .\solutions\templates\solutions\judgement.html:25
-#: .\solutions\templates\solutions\solution.html:75
+#: .\solutions\templates\solutions\solution.html:74
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
@@ -1223,7 +1252,7 @@ msgid "State"
 msgstr "Состояние"
 
 #: .\solutions\templates\solutions\rejudge.html:28
-#: .\solutions\templates\solutions\solution.html:15
+#: .\solutions\templates\solutions\solution.html:14
 msgid "Solution"
 msgstr "Решение"
 
@@ -1260,29 +1289,29 @@ msgstr "Время создания"
 msgid "Number of solutions"
 msgstr "Количество решений"
 
-#: .\solutions\templates\solutions\solution.html:30
+#: .\solutions\templates\solutions\solution.html:29
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
 
-#: .\solutions\templates\solutions\solution.html:35
+#: .\solutions\templates\solutions\solution.html:34
 msgid "Course"
 msgstr "Курс"
 
-#: .\solutions\templates\solutions\solution.html:52
+#: .\solutions\templates\solutions\solution.html:51
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:81
+#: .\solutions\templates\solutions\solution.html:80
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_list.html:56
+#: .\solutions\templates\solutions\solution_list.html:58
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\solutions\templates\solutions\solution_list.html:67
-#: .\solutions\templates\solutions\solution_list.html:70
+#: .\solutions\templates\solutions\solution_list.html:69
+#: .\solutions\templates\solutions\solution_list.html:72
 msgid "No solutions selected"
 msgstr "Решения не выбраны"
 
@@ -1404,15 +1433,15 @@ msgstr "Общий размер"
 msgid "The largest resources"
 msgstr "Самые большие ресурсы"
 
-#: .\templates\base.html:50
+#: .\templates\base.html:44
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\templates\base.html:68
+#: .\templates\base.html:62
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\templates\base.html:72
+#: .\templates\base.html:66
 msgid "Feedback"
 msgstr "Обратная связь"
 
@@ -1634,6 +1663,12 @@ msgstr "Права доступа"
 #: .\users\views.py:130
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "Extra problems"
+#~ msgstr "Дополнительные задачи"
+
+#~ msgid "Not implemented yet."
+#~ msgstr "Функциональность не реализована."
 
 #~ msgctxt "switch"
 #~ msgid "Language"

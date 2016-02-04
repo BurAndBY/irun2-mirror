@@ -358,7 +358,11 @@ h3 { font-size: 20px; line-height: 32px; }
     border-width: 0.7em 0 0.7em 5px;
     border-left-color: inherit;
 }
-
+.ir-complexitybox-used {
+    color: #333;
+    background-color: #F7F7F7;
+    border-color: #F7F7F7;
+}
 /**
  * Right pills
  */
@@ -487,7 +491,7 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-assignment .ir-topic {
     background-color: #fafafa;
-    width: 180px;
+    width: 120px;
 }
 .ir-assignment .ir-topic .ir-topic-name {
     font-weight: bold;
@@ -624,6 +628,8 @@ Yellow menu
     font-size: 0.9em;
     min-width: 1.3em;
     border-radius: 2px;
+    background-color: #eee;
+    color: white;
 }
 
 .ir-criterion-yes {
@@ -632,10 +638,13 @@ Yellow menu
 }
 
 .ir-criterion-no {
-    background-color: #cccccc;
+    background-color: #ccc;
     color: white;
 }
 
+.ir-criterion-editable {
+    cursor: pointer;
+}
 
 /*
  * Solution filter
@@ -698,12 +707,14 @@ Yellow menu
 /*
  * No objects message
  */
-.ir-absence {
+div.ir-absence {
     padding: 20px 10px;
     text-align: center;
     font-style: italic;
 }
-
+span.ir-absence {
+    font-style: italic;
+}
 .ir-activity-plot {
     height: 250px;
 }
@@ -751,4 +762,49 @@ Yellow menu
 .ir-choose-subgroup .radio {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+/**
+ * List of problems in course assignment page
+ */
+.ir-topic-problems-list th, .ir-topic-problems-list td {
+    font-size: 12px;
+    padding-right: 4px;
+    padding-left: 4px;
+    vertical-align: middle;
+}
+.ir-topic-problems-list th {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 30px;
+    padding-top: 2px;
+}
+.ir-topic-problems-list > tbody > tr > td > button {
+    line-height: 1;
+}
+.ir-topic-problems-list .ir-full-width {
+    width: 100%;
+}
+
+.ir-fake-panel {
+    border: 1px solid #ce4844;
+    border-left-width: 5px;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.ir-penalty-p {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.ir-problem-used > td > a {
+    color: #ccc;
+}
+
+.ir-button-before-text {
+    margin-right: 10px;
+    min-width: 120px;
 }

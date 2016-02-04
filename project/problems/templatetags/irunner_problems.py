@@ -4,8 +4,8 @@ register = template.Library()
 
 
 @register.inclusion_tag('problems/irunner_problems_complexity_tag.html')
-def irunner_problems_complexity(complexity):
-    return {'complexity': complexity}
+def irunner_problems_complexity(complexity, used=False):
+    return {'complexity': complexity, 'used': used}
 
 
 @register.inclusion_tag('problems/irunner_problems_statement_tag.html')

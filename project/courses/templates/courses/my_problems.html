@@ -8,7 +8,7 @@
 
 {% block main %}
 
-<table class="table ir-assignment">
+<table class="table table-bordered ir-assignment">
     <tbody>
         {% for topic_result in user_result.topic_results %}
             {% with topic_result.get_slot_and_penalty_results as joint_results %}
@@ -22,34 +22,11 @@
                             </td>
                         {% endif %}
 
-                        <td{% if slot_result.is_penalty %} class="ir-penalty"{% endif %}>
-                            {% with slot_result.problem_result as problem_result %}
-                                {% if problem_result %}
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                                <div>
-                                                    {% irunner_problems_complexity problem_result.problem.complexity %}
-                                                    <a href="{% url 'courses:course_problems_problem' course.id problem_result.problem.id %}">
-                                                        {{ problem_result.problem.numbered_full_name }}
-                                                    </a>
-                                                </div>
-                                                {% if problem_result.best_solution %}
-                                                    <div class="ir-best-solution">
-                                                        {% trans 'Best solution' %}: <a href="{% url 'solutions:main' problem_result.best_solution.id %}">{% irunner_solutions_scorebox problem_result.best_solution.best_judgement %}</a>
-                                                    </div>
-                                                {% endif %}
-                                        </div>
-                                        <div class="col-sm-4">
-                                            {% for criterion_descr in slot_result.criterion_descrs %}
-                                                <div>
-                                                    {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
-                                                    {{ criterion_descr.criterion.name }}
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endwith %}
+                        <td>
+                            {% if slot_result.is_penalty %}
+                                <div class="bg-warning text-warning ir-penalty-p">{% trans 'Penalty problem' %}</div>
+                            {% endif %}
+                            {% irunner_courses_slotresult slot_result course.id editable=False %}
                         </td>
                     </tr>
                 {% endfor %}

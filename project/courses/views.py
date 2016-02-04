@@ -2,10 +2,9 @@
 
 import calendar
 import json
-from collections import namedtuple
 
 from django.contrib import auth
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
@@ -14,13 +13,12 @@ from django.views import generic
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 
-from forms import SolutionForm, ProblemAssignmentForm, AddExtraProblemSlotForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm
+from forms import SolutionForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord
 from services import make_problem_choices, make_course_results, make_course_single_result
 from permissions import CoursePermissions
 
 from common.pageutils import paginate
-from common.cacheutils import AllObjectsCache
 from common.views import StaffMemberRequiredMixin
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
@@ -388,154 +386,9 @@ class CourseProblemsProblemView(ProblemStatementMixin, BaseCourseView):
         return render(request, self.template_name, context)
 
 
-AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topics extra_form')
-TopicRepresentation = namedtuple('TopicRepresentation', 'topic_id name slots')
-SlotRepresentation = namedtuple('SlotRepresentation', 'slot_id form is_penalty extra_requirements')
-
-
-def create_assignment_form(membership, topic, post_data, slot=None, assignment=None):
-    prefix = ''  # form prefix to distinguish forms on page
-    if slot is not None:
-        prefix = 'm{0}t{1}s{2}'.format(membership.id, topic.id, slot.id)
-    elif assignment is not None:
-        prefix = 'm{0}t{1}a{2}'.format(membership.id, topic.id, assignment.id)
-    else:
-        prefix = 'm{0}t{1}new'.format(membership.id, topic.id)
-
-    form = ProblemAssignmentForm(data=post_data, instance=assignment, prefix=prefix)
-
-    # Prepare for form validation
-    form.fields['problem'].queryset = topic.list_problems()
-
-    widget = form.fields['problem'].widget
-    widget.attrs.update({'data-topic': topic.id})  # to use from JS
-
-    form.fields['criteria'].queryset = topic.criteria
-
-    return form
-
-
-def prepare_assignment(course, membership, new_penalty_topic=None, post_data=None):
-    topic_reprs = []
-    topics = course.topic_set.all()
-    for topic in topics:
-        slot_reprs = []
-
-        for slot in topic.slot_set.all():
-            assignment = Assignment.objects.filter(membership=membership, topic=topic, slot=slot).first()
-            form = create_assignment_form(
-                membership=membership,
-                topic=topic,
-                post_data=post_data,
-                slot=slot,
-                assignment=assignment,
-            )
-            extra_requirements = (assignment and assignment.extra_requirements) or ''
-            slot_reprs.append(SlotRepresentation(slot.id, form, False, extra_requirements))
-
-        penalty_assignments = Assignment.objects.filter(membership=membership, topic=topic, slot=None)
-        for assignment in penalty_assignments:
-            form = create_assignment_form(
-                membership=membership,
-                topic=topic,
-                post_data=post_data,
-                assignment=assignment,
-            )
-            slot_reprs.append(SlotRepresentation(None, form, True, assignment.extra_requirements))
-
-        if new_penalty_topic == topic.id:
-            form = create_assignment_form(
-                membership=membership,
-                topic=topic,
-                post_data=post_data,
-            )
-            slot_reprs.append(SlotRepresentation(None, form, True, ''))
-
-        topic_reprs.append(TopicRepresentation(topic.id, topic.name, slot_reprs))
-
-    extra_form = AddExtraProblemSlotForm()
-    extra_form.fields['penaltytopic'].queryset = topics
-    return AssignmentDataRepresentation(topic_reprs, extra_form)
-
-
-class CourseAssignView(BaseCourseView):
-    tab = 'assign'
-    template_name = 'courses/assign.html'
-
-    def is_allowed(self, permissions):
-        return permissions.assign
-
-    def _extract_new_penalty_topic(self, request):
-        value = request.GET.get('penaltytopic')
-        return int(value) if value is not None else None
-
-    def get_context_data(self, **kwargs):
-        context = super(CourseAssignView, self).get_context_data(**kwargs)
-        context['criterion_cache'] = AllObjectsCache(Criterion)
-        return context
-
-    def get(self, request, course, membership_id=None):
-        if membership_id is not None:
-            membership = get_object_or_404(Membership, id=membership_id, course=course)
-            ass = prepare_assignment(course, membership, self._extract_new_penalty_topic(request))
-        else:
-            # 'no selected user' empty view
-            membership = None
-            ass = None
-
-        membership_form = SolutionListMemberForm(initial={'membership': membership}, queryset=course.get_student_memberships())
-
-        context = self.get_context_data(data=ass, membership_form=membership_form)
-        return render(request, self.template_name, context)
-
-    def post(self, request, course, membership_id):
-        membership = get_object_or_404(Membership, id=membership_id, course=course)
-        membership_form = SolutionListMemberForm(initial={'membership': membership}, queryset=course.get_student_memberships())
-
-        adr = prepare_assignment(course, membership, self._extract_new_penalty_topic(request), post_data=request.POST)
-
-        all_valid = True
-
-        for topic in adr.topics:
-            for slot in topic.slots:
-                if not slot.form.is_valid():
-                    all_valid = False
-
-        if all_valid:
-            with transaction.atomic():
-                for topic in adr.topics:
-                    for slot in topic.slots:
-                        form = slot.form
-                        assignment = form.save(commit=False)
-                        assignment.membership = membership
-                        assignment.topic_id = topic.topic_id
-                        assignment.slot_id = slot.slot_id
-                        assignment.save()
-                        form.save_m2m()
-
-                        if slot.is_penalty and assignment.problem is None:
-                            assignment.delete()
-
-            #messages.add_message(request, messages.INFO, 'Hello world.')
-            return redirect('courses:course_assignment', course_id=course.id, membership_id=membership_id)
-
-        context = self.get_context_data(data=adr, membership_form=membership_form)
-        return render(request, self.template_name, context)
-
-
-def assignment_redirect_view(request, course_id):
-    '''
-    This view does not checks permissions because it does not retrieve any data from DB.
-    It is safe but useless.
-    '''
-    membership_id = request.GET.get('membership')
-    try:
-        if not membership_id:
-            return redirect('courses:course_assignment_empty', course_id)
-        else:
-            return redirect('courses:course_assignment', course_id, membership_id)
-    except NoReverseMatch as e:
-        raise Http404(e)
+'''
+List of courses
+'''
 
 
 class CourseListView(StaffMemberRequiredMixin, generic.ListView):

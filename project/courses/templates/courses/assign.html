@@ -4,6 +4,15 @@
 {% load i18n %}
 {% load irunner_cache %}
 {% load irunner_courses %}
+{% load irunner_courses %}
+{% load irunner_solutions %}
+{% load irunner_problems %}
+{% load staticfiles %}
+
+{% block head %}
+    <link href="{% static 'bootstrap-sortable/bootstrap-sortable.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap-sortable/bootstrap-sortable.js' %}"></script>
+{% endblock %}
 
 {% block main %}
 
@@ -22,112 +31,172 @@
     <div class="ir-absence">{% trans 'No user selected' %}</div>
 {% else %}
 
-<form method="post">
-{% csrf_token %}
-
-<table class="table ir-assignment">
+<table class="table table-bordered ir-assignment">
     <tbody>
-        {% for topic in data.topics %}
-            {% for slot in topic.slots %}
-                <tr>
-                    {% if forloop.first %}
-                        <td rowspan="{{ topic.slots|length }}" class="ir-topic">
-                            <div class="ir-topic-name">
-                                {{ topic.name }}
-                            </div>
-                            <div class="ir-penalty-link">
-                                <a href="?penaltytopic={{ topic.topic_id }}">{% trans 'Add penalty problem' %}</a>
+        {% for topic_repr in data.topic_reprs %}
+            {% with topic_repr.topic_result.get_slot_and_penalty_results as joint_results %}
+                {% for slot_result in joint_results %}
+                    <tr>
+                        {% if forloop.first %}
+                            <td rowspan="{{ joint_results|length }}" class="ir-topic">
+                                <div class="ir-topic-name">
+                                    {{ topic_repr.topic_result.topic_descr.topic.name }}
+                                </div>
+                            </td>
+                        {% endif %}
+
+                        <td class="ir-slot-cell">
+                            {% if slot_result.is_penalty %}
+                                <div class="bg-warning text-warning ir-penalty-p">
+                                    {% trans 'Penalty problem' %}
+                                    <div class="pull-right">
+                                        <form method="post" action="{% url 'courses:course_assignment_delete_penalty' course.id membership.id slot_result.assignment.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-default btn-xs">
+                                                {% trans 'Remove' %}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% irunner_courses_slotresult slot_result course.id editable=True %}
+
+                            {# List of problems for topic to choose from #}
+                            <div class="collapse ir-slider" id="problems_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                                <div class="ir-fake-panel">
+                                    <h4>{% trans 'Select a problem to assign' %}</h4>
+                                    <table class="sortable ir-topic-problems-list table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>{% trans 'c.' %}</th>
+                                                <th data-defaultsort="disabled"></th>
+                                                <th>{% trans '#' %}</th>
+                                                <th class="ir-full-width">{% trans 'name' %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for problem_repr in topic_repr.problem_reprs %}
+                                                {% with problem_repr.problem as problem %}
+                                                <tr{% if problem_repr.used %} class="ir-problem-used"{% endif %}>
+                                                    <td>{% irunner_problems_complexity problem.complexity %}</td>
+                                                    <td><a href="{% url 'courses:course_problems_problem' course.id problem.id %}" title="{% trans 'Statement' %}" target="_blank">{% bootstrap_icon 'file' %}</a></td>
+                                                    <td><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{% trans 'Assign' %}">{{ problem.get_formatted_number }}</a></td>
+                                                    <td class="ir-full-width"><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{% trans 'Assign' %}">{{ problem.full_name }}</a></td>
+                                                </tr>
+                                                {% endwith %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <button type="button" class="btn btn-default btn-xs ir-cancel-button">{% trans 'Cancel' %}</button>
+                                    <button type="button" class="btn btn-default btn-xs ir-choose-button">{% trans 'Reset' %}</button>
+                                </div>
                             </div>
                         </td>
-                    {% endif %}
-
-                    <td{% if slot.is_penalty %} class="ir-penalty"{% endif %}>
-                        {% bootstrap_form_errors slot.form %}
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="form-group {%if slot.form.problem.errors %}has-error{%endif%}">
-                                    <div class="input-group">
-                                        {{ slot.form.problem }}
-                                        <div class="input-group-addon ir-icon-links">
-                                            <a href="#" id="{{ slot.form.problem.auto_id }}-statement">{% bootstrap_icon 'film' %}</a>&nbsp;&nbsp;<a href="#" id="{{ slot.form.problem.auto_id }}-manage">{% bootstrap_icon 'pencil' %}</a>
-                                        </div>
-                                    </div>
-                                    {% if slot.form.problem.errors %}
-                                        {% for error in slot.form.problem.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    нет решений
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                {#{% bootstrap_field slot.form.criteria show_label=False %}#}
-                                {% for checkbox in slot.form.criteria %}
-                                    <div class="checkbox">
-                                        <label>
-                                            {{ checkbox.tag }}
-                                            {% irunner_cache_lookup criterion_cache checkbox.choice_value as criterion %}
-                                            {% irunner_courses_criterion criterion checkbox.is_checked %}
-                                            {{ checkbox.choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                                {% if slot.extra_requirements %}
-                                    {% bootstrap_field slot.form.extra_requirements_ok %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endwith %}
         {% endfor %}
     </tbody>
 </table>
 
-<div class="form-group">
-    <button type="submit" class="btn btn-default">{% trans 'Save' %}</button>
-</div>
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" href="#penalty">
+                {% trans 'Penalty problems' %}
+            </a>
+        </h4>
+    </div>
 
-</form>
-
-<div class="panel panel-success ir-assignment">
-    <div class="panel-heading">{% trans 'Extra problems' %}</div>
-    <div class="panel-body">
-        {% trans 'Not implemented yet.' %}
+    <div class="panel-collapse collapse" id="penalty">
+        <div class="panel-body">
+            <form method="post" action="{% url 'courses:course_assignment_new_penalty' course.id membership.id %}" class="form-horizontal">
+                {% csrf_token %}
+                {% bootstrap_form extra_form layout='horizontal' %}
+                {% buttons layout='horizontal' %}
+                    <button type="submit" class="btn btn-default">
+                        {% trans 'Add' %}
+                    </button>
+                {% endbuttons %}
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
-    function setLinks(select) {
-        var id = select.attr('id');
+    function makeSlotParams(slotResultDiv) {
+        var params = {
+            "csrfmiddlewaretoken": "{{ csrf_token }}"
+        };
+        $.each(slotResultDiv.data(), function(i, e) {
+            params[i] = e;
+        });
+        return params;
+    }
 
-        var statementUrl = "#";
-        var manageUrl = "#";
-
-        var selectedProblem = $("#" + id + " option:selected");
-        if (selectedProblem) {
-            var problemId = selectedProblem.val();
-            if (problemId) {
-                var topicID = select.data('topic');
-                if (topicID) {
-                    statementUrl = Urls["courses:course_problems_topic_problem"]({{ course.id }}, topicID, problemId);
-                    manageUrl = Urls["problems:overview"](problemId);
-                }
-            }
+    function assignProblem(event) {
+        if (event) {
+            event.preventDefault();
         }
 
-        $("#" + id + "-statement").attr("href", statementUrl);
-        $("#" + id + "-manage").attr("href", manageUrl);
+        var div = $(this).parents(".ir-slot-cell").first().find(".ir-slot-result").first();
+        var params = makeSlotParams(div);
+        var problemId = $(this).data("problem");
+        if (problemId) {
+            params["problem"] = problemId;
+        }
+        $.post("api/problem/", params).done(function(response) {
+            div.html(response);
+        });
+
+        var divWithProblems = $(this).parents(".ir-slider");
+        divWithProblems.collapse("hide");
+    }
+
+    function toggleCriterion() {
+        var criterionDiv = $(this);
+        var div = criterionDiv.parents(".ir-slot-cell").first().find(".ir-slot-result").first();
+        var params = makeSlotParams(div);
+        params["criterion"] = criterionDiv.data("criterion");
+
+        var state;
+        if (criterionDiv.hasClass("ir-criterion-no")) {
+            state = false;
+        }
+        if (criterionDiv.hasClass("ir-criterion-yes")) {
+            state = true;
+        }
+
+        if (state === false || state === true) {
+            criterionDiv.removeClass("ir-criterion-no");
+            criterionDiv.removeClass("ir-criterion-yes");
+            params["ok"] = state ? 0 : 1;
+
+            $.post("api/criterion/", params).done(function(response) {
+                var ok = Boolean(response.ok);
+                if (ok === false) {
+                    criterionDiv.addClass("ir-criterion-no");
+                }
+                if (ok === true) {
+                    criterionDiv.addClass("ir-criterion-yes");
+                }
+            });
+        }
     }
 
     $(document).ready(function() {
-        $("select.ir-choose-problem").change(function() {
-            setLinks($(this));
-        }).each(function() {
-            setLinks($(this));
+        $(".ir-cancel-button").click(function() {
+            var divWithProblems = $(this).parents(".ir-slider");
+            divWithProblems.collapse("hide");
         });
+        $(document).on("click", ".ir-assign-button", function() {
+            var divWithProblems = $(this).parents("td").first().find(".ir-slider");
+            divWithProblems.collapse("toggle");
+        });
+        $(document).on("click", ".ir-criterion-editable", toggleCriterion);
+        $(".ir-choose-button").click(assignProblem);
     });
 </script>
 

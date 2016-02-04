@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from itertools import chain
 from collections import namedtuple
 
 from common.constants import EMPTY_SELECT
@@ -230,12 +231,14 @@ class ProblemResult(object):
         self.best_solution = None
         self.attempts = 0
         self.max_attempts = None
+        self.solutions = []
 
     def register_solution(self, solution):
         if self.problem.id != solution.problem_id:
             return
 
         self.attempts += 1
+        self.solutions.append(solution)
         judgement = solution.best_judgement
 
         if judgement is None:
@@ -263,6 +266,7 @@ class ProblemResult(object):
 
 class SlotResult(object):
     def __init__(self, topic_descr, slot=None):
+        self.topic_descr = topic_descr
         self.slot = slot
         self.assignment = None
         self.problem_result = None
@@ -401,3 +405,11 @@ class UserResult(object):
     def register_activity_record(self, record):
         idx = self.course_descr.get_activity_index(record.activity_id)
         self.activity_results[idx].register_activity_record(record)
+
+    def get_slot_result(self, assignment):
+        for topic_result in self.topic_results:
+            for slot_result in chain(topic_result.slot_results, topic_result.penalty_problem_results):
+                if slot_result.assignment == assignment:
+                    return slot_result
+
+        raise ValueError('no slot result was found for assignment')
