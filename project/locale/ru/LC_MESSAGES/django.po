@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-04 23:30+0300\n"
-"PO-Revision-Date: 2016-02-04 23:34+0300\n"
+"POT-Creation-Date: 2016-02-05 01:27+0300\n"
+"PO-Revision-Date: 2016-02-05 01:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -41,7 +41,7 @@ msgstr "Изменить язык интерфейса"
 #: .\courses\templates\courses\settings_compilers.html:31
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
-#: .\courses\templates\courses\settings_users.html:43
+#: .\courses\templates\courses\settings_users.html:44
 #: .\courses\templates\courses\settings_users_edit.html:17
 #: .\problems\templates\problems\edit.html:14
 #: .\proglangs\templates\proglangs\edit.html:12
@@ -377,7 +377,7 @@ msgid "c."
 msgstr "сл."
 
 #: .\courses\templates\courses\assign.html:74
-#: .\courses\templates\courses\settings_users.html:21
+#: .\courses\templates\courses\settings_users.html:22
 #: .\courses\templates\courses\sheet.html:26
 #: .\courses\templates\courses\standings.html:21
 #: .\courses\templates\courses\standings_wide.html:16
@@ -394,7 +394,7 @@ msgstr "Условие"
 
 #: .\courses\templates\courses\assign.html:84
 #: .\courses\templates\courses\assign.html:85
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:20
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:19
 msgid "Assign"
 msgstr "Назначить"
 
@@ -475,16 +475,16 @@ msgid "Number of submitted solutions"
 msgstr "Количество отправленных решений"
 
 #: .\courses\templates\courses\info.html:29
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:43
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:42
 #: .\courses\templates\courses\solutions.html:76
 msgid "No solutions"
 msgstr "Решений нет"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:29
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:28
 msgid "No problem is assigned"
 msgstr "Задача не назначена"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:37
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:36
 #: .\problems\templates\problems\overview.html:91
 msgid "solution"
 msgid_plural "solutions"
@@ -492,23 +492,23 @@ msgstr[0] "решение"
 msgstr[1] "решения"
 msgstr[2] "решений"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:48
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:47
 msgid "Best solution"
 msgstr "Наилучшее решение"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:68
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:67
 #: .\problems\templates\problems\sidebar.html:19 .\templates\navbar.html:24
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:72
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:71
 #: .\courses\templates\courses\solutions.html:33
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 #: .\solutions\templates\solutions\solution_list.html:30
 msgid "Time"
 msgstr "Время"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:73
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:72
 #: .\courses\templates\courses\solutions.html:35
 #: .\problems\templates\problems\solutions.html:19
 #: .\solutions\templates\solutions\solution_list.html:32
@@ -605,11 +605,15 @@ msgstr "Нет тем."
 msgid "New topic"
 msgstr "Новая тема"
 
-#: .\courses\templates\courses\settings_users.html:23
+#: .\courses\templates\courses\settings_users.html:17
+msgid "Edit the list"
+msgstr "Редактировать список"
+
+#: .\courses\templates\courses\settings_users.html:24
 msgid "Subgroup"
 msgstr "Подгруппа"
 
-#: .\courses\templates\courses\settings_users.html:37
+#: .\courses\templates\courses\settings_users.html:38
 msgid "No users are set."
 msgstr "Пользователи не заданы."
 
