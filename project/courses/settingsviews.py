@@ -272,6 +272,7 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
                 obj = form.save(commit=False)
                 obj.course = course
                 obj.save()
+                form.save_m2m()
                 self._do_save(course, form, obj)
             return redirect(self.list_url_name, course_id=course.id)
 
