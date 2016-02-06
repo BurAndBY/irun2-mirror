@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-05 01:27+0300\n"
-"PO-Revision-Date: 2016-02-05 01:28+0300\n"
+"POT-Creation-Date: 2016-02-06 02:58+0300\n"
+"PO-Revision-Date: 2016-02-06 03:00+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -44,6 +44,7 @@ msgstr "Изменить язык интерфейса"
 #: .\courses\templates\courses\settings_users.html:44
 #: .\courses\templates\courses\settings_users_edit.html:17
 #: .\problems\templates\problems\edit.html:14
+#: .\problems\templates\problems\edit_test.html:34
 #: .\proglangs\templates\proglangs\edit.html:12
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:28
@@ -137,7 +138,7 @@ msgstr "Страница"
 
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:26
-#: .\problems\templates\problems\show_test.html:15
+#: .\problems\templates\problems\show_test.html:16
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:28
 #: .\solutions\templates\solutions\judgement.html:16
 #: .\solutions\templates\solutions\solution.html:39
@@ -179,7 +180,7 @@ msgstr "Удалить всё"
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\courses\forms.py:41 .\problems\forms.py:8
+#: .\courses\forms.py:41 .\problems\forms.py:12
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
@@ -274,8 +275,8 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:84 .\problems\models.py:59 .\problems\models.py:84
-#: .\problems\models.py:105 .\proglangs\models.py:29 .\users\models.py:16
-#: .\users\models.py:27
+#: .\problems\models.py:105 .\problems\models.py:112 .\proglangs\models.py:29
+#: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
 
@@ -401,6 +402,7 @@ msgstr "Назначить"
 #: .\courses\templates\courses\assign.html:92
 #: .\courses\templates\courses\settings_component.html:16
 #: .\courses\templates\courses\settings_users_edit.html:20
+#: .\problems\templates\problems\edit_test.html:37
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\delete.html:26 .\users\templates\users\move.html:27
 msgid "Cancel"
@@ -542,6 +544,7 @@ msgid "Sheet"
 msgstr "Ведомость"
 
 #: .\courses\templates\courses\settings_component.html:20
+#: .\problems\templates\problems\show_test.html:31
 #: .\solutions\templates\solutions\solution_list.html:61
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
@@ -639,6 +642,7 @@ msgstr "Вернуться в режим просмотра (только чте
 
 #: .\courses\templates\courses\sheet.html:113
 #: .\problems\templates\problems\overview.html:12
+#: .\problems\templates\problems\show_test.html:26
 msgid "Edit"
 msgstr "Правка"
 
@@ -757,7 +761,7 @@ msgstr "Ваше сообщение сохранено."
 msgid "Wiki"
 msgstr "Вики"
 
-#: .\problems\models.py:22
+#: .\problems\models.py:22 .\problems\models.py:111
 msgid "number"
 msgstr "номер"
 
@@ -851,6 +855,22 @@ msgstr "Библиотека"
 msgid "compiler"
 msgstr "компилятор"
 
+#: .\problems\templates\problems\edit_test.html:9
+msgid "Edit the test case"
+msgstr "Редактировать тест"
+
+#: .\problems\templates\problems\edit_test.html:17
+#: .\problems\templates\problems\show_test.html:46
+#: .\solutions\templates\solutions\testcaseresult.html:8
+msgid "Input file"
+msgstr "Входной файл"
+
+#: .\problems\templates\problems\edit_test.html:24
+#: .\problems\templates\problems\show_test.html:50
+#: .\solutions\templates\solutions\testcaseresult.html:20
+msgid "Answer file"
+msgstr "Файл правильного ответа"
+
 #: .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\files.html:30
 msgid "Type"
@@ -859,7 +879,7 @@ msgstr "Тип"
 #: .\problems\templates\problems\files.html:12
 #: .\problems\templates\problems\files.html:31
 #: .\problems\templates\problems\overview.html:49
-#: .\problems\templates\problems\show_test.html:25
+#: .\problems\templates\problems\show_test.html:38
 #: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:27
 msgid "Description"
@@ -956,19 +976,9 @@ msgstr[0] "файл"
 msgstr[1] "файла"
 msgstr[2] "файлов"
 
-#: .\problems\templates\problems\show_test.html:15
+#: .\problems\templates\problems\show_test.html:16
 msgid "Test"
 msgstr "Тест"
-
-#: .\problems\templates\problems\show_test.html:33
-#: .\solutions\templates\solutions\testcaseresult.html:8
-msgid "Input file"
-msgstr "Входной файл"
-
-#: .\problems\templates\problems\show_test.html:37
-#: .\solutions\templates\solutions\testcaseresult.html:20
-msgid "Answer file"
-msgstr "Файл правильного ответа"
 
 #: .\problems\templates\problems\sidebar.html:15
 msgid "Tests"
@@ -1346,6 +1356,7 @@ msgstr "Стандартный вывод ошибок (stderr)"
 
 #: .\solutions\templates\solutions\testcaseresult.html:39
 #: .\storage\templates\storage\irunner_storage_show_tag.html:24
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:23
 msgid "No data"
 msgstr "Нет данных"
 
@@ -1396,6 +1407,22 @@ msgid ""
 msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:7
+msgid "The file is binary."
+msgstr "Файл бинарный."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:11
+msgid "The file is too big."
+msgstr "Файл слишком большой."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:15
+msgid "The encoding of the file is not UTF-8."
+msgstr "Файл не в кодировке UTF-8."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:19
+msgid "The file has Byte Order Mark (BOM)."
+msgstr "В файле есть метка порядка байтов (BOM)."
 
 #: .\storage\templates\storage\new.html:7
 msgid "New resource"

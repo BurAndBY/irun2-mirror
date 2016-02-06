@@ -3,6 +3,7 @@ import mimetypes
 import operator
 import re
 
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
@@ -20,7 +21,7 @@ from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
 import solutions.utils
 
-from .forms import ProblemForm, ProblemSearchForm
+from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
 from .texrenderer import TeXRenderer
@@ -266,6 +267,79 @@ class ProblemTestsTestView(BaseProblemView):
             'input_repr': input_repr,
             'answer_repr': answer_repr,
             'description': test_case.description,
+        })
+        return render(request, self.template_name, context)
+
+
+class ProblemTestsTestEditView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/edit_test.html'
+
+    def _make_data_form(self, storage, resource_id, prefix, data=None, files=None):
+        representation = storage.represent(resource_id)
+        text = representation.editable_text
+        if text is not None:
+            return TestUploadOrTextForm(data=data, files=files, prefix=prefix, initial={'text': text})
+        else:
+            return TestUploadForm(data=data, files=files, prefix=prefix, representation=representation)
+
+    def _extract_form_result(self, form):
+        '''
+        Returns file object if file must be replaced, else returns None (leave the initial data untouched).
+        '''
+        upload = form.cleaned_data['upload']
+        if upload is None:
+            text = form.cleaned_data.get('text')
+            if text is not None:
+                upload = ContentFile(text.encode('utf-8'))
+        return upload
+
+    def get(self, request, problem_id, test_number):
+        problem = self._load(problem_id)
+        test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
+
+        storage = create_storage()
+        input_form = self._make_data_form(storage, test_case.input_resource_id, 'input')
+        answer_form = self._make_data_form(storage, test_case.answer_resource_id, 'answer')
+        description_form = TestDescriptionForm(instance=test_case)
+
+        context = self._make_context(problem, {
+            'input_form': input_form,
+            'answer_form': answer_form,
+            'description_form': description_form,
+            'test_number': test_number,
+        })
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id, test_number):
+        problem = self._load(problem_id)
+        test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
+
+        storage = create_storage()
+        input_form = self._make_data_form(storage, test_case.input_resource_id, 'input', data=request.POST, files=request.FILES)
+        answer_form = self._make_data_form(storage, test_case.answer_resource_id, 'answer', data=request.POST, files=request.FILES)
+        description_form = TestDescriptionForm(instance=test_case, data=request.POST)
+
+        if input_form.is_valid() and answer_form.is_valid() and description_form.is_valid():
+            test_case = description_form.save(commit=False)
+
+            input_file = self._extract_form_result(input_form)
+            if input_file is not None:
+                test_case.set_input(storage, input_file)
+
+            answer_file = self._extract_form_result(answer_form)
+            if answer_file is not None:
+                test_case.set_answer(storage, answer_file)
+
+            test_case.save()
+            return redirect('problems:show_test', problem.id, test_number)
+
+        context = self._make_context(problem, {
+            'input_form': input_form,
+            'answer_form': answer_form,
+            'description_form': description_form,
+            'test_number': test_number,
         })
         return render(request, self.template_name, context)
 

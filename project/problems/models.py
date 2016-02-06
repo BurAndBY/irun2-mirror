@@ -108,8 +108,8 @@ class ProblemRelatedSourceFile(FileMetadataBase):
 
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem)
-    ordinal_number = models.PositiveIntegerField(default=0)
-    description = models.TextField(blank=True)
+    ordinal_number = models.PositiveIntegerField(_('number'), default=0)
+    description = models.TextField(_('description'), blank=True)
 
     input_resource_id = ResourceIdField()
     input_size = models.IntegerField(default=0)

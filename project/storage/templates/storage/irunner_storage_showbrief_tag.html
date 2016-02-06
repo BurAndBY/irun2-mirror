@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div>
+    {% if representation %}
+        {% if representation.is_binary %}
+            <div class="alert alert-warning">
+                {% trans "The file is binary." %}
+            </div>
+        {% elif not representation.is_complete %}
+            <div class="alert alert-info">
+                {% trans "The file is too big." %}
+            </div>
+        {% elif not representation.is_utf8 %}
+            <div class="alert alert-info">
+                {% trans "The encoding of the file is not UTF-8." %}
+            </div>
+        {% elif representation.has_bom %}
+            <div class="alert alert-info">
+                {% trans "The file has Byte Order Mark (BOM)." %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="ir-absence">{% trans 'No data' %}</div>
+    {% endif %}
+</div>

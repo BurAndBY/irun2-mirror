@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^(?P<problem_id>[0-9]+)/tests/$', views.ProblemTestsView.as_view(), name='tests'),
     #url(r'^(?P<problem_id>[0-9]+)/tests/add/$', views.add_test, name='add_test'),
     url(r'^(?P<problem_id>[0-9]+)/tests/(?P<test_number>[0-9]+)/$', views.ProblemTestsTestView.as_view(), name='show_test'),
+    url(r'^(?P<problem_id>[0-9]+)/tests/(?P<test_number>[0-9]+)/edit/$', views.ProblemTestsTestEditView.as_view(), name='edit_test'),
     url(r'^(?P<problem_id>[0-9]+)/solutions/$', views.ProblemSolutionsView.as_view(), name='solutions'),
     url(r'^(?P<problem_id>[0-9]+)/files/$', views.ProblemFilesView.as_view(), name='files'),
     url(r'^(?P<problem_id>[0-9]+)/files/(?P<file_id>[0-9]+)/(?P<filename>.*)$', views.ProblemFilesFileOpenView.as_view(), name='file_open'),

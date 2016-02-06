@@ -1,0 +1,41 @@
+{% extends "problems/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_storage %}
+
+{% block main %}
+
+    <h2>{% trans 'Edit the test case' %}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form description_form %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>{% trans 'Input file' %}</h4>
+                {% bootstrap_form input_form show_label=False %}
+                {% if input_form.representation %}
+                    {% irunner_storage_showbrief input_form.representation %}
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h4>{% trans 'Answer file' %}</h4>
+                {% bootstrap_form answer_form show_label=False %}
+                {% if answer_form.representation %}
+                    {% irunner_storage_showbrief answer_form.representation %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% buttons %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Save' %}
+            </button>
+            <a href="{% url 'problems:show_test' problem.id test_number %}" role="button" class="btn btn-default">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends "problems/base.html" %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_storage %}
 
@@ -16,6 +17,18 @@
         <li>
             <a href="{% url 'problems:show_test' problem_id next_test %}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="pagination ir-pagination-no-margin">
+        <li>
+            <a href="{% url 'problems:edit_test' problem_id current_test %}">
+                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
+            </a>
+        </li>
+        <li class="disabled">
+            <a href="#">
+                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
             </a>
         </li>
     </ul>

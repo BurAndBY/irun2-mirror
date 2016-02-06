@@ -114,6 +114,10 @@ class ResourseRepresentation(object):
     def complete_text(self):
         return self.text if self.is_complete() else None
 
+    @property
+    def editable_text(self):
+        return self.text if (self.is_complete() and self.is_utf8() and not self.has_bom()) else None
+
 
 class ServedData(object):
     def __init__(self, size, generator):
