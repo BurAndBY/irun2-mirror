@@ -1,11 +1,11 @@
 from collections import namedtuple
 
-from django.core.urlresolvers import NoReverseMatch
+from django.db.models import F
 from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 
-from forms import AddExtraProblemSlotForm, SolutionListMemberForm
+from forms import AddExtraProblemSlotForm
 from models import Topic, Membership, Assignment, Slot
 from services import make_course_single_result
 
@@ -30,19 +30,21 @@ class CourseEmptyAssignView(BaseCourseAssignView):
     template_name = 'courses/assign.html'
 
     def get(self, request, course):
-        membership_form = SolutionListMemberForm(queryset=course.get_student_memberships())
-        context = self.get_context_data(membership_form=membership_form)
+        context = self.get_context_data()
+        context['student_list'] = self.get_user_cache().list_students()
         return render(request, self.template_name, context)
 
 
 class BaseCourseMemberAssignView(BaseCourseAssignView):
     def get_context_data(self, **kwargs):
         context = super(BaseCourseMemberAssignView, self).get_context_data(**kwargs)
-        context['membership'] = self.membership
+        user_cache = self.get_user_cache()
+        context['student_list'] = user_cache.list_students()
+        context['current_student'] = user_cache.get_user(self.membership.user_id)
         return context
 
-    def dispatch(self, request, course_id, membership_id, *args, **kwargs):
-        membership = get_object_or_404(Membership, pk=membership_id, course_id=course_id, role=Membership.STUDENT)
+    def dispatch(self, request, course_id, user_id, *args, **kwargs):
+        membership = get_object_or_404(Membership, user_id=user_id, course_id=course_id, role=Membership.STUDENT)
         self.membership = membership
         return super(BaseCourseMemberAssignView, self).dispatch(request, course_id, membership, *args, **kwargs)
 
@@ -62,6 +64,18 @@ class CourseAssignView(BaseCourseMemberAssignView):
                 values_list('topic_id', 'problem_id'):
             used_problems.setdefault(topic_id, set()).add(problem_id)
 
+        # find out what problem folders do we need
+        folder_ids = set()
+        for topic_result in user_result.topic_results:
+            topic = topic_result.topic_descr.topic
+            if topic.problem_folder_id is not None:
+                folder_ids.add(topic.problem_folder_id)
+
+        folder_id_to_problems = {}
+        for problem in Problem.objects.filter(folders__id__in=folder_ids).annotate(folder_id=F('folders__id')):
+            folder_id_to_problems.setdefault(problem.folder_id, []).append(problem)
+        assert None not in folder_id_to_problems
+
         topic_reprs = []
         for topic_result in user_result.topic_results:
             topic = topic_result.topic_descr.topic
@@ -69,21 +83,19 @@ class CourseAssignView(BaseCourseMemberAssignView):
             used_topic_problems = used_problems.get(topic.id, set())
 
             problem_reprs = []
-            for problem in Problem.objects.filter(folders__id=topic.problem_folder_id):
-                problem_reprs.append(ProblemRepresentation(problem, problem.id in used_topic_problems))
+            for problem in folder_id_to_problems.get(topic.problem_folder_id):
+                used = problem.id in used_topic_problems
+                problem_reprs.append(ProblemRepresentation(problem, used))
 
             topic_repr = TopicRepresentation(topic_result, problem_reprs)
-
             topic_reprs.append(topic_repr)
 
         assignment_repr = AssignmentDataRepresentation(topic_reprs)
 
-        membership_form = SolutionListMemberForm(initial={'membership': membership}, queryset=course.get_student_memberships())
-
         extra_form = AddExtraProblemSlotForm()
         extra_form.fields['penaltytopic'].queryset = course.topic_set.all()
 
-        context = self.get_context_data(data=assignment_repr, membership_form=membership_form, extra_form=extra_form)
+        context = self.get_context_data(data=assignment_repr, extra_form=extra_form)
         return render(request, self.template_name, context)
 
 
@@ -94,13 +106,13 @@ class CourseAssignCreatePenaltyProblem(BaseCourseMemberAssignView):
         if extra_form.is_valid():
             topic = extra_form.cleaned_data['penaltytopic']
             Assignment.objects.create(topic=topic, membership=membership)
-        return redirect('courses:course_assignment', course.id, membership.id)
+        return redirect('courses:course_assignment', course.id, membership.user_id)
 
 
 class CourseAssignDeletePenaltyProblem(BaseCourseMemberAssignView):
     def post(self, request, course, membership, assignment_id):
         Assignment.objects.filter(pk=assignment_id, membership=membership).delete()
-        return redirect('courses:course_assignment', course.id, membership.id)
+        return redirect('courses:course_assignment', course.id, membership.user_id)
 
 
 AssignmentData = namedtuple('AssignmentData', 'topic assignment')
@@ -187,18 +199,3 @@ class CourseAssignCriterionApiView(BaseCourseMemberAssignView):
 
         else:
             return JsonResponse()
-
-
-def assignment_redirect_view(request, course_id):
-    '''
-    This view does not checks permissions because it does not retrieve any data from DB.
-    It is safe but useless.
-    '''
-    membership_id = request.GET.get('membership')
-    try:
-        if not membership_id:
-            return redirect('courses:course_assignment_empty', course_id)
-        else:
-            return redirect('courses:course_assignment', course_id, membership_id)
-    except NoReverseMatch as e:
-        raise Http404(e)

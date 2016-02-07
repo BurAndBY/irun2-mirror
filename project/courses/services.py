@@ -113,7 +113,7 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
     builder = ProblemChoicesBuilder(topics)
 
     if full:
-        folder_ids = [topic.problem_folder_id for topic in topics]
+        folder_ids = set(topic.problem_folder_id for topic in topics)
         for problem in Problem.objects.filter(folders__id__in=folder_ids).annotate(folder_id=F('folders__id')):
             builder.add(problem.folder_id, problem)
 
