@@ -34,6 +34,7 @@ class SolutionPermissions(object):
         self.compilation_log = False
         self.source_code = False
         self.results = False
+        self.exit_codes = False
         self.checker_messages = False
         self.tests_data = False
 
@@ -55,6 +56,7 @@ class SolutionPermissions(object):
             self.results = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES:
+            self.exit_codes = True
             self.checker_messages = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_TEST_DATA:

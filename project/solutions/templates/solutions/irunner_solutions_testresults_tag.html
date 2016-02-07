@@ -11,11 +11,13 @@
             <th class="ir-col-score">{% trans 'Score' %}</th>
             <th class="ir-col-limit">{% trans 'Time' %}</th>
             <th class="ir-col-limit">{% trans 'Memory' %}</th>
-            <th class="ir-col-code">{% trans 'Exit Code' %}</th>
-            <th class="ir-col-msg">
-            {% if solution_permissions.checker_messages %}
-                {% trans 'Checker Message' %}
+            {% if solution_permissions.exit_codes %}
+                <th class="ir-col-code">{% trans 'Exit Code' %}</th>
             {% endif %}
+            <th class="ir-col-msg">
+                {% if solution_permissions.checker_messages %}
+                    {% trans 'Checker Message' %}
+                {% endif %}
             </th>
         </tr>
     </thead>
@@ -23,12 +25,23 @@
         {% for test in test_results %}
         <tr{% if enable_tests_data %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
             {# arrow > is shown only when the row can be expanded #}
-            <td class="ir-col-no">{{ forloop.counter }}{% if enable_tests_data %}&nbsp;<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
-            <td class="ir-col-outcome">{% irunner_solutions_outcomebox test.outcome tooltip=True %}</td>
+            <td class="ir-col-no">{{ forloop.counter }}{% if enable_tests_data %}&nbsp;<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>            
+            {% if solution_permissions.checker_messages %}
+                <td class="ir-col-outcome">
+                    {% irunner_solutions_outcomebox test.outcome tooltip=True %}
+                </td>
+            {% else %}
+                <td class="ir-col-outcome-wide">
+                    {% irunner_solutions_outcomebox test.outcome tooltip=False %} {{ test.get_outcome_display }}
+                </td>
+            {% endif %}
+            </td>
             <td class="ir-col-score">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>
             <td class="ir-col-limit">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
             <td class="ir-col-limit">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
-            <td class="ir-col-code">{{ test.exit_code }}</td>
+            {% if solution_permissions.exit_codes %}
+                <td class="ir-col-code">{{ test.exit_code }}</td>
+            {% endif %}
             <td class="ir-col-msg">
                 {% if solution_permissions.checker_messages %}
                     <div class="ir-checker-msg">{{ test.checker_message }}</div>

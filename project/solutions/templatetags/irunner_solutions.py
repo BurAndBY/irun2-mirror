@@ -87,7 +87,7 @@ def irunner_solutions_outcomebox(outcome, tooltip=False):
         context = {
             'code': code,
             'style': _get_style(outcome, code),
-            'tooltip': _find_in_choices(Outcome.CHOICES, outcome)
+            'tooltip': _find_in_choices(Outcome.CHOICES, outcome) if tooltip else '',
         }
     return context
 

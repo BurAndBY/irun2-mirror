@@ -112,7 +112,8 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-table-more-condensed > thead > tr > td,
 .ir-table-more-condensed > tbody > tr > td,
 .ir-table-more-condensed > tfoot > tr > td {
-    padding: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
     vertical-align: middle;
 }
 
@@ -294,7 +295,10 @@ h3 { font-size: 20px; line-height: 32px; }
     width: 80px;
     text-align: center;
 }
-
+.ir-col-outcome-wide {
+    text-align: left;
+    width: 300px;
+}
 .ir-col-no {
     width: 50px;
     text-align: right;
