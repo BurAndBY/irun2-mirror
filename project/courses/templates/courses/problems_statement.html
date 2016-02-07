@@ -1,6 +1,9 @@
 {% extends 'courses/problems_base.html' %}
 
+{% load i18n %}
 {% load irunner_problems %}
+
+{% block subtitle %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
 
 {% block submain %}
     {% irunner_problems_statement statement %}

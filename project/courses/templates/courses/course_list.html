@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% trans 'Courses' %}</h1>
+    <h1>{% block title %}{% trans 'Courses' %}{% endblock %}</h1>
     {% if object_list %}
         <ul>
             {% for course in object_list %}

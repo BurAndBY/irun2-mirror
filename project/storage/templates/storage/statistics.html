@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <h1>{% trans 'Storage statistics' %}</h1>
+    <h1>{% block title %}{% trans 'Storage statistics' %}{% endblock %}</h1>
 
     <dl class="dl-horizontal">
         <dt>{% trans 'Resource count' %}</dt>

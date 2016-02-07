@@ -6,8 +6,12 @@
 {% load staticfiles %}
 
 {% block head %}
-    <script src="{% static 'mindmup-editabletable.js' %}"></script>
+    {% if edit_mode %}
+        <script src="{% static 'mindmup-editabletable.js' %}"></script>
+    {% endif %}
 {% endblock %}
+
+{% block subtitle %}{% trans 'Sheet' %}{% endblock %}
 
 {% block main %}
 

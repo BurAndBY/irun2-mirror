@@ -5,6 +5,8 @@
 {% load irunner_mass %}
 {% load irunner_users %}
 
+{% block title %}{% trans 'Users' %}{% endblock %}
+
 {% block content %}
     {% if object_list %}
         {% trans 'Are you sure you want to delete the users?' %}

@@ -3,8 +3,10 @@
 {% load i18n %}
 {% load irunner_messagebox %}
 
+{% block title %}{% trans 'Access denied' %}{% endblock %}
+
 {% block content %}
     {% irunner_messagebox 'danger' %}
-        {% trans 'Access denied.' %}
+        {% trans 'Access denied' %}.
     {% irunner_endmessagebox %}
 {% endblock %}

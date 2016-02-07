@@ -7,7 +7,7 @@
 {% load irunner_proglangs %}
 
 {% block content %}
-    <h2>{% trans 'Rejudge' %} {{ rejudge.id }}</h2>
+    <h2>{% block title %}{% trans 'Rejudge' %} {{ rejudge.id }}{% endblock %}</h2>
 
     <dl class="dl-horizontal">
         <dt>{% trans 'Created' %}</dt>

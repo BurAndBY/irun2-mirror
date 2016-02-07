@@ -5,7 +5,7 @@
 {% load irunner_pagination %}
 
 {% block content %}
-<h1>{% trans 'Feedback Messages' %}</h1>
+<h1>{% block title %}{% trans 'Feedback Messages' %}{% endblock %}</h1>
 
 {% irunner_pagination pagination_context %}
 {% for message in object_list %}

@@ -3,6 +3,8 @@
 {% load bootstrap3 %}
 {% load i18n %}
 
+{% block title %}{{ page_title }} &mdash; {{ edited_user.username }}{% endblock %}
+
 {% block main %}
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}

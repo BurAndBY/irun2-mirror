@@ -14,6 +14,8 @@
     <script src="{% static 'bootstrap-sortable/bootstrap-sortable.js' %}"></script>
 {% endblock %}
 
+{% block subtitle %}{% trans 'Assignment of problems' %}{% endblock %}
+
 {% block main %}
 
 <div class="panel panel-default">
@@ -80,7 +82,7 @@
                                     <table class="sortable ir-topic-problems-list table-hover">
                                         <thead>
                                             <tr>
-                                                <th>{% trans 'c.' %}</th>
+                                                <th>{% trans 'level' %}</th>
                                                 <th data-defaultsort="disabled"></th>
                                                 <th>{% trans '#' %}</th>
                                                 <th class="ir-full-width">{% trans 'name' %}</th>

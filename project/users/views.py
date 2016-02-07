@@ -220,6 +220,11 @@ class ProfileUpdateView(ProfileTwoFormsView):
     user_form_class = forms.UserForm
     userprofile_form_class = forms.UserProfileForm
 
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        context['page_title'] = _('Update profile')
+        return context
+
 
 class ProfilePasswordView(BaseProfileView, generic.View):
     tab = 'password'
@@ -242,3 +247,8 @@ class ProfilePermissionsView(ProfileTwoFormsView):
     template_name = 'users/profile_update.html'
     user_form_class = forms.UserPermissionsForm
     userprofile_form_class = forms.UserProfilePermissionsForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfilePermissionsView, self).get_context_data(**kwargs)
+        context['page_title'] = _('Permissions')
+        return context

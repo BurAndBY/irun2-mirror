@@ -6,6 +6,8 @@
 {% load irunner_problems %}
 {% load staticfiles %}
 
+{% block title %}{% block subtitle %}{% endblock %} &mdash; {% trans 'Solution' %} {{ solution.id }}{% endblock %}
+
 {% block content %}
 <div class="panel panel-default ir-solution-panel">
     <div class="panel-body">

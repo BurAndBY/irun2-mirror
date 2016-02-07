@@ -1,6 +1,9 @@
 {% extends 'courses/base.html' %}
 
+{% load i18n %}
 {% load irunner_solutions %}
+
+{% block subtitle %}{% trans 'Submit solution' %}{% endblock %}
 
 {% block main %}
     {% irunner_solutions_livesubmission solution_id %}

@@ -3,6 +3,8 @@
 {% load i18n %}
 {% load irunner_storage %}
 
+{% block subtitle %}{% trans 'Compilation log' %}{% endblock %}
+
 {% block main %}
     {% if log_repr %}
         {% irunner_storage_show log_repr %} 

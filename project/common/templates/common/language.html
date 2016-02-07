@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block content %}
-    <h2>{% trans 'Interface language' %}</h2>
+    <h2>{% block title %}{% trans 'Interface language' %}{% endblock %}</h2>
 
     <form action="{% url 'set_language' %}" method="post">
         {% csrf_token %}

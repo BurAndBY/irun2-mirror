@@ -6,10 +6,12 @@
 {% load irunner_solutions %}
 {% load i18n %}
 
+{% block subtitle %}{% trans 'Standings' context 'course' %}{% endblock %}
+
 {% block extrasidebar %}
 <div class="list-group">
     <a href="{% url 'courses:course_standings_wide' course.id %}" class="list-group-item" target="_blank">
-        {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Wide version' %}</span>
+        {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Widescreen version' %}</span>
     </a>
 </div>
 {% endblock %}

@@ -3,6 +3,8 @@
 {% load bootstrap3 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Edit profile' %}{% endblock %}
+
 {% block content %}
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}

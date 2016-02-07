@@ -6,6 +6,8 @@
 {% load irunner_solutions %}
 {% load i18n %}
 
+{% block title %}{% trans 'Standings' context 'course' %} ({% trans 'widescreen' %}) &mdash; {{ course.name }}{% endblock %}
+
 {% block allbody %}
 <div class="container-fluid">
     <h2>{% trans 'Standings' context 'course' %}: {{ course.name }}</h2>

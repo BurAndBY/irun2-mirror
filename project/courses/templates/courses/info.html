@@ -3,6 +3,8 @@
 {% load i18n %}
 {% load staticfiles %}
 
+{% block title %}{{ course.name }}{% endblock %}
+
 {% block head %}
     <script src="{% static 'flot-0.8.3/jquery.flot.min.js' %}"></script>
     <script src="{% static 'flot-0.8.3/jquery.flot.time.min.js' %}"></script>

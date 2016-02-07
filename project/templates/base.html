@@ -10,7 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ system_full_name }}</title>
+        <title>{% block title %}{% endblock %} &mdash; {{ system_short_name }}</title>
 
         <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
         <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">

@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
+{% block title %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-3">

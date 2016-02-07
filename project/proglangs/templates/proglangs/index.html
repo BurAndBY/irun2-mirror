@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<h1>{% trans 'Compilers' %}</h1>
+<h1>{% block title %}{% trans 'Compilers' %}{% endblock %}</h1>
 
 <p>
     <a href="{% url 'proglangs:create' %}">{% trans 'New compiler' %}</a>

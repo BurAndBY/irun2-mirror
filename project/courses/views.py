@@ -352,6 +352,7 @@ class CourseProblemsTopicProblemView(ProblemStatementMixin, BaseCourseView):
             context['cur_position'] = cur + 1  # 1-based
             context['total_positions'] = len(problem_ids)
             context['next_problem_id'] = problem_ids[next]
+            context['problem'] = problem
             context['statement'] = self.make_statement(problem)
 
             context['topics'] = course.topic_set.all()
@@ -398,6 +399,7 @@ class CourseProblemsProblemView(ProblemStatementMixin, BaseCourseView):
 
         context = self.get_context_data()
         context['navigate_topics'] = False
+        context['problem'] = problem
         context['statement'] = self.make_statement(problem)
         return render(request, self.template_name, context)
 
@@ -509,6 +511,7 @@ class CourseAllSolutionsView(BaseCourseView):
         context['user_form'] = user_form
         context['problem_form'] = problem_form
         context['user_cache'] = user_cache
+        context['page_title'] = _('All solutions')
 
         # tune visual representation for better fitting screen width
         context['show_author'] = True
@@ -547,6 +550,7 @@ class CourseMySolutionsView(BaseCourseView):
 
         context = paginate(request, solutions, self.paginate_by)
         context['problem_form'] = problem_form
+        context['page_title'] = _('My solutions')
 
         # tune visual representation for better fitting screen width
         context['show_author'] = False  # all solutions belong to the same author

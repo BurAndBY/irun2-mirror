@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}{% block subtitle %}{% endblock %} &mdash; {{ course.name }}{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-3">
