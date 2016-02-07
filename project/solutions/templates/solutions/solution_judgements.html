@@ -1,11 +1,18 @@
 {% extends "solutions/solution.html" %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_solutions %}
 
 {% block subtitle %}{% trans 'Judgements' %}{% endblock %}
 
 {% block main %}
+    <p>
+        <a class="btn btn-default btn-sm" href="{% url 'solutions:create_rejudge' %}?id={{ solution.id }}">
+            {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
+        </a>
+    </p>
+
     <table class="table table-condensed">
         <tbody>
             {% for judgement in judgements %}
