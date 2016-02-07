@@ -42,3 +42,11 @@ STORAGE_DIR = os.path.join('/opt/irunner2/filestorage')
 EXTERNAL_LINKS = [
     (_('Wiki'), u'/wiki/')
 ]
+
+ADMINS = [('Sergei Sobol', 'sergei_sobol@tut.by')]
+
+SERVER_EMAIL = 'irunner.2@ya.ru'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'irunner-2'
