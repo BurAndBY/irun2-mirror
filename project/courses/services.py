@@ -59,7 +59,7 @@ class UserCache(object):
         E. g. the user has been removed from the course.
         '''
         User = auth.get_user_model()
-        user = User.objects.filter(pk=user_id).one()
+        user = User.objects.get(pk=user_id)
         return UserDescription(user.id, user.first_name, user.last_name, None)
 
     def list_students(self):
