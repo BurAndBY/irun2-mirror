@@ -1,17 +1,17 @@
 {% extends 'courses/base.html' %}
 
 {% load i18n %}
+{% load irunner_courses %}
 {% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_pagination %}
-{% load irunner_users %}
 {% load bootstrap3 %}
 
 {% block main %}
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
-            {% if membership_form %}
-                {{ membership_form.membership }}
+            {% if user_form %}
+                {{ user_form.user }}
             {% endif %}
             {{ problem_form.problem }}
             <button type="submit" class="btn btn-default">
@@ -39,7 +39,7 @@
             {% for solution in object_list %}
             <tr>
                 {% if show_author %}
-                    <td>{% irunner_users_show solution.author %}</td>
+                    <td>{% irunner_courses_showuser solution.author_id user_cache %}</td>
                 {% endif %}
                 <td>
                     {% if solution.problem %}

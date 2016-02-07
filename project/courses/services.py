@@ -151,7 +151,10 @@ def make_course_results(course):
     course_descr = CourseDescr(course)
 
     # fetch all students from the course in conventional order
-    memberships = course.get_student_memberships()
+    memberships = Membership.objects.\
+        filter(course_id=course.id, role=Membership.STUDENT).\
+        select_related('user', 'subgroup').\
+        order_by('user__last_name', 'user__first_name', 'user__id')
 
     results = []
     # indexes for fast lookup to results array items

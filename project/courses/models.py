@@ -36,18 +36,6 @@ class Course(models.Model):
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 
-    def get_memberships(self):
-        '''
-        Returns a queryset of Membership objects selected with commonly used related fields.
-        '''
-        return Membership.objects\
-            .filter(course_id=self.id)\
-            .select_related('user', 'subgroup')\
-            .order_by('user__last_name', 'user__first_name', 'user__id')
-
-    def get_student_memberships(self):
-        return self.get_memberships().filter(role=Membership.STUDENT)
-
 
 class Topic(models.Model):
     name = models.CharField(_('name'), max_length=64)
@@ -108,12 +96,6 @@ class Membership(models.Model):
     course = models.ForeignKey(Course)
     role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
     subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
-
-    def __unicode__(self):
-        result = self.user.get_full_name()
-        if self.subgroup is not None:
-            result += u' ({0})'.format(self.subgroup.name)
-        return result
 
 
 class Assignment(models.Model):

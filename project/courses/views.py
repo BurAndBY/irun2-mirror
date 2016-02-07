@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
-from forms import SolutionForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
+from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailThread, MailMessage, MailUserThreadVisit
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
 from permissions import CoursePermissions
@@ -474,37 +474,41 @@ class CourseAllSolutionsView(BaseCourseView):
 
     def get(self, request, course):
         # filters
-        membership = None
+        user_id = None
         problem_id = None
 
-        memberships = course.get_student_memberships()
-        membership_form = SolutionListMemberForm(data=request.GET, queryset=memberships)
-        if membership_form.is_valid():
-            membership = membership_form.cleaned_data['membership']
+        user_cache = self.get_user_cache()
+        user_form = SolutionListUserForm(data=request.GET, user_choices=make_student_choices(user_cache))
 
-        if membership is not None:
-            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, membership_id=membership.id))
+        if user_form.is_valid():
+            user_id = user_form.cleaned_data['user']
+
+        if user_id is not None:
+            problem_choices = make_problem_choices(course, user_id=user_id)
         else:
-            problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, full=True))
+            problem_choices = make_problem_choices(course, full=True)
+
+        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=problem_choices)
         if problem_form.is_valid():
             problem_id = problem_form.cleaned_data['problem']
 
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
             .prefetch_related('compiler')\
-            .select_related('author', 'problem', 'source_code', 'best_judgement')\
+            .select_related('problem', 'source_code', 'best_judgement')\
             .order_by('-reception_time', 'id')
 
-        if membership is not None:
-            solutions = solutions.filter(author=membership.user)
+        if user_id is not None:
+            solutions = solutions.filter(author_id=user_id)
 
         if problem_id is not None:
             solutions = solutions.filter(problem_id=problem_id)
 
         context = paginate(request, solutions, self.paginate_by)
 
-        context['membership_form'] = membership_form
+        context['user_form'] = user_form
         context['problem_form'] = problem_form
+        context['user_cache'] = user_cache
 
         # tune visual representation for better fitting screen width
         context['show_author'] = True
