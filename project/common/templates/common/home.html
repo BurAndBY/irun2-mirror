@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load irunner_messagebox %}
 
 {% block content %}
 <div class="jumbotron">
     <h1>{{ system_short_name }}</h1>
     <p>{% trans 'Automatic testing system' %}</p>
 </div>
+
+{% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password and not disable_change_password_warning %}
+    {% irunner_messagebox 'warning' wide=True %}
+        <p class="text-center">
+            {% trans 'Please set up a new password instead of default one.' %} <a href="{% url 'password_change' %}">{% trans 'Change password' %}.</a>
+        </p>
+    {% irunner_endmessagebox %}
+{% endif %}
 
 {% if courses %}
     <h2>{% trans 'My courses' %}</h2>
@@ -16,4 +25,5 @@
     {% endfor %}
     </ul>
 {% endif %}
+
 {% endblock %}

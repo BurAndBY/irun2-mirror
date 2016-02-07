@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-07 12:38+0300\n"
-"PO-Revision-Date: 2016-02-07 12:40+0300\n"
+"POT-Creation-Date: 2016-02-07 13:41+0300\n"
+"PO-Revision-Date: 2016-02-07 13:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -27,7 +27,8 @@ msgstr "Запомнить меня"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:12 .\templates\base.html:44
+#: .\cauth\templates\cauth\profile.html:12
+#: .\common\templates\common\home.html:15
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -85,6 +86,10 @@ msgstr "Вход"
 msgid "Your password was changed."
 msgstr "Ваш пароль был изменён."
 
+#: .\cauth\templates\registration\password_change_done.html:9
+msgid "Go to the main page."
+msgstr "Перейти на главную страницу."
+
 #: .\cauth\templates\registration\password_change_form.html:12
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
@@ -97,7 +102,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\templates\common\about.html:6 .\templates\base.html:64
+#: .\common\templates\common\about.html:6 .\templates\base.html:52
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -124,11 +129,15 @@ msgstr "Исходный код"
 msgid "Access denied."
 msgstr "Доступ запрещён."
 
-#: .\common\templates\common\home.html:8
+#: .\common\templates\common\home.html:9
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
 
-#: .\common\templates\common\home.html:12
+#: .\common\templates\common\home.html:15
+msgid "Please set up a new password instead of default one."
+msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
+
+#: .\common\templates\common\home.html:21
 msgid "My courses"
 msgstr "Мои курсы"
 
@@ -139,7 +148,7 @@ msgstr "Страница"
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:26
 #: .\problems\templates\problems\show_test.html:16
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:28
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
 #: .\solutions\templates\solutions\judgement.html:16
 #: .\solutions\templates\solutions\solution.html:39
 msgid "of"
@@ -1205,12 +1214,12 @@ msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:73
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:86
 msgid "Loading..."
 msgstr "Загрузка..."
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:78
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:91
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
@@ -1246,19 +1255,19 @@ msgstr "Очки"
 msgid "Memory"
 msgstr "Память"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:14
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:15
 msgid "Exit Code"
 msgstr "Код выхода"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:17
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
 msgid "Checker Message"
 msgstr "Сообщение чекера"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:47
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:60
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:103
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:116
 msgid "No test results"
 msgstr "Нет результатов по тестам"
 
@@ -1501,15 +1510,11 @@ msgstr "Общий размер"
 msgid "The largest resources"
 msgstr "Самые большие ресурсы"
 
-#: .\templates\base.html:44
-msgid "Please set up a new password instead of default one."
-msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
-
-#: .\templates\base.html:62
+#: .\templates\base.html:50
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФМПИ БГУ"
 
-#: .\templates\base.html:66
+#: .\templates\base.html:54
 msgid "Feedback"
 msgstr "Обратная связь"
 

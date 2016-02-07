@@ -2,7 +2,6 @@
 
 {% load staticfiles %}
 {% load i18n %}
-{% load irunner_messagebox %}
 {% load irunner_next %}
 
 <html>
@@ -35,25 +34,14 @@
     <body>
         {% block allbody %}
 
-        {% include 'navbar.html' %}
+            {% include 'navbar.html' %}
 
-        <div class="container">
-        {% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password and not disable_change_password_warning %}
-            {% irunner_messagebox 'warning' wide=True %}
-                <p class="text-center">
-                    {% trans 'Please set up a new password instead of default one.' %} <a href="{% url 'password_change' %}">{% trans 'Change password' %}.</a>
-                </p>
-            {% irunner_endmessagebox %}
-        {% endif %}
-        {% if debug_message %}
-            {% irunner_messagebox 'info' wide=True %}
-                {{ debug_message }}
-            {% irunner_endmessagebox %}
-        {% endif %}
-        {% block content %}
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+
         {% endblock %}
-        </div>
-        {% endblock %}{# allbody #}
 
         <footer class="footer">
             <div class="container">
