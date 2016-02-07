@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from django.contrib import auth
+from django.db.models import F
+from django.utils.encoding import force_text
+
 from itertools import chain
 from collections import namedtuple
 
@@ -11,6 +15,68 @@ from solutions.models import Solution, Judgement
 from models import Assignment, Criterion, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate
 
 '''
+Cache of Course Users
+'''
+
+
+class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup_name')):
+    def __unicode__(self):
+        '''
+        Returns a string in the form of 'name surname (subgroup)'.
+        '''
+        if self.subgroup_name:
+            return u'{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup_name)
+        else:
+            return u'{0} {1}'.format(self.first_name, self.last_name)
+
+
+class UserCache(object):
+    def __init__(self, course_id):
+        self._user_descriptions = {}
+        self._teachers = []
+        self._students = []
+
+        for membership in Membership.objects.\
+                filter(course_id=course_id).\
+                select_related('user', 'subgroup').\
+                order_by('user__last_name', 'user__first_name', 'user__id'):
+            user = membership.user
+            subgroup_name = membership.subgroup.name if membership.subgroup else None
+            descr = UserDescription(user.id, user.first_name, user.last_name, subgroup_name)
+            self._put(user.id, descr)
+
+            if membership.role == Membership.STUDENT:
+                self._students.append(descr)
+            elif membership.role == Membership.TEACHER:
+                self._teachers.append(descr)
+
+    def _put(self, user_id, descr):
+        self._user_descriptions[force_text(user_id)] = descr
+        return descr
+
+    def _fallback(self, user_id):
+        '''
+        E. g. the user has been removed from the course.
+        '''
+        User = auth.get_user_model()
+        user = User.objects.filter(pk=user_id).one()
+        return UserDescription(user.id, user.first_name, user.last_name, None)
+
+    def list_students(self):
+        return self._students
+
+    def get_user(self, user_id):
+        '''
+        Returns UserDescription instance.
+        '''
+        descr = self._user_descriptions.get(force_text(user_id))
+        if descr is None:
+            descr = self._fallback(user_id)
+            self._put(user_id, descr)
+        return descr
+
+
+'''
 Helpers to build <select> field with a list of problems.
 '''
 
@@ -19,41 +85,55 @@ class ProblemChoicesBuilder(object):
     '''
     Helper to build dynamic choices for TypedChoiceField
     '''
-    def __init__(self):
-        self._data = [(None, EMPTY_SELECT)]
+    def __init__(self, topics):
+        self._topics = topics
+        self._folder_problems = {}
 
-    def add(self, name, problems):
-        group = tuple((problem.id, problem.numbered_full_name()) for problem in problems)
-        if group:
-            self._data.append((name, group))
+    def add(self, folder_id, problem):
+        self._folder_problems.setdefault(folder_id, []).append(problem)
 
-    def get(self):
-        return tuple(self._data)
+    def get(self, empty_select):
+        data = []
+        if empty_select is not None:
+            data.append((None, empty_select))
+
+        for topic in self._topics:
+            problems = self._folder_problems.get(topic.problem_folder_id)
+            if problems is None:
+                continue
+
+            group = tuple((problem.id, problem.numbered_full_name()) for problem in problems)
+            data.append((topic.name, group))
+
+        return tuple(data)
 
 
-def make_problem_choices(course, full=False, user_id=None, membership_id=None):
-    builder = ProblemChoicesBuilder()
+def make_problem_choices(course, full=False, user_id=None, membership_id=None, empty_select=EMPTY_SELECT):
     topics = course.topic_set.all()
-
-    def reorder(qs):
-        return qs.order_by('number', 'subnumber', 'full_name')
+    builder = ProblemChoicesBuilder(topics)
 
     if full:
-        for topic in topics:
-            if topic.problem_folder is not None:
-                builder.add(topic.name, reorder(topic.problem_folder.problem_set.all()))
+        folder_ids = [topic.problem_folder_id for topic in topics]
+        for problem in Problem.objects.filter(folders__id__in=folder_ids).annotate(folder_id=F('folders__id')):
+            builder.add(problem.folder_id, problem)
 
     if user_id is not None:
-        for topic in topics:
-            problems = Problem.objects.filter(assignment__topic=topic, assignment__membership__user_id=user_id)
-            builder.add(topic.name, reorder(problems))
+        for problem in Problem.objects.filter(assignment__membership__user_id=user_id).annotate(folder_id=F('assignment__topic__problem_folder_id')):
+            builder.add(problem.folder_id, problem)
 
     if membership_id is not None:
-        for topic in topics:
-            problems = Problem.objects.filter(assignment__topic=topic, assignment__membership_id=membership_id)
-            builder.add(topic.name, reorder(problems))
+        for problem in Problem.objects.filter(assignment__membership_id=membership_id).annotate(folder_id=F('assignment__topic__problem_folder_id')):
+            builder.add(problem.folder_id, problem)
 
-    return builder.get()
+    return builder.get(empty_select)
+
+
+def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
+    data = [(None, empty_select)]
+    for user_descr in user_cache.list_students():
+        data.append((unicode(user_descr.id), unicode(user_descr)))
+    return tuple(data)
+
 
 '''
 Cousre results calculation

@@ -1,0 +1,86 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="list-group">
+                <a href="{% url 'courses:messages_new' course.id %}" class="list-group-item">
+                    {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Compose' %}</span>
+                </a>
+            </div>
+
+            <div class="list-group">
+                {% for t in threads %}
+                    <a href="{% url 'courses:messages' course.id t.id %}" class="list-group-item ir-mail-thread{% if thread.id == t.id %} active{% endif %}">
+                        <span class="ir-mail-thread-date">{{ t.last_message_timestamp|date:"SHORT_DATE_FORMAT" }}</span>
+                        <div class="ir-mail-thread-subject{% if t.unread and thread.id != t.id %} ir-mail-thread-subject-unread{% endif %}">
+                            {% if t.subject %}{{ t.subject }}{% else %}[{% trans 'No subject' %}]{% endif %}
+                        </div>
+                        {% if t.problem %}
+                            <div class="ir-mail-thread-problem">{% trans 'Problem' %}: {{ t.problem.numbered_full_name }}</div>
+                        {% endif %}
+                        {% if t.person_id and t.person_id != request.user.id %}
+                            <div class="ir-mail-thread-author">
+                                {% irunner_courses_showuser t.person_id user_cache %}
+                            </div>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="ir-mail-message{% if message.unread %} ir-mail-message-unread{% endif %}">
+                        <div class="ir-mail-message-heading">
+                            <span class="ir-mail-message-author">{% irunner_courses_showuser message.author_id user_cache %}</span>
+                            <span class="ir-mail-message-date">{{ message.timestamp }}</span>
+                        </div>
+                        <div class="ir-mail-message-body">{{ message.body|linebreaksbr|urlize }}</div>
+                        {% if message.attachment %}
+                            <div class="ir-mail-message-attachment">
+                                {% bootstrap_icon 'paperclip' %}
+                                <span class="ir-icon-label">
+                                    {% trans 'Attachment' %}:
+                                    <a href="{% url 'courses:messages_download' course.id thread.id message.id message.attachment.filename %}">{{ message.attachment.filename }}</a> ({{ message.attachment.size|filesizeformat }})
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if message_form %}
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#replyForm">{% trans 'Reply to thread' %}</a>
+                        </h4>
+                    </div>
+
+                    <div id="replyForm" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% bootstrap_form message_form show_label=False %}
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-default">
+                                        {% trans 'Reply' %}
+                                    </button>
+                                {% endbuttons %}
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+{% endblock %}

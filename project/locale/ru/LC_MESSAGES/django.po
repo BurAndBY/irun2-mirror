@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-06 02:58+0300\n"
-"PO-Revision-Date: 2016-02-06 03:00+0300\n"
+"POT-Creation-Date: 2016-02-07 12:38+0300\n"
+"PO-Revision-Date: 2016-02-07 12:40+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -201,6 +201,7 @@ msgstr ""
 "п.&raquo;, &laquo;EPS&raquo;."
 
 #: .\courses\forms.py:76 .\courses\forms.py:107 .\courses\forms.py:122
+#: .\courses\forms.py:180 .\courses\templates\courses\messages.html:24
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:20
@@ -230,101 +231,123 @@ msgstr "Пользователь"
 msgid "no"
 msgstr "нет"
 
-#: .\courses\models.py:15
+#: .\courses\forms.py:182 .\courses\settingsviews.py:93
+#: .\courses\templates\courses\sheet.html:27
+#: .\courses\templates\courses\standings.html:22
+#: .\courses\templates\courses\standings_wide.html:17
+msgid "Student"
+msgstr "Студент"
+
+#: .\courses\forms.py:187 .\courses\templates\courses\messages.html:49
+#: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
+msgid "Attachment"
+msgstr "Вложение"
+
+#: .\courses\forms.py:188 .\feedback\forms.py:19
+msgid "You can attach an arbitrary file to your message"
+msgstr "Вы можете прикрепить к сообщению произвольный файл"
+
+#: .\courses\models.py:16
 msgid "criterion label"
 msgstr "обозначение критерия"
 
-#: .\courses\models.py:16 .\courses\models.py:23 .\courses\models.py:52
-#: .\courses\models.py:83 .\courses\models.py:91
+#: .\courses\models.py:17 .\courses\models.py:24 .\courses\models.py:53
+#: .\courses\models.py:84 .\courses\models.py:92
 #: .\courses\templates\courses\assign.html:75
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\users\models.py:13
 msgid "name"
 msgstr "название"
 
-#: .\courses\models.py:27
+#: .\courses\models.py:28
 msgid "student’s access to his own solutions"
 msgstr "доступ студента к его собственным решениям"
 
-#: .\courses\models.py:30
+#: .\courses\models.py:31
 msgid "student’s access to all solutions of the course"
 msgstr "доступ студента ко всем решениям курса"
 
-#: .\courses\models.py:33
+#: .\courses\models.py:34
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
-#: .\courses\models.py:54
+#: .\courses\models.py:55
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:55 .\courses\models.py:123
+#: .\courses\models.py:56 .\courses\models.py:124
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:77
+#: .\courses\models.py:78
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:78
+#: .\courses\models.py:79
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:79
+#: .\courses\models.py:80
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:84 .\problems\models.py:59 .\problems\models.py:84
+#: .\courses\models.py:85 .\problems\models.py:59 .\problems\models.py:84
 #: .\problems\models.py:105 .\problems\models.py:112 .\proglangs\models.py:29
 #: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:85
+#: .\courses\models.py:86
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:86 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:87 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:102
+#: .\courses\models.py:103
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:103
+#: .\courses\models.py:104
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:108
+#: .\courses\models.py:109
 msgid "role"
 msgstr "роль"
 
-#: .\courses\models.py:109
+#: .\courses\models.py:110
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:121
+#: .\courses\models.py:122
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:154
+#: .\courses\models.py:155
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:155
+#: .\courses\models.py:156
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:156
+#: .\courses\models.py:157
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\settingsviews.py:93 .\courses\templates\courses\sheet.html:27
-#: .\courses\templates\courses\standings.html:22
-#: .\courses\templates\courses\standings_wide.html:17
-msgid "Student"
-msgstr "Студент"
+#: .\courses\models.py:173 .\feedback\models.py:12
+msgid "subject"
+msgstr "тема"
+
+#: .\courses\models.py:183
+msgid "message"
+msgstr "сообщение"
+
+#: .\courses\models.py:184 .\feedback\models.py:14
+msgid "attachment"
+msgstr "Вложение"
 
 #: .\courses\settingsviews.py:93
 msgid "Students"
@@ -517,6 +540,30 @@ msgstr "Время"
 msgid "Status"
 msgstr "Статус"
 
+#: .\courses\templates\courses\messages.html:12
+#: .\courses\templates\courses\messages_new.html:11
+msgid "Compose"
+msgstr "Написать"
+
+#: .\courses\templates\courses\messages.html:21
+msgid "No subject"
+msgstr "Без темы"
+
+#: .\courses\templates\courses\messages.html:62
+msgid "Reply to thread"
+msgstr "Ответ в тему"
+
+#: .\courses\templates\courses\messages.html:73
+msgid "Reply"
+msgstr "Ответить"
+
+#: .\courses\templates\courses\messages_new.html:23
+#: .\courses\templates\courses\submit.html:21
+#: .\feedback\templates\feedback\new.html:12
+#: .\problems\templates\problems\submit.html:11
+msgid "Send"
+msgstr "Отправить"
+
 #: .\courses\templates\courses\problems_base.html:41
 msgid "Select a topic to view problems."
 msgstr "Выберите тему, чтобы посмотреть задачи."
@@ -539,7 +586,7 @@ msgid "Subgroups"
 msgstr "Подгруппы"
 
 #: .\courses\templates\courses\settings_base.html:25
-#: .\courses\templates\courses\sidebar.html:43
+#: .\courses\templates\courses\sidebar.html:51
 msgid "Sheet"
 msgstr "Ведомость"
 
@@ -655,29 +702,33 @@ msgid "My problems"
 msgstr "Мои задачи"
 
 #: .\courses\templates\courses\sidebar.html:29
+msgid "Messages"
+msgstr "Сообщения"
+
+#: .\courses\templates\courses\sidebar.html:37
 msgid "Assignment of problems"
 msgstr "Назначение задач"
 
-#: .\courses\templates\courses\sidebar.html:36
+#: .\courses\templates\courses\sidebar.html:44
 #: .\courses\templates\courses\standings_wide.html:11
 msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:50
+#: .\courses\templates\courses\sidebar.html:58
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\courses\templates\courses\sidebar.html:57
+#: .\courses\templates\courses\sidebar.html:65
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\courses\templates\courses\sidebar.html:64
+#: .\courses\templates\courses\sidebar.html:72
 #: .\problems\templates\problems\sidebar.html:27
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\courses\templates\courses\sidebar.html:71
+#: .\courses\templates\courses\sidebar.html:79
 msgid "Settings"
 msgstr "Настройки"
 
@@ -707,31 +758,17 @@ msgstr "Широкая версия"
 msgid "Result"
 msgstr "Итог"
 
-#: .\courses\templates\courses\submit.html:21
-#: .\feedback\templates\feedback\new.html:12
-#: .\problems\templates\problems\submit.html:11
-msgid "Send"
-msgstr "Отправить"
+#: .\courses\views.py:750
+msgid "— General question —"
+msgstr "— Общий вопрос —"
 
-#: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
-msgid "Attachment"
-msgstr "Вложение"
-
-#: .\feedback\forms.py:19
-msgid "You can attach an arbitrary file to your message"
-msgstr "Вы можете прикрепить к сообщению произвольный файл"
-
-#: .\feedback\models.py:12
-msgid "subject"
-msgstr "тема"
+#: .\courses\views.py:751
+msgid "— All —"
+msgstr "— Все —"
 
 #: .\feedback\models.py:13
 msgid "message body"
 msgstr "тело сообщения"
-
-#: .\feedback\models.py:14
-msgid "attachment"
-msgstr "Вложение"
 
 #: .\feedback\templates\feedback\confirm.html:8
 msgid "Are you sure you want to delete the feedback message?"

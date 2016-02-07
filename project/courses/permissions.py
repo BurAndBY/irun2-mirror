@@ -20,12 +20,17 @@ class CoursePermissions(object):
         self.my_solutions = False
         self.all_solutions = False
         self.all_solutions_source_codes = False
+        self.messages = False
+        self.messages_all = False
+        self.messages_send_any = False
+        self.messages_send_own = False
 
     def set_common(self):
         self.info = True
         self.problems = True
         self.standings = True
         self.sheet = True
+        self.messages = True
 
     def set_student(self, own_solutions_access, all_solutions_access):
         self.set_common()
@@ -34,6 +39,7 @@ class CoursePermissions(object):
         self.my_problems = True
         self.my_solutions |= (own_solutions_access != SolutionAccessLevel.NO_ACCESS)
         self.all_solutions |= (all_solutions_access != SolutionAccessLevel.NO_ACCESS)
+        self.messages_send_own = True
 
     def set_teacher(self):
         self.set_common()
@@ -45,6 +51,8 @@ class CoursePermissions(object):
         self.my_solutions = True
         self.all_solutions = True
         self.all_solutions_source_codes = False
+        self.messages_all = True
+        self.messages_send_any = True
 
     def set_admin(self):
         self.set_common()
@@ -52,6 +60,8 @@ class CoursePermissions(object):
         self.settings = True
         self.all_solutions = True
         self.all_solutions_source_codes = True
+        self.messages_all = True
+        self.messages_send_any = True
 
     def disable_sheet(self):
         self.sheet = False

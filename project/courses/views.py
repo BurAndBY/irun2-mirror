@@ -7,17 +7,21 @@ from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import F
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
-from forms import SolutionForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm
-from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord
-from services import make_problem_choices, make_course_results, make_course_single_result
+from forms import SolutionForm, SolutionListMemberForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
+from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailThread, MailMessage, MailUserThreadVisit
+from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
 from permissions import CoursePermissions
 
+from common.cast import str_to_uint
 from common.pageutils import paginate
 from common.views import StaffMemberRequiredMixin
 from problems.models import Problem, ProblemFolder
@@ -25,11 +29,16 @@ from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
 from solutions.models import Solution
 from solutions.utils import new_solution, judge
+from storage.utils import store_with_metadata, serve_resource_metadata
 
 
 class BaseCourseView(generic.View):
     tab = None
     subtab = None
+
+    def __init__(self, *args, **kwargs):
+        super(BaseCourseView, self).__init__(*args, **kwargs)
+        self._user_cache = None
 
     def get_context_data(self, **kwargs):
         context = {
@@ -37,12 +46,19 @@ class BaseCourseView(generic.View):
             'permissions': self.permissions,
             'active_tab': self.tab,
             'active_subtab': self.subtab,
+            'unread': get_unread_thread_count(self.course, self.request.user, self.permissions)
         }
         context.update(kwargs)
         return context
 
     def is_allowed(self, permissions):
         return False
+
+    def get_user_cache(self):
+        if self._user_cache is not None:
+            return self._user_cache
+        self._user_cache = UserCache(self.course)
+        return self._user_cache
 
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
@@ -549,10 +565,225 @@ class CourseMyProblemsView(BaseCourseView):
     template_name = 'courses/my_problems.html'
 
     def is_allowed(self, permissions):
-        return permissions.my_problems
+        return permissions.messages
 
     def get(self, request, course):
         membership = get_object_or_404(Membership, course=course, user=request.user, role=Membership.STUDENT)
         user_result = make_course_single_result(course, membership, request.user)
         context = self.get_context_data(user_result=user_result)
+        return render(request, self.template_name, context)
+
+
+'''
+Messages
+'''
+
+
+def is_unread(last_viewed_timestamp, last_message_timestamp):
+    return last_viewed_timestamp < last_message_timestamp if last_viewed_timestamp is not None else True
+
+
+def update_last_viewed_timestamp(user, thread, ts):
+    MailUserThreadVisit.objects.update_or_create(
+        user=user,
+        thread=thread,
+        defaults={'timestamp': ts}
+    )
+
+
+def list_mail_threads(course, user, permissions):
+    '''
+    Returns a list of MailThread objects with additional attrs:
+        'unread' attr set to true or false,
+        'last_viewed_timestamp'.
+    '''
+    threads = MailThread.objects.filter(course=course).\
+        select_related('problem').\
+        order_by('-last_message_timestamp')
+    if not permissions.messages_all:
+        threads = threads.filter(person=user)
+
+    thread_ids = (thread.id for thread in threads)
+
+    last = {}
+
+    for thread_id, timestamp in MailUserThreadVisit.objects.\
+            filter(user=user, thread_id__in=thread_ids).\
+            values_list('thread_id', 'timestamp'):
+        last[thread_id] = timestamp
+
+    result = []
+    for thread in threads:
+        last_viewed_timestamp = last.get(thread.id)
+        thread.last_viewed_timestamp = last_viewed_timestamp
+        thread.unread = is_unread(last_viewed_timestamp, thread.last_message_timestamp)
+        result.append(thread)
+
+    return result
+
+
+def get_unread_thread_count(course, user, permissions):
+    if not permissions.messages:
+        return None
+
+    threads = MailThread.objects.filter(course=course)
+    if not permissions.messages_all:
+        threads = threads.filter(person=user)
+
+    # TODO: less queries
+    total_count = threads.count()
+    read_count = threads.filter(mailuserthreadvisit__user=user, mailuserthreadvisit__timestamp__gte=F('last_message_timestamp')).count()
+    return total_count - read_count
+
+
+def post_message(user, thread, message_form):
+    ts = timezone.now()
+
+    message = message_form.save(commit=False)
+
+    upload = message_form.cleaned_data['upload']
+    if upload is not None:
+        message.attachment = store_with_metadata(upload)
+
+    message.author = user
+    message.timestamp = ts
+    thread.last_message_timestamp = ts
+
+    with transaction.atomic():
+        thread.save()
+        message.thread = thread
+        message.save()
+        update_last_viewed_timestamp(user, thread, ts)
+
+
+class CourseMessagesEmptyView(BaseCourseView):
+    tab = 'messages'
+    template_name = 'courses/messages.html'
+
+    def is_allowed(self, permissions):
+        return permissions.messages
+
+    def get(self, request, course):
+        threads = list_mail_threads(course, request.user, self.permissions)
+        context = self.get_context_data(threads=threads, thread_id=None, user_cache=self.get_user_cache())
+        return render(request, self.template_name, context)
+
+
+class CourseMessagesSingleThreadView(BaseCourseView):
+    tab = 'messages'
+    template_name = 'courses/messages.html'
+
+    def is_allowed(self, permissions):
+        return permissions.messages
+
+    def _load_thread(self, thread_id):
+        self.threads = list_mail_threads(self.course, self.request.user, self.permissions)
+        self.thread_id = str_to_uint(thread_id)
+
+        thread = None
+        for cur_thread in self.threads:
+            if cur_thread.id == self.thread_id:
+                thread = cur_thread
+                break
+        if thread is None:
+            raise Http404('Thread not found')
+
+        self.thread = thread
+        return thread
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseMessagesSingleThreadView, self).get_context_data(**kwargs)
+        context['threads'] = self.threads
+        context['thread'] = self.thread
+        context['user_cache'] = self.get_user_cache()
+        return context
+
+
+class CourseMessagesView(CourseMessagesSingleThreadView):
+    def _load_messages(self, thread):
+        messages = []
+        for message in MailMessage.objects.filter(thread=thread).\
+                select_related('attachment').\
+                order_by('timestamp'):
+            message.unread = is_unread(self.thread.last_viewed_timestamp, message.timestamp)
+            messages.append(message)
+        return messages
+
+    def get(self, request, course, thread_id):
+        thread = self._load_thread(thread_id)
+        messages = self._load_messages(thread)
+        message_form = MailMessageForm()
+
+        # must be run before get_context_data to get unread counter in the sidebar decreased
+        if thread.unread:
+            update_last_viewed_timestamp(request.user, thread, timezone.now())
+
+        context = self.get_context_data(messages=messages, message_form=message_form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course, thread_id):
+        thread = self._load_thread(thread_id)
+        messages = self._load_messages(thread)
+
+        message_form = MailMessageForm(request.POST, request.FILES)
+        if message_form.is_valid():
+            post_message(request.user, thread, message_form)
+            return redirect('courses:messages', course.id, thread_id)
+
+        context = self.get_context_data(messages=messages, message_form=message_form)
+        return render(request, self.template_name, context)
+
+
+class CourseMessagesDownloadView(CourseMessagesSingleThreadView):
+    def get(self, request, course, thread_id, message_id, filename):
+        thread = self._load_thread(thread_id)
+        message = get_object_or_404(
+            MailMessage.objects.select_related('attachment'),
+            pk=message_id, thread=thread, attachment__filename=filename)
+        return serve_resource_metadata(request, message.attachment)
+
+
+class CourseMessagesNewView(BaseCourseView):
+    tab = 'messages'
+    template_name = 'courses/messages_new.html'
+
+    general_question = _(u'— General question —')
+    all_users = _(u'— All —')
+
+    def is_allowed(self, permissions):
+        return permissions.messages_send_any or permissions.messages_send_own
+
+    def _make_forms(self, data=None, files=None):
+        if self.permissions.messages_send_any:
+            problem_choices = make_problem_choices(self.course, full=True, empty_select=self.general_question)
+        else:
+            problem_choices = make_problem_choices(self.course, user_id=self.request.user.id, empty_select=self.general_question)
+
+        person_choices = make_student_choices(self.get_user_cache(), empty_select=self.all_users) if self.permissions.messages_send_any else None
+        thread_form = MailThreadForm(data=data, files=files, problem_choices=problem_choices, person_choices=person_choices)
+
+        message_form = MailMessageForm(data=data, files=files)
+        return (thread_form, message_form)
+
+    def get(self, request, course):
+        thread_form, message_form = self._make_forms()
+        context = self.get_context_data(thread_form=thread_form, message_form=message_form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        thread_form, message_form = self._make_forms(data=request.POST, files=request.FILES)
+        if thread_form.is_valid() and message_form.is_valid():
+            with transaction.atomic():
+                thread = thread_form.save(commit=False)
+                thread.course = course
+                thread.problem_id = thread_form.cleaned_data['problem']
+                if 'person' in thread_form.cleaned_data:
+                    thread.person_id = thread_form.cleaned_data['person']
+                else:
+                    thread.person_id = request.user.id
+
+                post_message(request.user, thread, message_form)
+                return redirect('courses:messages', course.id, thread.id)
+
+        context = self.get_context_data(thread_form=thread_form, message_form=message_form)
         return render(request, self.template_name, context)

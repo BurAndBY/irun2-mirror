@@ -13,7 +13,7 @@ import common.fields
 import common.widgets
 import solutions.forms
 
-from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership
+from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership, MailThread, MailMessage
 
 
 class PropertiesForm(forms.ModelForm):
@@ -158,3 +158,41 @@ def create_member_subgroup_form_class(subgroups):
 def create_member_subgroup_formset_class(subgroups):
     form = create_member_subgroup_form_class(subgroups)
     return forms.modelformset_factory(Membership, form=form)
+
+
+'''
+Messaging
+'''
+
+
+class MailThreadForm(forms.ModelForm):
+    class Meta:
+        model = MailThread
+        fields = ['subject']
+
+    def __init__(self, *args, **kwargs):
+        problem_choices = kwargs.pop('problem_choices', None)
+        person_choices = kwargs.pop('person_choices', None)
+
+        super(MailThreadForm, self).__init__(*args, **kwargs)
+
+        if problem_choices is not None:
+            self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, required=False, coerce=int)
+        if person_choices is not None:
+            self.fields['person'] = forms.TypedChoiceField(label=_('Student'), choices=person_choices, required=False, coerce=int)
+
+
+class MailMessageForm(forms.ModelForm):
+    upload = forms.FileField(
+        label=_('Attachment'),
+        help_text=_('You can attach an arbitrary file to your message'),
+        required=False,
+        max_length=255
+    )
+
+    class Meta:
+        model = MailMessage
+        fields = ['body']
+        widgets = {
+            'body': forms.Textarea(attrs={'rows': 5}),
+        }

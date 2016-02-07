@@ -23,6 +23,14 @@
         </a>
     {% endif %}
 
+    {% if permissions.messages %}
+        <a href="{% url 'courses:messages_empty' course.id %}" class="list-group-item{% if active_tab == 'messages' %} active{% endif %}">
+            {% bootstrap_icon 'envelope' %}
+            <span class="ir-icon-label">{% trans 'Messages' %}</span>
+            {% if unread %}<span class="badge">{{ unread }}</span>{% endif %}
+        </a>
+    {% endif %}
+
     {% if permissions.assign %}
         <a href="{% url 'courses:course_assignment_empty' course.id %}" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
             {% bootstrap_icon 'link' %}

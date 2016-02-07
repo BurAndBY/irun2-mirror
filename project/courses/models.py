@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
 from solutions.models import Solution
 from solutions.permissions import SolutionAccessLevel
-from django.core.urlresolvers import reverse
+from storage.models import FileMetadata
 
 
 class Criterion(models.Model):
@@ -160,3 +161,33 @@ class ActivityRecord(models.Model):
     activity = models.ForeignKey(Activity, null=False, on_delete=models.CASCADE)
     mark = models.IntegerField(null=False, default=0)
     enum = models.IntegerField(null=False, choices=CHOICES, default=UNDEFINED)
+
+
+'''
+Messaging
+'''
+
+
+class MailThread(models.Model):
+    course = models.ForeignKey(Course)
+    subject = models.CharField(_('subject'), blank=True, max_length=255)
+    problem = models.ForeignKey(Problem, null=True)
+    person = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    last_message_timestamp = models.DateTimeField()
+
+
+class MailMessage(models.Model):
+    thread = models.ForeignKey(MailThread)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    timestamp = models.DateTimeField()
+    body = models.TextField(_('message'), max_length=65535)
+    attachment = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL, verbose_name=_('attachment'))
+
+
+class MailUserThreadVisit(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    thread = models.ForeignKey(MailThread)
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        unique_together = ('user', 'thread')

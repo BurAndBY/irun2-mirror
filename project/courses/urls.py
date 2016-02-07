@@ -29,6 +29,13 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
 
+    # Messages
+
+    url(r'^(?P<course_id>[0-9]+)/mailbox/$', views.CourseMessagesEmptyView.as_view(), name='messages_empty'),
+    url(r'^(?P<course_id>[0-9]+)/mailbox/(?P<thread_id>[0-9]+)/$', views.CourseMessagesView.as_view(), name='messages'),
+    url(r'^(?P<course_id>[0-9]+)/mailbox/(?P<thread_id>[0-9]+)/messages/(?P<message_id>[0-9]+)/attachment/(?P<filename>.*)$', views.CourseMessagesDownloadView.as_view(), name='messages_download'),
+    url(r'^(?P<course_id>[0-9]+)/mailbox/new/$', views.CourseMessagesNewView.as_view(), name='messages_new'),
+
     # Problem assignment
 
     url(r'^(?P<course_id>[0-9]+)/assign/$', assignviews.CourseEmptyAssignView.as_view(), name='course_assignment_empty'),

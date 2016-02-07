@@ -808,3 +808,58 @@ span.ir-absence {
     margin-right: 10px;
     min-width: 120px;
 }
+
+/**
+ * Messaging system
+ */
+.ir-mail-message {
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.ir-mail-message-unread {
+    border-left-color: #ce4844;
+}
+.ir-mail-message-author {
+    float: left;
+    font-weight: bold;
+}
+.ir-mail-message-date {
+    float: right;
+    color: #888;
+}
+.ir-mail-message-attachment {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+.ir-mail-message-heading {
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.ir-mail-thread {
+    padding: 4px 15px;
+}
+.ir-mail-thread-subject-unread {
+    font-weight: bold;
+    color: #ce4844;
+}
+.ir-mail-thread-problem {
+    color: #bbb;
+    font-size: 11px;
+}
+.ir-mail-thread-author {
+    color: #bbb;
+    font-size: 11px;
+}
+.ir-mail-thread-date {
+    float: right;
+    color: #888;
+    font-size: 11px;
+}
+.active .ir-mail-thread-date {
+    color: #eee;
+}
