@@ -43,7 +43,7 @@
                             <span class="ir-mail-message-author">{% irunner_courses_showuser message.author_id user_cache %}</span>
                             <span class="ir-mail-message-date">{{ message.timestamp }}</span>
                         </div>
-                        <div class="ir-mail-message-body">{{ message.body|linebreaksbr|urlize }}</div>
+                        <div class="ir-mail-message-body">{{ message.body|urlize|linebreaksbr }}</div>
                         {% if message.attachment %}
                             <div class="ir-mail-message-attachment">
                                 {% bootstrap_icon 'paperclip' %}
