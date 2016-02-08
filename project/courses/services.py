@@ -118,7 +118,10 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
             builder.add(problem.folder_id, problem)
 
     if user_id is not None:
-        for problem in Problem.objects.filter(assignment__membership__user_id=user_id).annotate(folder_id=F('assignment__topic__problem_folder_id')):
+        for problem in Problem.objects.\
+                filter(assignment__membership__user_id=user_id).\
+                annotate(folder_id=F('assignment__topic__problem_folder_id')).\
+                order_by('assignment__topic_id', 'assignment__slot_id', 'id'):
             builder.add(problem.folder_id, problem)
 
     if membership_id is not None:
