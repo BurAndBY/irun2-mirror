@@ -20,6 +20,7 @@ class WorkerProblem(object):
         self.input_file_name = ''
         self.output_file_name = ''
         self.tests = []
+        self.checker = None
 
 
 class WorkerTestingJob(object):
@@ -44,3 +45,8 @@ class WorkerState(object):
     def __init__(self, status, test_number):
         self.status = status
         self.test_number = test_number
+
+
+class WorkerChecker(object):
+    def __init__(self, source):
+        self.source = source

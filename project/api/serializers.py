@@ -61,6 +61,12 @@ class SolutionSerializer(serializers.Serializer):
     filename = serializers.CharField(read_only=True, source='source_code.filename')
 
 
+class ProblemRelatedSourceFileSerializer(serializers.Serializer):
+    compiler = serializers.CharField(read_only=True, source='compiler.handle')
+    resource_id = ResourceIdField(read_only=True)
+    filename = serializers.CharField(read_only=True)
+
+
 class WorkerFileSerializer(serializers.Serializer):
     resource_id = ResourceIdField(read_only=True)
 
@@ -74,12 +80,17 @@ class WorkerTestCaseSerializer(serializers.Serializer):
     max_score = serializers.IntegerField(read_only=True)
 
 
+class WorkerCheckerSerializer(serializers.Serializer):
+    source = ProblemRelatedSourceFileSerializer()
+
+
 class WorkerProblemSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
     input_file_name = serializers.CharField(read_only=True)
     output_file_name = serializers.CharField(read_only=True)
     tests = WorkerTestCaseSerializer(read_only=True, many=True)
+    checker = WorkerCheckerSerializer(allow_null=True)
 
 
 class WorkerTestingJobSerializer(serializers.Serializer):

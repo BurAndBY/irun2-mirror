@@ -76,7 +76,6 @@ class FileView(WorkerAPIView):
         if data is None:
             raise NotFound("Resource does not exist")
 
-        print format
         response = StreamingHttpResponse(data.generator, content_type='application/octet-stream')
         response['Content-Length'] = data.size
         return response
@@ -94,7 +93,8 @@ class JobTakeView(WorkerAPIView):
     def post(self, request, format=None):
         # job = workerinteract.get_testing_job()
         job = workerinteract.wait_for_testing_job()
-        print request.data
+        request.stream.read()
+
         if job is None:
             raise Http404('Nothing to test')
 

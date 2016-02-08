@@ -3,9 +3,10 @@ import threading
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
+from problems.models import ProblemRelatedSourceFile
 from solutions.models import Judgement, JudgementLog, TestCaseResult
 
-from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase
+from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase, WorkerChecker
 
 condvar = threading.Condition()
 
@@ -46,6 +47,11 @@ def _make_problem(solution):
         wproblem.input_file_name = problem.input_filename
         wproblem.output_file_name = problem.output_filename
         wproblem.tests = wtests
+
+        checker = problem.problemrelatedsourcefile_set.filter(file_type=ProblemRelatedSourceFile.CHECKER).first()
+        if checker is not None:
+            wproblem.checker = WorkerChecker(checker)
+
         return wproblem
 
 
