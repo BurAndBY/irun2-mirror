@@ -114,6 +114,8 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-table-more-condensed > tfoot > tr > td {
     padding-top: 1px;
     padding-bottom: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
     vertical-align: middle;
 }
 
