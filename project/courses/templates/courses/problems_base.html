@@ -7,7 +7,7 @@
 {% block main %}
 <div>
     {% if navigate_topics %}
-    <div>
+    <div class="ir-float-parent">
         <ul class="nav nav-pills ir-inline-block ir-condensed-pills">
             {% for topic in topics %}
             <li role="presentation"{% if active_topic == topic %} class="active"{% endif %}>
