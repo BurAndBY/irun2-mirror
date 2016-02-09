@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Delete criterion' %}{% endblock %}</h1>
+    {% if course_list %}
+        <p>{% trans 'Criterion is currently used in the following courses and cannot be deleted.' %}</p>
+        <ul>
+            {% for course in course_list %}
+                <li>
+                    {{ course }}
+                </li>
+            {% endfor %}
+        </ul>
+        <p><a href="{% url 'courses:criterion_index' %}">{% trans 'Back' %}</a></p>
+    {% else %}
+        <p>{% trans 'Criterion is not used in courses.' %}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Delete' %}
+            </button>
+        </form>
+    {% endif %}
+{% endblock %}

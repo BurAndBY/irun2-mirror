@@ -13,7 +13,7 @@ def home(request):
     context = {}
 
     if request.user.is_authenticated():
-        context['courses'] = Course.objects.filter(membership__user=request.user).distinct().order_by('name')
+        context['courses'] = Course.objects.filter(membership__user=request.user).distinct()
 
     return render(request, 'common/home.html', context)
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-07 19:35+0300\n"
-"PO-Revision-Date: 2016-02-07 19:36+0300\n"
+"POT-Creation-Date: 2016-02-09 16:43+0300\n"
+"PO-Revision-Date: 2016-02-09 16:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -42,6 +42,7 @@ msgstr "Изменить язык интерфейса"
 
 #: .\cauth\templates\cauth\profile_edit.html:17
 #: .\common\templates\common\language.html:26
+#: .\courses\templates\courses\criterion_form.html:12
 #: .\courses\templates\courses\settings_compilers.html:31
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
@@ -277,8 +278,8 @@ msgstr "Вы можете прикрепить к сообщению произ�
 msgid "criterion label"
 msgstr "обозначение критерия"
 
-#: .\courses\models.py:17 .\courses\models.py:24 .\courses\models.py:41
-#: .\courses\models.py:72 .\courses\models.py:80
+#: .\courses\models.py:17 .\courses\models.py:24 .\courses\models.py:47
+#: .\courses\models.py:78 .\courses\models.py:86
 #: .\courses\templates\courses\assign.html:88
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\users\models.py:13
@@ -297,81 +298,81 @@ msgstr "доступ студента ко всем решениям курса"
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
-#: .\courses\models.py:43
+#: .\courses\models.py:49
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:44 .\courses\models.py:106
+#: .\courses\models.py:50 .\courses\models.py:112
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:66
+#: .\courses\models.py:72
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:67
+#: .\courses\models.py:73
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:68
+#: .\courses\models.py:74
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:73 .\problems\models.py:59 .\problems\models.py:84
+#: .\courses\models.py:79 .\problems\models.py:59 .\problems\models.py:84
 #: .\problems\models.py:105 .\problems\models.py:112 .\proglangs\models.py:29
 #: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:74
+#: .\courses\models.py:80
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:75 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:81 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:91
+#: .\courses\models.py:97
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:92
+#: .\courses\models.py:98
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:97
+#: .\courses\models.py:103
 msgid "role"
 msgstr "роль"
 
-#: .\courses\models.py:98
+#: .\courses\models.py:104
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:104
+#: .\courses\models.py:110
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:137
+#: .\courses\models.py:143
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:138
+#: .\courses\models.py:144
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:139
+#: .\courses\models.py:145
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\models.py:155 .\feedback\models.py:12
+#: .\courses\models.py:161 .\feedback\models.py:12
 msgid "subject"
 msgstr "тема"
 
-#: .\courses\models.py:165
+#: .\courses\models.py:171
 msgid "message"
 msgstr "сообщение"
 
-#: .\courses\models.py:166 .\feedback\models.py:14
+#: .\courses\models.py:172 .\feedback\models.py:14
 msgid "attachment"
 msgstr "Вложение"
 
@@ -485,7 +486,6 @@ msgid "New course"
 msgstr "Новый курс"
 
 #: .\courses\templates\courses\course_form.html:12
-#: .\courses\templates\courses\criterion_form.html:12
 msgid "Create"
 msgstr "Создать"
 
@@ -497,10 +497,32 @@ msgstr "Курсы"
 msgid "There are no courses available."
 msgstr "Нет доступных курсов."
 
-#: .\courses\templates\courses\criterion_form.html:7
-#: .\courses\templates\courses\criterion_list.html:18
-msgid "New criterion"
-msgstr "Новый критерий"
+#: .\courses\templates\courses\criterion_confirm_delete.html:8
+msgid "Delete criterion"
+msgstr "Удалить критерий"
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:10
+msgid ""
+"Criterion is currently used in the following courses and cannot be deleted."
+msgstr ""
+"Критерий в настоящий момент используется в следующих курсах и не может быть "
+"удалён."
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:18
+msgid "Back"
+msgstr "Назад"
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:20
+msgid "Criterion is not used in courses."
+msgstr "Критерий не используется в курсах."
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:24
+#: .\courses\templates\courses\settings_component.html:20
+#: .\problems\templates\problems\show_test.html:31
+#: .\solutions\templates\solutions\solution_list.html:63
+#: .\users\templates\users\folder.html:43
+msgid "Delete"
+msgstr "Удалить"
 
 #: .\courses\templates\courses\criterion_list.html:8
 #: .\courses\templates\courses\settings_topics.html:26
@@ -509,8 +531,20 @@ msgid "Criteria"
 msgstr "Критерии"
 
 #: .\courses\templates\courses\criterion_list.html:16
+msgid "edit"
+msgstr "редактировать"
+
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:242
+msgid "delete"
+msgstr "удалить"
+
+#: .\courses\templates\courses\criterion_list.html:22
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
+
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:462
+msgid "New criterion"
+msgstr "Новый критерий"
 
 #: .\courses\templates\courses\info.html:19
 msgid "Notices"
@@ -635,13 +669,6 @@ msgstr "Подгруппы"
 msgid "Sheet"
 msgstr "Ведомость"
 
-#: .\courses\templates\courses\settings_component.html:20
-#: .\problems\templates\problems\show_test.html:31
-#: .\solutions\templates\solutions\solution_list.html:63
-#: .\users\templates\users\folder.html:43
-msgid "Delete"
-msgstr "Удалить"
-
 #: .\courses\templates\courses\settings_properties.html:18
 msgid "Delete the course"
 msgstr "Удалить курс"
@@ -746,11 +773,11 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:514
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:553
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -796,11 +823,15 @@ msgstr "Итог"
 msgid "widescreen"
 msgstr "широкоэкр."
 
-#: .\courses\views.py:758
+#: .\courses\views.py:475
+msgid "Edit criterion"
+msgstr "Редактировать критерий"
+
+#: .\courses\views.py:795
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:759
+#: .\courses\views.py:796
 msgid "— All —"
 msgstr "— Все —"
 
@@ -1400,10 +1431,11 @@ msgid "IP address"
 msgstr "IP-адрес"
 
 #: .\solutions\templates\solutions\solution.html:82
-#: .\solutions\templates\solutions\solution_judgements.html:6
+#: .\solutions\templates\solutions\solution_judgements.html:7
 msgid "Judgements"
 msgstr "Запуски"
 
+#: .\solutions\templates\solutions\solution_judgements.html:12
 #: .\solutions\templates\solutions\solution_list.html:60
 msgctxt "verb"
 msgid "Rejudge"
@@ -1418,11 +1450,11 @@ msgstr "Решения не выбраны"
 msgid "Compilation log is not available"
 msgstr "Журнал компиляции недоступен"
 
-#: .\solutions\templates\solutions\solution_source.html:26
+#: .\solutions\templates\solutions\solution_source.html:18
 msgid "Open"
 msgstr "Открыть"
 
-#: .\solutions\templates\solutions\solution_source.html:27
+#: .\solutions\templates\solutions\solution_source.html:19
 #: .\storage\templates\storage\show.html:11
 msgid "Download"
 msgstr "Загрузить"
@@ -1449,10 +1481,6 @@ msgstr "Нет данных"
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
-
-#: .\solutions\views.py:242
-msgid "delete"
-msgstr "удалить"
 
 #: .\storage\forms.py:7
 msgid "Enter text here"
@@ -1807,9 +1835,6 @@ msgstr "Массовая регистрация пользователей"
 
 #~ msgid "List of Solutions"
 #~ msgstr "Список решений"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
 
 #~ msgid "last name"
 #~ msgstr "фамилия"

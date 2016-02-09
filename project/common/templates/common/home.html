@@ -23,7 +23,7 @@
     <h2>{% trans 'My courses' %}</h2>
     <ul>
     {% for course in courses %}
-        <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course.name }}</a></li>
+        <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a></li>
     {% endfor %}
     </ul>
 {% endif %}

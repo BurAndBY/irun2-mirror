@@ -8,6 +8,8 @@ urlpatterns = [
 
     url(r'^criteria/$', views.CriterionListView.as_view(), name='criterion_index'),
     url(r'^criteria/new/$', views.CriterionCreateView.as_view(), name='criterion_new'),
+    url(r'^criteria/(?P<pk>[0-9]+)/edit/$', views.CriterionUpdateView.as_view(), name='criterion_edit'),
+    url(r'^criteria/(?P<pk>[0-9]+)/delete/$', views.CriterionDeleteView.as_view(), name='criterion_delete'),
 
     url(r'^(?P<course_id>[0-9]+)/$', views.CourseInfoView.as_view(), name='show_course_info'),
     url(r'^(?P<course_id>[0-9]+)/standings/$', views.CourseStandingsView.as_view(), name='course_standings'),

@@ -36,6 +36,12 @@ class Course(models.Model):
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
 
 class Topic(models.Model):
     name = models.CharField(_('name'), max_length=64)

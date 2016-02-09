@@ -9,7 +9,13 @@
     {% if object_list %}
         <ul>
             {% for criterion in object_list %}
-                <li>{% irunner_courses_criterion criterion False %} {% irunner_courses_criterion criterion True %} {{ criterion.name }}</li>
+                <li>
+                    {% irunner_courses_criterion criterion False %}
+                    {% irunner_courses_criterion criterion True %}
+                    {{ criterion.name }}
+                    (<a href="{% url 'courses:criterion_edit' criterion.id %}">{% trans 'edit' %}</a>,
+                    <a href="{% url 'courses:criterion_delete' criterion.id %}">{% trans 'delete' %}</a>)
+                </li>
             {% endfor %}
         </ul>
     {% else %}

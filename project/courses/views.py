@@ -412,9 +412,6 @@ List of courses
 class CourseListView(StaffMemberRequiredMixin, generic.ListView):
     model = Course
 
-    def get_queryset(self):
-        return Course.objects.order_by('name')
-
 
 class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Course
@@ -460,9 +457,46 @@ class CriterionCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Criterion
     fields = ['label', 'name']
 
+    def get_context_data(self, **kwargs):
+        context = super(CriterionCreateView, self).get_context_data(**kwargs)
+        context['page_title'] = _('New criterion')
+        return context
+
     def get_success_url(self):
         return reverse('courses:criterion_index')
 
+
+class CriterionUpdateView(StaffMemberRequiredMixin, generic.UpdateView):
+    model = Criterion
+    fields = ['label', 'name']
+
+    def get_context_data(self, **kwargs):
+        context = super(CriterionUpdateView, self).get_context_data(**kwargs)
+        context['page_title'] = _('Edit criterion')
+        return context
+
+    def get_success_url(self):
+        return reverse('courses:criterion_index')
+
+
+class CriterionDeleteView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'courses/criterion_confirm_delete.html'
+
+    def list_courses(self, criterion_id):
+        return list(Course.objects.filter(topic__criteria__id=criterion_id).distinct())
+
+    def get(self, request, pk):
+        criterion = get_object_or_404(Criterion, pk=pk)
+        course_list = self.list_courses(criterion.id)
+        context = {'course_list': course_list}
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        criterion = get_object_or_404(Criterion, pk=pk)
+        course_list = self.list_courses(criterion.id)
+        if not course_list:
+            criterion.delete()
+        return redirect('courses:criterion_index')
 
 '''
 Solutions list
