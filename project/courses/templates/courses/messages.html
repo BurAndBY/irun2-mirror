@@ -74,6 +74,11 @@
                                     <button type="submit" class="btn btn-default">
                                         {% trans 'Reply' %}
                                     </button>
+                                    {% if can_delete %}
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                                            {% trans 'Delete thread' %}
+                                        </button>
+                                    {% endif %}
                                 {% endbuttons %}
                             </form>
                         </div>
@@ -84,5 +89,28 @@
         </div>
     </div>
 
+    {% if can_delete %}
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{% trans 'Delete thread' %}</h4>
+                </div>
+                <div class="modal-body">
+                    {% trans 'Conversation will be deleted' %} ({% blocktrans count counter=messages|length %}{{ counter }} message{% plural %}{{ counter }} messages{% endblocktrans %}).
+                </div>
 
+                <div class="modal-footer">
+                    <form method="post" action="{% url 'courses:messages_thread_delete' course.id thread.id %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}

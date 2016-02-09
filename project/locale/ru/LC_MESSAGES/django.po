@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-09 16:43+0300\n"
-"PO-Revision-Date: 2016-02-09 16:44+0300\n"
+"POT-Creation-Date: 2016-02-09 17:32+0300\n"
+"PO-Revision-Date: 2016-02-09 17:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -445,6 +445,7 @@ msgid "Statement"
 msgstr "Условие"
 
 #: .\courses\templates\courses\assign.html:107
+#: .\courses\templates\courses\messages.html:108
 #: .\courses\templates\courses\settings_component.html:16
 #: .\courses\templates\courses\settings_users_edit.html:20
 #: .\problems\templates\problems\edit_test.html:37
@@ -517,6 +518,7 @@ msgid "Criterion is not used in courses."
 msgstr "Критерий не используется в курсах."
 
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
+#: .\courses\templates\courses\messages.html:109
 #: .\courses\templates\courses\settings_component.html:20
 #: .\problems\templates\problems\show_test.html:31
 #: .\solutions\templates\solutions\solution_list.html:63
@@ -619,6 +621,23 @@ msgstr "Ответ в тему"
 #: .\courses\templates\courses\messages.html:75
 msgid "Reply"
 msgstr "Ответить"
+
+#: .\courses\templates\courses\messages.html:79
+#: .\courses\templates\courses\messages.html:99
+msgid "Delete thread"
+msgstr "Удалить тему"
+
+#: .\courses\templates\courses\messages.html:102
+msgid "Conversation will be deleted"
+msgstr "Переписка будет удалена"
+
+#: .\courses\templates\courses\messages.html:102
+#, python-format
+msgid "%(counter)s message"
+msgid_plural "%(counter)s messages"
+msgstr[0] "%(counter)s сообщение"
+msgstr[1] "%(counter)s сообщения"
+msgstr[2] "%(counter)s сообщений"
 
 #: .\courses\templates\courses\messages_new.html:25
 #: .\courses\templates\courses\submit.html:23
@@ -827,11 +846,11 @@ msgstr "широкоэкр."
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:795
+#: .\courses\views.py:804
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:796
+#: .\courses\views.py:805
 msgid "— All —"
 msgstr "— Все —"
 

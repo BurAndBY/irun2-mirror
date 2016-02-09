@@ -741,6 +741,7 @@ class CourseMessagesSingleThreadView(BaseCourseView):
         context['threads'] = self.threads
         context['thread'] = self.thread
         context['user_cache'] = self.get_user_cache()
+        context['can_delete'] = self.permissions.messages_delete_thread
         return context
 
 
@@ -786,6 +787,14 @@ class CourseMessagesDownloadView(CourseMessagesSingleThreadView):
             MailMessage.objects.select_related('attachment'),
             pk=message_id, thread=thread, attachment__filename=filename)
         return serve_resource_metadata(request, message.attachment)
+
+
+class CourseMessagesThreadDeleteView(CourseMessagesSingleThreadView):
+    def post(self, request, course, thread_id):
+        thread = self._load_thread(thread_id)
+        if self.permissions.messages_delete_thread:
+            thread.delete()
+        return redirect('courses:messages_empty', course.id)
 
 
 class CourseMessagesNewView(BaseCourseView):

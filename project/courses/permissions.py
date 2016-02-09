@@ -24,6 +24,7 @@ class CoursePermissions(object):
         self.messages_all = False
         self.messages_send_any = False
         self.messages_send_own = False
+        self.messages_delete_thread = False
 
     def set_common(self):
         self.info = True
@@ -53,6 +54,7 @@ class CoursePermissions(object):
         self.all_solutions_source_codes = False
         self.messages_all = True
         self.messages_send_any = True
+        self.messages_delete_thread = True
 
     def set_admin(self):
         self.set_common()
@@ -62,6 +64,7 @@ class CoursePermissions(object):
         self.all_solutions_source_codes = True
         self.messages_all = True
         self.messages_send_any = True
+        self.messages_delete_thread = True
 
     def disable_sheet(self):
         self.sheet = False
