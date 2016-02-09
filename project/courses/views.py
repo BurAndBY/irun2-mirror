@@ -412,6 +412,9 @@ List of courses
 class CourseListView(StaffMemberRequiredMixin, generic.ListView):
     model = Course
 
+    def get_queryset(self):
+        return Course.objects.order_by('name')
+
 
 class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Course
