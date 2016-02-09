@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
@@ -636,17 +636,22 @@ def update_last_viewed_timestamp(user, thread, ts):
     )
 
 
+def _make_mailthread_queryset(course, user, permissions):
+    threads = MailThread.objects.filter(course=course)
+    if not permissions.messages_all:
+        threads = threads.filter(Q(person=user) | Q(person__isnull=True))
+    return threads
+
+
 def list_mail_threads(course, user, permissions):
     '''
     Returns a list of MailThread objects with additional attrs:
         'unread' attr set to true or false,
         'last_viewed_timestamp'.
     '''
-    threads = MailThread.objects.filter(course=course).\
+    threads = _make_mailthread_queryset(course, user, permissions).\
         select_related('problem').\
         order_by('-last_message_timestamp')
-    if not permissions.messages_all:
-        threads = threads.filter(person=user)
 
     thread_ids = (thread.id for thread in threads)
 
@@ -671,9 +676,7 @@ def get_unread_thread_count(course, user, permissions):
     if not permissions.messages:
         return None
 
-    threads = MailThread.objects.filter(course=course)
-    if not permissions.messages_all:
-        threads = threads.filter(person=user)
+    threads = _make_mailthread_queryset(course, user, permissions)
 
     # TODO: less queries
     total_count = threads.count()
