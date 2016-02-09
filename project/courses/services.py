@@ -102,7 +102,7 @@ class ProblemChoicesBuilder(object):
             if problems is None:
                 continue
 
-            group = tuple((problem.id, problem.numbered_full_name()) for problem in problems)
+            group = tuple((problem.id, problem.numbered_full_name_complexity()) for problem in problems)
             data.append((topic.name, group))
 
         return tuple(data)

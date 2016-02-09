@@ -50,6 +50,13 @@ class Problem(models.Model):
     def numbered_full_name(self):
         return self._numbered_name(self.full_name)
 
+    def numbered_full_name_complexity(self):
+        result = self.numbered_full_name()
+        if self.complexity is not None:
+            return u'[{0}] {1}'.format(self.complexity, result)
+        else:
+            return result
+
     def numbered_short_name(self):
         return self._numbered_name(self.short_name)
 
