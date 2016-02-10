@@ -27,4 +27,4 @@ def irunner_courses_slotresult(slot_result, course_id, editable=False):
 
 @register.simple_tag
 def irunner_courses_showuser(user_id, user_cache):
-    return unicode(user_cache.get_user(user_id))
+    return user_cache.get_user(user_id).as_html()

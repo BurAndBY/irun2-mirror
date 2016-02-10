@@ -23,7 +23,7 @@
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" href="#studentList">
                 {% if current_student %}
-                    {{ current_student }}
+                    {{ current_student.as_html|safe }}
                 {% else %}
                     {% trans 'Students' %}
                 {% endif %}
@@ -35,7 +35,7 @@
         <div class="panel-body">
             <ul>
                 {% for user_descr in student_list %}
-                    <li><a href="{% url 'courses:course_assignment' course.id user_descr.id %}">{{ user_descr }}</a></li>
+                    <li><a href="{% url 'courses:course_assignment' course.id user_descr.id %}">{{ user_descr.as_html|safe }}</a></li>
                 {% endfor %}
             </ul>
         </div>

@@ -3,6 +3,7 @@
 from django.contrib import auth
 from django.db.models import F
 from django.utils.encoding import force_text
+from django.utils.html import format_html
 
 from itertools import chain
 from collections import namedtuple
@@ -28,6 +29,12 @@ class UserDescription(namedtuple('UserDescription', 'id first_name last_name sub
             return u'{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup_name)
         else:
             return u'{0} {1}'.format(self.first_name, self.last_name)
+
+    def as_html(self):
+        if self.subgroup_name:
+            return format_html(u'{0} <strong>{1}</strong> ({2})', self.first_name, self.last_name, self.subgroup_name)
+        else:
+            return format_html(u'{0} <strong>{1}</strong>', self.first_name, self.last_name)
 
 
 class UserCache(object):
