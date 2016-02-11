@@ -59,6 +59,8 @@ class CoursePermissions(object):
     def set_admin(self):
         self.set_common()
 
+        self.sheet_edit = True
+        self.assign = True
         self.settings = True
         self.all_solutions = True
         self.all_solutions_source_codes = True
