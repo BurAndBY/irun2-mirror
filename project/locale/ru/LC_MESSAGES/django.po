@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-09 17:32+0300\n"
-"PO-Revision-Date: 2016-02-09 17:33+0300\n"
+"POT-Creation-Date: 2016-02-12 02:42+0300\n"
+"PO-Revision-Date: 2016-02-12 02:43+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -58,19 +58,28 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:8
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:43
+msgid "Logout"
+msgstr "Выход"
+
+#: .\cauth\templates\registration\logged_out.html:10
 msgid "You are now logged out. Any automatic login has also been stopped."
 msgstr "Теперь вы вышли из системы. Автоматический вход больше невозможен."
 
-#: .\cauth\templates\registration\logged_out.html:9
+#: .\cauth\templates\registration\logged_out.html:11
 msgid "Didn't mean to log out?"
 msgstr "Не хотели выходить?"
 
-#: .\cauth\templates\registration\logged_out.html:9
+#: .\cauth\templates\registration\logged_out.html:11
 msgid "Log in again."
 msgstr "Войдите снова."
 
-#: .\cauth\templates\registration\login.html:14
+#: .\cauth\templates\registration\login.html:6
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:45
+msgid "Login"
+msgstr "Вход"
+
+#: .\cauth\templates\registration\login.html:16
 msgid ""
 "Your account doesn't have access to this page. To proceed, please log in "
 "with an account that has access."
@@ -78,13 +87,9 @@ msgstr ""
 "Ваша учётная запись не имеет права доступа к этой странице. Пожалуйста, "
 "войдите под другим именем, чтобы продолжить."
 
-#: .\cauth\templates\registration\login.html:16
+#: .\cauth\templates\registration\login.html:18
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
-
-#: .\cauth\templates\registration\login.html:21 .\templates\navbar.html:45
-msgid "Login"
-msgstr "Вход"
 
 #: .\cauth\templates\registration\password_change_done.html:9
 msgid "Your password was changed."
@@ -223,7 +228,8 @@ msgstr ""
 
 #: .\courses\forms.py:76 .\courses\forms.py:107 .\courses\forms.py:123
 #: .\courses\forms.py:181 .\courses\templates\courses\messages.html:26
-#: .\courses\templates\courses\problems_statement.html:6
+#: .\courses\templates\courses\problems_statement.html:8
+#: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:34
 #: .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\sidebar.html:7
@@ -318,8 +324,8 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:79 .\problems\models.py:59 .\problems\models.py:84
-#: .\problems\models.py:105 .\problems\models.py:112 .\proglangs\models.py:29
+#: .\courses\models.py:79 .\problems\models.py:66 .\problems\models.py:91
+#: .\problems\models.py:112 .\problems\models.py:119 .\proglangs\models.py:29
 #: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -536,7 +542,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:242
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:243
 msgid "delete"
 msgstr "удалить"
 
@@ -544,7 +550,7 @@ msgstr "удалить"
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:462
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:474
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -659,6 +665,29 @@ msgstr "Задачи по курсу"
 #: .\courses\templates\courses\problems_base.html:43
 msgid "Select a topic to view problems."
 msgstr "Выберите тему, чтобы посмотреть задачи."
+
+#: .\courses\templates\courses\problems_statement.html:18
+msgid "Problem is assigned"
+msgstr "Задача назначена"
+
+#: .\courses\templates\courses\problems_statement.html:25
+msgid "Problem is not assigned"
+msgstr "Задача не назначена"
+
+#: .\courses\templates\courses\problems_statement.html:31
+#: .\courses\templates\courses\sidebar.html:72
+#: .\courses\templates\courses\submission.html:6
+#: .\courses\templates\courses\submit.html:6
+#: .\problems\templates\problems\sidebar.html:27
+msgid "Submit solution"
+msgstr "Отправить решение"
+
+#: .\courses\templates\courses\problems_statement.html:37
+#: .\courses\templates\courses\sheet.html:117
+#: .\problems\templates\problems\overview.html:12
+#: .\problems\templates\problems\show_test.html:26
+msgid "Edit"
+msgstr "Правка"
 
 #: .\courses\templates\courses\settings_base.html:5
 #: .\courses\templates\courses\sidebar.html:79
@@ -778,12 +807,6 @@ msgstr "Все изменения автоматически сохраняют�
 msgid "Return to view mode (read-only)."
 msgstr "Вернуться в режим просмотра (только чтение)."
 
-#: .\courses\templates\courses\sheet.html:117
-#: .\problems\templates\problems\overview.html:12
-#: .\problems\templates\problems\show_test.html:26
-msgid "Edit"
-msgstr "Правка"
-
 #: .\courses\templates\courses\sidebar.html:44
 #: .\courses\templates\courses\standings.html:9
 #: .\courses\templates\courses\standings_wide.html:9
@@ -792,20 +815,13 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:563
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:602
 msgid "My solutions"
 msgstr "Мои решения"
-
-#: .\courses\templates\courses\sidebar.html:72
-#: .\courses\templates\courses\submission.html:6
-#: .\courses\templates\courses\submit.html:6
-#: .\problems\templates\problems\sidebar.html:27
-msgid "Submit solution"
-msgstr "Отправить решение"
 
 #: .\courses\templates\courses\solutions.html:20
 #: .\solutions\templates\solutions\solution_list.html:19
@@ -842,15 +858,15 @@ msgstr "Итог"
 msgid "widescreen"
 msgstr "широкоэкр."
 
-#: .\courses\views.py:475
+#: .\courses\views.py:487
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:804
+#: .\courses\views.py:739
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:805
+#: .\courses\views.py:740
 msgid "— All —"
 msgstr "— Все —"
 
@@ -892,7 +908,7 @@ msgstr "Ваше сообщение сохранено."
 msgid "Wiki"
 msgstr "Вики"
 
-#: .\problems\models.py:22 .\problems\models.py:111
+#: .\problems\models.py:22 .\problems\models.py:118
 msgid "number"
 msgstr "номер"
 
@@ -926,63 +942,63 @@ msgstr "имя выходного файла"
 msgid "folders"
 msgstr "папки"
 
-#: .\problems\models.py:60
+#: .\problems\models.py:67
 msgid "hint"
 msgstr "подсказка"
 
-#: .\problems\models.py:73
+#: .\problems\models.py:80
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
-#: .\problems\models.py:74
+#: .\problems\models.py:81
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
 
-#: .\problems\models.py:75
+#: .\problems\models.py:82
 msgid "Additional statement file"
 msgstr "Дополнительный файл условия"
 
-#: .\problems\models.py:76
+#: .\problems\models.py:83
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\problems\models.py:77
+#: .\problems\models.py:84
 msgid "Sample input file"
 msgstr "Пример входного файла"
 
-#: .\problems\models.py:78
+#: .\problems\models.py:85
 msgid "Sample output file"
 msgstr "Пример выходного файла"
 
-#: .\problems\models.py:79
+#: .\problems\models.py:86
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:83 .\problems\models.py:104
+#: .\problems\models.py:90 .\problems\models.py:111
 msgid "file type"
 msgstr "тип файла"
 
-#: .\problems\models.py:95
+#: .\problems\models.py:102
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\models.py:96
+#: .\problems\models.py:103
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:97
+#: .\problems\models.py:104
 msgid "Contestant solution"
 msgstr "Решение участника"
 
-#: .\problems\models.py:98
+#: .\problems\models.py:105
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:99
+#: .\problems\models.py:106
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:106 .\solutions\forms.py:70
+#: .\problems\models.py:113 .\solutions\forms.py:71
 msgid "compiler"
 msgstr "компилятор"
 
@@ -1139,7 +1155,7 @@ msgstr "Неизвестно"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:28 .\solutions\forms.py:63
+#: .\proglangs\models.py:28 .\solutions\forms.py:64
 msgid "language"
 msgstr "язык"
 
@@ -1163,91 +1179,91 @@ msgstr "Язык"
 msgid "Legacy?"
 msgstr "Устарел?"
 
-#: .\solutions\forms.py:20
+#: .\solutions\forms.py:21
 msgid "Enter source code"
 msgstr "Введите исходный код"
 
-#: .\solutions\forms.py:26 .\storage\forms.py:13
+#: .\solutions\forms.py:27 .\storage\forms.py:13
 msgid "... or upload a file"
 msgstr "... или загрузите файл"
 
-#: .\solutions\forms.py:30 .\storage\forms.py:17
+#: .\solutions\forms.py:31 .\storage\forms.py:17
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
-#: .\solutions\forms.py:37
+#: .\solutions\forms.py:38
 msgid "state"
 msgstr "состояние"
 
-#: .\solutions\forms.py:38 .\solutions\models.py:74
+#: .\solutions\forms.py:39 .\solutions\models.py:74
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\solutions\forms.py:39 .\solutions\models.py:75
+#: .\solutions\forms.py:40 .\solutions\models.py:75
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\forms.py:40 .\solutions\models.py:76
+#: .\solutions\forms.py:41 .\solutions\models.py:76
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\forms.py:41 .\solutions\models.py:77
+#: .\solutions\forms.py:42 .\solutions\models.py:77
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\forms.py:42 .\solutions\models.py:78
+#: .\solutions\forms.py:43 .\solutions\models.py:78
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\forms.py:43 .\solutions\models.py:73
+#: .\solutions\forms.py:44 .\solutions\models.py:73
 msgid "Done"
 msgstr "Готово"
 
-#: .\solutions\forms.py:44
+#: .\solutions\forms.py:45
 msgid "Not Done"
 msgstr "Не готово"
 
-#: .\solutions\forms.py:46
+#: .\solutions\forms.py:47
 msgid "outcome"
 msgstr "вердикт"
 
-#: .\solutions\forms.py:47 .\solutions\models.py:45
+#: .\solutions\forms.py:48 .\solutions\models.py:45
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\solutions\forms.py:48 .\solutions\models.py:46
+#: .\solutions\forms.py:49 .\solutions\models.py:46
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\solutions\forms.py:49 .\solutions\models.py:47
+#: .\solutions\forms.py:50 .\solutions\models.py:47
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\solutions\forms.py:50 .\solutions\models.py:48
+#: .\solutions\forms.py:51 .\solutions\models.py:48
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\solutions\forms.py:51 .\solutions\models.py:49
+#: .\solutions\forms.py:52 .\solutions\models.py:49
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\solutions\forms.py:52 .\solutions\models.py:50
+#: .\solutions\forms.py:53 .\solutions\models.py:50
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\solutions\forms.py:53 .\solutions\models.py:51
+#: .\solutions\forms.py:54 .\solutions\models.py:51
 msgid "Runtime Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\solutions\forms.py:54 .\solutions\models.py:52
+#: .\solutions\forms.py:55 .\solutions\models.py:52
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\solutions\forms.py:55 .\solutions\models.py:53
+#: .\solutions\forms.py:56 .\solutions\models.py:53
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\solutions\forms.py:56 .\solutions\models.py:54
+#: .\solutions\forms.py:57 .\solutions\models.py:54
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
@@ -1496,7 +1512,7 @@ msgstr "Стандартный вывод ошибок (stderr)"
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\views.py:173
+#: .\solutions\views.py:174
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -1613,10 +1629,6 @@ msgstr "Администрирование"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\templates\navbar.html:43
-msgid "Logout"
-msgstr "Выход"
-
 #: .\users\forms.py:28
 msgid "Folder name"
 msgstr "Имя папки"
@@ -1713,7 +1725,7 @@ msgstr "Пользователи не выбраны"
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: .\users\templates\users\folder.html:19 .\users\views.py:93
+#: .\users\templates\users\folder.html:19 .\users\views.py:94
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -1721,7 +1733,7 @@ msgstr "Создать папку"
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\users\templates\users\folder.html:29 .\users\views.py:109
+#: .\users\templates\users\folder.html:29 .\users\views.py:110
 msgid "Create user"
 msgstr "Создать пользователя"
 
@@ -1812,15 +1824,15 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:225
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:226
 msgid "Update profile"
 msgstr "Обновить профиль"
 
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:253
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:254
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:130
+#: .\users\views.py:131
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
 
