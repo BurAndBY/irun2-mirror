@@ -14,7 +14,8 @@ class AdHocForm(forms.Form):
 class SolutionForm(forms.Form):
     compiler = forms.ModelChoiceField(
         label=_('Compiler'),
-        queryset=Compiler.objects.all().order_by('description')
+        queryset=Compiler.objects.all().order_by('description'),
+        empty_label=EMPTY_SELECT,
     )
     text = forms.CharField(
         label=_('Enter source code'),
