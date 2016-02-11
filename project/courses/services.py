@@ -13,7 +13,7 @@ from problems.models import Problem
 from solutions.models import Solution, Judgement
 
 
-from models import Assignment, Criterion, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate
+from models import Assignment, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate
 
 '''
 Cache of Course Users
@@ -143,6 +143,38 @@ def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
     for user_descr in user_cache.list_students():
         data.append((unicode(user_descr.id), unicode(user_descr)))
     return tuple(data)
+
+
+'''
+Assigned problems
+'''
+
+
+def get_assigned_problem_set(course):
+    '''
+    Enumerates assigned problems in the course (excluding extra problems, including penalty problems).
+    Returns a set of ints.
+    '''
+    problem_ids = Assignment.objects.\
+        filter(membership__course=course, membership__role=Membership.STUDENT, topic__isnull=False).\
+        values_list('problem_id', flat=True)
+    return set(problem_ids)
+
+
+SimpleAssignment = namedtuple('SimpleAssignment', 'user_id is_penalty')
+
+
+def get_simple_assignments(course, problem):
+    result = []
+
+    for user_id, slot_id in Assignment.objects.\
+            filter(membership__course=course, membership__role=Membership.STUDENT, topic__isnull=False, problem=problem).\
+            values_list('membership__user_id', 'slot_id'):
+
+        is_penalty = (slot_id is None)
+        result.append(SimpleAssignment(user_id, is_penalty))
+
+    return result
 
 
 '''

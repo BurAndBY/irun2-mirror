@@ -18,6 +18,7 @@ from django.utils import timezone
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
+from services import get_assigned_problem_set, get_simple_assignments
 from permissions import calculate_course_permissions
 
 from cauth.mixins import StaffMemberRequiredMixin
@@ -282,14 +283,19 @@ class CourseProblemsTopicView(BaseCourseView):
         if topic is None:
             return redirect('courses:course_problems', course_id=course.id)
 
-        problems = topic.list_problems()
+        assigned_problems = get_assigned_problem_set(course)
+
+        problems_with_assign_flag = []
+        for problem in topic.list_problems():
+            assigned = (problem.id in assigned_problems)
+            problems_with_assign_flag.append((problem, assigned))
 
         context = self.get_context_data()
         topics = course.topic_set.all()
         context['navigate_topics'] = True
         context['topics'] = topics
         context['active_topic'] = topic
-        context['problems'] = problems
+        context['problems'] = problems_with_assign_flag
         return render(request, self.template_name, context)
 
 
@@ -302,7 +308,27 @@ def _locate_in_list(lst, x):
     return ((pos + length - 1) % length, pos, (pos + 1) % length)
 
 
-class CourseProblemsTopicProblemView(ProblemStatementMixin, BaseCourseView):
+class CourseStatementMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(CourseStatementMixin, self).get_context_data(**kwargs)
+        can_submit = False
+
+        simple_assignments = get_simple_assignments(self.course, self.problem)
+
+        if self.permissions.submit_all_problems:
+            can_submit = True
+        else:
+            me = self.request.user.id
+            can_submit = any((x.user_id == me) for x in simple_assignments)
+
+        if simple_assignments:
+            context['simple_assignments'] = simple_assignments
+            context['user_cache'] = self.get_user_cache()
+        context['can_submit'] = can_submit
+        return context
+
+
+class CourseProblemsTopicProblemView(ProblemStatementMixin, CourseStatementMixin, BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_statement.html'
 
@@ -317,6 +343,7 @@ class CourseProblemsTopicProblemView(ProblemStatementMixin, BaseCourseView):
         problem = topic.problem_folder.problem_set.filter(pk=problem_id).first()
         if problem is None:
             return redirect('courses:course_problems_topic', course_id=course.id, topic_id=topic.id)
+        self.problem = problem
 
         if self.is_aux_file(filename):
             return self.serve_aux_file(request, problem.id, filename)
@@ -347,7 +374,7 @@ class CourseProblemsTopicProblemView(ProblemStatementMixin, BaseCourseView):
         return redirect('courses:course_problems', course_id=course.id)
 
 
-class CourseProblemsProblemView(ProblemStatementMixin, BaseCourseView):
+class CourseProblemsProblemView(ProblemStatementMixin, CourseStatementMixin, BaseCourseView):
     tab = 'problems'
     template_name = 'courses/problems_statement.html'
 
@@ -377,6 +404,7 @@ class CourseProblemsProblemView(ProblemStatementMixin, BaseCourseView):
 
     def get(self, request, course, problem_id, filename):
         problem = get_object_or_404(Problem, pk=problem_id)
+        self.problem = problem
 
         if self.is_aux_file(filename):
             return self.serve_aux_file(request, problem.id, filename)

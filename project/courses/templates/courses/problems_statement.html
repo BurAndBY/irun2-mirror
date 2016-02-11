@@ -1,9 +1,44 @@
 {% extends 'courses/problems_base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_courses %}
 {% load irunner_problems %}
 
 {% block subtitle %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
+
+{% block extrasidebar %}
+    <ul class="list-group">
+        <li href="#" class="list-group-item list-group-item-info">
+            {% trans 'Problem' %}
+        </li>
+
+        <li class="list-group-item">
+            {% if simple_assignments %}
+                {% bootstrap_icon 'link' %} <span class="ir-icon-label">{% trans 'Problem is assigned' %}</span>
+                <ul>
+                    {% for simple_assignment in simple_assignments %}
+                        <li>{% irunner_courses_showuser simple_assignment.user_id user_cache %}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {% bootstrap_icon 'unchecked' %} <span class="ir-icon-label">{% trans 'Problem is not assigned' %}</span>
+            {% endif %}
+        </li>
+
+        {% if can_submit %}
+            <a href="{% url 'courses:course_submit' course.id %}?problem={{ problem.id }}" class="list-group-item">
+                {% bootstrap_icon 'send' %} <span class="ir-icon-label">{% trans 'Submit solution' %}</span>
+            </a>
+        {% endif %}
+
+        {% if user.is_staff %}
+            <a href="{% url 'problems:overview' problem.id %}" class="list-group-item" target="_blank">
+                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
+            </a>
+        {% endif %}
+    </ul>
+{% endblock %}
 
 {% block submain %}
     {% irunner_problems_statement statement %}

@@ -806,8 +806,8 @@ span.ir-absence {
     padding: 10px;
     margin-bottom: 10px;
 }
-.ir-problem-used > td > a {
-    color: #ccc;
+.ir-problem-used a {
+    color: #ddd;
 }
 
 .ir-button-before-text {
