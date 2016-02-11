@@ -9,8 +9,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy, pgettext_lazy
 from django.views import generic
 
+from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
-from common.views import LoginRequiredMixin, MassOperationView, StaffMemberRequiredMixin
+from common.views import MassOperationView
 from courses.permissions import calculate_course_solution_access_level
 from proglangs.models import Compiler
 from proglangs.utils import get_highlightjs_class

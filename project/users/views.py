@@ -7,9 +7,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
+from cauth.mixins import StaffMemberRequiredMixin
 from common.folderutils import lookup_node_ex, cast_id
 from common.pageutils import paginate
-from common.views import IRunnerListView, MassOperationView, StaffMemberRequiredMixin
+from common.views import IRunnerListView, MassOperationView
 
 import forms
 from models import UserFolder, UserProfile

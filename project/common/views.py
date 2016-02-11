@@ -1,19 +1,33 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
 from django.views import generic
 
-from courses.models import Course
+from courses.models import Course, Membership
+from courses.messaging import get_unread_thread_count
+from courses.permissions import calculate_course_permissions
 
 
 def home(request):
     context = {}
 
     if request.user.is_authenticated():
-        context['courses'] = Course.objects.filter(membership__user=request.user).distinct()
+        memberships_per_course = {}
+
+        # TODO: filter active courses
+        for membership in Membership.objects.filter(user=request.user):
+            memberships_per_course.setdefault(membership.course_id, []).append(membership)
+
+        courses = Course.objects.filter(pk__in=memberships_per_course)  # default ordering
+
+        courses_with_unread = []
+        for course in courses:
+            memberships = memberships_per_course[course.id]
+            permissions = calculate_course_permissions(course, request.user, memberships)
+            unread = get_unread_thread_count(course, request.user, permissions)
+            courses_with_unread.append((course, unread))
+
+        context['courses_with_unread'] = courses_with_unread
 
     return render(request, 'common/home.html', context)
 
@@ -149,25 +163,6 @@ class IRunnerListView(generic.list.MultipleObjectTemplateResponseMixin, IRunnerB
 
 def error403(request):
     return render(request, 'common/error403.html', {})
-
-
-class LoginRequiredMixin(object):
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
-
-
-def _is_staff(user):
-    if not user.is_staff:
-        raise PermissionDenied
-    return True
-
-
-class StaffMemberRequiredMixin(object):
-    @method_decorator(login_required)
-    @method_decorator(user_passes_test(_is_staff))
-    def dispatch(self, request, *args, **kwargs):
-        return super(StaffMemberRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class MassOperationView(generic.View):

@@ -71,6 +71,30 @@ class CoursePermissions(object):
         self.sheet_edit = False
 
 
+def calculate_course_permissions(course, user, memberships):
+    '''
+    Memberships should refer the same user and the given course.
+    '''
+    permissions = CoursePermissions()
+
+    for membership in memberships:
+        assert membership.user_id == user.id
+        assert membership.course_id == course.id
+
+        if membership.role == Membership.STUDENT:
+            permissions.set_student(course.student_own_solutions_access, course.student_all_solutions_access)
+        elif membership.role == Membership.TEACHER:
+            permissions.set_teacher()
+
+    if user.is_staff:
+        permissions.set_admin()
+
+    if not course.enable_sheet:
+        permissions.sheet = False
+
+    return permissions
+
+
 InCourseAccessLevel = namedtuple('InCourseAccessLevel', 'course level')
 
 

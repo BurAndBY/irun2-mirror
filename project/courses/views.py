@@ -7,7 +7,6 @@ from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
@@ -17,19 +16,20 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
-from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailThread, MailMessage, MailUserThreadVisit
+from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
-from permissions import CoursePermissions
+from permissions import calculate_course_permissions
 
+from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
 from common.pageutils import paginate
-from common.views import StaffMemberRequiredMixin
+from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
 from solutions.models import Solution
 from solutions.utils import new_solution, judge
-from storage.utils import store_with_metadata, serve_resource_metadata
+from storage.utils import serve_resource_metadata
 
 
 class BaseCourseView(generic.View):
@@ -62,28 +62,12 @@ class BaseCourseView(generic.View):
 
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
-        course = get_object_or_404(Course, pk=course_id)
+        self.course = get_object_or_404(Course, pk=course_id)
+        self.permissions = calculate_course_permissions(self.course, request.user, Membership.objects.filter(course_id=course_id, user=request.user))
 
-        permissions = CoursePermissions()
-
-        for membership in Membership.objects.filter(course=course, user=request.user):
-            if membership.role == Membership.STUDENT:
-                permissions.set_student(course.student_own_solutions_access, course.student_all_solutions_access)
-            elif membership.role == Membership.TEACHER:
-                permissions.set_teacher()
-
-        if request.user.is_staff:
-            permissions.set_admin()
-
-        if not course.enable_sheet:
-            permissions.sheet = False
-
-        self.course = course
-        self.permissions = permissions
-
-        if not self.is_allowed(permissions):
+        if not self.is_allowed(self.permissions):
             raise PermissionDenied()
-        return super(BaseCourseView, self).dispatch(request, course, *args, **kwargs)
+        return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
 
 
 class CourseInfoView(BaseCourseView):
@@ -622,86 +606,6 @@ class CourseMyProblemsView(BaseCourseView):
 '''
 Messages
 '''
-
-
-def is_unread(last_viewed_timestamp, last_message_timestamp):
-    return last_viewed_timestamp < last_message_timestamp if last_viewed_timestamp is not None else True
-
-
-def update_last_viewed_timestamp(user, thread, ts):
-    MailUserThreadVisit.objects.update_or_create(
-        user=user,
-        thread=thread,
-        defaults={'timestamp': ts}
-    )
-
-
-def _make_mailthread_queryset(course, user, permissions):
-    threads = MailThread.objects.filter(course=course)
-    if not permissions.messages_all:
-        threads = threads.filter(Q(person=user) | Q(person__isnull=True))
-    return threads
-
-
-def list_mail_threads(course, user, permissions):
-    '''
-    Returns a list of MailThread objects with additional attrs:
-        'unread' attr set to true or false,
-        'last_viewed_timestamp'.
-    '''
-    threads = _make_mailthread_queryset(course, user, permissions).\
-        select_related('problem').\
-        order_by('-last_message_timestamp')
-
-    thread_ids = (thread.id for thread in threads)
-
-    last = {}
-
-    for thread_id, timestamp in MailUserThreadVisit.objects.\
-            filter(user=user, thread_id__in=thread_ids).\
-            values_list('thread_id', 'timestamp'):
-        last[thread_id] = timestamp
-
-    result = []
-    for thread in threads:
-        last_viewed_timestamp = last.get(thread.id)
-        thread.last_viewed_timestamp = last_viewed_timestamp
-        thread.unread = is_unread(last_viewed_timestamp, thread.last_message_timestamp)
-        result.append(thread)
-
-    return result
-
-
-def get_unread_thread_count(course, user, permissions):
-    if not permissions.messages:
-        return None
-
-    threads = _make_mailthread_queryset(course, user, permissions)
-
-    # TODO: less queries
-    total_count = threads.count()
-    read_count = threads.filter(mailuserthreadvisit__user=user, mailuserthreadvisit__timestamp__gte=F('last_message_timestamp')).count()
-    return total_count - read_count
-
-
-def post_message(user, thread, message_form):
-    ts = timezone.now()
-
-    message = message_form.save(commit=False)
-
-    upload = message_form.cleaned_data['upload']
-    if upload is not None:
-        message.attachment = store_with_metadata(upload)
-
-    message.author = user
-    message.timestamp = ts
-    thread.last_message_timestamp = ts
-
-    with transaction.atomic():
-        thread.save()
-        message.thread = thread
-        message.save()
-        update_last_viewed_timestamp(user, thread, ts)
 
 
 class CourseMessagesEmptyView(BaseCourseView):

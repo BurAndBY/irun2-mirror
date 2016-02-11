@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from common.views import StaffMemberRequiredMixin
+from cauth.mixins import StaffMemberRequiredMixin
 
 from utils import serve_resource
 from forms import TextOrUploadForm

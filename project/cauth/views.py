@@ -1,9 +1,8 @@
+from django.db import transaction
+from django.shortcuts import render, redirect
 from django.views import generic
 
-from common.views import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
-from django.db import transaction
-
+from mixins import LoginRequiredMixin
 import forms
 
 

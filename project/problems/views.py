@@ -13,9 +13,10 @@ from django.views import generic
 
 from mptt.templatetags.mptt_tags import cache_tree_children
 
+from cauth.mixins import StaffMemberRequiredMixin
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
 from common.pageutils import paginate
-from common.views import IRunnerBaseListView, IRunnerListView, StaffMemberRequiredMixin
+from common.views import IRunnerBaseListView, IRunnerListView
 from solutions.forms import SolutionForm
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
