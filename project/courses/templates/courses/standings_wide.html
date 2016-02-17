@@ -37,7 +37,7 @@
                 </td>
 
                 <td>
-                    {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id user_result.membership.id %}">{% endif %}<!--
+                    {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id user_result.user.id %}">{% endif %}<!--
                     --><b>{{ user_result.user.last_name }}</b> {{ user_result.user.first_name }}<!--
                     -->{% if permissions.assign %}</a>{% endif %}
 
