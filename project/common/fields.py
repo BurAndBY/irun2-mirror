@@ -23,3 +23,5 @@ class TwoPanelModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def ajax(cls, object_list):
         data = [{'id': obj.pk, 'name': cls.label_from_instance(obj)} for obj in object_list]
         return JsonResponse({'data': data}, safe=True)
+
+

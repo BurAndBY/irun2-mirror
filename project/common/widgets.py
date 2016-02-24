@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, format_html
 
-from mptt.forms import TreeNodeChoiceField
+from mptt_fields import OrderedTreeNodeChoiceField
 
 
 class SelectWithGrayOut(forms.Select):
@@ -96,8 +96,8 @@ class TwoPanelSelectMultiple(forms.SelectMultiple):
 
     def _make_folder_form(self, uid):
         class ObjectForm(forms.Form):
-            folders = TreeNodeChoiceField(queryset=self.folder_model.objects.all(),
-                                          widget=forms.Select(attrs={'class': 'form-control'}))
+            folders = OrderedTreeNodeChoiceField(queryset=self.folder_model.objects.all(),
+                                                 widget=forms.Select(attrs={'class': 'form-control'}))
         return ObjectForm(prefix=uid)
 
     def render(self, name, value, attrs=None, choices=()):

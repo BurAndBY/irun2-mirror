@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 
-from mptt.forms import TreeNodeChoiceField
+from common.mptt_fields import OrderedTreeNodeChoiceField
 
 from models import UserFolder, UserProfile
 
@@ -91,7 +91,7 @@ class CreateUsersMassForm(forms.Form):
 
 
 class MoveUsersForm(forms.Form):
-    folder = TreeNodeChoiceField(label=_('Destination folder'), queryset=UserFolder.objects.all(), required=False)
+    folder = OrderedTreeNodeChoiceField(label=_('Destination folder'), queryset=UserFolder.objects.all(), required=False)
 
 '''
 User search
@@ -115,7 +115,7 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    folder = TreeNodeChoiceField(label=_('Folder'), queryset=UserFolder.objects.all(), required=False)
+    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=UserFolder.objects.all(), required=False)
 
     class Meta:
         model = UserProfile

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
-from mptt.forms import TreeNodeMultipleChoiceField
+from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from django.utils.translation import ugettext_lazy as _
 
 '''
@@ -9,7 +9,7 @@ Edit single problem
 
 
 class ProblemForm(forms.ModelForm):
-    folders = TreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all(), required=False)
+    folders = OrderedTreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all(), required=False)
 
     class Meta:
         model = Problem

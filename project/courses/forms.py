@@ -4,12 +4,10 @@ from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
-from mptt.forms import TreeNodeChoiceField
-
-from common.constants import EMPTY_SELECT
 from problems.models import ProblemFolder
 from users.models import UserFolder
-import common.fields
+from common.fields import TwoPanelModelMultipleChoiceField
+from common.mptt_fields import OrderedTreeNodeChoiceField
 import common.widgets
 import solutions.forms
 
@@ -38,7 +36,7 @@ class CompilersForm(forms.ModelForm):
 
 
 class TopicForm(forms.ModelForm):
-    problem_folder = TreeNodeChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all())
+    problem_folder = OrderedTreeNodeChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.order_by('name'))
     num_problems = forms.IntegerField(label=_('Problems to assign per student in the course'), min_value=0, max_value=10, initial=1)
 
     class Meta:
@@ -89,7 +87,7 @@ class AddExtraProblemSlotForm(forms.Form):
     penaltytopic = forms.ModelChoiceField(label=_('Topic'), queryset=None)
 
 
-class TwoPanelUserMultipleChoiceField(common.fields.TwoPanelModelMultipleChoiceField):
+class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
     @classmethod
     def label_from_instance(cls, obj):
         return obj.get_full_name()
