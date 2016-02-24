@@ -32,7 +32,7 @@ class TestDescriptionForm(forms.ModelForm):
 
 class TestUploadOrTextForm(forms.Form):
     upload = forms.FileField(required=False, widget=forms.FileInput)
-    text = forms.CharField(required=False, widget=forms.Textarea)
+    text = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'ir-monospace'}))
 
 
 class TestUploadForm(forms.Form):

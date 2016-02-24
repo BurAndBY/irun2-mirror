@@ -91,10 +91,6 @@ body {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-textarea {
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
 h1, h2, h3, h4, h5 {
     margin-top: 4px;
 }

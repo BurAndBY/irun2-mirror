@@ -20,7 +20,7 @@ class SolutionForm(forms.Form):
     text = forms.CharField(
         label=_('Enter source code'),
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control'}),
+        widget=forms.Textarea(attrs={'class': 'form-control ir-monospace'}),
         max_length=2**20
     )
     upload = forms.FileField(
