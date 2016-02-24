@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 01:13+0300\n"
-"PO-Revision-Date: 2016-02-25 01:15+0300\n"
+"POT-Creation-Date: 2016-02-25 01:30+0300\n"
+"PO-Revision-Date: 2016-02-25 01:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -287,9 +287,7 @@ msgstr "обозначение критерия"
 
 #: .\courses\models.py:17 .\courses\models.py:24 .\courses\models.py:47
 #: .\courses\models.py:78 .\courses\models.py:86
-#: .\courses\templates\courses\assign.html:88
-#: .\problems\templates\problems\irunner_problems_list_tag.html:19
-#: .\users\models.py:13
+#: .\courses\templates\courses\assign.html:88 .\users\models.py:13
 msgid "name"
 msgstr "название"
 
@@ -755,6 +753,7 @@ msgid "New subgroup"
 msgstr "Новая подгруппа"
 
 #: .\courses\templates\courses\settings_topics.html:13 .\users\forms.py:118
+#: .\users\templates\users\irunner_users_list_tag.html:19
 msgid "Folder"
 msgstr "Папка"
 
@@ -925,12 +924,10 @@ msgid "full name"
 msgstr "полное название"
 
 #: .\problems\models.py:25
-#: .\problems\templates\problems\irunner_problems_list_tag.html:20
 msgid "short name"
 msgstr "короткое название"
 
 #: .\problems\models.py:26
-#: .\problems\templates\problems\irunner_problems_list_tag.html:21
 msgid "complexity"
 msgstr "сложность"
 
@@ -1041,6 +1038,20 @@ msgstr "Описание"
 msgid "Compiler"
 msgstr "Компилятор"
 
+#: .\problems\templates\problems\irunner_problems_list_tag.html:19
+#: .\problems\templates\problems\overview.html:28
+msgid "Name"
+msgstr "Название"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:20
+#: .\problems\templates\problems\overview.html:25
+msgid "Short name"
+msgstr "Короткое название"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:21
+msgid "Difficulty"
+msgstr "Сложность"
+
 #: .\problems\templates\problems\irunner_problems_list_tag.html:40
 msgid "No problems"
 msgstr "Нет задач"
@@ -1090,14 +1101,6 @@ msgstr "Номер"
 #: .\problems\templates\problems\overview.html:22
 msgid "Full name"
 msgstr "Полное название"
-
-#: .\problems\templates\problems\overview.html:25
-msgid "Short name"
-msgstr "Короткое название"
-
-#: .\problems\templates\problems\overview.html:28
-msgid "Name"
-msgstr "Название"
 
 #: .\problems\templates\problems\overview.html:33
 msgid "Complexity level"
@@ -1689,7 +1692,7 @@ msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
 
-#: .\users\models.py:24 .\users\templates\users\irunner_users_list_tag.html:19
+#: .\users\models.py:24
 msgid "folder"
 msgstr "папка"
 
@@ -1766,17 +1769,19 @@ msgid "No users found."
 msgstr "Пользователи не найдены."
 
 #: .\users\templates\users\irunner_users_list_tag.html:15
-msgid "username"
-msgstr "имя пользователя"
+#: .\users\templates\users\profile_show.html:38
+msgid "Username"
+msgstr "Имя пользователя"
 
 #: .\users\templates\users\irunner_users_list_tag.html:16
 msgctxt "human"
-msgid "full name"
-msgstr "ФИО"
+msgid "Full name"
+msgstr "Полное имя"
 
 #: .\users\templates\users\irunner_users_list_tag.html:17
-msgid "last login"
-msgstr "последний вход"
+#: .\users\templates\users\profile_show.html:48
+msgid "Last login"
+msgstr "Последний вход"
 
 #: .\users\templates\users\move.html:12
 msgid "Are you sure you want to move the users to another folder?"
@@ -1807,17 +1812,9 @@ msgstr "Отчество"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\users\templates\users\profile_show.html:38
-msgid "Username"
-msgstr "Имя пользователя"
-
 #: .\users\templates\users\profile_show.html:43
 msgid "Email address"
 msgstr "Адрес электронной почты"
-
-#: .\users\templates\users\profile_show.html:48
-msgid "Last login"
-msgstr "Последний вход"
 
 #: .\users\templates\users\profile_show.html:49
 #: .\users\templates\users\profile_show.html:52
@@ -1843,6 +1840,16 @@ msgstr "Права доступа"
 #: .\users\views.py:131
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "username"
+#~ msgstr "имя пользователя"
+
+#~ msgctxt "human"
+#~ msgid "full name"
+#~ msgstr "ФИО"
+
+#~ msgid "last login"
+#~ msgstr "последний вход"
 
 #~ msgid "c."
 #~ msgstr "сл."
