@@ -238,7 +238,7 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-judgementbox {
     background-color: #f5f5f5;
     color: #333;
-    min-width: 3.5em;
+    min-width: 4.5em;
     border-radius: 2px;
     font-size: 0.9em;
     font-weight: bold;
@@ -731,10 +731,10 @@ span.ir-absence {
     color: #888;
     font-size: 0.9em;
 }
-.ir-scorebox-accepted {
+/*.ir-scorebox-accepted {
     color: #5cb85c;
     background-color: #dff0d8;
-}
+}*/
 
 
 /**

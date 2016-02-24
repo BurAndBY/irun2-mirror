@@ -11,13 +11,13 @@ from solutions.permissions import SolutionPermissions
 register = template.Library()
 
 TWO_LETTER_OUTCOME_CODES = {
-    Outcome.ACCEPTED: 'AC',
+    Outcome.ACCEPTED: 'OK',
     Outcome.COMPILATION_ERROR: 'CE',
     Outcome.WRONG_ANSWER: 'WA',
-    Outcome.TIME_LIMIT_EXCEEDED: 'TL',
-    Outcome.MEMORY_LIMIT_EXCEEDED: 'ML',
-    Outcome.IDLENESS_LIMIT_EXCEEDED: 'IL',
-    Outcome.RUNTIME_ERROR: 'RE',
+    Outcome.TIME_LIMIT_EXCEEDED: 'TLE',
+    Outcome.MEMORY_LIMIT_EXCEEDED: 'MLE',
+    Outcome.IDLENESS_LIMIT_EXCEEDED: 'ILE',
+    Outcome.RUNTIME_ERROR: 'RTE',
     Outcome.PRESENTATION_ERROR: 'PE',
     Outcome.SECURITY_VIOLATION: 'SV',
     Outcome.CHECK_FAILED: 'CF'

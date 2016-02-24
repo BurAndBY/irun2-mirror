@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 02:24+0300\n"
-"PO-Revision-Date: 2016-02-25 02:25+0300\n"
+"POT-Creation-Date: 2016-02-25 02:41+0300\n"
+"PO-Revision-Date: 2016-02-25 02:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1107,10 +1107,12 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:38
+#: .\problems\templates\problems\tests.html:12
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:41
+#: .\problems\templates\problems\tests.html:13
 msgid "Output"
 msgstr "Выход"
 
@@ -1263,7 +1265,7 @@ msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
 #: .\solutions\forms.py:63 .\solutions\models.py:51
-msgid "Runtime Error"
+msgid "Run-time Error"
 msgstr "Ошибка во время выполнения"
 
 #: .\solutions\forms.py:64 .\solutions\models.py:52

@@ -48,7 +48,7 @@ class Outcome(object):
         (TIME_LIMIT_EXCEEDED, _('Time Limit Exceeded')),
         (MEMORY_LIMIT_EXCEEDED, _('Memory Limit Exceeded')),
         (IDLENESS_LIMIT_EXCEEDED, _('Idleness Limit Exceeded')),
-        (RUNTIME_ERROR, _('Runtime Error')),
+        (RUNTIME_ERROR, _('Run-time Error')),
         (PRESENTATION_ERROR, _('Presentation Error')),
         (SECURITY_VIOLATION, _('Security Violation')),
         (CHECK_FAILED, _('Check Failed'))

@@ -54,13 +54,13 @@ class AllSolutionsFilterForm(forms.Form):
             ('not-done', _('Not Done')),
         )),
         (_('outcome'), (
-            ('ac', _('Accepted')),
+            ('ok', _('Accepted')),
             ('ce', _('Compilation Error')),
             ('wa', _('Wrong Answer')),
-            ('tl', _('Time Limit Exceeded')),
-            ('ml', _('Memory Limit Exceeded')),
-            ('il', _('Idleness Limit Exceeded')),
-            ('re', _('Runtime Error')),
+            ('tle', _('Time Limit Exceeded')),
+            ('mle', _('Memory Limit Exceeded')),
+            ('ile', _('Idleness Limit Exceeded')),
+            ('rte', _('Run-time Error')),
             ('pe', _('Presentation Error')),
             ('sv', _('Security Violation')),
             ('cf', _('Check Failed'))
