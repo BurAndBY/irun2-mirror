@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -24,12 +26,19 @@ class SolutionForm(forms.Form):
         max_length=2**20
     )
     upload = forms.FileField(
-        label=_('... or upload a file'),
+        label=_(u'…or upload a file'),
         required=False,
         widget=forms.FileInput,
         max_length=255,
         help_text=_('If you select a file, text field content is ignored.')
     )
+
+    def clean(self):
+        cleaned_data = super(SolutionForm, self).clean()
+        text = cleaned_data.get('text')
+        upload = cleaned_data.get('upload')
+        if (upload is None) and (text is not None) and (len(text) == 0):
+            raise forms.ValidationError(_('Unable to submit an empty solution.'), code='empty')
 
 
 class AllSolutionsFilterForm(forms.Form):

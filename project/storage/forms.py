@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -10,7 +12,7 @@ class TextOrUploadForm(forms.Form):
         max_length=2**20
     )
     upload = forms.FileField(
-        label=_('... or upload a file'),
+        label=_(u'…or upload a file'),
         required=False,
         widget=forms.FileInput,
         max_length=256,
