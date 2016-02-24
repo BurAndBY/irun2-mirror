@@ -88,7 +88,7 @@ class ProblemRelatedFile(FileMetadataBase):
 
     problem = models.ForeignKey(Problem)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
-    description = models.TextField(_('description'))
+    description = models.TextField(_('description'), blank=True)
 
 
 class ProblemRelatedSourceFile(FileMetadataBase):
@@ -109,7 +109,7 @@ class ProblemRelatedSourceFile(FileMetadataBase):
     # null for global checkers
     problem = models.ForeignKey(Problem, null=True)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
-    description = models.TextField(_('description'))
+    description = models.TextField(_('description'), blank=True)
     compiler = models.ForeignKey(Compiler, verbose_name=_('compiler'))
 
 

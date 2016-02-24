@@ -16,7 +16,10 @@ urlpatterns = [
     url(r'^(?P<problem_id>[0-9]+)/tests/(?P<test_number>[0-9]+)/edit/$', views.ProblemTestsTestEditView.as_view(), name='edit_test'),
     url(r'^(?P<problem_id>[0-9]+)/solutions/$', views.ProblemSolutionsView.as_view(), name='solutions'),
     url(r'^(?P<problem_id>[0-9]+)/files/$', views.ProblemFilesView.as_view(), name='files'),
-    url(r'^(?P<problem_id>[0-9]+)/files/(?P<file_id>[0-9]+)/(?P<filename>.*)$', views.ProblemFilesFileOpenView.as_view(), name='file_open'),
+    url(r'^(?P<problem_id>[0-9]+)/files/data/(?P<file_id>[0-9]+)/get/(?P<filename>.*)$', views.ProblemFilesFileOpenView.as_view(), name='data_file_open'),
+    url(r'^(?P<problem_id>[0-9]+)/files/data/(?P<file_id>[0-9]+)/edit/$', views.ProblemFilesDataFileEditView.as_view(), name='data_file_edit'),
+    url(r'^(?P<problem_id>[0-9]+)/files/source/(?P<file_id>[0-9]+)/get/(?P<filename>.*)$', views.ProblemFilesSourceFileOpenView.as_view(), name='source_file_open'),
+    url(r'^(?P<problem_id>[0-9]+)/files/source/(?P<file_id>[0-9]+)/edit/$', views.ProblemFilesSourceFileEditView.as_view(), name='source_file_edit'),
     url(r'^(?P<problem_id>[0-9]+)/submit/$', views.ProblemSubmitView.as_view(), name='submit'),
     url(r'^(?P<problem_id>[0-9]+)/submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
 

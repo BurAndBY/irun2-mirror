@@ -1,5 +1,5 @@
 from django import forms
-from .models import Problem, ProblemFolder, TestCase
+from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
 from mptt.forms import TreeNodeMultipleChoiceField
 from django.utils.translation import ugettext_lazy as _
 
@@ -42,6 +42,28 @@ class TestUploadForm(forms.Form):
         representation = kwargs.pop('representation')
         super(TestUploadForm, self).__init__(*args, **kwargs)
         self.representation = representation
+
+
+class ProblemRelatedDataFileForm(forms.ModelForm):
+    upload = forms.FileField(label=_('File'), required=False, widget=forms.FileInput)
+
+    class Meta:
+        model = ProblemRelatedFile
+        fields = ['file_type', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 2}),
+        }
+
+
+class ProblemRelatedSourceFileForm(forms.ModelForm):
+    upload = forms.FileField(label=_('File'), required=False, widget=forms.FileInput)
+
+    class Meta:
+        model = ProblemRelatedSourceFile
+        fields = ['file_type', 'compiler', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 2}),
+        }
 
 '''
 Problem search

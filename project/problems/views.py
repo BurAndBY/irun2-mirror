@@ -19,10 +19,10 @@ from common.pageutils import paginate
 from common.views import IRunnerBaseListView, IRunnerListView
 from solutions.forms import SolutionForm
 from storage.storage import create_storage
-from storage.utils import serve_resource, serve_resource_metadata
+from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata
 import solutions.utils
 
-from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm
+from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
 from .texrenderer import TeXRenderer
@@ -368,6 +368,57 @@ class ProblemFilesFileOpenView(BaseProblemView):
 
         related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id, filename=filename)
         return serve_resource_metadata(request, related_file)
+
+
+class ProblemFilesSourceFileOpenView(BaseProblemView):
+    def get(self, request, problem_id, file_id, filename):
+        problem = self._load(problem_id)
+
+        related_file = get_object_or_404(problem.problemrelatedsourcefile_set, pk=file_id, filename=filename)
+        return serve_resource_metadata(request, related_file, content_type='text/plain')
+
+
+class ProblemFilesBaseFileEditView(BaseProblemView):
+    tab = 'files'
+    template_name = 'problems/edit_file.html'
+    form_class = None
+
+    def get_object(self, problem, file_id):
+        raise NotImplementedError()
+
+    def get(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        related_file = self.get_object(problem, file_id)
+        form = self.form_class(instance=related_file)
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        related_file = self.get_object(problem, file_id)
+        form = self.form_class(request.POST, request.FILES, instance=related_file)
+        if form.is_valid():
+            form.save(commit=False)
+            store_and_fill_metadata(form.cleaned_data['upload'], related_file)
+            related_file.save()
+            return redirect('problems:files', problem.id)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+
+class ProblemFilesDataFileEditView(ProblemFilesBaseFileEditView):
+    form_class = ProblemRelatedDataFileForm
+
+    def get_object(self, problem, file_id):
+        return get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
+
+
+class ProblemFilesSourceFileEditView(ProblemFilesBaseFileEditView):
+    form_class = ProblemRelatedSourceFileForm
+
+    def get_object(self, problem, file_id):
+        return get_object_or_404(problem.problemrelatedsourcefile_set, pk=file_id)
 
 
 class ProblemSubmitView(BaseProblemView):

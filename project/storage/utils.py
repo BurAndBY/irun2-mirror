@@ -24,6 +24,16 @@ def store_with_metadata(f):
     return FileMetadata.objects.create(filename=f.name, size=f.size, resource_id=resource_id)
 
 
+def store_and_fill_metadata(f, filemetadatabase):
+    if f is None:
+        return
+    storage = create_storage()
+    resource_id = storage.save(f)
+    filemetadatabase.filename = f.name
+    filemetadatabase.size = f.size
+    filemetadatabase.resource_id = resource_id
+
+
 def serve_resource(request, resource_id, content_type=None, force_download=False):
     '''
     Fulfils HTTP GET request serving a file.
@@ -48,11 +58,13 @@ def serve_resource(request, resource_id, content_type=None, force_download=False
     return do_actually_serve(request)
 
 
-def serve_resource_metadata(request, metadata, force_download=False):
+def serve_resource_metadata(request, metadata, content_type=None, force_download=False):
     if metadata is None:
         raise Http404()
 
-    # guess MIME type from file extension
-    mime_type, _ = mimetypes.guess_type(metadata.filename)
+    if content_type is None:
+        # guess MIME type from file extension
+        mime_type, _ = mimetypes.guess_type(metadata.filename)
+        content_type = mime_type
 
-    return serve_resource(request, metadata.resource_id, content_type=mime_type, force_download=force_download)
+    return serve_resource(request, metadata.resource_id, content_type=content_type, force_download=force_download)

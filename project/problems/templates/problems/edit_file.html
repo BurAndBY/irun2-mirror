@@ -1,0 +1,15 @@
+{% extends 'problems/base.html' %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-default">{% trans 'Save' %}</button>
+        <a href="{% url 'problems:files' problem.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+    {% endbuttons %}
+</form>
+{% endblock %}

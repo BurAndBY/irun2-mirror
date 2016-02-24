@@ -573,7 +573,7 @@ Yellow menu
     color: #ddd;
 }
 .ir-file-size {
-    color: #ccc;
+    color: #bbb;
     font-size: 0.8em;
 }
 .ir-ajax-message {
@@ -868,4 +868,44 @@ span.ir-absence {
 }
 .active .ir-mail-thread-date {
     color: #eee;
+}
+
+/**
+ * Actions that appear on hover
+ */
+.ir-appear-on-hover {
+    visibility: hidden;
+}
+tr:hover .ir-appear-on-hover {
+    visibility: visible;
+}
+
+/**
+ * Group of icons
+ */
+.ir-icons span {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+/**
+ * List of files per problem
+ */
+
+.ir-problem-files-table .ir-col-actions {
+    width: 60px;
+    text-align: center;
+}
+
+.ir-problem-files-table .ir-col-filename {
+    width: 250px;
+}
+
+.ir-problem-files-table .ir-col-filetype {
+    width: 230px;
+}
+
+.ir-problem-files-table .ir-col-compiler {
+    width: 1%;
+    text-align: center;
 }
