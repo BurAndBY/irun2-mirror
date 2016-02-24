@@ -43,9 +43,12 @@ class Problem(models.Model):
 
     def _numbered_name(self, name):
         if self.number is not None:
-            return u'{1}. {0}'.format(name, self.get_formatted_number())
+            if name:
+                return u'{0}. {1}'.format(self.get_formatted_number(), name)
+            else:
+                return self.get_formatted_number()
         else:
-            return u'{0}'.format(name)
+            return name
 
     def numbered_full_name(self):
         return self._numbered_name(self.full_name)
