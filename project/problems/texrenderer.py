@@ -17,7 +17,7 @@ class TeXRenderer(object):
     @staticmethod
     def create(problem, tex_source):
         renderer = TeXRenderer()
-        renderer.problem_name = problem.numbered_full_name_complexity()
+        renderer.problem_name = problem.numbered_full_name_difficulty()
         renderer.input_file = problem.input_filename
         renderer.output_file = problem.output_filename
         renderer.tex_source = tex_source

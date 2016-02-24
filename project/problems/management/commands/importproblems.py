@@ -21,18 +21,18 @@ def _split_name(s):
     number = None
     subnumber = None
     name = ''
-    complexity = None  # TODO
+    difficulty = None  # TODO
 
-    rx = re.compile(r'^((?P<number>\d+)(\.(?P<subnumber>\d+))?)?\.?\s*(?P<name>[^\[]*)(\[(?P<complexity>\d{1,2})\])?$')
+    rx = re.compile(r'^((?P<number>\d+)(\.(?P<subnumber>\d+))?)?\.?\s*(?P<name>[^\[]*)(\[(?P<difficulty>\d{1,2})\])?$')
     m = rx.match(s)
     if m is not None:
         number = int_or_none(m.group('number'))
         subnumber = int_or_none(m.group('subnumber'))
         name = m.group('name')
-        complexity = int_or_none(m.group('complexity'))
+        difficulty = int_or_none(m.group('difficulty'))
     else:
         name = s
-    return (number, subnumber, name, complexity)
+    return (number, subnumber, name, difficulty)
 
 
 def _import_problem_tree(db, folder_id, obj=None):
@@ -72,8 +72,8 @@ class Command(BaseCommand):
 
                 problem, created = Problem.objects.get_or_create(id=task_id)
 
-                short_number, short_subnumber, short_name, short_complexity = _split_name(row[1])
-                full_number, full_subnumber, full_name, full_complexity = _split_name(row[2])
+                short_number, short_subnumber, short_name, short_difficulty = _split_name(row[1])
+                full_number, full_subnumber, full_name, full_difficulty = _split_name(row[2])
                 memory_limit = parse_memory(row[3]) if row[3] else 0
                 folder_id = row[4]
 
@@ -83,7 +83,7 @@ class Command(BaseCommand):
                 problem.subnumber = full_subnumber
                 problem.short_name = short_name.strip()
                 problem.full_name = full_name.strip()
-                problem.complexity = full_complexity or short_complexity
+                problem.difficulty = full_difficulty or short_difficulty
 
                 subc = db.cursor()
 

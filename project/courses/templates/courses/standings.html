@@ -56,7 +56,7 @@
                     <td class="text-nowrap ir-slot">
                         {% if slot_result.should_show_in_standings %}
                             {% with slot_result.assignment.problem as problem %}
-                                {% irunner_problems_complexity problem.complexity %}
+                                {% irunner_problems_difficulty problem.difficulty %}
                                 {% for criterion_descr in slot_result.criterion_descrs %}
                                     {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                 {% endfor %}

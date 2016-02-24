@@ -3,9 +3,9 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('problems/irunner_problems_complexity_tag.html')
-def irunner_problems_complexity(complexity, used=False):
-    return {'complexity': complexity, 'used': used}
+@register.inclusion_tag('problems/irunner_problems_difficulty_tag.html')
+def irunner_problems_difficulty(difficulty, used=False):
+    return {'difficulty': difficulty, 'used': used}
 
 
 @register.inclusion_tag('problems/irunner_problems_statement_tag.html')

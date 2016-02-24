@@ -20,7 +20,7 @@
                     {% endif %}
 
                     {% if problem_result %}
-                        {% irunner_problems_complexity problem_result.problem.complexity %}
+                        {% irunner_problems_difficulty problem_result.problem.difficulty %}
                         <a href="{% url 'courses:course_problems_problem' course_id problem_result.problem.id %}">
                             {{ problem_result.problem.numbered_full_name }}
                         </a>

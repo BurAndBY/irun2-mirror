@@ -13,7 +13,7 @@ class ProblemForm(forms.ModelForm):
 
     class Meta:
         model = Problem
-        fields = ['number', 'subnumber', 'full_name', 'short_name', 'complexity', 'input_filename', 'output_filename', 'folders']
+        fields = ['number', 'subnumber', 'full_name', 'short_name', 'difficulty', 'input_filename', 'output_filename', 'folders']
 
 
 class ProblemExtraInfoForm(forms.ModelForm):

@@ -95,7 +95,7 @@
 
 {% for problem_repr in topic_repr.problem_reprs %}{% with problem_repr.problem as problem %}
 <tr{% if problem_repr.used %} class="ir-problem-used"{% endif %}>
-    <td>{% irunner_problems_complexity problem.complexity %}</td>
+    <td>{% irunner_problems_difficulty problem.difficulty %}</td>
     <td><a href="{% url 'courses:course_problems_problem' course.id problem.id %}" title="{{ statement_tooltip }}" target="_blank">{% bootstrap_icon 'file' %}</a></td>
     <td><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{{ assign_tooltip }}">{{ problem.get_formatted_number }}</a></td>
     <td class="ir-full-width"><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{% trans 'Assign' %}">{{ problem.full_name }}</a></td>

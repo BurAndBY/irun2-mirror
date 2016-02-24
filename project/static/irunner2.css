@@ -335,9 +335,9 @@ h3 { font-size: 20px; line-height: 32px; }
 
 
 /**
- * Complexity box
+ * Difficulty box
  */
-.ir-complexitybox {
+.ir-difficultybox {
     display: inline-block;
     background: #d9edf7;
     border-color: #d9edf7;
@@ -350,7 +350,7 @@ h3 { font-size: 20px; line-height: 32px; }
     width: 1.6em;
     text-align: center;
 }
-.ir-complexitybox:after {
+.ir-difficultybox:after {
     left: 100%;
     border: solid transparent;
     content: " ";
@@ -360,7 +360,7 @@ h3 { font-size: 20px; line-height: 32px; }
     border-width: 0.7em 0 0.7em 5px;
     border-left-color: inherit;
 }
-.ir-complexitybox-used {
+.ir-difficultybox-used {
     color: #333;
     background-color: #F7F7F7;
     border-color: #F7F7F7;

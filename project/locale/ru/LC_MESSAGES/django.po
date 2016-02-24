@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 01:30+0300\n"
-"PO-Revision-Date: 2016-02-25 01:30+0300\n"
+"POT-Creation-Date: 2016-02-25 02:18+0300\n"
+"PO-Revision-Date: 2016-02-25 02:18+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -323,8 +323,8 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:79 .\problems\models.py:66 .\problems\models.py:91
-#: .\problems\models.py:112 .\problems\models.py:119 .\proglangs\models.py:29
+#: .\courses\models.py:79 .\problems\models.py:69 .\problems\models.py:94
+#: .\problems\models.py:115 .\problems\models.py:122 .\proglangs\models.py:29
 #: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -550,7 +550,7 @@ msgstr "удалить"
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:474
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:452
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -818,11 +818,11 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:563
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:541
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:602
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:580
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -861,15 +861,15 @@ msgstr "Итог"
 msgid "widescreen"
 msgstr "широкоэкр."
 
-#: .\courses\views.py:487
+#: .\courses\views.py:465
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:739
+#: .\courses\views.py:717
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:740
+#: .\courses\views.py:718
 msgid "— All —"
 msgstr "— Все —"
 
@@ -911,7 +911,7 @@ msgstr "Ваше сообщение сохранено."
 msgid "Wiki"
 msgstr "Вики"
 
-#: .\problems\models.py:22 .\problems\models.py:118
+#: .\problems\models.py:22 .\problems\models.py:121
 msgid "number"
 msgstr "номер"
 
@@ -928,7 +928,7 @@ msgid "short name"
 msgstr "короткое название"
 
 #: .\problems\models.py:26
-msgid "complexity"
+msgid "difficulty"
 msgstr "сложность"
 
 #: .\problems\models.py:28
@@ -943,63 +943,63 @@ msgstr "имя выходного файла"
 msgid "folders"
 msgstr "папки"
 
-#: .\problems\models.py:67
+#: .\problems\models.py:70
 msgid "hint"
 msgstr "подсказка"
 
-#: .\problems\models.py:80
+#: .\problems\models.py:83
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
-#: .\problems\models.py:81
+#: .\problems\models.py:84
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
 
-#: .\problems\models.py:82
+#: .\problems\models.py:85
 msgid "Additional statement file"
 msgstr "Дополнительный файл условия"
 
-#: .\problems\models.py:83
+#: .\problems\models.py:86
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\problems\models.py:84
+#: .\problems\models.py:87
 msgid "Sample input file"
 msgstr "Пример входного файла"
 
-#: .\problems\models.py:85
+#: .\problems\models.py:88
 msgid "Sample output file"
 msgstr "Пример выходного файла"
 
-#: .\problems\models.py:86
+#: .\problems\models.py:89
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:90 .\problems\models.py:111
+#: .\problems\models.py:93 .\problems\models.py:114
 msgid "file type"
 msgstr "тип файла"
 
-#: .\problems\models.py:102
+#: .\problems\models.py:105
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\models.py:103
+#: .\problems\models.py:106
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:104
+#: .\problems\models.py:107
 msgid "Contestant solution"
 msgstr "Решение участника"
 
-#: .\problems\models.py:105
+#: .\problems\models.py:108
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:106
+#: .\problems\models.py:109
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:113 .\solutions\forms.py:80
+#: .\problems\models.py:116 .\solutions\forms.py:80
 msgid "compiler"
 msgstr "компилятор"
 
@@ -1103,7 +1103,7 @@ msgid "Full name"
 msgstr "Полное название"
 
 #: .\problems\templates\problems\overview.html:33
-msgid "Complexity level"
+msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:38
@@ -1840,6 +1840,12 @@ msgstr "Права доступа"
 #: .\users\views.py:131
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
+
+#~ msgid "complexity"
+#~ msgstr "сложность"
+
+#~ msgid "Complexity level"
+#~ msgstr "Уровень сложности"
 
 #~ msgid "username"
 #~ msgstr "имя пользователя"

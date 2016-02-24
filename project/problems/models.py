@@ -23,7 +23,7 @@ class Problem(models.Model):
     subnumber = models.IntegerField(_('subnumber'), blank=True, null=True, default=None)
     full_name = models.CharField(_('full name'), max_length=200, blank=True)
     short_name = models.CharField(_('short name'), max_length=32, blank=True)
-    complexity = models.IntegerField(_('complexity'), blank=True, null=True, default=None)
+    difficulty = models.IntegerField(_('difficulty'), blank=True, null=True, default=None)
 
     input_filename = models.CharField(_('input file name'), max_length=32, blank=True)
     output_filename = models.CharField(_('output file name'), max_length=32, blank=True)
@@ -53,10 +53,10 @@ class Problem(models.Model):
     def numbered_full_name(self):
         return self._numbered_name(self.full_name)
 
-    def numbered_full_name_complexity(self):
+    def numbered_full_name_difficulty(self):
         result = self.numbered_full_name()
-        if self.complexity is not None:
-            return u'[{0}] {1}'.format(self.complexity, result)
+        if self.difficulty is not None:
+            return u'[{0}] {1}'.format(self.difficulty, result)
         else:
             return result
 

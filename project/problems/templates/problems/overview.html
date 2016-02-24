@@ -29,9 +29,9 @@
                 <dd>{{ problem.full_name }}</dd>
             {% endif %}
 
-            {% if problem.complexity != None %}
-                <dt>{% trans 'Complexity level' %}</dt>
-                <dd>{% irunner_problems_complexity problem.complexity %}</dd>
+            {% if problem.difficulty != None %}
+                <dt>{% trans 'Difficulty level' %}</dt>
+                <dd>{% irunner_problems_difficulty problem.difficulty %}</dd>
             {% endif %}
         </dl>
         <dl class="dl-horizontal">

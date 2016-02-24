@@ -6,7 +6,7 @@
 <ul class="list-unstyled">
     {% for problem, assigned in problems %}
         <li{% if assigned %} class="ir-problem-used"{% endif %}>
-            {% irunner_problems_complexity problem.complexity %}
+            {% irunner_problems_difficulty problem.difficulty %}
             <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id problem.id %}">{{ problem.numbered_full_name }}</a>
         </li>
     {% endfor %}

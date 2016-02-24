@@ -30,7 +30,7 @@
                         <td><a href="{% url 'problems:overview' problem.id %}">{{ problem.id }}</a></td>
                         <td>{{ problem.numbered_full_name }}</td>
                         <td>{{ problem.numbered_short_name }}</td>
-                        <td>{% irunner_problems_complexity problem.complexity %}</td>
+                        <td>{% irunner_problems_difficulty problem.difficulty %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

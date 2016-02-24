@@ -92,28 +92,6 @@ class CourseInfoView(BaseCourseView):
         return render(request, self.template_name, self.get_context_data(activity_data_json=activity_data_json, show_activity_plot=show_activity_plot))
 
 
-class StudentProblemResult(object):
-    def __init__(self, short_name, complexity, points, max_points, criteria):
-        self.short_name = short_name
-        self.complexity = complexity
-        self.points = points
-        self.max_points = max_points
-        self.criteria = criteria
-        self.submitted = (points > 0)
-
-    def is_full_solution(self):
-        return self.points == self.max_points
-
-
-class StudentResult(object):
-    def __init__(self, name, surname, insubgroup, problemresults):
-        self.name = name
-        self.surname = surname
-        self.insubgroup = insubgroup
-        self.problemresults = problemresults
-        self.summary = 0
-
-
 class CourseSheetView(BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
