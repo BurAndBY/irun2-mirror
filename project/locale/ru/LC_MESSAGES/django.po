@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 02:18+0300\n"
-"PO-Revision-Date: 2016-02-25 02:18+0300\n"
+"POT-Creation-Date: 2016-02-25 02:24+0300\n"
+"PO-Revision-Date: 2016-02-25 02:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -416,8 +416,8 @@ msgstr "Назначение задач"
 
 #: .\courses\templates\courses\assign.html:64
 #: .\courses\templates\courses\my_problems.html:29
-msgid "Penalty problem"
-msgstr "Штрафная задача"
+msgid "Extra problem"
+msgstr "Дополнительная задача"
 
 #: .\courses\templates\courses\assign.html:81
 msgid "Select a problem to assign"
@@ -465,8 +465,8 @@ msgid "Reset"
 msgstr "Сброс"
 
 #: .\courses\templates\courses\assign.html:123
-msgid "Penalty problems"
-msgstr "Штрафные задачи"
+msgid "Extra problems"
+msgstr "Дополнительные задачи"
 
 #: .\courses\templates\courses\course_confirm_delete.html:7
 msgid "Delete course"
@@ -1841,6 +1841,12 @@ msgstr "Права доступа"
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
 
+#~ msgid "Penalty problem"
+#~ msgstr "Штрафная задача"
+
+#~ msgid "Penalty problems"
+#~ msgstr "Штрафные задачи"
+
 #~ msgid "complexity"
 #~ msgstr "сложность"
 
@@ -1862,9 +1868,6 @@ msgstr "Массовая регистрация пользователей"
 
 #~ msgid "No user selected"
 #~ msgstr "Пользователь не выбран"
-
-#~ msgid "Extra problems"
-#~ msgstr "Дополнительные задачи"
 
 #~ msgid "Not implemented yet."
 #~ msgstr "Функциональность не реализована."

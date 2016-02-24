@@ -61,7 +61,7 @@
                         <td class="ir-slot-cell">
                             {% if slot_result.is_penalty %}
                                 <div class="bg-warning text-warning ir-penalty-p">
-                                    {% trans 'Penalty problem' %}
+                                    {% trans 'Extra problem' %}
                                     <div class="pull-right">
                                         <form method="post" action="{% url 'courses:course_assignment_delete_penalty' course.id current_student.id slot_result.assignment.id %}">
                                             {% csrf_token %}
@@ -120,7 +120,7 @@
     <div class="panel-heading">
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" href="#penalty">
-                {% trans 'Penalty problems' %}
+                {% trans 'Extra problems' %}
             </a>
         </h4>
     </div>
