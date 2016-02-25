@@ -84,6 +84,19 @@ body {
 .ir-me > td {
     background-color: #FFFFCC;
 }
+.ir-course-standings .ir-scorebox {
+    min-width: 4em;
+    border-radius: 2px;
+    background-color: #ccc;
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.ir-course-standings .ir-scorebox-accepted {
+    color: white;
+    background-color: #5cb85c;
+}
+
 /**
  * Common tuning
  */

@@ -93,7 +93,7 @@ def irunner_solutions_outcomebox(outcome, tooltip=False):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_scorebox_tag.html')
-def irunner_solutions_scorebox(judgement):
+def irunner_solutions_scorebox(judgement=None):
     '''
     Displays score for a judgement.
 

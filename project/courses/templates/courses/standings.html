@@ -54,21 +54,25 @@
             {% for topic_result in user_result.topic_results %}
                 {% for slot_result in topic_result.slot_results %}
                     <td class="text-nowrap ir-slot">
+                        {% spaceless %}
                         {% if slot_result.should_show_in_standings %}
                             {% with slot_result.assignment.problem as problem %}
-                                {% irunner_problems_difficulty problem.difficulty %}
+                                <span title="{% trans 'Problem' %} {{ problem.numbered_full_name }}">
+                                    {% irunner_problems_difficulty problem.difficulty %}
+                                </span>
                                 {% for criterion_descr in slot_result.criterion_descrs %}
                                     {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                 {% endfor %}
                                 {% with slot_result.problem_result as pr %}
-                                    {% if pr %}
-                                        {% if pr.was_submitted %}
-                                            {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
-                                        {% endif %}
+                                    {% if pr and pr.was_submitted %}
+                                        {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
+                                    {% else %}
+                                        {% irunner_solutions_scorebox %}
                                     {% endif %}
                                 {% endwith %}
                             {% endwith %}
                         {% endif %}
+                        {% endspaceless %}
                     </td>
                 {% endfor %}
             {% endfor %}

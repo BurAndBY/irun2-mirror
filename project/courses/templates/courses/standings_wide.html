@@ -59,10 +59,10 @@
                                             {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                         {% endfor %}
                                         {% with slot_result.problem_result as pr %}
-                                            {% if pr %}
-                                                {% if pr.was_submitted %}
-                                                    {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
-                                                {% endif %}
+                                            {% if pr and pr.was_submitted %}
+                                                {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
+                                            {% else %}
+                                                {% irunner_solutions_scorebox %}
                                             {% endif %}
                                         {% endwith %}
                                         <a href="{% url 'courses:course_problems_topic_problem' course.id topic_result.topic_id problem.id %}">
