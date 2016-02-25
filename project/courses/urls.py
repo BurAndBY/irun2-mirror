@@ -54,9 +54,11 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/delete/$', settingsviews.CourseSettingsDeleteView.as_view(), name='course_settings_delete'),
 
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/$', settingsviews.CourseSettingsTopicsListView.as_view(), name='course_settings_topics'),
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/create/$', settingsviews.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),
-    url(r'^(?P<course_id>[0-9]+)/settings/topics/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsTopicsUpdateView.as_view(), name='course_settings_topics_update'),
+    url(r'^(?P<course_id>[0-9]+)/settings/problems/$', settingsviews.CourseSettingsProblemsView.as_view(), name='course_settings_problems'),
+    url(r'^(?P<course_id>[0-9]+)/settings/problems/topics/create/$', settingsviews.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/problems/topics/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsTopicsUpdateView.as_view(), name='course_settings_topics_update'),
+    url(r'^(?P<course_id>[0-9]+)/settings/problems/common/$', settingsviews.CourseSettingsCommonProblemsView.as_view(), name='course_settings_common_problems'),
+    url(r'^(?P<course_id>[0-9]+)/settings/problems/list/(?P<folder_id>[0-9]+)/$', settingsviews.CourseSettingsProblemsJsonListView.as_view(), name='course_settings_problems_json_list'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/$', settingsviews.CourseSettingsSheetActivityListView.as_view(), name='course_settings_sheet'),
     url(r'^(?P<course_id>[0-9]+)/settings/sheet/activities/create/$', settingsviews.CourseSettingsSheetActivityCreateView.as_view(), name='course_settings_sheet_activity_create'),

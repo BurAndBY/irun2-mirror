@@ -4,7 +4,7 @@ from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
-from problems.models import ProblemFolder
+from problems.models import Problem, ProblemFolder
 from users.models import UserFolder
 from common.fields import TwoPanelModelMultipleChoiceField
 from common.mptt_fields import OrderedTreeNodeChoiceField
@@ -97,6 +97,22 @@ class CourseUsersForm(forms.Form):
     users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
                                             model=auth.get_user_model(), folder_model=UserFolder,
                                             url_pattern='courses:course_settings_users_json_list')
+
+
+class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
+    @classmethod
+    def label_from_instance(cls, obj):
+        return obj.numbered_full_name_difficulty()
+
+
+class CourseCommonProblemsForm(forms.ModelForm):
+    common_problems = TwoPanelProblemMultipleChoiceField(label=_('Problems'), required=False,
+                                                         model=Problem, folder_model=ProblemFolder,
+                                                         url_pattern='courses:course_settings_problems_json_list')
+
+    class Meta:
+        model = Course
+        fields = ['common_problems']
 
 
 class SolutionForm(solutions.forms.SolutionForm):

@@ -140,6 +140,27 @@
     </div>
 </div>
 
+{% if common_problem_results %}
+    <table class="table table-bordered ir-assignment">
+        <tbody>
+            {% for problem_result in common_problem_results %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ common_problem_results|length }}" class="ir-topic">
+                            <div class="ir-topic-name">
+                                {% trans 'Common problems' %}
+                            </div>
+                        </td>
+                    {% endif %}
+                    <td>
+                        {% irunner_courses_problemresult problem_result course.id %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
 <script>
     function makeSlotParams(slotResultDiv) {
         var params = {

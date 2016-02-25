@@ -9,8 +9,10 @@ from django.utils.translation import ungettext
 
 from common.cacheutils import AllObjectsCache
 from proglangs.models import Compiler
+from problems.models import Problem
 
-from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, SubgroupForm, TwoPanelUserMultipleChoiceField
+from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm
+from forms import TwoPanelUserMultipleChoiceField, TwoPanelProblemMultipleChoiceField
 from forms import create_member_subgroup_formset_class
 from models import Membership
 from views import BaseCourseView
@@ -341,9 +343,9 @@ Topics
 
 
 class TopicMixin(object):
-    subtab = 'topics'
+    subtab = 'problems'
     form_class = TopicForm
-    list_url_name = 'courses:course_settings_topics'
+    list_url_name = 'courses:course_settings_problems'
 
     def _do_save(self, course, form, obj):
         target_num_problems = form.cleaned_data['num_problems']
@@ -362,8 +364,13 @@ class TopicMixin(object):
         form.fields['num_problems'].initial = obj.slot_set.count()
 
 
-class CourseSettingsTopicsListView(TopicMixin, CourseSettingsBaseListView):
-    template_name = 'courses/settings_topics.html'
+class CourseSettingsProblemsView(TopicMixin, CourseSettingsBaseListView):
+    template_name = 'courses/settings_problems.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsProblemsView, self).get_context_data(**kwargs)
+        context['common_problems'] = list(self.course.common_problems.all())
+        return context
 
     def get_queryset(self, course):
         return course.topic_set.all().prefetch_related('slot_set')
@@ -376,6 +383,35 @@ class CourseSettingsTopicsCreateView(TopicMixin, CourseSettingsBaseCreateView):
 class CourseSettingsTopicsUpdateView(TopicMixin, CourseSettingsBaseUpdateView):
     pass
 
+
+'''
+Common problems
+'''
+
+
+class CourseSettingsCommonProblemsView(CourseSettingsView):
+    template_name = 'courses/settings_common_problems_edit.html'
+
+    def get(self, request, course):
+        form = CourseCommonProblemsForm(instance=course)
+        form.fields['common_problems'].widget.url_params = [course.id]
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        form = CourseCommonProblemsForm(request.POST, instance=course)
+        if form.is_valid():
+            with transaction.atomic():
+                form.save()
+            return redirect('courses:course_settings_problems', course_id=course.id)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsProblemsJsonListView(CourseSettingsView):
+    def get(self, request, course, folder_id):
+        problems = Problem.objects.filter(folders__id=folder_id)
+        return TwoPanelProblemMultipleChoiceField.ajax(problems)
 
 '''
 Sheet

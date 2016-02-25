@@ -33,6 +33,8 @@ class Course(models.Model):
 
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
 
+    common_problems = models.ManyToManyField(Problem, blank=True)
+
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 

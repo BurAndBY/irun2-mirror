@@ -2,8 +2,10 @@
 
 {% load i18n %}
 {% load irunner_courses %}
+{% load irunner_problems %}
 
 {% block submain %}
+    <h3>{% trans 'Topics' %}</h3>
     {% if object_list %}
         <ul>
         {% for topic in object_list %}
@@ -39,4 +41,20 @@
     <p>
         <a href="{% url 'courses:course_settings_topics_create' course.id %}">{% trans 'New topic' %}</a>
     </p>
+
+    <h3>{% trans 'Common problems' %}</h3>
+    <p class="help-block">
+        {% trans 'These problems are not assigned individually. Every student can solve them.' %}
+    </p>
+
+    <ul>
+        {% for problem in common_problems %}
+            <li>
+                {% irunner_problems_difficulty problem.difficulty %}
+                <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_full_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'courses:course_settings_common_problems' course.id %}">{% trans 'Edit the list' %}</a></p>
 {% endblock %}

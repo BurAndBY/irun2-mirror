@@ -95,7 +95,7 @@ class CourseAssignView(BaseCourseMemberAssignView):
         extra_form = AddExtraProblemSlotForm()
         extra_form.fields['penaltytopic'].queryset = course.topic_set.all()
 
-        context = self.get_context_data(data=assignment_repr, extra_form=extra_form)
+        context = self.get_context_data(data=assignment_repr, extra_form=extra_form, common_problem_results=user_result.common_problem_results)
         return render(request, self.template_name, context)
 
 

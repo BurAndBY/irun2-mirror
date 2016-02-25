@@ -37,4 +37,25 @@
     </tbody>
 </table>
 
+{% if user_result.common_problem_results %}
+    <table class="table table-bordered ir-assignment">
+        <tbody>
+            {% for problem_result in user_result.common_problem_results %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ user_result.common_problem_results|length }}" class="ir-topic">
+                            <div class="ir-topic-name">
+                                {% trans 'Common problems' %}
+                            </div>
+                        </td>
+                    {% endif %}
+                    <td>
+                        {% irunner_courses_problemresult problem_result course.id %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
 {% endblock %}

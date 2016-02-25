@@ -20,7 +20,19 @@ def irunner_courses_slotresult(slot_result, course_id, editable=False):
     return {
         'course_id': course_id,  # for links to problem statements
         'slot_result': slot_result,
+        'problem_result': slot_result.problem_result,
         'editable': editable,
+        'uid': uuid.uuid1().hex
+    }
+
+
+@register.inclusion_tag('courses/irunner_courses_slotresult_tag.html')
+def irunner_courses_problemresult(problem_result, course_id):
+    return {
+        'course_id': course_id,  # for links to problem statements
+        'slot_result': None,
+        'problem_result': problem_result,
+        'editable': False,
         'uid': uuid.uuid1().hex
     }
 

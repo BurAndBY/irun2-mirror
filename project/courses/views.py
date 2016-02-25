@@ -298,6 +298,8 @@ class CourseStatementMixin(object):
         else:
             me = self.request.user.id
             can_submit = any((x.user_id == me) for x in simple_assignments)
+            if not can_submit:
+                can_submit |= self.course.common_problems.filter(pk=self.problem.id).exists()
 
         if simple_assignments:
             context['simple_assignments'] = simple_assignments
@@ -376,6 +378,10 @@ class CourseProblemsProblemView(ProblemStatementMixin, CourseStatementMixin, Bas
 
         # We show the problem if it has already been submitted in the course
         if CourseSolution.objects.filter(course_id=course_id, solution__problem_id=problem_id).exists():
+            return True
+
+        # We show the problem if it is present in the list of common problems for course.
+        if self.course.common_problems.filter(pk=problem_id).exists():
             return True
 
         return False

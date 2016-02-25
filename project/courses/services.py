@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.db.models import F
 from django.utils.encoding import force_text
 from django.utils.html import format_html
+from django.utils.translation import ugettext as _
 
 from itertools import chain
 from collections import namedtuple
@@ -95,22 +96,30 @@ class ProblemChoicesBuilder(object):
     def __init__(self, topics):
         self._topics = topics
         self._folder_problems = {}
+        self._common_problems = []
 
     def add(self, folder_id, problem):
         self._folder_problems.setdefault(folder_id, []).append(problem)
+
+    def add_common(self, problem):
+        self._common_problems.append(problem)
 
     def get(self, empty_select):
         data = []
         if empty_select is not None:
             data.append((None, empty_select))
 
+        def make_group(problems):
+            return tuple((problem.id, problem.numbered_full_name_difficulty()) for problem in problems)
+
         for topic in self._topics:
             problems = self._folder_problems.get(topic.problem_folder_id)
             if problems is None:
                 continue
+            data.append((topic.name, make_group(problems)))
 
-            group = tuple((problem.id, problem.numbered_full_name_difficulty()) for problem in problems)
-            data.append((topic.name, group))
+        if self._common_problems:
+            data.append((_('Common problems'), make_group(self._common_problems)))
 
         return tuple(data)
 
@@ -134,6 +143,9 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
     if membership_id is not None:
         for problem in Problem.objects.filter(assignment__membership_id=membership_id).annotate(folder_id=F('assignment__topic__problem_folder_id')):
             builder.add(problem.folder_id, problem)
+
+    for problem in course.common_problems.all():
+        builder.add_common(problem)
 
     return builder.get(empty_select)
 
@@ -295,6 +307,10 @@ class CourseDescr(object):
         for activity in course.activity_set.all():
             self._activity_id_to_index[activity.id] = len(self.activities)
             self.activities.append(activity)
+
+        self.common_problems = []
+        for problem in course.common_problems.all():
+            self.common_problems.append(problem)
 
         self.subgroups = list(course.subgroup_set.order_by('id'))
 
@@ -488,6 +504,7 @@ class UserResult(object):
         self.user = user
         self.membership = membership
         self.topic_results = [TopicResult(topic_descr) for topic_descr in course_descr.topic_descrs]
+        self.common_problem_results = [ProblemResult(problem) for problem in course_descr.common_problems]
         self.activity_results = [ActivityResult(activity) for activity in course_descr.activities]
 
     def get_slot_results(self):
@@ -525,6 +542,8 @@ class UserResult(object):
     def register_solution(self, solution):
         for topic_result in self.topic_results:
             topic_result.register_solution(solution)
+        for problem_result in self.common_problem_results:
+            problem_result.register_solution(solution)
         # TODO: extra problems
 
     def register_activity_record(self, record):
