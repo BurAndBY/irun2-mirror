@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load irunner_solutions %}
 {% load irunner_problems %}
+{% load irunner_users %}
 {% load staticfiles %}
 
 {% block title %}{% block subtitle %}{% endblock %} &mdash; {% trans 'Solution' %} {{ solution.id }}{% endblock %}
@@ -18,6 +19,17 @@
         <div class="row">
             <div class="col-md-6">
                 <dl class="dl-horizontal">
+                    <dt>{% trans 'Author' %}</dt>
+                    {% if solution_environment.course %}
+                        <dd>
+                            <a href="{% if solution.author == user %}{% url 'courses:my_solutions' solution_environment.course.id %}{% else %}{% url 'courses:all_solutions' solution_environment.course.id %}?user={{ solution.author.id }}{% endif %}">
+                                {% irunner_users_show solution.author %}
+                            </a>
+                        </dd>
+                    {% else %}
+                        <dd>{% irunner_users_show solution.author %}</dd>
+                    {% endif %}
+
                     {% if solution.problem %}
                         <dt>{% trans 'Problem' %}</dt>
                         {# What link to the problem is the best? #}
