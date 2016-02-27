@@ -34,11 +34,24 @@
     </ul>
 </nav>
 
-{% if description %}
-    <h3>{% trans 'Description' %}</h3>
+{% if description.text or description.images %}
     <div>
-        {{ description }}
+        {{ description.text|linebreaksbr }}
     </div>
+    {% if description.images %}
+    <table class="ir-image-gallery-horizontal">
+        <tbody>
+            <tr>
+                {% for image in description.images %}
+                    <td>
+                        {% url 'problems:test_image' problem.id current_test image as img_url %}
+                        <a href="{{ img_url }}"><img src="{{ img_url }}"></a>
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
 {% endif %}
 
 <div class="row">

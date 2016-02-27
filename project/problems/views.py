@@ -26,7 +26,7 @@ from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUplo
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
 from .texrenderer import TeXRenderer
-
+from .description import IDescriptionImageLoader, render_description
 
 '''
 Problem statement
@@ -243,6 +243,17 @@ class ProblemTestsView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
+class DescriptionImageLoader(IDescriptionImageLoader):
+    def __init__(self, problem, test_number):
+        self._problem = problem
+        self._test_number = test_number
+
+    def get_image_list(self):
+        return self._problem.problemrelatedfile_set.\
+            filter(file_type__in=ProblemRelatedFile.TEST_CASE_IMAGE_FILE_TYPES).\
+            values_list('filename', flat=True)
+
+
 class ProblemTestsTestView(BaseProblemView):
     tab = 'tests'
     template_name = 'problems/show_test.html'
@@ -259,6 +270,9 @@ class ProblemTestsTestView(BaseProblemView):
         input_repr = storage.represent(test_case.input_resource_id)
         answer_repr = storage.represent(test_case.answer_resource_id)
 
+        loader = DescriptionImageLoader(problem, test_number)
+        description = render_description(test_case.description, loader)
+
         context = self._make_context(problem, {
             'problem_id': problem_id,
             'current_test': test_number,
@@ -267,9 +281,19 @@ class ProblemTestsTestView(BaseProblemView):
             'total_tests': total_tests,
             'input_repr': input_repr,
             'answer_repr': answer_repr,
-            'description': test_case.description,
+            'description': description,
         })
         return render(request, self.template_name, context)
+
+
+class ProblemTestsTestImageView(BaseProblemView):
+    def get(self, request, problem_id, test_number, filename):
+        problem = self._load(problem_id)
+        related_file = problem.problemrelatedfile_set.\
+            filter(file_type__in=ProblemRelatedFile.TEST_CASE_IMAGE_FILE_TYPES).\
+            filter(filename=filename).\
+            first()
+        return serve_resource_metadata(request, related_file)
 
 
 class ProblemTestsTestEditView(BaseProblemView):

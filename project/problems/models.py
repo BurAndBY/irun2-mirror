@@ -89,6 +89,13 @@ class ProblemRelatedFile(FileMetadataBase):
         (USER_FILE, _('User file')),
     )
 
+    TEST_CASE_IMAGE_FILE_TYPES = (
+        ADDITIONAL_STATEMENT_FILE,
+        SAMPLE_INPUT_FILE,
+        SAMPLE_OUTPUT_FILE,
+        USER_FILE,
+    )
+
     problem = models.ForeignKey(Problem)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
