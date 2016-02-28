@@ -154,6 +154,16 @@ Judgement
 '''
 
 
+class JudgementListView(StaffMemberRequiredMixin, generic.View):
+    paginate_by = 25
+    template_name = 'solutions/judgement_list.html'
+
+    def get(self, request):
+        queryset = Judgement.objects.order_by('-id')
+        context = paginate(request, queryset, self.paginate_by)
+        return render(request, self.template_name, context)
+
+
 class JudgementView(StaffMemberRequiredMixin, generic.View):
     template_name = 'solutions/judgement.html'
 

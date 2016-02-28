@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-27 23:55+0300\n"
-"PO-Revision-Date: 2016-02-27 23:56+0300\n"
+"POT-Creation-Date: 2016-02-28 19:55+0300\n"
+"PO-Revision-Date: 2016-02-28 19:56+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -60,7 +60,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:43
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:44
 msgid "Logout"
 msgstr "Выход"
 
@@ -77,7 +77,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:45
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:46
 msgid "Login"
 msgstr "Вход"
 
@@ -552,7 +552,7 @@ msgstr "Удалить"
 
 #: .\courses\templates\courses\criterion_list.html:8
 #: .\courses\templates\courses\settings_problems.html:28
-#: .\templates\navbar.html:31
+#: .\templates\navbar.html:32
 msgid "Criteria"
 msgstr "Критерии"
 
@@ -560,7 +560,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:273
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:292
 msgid "delete"
 msgstr "удалить"
 
@@ -619,6 +619,7 @@ msgstr "Время"
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:76
 #: .\courses\templates\courses\solutions.html:37
 #: .\problems\templates\problems\solutions.html:19
+#: .\solutions\templates\solutions\judgement_list.html:18
 #: .\solutions\templates\solutions\solution_list.html:34
 msgid "Status"
 msgstr "Статус"
@@ -719,7 +720,7 @@ msgid "Properties"
 msgstr "Свойства"
 
 #: .\courses\templates\courses\settings_base.html:18
-#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:30
+#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:31
 msgid "Compilers"
 msgstr "Компиляторы"
 
@@ -1038,13 +1039,13 @@ msgid "Edit the test case"
 msgstr "Редактировать тест"
 
 #: .\problems\templates\problems\edit_test.html:17
-#: .\problems\templates\problems\show_test.html:59
+#: .\problems\templates\problems\show_test.html:57
 #: .\solutions\templates\solutions\testcaseresult.html:11
 msgid "Input file"
 msgstr "Входной файл"
 
 #: .\problems\templates\problems\edit_test.html:24
-#: .\problems\templates\problems\show_test.html:63
+#: .\problems\templates\problems\show_test.html:61
 #: .\solutions\templates\solutions\testcaseresult.html:23
 msgid "Answer file"
 msgstr "Файл правильного ответа"
@@ -1437,6 +1438,19 @@ msgstr "Результаты тестов"
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
+#: .\solutions\templates\solutions\judgement_list.html:8
+#: .\templates\navbar.html:29
+msgid "Runs"
+msgstr "Запуски"
+
+#: .\solutions\templates\solutions\judgement_list.html:16
+#: .\solutions\templates\solutions\rejudge.html:28
+#: .\solutions\templates\solutions\solution.html:10
+#: .\solutions\templates\solutions\solution.html:17
+msgid "Solution"
+msgstr "Решение"
+
+#: .\solutions\templates\solutions\judgement_list.html:17
 #: .\solutions\templates\solutions\rejudge.html:10
 msgid "Rejudge"
 msgstr "Перетестирование"
@@ -1453,12 +1467,6 @@ msgstr "Создатель перетестирования"
 #: .\solutions\templates\solutions\rejudge_list.html:17
 msgid "State"
 msgstr "Состояние"
-
-#: .\solutions\templates\solutions\rejudge.html:28
-#: .\solutions\templates\solutions\solution.html:10
-#: .\solutions\templates\solutions\solution.html:17
-msgid "Solution"
-msgstr "Решение"
 
 #: .\solutions\templates\solutions\rejudge.html:30
 msgid "Current"
@@ -1552,11 +1560,11 @@ msgstr "Стандартный вывод ошибок (stderr)"
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\templates\solutions\testcaseresult.html:68
+#: .\solutions\templates\solutions\testcaseresult.html:69
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\views.py:204
+#: .\solutions\views.py:223
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -1565,7 +1573,7 @@ msgstr "перетестировать"
 msgid "Enter text here"
 msgstr "Введите текст здесь"
 
-#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:32
+#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:33
 msgid "File storage"
 msgstr "Хранилище файлов"
 
@@ -1669,7 +1677,7 @@ msgstr "Обратная связь"
 msgid "Administration"
 msgstr "Администрирование"
 
-#: .\templates\navbar.html:29
+#: .\templates\navbar.html:30
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 

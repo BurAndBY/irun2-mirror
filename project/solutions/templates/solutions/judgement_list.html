@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_pagination %}
+{% load irunner_solutions %}
+
+{% block title %}{% trans 'Runs' %}{% endblock %}
+
+{% block content %}
+    {% irunner_pagination pagination_context %}
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>{% trans 'Solution' %}</th>
+                <th>{% trans 'Rejudge' %}</th>
+                <th>{% trans 'Status' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for judgement in object_list %}
+            <tr>
+                <td><a href="{% url 'solutions:show_judgement' judgement.id %}">{{ judgement.id }}</a></td>
+                <td><a href="{% url 'solutions:main' judgement.solution_id %}">{{ judgement.solution_id }}</a></td>
+                <td>{% if judgement.rejudge_id %}<a href="{% url 'solutions:rejudge' judgement.rejudge_id %}">{{ judgement.rejudge_id }}</a>{% else %}&mdash;{% endif %}</td>
+                <td class="text-nowrap">
+                    {% irunner_solutions_judgementbox judgement tooltip=True %}
+                    {% irunner_solutions_scorebox judgement %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

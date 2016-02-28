@@ -9,7 +9,7 @@ solutions_urlpatterns = [
     url(r'^(?P<solution_id>[0-9]+)/source/$', views.SolutionSourceView.as_view(), name='source'),
     url(r'^(?P<solution_id>[0-9]+)/log/$', views.SolutionLogView.as_view(), name='log'),
     url(r'^(?P<solution_id>[0-9]+)/tests/$', views.SolutionTestsView.as_view(), name='tests'),
-    url(r'^(?P<solution_id>[0-9]+)/judgements/$', views.SolutionJudgementsView.as_view(), name='judgements'),
+    url(r'^(?P<solution_id>[0-9]+)/runs/$', views.SolutionJudgementsView.as_view(), name='judgements'),
     url(r'^(?P<solution_id>[0-9]+)/status/json/$', views.SolutionStatusJsonView.as_view(), name='status_json'),
 
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.SolutionTestCaseResultView.as_view(), name='test_case_result'),
@@ -23,6 +23,7 @@ solutions_urlpatterns = [
 ]
 
 judgements_urlpatterns = [
+    url(r'^$', views.JudgementListView.as_view(), name='judgement_list'),
     url(r'^(?P<judgement_id>[0-9]+)/$', views.JudgementView.as_view(), name='show_judgement'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.JudgementTestCaseResultView.as_view(), name='judgement_testcaseresult'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.JudgementTestCaseResultDataView.as_view(), name='judgement_testdata'),

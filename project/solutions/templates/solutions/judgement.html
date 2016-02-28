@@ -14,6 +14,9 @@
     </h2>
 
     <dl class="dl-horizontal">
+        <dt>{% trans 'State' %}</dt>
+        <dd>{{ judgement.show_status }}</dd>
+
         <dt>{% trans 'Score' %}</dt>
         <dd>{{ judgement.score }} {% trans 'of' %} {{ judgement.max_score }}</dd>
     </dl>
