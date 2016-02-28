@@ -38,13 +38,11 @@
                     {{ forloop.counter }}
                 </td>
                 <td>
-                    {{ info.solution.id }}
+                    <a href="{% url 'solutions:main' info.solution.id %}">{{ info.solution.id }}</a>
                 </td>
                 <td>
                     {% url 'solutions:source' info.solution.id as source_url %}
-                    <a href="{{ source_url }}">
-                        {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
-                    </a>
+                    {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
                     <small><tt><a href="{{ source_url }}">{{ info.solution.source_code.filename }}</a></tt></small>
                 </td>
                 <td>

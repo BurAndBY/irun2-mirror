@@ -3,7 +3,7 @@ import threading
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
-from problems.models import ProblemRelatedSourceFile
+from problems.models import ProblemRelatedSourceFile, TestCase
 from solutions.models import Judgement, JudgementLog, TestCaseResult
 
 from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase, WorkerChecker
@@ -113,9 +113,18 @@ def put_testing_report(judgement_id, report):
         judgement.test_number = report.first_failed_test
         judgement.save()
 
+        present_test_case_ids = TestCase.objects.\
+            filter(problem__solution__judgement=judgement).\
+            values_list('pk', flat=True)
+        present_test_case_ids = set(present_test_case_ids)
+
         judgement.testcaseresult_set.all().delete()
         for t in report.tests:
             t.judgement_id = judgement.id
+            if t.test_case_id not in present_test_case_ids:
+                # the test case has probably been deleted while testing
+                t.test_case_id = None
+
         TestCaseResult.objects.bulk_create(report.tests)
 
         judgement.judgementlog_set.all().delete()

@@ -101,6 +101,7 @@ class WorkerTestingJobSerializer(serializers.Serializer):
 
 class TestCaseResultSerializer(serializers.Serializer):
     outcome = OutcomeField()
+    id = serializers.IntegerField(allow_null=True, default=None, source='test_case_id')
     exit_code = serializers.IntegerField(default=0)
     time_limit = serializers.IntegerField(min_value=0, default=0)
     time_used = serializers.IntegerField(min_value=0, default=0)
