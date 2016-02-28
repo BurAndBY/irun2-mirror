@@ -7,11 +7,15 @@
 {% block subtitle %}{% trans 'Judgements' %}{% endblock %}
 
 {% block main %}
-    <p>
-        <a class="btn btn-default btn-sm" href="{% url 'solutions:create_rejudge' %}?id={{ solution.id }}">
+    <form method="post" action="{% url 'solutions:create_rejudge' %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ solution.id }}">
+        {% buttons %}
+        <button type="submit" class="btn btn-default btn-sm">
             {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
-        </a>
-    </p>
+        </button>
+        {% endbuttons %}
+    </form>
 
     <table class="table table-condensed">
         <tbody>
