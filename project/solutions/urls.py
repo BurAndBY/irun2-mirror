@@ -14,6 +14,7 @@ solutions_urlpatterns = [
 
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.SolutionTestCaseResultView.as_view(), name='test_case_result'),
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.SolutionTestCaseResultDataView.as_view(), name='test_data'),
+    url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/images/(?P<filename>.*)$', views.SolutionTestCaseResultImageView.as_view(), name='test_image'),
 
     url(r'^(?P<solution_id>[0-9]+)/source/open/(?P<filename>.*)$', views.SolutionSourceOpenView.as_view(), name='source_open'),
     url(r'^(?P<solution_id>[0-9]+)/source/download/(?P<filename>.*)$', views.SolutionSourceDownloadView.as_view(), name='source_download'),
@@ -25,6 +26,7 @@ judgements_urlpatterns = [
     url(r'^(?P<judgement_id>[0-9]+)/$', views.JudgementView.as_view(), name='show_judgement'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.JudgementTestCaseResultView.as_view(), name='judgement_testcaseresult'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.JudgementTestCaseResultDataView.as_view(), name='judgement_testdata'),
+    url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/images/(?P<filename>.*)$', views.JudgementTestCaseResultImageView.as_view(), name='judgement_testimage'),
 ]
 
 rejudges_urlpatterns = [

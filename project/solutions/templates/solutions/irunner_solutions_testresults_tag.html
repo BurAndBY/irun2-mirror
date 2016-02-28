@@ -57,7 +57,7 @@
                 </div>
 
                 <div>
-                    <button class="btn btn-default btn-sm ir-btn-hide" type="button">{% trans 'Hide' %}</button>
+                    <button class="btn btn-link btn-sm ir-btn-hide" type="button">{% trans 'Hide' %}</button>
                 </div>
             </td>
         </tr>
@@ -66,6 +66,21 @@
 </table>
 
 {% if enable_tests_data %}
+<!-- For showing test case images -->
+<div class="modal fade" id="imagemodal_{{ uid }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% trans 'Image' %}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" id="imagepreview_{{ uid }}" class="ir-fit-image">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function showHideTest_{{ uid }}(row) {
     var testcaseresultId = row.data("testid");
@@ -106,6 +121,12 @@ $(document).ready(function() {
     table.find(".ir-btn-hide").click(function() {
         var row = $(this).parents("tr").first().prev();
         showHideTest_{{ uid }}(row);
+    });
+    table.on("click", ".ir-full-image-link", function(e) {
+        e.preventDefault();
+        var url = $(this).find("img").attr("src");
+        $("#imagepreview_{{ uid }}").attr("src", url);
+        $("#imagemodal_{{ uid }}").modal("show");
     });
 });
 </script>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 16:26+0300\n"
-"PO-Revision-Date: 2016-02-25 16:27+0300\n"
+"POT-Creation-Date: 2016-02-27 23:55+0300\n"
+"PO-Revision-Date: 2016-02-27 23:56+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -233,6 +233,7 @@ msgstr ""
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:34
+#: .\courses\templates\courses\standings.html:60
 #: .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\sidebar.html:7
 #: .\solutions\templates\solutions\solution.html:34
@@ -332,8 +333,8 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:81 .\problems\models.py:69 .\problems\models.py:94
-#: .\problems\models.py:115 .\problems\models.py:122 .\proglangs\models.py:29
+#: .\courses\models.py:81 .\problems\models.py:69 .\problems\models.py:101
+#: .\problems\models.py:122 .\problems\models.py:129 .\proglangs\models.py:29
 #: .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -559,7 +560,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:243
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:273
 msgid "delete"
 msgstr "удалить"
 
@@ -940,7 +941,7 @@ msgstr "Ваше сообщение сохранено."
 msgid "Wiki"
 msgstr "Вики"
 
-#: .\problems\models.py:22 .\problems\models.py:121
+#: .\problems\models.py:22 .\problems\models.py:128
 msgid "number"
 msgstr "номер"
 
@@ -1004,31 +1005,31 @@ msgstr "Пример выходного файла"
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:93 .\problems\models.py:114
+#: .\problems\models.py:100 .\problems\models.py:121
 msgid "file type"
 msgstr "тип файла"
 
-#: .\problems\models.py:105
+#: .\problems\models.py:112
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\models.py:106
+#: .\problems\models.py:113
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:107
+#: .\problems\models.py:114
 msgid "Contestant solution"
 msgstr "Решение участника"
 
-#: .\problems\models.py:108
+#: .\problems\models.py:115
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:109
+#: .\problems\models.py:116
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:116 .\solutions\forms.py:80
+#: .\problems\models.py:123 .\solutions\forms.py:80
 msgid "compiler"
 msgstr "компилятор"
 
@@ -1037,14 +1038,14 @@ msgid "Edit the test case"
 msgstr "Редактировать тест"
 
 #: .\problems\templates\problems\edit_test.html:17
-#: .\problems\templates\problems\show_test.html:46
-#: .\solutions\templates\solutions\testcaseresult.html:8
+#: .\problems\templates\problems\show_test.html:59
+#: .\solutions\templates\solutions\testcaseresult.html:11
 msgid "Input file"
 msgstr "Входной файл"
 
 #: .\problems\templates\problems\edit_test.html:24
-#: .\problems\templates\problems\show_test.html:50
-#: .\solutions\templates\solutions\testcaseresult.html:20
+#: .\problems\templates\problems\show_test.html:63
+#: .\solutions\templates\solutions\testcaseresult.html:23
 msgid "Answer file"
 msgstr "Файл правильного ответа"
 
@@ -1056,7 +1057,6 @@ msgstr "Тип"
 #: .\problems\templates\problems\files.html:13
 #: .\problems\templates\problems\files.html:40
 #: .\problems\templates\problems\overview.html:49
-#: .\problems\templates\problems\show_test.html:38
 #: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:29
 msgid "Description"
@@ -1157,6 +1157,7 @@ msgstr[1] "файла"
 msgstr[2] "файлов"
 
 #: .\problems\templates\problems\show_test.html:16
+#: .\solutions\templates\solutions\testcaseresult.html:50
 msgid "Test"
 msgstr "Тест"
 
@@ -1348,12 +1349,12 @@ msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:86
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:101
 msgid "Loading..."
 msgstr "Загрузка..."
 
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:91
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:106
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
@@ -1402,7 +1403,11 @@ msgstr "Сообщение чекера"
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:116
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:75
+msgid "Image"
+msgstr "Изображение"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:137
 msgid "No test results"
 msgstr "Нет результатов по тестам"
 
@@ -1529,25 +1534,29 @@ msgstr "Открыть"
 msgid "Download"
 msgstr "Загрузить"
 
-#: .\solutions\templates\solutions\testcaseresult.html:14
+#: .\solutions\templates\solutions\testcaseresult.html:17
 msgid "Output file"
 msgstr "Выходной файл"
 
-#: .\solutions\templates\solutions\testcaseresult.html:26
+#: .\solutions\templates\solutions\testcaseresult.html:29
 msgid "Standard output (stdout)"
 msgstr "Стандартный вывод (stdout)"
 
-#: .\solutions\templates\solutions\testcaseresult.html:32
+#: .\solutions\templates\solutions\testcaseresult.html:35
 msgid "Standard error (stderr)"
 msgstr "Стандартный вывод ошибок (stderr)"
 
-#: .\solutions\templates\solutions\testcaseresult.html:39
+#: .\solutions\templates\solutions\testcaseresult.html:42
 #: .\storage\templates\storage\irunner_storage_show_tag.html:24
 #: .\storage\templates\storage\irunner_storage_showbrief_tag.html:23
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\views.py:174
+#: .\solutions\templates\solutions\testcaseresult.html:68
+msgid "Test case is not available in the current problem version."
+msgstr "В текущей версии задачи тест недоступен."
+
+#: .\solutions\views.py:204
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"

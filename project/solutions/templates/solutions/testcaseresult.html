@@ -4,38 +4,70 @@
 {% load bootstrap3 %}
 {% load irunner_storage %}
 
-{% if input_repr %}
-    <a href="{% url data_url_pattern item_id testcaseresult.id 'input' %}">{% trans 'Input file' %}</a>
-    <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
-    {% irunner_storage_show input_repr %}
-{% endif %}
+<div class="row">
+    <div class="col-sm-8">
 
-{% if output_repr %}
-    <a href="{% url data_url_pattern item_id testcaseresult.id 'output' %}">{% trans 'Output file' %}</a>
-    <span class="ir-file-size">[{{ output_repr.size|filesizeformat }}]</span>
-    {% irunner_storage_show output_repr %}
-{% endif %}
+        {% if input_repr %}
+            <a href="{% url data_url_pattern item_id test_case_result.id 'input' %}">{% trans 'Input file' %}</a>
+            <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
+            {% irunner_storage_show input_repr %}
+        {% endif %}
 
-{% if answer_repr %}
-    <a href="{% url data_url_pattern item_id testcaseresult.id 'answer' %}">{% trans 'Answer file' %}</a>
-    <span class="ir-file-size">[{{ answer_repr.size|filesizeformat }}]</span>
-    {% irunner_storage_show answer_repr %}
-{% endif %}
+        {% if output_repr %}
+            <a href="{% url data_url_pattern item_id test_case_result.id 'output' %}">{% trans 'Output file' %}</a>
+            <span class="ir-file-size">[{{ output_repr.size|filesizeformat }}]</span>
+            {% irunner_storage_show output_repr %}
+        {% endif %}
 
-{% if stdout_repr and not stdout_repr.is_empty %}
-    <a href="{% url data_url_pattern item_id testcaseresult.id 'stdout' %}">{% trans 'Standard output (stdout)' %}</a>
-    <span class="ir-file-size">[{{ stdout_repr.size|filesizeformat }}]</span>
-    {% irunner_storage_show stdout_repr %}
-{% endif %}
+        {% if answer_repr %}
+            <a href="{% url data_url_pattern item_id test_case_result.id 'answer' %}">{% trans 'Answer file' %}</a>
+            <span class="ir-file-size">[{{ answer_repr.size|filesizeformat }}]</span>
+            {% irunner_storage_show answer_repr %}
+        {% endif %}
 
-{% if stderr_repr and not stderr_repr.is_empty %}
-    <a href="{% url data_url_pattern item_id testcaseresult.id 'stderr' %}">{% trans 'Standard error (stderr)' %}</a>
-    <span class="ir-file-size">[{{ stderr_repr.size|filesizeformat }}]</span>
-    {% irunner_storage_show stderr_repr %}
-{% endif %}
+        {% if stdout_repr and not stdout_repr.is_empty %}
+            <a href="{% url data_url_pattern item_id test_case_result.id 'stdout' %}">{% trans 'Standard output (stdout)' %}</a>
+            <span class="ir-file-size">[{{ stdout_repr.size|filesizeformat }}]</span>
+            {% irunner_storage_show stdout_repr %}
+        {% endif %}
 
-{% if not input_repr and not output_repr and not answer_repr and not stdout_repr and not stderr_repr %}
-    <div class="ir-ajax-message">
-        {% trans 'No data' %}
+        {% if stderr_repr and not stderr_repr.is_empty %}
+            <a href="{% url data_url_pattern item_id test_case_result.id 'stderr' %}">{% trans 'Standard error (stderr)' %}</a>
+            <span class="ir-file-size">[{{ stderr_repr.size|filesizeformat }}]</span>
+            {% irunner_storage_show stderr_repr %}
+        {% endif %}
+
+        {% if not input_repr and not output_repr and not answer_repr and not stdout_repr and not stderr_repr %}
+            <div class="ir-ajax-message">
+                {% trans 'No data' %}
+            </div>
+        {% endif %}
+
     </div>
-{% endif %}
+    <div class="col-sm-4">
+        <div class="ir-test-description">
+            {% if test_case %}
+                <h4><a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">{% trans 'Test' %}</a></h4>
+                <p>{{ description.text|linebreaksbr }}</p>
+
+                {% if description.images %}
+                    <table class="ir-image-gallery ir-image-gallery-vertical">
+                        <tbody>
+                            {% for filename in description.images %}
+                                <tr>
+                                    <td>
+                                        {% url image_url_pattern item_id test_case_result.id filename as img_url %}
+                                        <a href="#" class="ir-full-image-link"><img src="{{ img_url }}" alt="{{ filename }}"></a>
+                                        {#TrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrash #}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% else %}
+                <p>{% trans 'Test case is not available in the current problem version.' %}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

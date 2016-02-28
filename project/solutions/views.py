@@ -13,6 +13,8 @@ from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
 from common.views import MassOperationView
 from courses.permissions import calculate_course_solution_access_level
+from problems.description import IDescriptionImageLoader, render_description
+from problems.models import ProblemRelatedFile
 from proglangs.models import Compiler
 from proglangs.utils import get_highlightjs_class
 from storage.storage import create_storage
@@ -23,13 +25,26 @@ from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, 
 from .permissions import SolutionPermissions, SolutionAccessLevel
 
 
+class DescriptionImageLoader(IDescriptionImageLoader):
+    def __init__(self, problem_id):
+        self._problem_id = problem_id
+
+    def get_image_list(self):
+        return ProblemRelatedFile.objects.\
+            filter(problem_id=self._problem_id).\
+            filter(file_type__in=ProblemRelatedFile.TEST_CASE_IMAGE_FILE_TYPES).\
+            values_list('filename', flat=True)
+
+
 class TestCaseResultMixin(object):
-    def serve_testcaseresult_page(self, request, testcaseresult, data_url_pattern, item_id):
+    def serve_testcaseresult_page(self, testcaseresult, data_url_pattern, image_url_pattern, item_id):
         limit = 2**12
         storage = create_storage()
+
         context = {
-            'testcaseresult': testcaseresult,
+            'test_case_result': testcaseresult,
             'data_url_pattern': data_url_pattern,
+            'image_url_pattern': image_url_pattern,
             'item_id': item_id,
             'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit),
             'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit),
@@ -37,10 +52,19 @@ class TestCaseResultMixin(object):
             'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit),
             'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit),
         }
-        template_name = 'solutions/testcaseresult.html'
-        return render(request, template_name, context)
 
-    def serve_testcaseresult_data(self, request, mode, testcaseresult):
+        test_case = testcaseresult.test_case
+        if test_case is not None:
+
+            loader = DescriptionImageLoader(test_case.problem_id)
+
+            context['test_case'] = test_case
+            context['description'] = render_description(test_case.description, loader)
+
+        template_name = 'solutions/testcaseresult.html'
+        return render(self.request, template_name, context)
+
+    def serve_testcaseresult_data(self, mode, testcaseresult):
         resource_id = {
             'input': testcaseresult.input_resource_id,
             'output': testcaseresult.output_resource_id,
@@ -49,8 +73,18 @@ class TestCaseResultMixin(object):
             'stderr': testcaseresult.stderr_resource_id,
         }.get(mode)
 
-        return serve_resource(request, resource_id, 'text/plain')
+        return serve_resource(self.request, resource_id, 'text/plain')
 
+    def serve_testcaseresult_image(self, filename, testcaseresult):
+        if testcaseresult.test_case is None:
+            raise Http404('Test case result is not associated with a valid test case')
+
+        f = ProblemRelatedFile.objects.\
+            filter(problem_id=testcaseresult.test_case.problem_id).\
+            filter(file_type__in=ProblemRelatedFile.TEST_CASE_IMAGE_FILE_TYPES).\
+            filter(filename=filename).\
+            first()
+        return serve_resource_metadata(self.request, f)
 
 '''
 All solutions list
@@ -145,14 +179,19 @@ class JudgementTestCaseResultView(StaffMemberRequiredMixin, TestCaseResultMixin,
 
     def get(self, request, judgement_id, testcaseresult_id):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
-        return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:judgement_testdata', judgement_id)
+        return self.serve_testcaseresult_page(testcaseresult, 'solutions:judgement_testdata', 'solutions:judgement_testimage', judgement_id)
 
 
 class JudgementTestCaseResultDataView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
     def get(self, request, judgement_id, testcaseresult_id, mode):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
-        return self.serve_testcaseresult_data(request, mode, testcaseresult)
+        return self.serve_testcaseresult_data(mode, testcaseresult)
 
+
+class JudgementTestCaseResultImageView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
+    def get(self, request, judgement_id, testcaseresult_id, filename):
+        testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
+        return self.serve_testcaseresult_image(filename, testcaseresult)
 
 '''
 Rejudge
@@ -502,7 +541,7 @@ class SolutionTestCaseResultView(TestCaseResultMixin, BaseSolutionTestDataView):
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
-        return self.serve_testcaseresult_page(request, testcaseresult, 'solutions:test_data', solution.id)
+        return self.serve_testcaseresult_page(testcaseresult, 'solutions:test_data', 'solutions:test_image', solution.id)
 
 
 class SolutionTestCaseResultDataView(TestCaseResultMixin, BaseSolutionTestDataView):
@@ -511,4 +550,13 @@ class SolutionTestCaseResultDataView(TestCaseResultMixin, BaseSolutionTestDataVi
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
-        return self.serve_testcaseresult_data(request, mode, testcaseresult)
+        return self.serve_testcaseresult_data(mode, testcaseresult)
+
+
+class SolutionTestCaseResultImageView(TestCaseResultMixin, BaseSolutionTestDataView):
+    def do_get(self, request, solution, testcaseresult_id, filename):
+        if solution.best_judgement_id is None:
+            raise Http404('Solution is not judged')
+
+        testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
+        return self.serve_testcaseresult_image(filename, testcaseresult)

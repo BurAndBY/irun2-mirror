@@ -32,4 +32,4 @@ def render_description(text, image_loader):
 
     portions.append(text[last_start:])
 
-    return RenderResult(u''.join(portions), images)
+    return RenderResult(u''.join(portions).strip(), images)
