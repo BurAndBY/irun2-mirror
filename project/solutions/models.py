@@ -101,6 +101,13 @@ class Judgement(models.Model):
         return result
 
 
+class JudgementExtraInfo(models.Model):
+    judgement = models.OneToOneField(Judgement, on_delete=models.CASCADE, primary_key=True, related_name='extra_info')
+    creation_time = models.DateTimeField(null=True)
+    start_testing_time = models.DateTimeField(null=True)
+    finish_testing_time = models.DateTimeField(null=True)
+
+
 class JudgementLog(models.Model):
     SOLUTION_COMPILATION = 0
 

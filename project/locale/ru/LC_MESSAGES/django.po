@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-28 19:55+0300\n"
-"PO-Revision-Date: 2016-02-28 19:56+0300\n"
+"POT-Creation-Date: 2016-02-29 03:16+0300\n"
+"PO-Revision-Date: 2016-02-29 03:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -168,7 +168,7 @@ msgstr "Страница"
 #: .\courses\templates\courses\problems_base.html:28
 #: .\problems\templates\problems\show_test.html:16
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
-#: .\solutions\templates\solutions\judgement.html:18
+#: .\solutions\templates\solutions\judgement.html:21
 #: .\solutions\templates\solutions\solution.html:53
 msgid "of"
 msgstr "из"
@@ -203,6 +203,12 @@ msgstr "Удалить"
 #: .\common\templates\common\twopanelselectmultiple_widget.html:25
 msgid "Remove all"
 msgstr "Удалить всё"
+
+#: .\common\templatetags\irunner_time.py:11
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
+msgid "s"
+msgstr "с"
 
 #: .\courses\forms.py:22
 msgid "Each access level includes all the previous onces."
@@ -560,7 +566,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:292
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:293
 msgid "delete"
 msgstr "удалить"
 
@@ -619,7 +625,7 @@ msgstr "Время"
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:76
 #: .\courses\templates\courses\solutions.html:37
 #: .\problems\templates\problems\solutions.html:19
-#: .\solutions\templates\solutions\judgement_list.html:18
+#: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_list.html:34
 msgid "Status"
 msgstr "Статус"
@@ -1245,6 +1251,7 @@ msgid "Compiling"
 msgstr "Компиляция"
 
 #: .\solutions\forms.py:51 .\solutions\models.py:77
+#: .\solutions\templates\solutions\judgement_list.html:22
 msgid "Testing"
 msgstr "Тестирование"
 
@@ -1308,7 +1315,7 @@ msgstr "Ошибка тестирования"
 msgid "N/A"
 msgstr "N/A"
 
-#: .\solutions\models.py:108
+#: .\solutions\models.py:115
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -1383,7 +1390,7 @@ msgid "Outcome"
 msgstr "Вердикт"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
-#: .\solutions\templates\solutions\judgement.html:17
+#: .\solutions\templates\solutions\judgement.html:20
 #: .\solutions\templates\solutions\solution.html:52
 msgid "Score"
 msgstr "Очки"
@@ -1412,11 +1419,6 @@ msgstr "Изображение"
 msgid "No test results"
 msgstr "Нет результатов по тестам"
 
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
-msgid "s"
-msgstr "с"
-
 #: .\solutions\templates\solutions\judgement.html:7
 #: .\solutions\templates\solutions\judgement.html:12
 msgid "Judgement"
@@ -1426,47 +1428,53 @@ msgstr "Запуск"
 msgid "of solution"
 msgstr "решения"
 
-#: .\solutions\templates\solutions\judgement.html:22
+#: .\solutions\templates\solutions\judgement.html:17
+#: .\solutions\templates\solutions\rejudge.html:19
+#: .\solutions\templates\solutions\rejudge_list.html:17
+msgid "State"
+msgstr "Состояние"
+
+#: .\solutions\templates\solutions\judgement.html:25
 #: .\solutions\templates\solutions\solution.html:100
 #: .\solutions\templates\solutions\solution_tests.html:6
 msgid "Test results"
 msgstr "Результаты тестов"
 
-#: .\solutions\templates\solutions\judgement.html:27
+#: .\solutions\templates\solutions\judgement.html:30
 #: .\solutions\templates\solutions\solution.html:88
 #: .\solutions\templates\solutions\solution_log.html:6
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
-#: .\solutions\templates\solutions\judgement_list.html:8
+#: .\solutions\templates\solutions\judgement_list.html:9
 #: .\templates\navbar.html:29
 msgid "Runs"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\judgement_list.html:16
+#: .\solutions\templates\solutions\judgement_list.html:17
 #: .\solutions\templates\solutions\rejudge.html:28
 #: .\solutions\templates\solutions\solution.html:10
 #: .\solutions\templates\solutions\solution.html:17
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\judgement_list.html:17
+#: .\solutions\templates\solutions\judgement_list.html:18
 #: .\solutions\templates\solutions\rejudge.html:10
 msgid "Rejudge"
 msgstr "Перетестирование"
 
+#: .\solutions\templates\solutions\judgement_list.html:20
 #: .\solutions\templates\solutions\rejudge.html:13
 msgid "Created"
 msgstr "Создано"
 
+#: .\solutions\templates\solutions\judgement_list.html:21
+msgid "In queue"
+msgstr "В очереди"
+
 #: .\solutions\templates\solutions\rejudge.html:16
 msgid "Creator of the rejudge"
 msgstr "Создатель перетестирования"
-
-#: .\solutions\templates\solutions\rejudge.html:19
-#: .\solutions\templates\solutions\rejudge_list.html:17
-msgid "State"
-msgstr "Состояние"
 
 #: .\solutions\templates\solutions\rejudge.html:30
 msgid "Current"
@@ -1476,15 +1484,15 @@ msgstr "Текущий"
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\rejudge.html:76
+#: .\solutions\templates\solutions\rejudge.html:74
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: .\solutions\templates\solutions\rejudge.html:77
+#: .\solutions\templates\solutions\rejudge.html:75
 msgid "Rollback"
 msgstr "Откатить"
 
-#: .\solutions\templates\solutions\rejudge.html:83
+#: .\solutions\templates\solutions\rejudge.html:81
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
@@ -1518,7 +1526,7 @@ msgstr "IP-адрес"
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_judgements.html:12
+#: .\solutions\templates\solutions\solution_judgements.html:15
 #: .\solutions\templates\solutions\solution_list.html:60
 msgctxt "verb"
 msgid "Rejudge"
@@ -1564,7 +1572,7 @@ msgstr "Нет данных"
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\views.py:223
+#: .\solutions\views.py:224
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"

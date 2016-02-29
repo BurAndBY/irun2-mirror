@@ -2,7 +2,7 @@ from django.core.files.base import ContentFile
 from django.utils import timezone
 
 from common.networkutils import get_request_ip
-from solutions.models import Solution, Judgement
+from solutions.models import Solution, Judgement, JudgementExtraInfo
 import storage.utils
 import proglangs.utils
 from api.workerinteract import notify
@@ -25,9 +25,15 @@ def new_solution(request, compiler, text, upload, problem_id=None):
     return solution
 
 
-def judge(solution, rejudge=None):
+def create_judgement(solution, rejudge=None):
     judgement = Judgement(solution=solution, rejudge=rejudge)
     judgement.save()
+    JudgementExtraInfo.objects.create(judgement=judgement, creation_time=timezone.now())
+    return judgement
+
+
+def judge(solution, rejudge=None):
+    judgement = create_judgement(solution, rejudge)
     notify()
 
     if solution.best_judgement is None:

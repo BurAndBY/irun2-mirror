@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load irunner_pagination %}
 {% load irunner_solutions %}
+{% load irunner_time %}
 
 {% block title %}{% trans 'Runs' %}{% endblock %}
 
@@ -16,6 +17,9 @@
                 <th>{% trans 'Solution' %}</th>
                 <th>{% trans 'Rejudge' %}</th>
                 <th>{% trans 'Status' %}</th>
+                <th>{% trans 'Created' %}</th>
+                <th>{% trans 'In queue' %}</th>
+                <th>{% trans 'Testing' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +32,29 @@
                     {% irunner_solutions_judgementbox judgement tooltip=True %}
                     {% irunner_solutions_scorebox judgement %}
                 </td>
+                {% with judgement.extra_info as info %}
+                    <td>
+                        {% if info and info.creation_time %}
+                            {{ info.creation_time }}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info %}
+                            {% irunner_time_deltaseconds info.creation_time info.start_testing_time %}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info %}
+                            {% irunner_time_deltaseconds info.start_testing_time info.finish_testing_time %}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                {% endwith %}
             </tr>
             {% endfor %}
         </tbody>

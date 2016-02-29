@@ -23,6 +23,7 @@ from storage.utils import serve_resource, serve_resource_metadata
 from .forms import AllSolutionsFilterForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
 from .permissions import SolutionPermissions, SolutionAccessLevel
+from .utils import create_judgement
 
 
 class DescriptionImageLoader(IDescriptionImageLoader):
@@ -159,7 +160,7 @@ class JudgementListView(StaffMemberRequiredMixin, generic.View):
     template_name = 'solutions/judgement_list.html'
 
     def get(self, request):
-        queryset = Judgement.objects.order_by('-id')
+        queryset = Judgement.objects.select_related('extra_info').order_by('-id')
         context = paginate(request, queryset, self.paginate_by)
         return render(request, self.template_name, context)
 
@@ -228,8 +229,8 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
 
         with transaction.atomic():
             rejudge = Rejudge.objects.create(author=author)
-            judgements = [Judgement(solution=solution, rejudge=rejudge) for solution in filtered_queryset]
-            Judgement.objects.bulk_create(judgements)
+            for solution in filtered_queryset:
+                create_judgement(solution=solution, rejudge=rejudge)
 
         return redirect('solutions:rejudge', rejudge.id)
 

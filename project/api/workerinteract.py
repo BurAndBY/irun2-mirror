@@ -2,9 +2,10 @@ import threading
 
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from problems.models import ProblemRelatedSourceFile, TestCase
-from solutions.models import Judgement, JudgementLog, TestCaseResult
+from solutions.models import Judgement, JudgementExtraInfo, JudgementLog, TestCaseResult
 
 from workerstructs import WorkerTestingJob, WorkerProblem, WorkerFile, WorkerTestCase, WorkerChecker
 
@@ -77,6 +78,7 @@ def get_testing_job():
         rows_updated = Judgement.objects.filter(id=judgement.id, status=Judgement.WAITING).update(status=Judgement.PREPARING)
         assert rows_updated in (0, 1)
         if rows_updated == 1:
+            JudgementExtraInfo.objects.filter(pk=judgement.id).update(start_testing_time=timezone.now())
             judgement = Judgement.objects.filter(id=judgement.id).first()
             return _make_job(judgement)
     return None
@@ -112,6 +114,8 @@ def put_testing_report(judgement_id, report):
         judgement.max_score = report.max_score
         judgement.test_number = report.first_failed_test
         judgement.save()
+
+        JudgementExtraInfo.objects.filter(pk=judgement.id).update(finish_testing_time=timezone.now())
 
         present_test_case_ids = TestCase.objects.\
             filter(problem__solution__judgement=judgement).\
