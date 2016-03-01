@@ -23,10 +23,11 @@ def render_description(text, image_loader):
 
         # lazy load to reduce the number of DB queries
         if all_image_list is None:
-            all_image_list = image_loader.get_image_list()
+            names = image_loader.get_image_list()
+            all_image_list = set(name.lower() for name in names)
 
         filename = m.group('filename')
-        if filename in all_image_list:
+        if filename.lower() in all_image_list:
             images.append(filename)
         last_start = m.end()
 
