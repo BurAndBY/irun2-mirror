@@ -17,10 +17,9 @@ class OrderedTreeNodeChoiceFieldMixin(object):
             out.append((node.object_id, (TREE_LEVEL_INDICATOR * level) + ' ' + node.label))
             self._dfs(node.children, level + 1, out)
 
-    def _make_sorted_choices(self):
+    def _make_sorted_choices(self, queryset):
         nodes = {}
         roots = []
-        queryset = self.queryset
 
         for obj in queryset:
             nodes[obj.pk] = OrderedTreeNodeChoiceField._Node(obj.pk, self.label_from_instance(obj))
@@ -32,19 +31,26 @@ class OrderedTreeNodeChoiceFieldMixin(object):
             else:
                 nodes[obj.parent_id].children.append(node)
 
-        self._choices = []
+        choices_list = []
         if self.empty_label is not None:
-            self._choices.append(('', EMPTY_SELECT))
-        self._dfs(roots, 0, self._choices)
+            choices_list.append(('', EMPTY_SELECT))
+        self._dfs(roots, 0, choices_list)
+        return choices_list
+
+    def _set_queryset(self, queryset):
+        if queryset is not None:
+            self._choices = self._make_sorted_choices(queryset)
+        super(OrderedTreeNodeChoiceFieldMixin, self)._set_queryset(queryset)
+
+    def _get_queryset(self):
+        return super(OrderedTreeNodeChoiceFieldMixin, self)._get_queryset()
+
+    queryset = property(_get_queryset, _set_queryset)
 
 
 class OrderedTreeNodeChoiceField(OrderedTreeNodeChoiceFieldMixin, forms.ModelChoiceField):
-    def __init__(self, *args, **kwargs):
-        super(OrderedTreeNodeChoiceField, self).__init__(*args, **kwargs)
-        self._make_sorted_choices()
+    pass
 
 
 class OrderedTreeNodeMultipleChoiceField(OrderedTreeNodeChoiceFieldMixin, forms.ModelMultipleChoiceField):
-    def __init__(self, *args, **kwargs):
-        super(OrderedTreeNodeMultipleChoiceField, self).__init__(*args, **kwargs)
-        self._make_sorted_choices()
+    pass

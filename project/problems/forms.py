@@ -9,11 +9,15 @@ Edit single problem
 
 
 class ProblemForm(forms.ModelForm):
-    folders = OrderedTreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.all(), required=False)
+    folders = OrderedTreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=None, required=False)
 
     class Meta:
         model = Problem
         fields = ['number', 'subnumber', 'full_name', 'short_name', 'difficulty', 'input_filename', 'output_filename', 'folders']
+
+    def __init__(self, *args, **kwargs):
+        super(ProblemForm, self).__init__(*args, **kwargs)
+        self.fields['folders'].queryset = ProblemFolder.objects.all()
 
 
 class ProblemExtraInfoForm(forms.ModelForm):
