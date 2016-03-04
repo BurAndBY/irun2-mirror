@@ -72,3 +72,7 @@ Problem search
 
 class ProblemSearchForm(forms.Form):
     query = forms.CharField(required=False)
+
+
+class TeXForm(forms.Form):
+    source = forms.CharField(required=False, max_length=10, widget=forms.Textarea(attrs={'class': 'ir-monospace', 'rows': 20}))

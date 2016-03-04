@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 import mimetypes
 import operator
@@ -22,7 +24,7 @@ from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata
 import solutions.utils
 
-from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
+from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm, TeXForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
 from .texrenderer import TeXRenderer
@@ -555,3 +557,32 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
         context['active_tab'] = 'search'
         context['form'] = form
         return render(request, self.template_name, context)
+
+
+'''
+TeX editor
+'''
+
+
+class TeXView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'problems/tex.html'
+
+    def get(self, request):
+        form = TeXForm()
+        return render(request, self.template_name, {'form': form})
+
+
+class TeXRenderView(StaffMemberRequiredMixin, generic.View):
+    def post(self, request):
+        result = {}
+
+        form = TeXForm(request.POST)
+        if form.is_valid():
+            pass
+        else:
+            log_lines = []
+            for field, errors in form.errors.items():
+                log_lines.extend(u'— {0}'.format(e) for e in errors)
+            result['log'] = '\n'.join(log_lines)
+
+        return JsonResponse(result)

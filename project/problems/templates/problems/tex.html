@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block title %}{% trans 'TeX editor' %}{% endblock %}
+
+{% block content %}
+
+
+
+<div class="ir-tex-editor">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#ir_tab_source" role="tab" data-toggle="tab">{% trans 'Source code' %}</a></li>
+        <li role="presentation"><a href="#ir_tab_result" role="tab" data-toggle="tab">{% trans 'Result' %}</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="ir_tab_source">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-default ir-js-inputfile"><span class="ir-monospace">\InputFile</span></button>
+                    <button type="button" class="btn btn-default ir-js-outputfile"><span class="ir-monospace">\OutputFile</span></button>
+                    <button type="button" class="btn btn-default ir-js-note"><span class="ir-monospace">\Note</span></button>
+                </div>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-default ir-js-1ex">{% trans 'one example' %}</button>
+                    <button type="button" class="btn btn-default ir-js-2ex">{% trans 'two examples' %}</button>
+                    <button type="button" class="btn btn-default ir-js-3ex">{% trans 'three examples' %}</button>
+                </div>
+            </div>
+            {% bootstrap_form form show_label=False show_help=False %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="ir_tab_result">
+            <pre class="ir-pre"><code class="hljs ir-tex-log"></code></pre>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        var editorBlock = $(".ir-tex-editor").first();
+        var textarea = editorBlock.find("textarea").get(0);
+
+        var toolbarControls = [
+            [".ir-js-inputfile", "\\InputFile"],
+            [".ir-js-outputfile", "\\OutputFile"],
+            [".ir-js-note", "\\Note"],
+            [".ir-js-1ex", "\\Example\n\n\\begin{example}%\n\\exmp{% input\n\n}{% output\n\n}%\n\\end{example}\n"],
+            [".ir-js-2ex", "\\Examples\n\n\\begin{example}%\n\\exmp{% first input\n\n}{% first output\n\n}%\n\\exmp{% second input\n\n}{% second output\n\n}%\n\\end{example}\n"],
+            [".ir-js-3ex", "\\Examples\n\n\\begin{example}%\n\\exmp{% first input\n\n}{% first output\n\n}%\n\\exmp{% second input\n\n}{% second output\n\n}%\n\\exmp{% third input\n\n}{% third output\n\n}%\n\\end{example}\n"],
+        ];
+        for (var i = 0; i < toolbarControls.length; ++i) {
+            editorBlock.find(toolbarControls[i][0]).click(
+                (function(portion) {
+                    return function() {
+                        irInsertAtCursor(textarea, portion);
+                    };
+                })(toolbarControls[i][1])
+            );
+        }
+
+        editorBlock.find('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            //e.target // newly activated tab
+            //e.relatedTarget // previous active tab
+            var target = $(e.target).attr("href");
+            if (target === "#ir_tab_result") {
+                editorBlock.find(".ir-tex-log").text("{% trans 'Loading...' %}");
+                editorBlock.find(".ir-tex-output").html();
+                var params = {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "source": $(textarea).val()
+                };
+                $.post("{% url 'problems:tex_render' %}", params).done(function(data) {
+                    editorBlock.find(".ir-tex-log").text(data["log"]);
+                })
+            }
+        });
+    });
+</script>
+
+<table>
+    <tr>
+        <td style="white-space: nowrap;">
+            <input type="radio" name="viewMode" id="viewSourceCode" checked="" onclick="showSourceCode();">Исходный код
+            <input type="radio" name="viewMode" id="viewResult" onclick="showResult();">Результат
+        </td>
+        <td>
+            <input type="button" onclick="switchView();" value="Переключить вид">&nbsp;
+        </td>
+        <td>
+            <input type="button" onclick="insertAtCursor('\\InputFile');" value="InputFile">
+            <input type="button" onclick="insertAtCursor('\\OutputFile');" value="OutputFile">
+            <input type="button" onclick="insertAtCursor('\\Example\n\n\\begin{example}%\n\\exmp{% input\n\n}{% output\n\n}%\n\\end{example}\n');" value="один пример">
+            <input type="button" onclick="insertAtCursor('\\Examples\n\n\\begin{example}%\n\\exmp{% first input\n\n}{% first output\n\n}%\n\\exmp{% second input\n\n}{% second output\n\n}%\n\\end{example}\n');" value="два примера">
+            <input type="button" onclick="insertAtCursor('\\Examples\n\n\\begin{example}%\n\\exmp{% first input\n\n}{% first output\n\n}%\n\\exmp{% second input\n\n}{% second output\n\n}%\n\\exmp{% third input\n\n}{% third output\n\n}%\n\\end{example}\n');" value="три примера">
+        </td>
+    </tr>
+</table>
+<form action="saveProblemStatementTeX.cmd" method="post" enctype="multipart/form-data">
+    <div id="sourceCodeDiv">
+        <textarea id="content-textarea" name="content-textarea" class="tex-source-editor" rows="30" cols="120">${content?html}</textarea>
+    </div>
+
+    <div id="resultDiv" style="display: none;">
+        <div class="tex-errors" id="errorsPage"></div>
+        <div id="readyPage" class="problem-statement"></div>
+    </div>
+
+    <#if type="save">
+        <input name="type" type="hidden" value="save"/> 
+        <input name="taskFileID" type="hidden" value="${taskFileID}"/> 
+    </#if>
+    <@ui.button title=loc[10015] />
+</form>
+
+<script type="text/javascript">
+function showSourceCode() {
+    document.getElementById("resultDiv").style.display = "none";
+    document.getElementById("sourceCodeDiv").style.display = "";
+}
+function showResult() {
+    document.getElementById("sourceCodeDiv").style.display = "none";
+    setLog("Загрузка...");
+    setOutput("");
+    sendSourceToServer();
+    document.getElementById("resultDiv").style.display = "";
+}
+function setLog(text) {
+    var el = document.getElementById("errorsPage");
+    while (el.firstChild) {
+        el.removeChild(el.firstChild);
+    }
+    var lines = text.split(/\n/);
+    for (var i = 0; i < lines.length; ++i) {
+        el.appendChild(document.createTextNode(lines[i]));
+        el.appendChild(document.createElement("br"));
+    }
+}
+function setOutput(html) {
+    var el = document.getElementById("readyPage");
+    el.innerHTML = html;
+}
+
+function sendSourceToServer() {
+    var http = new XMLHttpRequest();
+    var url = "previewProblemStatementTeX.cmd";
+    var source = document.getElementById("content-textarea").value;
+    var params = "src=" + encodeURIComponent(source);
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            var log = "";
+            var output = "";
+
+            if (http.status == 200) {
+                var obj = eval('(' + http.responseText + ')');
+                log = obj.log;
+                output = obj.output;
+            } else {
+                log = "Error: " + http.statusText;
+                output = "";
+            }
+            setLog(log);
+            setOutput(output);
+        }
+    }
+    http.send(params);
+}
+
+function switchView() {
+    var sourceCode = document.getElementById("viewSourceCode");
+    var result = document.getElementById("viewResult");
+    if (sourceCode.checked) {
+        result.checked = true;
+        showResult();
+    } else {
+        sourceCode.checked = true;
+        showSourceCode();
+    }
+}
+function keyDownHandler(e) {
+    e = e || window.event;
+    if (e.keyCode == 113 && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+        switchView();
+    }
+}
+function insertAtCursor(myValue) {
+    var myField = document.getElementById("content-textarea");
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = startPos + myValue.length;
+    } else {
+        myField.value += myValue;
+    }
+}
+
+document.onkeydown = keyDownHandler;
+</script>
+
+{% endblock %}

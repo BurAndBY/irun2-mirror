@@ -33,4 +33,7 @@ urlpatterns = [
 
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/$', views.ShowFolderView.as_view(), name='show_folder'),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
+
+    url(r'^tex/$', views.TeXView.as_view(), name='tex'),
+    url(r'^tex/render/$', views.TeXRenderView.as_view(), name='tex_render'),
 ]
