@@ -27,7 +27,7 @@ import solutions.utils
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm, TeXForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
-from .texrenderer import TeXRenderer
+from .texrenderer import render_tex_with_header, render_tex
 from .description import IDescriptionImageLoader, render_description
 
 '''
@@ -79,8 +79,9 @@ class ProblemStatementMixin(object):
             storage = create_storage()
             tex_data = storage.represent(tex_statement_resource_id)
             if tex_data is not None and tex_data.complete_text is not None:
-                renderer = TeXRenderer.create(problem, tex_data.complete_text)
-                st.content = renderer.render_inner_html()
+                render_result = render_tex_with_header(tex_data.complete_text, problem)
+                # render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename)
+                st.content = render_result.output
 
         # HTML
         if st.is_empty and html_statement_name is not None:
@@ -578,7 +579,9 @@ class TeXRenderView(StaffMemberRequiredMixin, generic.View):
 
         form = TeXForm(request.POST)
         if form.is_valid():
-            pass
+            render_result = render_tex(form.cleaned_data['source'])
+            result['output'] = render_result.output
+            result['log'] = render_result.log
         else:
             log_lines = []
             for field, errors in form.errors.items():

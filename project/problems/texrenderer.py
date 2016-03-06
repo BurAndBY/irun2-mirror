@@ -1,53 +1,50 @@
+from collections import namedtuple
+
 from django.utils.html import escape
+from django.utils.translation import ugettext_lazy as _
 
 # for strings passed to external library
 TEX2HTML_ENCODING = 'utf-8'
 
+IMAGE_PATH = u'/fIpZ6d9gT5GYgPFox3cO/'
+STDIN = _('standard input')
+STDOUT = _('standard output')
 
-class TeXRenderer(object):
-    IMAGE_PATH = u'/fIpZ6d9gT5GYgPFox3cO/'
+'''
+output contains HTML data
+'''
+TeXRenderResult = namedtuple('TeXRenderResult', 'output log')
 
-    def __init__(self):
-        self.tex_source = ''
-        self.problem_name = ''
-        self.memory_limits = None
-        self.input_file = None
-        self.output_file = None
 
-    @staticmethod
-    def create(problem, tex_source):
-        renderer = TeXRenderer()
-        renderer.problem_name = problem.numbered_full_name_difficulty()
-        renderer.input_file = problem.input_filename
-        renderer.output_file = problem.output_filename
-        renderer.tex_source = tex_source
-        return renderer
+def _render(begin, tex_source, end):
+    src = begin + tex_source + end
+    try:
+        import tex2html
+        src = src.encode(TEX2HTML_ENCODING)
+        dst, log = tex2html.convert(src)
+        dst, log = dst.decode(TEX2HTML_ENCODING, errors='replace'), log.decode(TEX2HTML_ENCODING, errors='replace')
+    except ImportError as e:
+        dst, log = (u'<pre>' + escape(src) + u'</pre>'), unicode(e)
 
-    def _render(self):
-        begin = u'\\begin{problem}{%s}{%s}{%s}{0 seconds}{%s}{}\n' % (
-            self.problem_name,
-            self.input_file if self.input_file is not None else 'standart input',
-            self.output_file if self.output_file is not None else 'standart output',
-            'no memory limit'
-        )
-        end = u'\n\\end{problem}\n'
+    dst = dst.replace(IMAGE_PATH, u'')
+    return TeXRenderResult(dst, log)
 
-        src = (begin + self.tex_source + end)
 
-        try:
-            import tex2html
-            src = src.encode(TEX2HTML_ENCODING)
-            dst, log = tex2html.convert(src)
-            dst, log = dst.decode(TEX2HTML_ENCODING), log.decode(TEX2HTML_ENCODING)
-        except ImportError as e:
-            dst, log = ('<pre>' + escape(src) + '</pre>'), unicode(e)
+def render_tex_with_header(tex_source, problem):
+    begin = u'\\begin{problem}{%s}{%s}{%s}{0 seconds}{%s}{}\n' % (
+        problem.numbered_full_name_difficulty(),
+        problem.input_filename or STDIN,
+        problem.output_filename or STDOUT,
+        'no memory limit',
+    )
+    end = u'\n\\end{problem}\n'
+    return _render(begin, tex_source, end)
 
-        dst = dst.replace(TeXRenderer.IMAGE_PATH, '')
-        return (dst, log)
 
-    def render_inner_html(self):
-        dst, _ = self._render()
-        return dst
-
-    def render_json(self):
-        raise NotImplementedError()
+def render_tex(tex_source, input_filename=None, output_filename=None):
+    begin = u'\\begin{rawproblem}{%s}{%s}\n' % (
+        input_filename or STDIN,
+        output_filename or STDOUT,
+    )
+    end = u'\n\\end{rawproblem}\n'
+    return _render(begin, tex_source, end)

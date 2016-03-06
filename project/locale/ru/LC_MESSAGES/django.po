@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 12:58+0300\n"
-"PO-Revision-Date: 2016-03-01 13:04+0300\n"
+"POT-Creation-Date: 2016-03-06 13:32+0300\n"
+"PO-Revision-Date: 2016-03-06 13:39+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -60,7 +60,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:44
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:45
 msgid "Logout"
 msgstr "Выход"
 
@@ -77,7 +77,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:46
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:47
 msgid "Login"
 msgstr "Вход"
 
@@ -133,6 +133,7 @@ msgstr ""
 "по основам алгоритмизации и смежным наукам.\n"
 
 #: .\common\templates\common\about.html:29
+#: .\problems\templates\problems\tex.html:15
 #: .\solutions\templates\solutions\solution.html:82
 #: .\solutions\templates\solutions\solution_source.html:8
 msgid "Source code"
@@ -876,8 +877,8 @@ msgstr "Применить"
 msgid "Author"
 msgstr "Автор"
 
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:48
-#: .\problems\forms.py:59 .\problems\templates\problems\files.html:11
+#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:52
+#: .\problems\forms.py:63 .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\files.html:38
 #: .\problems\templates\problems\solutions.html:18
 #: .\solutions\templates\solutions\solution.html:69
@@ -891,6 +892,7 @@ msgstr "Широкоэкранная версия"
 
 #: .\courses\templates\courses\standings.html:32
 #: .\courses\templates\courses\standings_wide.html:27
+#: .\problems\templates\problems\tex.html:16
 msgid "Result"
 msgstr "Итог"
 
@@ -1186,6 +1188,46 @@ msgstr "Время отправления"
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
+#: .\problems\templates\problems\tex.html:8 .\templates\navbar.html:34
+msgid "TeX editor"
+msgstr "Редактор TeX"
+
+#: .\problems\templates\problems\tex.html:14
+msgid "Use F2 key to switch view"
+msgstr "Используйте клавишу F2 для переключения вида"
+
+#: .\problems\templates\problems\tex.html:29
+msgid "one example"
+msgstr "один пример"
+
+#: .\problems\templates\problems\tex.html:30
+msgid "two examples"
+msgstr "два примера"
+
+#: .\problems\templates\problems\tex.html:31
+msgid "three examples"
+msgstr "три примера"
+
+#: .\problems\templates\problems\tex.html:76
+#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:101
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: .\problems\templates\problems\tex.html:90
+#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:106
+msgid "Error while getting data from server."
+msgstr "Ошибка получения данных с сервера."
+
+#: .\problems\texrenderer.py:10
+msgid "standard input"
+msgstr "стандартный ввод"
+
+#: .\problems\texrenderer.py:11
+msgid "standard output"
+msgstr "стандартный вывод"
+
 #: .\proglangs\models.py:17
 msgid "Unknown"
 msgstr "Неизвестно"
@@ -1355,16 +1397,6 @@ msgstr "Вы уверены, что хотите %(action)s эти решени�
 #: .\solutions\templates\solutions\confirm_multiple.html:33
 msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
-
-#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:101
-msgid "Loading..."
-msgstr "Загрузка..."
-
-#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:106
-msgid "Error while getting data from server."
-msgstr "Ошибка получения данных с сервера."
 
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"

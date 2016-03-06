@@ -988,6 +988,10 @@ tr:hover .ir-appear-on-hover {
     margin-bottom: 10px;
     margin-top: 10px;
 }
+.ir-tex-pre {
+    border: 0;
+    font-size: 11px;
+}
 .ir-tex-log {
-    min-height: 64px;
+    min-height: 80px;
 }
