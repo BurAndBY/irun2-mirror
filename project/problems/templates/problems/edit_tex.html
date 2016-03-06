@@ -1,0 +1,23 @@
+{% extends "problems/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+
+{% block main %}
+    {% if form %}
+        <form method="post">
+            {% csrf_token %}
+            {% irunner_problems_tex form render_url %}
+
+            {% if meta_form %}
+                {% bootstrap_form meta_form %}
+            {% endif %}
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                <a href="{% url 'problems:tex' problem.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+{% endblock %}

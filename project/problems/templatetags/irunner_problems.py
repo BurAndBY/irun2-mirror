@@ -36,3 +36,8 @@ def irunner_problems_outputfile(filename):
         return {'filename': filename, 'emph': False}
     else:
         return {'filename': 'stdout', 'emph': True}
+
+
+@register.inclusion_tag('problems/irunner_problems_tex_tag.html')
+def irunner_problems_tex(form, render_url):
+    return {'form': form, 'render_url': render_url}

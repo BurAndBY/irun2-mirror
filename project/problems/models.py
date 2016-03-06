@@ -95,6 +95,9 @@ class ProblemRelatedFile(FileMetadataBase):
         SAMPLE_OUTPUT_FILE,
         USER_FILE,
     )
+    TEX_FILE_TYPES = (
+        STATEMENT_TEX,
+    )
 
     problem = models.ForeignKey(Problem)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)

@@ -7,23 +7,27 @@
         <span class="ir-icon-label">{% trans 'Problem' %} {{ problem.numbered_full_name }}</span>
     </a>
     <a href="{% url 'problems:statement' problem.id %}" class="list-group-item {% if active_tab == 'statement' %} active{% endif %}">
-        {% bootstrap_icon 'file' %} 
+        {% bootstrap_icon 'file' %}
         <span class="ir-icon-label">{% trans 'Statement' %}</span>
     </a>
     <a href="{% url 'problems:tests' problem.id %}" class="list-group-item {% if active_tab == 'tests' %} active{% endif %}">
-        {% bootstrap_icon 'list-alt' %} 
+        {% bootstrap_icon 'list-alt' %}
         <span class="ir-icon-label">{% trans 'Tests' %}</span>
     </a>
     <a href="{% url 'problems:solutions' problem.id %}" class="list-group-item {% if active_tab == 'solutions' %} active{% endif %}">
-        {% bootstrap_icon 'tasks' %} 
+        {% bootstrap_icon 'tasks' %}
         <span class="ir-icon-label">{% trans 'Solutions' %}</span>
     </a>
     <a href="{% url 'problems:files' problem.id %}" class="list-group-item {% if active_tab == 'files' %} active{% endif %}">
-        {% bootstrap_icon 'paperclip' %} 
+        {% bootstrap_icon 'paperclip' %}
         <span class="ir-icon-label">{% trans 'Files' %}</span>
     </a>
+    <a href="{% url 'problems:tex' problem.id %}" class="list-group-item {% if active_tab == 'tex' %} active{% endif %}">
+        {% bootstrap_icon 'option-vertical' %} {% bootstrap_icon 'text-size' %}
+        <span class="ir-icon-label">{% trans 'TeX editor' %}</span>
+    </a>
     <a href="{% url 'problems:submit' problem.id %}" class="list-group-item {% if active_tab == 'submit' %} active{% endif %}">
-        {% bootstrap_icon 'send' %} 
+        {% bootstrap_icon 'send' %}
         <span class="ir-icon-label">{% trans 'Submit solution' %}</span>
     </a>
 </div>

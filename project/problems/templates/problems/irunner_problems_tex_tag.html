@@ -1,13 +1,6 @@
-{% extends "base.html" %}
-
 {% load bootstrap3 %}
 {% load i18n %}
 {% load staticfiles %}
-
-
-{% block title %}{% trans 'TeX editor' %}{% endblock %}
-
-{% block content %}
 
 <div class="ir-tex-editor">
     <!-- Nav tabs -->
@@ -68,7 +61,7 @@
             );
         }
 
-        editorBlock.find('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        editorBlock.find("a[data-toggle='tab']").on("show.bs.tab", function (e) {
             //e.target // newly activated tab
             //e.relatedTarget // previous active tab
             var target = $(e.target).attr("href");
@@ -79,7 +72,7 @@
                     "csrfmiddlewaretoken": "{{ csrf_token }}",
                     "source": $(textarea).val()
                 };
-                $.post("{% url 'problems:tex_render' %}", params).done(function(data) {
+                $.post("{{ render_url }}", params).done(function(data) {
                     if (data["log"] !== undefined) {
                         editorBlock.find(".ir-tex-log").text(data["log"]);
                     }
@@ -100,4 +93,3 @@
         });
     });
 </script>
-{% endblock %}

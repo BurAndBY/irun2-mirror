@@ -1,0 +1,33 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block main %}
+    <table class="table table-condensed table-hover table-bordered ir-problem-files-table">
+        <thead>
+            <tr>
+                <th class="ir-col-filename">{% trans 'File' %}</th>
+                <th class="ir-col-filetype">{% trans 'Type' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in related_files %}
+            <tr>
+                <td class="ir-col-filename">
+                    <a href="{% url 'problems:edit_tex' problem.id f.id %}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
+                </td>
+                <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <a href="{% url 'problems:tex_new_statement' problem.id %}">{% trans 'New statement' %}</a>
+    </p>
+    <p>
+        {% trans 'New editorial' %}
+    </p>
+{% endblock %}

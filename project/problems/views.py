@@ -24,7 +24,8 @@ from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata
 import solutions.utils
 
-from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm, TeXForm
+from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
+from .forms import TeXForm, ProblemRelatedTeXFileForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .statement import StatementRepresentation
 from .texrenderer import render_tex_with_header, render_tex
@@ -561,31 +562,153 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
 
 
 '''
-TeX editor
+TeX editor playground
 '''
 
 
 class TeXView(StaffMemberRequiredMixin, generic.View):
-    template_name = 'problems/tex.html'
+    template_name = 'problems/tex_playground.html'
 
     def get(self, request):
         form = TeXForm()
-        return render(request, self.template_name, {'form': form})
+        context = {
+            'form': form,
+            'render_url': reverse('problems:tex_playground_render'),
+        }
+        return render(request, self.template_name, context)
+
+
+def get_tex_preview(form, problem=None):
+    result = {}
+    if form.is_valid():
+        source = form.cleaned_data['source']
+        if problem is None:
+            render_result = render_tex(source)
+        else:
+            render_result = render_tex(source, input_filename=problem.input_filename, output_filename=problem.output_filename)
+        result['output'] = render_result.output
+        result['log'] = render_result.log
+    else:
+        log_lines = []
+        for field, errors in form.errors.items():
+            log_lines.extend(u'— {0}'.format(e) for e in errors)
+        result['log'] = '\n'.join(log_lines)
+    return result
 
 
 class TeXRenderView(StaffMemberRequiredMixin, generic.View):
     def post(self, request):
-        result = {}
+        form = TeXForm(request.POST)
+        return JsonResponse(get_tex_preview(form))
 
+
+'''
+TeX editor for current problem
+'''
+
+
+class ProblemTeXView(BaseProblemView):
+    tab = 'tex'
+    template_name = 'problems/texs.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        related_files = problem.problemrelatedfile_set.filter(file_type__in=ProblemRelatedFile.TEX_FILE_TYPES)
+        context = self._make_context(problem, {
+            'related_files': related_files,
+        })
+        return render(request, self.template_name, context)
+
+
+class ProblemTeXRenderView(BaseProblemView):
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = TeXForm(request.POST)
+        return JsonResponse(get_tex_preview(form, problem))
+
+
+class ProblemTeXEditView(BaseProblemView):
+    tab = 'tex'
+    template_name = 'problems/edit_tex.html'
+
+    def get(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
+        context = self._make_context(problem)
+
+        storage = create_storage()
+        tex_data = storage.represent(related_file.resource_id)
+        if tex_data is not None and tex_data.complete_text is not None:
+            context['form'] = TeXForm(initial={'source': tex_data.complete_text})
+            context['render_url'] = reverse('problems:tex_render', kwargs={'problem_id': problem_id})
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
         form = TeXForm(request.POST)
         if form.is_valid():
-            render_result = render_tex(form.cleaned_data['source'])
-            result['output'] = render_result.output
-            result['log'] = render_result.log
-        else:
-            log_lines = []
-            for field, errors in form.errors.items():
-                log_lines.extend(u'— {0}'.format(e) for e in errors)
-            result['log'] = '\n'.join(log_lines)
+            f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
+            store_and_fill_metadata(f, related_file)
+            related_file.save()
+            return redirect('problems:tex', problem_id)
 
-        return JsonResponse(result)
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+
+def _new_related_file(problem, related_file, f):
+    store_and_fill_metadata(f, related_file)
+    related_file.problem_id = problem.id
+    related_file.save()
+
+
+class BaseProblemTeXNewView(BaseProblemView):
+    tab = 'tex'
+    template_name = 'problems/edit_tex.html'
+    filename = None
+    file_type = None
+
+    def get_initial_data(self, problem):
+        return u''
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = TeXForm(initial={'source': self.get_initial_data(problem)})
+
+        meta_form = ProblemRelatedTeXFileForm(initial={'filename': self.filename})
+
+        context = self._make_context(problem, {'form': form, 'meta_form': meta_form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = TeXForm(request.POST)
+
+        related_file = ProblemRelatedFile(problem_id=problem_id, file_type=self.file_type)
+        meta_form = ProblemRelatedTeXFileForm(request.POST, instance=related_file)
+
+        if form.is_valid() and meta_form.is_valid():
+            meta_form.save(commit=False)
+            f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
+            store_and_fill_metadata(f, related_file)
+            related_file.save()
+            return redirect('problems:tex', problem_id)
+
+        context = self._make_context(problem, {'form': form, 'meta_form': meta_form})
+        return render(request, self.template_name, context)
+
+
+class ProblemTeXNewStatementView(BaseProblemTeXNewView):
+    filename = 'statement.tex'
+    file_type = ProblemRelatedFile.STATEMENT_TEX
+
+
+class ProblemTeXEditRelatedFileView(BaseProblemView):
+    def get(self, request, problem_id, file_id, filename):
+        problem = self._load(problem_id)
+        related_file = problem.problemrelatedfile_set.filter(filename=filename).first()
+        return serve_resource_metadata(request, related_file)

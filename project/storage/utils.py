@@ -29,7 +29,8 @@ def store_and_fill_metadata(f, filemetadatabase):
         return
     storage = create_storage()
     resource_id = storage.save(f)
-    filemetadatabase.filename = f.name
+    if f.name is not None:
+        filemetadatabase.filename = f.name
     filemetadatabase.size = f.size
     filemetadatabase.resource_id = resource_id
 

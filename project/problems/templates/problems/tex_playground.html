@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+
+{% block title %}{% trans 'TeX editor' %}{% endblock %}
+
+{% block content %}
+    {% irunner_problems_tex form render_url %}
+{% endblock %}

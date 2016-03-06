@@ -79,4 +79,10 @@ class ProblemSearchForm(forms.Form):
 
 
 class TeXForm(forms.Form):
-    source = forms.CharField(required=False, max_length=32768, widget=forms.Textarea(attrs={'class': 'ir-monospace', 'rows': 20}))
+    source = forms.CharField(required=False, max_length=32768, widget=forms.Textarea(attrs={'class': 'ir-monospace', 'rows': 20, 'autofocus': 'autofocus'}))
+
+
+class ProblemRelatedTeXFileForm(forms.ModelForm):
+    class Meta:
+        model = ProblemRelatedFile
+        fields = ['filename']
