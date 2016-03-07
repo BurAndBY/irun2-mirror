@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-06 19:28+0300\n"
-"PO-Revision-Date: 2016-03-06 19:29+0300\n"
+"POT-Creation-Date: 2016-03-06 20:31+0300\n"
+"PO-Revision-Date: 2016-03-06 20:31+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -479,6 +479,7 @@ msgstr "Условие"
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:16
 #: .\courses\templates\courses\settings_users_edit.html:20
+#: .\problems\templates\problems\delete_file.html:15
 #: .\problems\templates\problems\edit_file.html:12
 #: .\problems\templates\problems\edit_test.html:37
 #: .\problems\templates\problems\edit_tex.html:19
@@ -553,6 +554,9 @@ msgstr "Критерий не используется в курсах."
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
 #: .\courses\templates\courses\messages.html:109
 #: .\courses\templates\courses\settings_component.html:20
+#: .\problems\templates\problems\delete_file.html:14
+#: .\problems\templates\problems\files.html:28
+#: .\problems\templates\problems\files.html:60
 #: .\problems\templates\problems\show_test.html:31
 #: .\solutions\templates\solutions\solution_list.html:63
 #: .\users\templates\users\folder.html:43
@@ -713,7 +717,7 @@ msgstr "Отправить решение"
 #: .\courses\templates\courses\problems_statement.html:37
 #: .\courses\templates\courses\sheet.html:117
 #: .\problems\templates\problems\files.html:27
-#: .\problems\templates\problems\files.html:56
+#: .\problems\templates\problems\files.html:59
 #: .\problems\templates\problems\overview.html:12
 #: .\problems\templates\problems\show_test.html:26
 msgid "Edit"
@@ -881,7 +885,7 @@ msgstr "Автор"
 
 #: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:52
 #: .\problems\forms.py:63 .\problems\templates\problems\files.html:11
-#: .\problems\templates\problems\files.html:38
+#: .\problems\templates\problems\files.html:39
 #: .\problems\templates\problems\solutions.html:18
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:69
@@ -1045,6 +1049,10 @@ msgstr "Библиотека"
 msgid "compiler"
 msgstr "компилятор"
 
+#: .\problems\templates\problems\delete_file.html:8
+msgid "Are you sure you want to delete the file"
+msgstr "Вы уверены, что хотите удалить файл"
+
 #: .\problems\templates\problems\edit_test.html:9
 msgid "Edit the test case"
 msgstr "Редактировать тест"
@@ -1062,20 +1070,33 @@ msgid "Answer file"
 msgstr "Файл правильного ответа"
 
 #: .\problems\templates\problems\files.html:12
-#: .\problems\templates\problems\files.html:39
+#: .\problems\templates\problems\files.html:40
 #: .\problems\templates\problems\texs.html:12
 msgid "Type"
 msgstr "Тип"
 
 #: .\problems\templates\problems\files.html:13
-#: .\problems\templates\problems\files.html:40
+#: .\problems\templates\problems\files.html:41
 #: .\problems\templates\problems\overview.html:49
 #: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:29
 msgid "Description"
 msgstr "Описание"
 
-#: .\problems\templates\problems\files.html:41 .\proglangs\views.py:40
+#: .\problems\templates\problems\files.html:25
+#: .\problems\templates\problems\files.html:57
+#: .\solutions\templates\solutions\solution_source.html:18
+msgid "Open"
+msgstr "Открыть"
+
+#: .\problems\templates\problems\files.html:26
+#: .\problems\templates\problems\files.html:58
+#: .\solutions\templates\solutions\solution_source.html:19
+#: .\storage\templates\storage\show.html:11
+msgid "Download"
+msgstr "Загрузить"
+
+#: .\problems\templates\problems\files.html:42 .\proglangs\views.py:40
 #: .\solutions\forms.py:18 .\solutions\templates\solutions\solution.html:72
 msgid "Compiler"
 msgstr "Компилятор"
@@ -1586,15 +1607,6 @@ msgstr "Решения не выбраны"
 #: .\solutions\templates\solutions\solution_log.html:13
 msgid "Compilation log is not available"
 msgstr "Журнал компиляции недоступен"
-
-#: .\solutions\templates\solutions\solution_source.html:18
-msgid "Open"
-msgstr "Открыть"
-
-#: .\solutions\templates\solutions\solution_source.html:19
-#: .\storage\templates\storage\show.html:11
-msgid "Download"
-msgstr "Загрузить"
 
 #: .\solutions\templates\solutions\testcaseresult.html:17
 msgid "Output file"

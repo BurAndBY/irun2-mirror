@@ -17,14 +17,15 @@
         <tbody>
         {% for f in related_files %}
             <tr>
-                <td class="ir-col-filename">
-                    <a href="{% url 'problems:data_file_open' problem.id f.id f.filename %}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
-                </td>
+                <td class="ir-col-filename">{{ f.filename }} <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span></td>
                 <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
                 <td>{{ f.description }}</td>
                 <td class="ir-col-actions">
-                    <span class="ir-appear-on-hover ir-icons">
-                        <a href="{% url 'problems:data_file_edit' problem.id f.id %}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a>{% bootstrap_icon 'trash' %}
+                    <span class="ir-appear-on-hover ir-icons"><!--
+                        --><a href="{% url 'problems:data_file_open' problem.id f.id f.filename %}" title="{% trans 'Open' %}">{% bootstrap_icon 'file' %}</a><!--
+                        --><a href="{% url 'problems:data_file_download' problem.id f.id f.filename %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a><!--
+                        --><a href="{% url 'problems:data_file_edit' problem.id f.id %}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a><!--
+                        --><a href="{% url 'problems:data_file_delete' problem.id f.id %}" title="{% trans 'Delete' %}">{% bootstrap_icon 'trash' %}</a>
                     </span>
                 </td>
             </tr>
@@ -46,14 +47,17 @@
         {% for f in related_source_files %}
             <tr>
                 <td class="ir-col-filename">
-                    <a href="{% url 'problems:source_file_open' problem.id f.id f.filename %}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
+                    {{ f.filename }} <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
                 </td>
                 <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
                 <td>{{ f.description }}</td>
                 <td class="ir-col-compiler">{% irunner_proglangs_compilerbox f.compiler tooltip=True %}</td>
                 <td class="ir-col-actions">
-                    <span class="ir-appear-on-hover ir-icons">
-                        <a href="{% url 'problems:source_file_edit' problem.id f.id %}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a>{% bootstrap_icon 'trash' %}
+                    <span class="ir-appear-on-hover ir-icons"><!--
+                        --><a href="{% url 'problems:source_file_open' problem.id f.id f.filename %}" title="{% trans 'Open' %}">{% bootstrap_icon 'file' %}</a><!--
+                        --><a href="{% url 'problems:source_file_download' problem.id f.id f.filename %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a><!--
+                        --><a href="{% url 'problems:source_file_edit' problem.id f.id %}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a><!--
+                        --><a href="{% url 'problems:source_file_delete' problem.id f.id %}" title="{% trans 'Delete' %}">{% bootstrap_icon 'trash' %}</a>
                     </span>
                 </td>
             </tr>

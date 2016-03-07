@@ -373,6 +373,11 @@ class ProblemTestsTestEditView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
+'''
+Problem files
+'''
+
+
 class ProblemFilesView(BaseProblemView):
     tab = 'files'
     template_name = 'problems/files.html'
@@ -391,19 +396,21 @@ class ProblemFilesView(BaseProblemView):
 
 
 class ProblemFilesFileOpenView(BaseProblemView):
+    download = False
+
     def get(self, request, problem_id, file_id, filename):
         problem = self._load(problem_id)
-
         related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id, filename=filename)
-        return serve_resource_metadata(request, related_file)
+        return serve_resource_metadata(request, related_file, force_download=self.download)
 
 
 class ProblemFilesSourceFileOpenView(BaseProblemView):
+    download = False
+
     def get(self, request, problem_id, file_id, filename):
         problem = self._load(problem_id)
-
         related_file = get_object_or_404(problem.problemrelatedsourcefile_set, pk=file_id, filename=filename)
-        return serve_resource_metadata(request, related_file, content_type='text/plain')
+        return serve_resource_metadata(request, related_file, content_type='text/plain', force_download=self.download)
 
 
 class ProblemFilesBaseFileEditView(BaseProblemView):
@@ -447,6 +454,41 @@ class ProblemFilesSourceFileEditView(ProblemFilesBaseFileEditView):
 
     def get_object(self, problem, file_id):
         return get_object_or_404(problem.problemrelatedsourcefile_set, pk=file_id)
+
+
+class ProblemFilesBaseFileDeleteView(BaseProblemView):
+    tab = 'files'
+    template_name = 'problems/delete_file.html'
+
+    def get_queryset(self, problem, file_id):
+        raise NotImplementedError()
+
+    def get(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        related_file = self.get_queryset(problem, file_id).first()
+        if related_file is None:
+            return redirect('problems:files', problem.id)
+        context = self._make_context(problem, {'related_file': related_file})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id, file_id):
+        problem = self._load(problem_id)
+        self.get_queryset(problem, file_id).delete()
+        return redirect('problems:files', problem.id)
+
+
+class ProblemFilesDataFileDeleteView(ProblemFilesBaseFileDeleteView):
+    def get_queryset(self, problem, file_id):
+        return problem.problemrelatedfile_set.filter(pk=file_id)
+
+
+class ProblemFilesSourceFileDeleteView(ProblemFilesBaseFileDeleteView):
+    def get_queryset(self, problem, file_id):
+        return problem.problemrelatedsourcefile_set.filter(pk=file_id)
+
+'''
+Submit
+'''
 
 
 class ProblemSubmitView(BaseProblemView):

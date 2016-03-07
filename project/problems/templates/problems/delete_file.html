@@ -1,0 +1,18 @@
+{% extends 'problems/base.html' %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block main %}
+    <p>
+        {% trans 'Are you sure you want to delete the file' %}
+        <strong>{{ related_file.filename }}</strong> ({{ related_file.size|filesizeformat }})?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Delete' %}</button>
+            <a href="{% url 'problems:files' problem.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}
