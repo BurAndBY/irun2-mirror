@@ -196,7 +196,9 @@ h3 { font-size: 20px; line-height: 32px; }
     margin-bottom: 20px;
     line-height: 100%;
 }
-
+.ir-problem-statement img {
+    max-width: 100%;
+}
 
 /**
  * Programming Language Box
