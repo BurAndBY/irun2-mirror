@@ -33,7 +33,7 @@
             <button type="submit" class="btn btn-default">
                 {% trans 'Save' %}
             </button>
-            <a href="{% url 'problems:show_test' problem.id test_number %}" role="button" class="btn btn-default">
+            <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-default">
                 {% trans 'Cancel' %}
             </a>
         {% endbuttons %}

@@ -9,7 +9,7 @@
     {% bootstrap_form form %}
     {% buttons %}
         <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
-        <a href="{% url 'problems:files' problem.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+        <a href="{% url 'problems:files' problem.id %}{{ navigator.query_string }}" class="btn btn-default">{% trans 'Cancel' %}</a>
     {% endbuttons %}
 </form>
 {% endblock %}

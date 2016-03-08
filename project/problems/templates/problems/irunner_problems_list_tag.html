@@ -15,10 +15,10 @@
                         {% if show_checkbox %}
                             <th><input type="checkbox" id="selectall"></th>
                         {% endif %}
-                        <th>ID</th>
+                        <th>{% trans 'Level' %}</th>
                         <th>{% trans 'Name' %}</th>
-                        <th>{% trans 'Short name' %}</th>
-                        <th>{% trans 'Difficulty' %}</th>
+                        <th class="text-nowrap">{% trans 'Short name' %}</th>
+                        <th class="text-right">{% trans 'Solutions' %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,10 +27,10 @@
                         {% if show_checkbox %}
                             <td><input type="checkbox" class="ir-checkbox" name="{{ problem.id }}"></td>
                         {% endif %}
-                        <td><a href="{% url 'problems:overview' problem.id %}">{{ problem.id }}</a></td>
-                        <td>{{ problem.numbered_full_name }}</td>
-                        <td>{{ problem.numbered_short_name }}</td>
                         <td>{% irunner_problems_difficulty problem.difficulty %}</td>
+                        <td><a href="{% url 'problems:overview' problem.id %}{{ query_string }}">{{ problem.numbered_full_name }}</a></td>
+                        <td class="text-nowrap">{{ problem.numbered_short_name }}</td>
+                        <td class="text-right">{{ problem.solution_count }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

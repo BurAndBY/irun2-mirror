@@ -1,33 +1,34 @@
 {% load bootstrap3 %}
 {% load i18n %}
 
+{% with navigator.impl as nav %}
+    {% if nav %}
+        <div class="ir-navigator">
+            <div>
+                <a href="{% url active_tab_url_pattern nav.get_prev %}{{ nav.get_query_string }}">
+                    {% bootstrap_icon 'menu-left' %}
+                </a>
+                <div>
+                    <a href="{{ nav.get_folder_url }}">{{ nav.get_folder_name }}</a>
+                    <span>({{ nav.get_current_index }}&nbsp;{% trans 'of' %}&nbsp;{{ nav.get_total_count }})</span>
+                </div>
+                <a href="{% url active_tab_url_pattern nav.get_next %}{{ nav.get_query_string }}">
+                    {% bootstrap_icon 'menu-right' %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
+
 <div class="list-group ir-list-group-warning">
-    <a href="{% url 'problems:overview' problem.id %}" class="list-group-item list-group-item-warning {% if active_tab == 'overview' %} active{% endif %}">
+    <a href="{% url 'problems:overview' problem.id %}{{ navigator.query_string }}" class="list-group-item list-group-item-warning {% if active_tab == 'overview' %} active{% endif %}">
         {% bootstrap_icon 'info-sign' %}
         <span class="ir-icon-label">{% trans 'Problem' %} {{ problem.numbered_full_name }}</span>
     </a>
-    <a href="{% url 'problems:statement' problem.id %}" class="list-group-item {% if active_tab == 'statement' %} active{% endif %}">
-        {% bootstrap_icon 'file' %}
-        <span class="ir-icon-label">{% trans 'Statement' %}</span>
-    </a>
-    <a href="{% url 'problems:tests' problem.id %}" class="list-group-item {% if active_tab == 'tests' %} active{% endif %}">
-        {% bootstrap_icon 'list-alt' %}
-        <span class="ir-icon-label">{% trans 'Tests' %}</span>
-    </a>
-    <a href="{% url 'problems:solutions' problem.id %}" class="list-group-item {% if active_tab == 'solutions' %} active{% endif %}">
-        {% bootstrap_icon 'tasks' %}
-        <span class="ir-icon-label">{% trans 'Solutions' %}</span>
-    </a>
-    <a href="{% url 'problems:files' problem.id %}" class="list-group-item {% if active_tab == 'files' %} active{% endif %}">
-        {% bootstrap_icon 'paperclip' %}
-        <span class="ir-icon-label">{% trans 'Files' %}</span>
-    </a>
-    <a href="{% url 'problems:tex' problem.id %}" class="list-group-item {% if active_tab == 'tex' %} active{% endif %}">
-        {% bootstrap_icon 'option-vertical' %} {% bootstrap_icon 'text-size' %}
-        <span class="ir-icon-label">{% trans 'TeX editor' %}</span>
-    </a>
-    <a href="{% url 'problems:submit' problem.id %}" class="list-group-item {% if active_tab == 'submit' %} active{% endif %}">
-        {% bootstrap_icon 'send' %}
-        <span class="ir-icon-label">{% trans 'Submit solution' %}</span>
-    </a>
+    {% for tab in tab_manager.tabs %}
+        <a href="{% url tab.url_pattern problem.id %}{{ navigator.query_string }}" class="list-group-item{% if active_tab == tab.key %} active{% endif %}">
+            {% if tab.subtab %}{% bootstrap_icon 'option-vertical' %}{% endif %}{% bootstrap_icon tab.icon %}
+            <span class="ir-icon-label">{{ tab.name }}</span>
+        </a>
+    {% endfor %}
 </div>

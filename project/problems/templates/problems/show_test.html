@@ -9,20 +9,20 @@
 <nav>
     <ul class="pagination ir-pagination-no-margin">
         <li>
-            <a href="{% url 'problems:show_test' problem_id prev_test %}" aria-label="Previous">
+            <a href="{% url 'problems:show_test' problem_id prev_test %}{{ navigator.query_string }}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
         <li><a href="{% url 'problems:overview' problem_id %}">{% trans 'Test' %} {{ current_test }} {% trans 'of' %} {{ total_tests }}</a></li>
         <li>
-            <a href="{% url 'problems:show_test' problem_id next_test %}" aria-label="Next">
+            <a href="{% url 'problems:show_test' problem_id next_test %}{{ navigator.query_string }}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
     </ul>
     <ul class="pagination ir-pagination-no-margin">
         <li>
-            <a href="{% url 'problems:edit_test' problem_id current_test %}">
+            <a href="{% url 'problems:edit_test' problem_id current_test %}{{ navigator.query_string }}">
                 {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
             </a>
         </li>

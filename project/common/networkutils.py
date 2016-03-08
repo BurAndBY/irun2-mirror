@@ -1,6 +1,8 @@
 from functools import wraps
 
 from django.views.decorators.cache import patch_cache_control
+from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url
 
 
 def get_request_ip(request):
@@ -31,3 +33,11 @@ def never_ever_cache(decorated_function):
         patch_cache_control(response, no_cache=True, no_store=True, must_revalidate=True, max_age=0)
         return response
     return wrapper
+
+
+def redirect_with_query_string(request, *args, **kwargs):
+    url = resolve_url(*args, **kwargs)
+    if request.GET:
+        url += '?'
+        url += request.GET.urlencode()
+    return HttpResponseRedirect(url)

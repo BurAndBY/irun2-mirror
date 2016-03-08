@@ -1,0 +1,35 @@
+from django.utils.translation import ugettext_lazy as _
+
+
+class Tab(object):
+    def __init__(self, key, name, icon, url_pattern, subtab=False):
+        self.key = key
+        self.name = name
+        self.icon = icon
+        self.url_pattern = url_pattern
+        self.subtab = subtab
+
+
+class TabManager(object):
+    def __init__(self, tabs):
+        self.tabs = tabs
+
+    def get(self, key):
+        for tab in self.tabs:
+            if tab.key == key:
+                return tab
+        return None
+
+
+def create_problem_tab_manager():
+    tabs = [
+        Tab('statement', _('Statement'), 'file', 'problems:statement'),
+        Tab('tests', _('Tests'), 'list-alt', 'problems:tests'),
+        Tab('solutions', _('Solutions'), 'tasks', 'problems:solutions'),
+        Tab('files', _('Files'), 'paperclip', 'problems:files'),
+        Tab('tex', _('TeX editor'), 'text-size', 'problems:tex', subtab=True),
+        Tab('submit', _('Submit solution'), 'send', 'problems:submit'),
+    ]
+    return TabManager(tabs)
+
+PROBLEM_TAB_MANAGER = create_problem_tab_manager()

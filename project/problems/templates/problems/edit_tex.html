@@ -16,7 +16,7 @@
 
             {% buttons %}
                 <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
-                <a href="{% url 'problems:tex' problem.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+                <a href="{% url 'problems:tex' problem.id %}{{ navigator.query_string }}" class="btn btn-default">{% trans 'Cancel' %}</a>
             {% endbuttons %}
         </form>
     {% endif %}

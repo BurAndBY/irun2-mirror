@@ -8,7 +8,7 @@ import re
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
@@ -17,6 +17,7 @@ from mptt.templatetags.mptt_tags import cache_tree_children
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
+from common.networkutils import redirect_with_query_string
 from common.pageutils import paginate
 from common.views import IRunnerBaseListView, IRunnerListView
 from solutions.forms import SolutionForm
@@ -27,9 +28,11 @@ import solutions.utils
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
+from .navigator import Navigator
 from .statement import StatementRepresentation
 from .texrenderer import render_tex_with_header, render_tex
 from .description import IDescriptionImageLoader, render_description
+from .tabs import PROBLEM_TAB_MANAGER
 
 '''
 Problem statement
@@ -153,9 +156,16 @@ class BaseProblemView(StaffMemberRequiredMixin, generic.View):
         return get_object_or_404(Problem, pk=problem_id)
 
     def _make_context(self, problem, extra=None):
+        tab_manager = PROBLEM_TAB_MANAGER
+        active_tab = tab_manager.get(self.tab)
+        active_tab_url_pattern = active_tab.url_pattern if active_tab is not None else 'problems:overview'
+
         context = {
             'problem': problem,
             'active_tab': self.tab,
+            'navigator': Navigator(problem.id, self.request.GET),
+            'tab_manager': tab_manager,
+            'active_tab_url_pattern': active_tab_url_pattern,
         }
         if extra is not None:
             context.update(extra)
@@ -362,7 +372,7 @@ class ProblemTestsTestEditView(BaseProblemView):
                 test_case.set_answer(storage, answer_file)
 
             test_case.save()
-            return redirect('problems:show_test', problem.id, test_number)
+            return redirect_with_query_string(request, 'problems:show_test', problem.id, test_number)
 
         context = self._make_context(problem, {
             'input_form': input_form,
@@ -555,11 +565,20 @@ class ProblemFolderMixin(object):
 
 class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListView):
     template_name = 'problems/list_folder.html'
-    paginate_by = 50
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super(ShowFolderView, self).get_context_data(**kwargs)
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        if folder_id_or_root:
+            context['query_string'] = '?nav-folder={0}'.format(folder_id_or_root)
+        return context
 
     def get_queryset(self):
         folder_id = cast_id(self.kwargs['folder_id_or_root'])
-        return Problem.objects.filter(folders__id=folder_id)
+        return Problem.objects\
+            .filter(folders__id=folder_id)\
+            .annotate(solution_count=Count('solution'))
 
 
 '''
@@ -588,6 +607,7 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
             terms = query.split()
             if terms:
                 queryset = queryset.filter(reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
+        queryset = queryset.annotate(solution_count=Count('solution'))
         return queryset
 
     def get(self, request):

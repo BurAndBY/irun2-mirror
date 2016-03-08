@@ -14,11 +14,12 @@ def irunner_problems_statement(statement):
 
 
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
-def irunner_problems_list(problems, pagination_context=None, show_checkbox=False):
+def irunner_problems_list(problems, pagination_context=None, show_checkbox=False, query_string=u''):
     return {
         'problems': problems,
         'pagination_context': pagination_context,
-        'show_checkbox': show_checkbox
+        'show_checkbox': show_checkbox,
+        'query_string': query_string
     }
 
 

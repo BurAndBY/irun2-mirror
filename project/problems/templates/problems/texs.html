@@ -16,7 +16,7 @@
         {% for f in related_files %}
             <tr>
                 <td class="ir-col-filename">
-                    <a href="{% url 'problems:edit_tex' problem.id f.id %}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
+                    <a href="{% url 'problems:edit_tex' problem.id f.id %}{{ navigator.query_string }}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
                 </td>
                 <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
             </tr>

@@ -16,7 +16,7 @@
     <tbody>
     {% for tc in test_cases %}
         <tr>
-            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}">{{ tc.ordinal_number }}</a></td>
+            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{{ tc.ordinal_number }}</a></td>
             <td>{{ tc.id }}</td>
             <td>{{ tc.time_limit }}</td>
             <td>{{ tc.input_file }} {{ tc.input_size|filesizeformat }}</td>

@@ -3,7 +3,7 @@ from collections import namedtuple
 
 from django.http import Http404
 
-ROOT = 'root'
+ROOT = u'root'
 
 # id may be integer (then object is not None) or ROOT (the object is None)
 NodeEx = namedtuple('NodeEx', 'object folder_id')

@@ -24,7 +24,7 @@
 
     {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
 
-    {% irunner_problems_list object_list pagination_context %}
+    {% irunner_problems_list problems=object_list pagination_context=pagination_context query_string=query_string %}
 
     <script>
     $(document).ready(function () {
