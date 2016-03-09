@@ -36,10 +36,10 @@
         </dl>
         <dl class="dl-horizontal">
             <dt>{% trans 'Input' %}</dt>
-            <dd><tt>{{ problem.input_filename }}</tt></dd>
+            <dd>{% irunner_problems_inputfile problem.input_filename %}</dd>
 
             <dt>{% trans 'Output' %}</dt>
-            <dd><tt>{{ problem.output_filename }}</tt></dd>
+            <dd>{% irunner_problems_outputfile problem.output_filename %}</dd>
         </dl>
 
         {% with problem.problemextrainfo as extra %}

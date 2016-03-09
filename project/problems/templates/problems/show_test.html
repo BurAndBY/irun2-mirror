@@ -2,6 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_problems %}
 {% load irunner_storage %}
 
 {% block main %}
@@ -13,7 +14,11 @@
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li><a href="{% url 'problems:overview' problem_id %}">{% trans 'Test' %} {{ current_test }} {% trans 'of' %} {{ total_tests }}</a></li>
+        <li>
+            <a href="{% url 'problems:tests' problem_id %}{{ navigator.query_string }}">
+                {% trans 'Test' %} {{ current_test }} {% trans 'of' %} {{ total_tests }}
+            </a>
+        </li>
         <li>
             <a href="{% url 'problems:show_test' problem_id next_test %}{{ navigator.query_string }}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -34,10 +39,26 @@
     </ul>
 </nav>
 
-{% if description.text or description.images %}
-    <div>
-        {{ description.text|linebreaksbr }}
-    </div>
+<table class="ir-test-info">
+    <tbody>
+        <tr>
+            <td>{% trans 'Time limit' %}</td>
+            <td>{% irunner_problems_timelimit time_limit %}</td>
+        </tr>
+        <tr>
+            <td>{% trans 'Memory limit' %}</td>
+            <td>{% irunner_problems_memorylimit memory_limit %}</td>
+        </tr>
+        {% if description.text %}
+            <tr>
+                <td>{% trans 'Description' %}</td>
+                <td>{{ description.text|linebreaksbr }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% if description.images %}
     {% if description.images %}
         {% for filename in description.images %}
             <div class="ir-imagebox">
@@ -54,11 +75,21 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h4>{% trans 'Input file' %}</h4>
+        <h4>
+            <a href="{% url 'problems:test_input_open' problem.id current_test %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
+            <a href="{% url 'problems:test_input_download' problem.id current_test %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
+            {% irunner_problems_inputfile problem.input_filename %}
+            <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
+        </h4>
         {% irunner_storage_show input_repr %}
     </div>
     <div class="col-md-6">
-        <h4>{% trans 'Answer file' %}</h4>
+        <h4>
+            <a href="{% url 'problems:test_answer_open' problem.id current_test %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
+            <a href="{% url 'problems:test_answer_download' problem.id current_test %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
+            {% irunner_problems_outputfile problem.output_filename %}
+            <span class="ir-file-size">[{{ answer_repr.size|filesizeformat }}]</span>
+        </h4>
         {% irunner_storage_show answer_repr %}
     </div>
 </div>

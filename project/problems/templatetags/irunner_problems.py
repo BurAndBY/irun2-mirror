@@ -2,7 +2,7 @@ from django import template
 from django.utils.formats import number_format
 from django.utils.translation import ugettext as _
 
-from common.constants import STDIN, STDOUT
+from common.constants import NO, STDIN, STDOUT
 
 register = template.Library()
 
@@ -93,6 +93,8 @@ LimitStrings = namedtuple('LimitStrings', 'time_limit memory_limit')
 
 
 def time_formatter(value):
+    if not value:
+        return NO
     if value % 1000 == 0:
         # integer number of seconds
         seconds = unicode(value // 1000)
@@ -103,6 +105,8 @@ def time_formatter(value):
 
 
 def memory_formatter(value):
+    if not value:
+        return NO
     if value % (1024 * 1024) == 0:
         megabytes = unicode(value // (1024 * 1024))
     else:
@@ -128,3 +132,13 @@ def irunner_problems_heading(problem):
         'time_limit': ls.time_limit,
         'memory_limit': ls.memory_limit,
     }
+
+
+@register.simple_tag
+def irunner_problems_timelimit(value):
+    return time_formatter(value)
+
+
+@register.simple_tag
+def irunner_problems_memorylimit(value):
+    return memory_formatter(value)

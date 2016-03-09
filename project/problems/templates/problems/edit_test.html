@@ -6,7 +6,7 @@
 
 {% block main %}
 
-    <h2>{% trans 'Edit the test case' %}</h2>
+    <h2>{% trans 'Edit the test case' %} {% trans '#' %}{{ test_number }}</h2>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

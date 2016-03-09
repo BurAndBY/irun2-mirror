@@ -1051,3 +1051,31 @@ tr:hover .ir-appear-on-hover {
     font-size: 12px;
     line-height: 16px;
 }
+
+/**
+ * Test info fake table
+ */
+.ir-test-info > tbody > tr > td:first-child {
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: right;
+    vertical-align: top;
+    padding-right: 10px;
+}
+.ir-test-info > tbody > tr > td:last-child {
+    text-align: left;
+    vertical-align: top;
+    padding-left: 10px;
+}
+.ir-test-info {
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+
+
+/**
+ * Tests list
+ */
+.ir-clickable-row {
+    cursor: pointer;
+}

@@ -8,3 +8,4 @@ TREE_LEVEL_INDICATOR = u'—'
 
 STDIN = _('standard input')
 STDOUT = _('standard output')
+NO = _('no')

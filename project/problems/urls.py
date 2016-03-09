@@ -12,6 +12,11 @@ problem_urlpatterns = [
     url(r'^tests/(?P<test_number>[0-9]+)/edit/$', views.ProblemTestsTestEditView.as_view(), name='edit_test'),
     url(r'^tests/(?P<test_number>[0-9]+)/image/(?P<filename>.+)$', views.ProblemTestsTestImageView.as_view(), name='test_image'),
 
+    url(r'^tests/open/input-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='input', download=False), name='test_input_open'),
+    url(r'^tests/download/input-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='input', download=True), name='test_input_download'),
+    url(r'^tests/open/answer-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='answer', download=False), name='test_answer_open'),
+    url(r'^tests/download/answer-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='answer', download=True), name='test_answer_download'),
+
     url(r'^solutions/$', views.ProblemSolutionsView.as_view(), name='solutions'),
 
     url(r'^files/$', views.ProblemFilesView.as_view(), name='files'),

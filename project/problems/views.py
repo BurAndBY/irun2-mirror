@@ -171,6 +171,11 @@ class BaseProblemView(StaffMemberRequiredMixin, generic.View):
         return context
 
 
+'''
+Overview
+'''
+
+
 class ProblemOverviewView(BaseProblemView):
     tab = 'overview'
     template_name = 'problems/overview.html'
@@ -183,6 +188,11 @@ class ProblemOverviewView(BaseProblemView):
         context['solution_count'] = problem.solution_set.count()
         context['file_count'] = problem.problemrelatedfile_set.count()
         return render(request, self.template_name, context)
+
+
+'''
+Solutions
+'''
 
 
 class ProblemSolutionsView(BaseProblemView, IRunnerBaseListView):
@@ -198,6 +208,11 @@ class ProblemSolutionsView(BaseProblemView, IRunnerBaseListView):
 
         context = self.get_context_data(**self._make_context(problem))
         return render(request, self.template_name, context)
+
+
+'''
+Statement
+'''
 
 
 class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
@@ -243,6 +258,11 @@ class ProblemEditView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
+'''
+Tests
+'''
+
+
 class ProblemTestsView(BaseProblemView):
     tab = 'tests'
     template_name = 'problems/tests.html'
@@ -276,10 +296,13 @@ class ProblemTestsTestView(BaseProblemView):
         problem_id = int(problem_id)
         test_number = int(test_number)
 
-        storage = create_storage()
-        test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
+        test_case = TestCase.objects.filter(problem_id=problem_id, ordinal_number=test_number).first()
+        if test_case is None:
+            return redirect_with_query_string(request, 'problems:tests', problem.id)
+
         total_tests = TestCase.objects.filter(problem_id=problem_id).count()
 
+        storage = create_storage()
         input_repr = storage.represent(test_case.input_resource_id)
         answer_repr = storage.represent(test_case.answer_resource_id)
 
@@ -295,6 +318,8 @@ class ProblemTestsTestView(BaseProblemView):
             'input_repr': input_repr,
             'answer_repr': answer_repr,
             'description': description,
+            'time_limit': test_case.time_limit,
+            'memory_limit': test_case.memory_limit,
         })
         return render(request, self.template_name, context)
 
@@ -307,6 +332,23 @@ class ProblemTestsTestImageView(BaseProblemView):
             filter(filename=filename).\
             first()
         return serve_resource_metadata(request, related_file)
+
+
+class ProblemTestsTestDataView(BaseProblemView):
+    download = False
+    kind = None
+
+    def get(self, request, problem_id, test_number):
+        self._load(problem_id)
+        resource_id = None
+        test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
+
+        if self.kind == 'input':
+            resource_id = test_case.input_resource_id
+        elif self.kind == 'answer':
+            resource_id = test_case.answer_resource_id
+
+        return serve_resource(self.request, resource_id, content_type='text/plain', force_download=self.download)
 
 
 class ProblemTestsTestEditView(BaseProblemView):

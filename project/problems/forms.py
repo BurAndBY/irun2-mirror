@@ -30,7 +30,7 @@ class TestDescriptionForm(forms.ModelForm):
         model = TestCase
         fields = ['description']
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 2}),
+            'description': forms.Textarea(attrs={'rows': 3}),
         }
 
 
