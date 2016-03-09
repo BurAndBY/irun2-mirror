@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-06 20:31+0300\n"
-"PO-Revision-Date: 2016-03-06 20:31+0300\n"
+"POT-Creation-Date: 2016-03-08 22:14+0300\n"
+"PO-Revision-Date: 2016-03-08 22:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -114,6 +114,14 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
+#: .\common\constants.py:9
+msgid "standard input"
+msgstr "стандартный ввод"
+
+#: .\common\constants.py:10
+msgid "standard output"
+msgstr "стандартный вывод"
+
 #: .\common\templates\common\about.html:5
 #: .\common\templates\common\about.html:8 .\templates\base.html:52
 msgctxt "about the system"
@@ -169,6 +177,7 @@ msgstr "Страница"
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:28
 #: .\problems\templates\problems\show_test.html:16
+#: .\problems\templates\problems\sidebar.html:13
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
 #: .\solutions\templates\solutions\judgement.html:21
 #: .\solutions\templates\solutions\solution.html:53
@@ -243,7 +252,8 @@ msgstr ""
 #: .\courses\templates\courses\solutions.html:34
 #: .\courses\templates\courses\standings.html:60
 #: .\problems\templates\problems\base.html:5
-#: .\problems\templates\problems\sidebar.html:7
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:5
+#: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\solution.html:34
 #: .\solutions\templates\solutions\solution_list.html:30
 msgid "Problem"
@@ -268,7 +278,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: .\courses\forms.py:109 .\courses\templates\courses\settings_base.html:15
-#: .\problems\templates\problems\list_base.html:6
+#: .\problems\navigator.py:22 .\problems\templates\problems\list_base.html:6
 #: .\problems\templates\problems\list_folder.html:11
 #: .\problems\templates\problems\list_folder.html:21
 #: .\problems\templates\problems\tree.html:6 .\templates\navbar.html:23
@@ -279,7 +289,7 @@ msgstr "Задачи"
 msgid "User"
 msgstr "Пользователь"
 
-#: .\courses\forms.py:155
+#: .\courses\forms.py:155 .\problems\templatetags\irunner_problems.py:78
 msgid "no"
 msgstr "нет"
 
@@ -469,8 +479,7 @@ msgstr "№"
 msgid "Assign"
 msgstr "Назначить"
 
-#: .\courses\templates\courses\assign.html:93
-#: .\problems\templates\problems\sidebar.html:11
+#: .\courses\templates\courses\assign.html:93 .\problems\tabs.py:26
 msgid "Statement"
 msgstr "Условие"
 
@@ -616,7 +625,8 @@ msgid "Best solution"
 msgstr "Наилучшее решение"
 
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:70
-#: .\problems\templates\problems\sidebar.html:19
+#: .\problems\tabs.py:28
+#: .\problems\templates\problems\irunner_problems_list_tag.html:21
 #: .\solutions\templates\solutions\solution_list.html:11
 #: .\templates\navbar.html:24
 msgid "Solutions"
@@ -709,8 +719,7 @@ msgstr "Задача не назначена"
 #: .\courses\templates\courses\problems_statement.html:31
 #: .\courses\templates\courses\sidebar.html:72
 #: .\courses\templates\courses\submission.html:6
-#: .\courses\templates\courses\submit.html:6
-#: .\problems\templates\problems\sidebar.html:31
+#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:31
 msgid "Submit solution"
 msgstr "Отправить решение"
 
@@ -1049,6 +1058,19 @@ msgstr "Библиотека"
 msgid "compiler"
 msgstr "компилятор"
 
+#: .\problems\tabs.py:27
+msgid "Tests"
+msgstr "Тесты"
+
+#: .\problems\tabs.py:29
+msgid "Files"
+msgstr "Файлы"
+
+#: .\problems\tabs.py:30 .\problems\templates\problems\tex_playground.html:7
+#: .\templates\navbar.html:34
+msgid "TeX editor"
+msgstr "Редактор TeX"
+
 #: .\problems\templates\problems\delete_file.html:8
 msgid "Are you sure you want to delete the file"
 msgstr "Вы уверены, что хотите удалить файл"
@@ -1101,6 +1123,29 @@ msgstr "Загрузить"
 msgid "Compiler"
 msgstr "Компилятор"
 
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:7
+msgid "Input file name"
+msgstr "Имя входного файла"
+
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:8
+msgid "Output file name"
+msgstr "Имя выходного файла"
+
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:10
+#: .\problems\templates\problems\tests.html:11
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
+msgid "Time limit"
+msgstr "Ограничение по времени"
+
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:13
+#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
+msgid "Memory limit"
+msgstr "Ограничение по памяти"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:18
+msgid "Level"
+msgstr "Уровень"
+
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\problems\templates\problems\overview.html:28
 msgid "Name"
@@ -1111,15 +1156,11 @@ msgstr "Название"
 msgid "Short name"
 msgstr "Короткое название"
 
-#: .\problems\templates\problems\irunner_problems_list_tag.html:21
-msgid "Difficulty"
-msgstr "Сложность"
-
 #: .\problems\templates\problems\irunner_problems_list_tag.html:40
 msgid "No problems"
 msgstr "Нет задач"
 
-#: .\problems\templates\problems\irunner_problems_statement_tag.html:19
+#: .\problems\templates\problems\irunner_problems_statement_tag.html:23
 msgid "There is no statement for this problem"
 msgstr "В системе нет условия для этой задачи"
 
@@ -1223,29 +1264,10 @@ msgstr[2] "файлов"
 msgid "Test"
 msgstr "Тест"
 
-#: .\problems\templates\problems\sidebar.html:15
-msgid "Tests"
-msgstr "Тесты"
-
-#: .\problems\templates\problems\sidebar.html:23
-msgid "Files"
-msgstr "Файлы"
-
-#: .\problems\templates\problems\sidebar.html:27
-#: .\problems\templates\problems\tex_playground.html:7
-#: .\templates\navbar.html:34
-msgid "TeX editor"
-msgstr "Редактор TeX"
-
 #: .\problems\templates\problems\solutions.html:17
 #: .\solutions\templates\solutions\solution.html:61
 msgid "Submission time"
 msgstr "Время отправления"
-
-#: .\problems\templates\problems\tests.html:11
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
-msgid "Time limit"
-msgstr "Ограничение по времени"
 
 #: .\problems\templates\problems\texs.html:28
 msgid "New statement"
@@ -1255,13 +1277,20 @@ msgstr "Новое условие"
 msgid "New editorial"
 msgstr "Новый разбор"
 
-#: .\problems\texrenderer.py:10
-msgid "standard input"
-msgstr "стандартный ввод"
+#: .\problems\templatetags\irunner_problems.py:83
+#, python-format
+msgid "from %(from)s to %(to)s"
+msgstr "от %(from)s до %(to)s"
 
-#: .\problems\texrenderer.py:11
-msgid "standard output"
-msgstr "стандартный вывод"
+#: .\problems\templatetags\irunner_problems.py:102
+#, python-format
+msgid "%(seconds)s s"
+msgstr "%(seconds)s с"
+
+#: .\problems\templatetags\irunner_problems.py:110
+#, python-format
+msgid "%(megabytes)s MB"
+msgstr "%(megabytes)s МБ"
 
 #: .\proglangs\models.py:17
 msgid "Unknown"
@@ -1432,10 +1461,6 @@ msgstr "Вы уверены, что хотите %(action)s эти решени�
 #: .\solutions\templates\solutions\confirm_multiple.html:33
 msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
-
-#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
-msgid "Memory limit"
-msgstr "Ограничение по памяти"
 
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:6
@@ -1983,6 +2008,9 @@ msgstr "Права доступа"
 msgid "Mass user registration"
 msgstr "Массовая регистрация пользователей"
 
+#~ msgid "Difficulty"
+#~ msgstr "Сложность"
+
 #~ msgid "Penalty problem"
 #~ msgstr "Штрафная задача"
 
@@ -2023,12 +2051,6 @@ msgstr "Массовая регистрация пользователей"
 
 #~ msgid "Action"
 #~ msgstr "Действие"
-
-#~ msgid "Input file name"
-#~ msgstr "Имя входного файла"
-
-#~ msgid "Output file name"
-#~ msgstr "Имя выходного файла"
 
 #~ msgid "List of Solutions"
 #~ msgstr "Список решений"

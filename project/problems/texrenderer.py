@@ -1,14 +1,13 @@
 from collections import namedtuple
 
 from django.utils.html import escape
-from django.utils.translation import ugettext_lazy as _
+
+from common.constants import STDIN, STDOUT
 
 # for strings passed to external library
 TEX2HTML_ENCODING = 'utf-8'
 
 IMAGE_PATH = u'/fIpZ6d9gT5GYgPFox3cO/'
-STDIN = _('standard input')
-STDOUT = _('standard output')
 
 '''
 output contains HTML data

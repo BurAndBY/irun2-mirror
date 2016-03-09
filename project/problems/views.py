@@ -76,15 +76,14 @@ class ProblemStatementMixin(object):
                 if tex_statement_resource_id is None:
                     tex_statement_resource_id = related_file.resource_id
 
-        st = StatementRepresentation()
+        st = StatementRepresentation(problem)
 
         # TeX
         if st.is_empty and tex_statement_resource_id is not None:
             storage = create_storage()
             tex_data = storage.represent(tex_statement_resource_id)
             if tex_data is not None and tex_data.complete_text is not None:
-                render_result = render_tex_with_header(tex_data.complete_text, problem)
-                # render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename)
+                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename)
                 st.content = render_result.output
 
         # HTML

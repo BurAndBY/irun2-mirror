@@ -1037,3 +1037,17 @@ tr:hover .ir-appear-on-hover {
     border-bottom-right-radius: 4px;
     width: 45px;
 }
+
+.ir-problem-heading {
+    text-align: center;
+}
+.ir-problem-heading .ir-problem-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #225A8D;
+}
+.ir-problem-heading .ir-problem-constraints {
+    color: #aaa;
+    font-size: 12px;
+    line-height: 16px;
+}

@@ -1,5 +1,9 @@
 {% load i18n %}
 
+{% load irunner_problems %}
+
+{% irunner_problems_heading statement.problem %}
+
 {% if statement.attachment_name %}
 Download <a href="{{ statement.attachment_name|urlencode }}">{{ statement.attachment_name }}</a>
 {% endif %}

@@ -1,5 +1,6 @@
 class StatementRepresentation(object):
-    def __init__(self):
+    def __init__(self, problem):
+        self.problem = problem
         self.attachment_name = None
         self.iframe_name = None
         self.content = None
