@@ -29,19 +29,21 @@ function irPerformActionOnSelected(url, nextUrl, nothingSelectedMessage) {
         if (nextUrl) {
             params["next"] = nextUrl;
         }
-        var target = url + "?" + $.param(params, true /*traditional*/);
+        var target = url + ((url.indexOf("?") == -1) ? "?" : "&") + $.param(params, true /*traditional*/);
         window.location.href = target;
     }
 }
 function irSetUpSelectAll() {
     $("#selectall").click(function () {
         $(".ir-checkbox").prop("checked", this.checked);
+        $(".ir-checkbox-driven").prop("disabled", !this.checked);
     });
-
     $(".ir-checkbox").change(function () {
         var checkboxes = $(".ir-checkbox");
-        var check = (checkboxes.filter(":checked").length == checkboxes.length);
+        var numSelected = checkboxes.filter(":checked").length;
+        var check = (numSelected == checkboxes.length);
         $("#selectall").prop("checked", check);
+        $(".ir-checkbox-driven").prop("disabled", numSelected === 0);
     });
 }
 

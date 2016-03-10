@@ -54,6 +54,14 @@ class TestUploadForm(forms.Form):
         self.representation = representation
 
 
+class MassSetTimeLimitForm(forms.Form):
+    time_limit = TimeLimitField(label=_('Time limit'), required=True)
+
+
+class MassSetMemoryLimitForm(forms.Form):
+    memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
+
+
 class ProblemRelatedDataFileForm(forms.ModelForm):
     upload = forms.FileField(label=_('File'), required=False, widget=forms.FileInput)
 
@@ -82,6 +90,11 @@ Problem search
 
 class ProblemSearchForm(forms.Form):
     query = forms.CharField(required=False)
+
+
+'''
+TeX
+'''
 
 
 class TeXForm(forms.Form):

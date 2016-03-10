@@ -8,9 +8,12 @@
 
 {% bootstrap_messages %}
 
+{% csrf_token %}
+
 <table class="table table-condensed table-hover">
     <thead>
         <tr>
+            <th><input type="checkbox" id="selectall"></th>
             <th>{% trans '#' %}</th>
             <th>{% trans 'Input' %}</th>
             <th>{% trans 'Output' %}</th>
@@ -21,8 +24,9 @@
     </thead>
     <tbody>
     {% for tc in test_cases %}
-        <tr data-url="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}" class="ir-clickable-row">
-            <td>{{ tc.ordinal_number }}</td>
+        <tr>
+            <td><input type="checkbox" class="ir-checkbox" name="{{ tc.ordinal_number }}"></td>
+            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></td>
             <td>
                 <a href="{% url 'problems:test_input_open' problem.id tc.ordinal_number %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
                 <a href="{% url 'problems:test_input_download' problem.id tc.ordinal_number %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
@@ -41,11 +45,16 @@
     </tbody>
 </table>
 
+<button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_time_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default ir-checkbox-driven" disabled>
+    {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set time limit' %}</span>
+</button>
+<button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_memory_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default ir-checkbox-driven" disabled>
+    {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set memory limit' %}</span>
+</button>
+
 <script>
     jQuery(document).ready(function($) {
-        $(".ir-clickable-row").click(function() {
-            window.document.location = $(this).data("url");
-        });
+        irSetUpSelectAll();
     });
 </script>
 {% endblock %}

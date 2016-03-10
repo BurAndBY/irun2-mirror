@@ -9,3 +9,18 @@ def str_to_uint(s):
     if n < 0:
         raise Http404('Less than zero')
     return n
+
+
+def make_int_list_quiet(ids):
+    '''
+    Fails silently
+    '''
+    result = set()
+    for x in ids:
+        for y in x.split(','):
+            try:
+                y = int(y)
+                result.add(y)
+            except (TypeError, ValueError):
+                pass
+    return list(result)

@@ -18,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.templatetags.mptt_tags import cache_tree_children
 
 from cauth.mixins import StaffMemberRequiredMixin
+from common.cast import make_int_list_quiet
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
 from common.networkutils import redirect_with_query_string
 from common.pageutils import paginate
@@ -28,7 +29,7 @@ from storage.utils import serve_resource, serve_resource_metadata, store_and_fil
 import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
-from .forms import TeXForm, ProblemRelatedTeXFileForm
+from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -462,6 +463,57 @@ class ProblemTestsTestEditView(BaseProblemView):
         })
         return render(request, self.template_name, context)
 
+
+class ProblemTestsBatchSetView(BaseProblemView):
+    template_name = 'problems/batch_edit_tests.html'
+    tab = 'tests'
+    form_class = None
+    url_pattern = None
+
+    def apply(self, queryset, valid_form):
+        raise NotImplementedError()
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        ids = make_int_list_quiet(request.GET.getlist('id'))
+        context = self._make_context(problem, {
+            'form': self.form_class(),
+            'ids': ids,
+            'url_pattern': self.url_pattern,
+        })
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        ids = make_int_list_quiet(request.POST.getlist('id'))
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            queryset = problem.testcase_set.filter(ordinal_number__in=ids)
+            self.apply(queryset, form)
+            return redirect_with_query_string(request, 'problems:tests', problem.id)
+
+        context = self._make_context(problem, {
+            'form': form,
+            'ids': ids,
+            'url_pattern': self.url_pattern,
+        })
+        return render(request, self.template_name, context)
+
+
+class ProblemTestsSetTimeLimitView(ProblemTestsBatchSetView):
+    form_class = MassSetTimeLimitForm
+    url_pattern = 'problems:tests_mass_time_limit'
+
+    def apply(self, queryset, valid_form):
+        queryset.update(time_limit=valid_form.cleaned_data['time_limit'])
+
+
+class ProblemTestsSetMemoryLimitView(ProblemTestsBatchSetView):
+    form_class = MassSetMemoryLimitForm
+    url_pattern = 'problems:tests_mass_memory_limit'
+
+    def apply(self, queryset, valid_form):
+        queryset.update(memory_limit=valid_form.cleaned_data['memory_limit'])
 
 '''
 Problem files
