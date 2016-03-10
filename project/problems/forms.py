@@ -1,7 +1,10 @@
 from django import forms
-from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
-from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from django.utils.translation import ugettext_lazy as _
+
+from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
+
+from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
+from .fields import TimeLimitField, MemoryLimitField
 
 '''
 Edit single problem
@@ -26,9 +29,12 @@ class ProblemExtraInfoForm(forms.ModelForm):
 
 
 class TestDescriptionForm(forms.ModelForm):
+    time_limit = TimeLimitField(required=True)
+    memory_limit = MemoryLimitField(required=False)
+
     class Meta:
         model = TestCase
-        fields = ['description']
+        fields = ['description', 'points', 'time_limit', 'memory_limit']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }

@@ -320,6 +320,7 @@ class ProblemTestsTestView(BaseProblemView):
             'description': description,
             'time_limit': test_case.time_limit,
             'memory_limit': test_case.memory_limit,
+            'points': test_case.points,
         })
         return render(request, self.template_name, context)
 
@@ -564,7 +565,7 @@ class ProblemSubmitView(BaseProblemView):
                     form.cleaned_data['compiler'],
                     form.cleaned_data['text'],
                     form.cleaned_data['upload'],
-                    problem_id=problem.id
+                    problem_id=problem.id,
                 )
                 solutions.utils.judge(solution)
 

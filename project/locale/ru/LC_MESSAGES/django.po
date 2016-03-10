@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-08 22:14+0300\n"
-"PO-Revision-Date: 2016-03-08 22:14+0300\n"
+"POT-Creation-Date: 2016-03-10 03:14+0300\n"
+"PO-Revision-Date: 2016-03-10 03:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -51,7 +51,7 @@ msgstr "Изменить язык интерфейса"
 #: .\courses\templates\courses\settings_users_edit.html:17
 #: .\problems\templates\problems\edit.html:14
 #: .\problems\templates\problems\edit_file.html:11
-#: .\problems\templates\problems\edit_test.html:34
+#: .\problems\templates\problems\edit_test.html:57
 #: .\problems\templates\problems\edit_tex.html:18
 #: .\proglangs\templates\proglangs\edit.html:14
 #: .\users\templates\users\create_form.html:33
@@ -122,6 +122,11 @@ msgstr "стандартный ввод"
 msgid "standard output"
 msgstr "стандартный вывод"
 
+#: .\common\constants.py:11 .\courses\forms.py:155
+#: .\problems\templatetags\irunner_problems.py:78
+msgid "no"
+msgstr "нет"
+
 #: .\common\templates\common\about.html:5
 #: .\common\templates\common\about.html:8 .\templates\base.html:52
 msgctxt "about the system"
@@ -176,7 +181,7 @@ msgstr "Страница"
 
 #: .\common\templates\common\irunner_pagination_tag.html:34
 #: .\courses\templates\courses\problems_base.html:28
-#: .\problems\templates\problems\show_test.html:16
+#: .\problems\templates\problems\show_test.html:19
 #: .\problems\templates\problems\sidebar.html:13
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
 #: .\solutions\templates\solutions\judgement.html:21
@@ -216,6 +221,7 @@ msgid "Remove all"
 msgstr "Удалить всё"
 
 #: .\common\templatetags\irunner_time.py:11
+#: .\problems\templates\problems\edit_test.html:26
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
 msgid "s"
@@ -225,7 +231,7 @@ msgstr "с"
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\courses\forms.py:39 .\problems\forms.py:12
+#: .\courses\forms.py:39 .\problems\forms.py:15
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
@@ -288,10 +294,6 @@ msgstr "Задачи"
 #: .\courses\forms.py:129
 msgid "User"
 msgstr "Пользователь"
-
-#: .\courses\forms.py:155 .\problems\templatetags\irunner_problems.py:78
-msgid "no"
-msgstr "нет"
 
 #: .\courses\forms.py:197 .\courses\settingsviews.py:95
 #: .\courses\templates\courses\sheet.html:31
@@ -467,7 +469,8 @@ msgstr "уровень"
 #: .\courses\templates\courses\sheet.html:30
 #: .\courses\templates\courses\standings.html:23
 #: .\courses\templates\courses\standings_wide.html:18
-#: .\problems\templates\problems\tests.html:9
+#: .\problems\templates\problems\edit_test.html:11
+#: .\problems\templates\problems\tests.html:11
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
 msgid "#"
@@ -490,7 +493,7 @@ msgstr "Условие"
 #: .\courses\templates\courses\settings_users_edit.html:20
 #: .\problems\templates\problems\delete_file.html:15
 #: .\problems\templates\problems\edit_file.html:12
-#: .\problems\templates\problems\edit_test.html:37
+#: .\problems\templates\problems\edit_test.html:60
 #: .\problems\templates\problems\edit_tex.html:19
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\delete.html:28 .\users\templates\users\move.html:29
@@ -566,7 +569,7 @@ msgstr "Критерий не используется в курсах."
 #: .\problems\templates\problems\delete_file.html:14
 #: .\problems\templates\problems\files.html:28
 #: .\problems\templates\problems\files.html:60
-#: .\problems\templates\problems\show_test.html:31
+#: .\problems\templates\problems\show_test.html:36
 #: .\solutions\templates\solutions\solution_list.html:63
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
@@ -728,7 +731,7 @@ msgstr "Отправить решение"
 #: .\problems\templates\problems\files.html:27
 #: .\problems\templates\problems\files.html:59
 #: .\problems\templates\problems\overview.html:12
-#: .\problems\templates\problems\show_test.html:26
+#: .\problems\templates\problems\show_test.html:31
 msgid "Edit"
 msgstr "Правка"
 
@@ -892,8 +895,8 @@ msgstr "Применить"
 msgid "Author"
 msgstr "Автор"
 
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:52
-#: .\problems\forms.py:63 .\problems\templates\problems\files.html:11
+#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:58
+#: .\problems\forms.py:69 .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\files.html:39
 #: .\problems\templates\problems\solutions.html:18
 #: .\problems\templates\problems\texs.html:11
@@ -965,6 +968,32 @@ msgstr "Ваше сообщение сохранено."
 #: .\irunner2\settings_prod.py:43
 msgid "Wiki"
 msgstr "Вики"
+
+#: .\problems\fields.py:53
+msgid "Time limit cannot be negative."
+msgstr "Ограничение по времени не может быть отрицательным."
+
+#: .\problems\fields.py:54
+#, python-format
+msgid "Time limit is too big (exceeds %(limit)s s)."
+msgstr "Ограничение по времени слишком большое (превышает %(limit)s с)."
+
+#: .\problems\fields.py:55
+msgid "Time limit is too small."
+msgstr "Ограничение по времени слишком маленькое."
+
+#: .\problems\fields.py:64
+msgid "Memory limit cannot be negative."
+msgstr "Ограничение по памяти не может быть отрицательным."
+
+#: .\problems\fields.py:65
+#, python-format
+msgid "Memory limit is too big (exceeds %(limit)s MB)."
+msgstr "Ограничение по памяти слишком большое (превышает %(limit)s МБ)."
+
+#: .\problems\fields.py:66
+msgid "Memory limit is too small."
+msgstr "Ограничение по памяти слишком маленькое."
 
 #: .\problems\models.py:22 .\problems\models.py:131
 msgid "number"
@@ -1075,18 +1104,45 @@ msgstr "Редактор TeX"
 msgid "Are you sure you want to delete the file"
 msgstr "Вы уверены, что хотите удалить файл"
 
-#: .\problems\templates\problems\edit_test.html:9
+#: .\problems\templates\problems\edit_test.html:11
 msgid "Edit the test case"
 msgstr "Редактировать тест"
 
-#: .\problems\templates\problems\edit_test.html:17
-#: .\problems\templates\problems\show_test.html:57
+#: .\problems\templates\problems\edit_test.html:22
+#: .\problems\templates\problems\show_test.html:45
+#: .\problems\templates\problems\tests.html:14
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
+#: .\solutions\templates\solutions\judgement.html:20
+#: .\solutions\templates\solutions\solution.html:52
+msgid "Score"
+msgstr "Очки"
+
+#: .\problems\templates\problems\edit_test.html:26
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:10
+#: .\problems\templates\problems\show_test.html:49
+#: .\problems\templates\problems\tests.html:15
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
+msgid "Time limit"
+msgstr "Ограничение по времени"
+
+#: .\problems\templates\problems\edit_test.html:30
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:13
+#: .\problems\templates\problems\show_test.html:53
+#: .\problems\templates\problems\tests.html:16
+#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
+msgid "Memory limit"
+msgstr "Ограничение по памяти"
+
+#: .\problems\templates\problems\edit_test.html:30
+msgid "MB"
+msgstr "МБ"
+
+#: .\problems\templates\problems\edit_test.html:40
 #: .\solutions\templates\solutions\testcaseresult.html:11
 msgid "Input file"
 msgstr "Входной файл"
 
-#: .\problems\templates\problems\edit_test.html:24
-#: .\problems\templates\problems\show_test.html:61
+#: .\problems\templates\problems\edit_test.html:47
 #: .\solutions\templates\solutions\testcaseresult.html:23
 msgid "Answer file"
 msgstr "Файл правильного ответа"
@@ -1100,6 +1156,7 @@ msgstr "Тип"
 #: .\problems\templates\problems\files.html:13
 #: .\problems\templates\problems\files.html:41
 #: .\problems\templates\problems\overview.html:49
+#: .\problems\templates\problems\show_test.html:58
 #: .\proglangs\templates\proglangs\index.html:19
 #: .\users\templates\users\profile_show.html:29
 msgid "Description"
@@ -1107,12 +1164,20 @@ msgstr "Описание"
 
 #: .\problems\templates\problems\files.html:25
 #: .\problems\templates\problems\files.html:57
+#: .\problems\templates\problems\show_test.html:83
+#: .\problems\templates\problems\show_test.html:92
+#: .\problems\templates\problems\tests.html:24
+#: .\problems\templates\problems\tests.html:29
 #: .\solutions\templates\solutions\solution_source.html:18
 msgid "Open"
 msgstr "Открыть"
 
 #: .\problems\templates\problems\files.html:26
 #: .\problems\templates\problems\files.html:58
+#: .\problems\templates\problems\show_test.html:84
+#: .\problems\templates\problems\show_test.html:93
+#: .\problems\templates\problems\tests.html:25
+#: .\problems\templates\problems\tests.html:30
 #: .\solutions\templates\solutions\solution_source.html:19
 #: .\storage\templates\storage\show.html:11
 msgid "Download"
@@ -1130,17 +1195,6 @@ msgstr "Имя входного файла"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:8
 msgid "Output file name"
 msgstr "Имя выходного файла"
-
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:10
-#: .\problems\templates\problems\tests.html:11
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
-msgid "Time limit"
-msgstr "Ограничение по времени"
-
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
-msgid "Memory limit"
-msgstr "Ограничение по памяти"
 
 #: .\problems\templates\problems\irunner_problems_list_tag.html:18
 msgid "Level"
@@ -1259,7 +1313,7 @@ msgstr[0] "файл"
 msgstr[1] "файла"
 msgstr[2] "файлов"
 
-#: .\problems\templates\problems\show_test.html:16
+#: .\problems\templates\problems\show_test.html:19
 #: .\solutions\templates\solutions\testcaseresult.html:50
 msgid "Test"
 msgstr "Тест"
@@ -1282,12 +1336,12 @@ msgstr "Новый разбор"
 msgid "from %(from)s to %(to)s"
 msgstr "от %(from)s до %(to)s"
 
-#: .\problems\templatetags\irunner_problems.py:102
+#: .\problems\templatetags\irunner_problems.py:104
 #, python-format
 msgid "%(seconds)s s"
 msgstr "%(seconds)s с"
 
-#: .\problems\templatetags\irunner_problems.py:110
+#: .\problems\templatetags\irunner_problems.py:114
 #, python-format
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
@@ -1480,12 +1534,6 @@ msgstr "отменено"
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:10
 msgid "Outcome"
 msgstr "Вердикт"
-
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
-#: .\solutions\templates\solutions\judgement.html:20
-#: .\solutions\templates\solutions\solution.html:52
-msgid "Score"
-msgstr "Очки"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:13
 msgid "Memory"

@@ -1079,3 +1079,29 @@ tr:hover .ir-appear-on-hover {
 .ir-clickable-row {
     cursor: pointer;
 }
+
+
+/**
+ * Test edit
+ */
+.ir-test-limits {
+    width: 100%;
+}
+.ir-test-limits > tbody > tr > td:first-child {
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.ir-test-limits > tbody > tr > td:last-child {
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 4px;
+    min-width: 100px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.ir-test-limits .form-group {
+    margin: 0;
+}

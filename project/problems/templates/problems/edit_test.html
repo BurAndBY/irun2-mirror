@@ -5,12 +5,35 @@
 {% load irunner_storage %}
 
 {% block main %}
-
-    <h2>{% trans 'Edit the test case' %} {% trans '#' %}{{ test_number }}</h2>
-
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form description_form %}
+
+        <h2>{% trans 'Edit the test case' %} {% trans '#' %}{{ test_number }}</h2>
+        {% bootstrap_form_errors description_form %}
+
+        <div class="row">
+            <div class="col-md-7">
+                {% bootstrap_field description_form.description %}
+            </div>
+            <div class="col-md-5">
+                <table class="ir-test-limits">
+                    <tbody>
+                        <tr>
+                            <td>{% trans 'Score' %}</td>
+                            <td>{% bootstrap_field description_form.points show_label=False %}</td>
+                        </tr>
+                        <tr>
+                            <td>{% trans 'Time limit' %}&nbsp;({% trans 's' %})</td>
+                            <td>{% bootstrap_field description_form.time_limit show_label=False %}</td>
+                        </tr>
+                        <tr>
+                            <td>{% trans 'Memory limit' %}&nbsp;({% trans 'MB' %})</td>
+                            <td>{% bootstrap_field description_form.memory_limit show_label=False %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-6">
@@ -30,7 +53,7 @@
         </div>
 
         {% buttons %}
-            <button type="submit" class="btn btn-default">
+            <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
             <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-default">
