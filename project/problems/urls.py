@@ -9,7 +9,9 @@ problem_urlpatterns = [
 
     url(r'^tests/$', views.ProblemTestsView.as_view(), name='tests'),
     url(r'^tests/(?P<test_number>[0-9]+)/$', views.ProblemTestsTestView.as_view(), name='show_test'),
+    url(r'^tests/new/$', views.ProblemTestsNewView.as_view(), name='new_test'),
     url(r'^tests/(?P<test_number>[0-9]+)/edit/$', views.ProblemTestsTestEditView.as_view(), name='edit_test'),
+    url(r'^tests/(?P<test_number>[0-9]+)/delete/$', views.ProblemTestsDeleteView.as_view(), name='delete_test'),
     url(r'^tests/(?P<test_number>[0-9]+)/image/(?P<filename>.+)$', views.ProblemTestsTestImageView.as_view(), name='test_image'),
     url(r'^tests/batch/set/time-limit/$', views.ProblemTestsSetTimeLimitView.as_view(), name='tests_mass_time_limit'),
     url(r'^tests/batch/set/memory-limit/$', views.ProblemTestsSetMemoryLimitView.as_view(), name='tests_mass_memory_limit'),

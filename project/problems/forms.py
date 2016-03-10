@@ -1,4 +1,5 @@
 from django import forms
+from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 
 from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
@@ -44,6 +45,16 @@ class TestUploadOrTextForm(forms.Form):
     upload = forms.FileField(required=False, widget=forms.FileInput)
     text = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'ir-monospace'}))
 
+    def extract_file_result(self):
+        '''
+        Always returns not None.
+        '''
+        upload = self.cleaned_data['upload']
+        if upload is None:
+            text = self.cleaned_data['text']
+            upload = ContentFile(text.encode('utf-8'))
+        return upload
+
 
 class TestUploadForm(forms.Form):
     upload = forms.FileField(required=False, widget=forms.FileInput)
@@ -52,6 +63,10 @@ class TestUploadForm(forms.Form):
         representation = kwargs.pop('representation')
         super(TestUploadForm, self).__init__(*args, **kwargs)
         self.representation = representation
+
+    def extract_file_result(self):
+        upload = self.cleaned_data['upload']
+        return upload
 
 
 class MassSetTimeLimitForm(forms.Form):

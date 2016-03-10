@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.db.models import Q, Count
+from django.db.models import F, Q, Count
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
@@ -367,17 +367,6 @@ class ProblemTestsTestEditView(BaseProblemView):
         else:
             return TestUploadForm(data=data, files=files, prefix=prefix, representation=representation)
 
-    def _extract_form_result(self, form):
-        '''
-        Returns file object if file must be replaced, else returns None (leave the initial data untouched).
-        '''
-        upload = form.cleaned_data['upload']
-        if upload is None:
-            text = form.cleaned_data.get('text')
-            if text is not None:
-                upload = ContentFile(text.encode('utf-8'))
-        return upload
-
     def get(self, request, problem_id, test_number):
         problem = self._load(problem_id)
         test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
@@ -435,14 +424,15 @@ class ProblemTestsTestEditView(BaseProblemView):
 
             changed = description_form.changed_data
 
-            input_file = self._extract_form_result(input_form)
+            input_file = input_form.extract_file_result()
+            # Returns file object if file must be replaced, else returns None (leave the initial data untouched).
             if input_file is not None:
                 resource_id_before = test_case.input_resource_id
                 test_case.set_input(storage, input_file)
                 if resource_id_before != test_case.input_resource_id:
                     changed.append('input_resource_id')
 
-            answer_file = self._extract_form_result(answer_form)
+            answer_file = answer_form.extract_file_result()
             if answer_file is not None:
                 resource_id_before = test_case.answer_resource_id
                 test_case.set_answer(storage, answer_file)
@@ -462,6 +452,62 @@ class ProblemTestsTestEditView(BaseProblemView):
             'test_number': test_number,
         })
         return render(request, self.template_name, context)
+
+
+class ProblemTestsNewView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/edit_test.html'
+
+    def _make_data_form(self, prefix, data=None, files=None):
+        return TestUploadOrTextForm(data=data, files=files, prefix=prefix)
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        input_form = self._make_data_form('input')
+        answer_form = self._make_data_form('answer')
+        description_form = TestDescriptionForm(initial={'time_limit': 1000})
+
+        context = self._make_context(problem, {
+            'input_form': input_form,
+            'answer_form': answer_form,
+            'description_form': description_form,
+        })
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        storage = create_storage()
+        input_form = self._make_data_form('input', data=request.POST, files=request.FILES)
+        answer_form = self._make_data_form('answer', data=request.POST, files=request.FILES)
+        description_form = TestDescriptionForm(data=request.POST)
+
+        if input_form.is_valid() and answer_form.is_valid() and description_form.is_valid():
+            test_case = description_form.save(commit=False)
+            test_case.set_input(storage, input_form.extract_file_result())
+            test_case.set_answer(storage, answer_form.extract_file_result())
+            test_case.problem = problem
+            test_case.ordinal_number = problem.testcase_set.count() + 1  # TODO: fix possible data race
+            test_case.save()
+            return redirect_with_query_string(request, 'problems:tests', problem.id)
+
+        context = self._make_context(problem, {
+            'input_form': input_form,
+            'answer_form': answer_form,
+            'description_form': description_form,
+        })
+        return render(request, self.template_name, context)
+
+
+class ProblemTestsDeleteView(BaseProblemView):
+    def post(self, request, problem_id, test_number):
+        problem = self._load(problem_id)
+        with transaction.atomic():
+            problem.testcase_set.filter(ordinal_number=test_number).delete()
+            # TODO: in Django 1.9: assert rows_deleted in (0, 1)
+            problem.testcase_set.filter(ordinal_number__gt=test_number).update(ordinal_number=F('ordinal_number') - 1)
+        return redirect_with_query_string(request, 'problems:tests', problem.id)
 
 
 class ProblemTestsBatchSetView(BaseProblemView):

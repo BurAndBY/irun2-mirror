@@ -4,11 +4,20 @@
 {% load i18n %}
 {% load irunner_storage %}
 
+{# test_number is not set when the test is new #}
+
 {% block main %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <h2>{% trans 'Edit the test case' %} {% trans '#' %}{{ test_number }}</h2>
+        <h2>
+            {% if test_number %}
+                {% trans 'Edit the test case' %} {% trans '#' %}{{ test_number }}
+            {% else %}
+                {% trans 'New test case' %}
+            {% endif %}
+        </h2>
+
         {% bootstrap_form_errors description_form %}
 
         <div class="row">
@@ -56,7 +65,11 @@
             <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
-            <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-default">
+            {% if test_number %}
+                <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-default">
+            {% else %}
+                <a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-default">
+            {% endif %}
                 {% trans 'Cancel' %}
             </a>
         {% endbuttons %}
