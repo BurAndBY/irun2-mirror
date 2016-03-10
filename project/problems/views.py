@@ -273,7 +273,7 @@ class ProblemTestsView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        test_cases = problem.testcase_set.all()
+        test_cases = problem.testcase_set.all().order_by('ordinal_number')
 
         context = self._make_context(problem, {'test_cases': test_cases})
         return render(request, self.template_name, context)
