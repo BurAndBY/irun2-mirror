@@ -5,6 +5,7 @@ import mimetypes
 import operator
 import re
 
+from django.contrib import messages
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
@@ -12,6 +13,7 @@ from django.db.models import Q, Count
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
+from django.utils.translation import ugettext_lazy as _
 
 from mptt.templatetags.mptt_tags import cache_tree_children
 
@@ -393,6 +395,31 @@ class ProblemTestsTestEditView(BaseProblemView):
 
         return render(request, self.template_name, context)
 
+    field_names = {
+        'points': _('score'),
+        'time_limit': _('time limit'),
+        'memory_limit': _('memory limit'),
+        'description': _('description'),
+        'input_resource_id': _('input file'),
+        'answer_resource_id': _('answer file'),
+    }
+
+    def _notify_about_changes(self, test_number, changed_fields):
+        message = unicode(_('Test case #%(number)s has been saved.') % {'number': test_number})
+
+        names = []
+        for field in changed_fields:
+            name = self.field_names.get(field)
+            if name:
+                names.append(name)
+        if names:
+            message += u' '
+            message += unicode(_('Changes:'))
+            message += u' '
+            message += u', '.join(unicode(name) for name in names)
+            message += u'.'
+        return message
+
     def post(self, request, problem_id, test_number):
         problem = self._load(problem_id)
         test_case = get_object_or_404(TestCase, problem_id=problem_id, ordinal_number=test_number)
@@ -405,13 +432,24 @@ class ProblemTestsTestEditView(BaseProblemView):
         if input_form.is_valid() and answer_form.is_valid() and description_form.is_valid():
             test_case = description_form.save(commit=False)
 
+            changed = description_form.changed_data
+
             input_file = self._extract_form_result(input_form)
             if input_file is not None:
+                resource_id_before = test_case.input_resource_id
                 test_case.set_input(storage, input_file)
+                if resource_id_before != test_case.input_resource_id:
+                    changed.append('input_resource_id')
 
             answer_file = self._extract_form_result(answer_form)
             if answer_file is not None:
+                resource_id_before = test_case.answer_resource_id
                 test_case.set_answer(storage, answer_file)
+                if resource_id_before != test_case.answer_resource_id:
+                    changed.append('answer_resource_id')
+
+            if changed:
+                messages.add_message(request, messages.SUCCESS, self._notify_about_changes(test_number, changed))
 
             test_case.save()
             return redirect_with_query_string(request, 'problems:show_test', problem.id, test_number)
