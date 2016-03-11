@@ -5,7 +5,6 @@ from . import views
 problem_urlpatterns = [
     url(r'^$', views.ProblemOverviewView.as_view(), name='overview'),
     url(r'^statement/(?P<filename>.+)?$', views.ProblemStatementView.as_view(), name='statement'),
-    url(r'^edit/$', views.ProblemEditView.as_view(), name='edit'),
 
     url(r'^tests/$', views.ProblemTestsView.as_view(), name='tests'),
     url(r'^tests/(?P<test_number>[0-9]+)/$', views.ProblemTestsTestView.as_view(), name='show_test'),
@@ -42,6 +41,8 @@ problem_urlpatterns = [
 
     url(r'^submit/$', views.ProblemSubmitView.as_view(), name='submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
+    url(r'^folders/$', views.ProblemFoldersView.as_view(), name='folders'),
+    url(r'^properties/$', views.ProblemPropertiesView.as_view(), name='properties'),
 ]
 
 urlpatterns = [

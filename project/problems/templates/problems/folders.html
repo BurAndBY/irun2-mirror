@@ -5,12 +5,18 @@
 
 {% block main %}
 
+{% bootstrap_messages %}
+
+<p>
+    {% trans 'A problem may be put into several folders. Use <kbd>Ctrl</kbd> key to select multiple options.' %}
+</p>
+
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
 
     {% buttons %}
-        <button type="submit" class="btn btn-default">
+        <button type="submit" class="btn btn-default btn-primary">
             {% trans 'Save' %}
         </button>
     {% endbuttons %}

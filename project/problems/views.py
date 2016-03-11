@@ -19,6 +19,7 @@ from mptt.templatetags.mptt_tags import cache_tree_children
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
+from common.constants import CHANGES_HAVE_BEEN_SAVED
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
 from common.networkutils import redirect_with_query_string
 from common.pageutils import paginate
@@ -30,7 +31,7 @@ from storage.utils import serve_resource, serve_resource_metadata, store_and_fil
 import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
-from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm
+from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -191,6 +192,7 @@ class ProblemOverviewView(BaseProblemView):
         context['test_count'] = problem.testcase_set.count()
         context['solution_count'] = problem.solution_set.count()
         context['file_count'] = problem.problemrelatedfile_set.count()
+        context['folders'] = problem.folders.all()
         return render(request, self.template_name, context)
 
 
@@ -243,32 +245,6 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 
         context = self._make_context(problem)
         context['statement'] = st
-        return render(request, self.template_name, context)
-
-
-class ProblemEditView(BaseProblemView):
-    tab = 'overview'
-    template_name = 'problems/edit.html'
-
-    def get(self, request, problem_id):
-        problem = self._load(problem_id)
-
-        form = ProblemForm(instance=problem)
-
-        context = self._make_context(problem)
-        context['form'] = form
-        return render(request, self.template_name, context)
-
-    def post(self, request, problem_id):
-        problem = self._load(problem_id)
-
-        form = ProblemForm(request.POST, instance=problem)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('problems:overview', args=(problem.id,)))
-
-        context = self._make_context(problem)
-        context['form'] = form
         return render(request, self.template_name, context)
 
 
@@ -963,3 +939,63 @@ class ProblemTeXEditRelatedFileView(BaseProblemView):
         problem = self._load(problem_id)
         related_file = problem.problemrelatedfile_set.filter(filename=filename).first()
         return serve_resource_metadata(request, related_file)
+
+
+'''
+Folders
+'''
+
+
+class ProblemFoldersView(BaseProblemView):
+    tab = 'folders'
+    template_name = 'problems/folders.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = ProblemFoldersForm(instance=problem)
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = ProblemFoldersForm(request.POST, instance=problem)
+        if form.is_valid():
+            form.save()
+            if form.has_changed():
+                messages.add_message(request, messages.SUCCESS, CHANGES_HAVE_BEEN_SAVED)
+            return redirect_with_query_string(request, 'problems:folders', problem.id)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+
+'''
+Properties
+'''
+
+
+class ProblemPropertiesView(BaseProblemView):
+    tab = 'properties'
+    template_name = 'problems/properties.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = ProblemForm(instance=problem)
+
+        context = self._make_context(problem)
+        context['form'] = form
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = ProblemForm(request.POST, instance=problem)
+        if form.is_valid():
+            form.save()
+            if form.has_changed():
+                messages.add_message(request, messages.SUCCESS, CHANGES_HAVE_BEEN_SAVED)
+            return redirect_with_query_string(request, 'problems:properties', problem.id)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)

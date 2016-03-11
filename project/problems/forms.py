@@ -13,14 +13,28 @@ Edit single problem
 
 
 class ProblemForm(forms.ModelForm):
-    folders = OrderedTreeNodeMultipleChoiceField(label=_('Problem folder'), queryset=None, required=False)
+    class Meta:
+        model = Problem
+        fields = ['number', 'subnumber', 'full_name', 'short_name', 'difficulty', 'input_filename', 'output_filename']
+        help_texts = {
+            'input_filename': _('Leave empty to use standard input.'),
+            'output_filename': _('Leave empty to use standard output.'),
+        }
+
+
+class ProblemFoldersForm(forms.ModelForm):
+    folders = OrderedTreeNodeMultipleChoiceField(
+        widget=forms.SelectMultiple(attrs={'size': 20}),
+        label=_('Problem folders'),
+        queryset=None,
+        required=False)
 
     class Meta:
         model = Problem
-        fields = ['number', 'subnumber', 'full_name', 'short_name', 'difficulty', 'input_filename', 'output_filename', 'folders']
+        fields = ['folders']
 
     def __init__(self, *args, **kwargs):
-        super(ProblemForm, self).__init__(*args, **kwargs)
+        super(ProblemFoldersForm, self).__init__(*args, **kwargs)
         self.fields['folders'].queryset = ProblemFolder.objects.all()
 
 

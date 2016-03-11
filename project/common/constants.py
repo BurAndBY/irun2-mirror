@@ -10,6 +10,7 @@ TREE_LEVEL_INDICATOR = u'—'
 STDIN = _('standard input')
 STDOUT = _('standard output')
 NO = _('no')
+CHANGES_HAVE_BEEN_SAVED = _('Your changes have been saved.')
 
 
 def make_empty_select(name):

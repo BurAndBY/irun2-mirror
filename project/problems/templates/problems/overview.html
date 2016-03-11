@@ -9,7 +9,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         {% trans 'Main properties' %}
-        <div class="pull-right"><a href="{% url 'problems:edit' problem.id %}" class="btn btn-default btn-xs">{% trans 'Edit' %}</a></div>
     </div>
     <div class="panel-body">
         <dl class="dl-horizontal">
@@ -34,6 +33,22 @@
                 <dd>{% irunner_problems_difficulty problem.difficulty %}</dd>
             {% endif %}
         </dl>
+
+        <dl class="dl-horizontal">
+            <dt>{% trans 'Folders' %}</dt>
+            <dd>
+                {% if folders %}
+                    <ul class="list-unstyled">
+                        {% for folder in folders %}
+                            <li><a href="{% url 'problems:show_folder' folder.id %}">{{ folder.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <a href="{% url 'problems:show_folder' 'root' %}">{% trans 'no' %}</a>
+                {% endif %}
+            </dd>
+        </dl>
+
         <dl class="dl-horizontal">
             <dt>{% trans 'Input' %}</dt>
             <dd>{% irunner_problems_inputfile problem.input_filename %}</dd>
