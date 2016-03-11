@@ -10,8 +10,8 @@ from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F, Q, Count
-from django.http import Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import Http404, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
 
@@ -35,7 +35,7 @@ from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, Mas
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .navigator import Navigator
 from .statement import StatementRepresentation
-from .texrenderer import render_tex_with_header, render_tex
+from .texrenderer import render_tex
 from .description import IDescriptionImageLoader, render_description
 from .tabs import PROBLEM_TAB_MANAGER
 
@@ -611,7 +611,7 @@ class ProblemFilesBaseFileEditView(BaseProblemView):
             form.save(commit=False)
             store_and_fill_metadata(form.cleaned_data['upload'], related_file)
             related_file.save()
-            return redirect('problems:files', problem.id)
+            return redirect_with_query_string(request, 'problems:files', problem.id)
 
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
@@ -642,14 +642,14 @@ class ProblemFilesBaseFileDeleteView(BaseProblemView):
         problem = self._load(problem_id)
         related_file = self.get_queryset(problem, file_id).first()
         if related_file is None:
-            return redirect('problems:files', problem.id)
+            return redirect_with_query_string(request, 'problems:files', problem.id)
         context = self._make_context(problem, {'related_file': related_file})
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id, file_id):
         problem = self._load(problem_id)
         self.get_queryset(problem, file_id).delete()
-        return redirect('problems:files', problem.id)
+        return redirect_with_query_string(request, 'problems:files', problem.id)
 
 
 class ProblemFilesDataFileDeleteView(ProblemFilesBaseFileDeleteView):
@@ -692,7 +692,7 @@ class ProblemSubmitView(BaseProblemView):
                 )
                 solutions.utils.judge(solution)
 
-            return redirect('problems:submission', problem.id, solution.id)
+            return redirect_with_query_string(request, 'problems:submission', problem.id, solution.id)
 
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
@@ -858,16 +858,23 @@ class ProblemTeXEditView(BaseProblemView):
     tab = 'tex'
     template_name = 'problems/edit_tex.html'
 
+    def _make_tex_context(self, problem, form):
+        context = self._make_context(problem)
+        context['form'] = form
+        context['render_url'] = reverse('problems:tex_render', kwargs={'problem_id': problem.id})
+        return context
+
     def get(self, request, problem_id, file_id):
         problem = self._load(problem_id)
         related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
-        context = self._make_context(problem)
 
         storage = create_storage()
         tex_data = storage.represent(related_file.resource_id)
         if tex_data is not None and tex_data.complete_text is not None:
-            context['form'] = TeXForm(initial={'source': tex_data.complete_text})
-            context['render_url'] = reverse('problems:tex_render', kwargs={'problem_id': problem_id})
+            form = TeXForm(initial={'source': tex_data.complete_text})
+            context = self._make_tex_context(problem, form)
+        else:
+            context = self._make_context(problem)
 
         return render(request, self.template_name, context)
 
@@ -879,9 +886,9 @@ class ProblemTeXEditView(BaseProblemView):
             f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
             store_and_fill_metadata(f, related_file)
             related_file.save()
-            return redirect('problems:tex', problem_id)
+            return redirect_with_query_string(request, 'problems:tex', problem_id)
 
-        context = self._make_context(problem, {'form': form})
+        context = self._make_tex_context(problem, form)
         return render(request, self.template_name, context)
 
 
@@ -900,14 +907,20 @@ class BaseProblemTeXNewView(BaseProblemView):
     def get_initial_data(self, problem):
         return u''
 
+    def _make_tex_context(self, problem, form, meta_form):
+        context = self._make_context(problem)
+        context['form'] = form
+        context['meta_form'] = meta_form
+        context['render_url'] = reverse('problems:tex_render', kwargs={'problem_id': problem.id})
+        return context
+
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
         form = TeXForm(initial={'source': self.get_initial_data(problem)})
-
         meta_form = ProblemRelatedTeXFileForm(initial={'filename': self.filename})
 
-        context = self._make_context(problem, {'form': form, 'meta_form': meta_form})
+        context = self._make_tex_context(problem, form, meta_form)
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id):
@@ -923,9 +936,9 @@ class BaseProblemTeXNewView(BaseProblemView):
             f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
             store_and_fill_metadata(f, related_file)
             related_file.save()
-            return redirect('problems:tex', problem_id)
+            return redirect_with_query_string(request, 'problems:tex', problem_id)
 
-        context = self._make_context(problem, {'form': form, 'meta_form': meta_form})
+        context = self._make_tex_context(problem, form, meta_form)
         return render(request, self.template_name, context)
 
 

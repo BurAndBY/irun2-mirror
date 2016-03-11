@@ -11,12 +11,9 @@
 {% csrf_token %}
 
 <p>
-    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_time_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
-        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set time limit' %}</span>
-    </button>
-    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_memory_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
-        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set memory limit' %}</span>
-    </button>
+    <a href="{% url 'problems:new_test' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New test case' %}</span>
+    </a>
 </p>
 
 <table class="table table-condensed table-hover">
@@ -55,9 +52,12 @@
 </table>
 
 <p>
-    <a href="{% url 'problems:new_test' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
-        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New test case' %}</span>
-    </a>
+    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_time_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
+        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set time limit' %}</span>
+    </button>
+    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_memory_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
+        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set memory limit' %}</span>
+    </button>
 </p>
 
 <script>
