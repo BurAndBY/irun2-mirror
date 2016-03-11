@@ -667,8 +667,8 @@ Yellow menu
  * Solution filter
  */
 .ir-solution-filter > select {
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 250px;
+    max-width: 250px;
     padding: 4px 12px;
     height: auto;
 }

@@ -15,7 +15,6 @@ from common.views import MassOperationView
 from courses.permissions import calculate_course_solution_access_level
 from problems.description import IDescriptionImageLoader, render_description
 from problems.models import ProblemRelatedFile
-from proglangs.models import Compiler
 from proglangs.utils import get_highlightjs_class
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
@@ -24,6 +23,7 @@ from .forms import AllSolutionsFilterForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
 from .permissions import SolutionPermissions, SolutionAccessLevel
 from .utils import create_judgement
+from .filters import apply_state_filter, apply_compiler_filter
 
 
 class DescriptionImageLoader(IDescriptionImageLoader):
@@ -96,43 +96,6 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/solution_list.html'
 
-    state_filters = {
-        'waiting': lambda q: q.filter(best_judgement__status=Judgement.WAITING),
-        'preparing': lambda q: q.filter(best_judgement__status=Judgement.PREPARING),
-        'compiling': lambda q: q.filter(best_judgement__status=Judgement.COMPILING),
-        'testing': lambda q: q.filter(best_judgement__status=Judgement.TESTING),
-        'finishing': lambda q: q.filter(best_judgement__status=Judgement.FINISHING),
-        'done': lambda q: q.filter(best_judgement__status=Judgement.DONE),
-        'not-done': lambda q: q.exclude(best_judgement__status=Judgement.DONE),
-        'ok': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED),
-        'ce': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.COMPILATION_ERROR),
-        'wa': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.WRONG_ANSWER),
-        'tle': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.TIME_LIMIT_EXCEEDED),
-        'mle': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.MEMORY_LIMIT_EXCEEDED),
-        'ile': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.IDLENESS_LIMIT_EXCEEDED),
-        'rte': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.RUNTIME_ERROR),
-        'pe': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.PRESENTATION_ERROR),
-        'sv': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.SECURITY_VIOLATION),
-        'cf': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.CHECK_FAILED),
-    }
-
-    def _apply_filters(self, queryset, form):
-        state_filter = self.state_filters.get(form.cleaned_data['state'])
-        if state_filter is not None:
-            queryset = state_filter(queryset)
-
-        compiler_value = form.cleaned_data['compiler']
-        if compiler_value:
-            ok = False
-            for language, _ in Compiler.LANGUAGE_CHOICES:
-                if language == compiler_value:
-                    queryset = queryset.filter(compiler__language=language)
-                    ok = True
-                    break
-            if not ok:
-                queryset = queryset.filter(compiler_id=compiler_value)
-        return queryset
-
     def get(self, request):
         form = AllSolutionsFilterForm(request.GET)
 
@@ -145,7 +108,8 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             order_by('-id')
 
         if form.is_valid():
-            queryset = self._apply_filters(queryset, form)
+            queryset = apply_state_filter(queryset, form.cleaned_data['state'])
+            queryset = apply_compiler_filter(queryset, form.cleaned_data['compiler'])
 
         context = paginate(request, queryset, self.paginate_by)
         context['form'] = form

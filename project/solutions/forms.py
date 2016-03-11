@@ -3,7 +3,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from common.constants import EMPTY_SELECT
+from common.constants import EMPTY_SELECT, make_empty_select
 from proglangs.models import Compiler
 
 
@@ -43,7 +43,7 @@ class SolutionForm(forms.Form):
 
 class AllSolutionsFilterForm(forms.Form):
     STATE_CHOICES = (
-        ('', EMPTY_SELECT),
+        ('', make_empty_select(_('status'))),
         (_('state'), (
             ('waiting', _('Waiting')),
             ('preparing', _('Preparing')),
@@ -69,7 +69,7 @@ class AllSolutionsFilterForm(forms.Form):
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
 
     DEFAULT_COMPILER_CHOICES = (
-        ('', EMPTY_SELECT),
+        ('', make_empty_select(_('language'))),
         (_('language'), Compiler.LANGUAGE_CHOICES[1:]),
     )
     compiler = forms.ChoiceField(choices=DEFAULT_COMPILER_CHOICES, required=False)

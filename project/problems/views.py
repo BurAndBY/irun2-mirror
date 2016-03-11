@@ -22,8 +22,9 @@ from common.cast import make_int_list_quiet
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
 from common.networkutils import redirect_with_query_string
 from common.pageutils import paginate
-from common.views import IRunnerBaseListView, IRunnerListView
-from solutions.forms import SolutionForm
+from common.views import IRunnerListView
+from solutions.filters import apply_state_filter, apply_compiler_filter
+from solutions.forms import SolutionForm, AllSolutionsFilterForm
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata
 import solutions.utils
@@ -198,18 +199,28 @@ Solutions
 '''
 
 
-class ProblemSolutionsView(BaseProblemView, IRunnerBaseListView):
+class ProblemSolutionsView(BaseProblemView):
     tab = 'solutions'
     template_name = 'problems/solutions.html'
-    paginate_by = 12
+    paginate_by = 25
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        solutions = problem.solution_set.prefetch_related('compiler').select_related('source_code', 'best_judgement').order_by('-reception_time', 'id')
-        self.object_list = solutions
+        form = AllSolutionsFilterForm(request.GET)
 
-        context = self.get_context_data(**self._make_context(problem))
+        queryset = problem.solution_set.\
+            prefetch_related('author', 'compiler').\
+            select_related('source_code', 'best_judgement').\
+            order_by('-reception_time', 'id')
+
+        if form.is_valid():
+            queryset = apply_state_filter(queryset, form.cleaned_data['state'])
+            queryset = apply_compiler_filter(queryset, form.cleaned_data['compiler'])
+
+        context = paginate(request, queryset, self.paginate_by)
+        context = self._make_context(problem, context)
+        context['form'] = form
         return render(request, self.template_name, context)
 
 

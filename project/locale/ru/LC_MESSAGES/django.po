@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-10 21:29+0300\n"
-"PO-Revision-Date: 2016-03-10 21:29+0300\n"
+"POT-Creation-Date: 2016-03-11 19:57+0300\n"
+"PO-Revision-Date: 2016-03-11 19:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -115,15 +115,15 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\common\constants.py:9
+#: .\common\constants.py:10
 msgid "standard input"
 msgstr "стандартный ввод"
 
-#: .\common\constants.py:10
+#: .\common\constants.py:11
 msgid "standard output"
 msgstr "стандартный вывод"
 
-#: .\common\constants.py:11 .\courses\forms.py:155
+#: .\common\constants.py:12 .\courses\forms.py:155
 #: .\problems\templatetags\irunner_problems.py:78
 msgid "no"
 msgstr "нет"
@@ -285,7 +285,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: .\courses\forms.py:109 .\courses\templates\courses\settings_base.html:15
-#: .\problems\navigator.py:22 .\problems\templates\problems\list_base.html:6
+#: .\problems\navigator.py:25 .\problems\templates\problems\list_base.html:6
 #: .\problems\templates\problems\list_folder.html:11
 #: .\problems\templates\problems\list_folder.html:21
 #: .\problems\templates\problems\tree.html:6 .\templates\navbar.html:23
@@ -355,7 +355,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:81 .\problems\models.py:69 .\problems\models.py:104
-#: .\problems\models.py:125 .\problems\models.py:132 .\problems\views.py:392
+#: .\problems\models.py:125 .\problems\models.py:132 .\problems\views.py:403
 #: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -589,7 +589,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:293
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:257
 msgid "delete"
 msgstr "удалить"
 
@@ -648,7 +648,7 @@ msgstr "Время"
 
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:76
 #: .\courses\templates\courses\solutions.html:37
-#: .\problems\templates\problems\solutions.html:19
+#: .\problems\templates\problems\solutions.html:37
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_list.html:34
 msgid "Status"
@@ -886,12 +886,13 @@ msgid "My solutions"
 msgstr "Мои решения"
 
 #: .\courses\templates\courses\solutions.html:20
+#: .\problems\templates\problems\solutions.html:22
 #: .\solutions\templates\solutions\solution_list.html:19
 msgid "Apply"
 msgstr "Применить"
 
 #: .\courses\templates\courses\solutions.html:32
-#: .\problems\templates\problems\solutions.html:16
+#: .\problems\templates\problems\solutions.html:34
 #: .\solutions\templates\solutions\rejudge.html:29
 #: .\solutions\templates\solutions\rejudge_list.html:14
 #: .\solutions\templates\solutions\solution.html:22
@@ -902,7 +903,7 @@ msgstr "Автор"
 #: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:81
 #: .\problems\forms.py:92 .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\files.html:39
-#: .\problems\templates\problems\solutions.html:18
+#: .\problems\templates\problems\solutions.html:36
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:69
 #: .\solutions\templates\solutions\solution_list.html:33
@@ -1337,10 +1338,17 @@ msgstr "Тест"
 msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
-#: .\problems\templates\problems\solutions.html:17
+#: .\problems\templates\problems\solutions.html:35
 #: .\solutions\templates\solutions\solution.html:61
 msgid "Submission time"
 msgstr "Время отправления"
+
+#: .\problems\templates\problems\solutions.html:60
+#: .\solutions\templates\solutions\solution_judgements.html:15
+#: .\solutions\templates\solutions\solution_list.html:60
+msgctxt "verb"
+msgid "Rejudge"
+msgstr "Перетестировать"
 
 #: .\problems\templates\problems\tests.html:15
 msgid "Set time limit"
@@ -1373,32 +1381,32 @@ msgstr "%(seconds)s с"
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
 
-#: .\problems\views.py:389
+#: .\problems\views.py:400
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:390
+#: .\problems\views.py:401
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:391
+#: .\problems\views.py:402
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:393
+#: .\problems\views.py:404
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:394
+#: .\problems\views.py:405
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:398
+#: .\problems\views.py:409
 #, python-format
 msgid "Test case #%(number)s has been saved."
 msgstr "Тест №%(number)s сохранён."
 
-#: .\problems\views.py:407
+#: .\problems\views.py:418
 msgid "Changes:"
 msgstr "Изменения:"
 
@@ -1410,7 +1418,7 @@ msgstr "Неизвестно"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:28 .\solutions\forms.py:73
+#: .\proglangs\models.py:28 .\solutions\forms.py:72 .\solutions\forms.py:73
 msgid "language"
 msgstr "язык"
 
@@ -1449,6 +1457,10 @@ msgstr "Если вы выбираете файл, содержимое текс
 #: .\solutions\forms.py:41
 msgid "Unable to submit an empty solution."
 msgstr "Нельзя отправить пустое решение."
+
+#: .\solutions\forms.py:46
+msgid "status"
+msgstr "статус"
 
 #: .\solutions\forms.py:47
 msgid "state"
@@ -1722,12 +1734,6 @@ msgstr "IP-адрес"
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:60
-msgctxt "verb"
-msgid "Rejudge"
-msgstr "Перетестировать"
-
 #: .\solutions\templates\solutions\solution_list.html:71
 #: .\solutions\templates\solutions\solution_list.html:74
 msgid "No solutions selected"
@@ -1759,7 +1765,7 @@ msgstr "Нет данных"
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\views.py:224
+#: .\solutions\views.py:188
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"

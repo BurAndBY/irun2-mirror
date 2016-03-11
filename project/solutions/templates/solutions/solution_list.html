@@ -13,8 +13,8 @@
 {% block content %}
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
-            {% render_field form.state class='form-control' %}
             {% render_field form.compiler class='form-control' %}
+            {% render_field form.state class='form-control' %}
             <button type="submit" class="btn btn-default">
                 {% trans 'Apply' %}
             </button>
@@ -37,7 +37,7 @@
         <tbody>
             {% for solution in object_list %}
             <tr>
-                <td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td> 
+                <td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td>
                 <td>{{ solution.id }}</td>
                 <td>{% if solution.problem %}<a href="{% url 'problems:overview' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>{% else %}&mdash;{% endif %}</td>
                 <td>{% irunner_users_show solution.author %}</td>

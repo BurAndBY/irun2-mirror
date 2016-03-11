@@ -1,40 +1,69 @@
 {% extends 'problems/base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_pagination %}
 {% load irunner_users %}
+{% load widget_tweaks %}
 
 {% block main %}
 
-{% irunner_pagination pagination_context %}
-<table class="table table-condensed table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>{% trans 'Author' %}</th>
-            <th>{% trans 'Submission time' %}</th>
-            <th>{% trans 'File' %}</th>
-            <th>{% trans 'Status' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for solution in object_list %}
-        <tr>
-            <td>{{ solution.id }}</td>
-            <td>{% irunner_users_show solution.author %}</td>
-            <td>{{ solution.reception_time }}</td>
-            <td>
-                {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
-                <small><tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt></small>
-            </td>
-            <td>
-                {% irunner_solutions_judgementbox solution.best_judgement %}
-                {% if solution.best_judgement %} <small><a href="{% url 'solutions:main' solution.id %}">{{ solution.best_judgement.show_status }}</a></small>{% endif %}
-            </td>
-        </tr>
+<form method="get" class="form-inline">
+    <div class="ir-solution-filter">
+        {% for name, value in navigator.query_params %}
+            <input type="hidden" name="{{ name }}" value="{{ value }}">
         {% endfor %}
-    </tbody>
-</table>
+
+        {% render_field form.compiler class='form-control' %}
+        {% render_field form.state class='form-control' %}
+        <button type="submit" class="btn btn-default">
+            {% trans 'Apply' %}
+        </button>
+    </div>
+</form>
+
+<form method="post" target="_blank" action="{% url 'solutions:create_rejudge' %}">
+    {% csrf_token %}
+    {% irunner_pagination pagination_context %}
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectall"></th>
+                <th>{% trans 'Author' %}</th>
+                <th>{% trans 'Submission time' %}</th>
+                <th>{% trans 'File' %}</th>
+                <th>{% trans 'Status' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solution in object_list %}
+            <tr>
+                <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}"></td>
+                <td>{% irunner_users_show solution.author %}</td>
+                <td>{{ solution.reception_time }}</td>
+                <td>
+                    {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
+                    <span class="ir-monospace"><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></span>
+                </td>
+                <td>
+                    <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% buttons %}
+        <button class="btn btn-default ir-checkbox-driven" disabled>
+            {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
+        </button>
+    {% endbuttons %}
+</form>
+
+<script>
+    $(document).ready(irSetUpSelectAll);
+</script>
+
 {% endblock %}
