@@ -56,7 +56,7 @@
                                 {% with slot_result.assignment.problem as problem %}
                                     <div class="ir-row2">
                                         {% irunner_problems_difficulty problem.difficulty %}
-                                        <span class="ir-stripe">
+                                        <span class="ir-stripe ir-stripe-wide">
                                             {% for criterion_descr in slot_result.criterion_descrs %}
                                                 {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
                                             {% endfor %}
@@ -68,9 +68,7 @@
                                                 {% endif %}
                                             {% endwith %}
                                         </span>
-                                        <a href="{% url 'courses:course_problems_topic_problem' course.id topic_result.topic_id problem.id %}">
-                                            {{ problem.numbered_short_name }}
-                                        </a>
+                                        <a href="{% url 'courses:course_problems_topic_problem' course.id topic_result.topic_id problem.id %}">{{ problem.numbered_short_name }}</a>
                                     </div>
                                 {% endwith %}
                             {% endif %}

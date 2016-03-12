@@ -108,6 +108,10 @@ body {
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }
+.ir-stripe-wide {
+    margin-left: 2px;
+    margin-right: 2px;
+}
 
 /**
  * Common tuning
