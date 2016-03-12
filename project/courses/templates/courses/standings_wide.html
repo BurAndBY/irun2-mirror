@@ -36,7 +36,7 @@
                     </div>
                 </td>
 
-                <td>
+                <td class="text-nowrap">
                     {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id user_result.user.id %}">{% endif %}<!--
                     --><b>{{ user_result.user.last_name }}</b> {{ user_result.user.first_name }}<!--
                     -->{% if permissions.assign %}</a>{% endif %}
@@ -51,26 +51,30 @@
                 {% for topic_result in user_result.topic_results %}
                     {% for slot_result in topic_result.slot_results %}
                         <td class="text-nowrap ir-slot">
+                            {% spaceless %}
                             {% if slot_result.should_show_in_standings %}
                                 {% with slot_result.assignment.problem as problem %}
                                     <div class="ir-row2">
                                         {% irunner_problems_difficulty problem.difficulty %}
-                                        {% for criterion_descr in slot_result.criterion_descrs %}
-                                            {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
-                                        {% endfor %}
-                                        {% with slot_result.problem_result as pr %}
-                                            {% if pr and pr.was_submitted %}
-                                                {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
-                                            {% else %}
-                                                {% irunner_solutions_scorebox %}
-                                            {% endif %}
-                                        {% endwith %}
+                                        <span class="ir-stripe">
+                                            {% for criterion_descr in slot_result.criterion_descrs %}
+                                                {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
+                                            {% endfor %}
+                                            {% with slot_result.problem_result as pr %}
+                                                {% if pr and pr.was_submitted %}
+                                                    {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
+                                                {% else %}
+                                                    {% irunner_solutions_scorebox %}
+                                                {% endif %}
+                                            {% endwith %}
+                                        </span>
                                         <a href="{% url 'courses:course_problems_topic_problem' course.id topic_result.topic_id problem.id %}">
                                             {{ problem.numbered_short_name }}
                                         </a>
                                     </div>
                                 {% endwith %}
                             {% endif %}
+                            {% endspaceless %}
                         </td>
                     {% endfor %}
                 {% endfor %}

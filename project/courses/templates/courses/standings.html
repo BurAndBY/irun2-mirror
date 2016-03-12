@@ -60,16 +60,18 @@
                                 <span title="{% trans 'Problem' %} {{ problem.numbered_full_name }}">
                                     {% irunner_problems_difficulty problem.difficulty %}
                                 </span>
-                                {% for criterion_descr in slot_result.criterion_descrs %}
-                                    {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
-                                {% endfor %}
-                                {% with slot_result.problem_result as pr %}
-                                    {% if pr and pr.was_submitted %}
-                                        {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
-                                    {% else %}
-                                        {% irunner_solutions_scorebox %}
-                                    {% endif %}
-                                {% endwith %}
+                                <span class="ir-stripe">
+                                    {% for criterion_descr in slot_result.criterion_descrs %}
+                                        {% irunner_courses_criterion criterion_descr.criterion criterion_descr.ok %}
+                                    {% endfor %}
+                                    {% with slot_result.problem_result as pr %}
+                                        {% if pr and pr.was_submitted %}
+                                            {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
+                                        {% else %}
+                                            {% irunner_solutions_scorebox %}
+                                        {% endif %}
+                                    {% endwith %}
+                                </span>
                             {% endwith %}
                         {% endif %}
                         {% endspaceless %}

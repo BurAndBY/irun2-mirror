@@ -97,6 +97,18 @@ body {
     background-color: #5cb85c;
 }
 
+.ir-stripe > .ir-box {
+    border-radius: 0;
+}
+.ir-stripe > .ir-box:first-child {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+.ir-stripe > .ir-box:last-child {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
 /**
  * Common tuning
  */
