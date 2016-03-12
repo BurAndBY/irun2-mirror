@@ -96,7 +96,7 @@ class ProblemRelatedDataFileForm(forms.ModelForm):
 
     class Meta:
         model = ProblemRelatedFile
-        fields = ['file_type', 'description']
+        fields = ['filename', 'file_type', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
         }
@@ -107,7 +107,7 @@ class ProblemRelatedSourceFileForm(forms.ModelForm):
 
     class Meta:
         model = ProblemRelatedSourceFile
-        fields = ['file_type', 'compiler', 'description']
+        fields = ['filename', 'file_type', 'compiler', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
         }

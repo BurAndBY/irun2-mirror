@@ -609,7 +609,10 @@ class ProblemFilesBaseFileEditView(BaseProblemView):
         form = self.form_class(request.POST, request.FILES, instance=related_file)
         if form.is_valid():
             form.save(commit=False)
+            filename = related_file.filename
+            # Ignore the name of the uploaded file, use filename from form field.
             store_and_fill_metadata(form.cleaned_data['upload'], related_file)
+            related_file.filename = filename
             related_file.save()
             return redirect_with_query_string(request, 'problems:files', problem.id)
 
