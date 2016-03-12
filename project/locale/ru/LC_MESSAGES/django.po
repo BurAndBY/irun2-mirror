@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-12 00:12+0300\n"
-"PO-Revision-Date: 2016-03-12 00:17+0300\n"
+"POT-Creation-Date: 2016-03-12 17:04+0300\n"
+"PO-Revision-Date: 2016-03-12 17:07+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -477,7 +477,7 @@ msgstr "уровень"
 #: .\courses\templates\courses\standings.html:23
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\edit_test.html:15
-#: .\problems\templates\problems\tests.html:26
+#: .\problems\templates\problems\tests.html:23
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
 msgid "#"
@@ -732,7 +732,7 @@ msgstr "Задача не назначена"
 #: .\courses\templates\courses\problems_statement.html:31
 #: .\courses\templates\courses\sidebar.html:72
 #: .\courses\templates\courses\submission.html:6
-#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:33
+#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:34
 msgid "Submit solution"
 msgstr "Отправить решение"
 
@@ -898,7 +898,7 @@ msgstr "Применить"
 
 #: .\courses\templates\courses\solutions.html:32
 #: .\problems\templates\problems\solutions.html:34
-#: .\solutions\templates\solutions\rejudge.html:29
+#: .\solutions\templates\solutions\rejudge.html:30
 #: .\solutions\templates\solutions\rejudge_list.html:14
 #: .\solutions\templates\solutions\solution.html:22
 #: .\solutions\templates\solutions\solution_list.html:31
@@ -1020,7 +1020,7 @@ msgstr "Папки с задачами"
 #: .\problems\forms.py:87 .\problems\templates\problems\edit_test.html:35
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\show_test.html:51
-#: .\problems\templates\problems\tests.html:30
+#: .\problems\templates\problems\tests.html:27
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
@@ -1028,7 +1028,7 @@ msgstr "Ограничение по времени"
 #: .\problems\forms.py:91 .\problems\templates\problems\edit_test.html:39
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\show_test.html:55
-#: .\problems\templates\problems\tests.html:31
+#: .\problems\templates\problems\tests.html:28
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
@@ -1144,6 +1144,10 @@ msgstr "Файлы"
 msgid "TeX editor"
 msgstr "Редактор TeX"
 
+#: .\problems\tabs.py:33
+msgid "Pictures"
+msgstr "Картинки"
+
 #: .\problems\templates\problems\batch_edit_tests.html:8
 msgid "Batch editing"
 msgstr "Массовое редактирование"
@@ -1165,13 +1169,13 @@ msgid "Edit the test case"
 msgstr "Редактировать тест"
 
 #: .\problems\templates\problems\edit_test.html:17
-#: .\problems\templates\problems\tests.html:59
+#: .\problems\templates\problems\tests.html:15
 msgid "New test case"
 msgstr "Новый тест"
 
 #: .\problems\templates\problems\edit_test.html:31
 #: .\problems\templates\problems\show_test.html:47
-#: .\problems\templates\problems\tests.html:29
+#: .\problems\templates\problems\tests.html:26
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\judgement.html:20
 #: .\solutions\templates\solutions\solution.html:52
@@ -1211,8 +1215,8 @@ msgstr "Описание"
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\show_test.html:85
 #: .\problems\templates\problems\show_test.html:94
-#: .\problems\templates\problems\tests.html:40
-#: .\problems\templates\problems\tests.html:45
+#: .\problems\templates\problems\tests.html:37
+#: .\problems\templates\problems\tests.html:42
 #: .\solutions\templates\solutions\solution_source.html:18
 msgid "Open"
 msgstr "Открыть"
@@ -1221,8 +1225,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:58
 #: .\problems\templates\problems\show_test.html:86
 #: .\problems\templates\problems\show_test.html:95
-#: .\problems\templates\problems\tests.html:41
-#: .\problems\templates\problems\tests.html:46
+#: .\problems\templates\problems\tests.html:38
+#: .\problems\templates\problems\tests.html:43
 #: .\solutions\templates\solutions\solution_source.html:19
 #: .\storage\templates\storage\show.html:11
 msgid "Download"
@@ -1334,12 +1338,12 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:27
+#: .\problems\templates\problems\tests.html:24
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:28
+#: .\problems\templates\problems\tests.html:25
 msgid "Output"
 msgstr "Выход"
 
@@ -1354,8 +1358,21 @@ msgstr[0] "файл"
 msgstr[1] "файла"
 msgstr[2] "файлов"
 
+#: .\problems\templates\problems\pictures.html:24
+msgid "There are no pictures."
+msgstr "Нет картинок."
+
+#: .\problems\templates\problems\pictures.html:33
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:75
+msgid "Image"
+msgstr "Изображение"
+
+#: .\problems\templates\problems\pictures.html:39
+msgid "Open in new tab"
+msgstr "Открыть в новой вкладке"
+
 #: .\problems\templates\problems\show_test.html:21
-#: .\problems\templates\problems\tests.html:38
+#: .\problems\templates\problems\tests.html:35
 #: .\solutions\templates\solutions\testcaseresult.html:50
 msgid "Test"
 msgstr "Тест"
@@ -1365,6 +1382,7 @@ msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
 #: .\problems\templates\problems\solutions.html:35
+#: .\solutions\templates\solutions\rejudge.html:28
 #: .\solutions\templates\solutions\solution.html:61
 msgid "Submission time"
 msgstr "Время отправления"
@@ -1376,11 +1394,11 @@ msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\problems\templates\problems\tests.html:15
+#: .\problems\templates\problems\tests.html:56
 msgid "Set time limit"
 msgstr "Задать ограничение по времени"
 
-#: .\problems\templates\problems\tests.html:18
+#: .\problems\templates\problems\tests.html:59
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
 
@@ -1645,10 +1663,6 @@ msgstr "Сообщение чекера"
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:75
-msgid "Image"
-msgstr "Изображение"
-
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:137
 msgid "No test results"
 msgstr "Нет результатов по тестам"
@@ -1686,7 +1700,7 @@ msgid "Runs"
 msgstr "Запуски"
 
 #: .\solutions\templates\solutions\judgement_list.html:17
-#: .\solutions\templates\solutions\rejudge.html:28
+#: .\solutions\templates\solutions\rejudge.html:29
 #: .\solutions\templates\solutions\solution.html:10
 #: .\solutions\templates\solutions\solution.html:17
 msgid "Solution"
@@ -1710,23 +1724,23 @@ msgstr "В очереди"
 msgid "Creator of the rejudge"
 msgstr "Создатель перетестирования"
 
-#: .\solutions\templates\solutions\rejudge.html:30
+#: .\solutions\templates\solutions\rejudge.html:31
 msgid "Current"
 msgstr "Текущий"
 
-#: .\solutions\templates\solutions\rejudge.html:31
+#: .\solutions\templates\solutions\rejudge.html:32
 msgid "After Rejudge"
 msgstr "После перетестирования"
 
-#: .\solutions\templates\solutions\rejudge.html:74
+#: .\solutions\templates\solutions\rejudge.html:78
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: .\solutions\templates\solutions\rejudge.html:75
+#: .\solutions\templates\solutions\rejudge.html:79
 msgid "Rollback"
 msgstr "Откатить"
 
-#: .\solutions\templates\solutions\rejudge.html:81
+#: .\solutions\templates\solutions\rejudge.html:85
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 

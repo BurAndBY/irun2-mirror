@@ -1012,3 +1012,25 @@ class ProblemPropertiesView(BaseProblemView):
 
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
+
+
+'''
+Images
+'''
+
+
+class ProblemPicturesView(BaseProblemView):
+    tab = 'pictures'
+    template_name = 'problems/pictures.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        pictures = []
+
+        for related_file in problem.problemrelatedfile_set.all().order_by('filename'):
+            mime_type, encoding = mimetypes.guess_type(related_file.filename)
+            if mime_type is not None and mime_type.startswith('image/'):
+                pictures.append(related_file)
+
+        context = self._make_context(problem, {'pictures': pictures})
+        return render(request, self.template_name, context)

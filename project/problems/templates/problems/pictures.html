@@ -1,0 +1,56 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block main %}
+    {% if pictures %}
+        <div class="row">
+            {% for f in pictures %}
+                <div class="col-lg-4 col-sm-6 col-xs-12">
+                    <div class="ir-browse-image">
+                        <div>{{ f.filename }} <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span></div>
+                        <div class="ir-browse-image-data">
+                            <a href="#" class="ir-full-image-link">
+                                <img src="{% url 'problems:data_file_open' problem.id f.id f.filename %}" class="ir-fit-image" alt="{{ f.filename }}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="ir-absence">{% trans 'There are no pictures.' %}</div>
+    {% endif %}
+
+    <!-- For showing images -->
+    <div class="modal fade" id="ir_image_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans 'Image' %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img src="" id="ir_image_preview" class="ir-fit-image">
+                    </div>
+                    <p><a href="#" id="ir_image_raw_link" target="_blank">{% trans 'Open in new tab' %}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $(".ir-full-image-link").click(function(e) {
+                e.preventDefault();
+                var url = $(this).find("img").attr("src");
+                $("#ir_image_preview").attr("src", url);
+                $("#ir_image_raw_link").attr("href", url);
+                $("#ir_image_modal").modal("show");
+            });
+        });
+    </script>
+{% endblock %}

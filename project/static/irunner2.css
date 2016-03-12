@@ -1122,3 +1122,19 @@ tr:hover .ir-appear-on-hover {
     margin: 0;
     display: inline-block;
 }
+
+
+/**
+ * All problem images
+ */
+.ir-browse-image {
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    background-color: #f8f8f8;
+}
+.ir-browse-image-data {
+    height: 200px;
+    margin: 4px;
+}

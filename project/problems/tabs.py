@@ -30,6 +30,7 @@ def create_problem_tab_manager():
         Tab('solutions', _('Solutions'), 'tasks', 'problems:solutions'),
         Tab('files', _('Files'), 'paperclip', 'problems:files'),
         Tab('tex', _('TeX editor'), 'text-size', 'problems:tex', subtab=True),
+        Tab('pictures', _('Pictures'), 'picture', 'problems:pictures', subtab=True),
         Tab('submit', _('Submit solution'), 'send', 'problems:submit'),
     ]
     return TabManager(tabs)
