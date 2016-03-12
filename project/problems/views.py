@@ -762,6 +762,8 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
             posfilter = Q(number=m.group('number'))
             if m.group('subnumber') is not None:
                 posfilter = posfilter & Q(subnumber=m.group('subnumber'))
+            else:
+                posfilter = posfilter | Q(id=m.group('number'))
         else:
             posfilter = Q(full_name__icontains=word)
         return posfilter
