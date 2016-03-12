@@ -146,10 +146,14 @@ class TestCase(models.Model):
 
     def set_input(self, storage, f):
         resource_id = storage.save(f)
+        updated = (self.input_resource_id != resource_id)
         self.input_resource_id = resource_id
         self.input_size = f.size
+        return updated
 
     def set_answer(self, storage, f):
         resource_id = storage.save(f)
+        updated = (self.answer_resource_id != resource_id)
         self.answer_resource_id = resource_id
         self.answer_size = f.size
+        return updated

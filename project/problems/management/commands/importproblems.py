@@ -51,8 +51,27 @@ def _import_problem_tree(db, folder_id, obj=None):
 class Command(BaseCommand):
     help = 'Does some magical work'
 
+    def add_arguments(self, parser):
+        parser.add_argument('first_problem_id', nargs='?', type=int)
+        parser.add_argument('last_problem_id', nargs='?', type=int)
+
+    def _parse_options(self, options):
+        first_problem_id = options['first_problem_id']
+        if first_problem_id is not None:
+            last_problem_id = options['last_problem_id']
+            if last_problem_id is None:
+                last_problem_id = first_problem_id
+        else:
+            first_problem_id = 1
+            last_problem_id = 10000
+        return first_problem_id, last_problem_id
+
     def handle(self, *args, **options):
         logger = logging.getLogger('irunner_import')
+
+        first_problem_id, last_problem_id = self._parse_options(options)
+        logger.info('Problems to import: from %d to %d', first_problem_id, last_problem_id)
+
         db = connect_irunner_db()
 
         ROOT_FOLDER = 4
@@ -61,7 +80,8 @@ class Command(BaseCommand):
                 _import_problem_tree(db, ROOT_FOLDER)
 
         cur = db.cursor()
-        cur.execute('SELECT taskID, shortName, name, memoryLimit, taskGroupID, author, offered, place, authorContacts FROM irunner_task')
+        cur.execute('''SELECT taskID, shortName, name, memoryLimit, taskGroupID, author, offered, place, authorContacts
+                       FROM irunner_task WHERE taskId >= %s AND taskId <= %s''', (first_problem_id, last_problem_id))
 
         storage = create_storage()
 
@@ -99,30 +119,35 @@ class Command(BaseCommand):
                         problem.output_filename = subrow[0]
                         output_mf_id = subrow[2]
 
-                problem.testcase_set.all().delete()
+                problem.save()
+
                 tests = {}
 
                 subc.execute('''SELECT testID, description, points, time FROM irunner_test WHERE taskID = %s ORDER BY testID''', (task_id, ))
                 for i, r in enumerate(subc):
                     test_id = r[0]
-                    tests[test_id] = problem.testcase_set.create(
-                        id=test_id,
-                        description=(r[1] or ''),
-                        points=int(r[2]),
-                        time_limit=(int(r[3] * 1000)),
-                        memory_limit=memory_limit,
-                        ordinal_number=i+1
-                    )
+                    defaults = {
+                        'description': (r[1] or ''),
+                        'points': int(r[2]),
+                        'time_limit': (int(r[3] * 1000)),
+                        'memory_limit': memory_limit,
+                        'ordinal_number': i + 1,
+                    }
+                    tests[test_id], inserted = problem.testcase_set.update_or_create(id=test_id, defaults=defaults)
+                    if inserted:
+                        logger.info('> new test %d', test_id)
 
                 for test_id, tc in tests.iteritems():
                     subc.execute('''SELECT metafileID, data FROM irunner_test_file JOIN katrin_file ON irunner_test_file.fileID = katrin_file.fileID WHERE testID = %s''', (test_id, ))
                     for r in subc:
                         if r[0] == input_mf_id:
-                            tc.set_input(storage, ContentFile(r[1]))
+                            res = tc.set_input(storage, ContentFile(r[1]))
+                            if res:
+                                logger.info('> test %d: new input', test_id)
                         if r[0] == output_mf_id:
-                            tc.set_answer(storage, ContentFile(r[1]))
-
-                problem.save()
+                            res = tc.set_answer(storage, ContentFile(r[1]))
+                            if res:
+                                logger.info('> test %d: new answer', test_id)
 
                 # extra info
                 if description:
