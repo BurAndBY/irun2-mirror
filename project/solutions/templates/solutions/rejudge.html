@@ -25,6 +25,7 @@
             <tr>
                 <th>{% trans '#' %}</th>
                 <th>ID</th>
+                <th>{% trans 'Submission time' %}</th>
                 <th>{% trans 'Solution' %}</th>
                 <th>{% trans 'Author' %}</th>
                 <th>{% trans 'Current' %}</th>
@@ -41,6 +42,9 @@
                     <a href="{% url 'solutions:main' info.solution.id %}">{{ info.solution.id }}</a>
                 </td>
                 <td>
+                    {{ info.solution.reception_time }}
+                </td>
+                <td>
                     {% url 'solutions:source' info.solution.id as source_url %}
                     {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
                     <small><tt><a href="{{ source_url }}">{{ info.solution.source_code.filename }}</a></tt></small>
@@ -51,14 +55,14 @@
                 <td>
                     {% if info.before %}
                         <a href="{% url 'solutions:show_judgement' info.before.id %}">
-                            {% irunner_solutions_judgementbox info.before %}{% irunner_solutions_scorebox info.before %}
+                            {% irunner_solutions_judgementbox info.before tooltip=True %}{% irunner_solutions_scorebox info.before %}
                         </a>
                     {% endif %}
                 </td>
                 <td>
                     {% if info.after %}
                         <a href="{% url 'solutions:show_judgement' info.after.id %}">
-                            {% irunner_solutions_judgementbox info.after %}{% irunner_solutions_scorebox info.after %}
+                            {% irunner_solutions_judgementbox info.after tooltip=True %}{% irunner_solutions_scorebox info.after %}
                         </a>
                     {% endif %}
                 </td>
