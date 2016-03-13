@@ -168,7 +168,7 @@ $.fn.editableTableWidget = function (options) {
             }
         });
 
-        element.find(activeOptions.editableSelector).on('dblclick', showEditor)
+        element.find(activeOptions.editableSelector).on('click', showEditor)
         //.css('cursor', 'pointer')
         .keydown(function (e) {
             var prevent = true,
@@ -190,7 +190,7 @@ $.fn.editableTableWidget = function (options) {
         });
 
         if (activeOptions.editableSelectSelector) {
-            element.find(activeOptions.editableSelectSelector).on('dblclick', showEditorSelect)
+            element.find(activeOptions.editableSelectSelector).on('click', showEditorSelect)
             //.css('cursor', 'pointer')
             .keydown(function (e) {
                 var prevent = true,
