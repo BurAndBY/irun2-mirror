@@ -569,7 +569,7 @@ Compare two solutions
 '''
 
 
-class CompareSolutionsView(generic.View):
+class CompareSolutionsView(LoginRequiredMixin, generic.View):
     template_name = 'solutions/compare.html'
 
     def _get_compare_context(self, first_id, second_id):
