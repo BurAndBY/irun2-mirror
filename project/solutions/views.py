@@ -1,3 +1,4 @@
+import difflib
 from collections import namedtuple
 
 from django.core.exceptions import PermissionDenied
@@ -7,21 +8,23 @@ from django.db.models import Count
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy, pgettext_lazy
+from django.utils.timesince import timesince
 from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
 from common.views import MassOperationView
-from courses.permissions import calculate_course_solution_access_level
 from problems.description import IDescriptionImageLoader, render_description
 from problems.models import ProblemRelatedFile
 from proglangs.utils import get_highlightjs_class
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
 
-from .forms import AllSolutionsFilterForm
+from .calcpermissions import calculate_permissions
+from .compare import fetch_solution
+from .forms import AllSolutionsFilterForm, CompareSolutionsForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
-from .permissions import SolutionPermissions, SolutionAccessLevel
+from .permissions import SolutionPermissions
 from .utils import create_judgement
 from .filters import apply_state_filter, apply_compiler_filter
 
@@ -267,27 +270,6 @@ class DeleteSolutionsView(StaffMemberRequiredMixin, MassOperationView):
 '''
 Single solution
 '''
-# course/contest the solution belongs to
-SolutionEnvironment = namedtuple('SolutionEnvironment', 'course')
-
-
-def calculate_permissions(solution, user):
-    level = SolutionAccessLevel.NO_ACCESS
-
-    # course
-    in_course = calculate_course_solution_access_level(solution, user)
-    level = max(level, in_course.level)
-
-    # contest
-    # TODO when contests are ready
-
-    permissions = SolutionPermissions()
-    permissions.update(level)
-
-    if user.is_staff:
-        permissions.set_all()
-
-    return (permissions, SolutionEnvironment(in_course.course))
 
 
 class BaseSolutionView(LoginRequiredMixin, generic.View):
@@ -416,6 +398,51 @@ class SolutionLogView(BaseSolutionView):
         return render(request, self.template_name, context)
 
 
+AttemptInfo = namedtuple('AttemptInfo', 'number solution active delta pair space')
+
+
+class SolutionAttemptsView(BaseSolutionView):
+    tab = 'attempts'
+    template_name = 'solutions/solution_attempts.html'
+
+    def is_allowed(self, permissions):
+        return permissions.attempts
+
+    def _calc_visual_space(self, seconds):
+        days = seconds / (60. * 60. * 24.)
+        if days < 0.5:
+            return 0
+        return 20 + int(100. * min(days / 7., 1.))
+
+    def do_get(self, request, solution):
+        related_solutions = []
+        last = None
+        number = 0
+
+        for cur in Solution.objects.\
+                filter(problem_id=solution.problem_id, author_id=solution.author_id).\
+                order_by('reception_time'):
+            delta = None
+            pair = None
+            space = None
+
+            if last is not None:
+                delta = timesince(d=last.reception_time, now=cur.reception_time)
+                pair = (last.id, cur.id)
+                space = self._calc_visual_space((cur.reception_time - last.reception_time).total_seconds())
+
+            number += 1
+            related_solutions.append(AttemptInfo(number, cur, (cur == solution), delta, pair, space))
+
+            last = cur
+
+        related_solutions.reverse()
+
+        enable_compare = (len(related_solutions) >= 2)
+        context = self.get_context_data(related_solutions=related_solutions, enable_compare=enable_compare)
+        return render(request, self.template_name, context)
+
+
 class SolutionMainView(BaseSolutionView):
     def _get_class(self, request, solution, permissions):
         judgement = solution.best_judgement
@@ -535,3 +562,47 @@ class SolutionTestCaseResultImageView(TestCaseResultMixin, BaseSolutionTestDataV
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
         return self.serve_testcaseresult_image(filename, testcaseresult)
+
+
+'''
+Compare two solutions
+'''
+
+
+class CompareSolutionsView(generic.View):
+    template_name = 'solutions/compare.html'
+
+    def _get_compare_context(self, first_id, second_id):
+        first = fetch_solution(first_id, self.request.user)
+        second = fetch_solution(second_id, self.request.user)
+        ok = (first.text is not None) and (second.text is not None)
+
+        context = {}
+        context['first'] = first
+        context['second'] = second
+        context['has_error'] = not ok
+        context['has_result'] = ok
+
+        if ok:
+            first_lines = first.text.splitlines()
+            second_lines = second.text.splitlines()
+            differ = difflib.HtmlDiff(tabsize=4, wrapcolumn=None)
+            html = differ.make_table(first_lines, second_lines)
+            html = html.replace('<td nowrap="nowrap">', '<td>')
+            html = html.replace('&nbsp;', ' ')
+            context['difflib_html_content'] = html
+
+        return context
+
+    def get(self, request):
+        if request.GET:
+            form = CompareSolutionsForm(request.GET)
+            if form.is_valid():
+                context = self._get_compare_context(form.cleaned_data['first'], form.cleaned_data['second'])
+                return render(request, self.template_name, context)
+        else:
+            form = CompareSolutionsForm()
+
+        # fallback
+        context = {'form': form}
+        return render(request, self.template_name, context)

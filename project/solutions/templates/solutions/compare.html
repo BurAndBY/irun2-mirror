@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_messagebox %}
+{% load irunner_pagination %}
+{% load irunner_proglangs %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+{% load widget_tweaks %}
+
+{% block title %}{% trans 'Comparison of solutions' %}{% if first and second %} {{ first.solution_id }} {% trans 'and' %} {{ second.solution_id }}{% endif %}{% endblock %}
+
+{% block content %}
+
+    {% if form %}
+        <form method="get">
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Compare' %}</button>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+
+    {% if has_error %}
+        {% irunner_messagebox 'warning' %}
+            <p>{% trans 'Unable to compare solutions.' %}</p>
+
+            {% if first and first.error %}
+                <p><strong>{% trans 'Solution' %} {{ first.solution_id }}:</strong> {{ first.error }}.</p>
+            {% endif %}
+
+            {% if second and second.error %}
+                <p><strong>{% trans 'Solution' %} {{ second.solution_id }}:</strong> {{ second.error }}.</p>
+            {% endif %}
+
+        {% irunner_endmessagebox %}
+    {% elif has_result %}
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>
+                    {% irunner_solutions_judgementbox first.solution.best_judgement %}
+                    <a href="{% url 'solutions:main' first.solution_id %}">{% trans 'Solution' %} {{ first.solution_id }}</a>
+                </h3>
+                <dl class="dl-horizontal">
+                    <dt>{% trans 'Submission time' %}</dt>
+                    <dd>{{ first.solution.reception_time }}</dd>
+
+                    {% if first.solution.best_judgement %}
+                        <dt>{% trans 'Score' %}</dt>
+                        <dd>{{ first.solution.best_judgement.score }} {% trans 'of' %} {{ first.solution.best_judgement.max_score }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>
+                    {% irunner_solutions_judgementbox second.solution.best_judgement %}
+                    <a href="{% url 'solutions:main' second.solution_id %}">{% trans 'Solution' %} {{ second.solution_id }}</a>
+                </h3>
+                <dl class="dl-horizontal">
+                    <dt>{% trans 'Submission time' %}</dt>
+                    <dd>{{ second.solution.reception_time }}</dd>
+
+                    {% if second.solution.best_judgement %}
+                        <dt>{% trans 'Score' %}</dt>
+                        <dd>{{ second.solution.best_judgement.score }} {% trans 'of' %} {{ second.solution.best_judgement.max_score }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+        {% if first.solution.source_code.resource_id == second.solution.source_code.resource_id %}
+            {% irunner_messagebox 'success' %}
+                {% trans 'The files are identical.' %}
+            {% irunner_endmessagebox %}
+        {% endif %}
+    {% endif %}
+
+    {% if difflib_html_content %}
+        <div class="ir-difflib">
+            {{ difflib_html_content|safe }}
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-12 17:04+0300\n"
-"PO-Revision-Date: 2016-03-12 17:07+0300\n"
+"POT-Creation-Date: 2016-03-19 23:29+0300\n"
+"PO-Revision-Date: 2016-03-19 23:32+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -63,7 +63,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:45
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:46
 msgid "Logout"
 msgstr "Выход"
 
@@ -80,7 +80,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:47
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:48
 msgid "Login"
 msgstr "Вход"
 
@@ -155,7 +155,7 @@ msgstr ""
 
 #: .\common\templates\common\about.html:29
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:8
-#: .\solutions\templates\solutions\solution.html:82
+#: .\solutions\templates\solutions\solution.html:88
 #: .\solutions\templates\solutions\solution_source.html:8
 msgid "Source code"
 msgstr "Исходный код"
@@ -190,6 +190,8 @@ msgstr "Страница"
 #: .\courses\templates\courses\problems_base.html:28
 #: .\problems\templates\problems\show_test.html:21
 #: .\problems\templates\problems\sidebar.html:13
+#: .\solutions\templates\solutions\compare.html:51
+#: .\solutions\templates\solutions\compare.html:66
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
 #: .\solutions\templates\solutions\judgement.html:21
 #: .\solutions\templates\solutions\solution.html:53
@@ -480,6 +482,7 @@ msgstr "уровень"
 #: .\problems\templates\problems\tests.html:23
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
+#: .\solutions\templates\solutions\solution_attempts.html:16
 msgid "#"
 msgstr "№"
 
@@ -595,7 +598,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:257
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:260
 msgid "delete"
 msgstr "удалить"
 
@@ -648,6 +651,7 @@ msgstr "Решения"
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:75
 #: .\courses\templates\courses\solutions.html:35
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
+#: .\solutions\templates\solutions\solution_attempts.html:18
 #: .\solutions\templates\solutions\solution_list.html:32
 msgid "Time"
 msgstr "Время"
@@ -656,6 +660,7 @@ msgstr "Время"
 #: .\courses\templates\courses\solutions.html:37
 #: .\problems\templates\problems\solutions.html:37
 #: .\solutions\templates\solutions\judgement_list.html:19
+#: .\solutions\templates\solutions\solution_attempts.html:20
 #: .\solutions\templates\solutions\solution_list.html:34
 msgid "Status"
 msgstr "Статус"
@@ -911,6 +916,7 @@ msgstr "Автор"
 #: .\problems\templates\problems\solutions.html:36
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:69
+#: .\solutions\templates\solutions\solution_attempts.html:19
 #: .\solutions\templates\solutions\solution_list.html:33
 msgid "File"
 msgstr "Файл"
@@ -1176,6 +1182,8 @@ msgstr "Новый тест"
 #: .\problems\templates\problems\edit_test.html:31
 #: .\problems\templates\problems\show_test.html:47
 #: .\problems\templates\problems\tests.html:26
+#: .\solutions\templates\solutions\compare.html:50
+#: .\solutions\templates\solutions\compare.html:65
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\judgement.html:20
 #: .\solutions\templates\solutions\solution.html:52
@@ -1382,6 +1390,8 @@ msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
 #: .\problems\templates\problems\solutions.html:35
+#: .\solutions\templates\solutions\compare.html:46
+#: .\solutions\templates\solutions\compare.html:61
 #: .\solutions\templates\solutions\rejudge.html:28
 #: .\solutions\templates\solutions\solution.html:61
 msgid "Submission time"
@@ -1486,6 +1496,31 @@ msgstr "Язык"
 msgid "Legacy?"
 msgstr "Устарел?"
 
+#: .\solutions\compare.py:26
+msgid "not found"
+msgstr "не найдено"
+
+#: .\solutions\compare.py:32
+msgid "access denied"
+msgstr "доступ запрещён"
+
+#: .\solutions\compare.py:38 .\users\templates\users\profile_show.html:49
+#: .\users\templates\users\profile_show.html:52
+msgid "no data"
+msgstr "нет данных"
+
+#: .\solutions\compare.py:42
+msgid "the file is binary"
+msgstr "файл бинарный"
+
+#: .\solutions\compare.py:46
+msgid "the file is too big"
+msgstr "файл слишком большой"
+
+#: .\solutions\compare.py:52
+msgid "unknown error"
+msgstr "неизвестная ошибка"
+
 #: .\solutions\forms.py:23
 msgid "Enter source code"
 msgstr "Введите исходный код"
@@ -1583,6 +1618,14 @@ msgstr "Нарушение безопасности"
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
+#: .\solutions\forms.py:89
+msgid "First solution"
+msgstr "Первое решение"
+
+#: .\solutions\forms.py:90
+msgid "Second solution"
+msgstr "Второе решение"
+
 #: .\solutions\models.py:44
 msgid "N/A"
 msgstr "N/A"
@@ -1591,33 +1634,65 @@ msgstr "N/A"
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
-#: .\solutions\permissions.py:21
+#: .\solutions\permissions.py:23
 msgid "no access"
 msgstr "нет доступа"
 
-#: .\solutions\permissions.py:22
+#: .\solutions\permissions.py:24
 msgid "view current solution state"
 msgstr "просмотр текущего состояния решения"
 
-#: .\solutions\permissions.py:23
+#: .\solutions\permissions.py:25
 msgid "view compilation log"
 msgstr "просмотр журнала компиляции"
 
-#: .\solutions\permissions.py:24
+#: .\solutions\permissions.py:26
 msgid "view source code"
 msgstr "просмотр исходного кода"
 
-#: .\solutions\permissions.py:25
+#: .\solutions\permissions.py:27
 msgid "view testing details"
 msgstr "просмотр деталей тестирования"
 
-#: .\solutions\permissions.py:26
+#: .\solutions\permissions.py:28
 msgid "view testing details with checker messages"
 msgstr "просмотр деталей тестирования с сообщениями чекера"
 
-#: .\solutions\permissions.py:27
+#: .\solutions\permissions.py:29
 msgid "view testing details and test data"
 msgstr "просмотр деталей тестирования и данных тестов"
+
+#: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:35
+msgid "Comparison of solutions"
+msgstr "Сравнение решений"
+
+#: .\solutions\templates\solutions\compare.html:12
+msgid "and"
+msgstr "и"
+
+#: .\solutions\templates\solutions\compare.html:20
+msgid "Compare"
+msgstr "Сравнить"
+
+#: .\solutions\templates\solutions\compare.html:27
+msgid "Unable to compare solutions."
+msgstr "Не удаётся сравнить решения."
+
+#: .\solutions\templates\solutions\compare.html:30
+#: .\solutions\templates\solutions\compare.html:34
+#: .\solutions\templates\solutions\compare.html:43
+#: .\solutions\templates\solutions\compare.html:58
+#: .\solutions\templates\solutions\judgement_list.html:17
+#: .\solutions\templates\solutions\rejudge.html:29
+#: .\solutions\templates\solutions\solution.html:10
+#: .\solutions\templates\solutions\solution.html:17
+#: .\solutions\templates\solutions\solution_attempts.html:29
+msgid "Solution"
+msgstr "Решение"
+
+#: .\solutions\templates\solutions\compare.html:73
+msgid "The files are identical."
+msgstr "Файлы одинаковые."
 
 #: .\solutions\templates\solutions\confirm_multiple.html:15
 #, python-format
@@ -1683,13 +1758,13 @@ msgid "State"
 msgstr "Состояние"
 
 #: .\solutions\templates\solutions\judgement.html:25
-#: .\solutions\templates\solutions\solution.html:100
+#: .\solutions\templates\solutions\solution.html:106
 #: .\solutions\templates\solutions\solution_tests.html:6
 msgid "Test results"
 msgstr "Результаты тестов"
 
 #: .\solutions\templates\solutions\judgement.html:30
-#: .\solutions\templates\solutions\solution.html:88
+#: .\solutions\templates\solutions\solution.html:94
 #: .\solutions\templates\solutions\solution_log.html:6
 msgid "Compilation log"
 msgstr "Журнал компиляции"
@@ -1698,13 +1773,6 @@ msgstr "Журнал компиляции"
 #: .\templates\navbar.html:29
 msgid "Runs"
 msgstr "Запуски"
-
-#: .\solutions\templates\solutions\judgement_list.html:17
-#: .\solutions\templates\solutions\rejudge.html:29
-#: .\solutions\templates\solutions\solution.html:10
-#: .\solutions\templates\solutions\solution.html:17
-msgid "Solution"
-msgstr "Решение"
 
 #: .\solutions\templates\solutions\judgement_list.html:18
 #: .\solutions\templates\solutions\rejudge.html:10
@@ -1769,10 +1837,31 @@ msgstr "Курс"
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:94
+#: .\solutions\templates\solutions\solution.html:82
+#: .\solutions\templates\solutions\solution_attempts.html:9
+msgid "Attempts"
+msgstr "Попытки"
+
+#: .\solutions\templates\solutions\solution.html:100
 #: .\solutions\templates\solutions\solution_judgements.html:7
 msgid "Judgements"
 msgstr "Запуски"
+
+#: .\solutions\templates\solutions\solution_attempts.html:21
+msgid "Changes"
+msgstr "Изменения"
+
+#: .\solutions\templates\solutions\solution_attempts.html:48
+msgid "Compare the soluton with the previous one"
+msgstr "Сравнить решение с предыдущим"
+
+#: .\solutions\templates\solutions\solution_attempts.html:67
+msgid "Check two solutions to compare."
+msgstr "Отметьте два решения для сравнения."
+
+#: .\solutions\templates\solutions\solution_attempts.html:68
+msgid "Compare solutions"
+msgstr "Сравнить решения"
 
 #: .\solutions\templates\solutions\solution_list.html:71
 #: .\solutions\templates\solutions\solution_list.html:74
@@ -1805,7 +1894,7 @@ msgstr "Нет данных"
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\views.py:188
+#: .\solutions\views.py:191
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -2132,11 +2221,6 @@ msgstr "Фамилия"
 #: .\users\templates\users\profile_show.html:43
 msgid "Email address"
 msgstr "Адрес электронной почты"
-
-#: .\users\templates\users\profile_show.html:49
-#: .\users\templates\users\profile_show.html:52
-msgid "no data"
-msgstr "нет данных"
 
 #: .\users\templates\users\profile_show.html:51
 msgid "Date joined"

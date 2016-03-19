@@ -1,0 +1,90 @@
+{% extends "solutions/solution.html" %}
+
+{% load i18n %}
+{% load irunner_solutions %}
+{% load irunner_proglangs %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block subtitle %}{% trans 'Attempts' %}{% endblock %}
+
+{% block main %}
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th colspan="2" class="ir-timeline"></th>
+            <th class="text-right">{% trans '#' %}</th>
+            <th></th>
+            <th>{% trans 'Time' %}</th>
+            <th>{% trans 'File' %}</th>
+            <th>{% trans 'Status' %}</th>
+            <th>{% trans 'Changes' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for info in related_solutions %}
+        <tr>
+            {% url 'solutions:main' info.solution.id as solution_url %}
+            <td class="ir-timeline ir-timeline-1">
+                <div class="ir-timeline-dot{% if info.active %}-active{% endif %}" title="{% trans 'Solution' %} {{ info.solution.id }}"></div>
+            </td>
+            <td class="ir-timeline ir-timeline-2"></td>
+            <td class="text-right">{{ info.number }}</td>
+            <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ info.solution.id }}"></td>
+            <td>
+                {{ info.solution.reception_time }}
+            </td>
+            <td>
+                {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
+                <a href="{% url 'solutions:source' info.solution.id %}"><span class="ir-monospace">{{ info.solution.source_code.filename }}</span></a>
+                <span class="ir-file-size">({{ info.solution.source_code.size|filesizeformat }})</span>
+            </td>
+            <td class="text-nowrap">
+                <a href="{{ solution_url }}">{% irunner_solutions_judgementbox info.solution.best_judgement tooltip=True %}</a>
+                <a href="{{ solution_url }}">{% irunner_solutions_scorebox info.solution.best_judgement %}</a>
+            </td>
+            <td>
+                {% if info.pair %}
+                    <a href="{% url 'solutions:compare' %}?first={{ info.pair.0 }}&amp;second={{ info.pair.1 }}" title="{% trans 'Compare the soluton with the previous one' %}">{% bootstrap_icon 'transfer' %}</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% if info.space %}
+            <tr class="ir-row-space">
+                <td class="ir-timeline ir-timeline-1"></td><td class="ir-timeline ir-timeline-2"></td>
+                <td></td><td></td>
+                <td colspan="6" style="height: {{ info.space }}px" class="ir-solution-timedelta">
+                    {% bootstrap_icon 'time' %} <span class="ir-icon-label">{{ info.delta }}</span>
+                </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if enable_compare %}
+    <p>
+        <button type="button" id="ir_compare_button" class="btn btn-default" title="{% trans 'Check two solutions to compare.' %}" disabled>
+            {% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Compare solutions' %}</span>
+        </button>
+    </p>
+    <script>
+        $(document).ready(function() {
+            $(".ir-checkbox").change(function () {
+                var checkboxes = $(".ir-checkbox");
+                var numSelected = checkboxes.filter(":checked").length;
+                $("#ir_compare_button").prop("disabled", numSelected !== 2);
+            }); 
+            $("#ir_compare_button").click(function() {
+                var ids = $(".ir-checkbox:checked").map(function() {
+                    return $(this).val();
+                }).toArray();
+                if (ids.length === 2) {
+                    window.location.href = "{% url 'solutions:compare' %}?first=" + ids[1] + "&second=" + ids[0];
+                }
+            });
+        });
+    </script>
+{% endif %}
+
+{% endblock %}

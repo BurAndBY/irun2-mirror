@@ -1138,3 +1138,95 @@ tr:hover .ir-appear-on-hover {
     height: 200px;
     margin: 4px;
 }
+
+
+/* Difflib HTML diff */
+.ir-difflib table {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    width: 100%;
+    border-collapse: collapse;
+    border-left: 2px solid #c0c0c0;
+    border-right: 2px solid #c0c0c0;
+}
+.ir-difflib .diff_header {
+    background-color: #fafafa;
+}
+.ir-difflib td {
+    border: 1px solid #eeeeee;
+    white-space: pre-wrap;
+    vertical-align: top;
+}
+.ir-difflib td.diff_header {
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: right;
+    font-weight: bold;
+}
+.ir-difflib .diff_next {
+    padding-left: 1px;
+    padding-right: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #fafafa;
+    border-left: 2px solid #c0c0c0;
+}
+.ir-difflib .diff_next a {
+    color: #c0c0c0;
+}
+.ir-difflib .diff_add {
+    background-color: #ddffdd;
+}
+.ir-difflib .diff_chg {
+    background-color: #fdfebc;
+}
+.ir-difflib .diff_sub {
+    background-color: #f8e4cc;
+}
+.ir-difflib span {
+    display: inline-block;
+    height: 100%;
+}
+
+.ir-solution-timedelta {
+    font-style: italic;
+    color: #aaa;
+    text-align: left;
+    vertical-align: middle !important;
+}
+
+.ir-timeline {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    background-color: white !important;
+}
+.ir-timeline-1 {
+    width: 12px;
+    border-right: 2px solid #d9edf7;
+}
+.ir-timeline-2 {
+    width: 12px;
+}
+.ir-timeline-dot {
+    display: inline-block;
+    background-color: #d9edf7;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative;
+    left: 8px;
+}
+.ir-timeline-dot-active {
+    display: inline-block;
+    background-color: #337ab7;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+    left: 7px;
+}
+.ir-row-space {
+    background-color: #f8f8f8;
+}

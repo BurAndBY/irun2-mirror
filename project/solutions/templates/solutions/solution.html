@@ -77,6 +77,12 @@
         <div class="row">
             <div class="span12 text-center">
                 <ul class="nav nav-pills ir-solution-nav-pills">
+                    {% if solution_permissions.attempts %}
+                        <li role="presentation"{% if active_tab == 'attempts' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:attempts' solution.id %}">{% trans 'Attempts' %}</a>
+                        </li>
+                    {% endif %}
+
                     {% if solution_permissions.source_code %}
                         <li role="presentation"{% if active_tab == 'source' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:source' solution.id %}">{% trans 'Source code' %}</a>

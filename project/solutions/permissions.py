@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collections import namedtuple
+
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -37,6 +39,7 @@ class SolutionPermissions(object):
         self.exit_codes = False
         self.checker_messages = False
         self.tests_data = False
+        self.attempts = False
 
         # special permissions that are not included into the levels above
         self.judgements = False
@@ -50,6 +53,7 @@ class SolutionPermissions(object):
             self.compilation_log = True
 
         if level >= SolutionAccessLevel.SOURCE_CODE:
+            self.attempts = True
             self.source_code = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
@@ -72,3 +76,7 @@ class SolutionPermissions(object):
         permissions = SolutionPermissions()
         permissions.set_all()
         return permissions
+
+
+# course/contest the solution belongs to
+SolutionEnvironment = namedtuple('SolutionEnvironment', 'course')

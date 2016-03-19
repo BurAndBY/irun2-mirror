@@ -19,7 +19,7 @@ from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, A
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
 from services import get_assigned_problem_set, get_simple_assignments
-from permissions import calculate_course_permissions
+from calcpermissions import calculate_course_permissions
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint

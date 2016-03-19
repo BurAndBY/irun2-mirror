@@ -5,7 +5,7 @@ from django.views import generic
 
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
-from courses.permissions import calculate_course_permissions
+from courses.calcpermissions import calculate_course_permissions
 
 
 def home(request):

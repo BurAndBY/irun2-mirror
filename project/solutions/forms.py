@@ -83,3 +83,8 @@ class AllSolutionsFilterForm(forms.Form):
         )), )
 
         self.fields['compiler'].choices = self.DEFAULT_COMPILER_CHOICES + present_compiler_choices
+
+
+class CompareSolutionsForm(forms.Form):
+    first = forms.IntegerField(min_value=0, label=_('First solution'), required=True)
+    second = forms.IntegerField(min_value=0, label=_('Second solution'), required=True)
