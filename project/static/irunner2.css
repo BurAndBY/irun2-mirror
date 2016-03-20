@@ -1149,30 +1149,28 @@ tr:hover .ir-appear-on-hover {
     border-left: 2px solid #c0c0c0;
     border-right: 2px solid #c0c0c0;
 }
-.ir-difflib .diff_header {
-    background-color: #fafafa;
-}
 .ir-difflib td {
     border: 1px solid #eeeeee;
     white-space: pre-wrap;
     vertical-align: top;
 }
-.ir-difflib td.diff_header {
+.ir-difflib .diff_header {
     padding-left: 2px;
     padding-right: 2px;
     text-align: right;
     font-weight: bold;
+    background-color: #fafafa;
 }
 .ir-difflib .diff_next {
-    padding-left: 1px;
-    padding-right: 1px;
-    text-transform: uppercase;
     text-align: center;
     background-color: #fafafa;
     border-left: 2px solid #c0c0c0;
 }
 .ir-difflib .diff_next a {
-    color: #c0c0c0;
+    padding-left: 1px;
+    padding-right: 1px;
+    text-transform: uppercase;
+    background-color: #d9edf7;
 }
 .ir-difflib .diff_add {
     background-color: #ddffdd;
@@ -1185,7 +1183,6 @@ tr:hover .ir-appear-on-hover {
 }
 .ir-difflib span {
     display: inline-block;
-    height: 100%;
 }
 
 .ir-solution-timedelta {
