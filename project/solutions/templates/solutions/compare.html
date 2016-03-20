@@ -38,10 +38,10 @@
     {% elif has_result %}
         <div class="row">
             <div class="col-sm-6">
-                <h3>
+                <h2>
                     {% irunner_solutions_judgementbox first.solution.best_judgement %}
                     <a href="{% url 'solutions:main' first.solution_id %}">{% trans 'Solution' %} {{ first.solution_id }}</a>
-                </h3>
+                </h2>
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ first.solution.reception_time }}</dd>
@@ -53,10 +53,10 @@
                 </dl>
             </div>
             <div class="col-sm-6">
-                <h3>
+                <h2>
                     {% irunner_solutions_judgementbox second.solution.best_judgement %}
                     <a href="{% url 'solutions:main' second.solution_id %}">{% trans 'Solution' %} {{ second.solution_id }}</a>
-                </h3>
+                </h2>
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ second.solution.reception_time }}</dd>
@@ -73,11 +73,22 @@
                 {% trans 'The files are identical.' %}
             {% irunner_endmessagebox %}
         {% endif %}
-    {% endif %}
 
-    {% if difflib_html_content %}
-        <div class="ir-difflib">
-            {{ difflib_html_content|safe }}
+        {% if difflib_html_content %}
+            <div class="ir-difflib">
+                {{ difflib_html_content|safe }}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <div class="btn-group" role="group">
+                <a href="{% url 'solutions:compare' %}?first={{ first.solution_id }}&amp;second={{ second.solution_id }}" class="btn btn-default{% if full %} active{% endif %}">
+                    {% trans 'Full files' %}
+                </a>
+                <a href="{% url 'solutions:compare' %}?first={{ first.solution_id }}&amp;second={{ second.solution_id }}&amp;diff=on" class="btn btn-default{% if not full %} active{% endif %}">
+                    {% trans 'Differences only' %}
+                </a>
+            </div>
         </div>
     {% endif %}
 

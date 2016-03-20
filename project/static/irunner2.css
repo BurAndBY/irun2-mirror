@@ -1146,8 +1146,8 @@ tr:hover .ir-appear-on-hover {
     font-size: 12px;
     width: 100%;
     border-collapse: collapse;
-    border-left: 2px solid #c0c0c0;
-    border-right: 2px solid #c0c0c0;
+    border: 2px solid #c0c0c0;
+    margin-bottom: 15px;
 }
 .ir-difflib td {
     border: 1px solid #eeeeee;
@@ -1183,6 +1183,9 @@ tr:hover .ir-appear-on-hover {
 }
 .ir-difflib span {
     display: inline-block;
+}
+.ir-difflib tbody {
+    border-top: 2px solid #c0c0c0;
 }
 
 .ir-solution-timedelta {

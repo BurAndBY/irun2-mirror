@@ -88,3 +88,4 @@ class AllSolutionsFilterForm(forms.Form):
 class CompareSolutionsForm(forms.Form):
     first = forms.IntegerField(min_value=0, label=_('First solution'), required=True)
     second = forms.IntegerField(min_value=0, label=_('Second solution'), required=True)
+    diff = forms.BooleanField(label=_('Show only contextual differences, else show full files'), required=False)

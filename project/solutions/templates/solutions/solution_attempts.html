@@ -45,7 +45,8 @@
             </td>
             <td>
                 {% if info.pair %}
-                    <a href="{% url 'solutions:compare' %}?first={{ info.pair.0 }}&amp;second={{ info.pair.1 }}" title="{% trans 'Compare the soluton with the previous one' %}">{% bootstrap_icon 'transfer' %}</a>
+                    <a href="{% url 'solutions:compare' %}?first={{ info.pair.0 }}&amp;second={{ info.pair.1 }}&amp;diff=on"
+                    title="{% trans 'Compare the soluton with the previous one' %}">{% bootstrap_icon 'transfer' %}</a>
                 {% endif %}
             </td>
         </tr>
@@ -69,20 +70,23 @@
         </button>
     </p>
     <script>
+        function setButtonState() {
+            var checkboxes = $(".ir-checkbox");
+            var numSelected = checkboxes.filter(":checked").length;
+            $("#ir_compare_button").prop("disabled", numSelected !== 2);
+        }
+        function buttonClick() {
+            var ids = $(".ir-checkbox:checked").map(function() {
+                return $(this).val();
+            }).toArray();
+            if (ids.length === 2) {
+                window.location.href = "{% url 'solutions:compare' %}?first=" + ids[1] + "&second=" + ids[0];
+            }
+        }
         $(document).ready(function() {
-            $(".ir-checkbox").change(function () {
-                var checkboxes = $(".ir-checkbox");
-                var numSelected = checkboxes.filter(":checked").length;
-                $("#ir_compare_button").prop("disabled", numSelected !== 2);
-            }); 
-            $("#ir_compare_button").click(function() {
-                var ids = $(".ir-checkbox:checked").map(function() {
-                    return $(this).val();
-                }).toArray();
-                if (ids.length === 2) {
-                    window.location.href = "{% url 'solutions:compare' %}?first=" + ids[1] + "&second=" + ids[0];
-                }
-            });
+            setButtonState();
+            $(".ir-checkbox").change(setButtonState);
+            $("#ir_compare_button").click(buttonClick);
         });
     </script>
 {% endif %}

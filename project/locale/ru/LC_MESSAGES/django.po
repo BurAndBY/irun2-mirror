@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-20 23:28+0300\n"
-"PO-Revision-Date: 2016-03-20 23:30+0300\n"
+"POT-Creation-Date: 2016-03-21 00:51+0300\n"
+"PO-Revision-Date: 2016-03-21 00:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1684,6 +1684,10 @@ msgstr "Первое решение"
 msgid "Second solution"
 msgstr "Второе решение"
 
+#: .\solutions\forms.py:91
+msgid "Show only contextual differences, else show full files"
+msgstr "Показать только различия с контекстом, иначе показать полные файлы"
+
 #: .\solutions\models.py:44
 msgid "N/A"
 msgstr "N/A"
@@ -1751,6 +1755,14 @@ msgstr "Решение"
 #: .\solutions\templates\solutions\compare.html:73
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
+
+#: .\solutions\templates\solutions\compare.html:86
+msgid "Full files"
+msgstr "Файлы полностью"
+
+#: .\solutions\templates\solutions\compare.html:89
+msgid "Differences only"
+msgstr "Только отличия"
 
 #: .\solutions\templates\solutions\confirm_multiple.html:15
 #, python-format
@@ -1909,15 +1921,15 @@ msgstr "Запуски"
 msgid "Changes"
 msgstr "Изменения"
 
-#: .\solutions\templates\solutions\solution_attempts.html:48
+#: .\solutions\templates\solutions\solution_attempts.html:49
 msgid "Compare the soluton with the previous one"
 msgstr "Сравнить решение с предыдущим"
 
-#: .\solutions\templates\solutions\solution_attempts.html:67
+#: .\solutions\templates\solutions\solution_attempts.html:68
 msgid "Check two solutions to compare."
 msgstr "Отметьте два решения для сравнения."
 
-#: .\solutions\templates\solutions\solution_attempts.html:68
+#: .\solutions\templates\solutions\solution_attempts.html:69
 msgid "Compare solutions"
 msgstr "Сравнить решения"
 
