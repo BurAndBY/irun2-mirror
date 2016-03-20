@@ -125,8 +125,6 @@ class ProblemTestArchiveUploadForm(forms.Form):
     upload = forms.FileField(label=_('ZIP-archive'), required=True, widget=forms.FileInput,
                              help_text=_('The archive should not contain any other files except test inputs and outputs.'))
     scheme = forms.ChoiceField(label=_('File naming scheme'), required=True, choices=ARCHIVE_SCHEME_CHOICES)
-    time_limit = TimeLimitField(label=_('Time limit'), required=True)
-    memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
 
     def clean(self):
         cleaned_data = super(ProblemTestArchiveUploadForm, self).clean()

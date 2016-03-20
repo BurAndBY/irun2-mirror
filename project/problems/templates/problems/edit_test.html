@@ -2,6 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_problems %}
 {% load irunner_storage %}
 
 {# test_number is not set when the test is new #}
@@ -18,31 +19,8 @@
             {% endif %}
         </h2>
 
-        {% bootstrap_form_errors description_form %}
+        {% irunner_problems_testparams description_form %}
 
-        <div class="row">
-            <div class="col-md-6">
-                {% bootstrap_field description_form.description %}
-            </div>
-            <div class="col-md-6">
-                <table class="ir-test-limits">
-                    <tbody>
-                        <tr>
-                            <td>{% trans 'Score' %}</td>
-                            <td>{% bootstrap_field description_form.points show_label=False %}</td>
-                        </tr>
-                        <tr>
-                            <td>{% trans 'Time limit' %}&nbsp;({% trans 's' %})</td>
-                            <td>{% bootstrap_field description_form.time_limit show_label=False %}</td>
-                        </tr>
-                        <tr>
-                            <td>{% trans 'Memory limit' %}&nbsp;({% trans 'MB' %})</td>
-                            <td>{% bootstrap_field description_form.memory_limit show_label=False %}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <hr>
         <div class="row">
             <div class="col-md-6">

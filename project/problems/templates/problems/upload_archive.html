@@ -1,13 +1,16 @@
 {% extends "problems/base.html" %}
 
 {% load bootstrap3 %}
-{% load irunner_mass %}
 {% load i18n %}
+{% load irunner_problems %}
 
 {% block main %}
-    <h2>{% trans 'Upload tests as an archive' %}</h2>
+    <h2>{% trans 'New tests from archive' %}</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {% irunner_problems_testparams description_form %}
+        <p class="help-block">{% trans 'The same settings will be used for each uploaded test case.' %}</p>
+        <hr>
         {% bootstrap_form form %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">{% trans 'Upload' %}</button>

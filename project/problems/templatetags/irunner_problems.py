@@ -48,6 +48,11 @@ def irunner_problems_tex(form, render_url):
     return {'form': form, 'render_url': render_url}
 
 
+@register.inclusion_tag('problems/irunner_problems_testparams_tag.html')
+def irunner_problems_testparams(form):
+    return {'form': form}
+
+
 class Bounds(object):
     def __init__(self, default_value=0):
         self.min_value = None

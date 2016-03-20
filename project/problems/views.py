@@ -557,23 +557,31 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
-        form = ProblemTestArchiveUploadForm(initial={'time_limit': 1000})
-        context = self._make_context(problem, {'form': form})
+        form = ProblemTestArchiveUploadForm()
+        description_form = TestDescriptionForm(initial={'time_limit': 1000})
+        context = self._make_context(problem, {'form': form, 'description_form': description_form})
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id):
         problem = self._load(problem_id)
         form = ProblemTestArchiveUploadForm(request.POST, request.FILES)
-        if form.is_valid():
+        description_form = TestDescriptionForm(request.POST)
+
+        if form.is_valid() and description_form.is_valid():
             test_cases = []
             storage = create_storage()
 
-            time_limit = form.cleaned_data['time_limit']
-            memory_limit = form.cleaned_data['memory_limit']
+            canonical_test_case = description_form.save(commit=False)
 
             with zipfile.ZipFile(form.cleaned_data['upload'], 'r', allowZip64=True) as myzip:
                 for input_name, answer_name in form.cleaned_data['tests']:
-                    test_case = TestCase(problem=problem, time_limit=time_limit, memory_limit=memory_limit)
+                    test_case = TestCase(
+                        problem=problem,
+                        time_limit=canonical_test_case.time_limit,
+                        memory_limit=canonical_test_case.memory_limit,
+                        points=canonical_test_case.points,
+                        description=canonical_test_case.description,
+                    )
                     test_case.set_input(storage, ContentFile(myzip.read(input_name)))
                     test_case.set_answer(storage, ContentFile(myzip.read(answer_name)))
                     test_cases.append(test_case)
@@ -589,7 +597,7 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
             messages.add_message(request, messages.SUCCESS, msg)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
 
-        context = self._make_context(problem, {'form': form})
+        context = self._make_context(problem, {'form': form, 'description_form': description_form})
         return render(request, self.template_name, context)
 
 '''
