@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-19 23:29+0300\n"
-"PO-Revision-Date: 2016-03-19 23:32+0300\n"
+"POT-Creation-Date: 2016-03-20 17:42+0300\n"
+"PO-Revision-Date: 2016-03-20 17:47+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -363,7 +363,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:81 .\problems\models.py:69 .\problems\models.py:104
-#: .\problems\models.py:125 .\problems\models.py:132 .\problems\views.py:379
+#: .\problems\models.py:125 .\problems\models.py:132 .\problems\views.py:381
 #: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -479,7 +479,7 @@ msgstr "уровень"
 #: .\courses\templates\courses\standings.html:23
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\edit_test.html:15
-#: .\problems\templates\problems\tests.html:23
+#: .\problems\templates\problems\tests.html:26
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:26
 #: .\solutions\templates\solutions\solution_attempts.html:16
@@ -910,8 +910,8 @@ msgstr "Применить"
 msgid "Author"
 msgstr "Автор"
 
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:95
-#: .\problems\forms.py:106 .\problems\templates\problems\files.html:11
+#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:98
+#: .\problems\forms.py:109 .\problems\templates\problems\files.html:11
 #: .\problems\templates\problems\files.html:39
 #: .\problems\templates\problems\solutions.html:36
 #: .\problems\templates\problems\texs.html:11
@@ -1011,33 +1011,69 @@ msgstr "Ограничение по памяти слишком большое (
 msgid "Memory limit is too small."
 msgstr "Ограничение по памяти слишком маленькое."
 
-#: .\problems\forms.py:20
+#: .\problems\forms.py:23
 msgid "Leave empty to use standard input."
 msgstr "Оставьте пустым, чтобы использовать стандартный ввод."
 
-#: .\problems\forms.py:21
+#: .\problems\forms.py:24
 msgid "Leave empty to use standard output."
 msgstr "Оставьте пустым, чтобы использовать стандартный вывод."
 
-#: .\problems\forms.py:28
+#: .\problems\forms.py:31
 msgid "Problem folders"
 msgstr "Папки с задачами"
 
-#: .\problems\forms.py:87 .\problems\templates\problems\edit_test.html:35
+#: .\problems\forms.py:90 .\problems\forms.py:128
+#: .\problems\templates\problems\edit_test.html:35
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\show_test.html:51
-#: .\problems\templates\problems\tests.html:27
+#: .\problems\templates\problems\tests.html:30
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
-#: .\problems\forms.py:91 .\problems\templates\problems\edit_test.html:39
+#: .\problems\forms.py:94 .\problems\forms.py:129
+#: .\problems\templates\problems\edit_test.html:39
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\show_test.html:55
-#: .\problems\templates\problems\tests.html:28
+#: .\problems\templates\problems\tests.html:31
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
+
+#: .\problems\forms.py:125
+msgid "ZIP-archive"
+msgstr "ZIP-архив"
+
+#: .\problems\forms.py:126
+msgid ""
+"The archive should not contain any other files except test inputs and "
+"outputs."
+msgstr ""
+"Архив не должен содержать других данных, кроме входных и выходных файлов "
+"тестов."
+
+#: .\problems\forms.py:127
+msgid "File naming scheme"
+msgstr "Схема именования файлов"
+
+#: .\problems\forms.py:143
+msgid "Archive format is not supported."
+msgstr "Формат архива не поддерживается."
+
+#: .\problems\forms.py:154
+msgid "No test files found in the archive."
+msgstr "Тестовые файлы в архиве не найдены."
+
+#: .\problems\importing.py:64
+#, python-format
+msgid "Unknown file found in the archive: %(name)s"
+msgstr "В архиве обнаружен неизвестный файл: %(name)s"
+
+#: .\problems\importing.py:76
+#, python-format
+msgid "File not found in the archive: %(name)s"
+msgstr "Файл не найден в архиве: %(name)s"
 
 #: .\problems\models.py:22 .\problems\models.py:131
 msgid "number"
@@ -1181,7 +1217,7 @@ msgstr "Новый тест"
 
 #: .\problems\templates\problems\edit_test.html:31
 #: .\problems\templates\problems\show_test.html:47
-#: .\problems\templates\problems\tests.html:26
+#: .\problems\templates\problems\tests.html:29
 #: .\solutions\templates\solutions\compare.html:50
 #: .\solutions\templates\solutions\compare.html:65
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
@@ -1223,8 +1259,8 @@ msgstr "Описание"
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\show_test.html:85
 #: .\problems\templates\problems\show_test.html:94
-#: .\problems\templates\problems\tests.html:37
-#: .\problems\templates\problems\tests.html:42
+#: .\problems\templates\problems\tests.html:40
+#: .\problems\templates\problems\tests.html:45
 #: .\solutions\templates\solutions\solution_source.html:18
 msgid "Open"
 msgstr "Открыть"
@@ -1233,8 +1269,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:58
 #: .\problems\templates\problems\show_test.html:86
 #: .\problems\templates\problems\show_test.html:95
-#: .\problems\templates\problems\tests.html:38
-#: .\problems\templates\problems\tests.html:43
+#: .\problems\templates\problems\tests.html:41
+#: .\problems\templates\problems\tests.html:46
 #: .\solutions\templates\solutions\solution_source.html:19
 #: .\storage\templates\storage\show.html:11
 msgid "Download"
@@ -1346,12 +1382,12 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:24
+#: .\problems\templates\problems\tests.html:27
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:25
+#: .\problems\templates\problems\tests.html:28
 msgid "Output"
 msgstr "Выход"
 
@@ -1380,7 +1416,7 @@ msgid "Open in new tab"
 msgstr "Открыть в новой вкладке"
 
 #: .\problems\templates\problems\show_test.html:21
-#: .\problems\templates\problems\tests.html:35
+#: .\problems\templates\problems\tests.html:38
 #: .\solutions\templates\solutions\testcaseresult.html:50
 msgid "Test"
 msgstr "Тест"
@@ -1404,11 +1440,15 @@ msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\problems\templates\problems\tests.html:56
+#: .\problems\templates\problems\tests.html:18
+msgid "Upload archive"
+msgstr "Загрузить архив"
+
+#: .\problems\templates\problems\tests.html:59
 msgid "Set time limit"
 msgstr "Задать ограничение по времени"
 
-#: .\problems\templates\problems\tests.html:59
+#: .\problems\templates\problems\tests.html:62
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
 
@@ -1419,6 +1459,14 @@ msgstr "Новое условие"
 #: .\problems\templates\problems\texs.html:29
 msgid "New editorial"
 msgstr "Новый разбор"
+
+#: .\problems\templates\problems\upload_archive.html:8
+msgid "Upload tests as an archive"
+msgstr "Загрузить тесты архивом"
+
+#: .\problems\templates\problems\upload_archive.html:13
+msgid "Upload"
+msgstr "Загрузить"
 
 #: .\problems\templatetags\irunner_problems.py:83
 #, python-format
@@ -1435,34 +1483,42 @@ msgstr "%(seconds)s с"
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
 
-#: .\problems\views.py:376
+#: .\problems\views.py:378
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:377
+#: .\problems\views.py:379
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:378
+#: .\problems\views.py:380
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:380
+#: .\problems\views.py:382
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:381
+#: .\problems\views.py:383
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:385
+#: .\problems\views.py:387
 #, python-format
 msgid "Test case #%(number)s has been saved."
 msgstr "Тест №%(number)s сохранён."
 
-#: .\problems\views.py:394
+#: .\problems\views.py:396
 msgid "Changes:"
 msgstr "Изменения:"
+
+#: .\problems\views.py:588
+#, python-format
+msgid "%(count)d test was added."
+msgid_plural "%(count)d tests were added."
+msgstr[0] "Добавлен %(count)d тест."
+msgstr[1] "Добавлено %(count)d теста."
+msgstr[2] "Добавлено %(count)d тестов."
 
 #: .\proglangs\models.py:17
 msgid "Unknown"

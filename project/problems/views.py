@@ -4,6 +4,7 @@ import json
 import mimetypes
 import operator
 import re
+import zipfile
 
 from django.contrib import messages
 from django.core.files.base import ContentFile
@@ -14,6 +15,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext
 
 from mptt.templatetags.mptt_tags import cache_tree_children
 
@@ -31,7 +33,7 @@ from storage.utils import serve_resource, serve_resource_metadata, store_and_fil
 import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
-from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm
+from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -547,6 +549,48 @@ class ProblemTestsSetMemoryLimitView(ProblemTestsBatchSetView):
 
     def apply(self, queryset, valid_form):
         queryset.update(memory_limit=valid_form.cleaned_data['memory_limit'])
+
+
+class ProblemTestsUploadArchiveView(BaseProblemView):
+    template_name = 'problems/upload_archive.html'
+    tab = 'tests'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = ProblemTestArchiveUploadForm(initial={'time_limit': 1000})
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = ProblemTestArchiveUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            test_cases = []
+            storage = create_storage()
+
+            time_limit = form.cleaned_data['time_limit']
+            memory_limit = form.cleaned_data['memory_limit']
+
+            with zipfile.ZipFile(form.cleaned_data['upload'], 'r', allowZip64=True) as myzip:
+                for input_name, answer_name in form.cleaned_data['tests']:
+                    test_case = TestCase(problem=problem, time_limit=time_limit, memory_limit=memory_limit)
+                    test_case.set_input(storage, ContentFile(myzip.read(input_name)))
+                    test_case.set_answer(storage, ContentFile(myzip.read(answer_name)))
+                    test_cases.append(test_case)
+
+            with transaction.atomic():
+                num_tests = problem.testcase_set.count()
+                for test_case in test_cases:
+                    num_tests += 1
+                    test_case.ordinal_number = num_tests
+                TestCase.objects.bulk_create(test_cases)
+
+            msg = ungettext('%(count)d test was added.', '%(count)d tests were added.', len(test_cases)) % {'count': len(test_cases)}
+            messages.add_message(request, messages.SUCCESS, msg)
+            return redirect_with_query_string(request, 'problems:tests', problem.id)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
 
 '''
 Problem files
