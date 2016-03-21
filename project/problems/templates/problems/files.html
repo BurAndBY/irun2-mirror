@@ -3,17 +3,23 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_proglangs %}
+{% load staticfiles %}
+
+{% block head %}
+    <link href="{% static 'bootstrap-sortable/bootstrap-sortable.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap-sortable/bootstrap-sortable.js' %}"></script>
+{% endblock %}
 
 {% block main %}
     <h3>{% trans 'Data files' %} <small>{% trans '(statements, editorials, pictures)' %}</small></h3>
 
-    <table class="table table-condensed table-hover table-bordered ir-problem-files-table">
+    <table class="table table-condensed table-hover table-bordered ir-problem-files-table sortable">
         <thead>
             <tr>
                 <th class="ir-col-filename">{% trans 'File' %}</th>
                 <th class="ir-col-filetype">{% trans 'Type' %}</th>
                 <th>{% trans 'Description' %}</th>
-                <th class="ir-col-actions"></th>
+                <th class="ir-col-actions" data-defaultsort="disabled"></th>
             </tr>
         </thead>
         <tbody>
@@ -45,14 +51,14 @@
 
     <h3>{% trans 'Source files' %} <small>{% trans '(checkers)' %}</small></h3>
 
-    <table class="table table-condensed table-hover table-bordered ir-problem-files-table">
+    <table class="table table-condensed table-hover table-bordered ir-problem-files-table sortable">
         <thead>
             <tr>
                 <th class="ir-col-filename">{% trans 'File' %}</th>
                 <th class="ir-col-filetype">{% trans 'Type' %}</th>
                 <th>{% trans 'Description' %}</th>
                 <th class="ir-col-compiler">{% trans 'Compiler' %}</th>
-                <th class="ir-col-actions"></th>
+                <th class="ir-col-actions" data-defaultsort="disabled"></th>
             </tr>
         </thead>
         <tbody>
