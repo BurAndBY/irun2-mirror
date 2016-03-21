@@ -10,11 +10,11 @@
             function doSet(subBar, x) {
                 var percent = (total ? 100.0 * (x / total) : 0.);
                 if (x) {
-                    subBar.css("min-width", "3em");
+                    //subBar.css("min-width", "3em");
                     subBar.css("width", percent + "%");
                     subBar.text(x);
                 } else {
-                    subBar.css("min-width", "0");
+                    //subBar.css("min-width", "0");
                     subBar.css("width", "0");
                     subBar.text("");
                 }

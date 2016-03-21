@@ -12,7 +12,7 @@ def irunner_progress(url, value=0, value_good=0, value_bad=0, total=0):
     def _set(x, suffix):
         if x > 0:
             percent = (100. * x / total) if total > 0 else 0.
-            context['style' + suffix] = 'min-width: 3em; width: {0}%'.format(percent)
+            context['style' + suffix] = 'width: {0}%'.format(percent)
             context['value' + suffix] = x
         else:
             context['style' + suffix] = 'width: 0'
