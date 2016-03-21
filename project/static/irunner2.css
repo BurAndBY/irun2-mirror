@@ -1230,3 +1230,16 @@ tr:hover .ir-appear-on-hover {
 .ir-row-space {
     background-color: #f8f8f8;
 }
+
+/**
+ * Progress bar
+ */
+.ir-progress {
+    max-width: 320px;
+}
+.ir-progress-good {
+    background-color: #5cb85c;
+}
+.ir-progress-bad {
+    background-color: #d9534f;
+}

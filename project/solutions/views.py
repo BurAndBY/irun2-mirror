@@ -15,7 +15,7 @@ from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
 from common.views import MassOperationView
 from problems.description import IDescriptionImageLoader, render_description
-from problems.models import ProblemRelatedFile
+from problems.models import Problem, ProblemRelatedFile
 from proglangs.utils import get_highlightjs_class
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
@@ -206,6 +206,15 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
 
 
 RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
+RejudgeStats = namedtuple('RejudgeStats', ['total', 'accepted', 'rejected'])
+
+
+def fetch_rejudge_stats(rejudge_id):
+    queryset = Judgement.objects.filter(rejudge_id=rejudge_id)
+    total = queryset.count()
+    accepted = queryset.filter(status=Judgement.DONE).filter(outcome=Outcome.ACCEPTED).count()
+    rejected = queryset.filter(status=Judgement.DONE).exclude(outcome=Outcome.ACCEPTED).count()
+    return RejudgeStats(total, accepted, rejected)
 
 
 class RejudgeView(StaffMemberRequiredMixin, generic.View):
@@ -214,6 +223,8 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
     def get(self, request, rejudge_id):
         rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
         object_list = []
+        problem_ids = set()
+
         for new_judgement in rejudge.judgement_set.all().\
                 select_related('solution').\
                 select_related('solution__best_judgement').\
@@ -221,11 +232,23 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
                 select_related('solution__source_code').\
                 prefetch_related('solution__compiler'):
             solution = new_judgement.solution
+
+            if solution.problem_id is not None:
+                problem_ids.add(solution.problem_id)
+
             object_list.append(RejudgeInfo(solution, solution.best_judgement, new_judgement))
 
+        problem = None
+        if len(problem_ids) == 1:
+            problem = Problem.objects.get(pk=next(iter(problem_ids)))
+
+        progress_url = reverse('solutions:rejudge_status_json', kwargs={'rejudge_id': rejudge_id})
         context = {
             'rejudge': rejudge,
-            'object_list': object_list
+            'object_list': object_list,
+            'progress_url': progress_url,
+            'stats': fetch_rejudge_stats(rejudge_id),
+            'problem': problem,
         }
         return render(request, self.template_name, context)
 
@@ -245,6 +268,16 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
                         solution.save()
 
         return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge_id]))
+
+
+class RejudgeJsonView(StaffMemberRequiredMixin, generic.View):
+    def get(self, request, rejudge_id):
+        stats = fetch_rejudge_stats(rejudge_id)
+        return JsonResponse({
+            'total': stats.total,
+            'valueGood': stats.accepted,
+            'valueBad': stats.rejected,
+        })
 
 
 '''

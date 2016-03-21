@@ -1,0 +1,49 @@
+<div class="progress ir-progress" id="{{ uid }}">
+    <div class="progress-bar ir-progress-neutral" role="progressbar" style="{{ style }}">{{ value }}</div>
+    <div class="progress-bar ir-progress-good" role="progressbar" style="{{ style_good }}">{{ value_good }}</div>
+    <div class="progress-bar ir-progress-bad" role="progressbar" style="{{ style_bad }}">{{ value_bad }}</div>
+</div>
+
+{% if active %}
+    <script>
+        function setProgress(bar, total, value, valueGood, valueBad) {
+            function doSet(subBar, x) {
+                var percent = (total ? 100.0 * (x / total) : 0.);
+                if (x) {
+                    subBar.css("min-width", "3em");
+                    subBar.css("width", percent + "%");
+                    subBar.text(x);
+                } else {
+                    subBar.css("min-width", "0");
+                    subBar.css("width", "0");
+                    subBar.text("");
+                }
+                return (x || 0);
+            }
+            var sum = 0;
+            sum += doSet(bar.find(".ir-progress-neutral"), value);
+            sum += doSet(bar.find(".ir-progress-good"), valueGood);
+            sum += doSet(bar.find(".ir-progress-bad"), valueBad);
+            return (sum < (total || 0));
+        }
+
+        function poll_{{ uid }}() {
+            $.getJSON("{{ url }}", function(data) {
+                var bar = $("#{{ uid }}");
+                var active = setProgress(bar, data['total'], data['value'], data['valueGood'], data['valueBad']);
+                if (active) {
+                    setTimeout(poll_{{ uid }}, 2000);
+                } else {
+                    {% if refresh %}
+                        location.reload();
+                    {% endif %}
+                }
+            }).fail(function() {
+                setTimeout(poll_{{ uid }}, 10000);
+            });
+        }
+        $(document).ready(function() {
+            poll_{{ uid }}();
+        });
+    </script>
+{% endif %}

@@ -2,9 +2,11 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_problems %}
+{% load irunner_proglangs %}
+{% load irunner_progress %}
 {% load irunner_solutions %}
 {% load irunner_users %}
-{% load irunner_proglangs %}
 
 {% block content %}
     <h2>{% block title %}{% trans 'Rejudge' %} {{ rejudge.id }}{% endblock %}</h2>
@@ -13,11 +15,19 @@
         <dt>{% trans 'Created' %}</dt>
         <dd>{{ rejudge.creation_time }}</dd>
 
-        <dt>{% trans 'Creator of the rejudge' %}</dt>
+        <dt>{% trans 'Author' %}</dt>
         <dd>{% irunner_users_show rejudge.author %}</dd>
+
+        {% if problem %}
+            <dt>{% trans 'Problem' %}</dt>
+            <dd>{% irunner_problems_difficulty problem.difficulty %} <a href="{% url 'problems:statement' problem.id %}">{{ problem.numbered_full_name }}</a></dd>
+        {% endif %}
 
         <dt>{% trans 'State' %}</dt>
         <dd>{% irunner_solutions_rejudgestate rejudge.committed %}</dd>
+
+        <dt>{% trans 'Result' %}</dt>
+        <dd>{% irunner_progress url=progress_url value_good=stats.accepted value_bad=stats.rejected total=stats.total %}</dd>
     </dl>
 
     <table class="table table-condensed">
@@ -75,8 +85,8 @@
         <form method="post">
             {% csrf_token %}
             {% buttons %}
-                <button type="submit" name="commit" class="btn btn-success">{% trans 'Commit' %}</button>
-                <button type="submit" name="rollback" class="btn btn-danger">{% trans 'Rollback' %}</button>
+                <button type="submit" name="commit" class="btn btn-primary">{% trans 'Commit' %}</button>
+                <button type="submit" name="rollback" class="btn btn-default">{% trans 'Rollback' %}</button>
             {% endbuttons %}
         </form>
     {% endif %}
