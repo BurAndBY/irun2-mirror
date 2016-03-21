@@ -4,6 +4,7 @@ from django import forms
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import EMPTY_SELECT
 from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 
 from .importing import extract_tests
@@ -94,26 +95,68 @@ class MassSetMemoryLimitForm(forms.Form):
     memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
 
 
-class ProblemRelatedDataFileForm(forms.ModelForm):
+class ValidateUniqueFilenameMixin(object):
+    def clean(self):
+        cleaned_data = super(ValidateUniqueFilenameMixin, self).clean()
+        filename = cleaned_data.get('filename')
+
+        if (self.instance is not None) and (self.instance.problem_id is not None) and (filename is not None):
+            model_class = self.instance._meta.model
+
+            queryset = model_class.objects.filter(problem_id=self.instance.problem_id, filename=filename)
+            if self.instance.pk is not None:
+                # object has been already saved
+                queryset = queryset.exclude(pk=self.instance.pk)
+
+            if queryset.exists():
+                msg = _('A file with this name already exists.')
+                self.add_error('filename', msg)
+        return cleaned_data
+
+
+class ProblemRelatedDataFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
     upload = forms.FileField(label=_('File'), required=False, widget=forms.FileInput)
 
     class Meta:
         model = ProblemRelatedFile
-        fields = ['filename', 'file_type', 'description']
+        fields = ['upload', 'filename', 'file_type', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ProblemRelatedDataFileForm, self).__init__(*args, **kwargs)
+        self.fields['file_type'].choices = [('', EMPTY_SELECT)] + list(self.fields['file_type'].choices)[1:]
 
-class ProblemRelatedSourceFileForm(forms.ModelForm):
+
+class ProblemRelatedDataFileNewForm(ProblemRelatedDataFileForm):
+    '''
+    When adding new file, uploading data is required.
+    '''
+    upload = forms.FileField(label=_('File'), required=True, widget=forms.FileInput)
+
+
+class ProblemRelatedSourceFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
     upload = forms.FileField(label=_('File'), required=False, widget=forms.FileInput)
 
     class Meta:
         model = ProblemRelatedSourceFile
-        fields = ['filename', 'file_type', 'compiler', 'description']
+        fields = ['upload', 'filename', 'file_type', 'compiler', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(ProblemRelatedSourceFileForm, self).__init__(*args, **kwargs)
+        self.fields['file_type'].choices = [('', EMPTY_SELECT)] + list(self.fields['file_type'].choices)[1:]
+        self.fields['compiler'].choices = [('', EMPTY_SELECT)] + list(self.fields['compiler'].choices)[1:]
+
+
+class ProblemRelatedSourceFileNewForm(ProblemRelatedSourceFileForm):
+    '''
+    When adding new file, uploading data is required.
+    '''
+    upload = forms.FileField(label=_('File'), required=True, widget=forms.FileInput)
 
 
 class ProblemTestArchiveUploadForm(forms.Form):
@@ -172,7 +215,7 @@ class TeXForm(forms.Form):
     source = forms.CharField(required=False, max_length=32768, widget=forms.Textarea(attrs={'class': 'ir-monospace', 'rows': 20, 'autofocus': 'autofocus'}))
 
 
-class ProblemRelatedTeXFileForm(forms.ModelForm):
+class ProblemRelatedTeXFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
     class Meta:
         model = ProblemRelatedFile
         fields = ['filename']

@@ -103,6 +103,9 @@ class ProblemRelatedFile(FileMetadataBase):
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
 
+    class Meta:
+        unique_together = ('problem', 'filename')
+
 
 class ProblemRelatedSourceFile(FileMetadataBase):
     AUTHORS_SOLUTION = 215
@@ -124,6 +127,9 @@ class ProblemRelatedSourceFile(FileMetadataBase):
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
     compiler = models.ForeignKey(Compiler, verbose_name=_('compiler'))
+
+    class Meta:
+        unique_together = ('problem', 'filename')
 
 
 class TestCase(models.Model):

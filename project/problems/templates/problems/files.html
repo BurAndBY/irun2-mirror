@@ -5,6 +5,8 @@
 {% load irunner_proglangs %}
 
 {% block main %}
+    <h3>{% trans 'Data files' %} <small>{% trans '(statements, editorials, pictures)' %}</small></h3>
+
     <table class="table table-condensed table-hover table-bordered ir-problem-files-table">
         <thead>
             <tr>
@@ -32,6 +34,16 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {% buttons %}
+        <a href="{% url 'problems:data_file_new' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New file' %}</span>
+        </a>
+    {% endbuttons %}
+
+    <hr>
+
+    <h3>{% trans 'Source files' %} <small>{% trans '(checkers)' %}</small></h3>
 
     <table class="table table-condensed table-hover table-bordered ir-problem-files-table">
         <thead>
@@ -64,4 +76,10 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {% buttons %}
+        <a href="{% url 'problems:source_file_new' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New file' %}</span>
+        </a>
+    {% endbuttons %}
 {% endblock %}

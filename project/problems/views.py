@@ -34,6 +34,7 @@ import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
+from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm
 from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -684,6 +685,43 @@ class ProblemFilesSourceFileEditView(ProblemFilesBaseFileEditView):
 
     def get_object(self, problem, file_id):
         return get_object_or_404(problem.problemrelatedsourcefile_set, pk=file_id)
+
+
+class ProblemFilesBaseFileNewView(BaseProblemView):
+    tab = 'files'
+    template_name = 'problems/edit_file.html'
+    form_class = None
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        model_class = self.form_class.Meta.model
+        form = self.form_class(instance=model_class(problem=problem))
+        context = self._make_context(problem, {'form': form, 'propagate_filename': True})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        model_class = self.form_class.Meta.model
+        form = self.form_class(request.POST, request.FILES, instance=model_class(problem=problem))
+        if form.is_valid():
+            related_file = form.save(commit=False)
+            filename = related_file.filename
+            # Ignore the name of the uploaded file, use filename from form field.
+            store_and_fill_metadata(form.cleaned_data['upload'], related_file)
+            related_file.filename = filename
+            related_file.save()
+            return redirect_with_query_string(request, 'problems:files', problem.id)
+
+        context = self._make_context(problem, {'form': form, 'propagate_filename': True})
+        return render(request, self.template_name, context)
+
+
+class ProblemFilesDataFileNewView(ProblemFilesBaseFileNewView):
+    form_class = ProblemRelatedDataFileNewForm
+
+
+class ProblemFilesSourceFileNewView(ProblemFilesBaseFileNewView):
+    form_class = ProblemRelatedSourceFileNewForm
 
 
 class ProblemFilesBaseFileDeleteView(BaseProblemView):

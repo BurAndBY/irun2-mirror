@@ -28,11 +28,13 @@ problem_urlpatterns = [
     url(r'^files/data/(?P<file_id>[0-9]+)/download/(?P<filename>.+)$', views.ProblemFilesFileOpenView.as_view(download=True), name='data_file_download'),
     url(r'^files/data/(?P<file_id>[0-9]+)/edit/$', views.ProblemFilesDataFileEditView.as_view(), name='data_file_edit'),
     url(r'^files/data/(?P<file_id>[0-9]+)/delete/$', views.ProblemFilesDataFileDeleteView.as_view(), name='data_file_delete'),
+    url(r'^files/data/new/$', views.ProblemFilesDataFileNewView.as_view(), name='data_file_new'),
 
     url(r'^files/source/(?P<file_id>[0-9]+)/open/(?P<filename>.+)$', views.ProblemFilesSourceFileOpenView.as_view(), name='source_file_open'),
     url(r'^files/source/(?P<file_id>[0-9]+)/download/(?P<filename>.+)$', views.ProblemFilesSourceFileOpenView.as_view(download=True), name='source_file_download'),
     url(r'^files/source/(?P<file_id>[0-9]+)/edit/$', views.ProblemFilesSourceFileEditView.as_view(), name='source_file_edit'),
     url(r'^files/source/(?P<file_id>[0-9]+)/delete/$', views.ProblemFilesSourceFileDeleteView.as_view(), name='source_file_delete'),
+    url(r'^files/source/new/$', views.ProblemFilesSourceFileNewView.as_view(), name='source_file_new'),
 
     url(r'^tex/$', views.ProblemTeXView.as_view(), name='tex'),
     url(r'^tex/render/$', views.ProblemTeXRenderView.as_view(), name='tex_render'),

@@ -12,4 +12,18 @@
         <a href="{% url 'problems:files' problem.id %}{{ navigator.query_string }}" class="btn btn-default">{% trans 'Cancel' %}</a>
     {% endbuttons %}
 </form>
+
+{% if propagate_filename %}
+    <script>
+        $(function() {
+            $("#id_upload").change(function (){
+                var fileName = $(this).prop("files")[0].name;
+                if (fileName) {
+                    $("#id_filename").val(fileName);
+                }
+            });
+        });
+    </script>
+{% endif %}
+
 {% endblock %}
