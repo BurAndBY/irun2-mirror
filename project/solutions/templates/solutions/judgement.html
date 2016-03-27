@@ -14,6 +14,11 @@
     </h2>
 
     <dl class="dl-horizontal">
+        {% if judgement.rejudge_id %}
+            <dt>{% trans 'Rejudge' %}</dt>
+            <dd><a href="{% url 'solutions:rejudge' judgement.rejudge_id %}">{{ judgement.rejudge_id }}</a></dd>
+        {% endif %}
+
         <dt>{% trans 'State' %}</dt>
         <dd>{{ judgement.show_status }}</dd>
 

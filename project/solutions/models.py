@@ -1,10 +1,12 @@
-from django.db import models
-from storage.storage import ResourceIdField
-from proglangs.models import Compiler
-from problems.models import Problem, TestCase
-from django.utils.translation import ugettext_lazy as _
-from storage.models import FileMetadata
 from django.conf import settings
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+from common.outcome import Outcome
+from problems.models import Problem, TestCase
+from proglangs.models import Compiler
+from storage.models import FileMetadata
+from storage.storage import ResourceIdField
 
 
 class AdHocRun(models.Model):
@@ -25,34 +27,6 @@ class Solution(models.Model):
     compiler = models.ForeignKey(Compiler)
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')  # '+' means 'do not create a backwards relation'
-
-
-class Outcome(object):
-    NOT_AVAILABLE = 0
-    ACCEPTED = 1
-    COMPILATION_ERROR = 2
-    WRONG_ANSWER = 3
-    TIME_LIMIT_EXCEEDED = 4
-    MEMORY_LIMIT_EXCEEDED = 5
-    IDLENESS_LIMIT_EXCEEDED = 6
-    RUNTIME_ERROR = 7
-    PRESENTATION_ERROR = 8
-    SECURITY_VIOLATION = 9
-    CHECK_FAILED = 10
-
-    CHOICES = (
-        (NOT_AVAILABLE, _('N/A')),
-        (ACCEPTED, _('Accepted')),
-        (COMPILATION_ERROR, _('Compilation Error')),
-        (WRONG_ANSWER, _('Wrong Answer')),
-        (TIME_LIMIT_EXCEEDED, _('Time Limit Exceeded')),
-        (MEMORY_LIMIT_EXCEEDED, _('Memory Limit Exceeded')),
-        (IDLENESS_LIMIT_EXCEEDED, _('Idleness Limit Exceeded')),
-        (RUNTIME_ERROR, _('Run-time Error')),
-        (PRESENTATION_ERROR, _('Presentation Error')),
-        (SECURITY_VIOLATION, _('Security Violation')),
-        (CHECK_FAILED, _('Check Failed'))
-    )
 
 
 class Rejudge(models.Model):
@@ -88,9 +62,6 @@ class Judgement(models.Model):
     score = models.IntegerField(default=0)
     max_score = models.IntegerField(default=0)
 
-    general_failure_reason = models.IntegerField(default=0)
-    general_failure_message = models.CharField(max_length=255)
-
     def show_status(self):
         if self.status != Judgement.DONE:
             result = self.get_status_display()
@@ -103,9 +74,13 @@ class Judgement(models.Model):
 
 class JudgementExtraInfo(models.Model):
     judgement = models.OneToOneField(Judgement, on_delete=models.CASCADE, primary_key=True, related_name='extra_info')
+
     creation_time = models.DateTimeField(null=True)
     start_testing_time = models.DateTimeField(null=True)
     finish_testing_time = models.DateTimeField(null=True)
+
+    general_failure_reason = models.CharField(max_length=64, default='')  # contains uppercase enum values
+    general_failure_message = models.CharField(max_length=255, default='')
 
 
 class JudgementLog(models.Model):

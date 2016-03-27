@@ -1,6 +1,10 @@
+import time
+
 from django.conf import settings
-from django.http import Http404
-from django.http import StreamingHttpResponse
+from django.db import transaction
+from django.http import Http404, StreamingHttpResponse
+from django.shortcuts import render, redirect
+from django.views import generic
 
 from rest_framework import permissions
 from rest_framework import serializers
@@ -11,9 +15,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from storage.storage import create_storage
+from cauth.mixins import StaffMemberRequiredMixin
+from common.cast import make_int_list_quiet
 
-from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, parse_resource_id
-import workerinteract
+from .models import DbObjectInQueue
+from .queue import dequeue, update, finalize
+from .serializers import parse_resource_id
+from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, WorkerGreetingSerializer
 
 #
 # File Stroage API
@@ -85,38 +93,74 @@ class FileView(WorkerAPIView):
 # Testing Job/Report API
 #
 
-
-class JobTakeView(WorkerAPIView):
-    def get(self, request, format=None):
-        return self.post(request, format)
-
+class JobTakeView(APIView):
     def post(self, request, format=None):
-        # job = workerinteract.get_testing_job()
-        job = workerinteract.wait_for_testing_job()
-        request.stream.read()
+        serializer = WorkerGreetingSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        greeting = serializer.save()
 
-        if job is None:
+        TIMEOUT = 20.0
+
+        start_time = time.time()
+        while True:
+            passed = time.time() - start_time
+            if passed >= TIMEOUT:
+                break
+            obj = dequeue(greeting.name)
+            if obj is not None:
+                break
+            time.sleep(1.0)
+
+        if obj is None:
             raise Http404('Nothing to test')
 
+        job = obj.get_job()
+        job.id = obj.get_db_obj_id()
         serializer = WorkerTestingJobSerializer(job)
         return Response(serializer.data)
 
 
-class JobPutResult(WorkerAPIView):
+class JobPutResultView(WorkerAPIView):
     def put(self, request, job_id, format=None):
         serializer = WorkerTestingReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         report = serializer.save()
 
-        workerinteract.put_testing_report(job_id, report)
+        with transaction.atomic():
+            obj = finalize(job_id)
+            if obj is not None:
+                obj.put_report(report)
+
         return Response(['ok'])
 
 
-class JobPutState(WorkerAPIView):
+class JobPutStateView(WorkerAPIView):
     def put(self, request, job_id, format=None):
         serializer = WorkerStateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         state = serializer.save()
 
-        workerinteract.put_state(job_id, state)
+        obj = update(job_id)
+        if obj is not None:
+            obj.update_state(state)
         return Response(['ok'])
+
+
+'''
+Queue viewer
+'''
+
+
+class QueueView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'api/queue.html'
+
+    def get(self, request):
+        new_objects = DbObjectInQueue.objects.exclude(state=DbObjectInQueue.DONE).order_by('-priority', 'id').all()
+        last_objects = DbObjectInQueue.objects.filter(state=DbObjectInQueue.DONE).order_by('-last_update_time', 'id').all()[:10]
+        return render(request, self.template_name, {'new_objects': new_objects, 'last_objects': last_objects})
+
+    def post(self, request):
+        ids = make_int_list_quiet(request.POST.getlist('id'))
+        if ids:
+            DbObjectInQueue.objects.filter(pk__in=ids).update(state=DbObjectInQueue.WAITING)
+        return redirect('api:queue')

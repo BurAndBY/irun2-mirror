@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from common.outcome import Outcome
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
@@ -113,6 +114,7 @@ class ProblemRelatedSourceFile(FileMetadataBase):
     CONTESTANT_SOLUTION = 217
     GENERATOR = 218
     LIBRARY = 219
+    VALIDATOR = 223
 
     FILE_TYPE_CHOICES = (
         (AUTHORS_SOLUTION, _('Author\'s solution')),
@@ -120,6 +122,7 @@ class ProblemRelatedSourceFile(FileMetadataBase):
         (CONTESTANT_SOLUTION, _('Contestant solution')),
         (GENERATOR, _('Generator')),
         (LIBRARY, _('Library')),
+        (VALIDATOR, _('Validator')),
     )
 
     # null for global checkers
@@ -163,3 +166,17 @@ class TestCase(models.Model):
         self.answer_resource_id = resource_id
         self.answer_size = f.size
         return updated
+
+
+class Validation(models.Model):
+    problem = models.OneToOneField(Problem)
+    is_pending = models.BooleanField(default=False)
+    validator = models.ForeignKey(ProblemRelatedSourceFile, null=True, blank=True, on_delete=models.SET_NULL)
+    general_failure_reason = models.CharField(max_length=64, blank=True)
+
+
+class TestCaseValidation(models.Model):
+    validation = models.ForeignKey(Validation)
+    input_resource_id = ResourceIdField()
+    is_valid = models.BooleanField()
+    validator_message = models.CharField(max_length=255, blank=True)

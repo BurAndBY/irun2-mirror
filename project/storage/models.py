@@ -13,6 +13,9 @@ class FileMetadataBase(models.Model):
     class Meta:
         abstract = True
 
+    def __unicode__(self):
+        return self.filename
+
 
 class FileMetadata(FileMetadataBase):
     pass

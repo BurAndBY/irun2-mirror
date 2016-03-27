@@ -35,7 +35,7 @@
                     setTimeout(poll_{{ uid }}, 2000);
                 } else {
                     {% if refresh %}
-                        location.reload();
+                        setTimeout(function() { location.reload(); }, 500);
                     {% endif %}
                 }
             }).fail(function() {

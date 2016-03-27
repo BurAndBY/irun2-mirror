@@ -38,6 +38,9 @@ class ResourceId(object):
     def to_representation(self, obj):
         return str(obj)
 
+    def __hash__(self):
+        return hash(self._binary)
+
 
 class ResourceIdField(models.BinaryField):
     description = "Data storage resource identifier"

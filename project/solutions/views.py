@@ -14,6 +14,7 @@ from django.views import generic
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
 from common.views import MassOperationView
+from common.outcome import Outcome
 from problems.description import IDescriptionImageLoader, render_description
 from problems.models import Problem, ProblemRelatedFile
 from proglangs.utils import get_highlightjs_class
@@ -23,9 +24,9 @@ from storage.utils import serve_resource, serve_resource_metadata
 from .calcpermissions import calculate_permissions
 from .compare import fetch_solution
 from .forms import AllSolutionsFilterForm, CompareSolutionsForm
-from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Outcome
+from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog
 from .permissions import SolutionPermissions
-from .utils import create_judgement
+from .utils import judge
 from .filters import apply_state_filter, apply_compiler_filter
 
 
@@ -197,7 +198,7 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
         with transaction.atomic():
             rejudge = Rejudge.objects.create(author=author)
             for solution in filtered_queryset:
-                create_judgement(solution=solution, rejudge=rejudge)
+                judge(solution=solution, rejudge=rejudge, set_best=False)
 
         return redirect('solutions:rejudge', rejudge.id)
 
@@ -314,6 +315,7 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
             queryset = Solution.objects.\
                 select_related('compiler').\
                 select_related('best_judgement').\
+                select_related('best_judgement__extra_info').\
                 select_related('problem').\
                 select_related('source_code')
         else:
@@ -332,6 +334,11 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
             'solution_permissions': self.permissions,
             'active_tab': self.tab,
         }
+        best = self.solution.best_judgement
+        if best is not None:
+            if hasattr(best, 'extra_info'):
+                context['extra_info'] = best.extra_info
+
         context.update(**kwargs)
         return context
 
@@ -483,6 +490,8 @@ class SolutionMainView(BaseSolutionView):
             if judgement is not None:
                 test_results_count = judgement.testcaseresult_set.count()
                 if test_results_count > 0:
+                    return SolutionTestsView
+                if judgement.outcome == Outcome.CHECK_FAILED:
                     return SolutionTestsView
 
         if permissions.compilation_log:

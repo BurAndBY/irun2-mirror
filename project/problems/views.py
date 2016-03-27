@@ -5,6 +5,7 @@ import mimetypes
 import operator
 import re
 import zipfile
+import collections
 
 from django.contrib import messages
 from django.core.files.base import ContentFile
@@ -19,11 +20,13 @@ from django.utils.translation import ungettext
 
 from mptt.templatetags.mptt_tags import cache_tree_children
 
+from api.queue import ValidationInQueue, enqueue
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
 from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
 from common.networkutils import redirect_with_query_string
+from common.outcome import Outcome
 from common.pageutils import paginate
 from common.views import IRunnerListView
 from solutions.filters import apply_state_filter, apply_compiler_filter
@@ -34,13 +37,14 @@ import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
-from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm
-from .models import Problem, ProblemRelatedFile, TestCase, ProblemFolder
+from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm
+from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
 from .navigator import Navigator
 from .statement import StatementRepresentation
 from .texrenderer import render_tex
 from .description import IDescriptionImageLoader, render_description
 from .tabs import PROBLEM_TAB_MANAGER
+from .validation import revalidate_testset
 
 '''
 Problem statement
@@ -254,6 +258,7 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 '''
 Tests
 '''
+ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message')
 
 
 class ProblemTestsView(BaseProblemView):
@@ -263,9 +268,40 @@ class ProblemTestsView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
+        context = {}
+
+        validated_inputs = {}
+        validation = Validation.objects.filter(problem=problem).first()
+        if validation is not None:
+            if validation.validator_id is not None:
+                context['validation_enabled'] = True
+                context['validation_general_failure_reason'] = validation.general_failure_reason
+
+            for test_case_validation in validation.testcasevalidation_set.all():
+                validated_inputs[test_case_validation.input_resource_id] = (test_case_validation.is_valid, test_case_validation.validator_message)
+
+        validated_test_cases = []
         test_cases = problem.testcase_set.all().order_by('ordinal_number')
 
-        context = self._make_context(problem, {'test_cases': test_cases})
+        stats = collections.Counter()
+        all_test_count = 0
+
+        for test_case in test_cases:
+            is_valid, validator_message = validated_inputs.get(test_case.input_resource_id, (None, None))
+            stats[is_valid] += 1
+            all_test_count += 1
+            validated_test_cases.append(ValidatedTestCase(test_case, is_valid, validator_message))
+
+        if all_test_count > 0:
+            if stats[True] == all_test_count:
+                context['validation_status'] = 'GOOD'
+            elif stats[False] > 0:
+                context['validation_status'] = 'BAD'
+            elif stats[None] > 0:
+                context['validation_status'] = 'UNKNOWN'
+
+        context['validated_test_cases'] = validated_test_cases
+        context = self._make_context(problem, context)
         return render(request, self.template_name, context)
 
 
@@ -421,6 +457,7 @@ class ProblemTestsTestEditView(BaseProblemView):
                 test_case.set_input(storage, input_file)
                 if resource_id_before != test_case.input_resource_id:
                     changed.append('input_resource_id')
+                    revalidate_testset(problem.id)
 
             answer_file = answer_form.extract_file_result()
             if answer_file is not None:
@@ -430,7 +467,7 @@ class ProblemTestsTestEditView(BaseProblemView):
                     changed.append('answer_resource_id')
 
             if changed:
-                messages.add_message(request, messages.SUCCESS, self._notify_about_changes(test_number, changed))
+                messages.add_message(request, messages.INFO, self._notify_about_changes(test_number, changed))
 
             test_case.save()
             return redirect_with_query_string(request, 'problems:show_test', problem.id, test_number)
@@ -480,6 +517,7 @@ class ProblemTestsNewView(BaseProblemView):
             test_case.problem = problem
             test_case.ordinal_number = problem.testcase_set.count() + 1  # TODO: fix possible data race
             test_case.save()
+            revalidate_testset(problem.id)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
 
         context = self._make_context(problem, {
@@ -595,7 +633,8 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
                 TestCase.objects.bulk_create(test_cases)
 
             msg = ungettext('%(count)d test was added.', '%(count)d tests were added.', len(test_cases)) % {'count': len(test_cases)}
-            messages.add_message(request, messages.SUCCESS, msg)
+            messages.add_message(request, messages.INFO, msg)
+            revalidate_testset(problem.id)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
 
         context = self._make_context(problem, {'form': form, 'description_form': description_form})
@@ -667,6 +706,10 @@ class ProblemFilesBaseFileEditView(BaseProblemView):
             store_and_fill_metadata(form.cleaned_data['upload'], related_file)
             related_file.filename = filename
             related_file.save()
+
+            if related_file.file_type == ProblemRelatedSourceFile.VALIDATOR:
+                revalidate_testset(problem.id, clear=True)
+
             return redirect_with_query_string(request, 'problems:files', problem.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1070,7 +1113,7 @@ class ProblemFoldersView(BaseProblemView):
         if form.is_valid():
             form.save()
             if form.has_changed():
-                messages.add_message(request, messages.SUCCESS, CHANGES_HAVE_BEEN_SAVED)
+                messages.add_message(request, messages.INFO, CHANGES_HAVE_BEEN_SAVED)
             return redirect_with_query_string(request, 'problems:folders', problem.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1102,7 +1145,7 @@ class ProblemPropertiesView(BaseProblemView):
         if form.is_valid():
             form.save()
             if form.has_changed():
-                messages.add_message(request, messages.SUCCESS, CHANGES_HAVE_BEEN_SAVED)
+                messages.add_message(request, messages.INFO, CHANGES_HAVE_BEEN_SAVED)
             return redirect_with_query_string(request, 'problems:properties', problem.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1128,4 +1171,54 @@ class ProblemPicturesView(BaseProblemView):
                 pictures.append(related_file)
 
         context = self._make_context(problem, {'pictures': pictures})
+        return render(request, self.template_name, context)
+
+
+'''
+Validator
+'''
+
+
+class ProblemValidatorView(BaseProblemView):
+    tab = 'validator'
+    template_name = 'problems/validator.html'
+
+    def _create_form(self, problem, data=None, initial=None):
+        qs = problem.problemrelatedsourcefile_set.\
+            filter(file_type=ProblemRelatedSourceFile.VALIDATOR)
+        form = ValidatorForm(data=data, initial=initial, validators=qs)
+        return form
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        initial = {}
+
+        validation = Validation.objects.filter(problem=problem).first()
+        if validation is not None:
+            initial['validator'] = validation.validator
+
+        form = self._create_form(problem, initial=initial)
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        form = self._create_form(problem, data=request.POST)
+        if form.is_valid():
+            validator = form.cleaned_data['validator']
+            need_validation = (validator is not None)
+            upd = {
+                'validator': validator,
+                'is_pending': need_validation,
+                'general_failure_reason': '',
+            }
+            with transaction.atomic():
+                validation, _ = Validation.objects.update_or_create(problem=problem, defaults=upd)
+                validation.testcasevalidation_set.all().delete()
+                if need_validation:
+                    enqueue(ValidationInQueue(validation.id))
+
+            return redirect_with_query_string(request, 'problems:validator', problem.id)
+
+        context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)

@@ -3,9 +3,10 @@ import six
 
 from rest_framework import serializers
 
-from solutions.models import Outcome, Judgement, JudgementLog, TestCaseResult
+from common.outcome import Outcome
+from solutions.models import Judgement, JudgementLog, TestCaseResult
 from storage.storage import ResourceId
-from .workerstructs import WorkerTestingReport, WorkerState
+from .workerstructs import WorkerTestingReport, WorkerState, WorkerGreeting
 
 
 def parse_resource_id(string):
@@ -82,15 +83,21 @@ class WorkerTestCaseSerializer(serializers.Serializer):
 
 class WorkerCheckerSerializer(serializers.Serializer):
     source = ProblemRelatedSourceFileSerializer()
+    kind = serializers.CharField()
+
+
+class WorkerValidatorSerializer(serializers.Serializer):
+    source = ProblemRelatedSourceFileSerializer()
 
 
 class WorkerProblemSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    input_file_name = serializers.CharField(read_only=True)
-    output_file_name = serializers.CharField(read_only=True)
-    tests = WorkerTestCaseSerializer(read_only=True, many=True)
-    checker = WorkerCheckerSerializer(allow_null=True)
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    input_file_name = serializers.CharField()
+    output_file_name = serializers.CharField()
+    tests = WorkerTestCaseSerializer(many=True)
+    checker = WorkerCheckerSerializer()
+    validator = WorkerValidatorSerializer()
 
 
 class WorkerTestingJobSerializer(serializers.Serializer):
@@ -149,6 +156,8 @@ class WorkerTestingReportSerializer(serializers.Serializer):
     max_score = serializers.IntegerField(min_value=0, required=False, default=0)
     tests = serializers.ListField(child=TestCaseResultField())
     logs = serializers.ListField(child=JudgementLogField())
+    general_failure_reason = serializers.CharField(allow_null=True, allow_blank=True, default='')
+    general_failure_message = serializers.CharField(allow_null=True, allow_blank=True, default='')
 
     def create(self, validated_data):
         return WorkerTestingReport(**validated_data)
@@ -160,3 +169,10 @@ class WorkerStateSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return WorkerState(**validated_data)
+
+
+class WorkerGreetingSerializer(serializers.Serializer):
+    name = serializers.CharField()
+
+    def create(self, validated_data):
+        return WorkerGreeting(**validated_data)

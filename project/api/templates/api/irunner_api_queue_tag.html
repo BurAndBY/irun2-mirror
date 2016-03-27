@@ -1,0 +1,46 @@
+{% load i18n %}
+
+{% if object_list %}
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+            	{% if show_checkboxes %}
+                	<th><input type="checkbox" id="selectall"></th>
+                {% endif %}
+                <th>ID</th>
+                <th>Worker</th>
+                <th>{% trans 'State' %}</th>
+                <th>{% trans 'Created' %}</th>
+                <th>{% trans 'Last updated' %}</th>
+                <th>{% trans 'Priority' %}</th>
+                <th>{% trans 'Description' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in object_list %}
+            <tr>
+            	{% if show_checkboxes %}
+                	<td><input type="checkbox" class="ir-checkbox" name="id" value="{{ obj.id }}"></td>
+                {% endif %}
+                <td>{{ obj.id }}</td>
+                <td class="ir-monospace" title="{{ obj.worker }}">{{ obj.worker|truncatechars:9 }}</td>
+                <td>{{ obj.get_state_display }}</td>
+                <td>{{ obj.creation_time|date:'Y-m-d H:i:s' }}</td>
+                <td>{{ obj.last_update_time|date:'Y-m-d H:i:s' }}</td>
+                <td><span class="badge">{{ obj.priority }}</span></td>
+                <td>
+                    {% if obj.validation %}
+                        {% trans 'Validation' %}
+                    {% endif %}
+
+                    {% if obj.judgement_id %}
+                        {% trans 'Run' %} <a href="{% url 'solutions:show_judgement' obj.judgement_id %}">{{ obj.judgement_id }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="ir-absence">{% trans 'Queue is empty.' %}</div>
+{% endif %}

@@ -3,8 +3,10 @@
 import uuid
 
 from django import template
+from django.utils.translation import ugettext_lazy as _
 
-from solutions.models import Judgement, Outcome
+from common.outcome import Outcome
+from solutions.models import Judgement
 from solutions.permissions import SolutionPermissions
 
 
@@ -169,3 +171,20 @@ def irunner_solutions_livesubmission(solution_id):
 @register.inclusion_tag('solutions/irunner_solutions_rejudgestate_tag.html')
 def irunner_solutions_rejudgestate(committed):
     return {'committed': committed}
+
+
+GENERAL_FAILURE_MESSAGES = {
+    'UNKNOWN': _('unknown error'),
+    'CHECKER_NOT_COMPILED': _('error while compiling checker'),
+    'VALIDATOR_NOT_COMPILED': _('error while compiling validator'),
+    'UNKNOWN_PROGRAMMING_LANGUAGE': _('compiler is not available for the testing module'),
+}
+
+
+@register.inclusion_tag('solutions/irunner_solutions_checkfailed_tag.html')
+def irunner_solutions_checkfailed(extra_info):
+    context = {}
+    if extra_info:
+        context['reason'] = GENERAL_FAILURE_MESSAGES.get(extra_info.general_failure_reason, extra_info.general_failure_reason)
+        context['message'] = extra_info.general_failure_message
+    return context

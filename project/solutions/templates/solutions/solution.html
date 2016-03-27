@@ -58,8 +58,13 @@
 
             <div class="col-md-6">
                 <dl class="dl-horizontal">
-                    <dt>{% trans 'Submission time' %}</dt>
+                    <dt>{% trans 'Submitted' %}</dt>
                     <dd>{{ solution.reception_time }}</dd>
+
+                    {% if extra_info and extra_info.finish_testing_time %}
+                        <dt>{% trans 'Judged' %}</dt>
+                        <dd>{{ extra_info.finish_testing_time }}</dd>
+                    {% endif %}
 
                     {% if solution_permissions.ip_address and solution.ip_address %}
                         <dt>{% trans 'IP address' %}</dt>

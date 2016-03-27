@@ -1,0 +1,12 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_messagebox %}
+
+{% if reason or message %}
+	{% irunner_messagebox style='danger' wide=True %}
+		<p>{% bootstrap_icon 'ban-circle' %} <span class="ir-icon-label"><strong>{% trans 'Check failed' %}:</strong> {{ reason }}.</span></p>
+		{% if message %}
+			<p class="ir-monospace">{{ message }}</p>
+		{% endif %}
+	{% irunner_endmessagebox %}
+{% endif %}

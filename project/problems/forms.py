@@ -219,3 +219,17 @@ class ProblemRelatedTeXFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
     class Meta:
         model = ProblemRelatedFile
         fields = ['filename']
+
+
+'''
+Validator
+'''
+
+
+class ValidatorForm(forms.Form):
+    validator = forms.ModelChoiceField(label=_('Validator'), queryset=ProblemRelatedSourceFile.objects.none(), empty_label=EMPTY_SELECT, required=False)
+
+    def __init__(self, *args, **kwargs):
+        qs = kwargs.pop('validators')
+        super(ValidatorForm, self).__init__(*args, **kwargs)
+        self.fields['validator'].queryset = qs

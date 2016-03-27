@@ -1,11 +1,11 @@
 from django.core.files.base import ContentFile
 from django.utils import timezone
 
+from api.queue import enqueue, JudgementInQueue
 from common.networkutils import get_request_ip
+from proglangs.utils import guess_filename
 from solutions.models import Solution, Judgement, JudgementExtraInfo
-import storage.utils
-import proglangs.utils
-from api.workerinteract import notify
+from storage.utils import store_with_metadata
 
 
 def new_solution(request, compiler, text, upload, problem_id=None):
@@ -14,10 +14,10 @@ def new_solution(request, compiler, text, upload, problem_id=None):
     '''
     if upload is None:
         # real file is not uploaded, we use text
-        filename = proglangs.utils.guess_filename(compiler.language, text)
+        filename = guess_filename(compiler.language, text)
         upload = ContentFile(text.encode('utf-8'), name=filename)
 
-    source_code = storage.utils.store_with_metadata(upload)
+    source_code = store_with_metadata(upload)
     solution = Solution(author=request.user, ip_address=get_request_ip(request), reception_time=timezone.now(),
                         source_code=source_code, compiler=compiler, problem_id=problem_id)
 
@@ -25,17 +25,15 @@ def new_solution(request, compiler, text, upload, problem_id=None):
     return solution
 
 
-def create_judgement(solution, rejudge=None):
+def judge(solution, rejudge=None, set_best=True):
     judgement = Judgement(solution=solution, rejudge=rejudge)
     judgement.save()
+
     JudgementExtraInfo.objects.create(judgement=judgement, creation_time=timezone.now())
-    return judgement
 
+    priority = 10 if rejudge is None else 5
+    enqueue(JudgementInQueue(judgement.id), priority)
 
-def judge(solution, rejudge=None):
-    judgement = create_judgement(solution, rejudge)
-    notify()
-
-    if solution.best_judgement is None:
+    if set_best and solution.best_judgement_id is None:
         solution.best_judgement = judgement
         solution.save()

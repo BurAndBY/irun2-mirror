@@ -1,6 +1,7 @@
 from proglangs.models import Compiler
 
-from .models import Judgement, Outcome
+from common.outcome import Outcome
+from .models import Judgement
 
 STATE_FILTERS = {
     'waiting': lambda q: q.filter(best_judgement__status=Judgement.WAITING),

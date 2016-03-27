@@ -5,9 +5,10 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.timezone import make_aware
 
+from common.outcome import Outcome
 from common.irunner_import import connect_irunner_db, fetch_irunner_file
 from common.memory_string import parse_memory
-from solutions.models import Solution, Judgement, Outcome, TestCaseResult
+from solutions.models import Solution, Judgement, TestCaseResult
 from problems.models import Problem, TestCase
 from storage.storage import create_storage
 from storage.models import FileMetadata

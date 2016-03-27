@@ -21,10 +21,11 @@ class WorkerProblem(object):
         self.output_file_name = ''
         self.tests = []
         self.checker = None
+        self.validator = None
 
 
 class WorkerTestingJob(object):
-    def __init__(self, job_id):
+    def __init__(self, job_id=None):
         self.id = job_id
         self.problem = None
         self.solution = None
@@ -32,21 +33,36 @@ class WorkerTestingJob(object):
 
 
 class WorkerTestingReport(object):
-    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs):
+    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs, general_failure_reason, general_failure_message):
         self.outcome = outcome
         self.first_failed_test = first_failed_test
         self.tests = tests
         self.score = score
         self.max_score = max_score
         self.logs = logs
+        self.general_failure_reason = general_failure_reason
+        self.general_failure_message = general_failure_message
 
 
 class WorkerState(object):
-    def __init__(self, status, test_number):
+    def __init__(self, status, test_number=0):
         self.status = status
         self.test_number = test_number
 
 
 class WorkerChecker(object):
-    def __init__(self, source):
+    IRUNNER = 'IRUNNER'
+
+    def __init__(self, source=None):
         self.source = source
+        self.kind = self.IRUNNER
+
+
+class WorkerValidator(object):
+    def __init__(self):
+        self.source = None
+
+
+class WorkerGreeting(object):
+    def __init__(self, name):
+        self.name = name

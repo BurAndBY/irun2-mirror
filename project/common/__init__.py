@@ -7,4 +7,4 @@ def activate_foreign_keys(sender, connection, **kwargs):
         cursor = connection.cursor()
         cursor.execute('PRAGMA foreign_keys = ON;')
 
-connection_created.connect(activate_foreign_keys)
+# connection_created.connect(activate_foreign_keys)

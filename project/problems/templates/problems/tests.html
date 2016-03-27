@@ -1,6 +1,7 @@
 {% extends 'problems/base.html' %}
 
 {% load bootstrap3 %}
+{% load irunner_messagebox %}
 {% load irunner_problems %}
 {% load i18n %}
 
@@ -8,7 +9,29 @@
 
 {% bootstrap_messages %}
 
-{% csrf_token %}
+{% if validation_enabled %}
+    {% if validation_general_failure_reason %}
+        {% irunner_messagebox style='danger' wide=True %}
+            {% trans 'An error occurred while running validator' %}: {{ validation_general_failure_reason }}.
+        {% irunner_endmessagebox %}
+    {% else %}
+        {% if validation_status == 'GOOD' %}
+            {% irunner_messagebox style='success' wide=True %}
+                {% trans 'All test input files have passed the validation.' %}
+            {% irunner_endmessagebox %}
+        {% endif %}
+        {% if validation_status == 'BAD' %}
+            {% irunner_messagebox style='danger' wide=True %}
+                {% trans 'Some test input files have not passed the validation.' %}
+            {% irunner_endmessagebox %}
+        {% endif %}
+        {% if validation_status == 'UNKNOWN' %}
+            {% irunner_messagebox style='warning' wide=True %}
+                {% trans 'Validation is running&hellip; Refresh the page after a while to see results.' %}
+            {% irunner_endmessagebox %}
+        {% endif %}
+    {% endif %}
+{% endif %}
 
 <p>
     <a href="{% url 'problems:new_test' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
@@ -29,27 +52,47 @@
             <th>{% trans 'Score' %}</th>
             <th>{% trans 'Time limit' %}</th>
             <th>{% trans 'Memory limit' %}</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-    {% for tc in test_cases %}
+    {% for vtc in validated_test_cases %}
+        {% with vtc.test_case as tc %}
         <tr>
             <td><input type="checkbox" class="ir-checkbox" name="{{ tc.ordinal_number }}"></td>
             <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></td>
             <td>
-                <a href="{% url 'problems:test_input_open' problem.id tc.ordinal_number %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
-                <a href="{% url 'problems:test_input_download' problem.id tc.ordinal_number %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
-                <span class="ir-file-size">[{{ tc.input_size|filesizeformat }}]</span>
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle ir-dotted">{{ tc.input_size|filesizeformat }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'problems:test_input_open' problem.id tc.ordinal_number %}" target="_blank">{% bootstrap_icon 'open-file' %} <span class="ir-icon-label">{% trans 'Open' %}</span></a></li>
+                        <li><a href="{% url 'problems:test_input_download' problem.id tc.ordinal_number %}">{% bootstrap_icon 'download-alt' %} <span class="ir-icon-label">{% trans 'Download' %}</span></a></li>
+                    </ul>
+                </div>
             </td>
             <td>
-                <a href="{% url 'problems:test_answer_open' problem.id tc.ordinal_number %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
-                <a href="{% url 'problems:test_answer_download' problem.id tc.ordinal_number %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
-                <span class="ir-file-size">[{{ tc.answer_size|filesizeformat }}]</span>
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle ir-dotted">{{ tc.answer_size|filesizeformat }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'problems:test_answer_open' problem.id tc.ordinal_number %}" target="_blank">{% bootstrap_icon 'open-file' %} <span class="ir-icon-label">{% trans 'Open' %}</span></a></li>
+                        <li><a href="{% url 'problems:test_answer_download' problem.id tc.ordinal_number %}">{% bootstrap_icon 'download-alt' %} <span class="ir-icon-label">{% trans 'Download' %}</span></a></li>
+                    </ul>
+                </div>
             </td>
             <td>{{ tc.points }}</td>
             <td>{% irunner_problems_timelimit tc.time_limit %}</td>
             <td>{% irunner_problems_memorylimit tc.memory_limit %}</td>
+            <td>
+                {% if vtc.is_valid == True %}
+                    <span class="ir-valid-true">{% bootstrap_icon 'ok-sign' %}</span>
+                {% elif vtc.is_valid == False %}
+                    <span class="ir-valid-false"{% if vtc.validator_message %} data-toggle="tooltip" data-placement="left" title="{{ vtc.validator_message }}"{% endif %}>{% bootstrap_icon 'remove-sign' %}</span>
+                {% else %}
+                    <span class="ir-valid-unk">{% bootstrap_icon 'question-sign' %}</span>
+                {% endif %}
+            </td>
         </tr>
+        {% endwith %}
     {% endfor %}
     </tbody>
 </table>
@@ -66,6 +109,7 @@
 <script>
     jQuery(document).ready(function($) {
         irSetUpSelectAll();
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 {% endblock %}

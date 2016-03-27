@@ -27,6 +27,7 @@ def create_problem_tab_manager():
         Tab('folders', _('Folders'), 'folder-open', 'problems:folders'),
         Tab('statement', _('Statement'), 'file', 'problems:statement'),
         Tab('tests', _('Tests'), 'list-alt', 'problems:tests'),
+        Tab('validator', _('Validator'), 'ok', 'problems:validator'),
         Tab('solutions', _('Solutions'), 'tasks', 'problems:solutions'),
         Tab('files', _('Files'), 'paperclip', 'problems:files'),
         Tab('tex', _('TeX editor'), 'text-size', 'problems:tex', subtab=True),

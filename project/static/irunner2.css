@@ -1243,3 +1243,27 @@ tr:hover .ir-appear-on-hover {
 .ir-progress-bad {
     background-color: #d9534f;
 }
+
+
+/**
+ * Dotted href
+ */
+.ir-dotted {
+    border-bottom: dotted 1px #337ab7;
+}
+.ir-dotted, .ir-dotted:hover, .ir-dotted:active, .ir-dotted:visited, .ir-dotted:link {
+    text-decoration: none;
+}
+
+/**
+ * Validation status
+ */
+.ir-valid-true {
+    color: #5cb85c;
+}
+.ir-valid-false {
+    color: #d9534f;
+}
+.ir-valid-unk {
+    color: #ccc;
+}

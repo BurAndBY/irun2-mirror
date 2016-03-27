@@ -1,0 +1,16 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+{% load staticfiles %}
+
+{% block main %}
+    <form method="post">
+        {% bootstrap_form form %}
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Revalidate testset' %}</button>
+        {% endbuttons %}
+    </form>
+{% endblock %}
