@@ -93,7 +93,7 @@ class FileView(WorkerAPIView):
 # Testing Job/Report API
 #
 
-class JobTakeView(APIView):
+class JobTakeView(WorkerAPIView):
     def post(self, request, format=None):
         serializer = WorkerGreetingSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -109,7 +109,7 @@ class JobTakeView(APIView):
             obj = dequeue(greeting.name)
             if obj is not None:
                 break
-            time.sleep(1.0)
+            time.sleep(0.5)
 
         if obj is None:
             raise Http404('Nothing to test')
