@@ -15,8 +15,8 @@
 
 {% block main %}
     <p>
-        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Open' %}</span></a>
-        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'save' %} <span class="ir-icon-label">{% trans 'Download' %}</span></a>
+        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'file' %} <span class="ir-icon-label">{% trans 'Open' %}</span></a>
+        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'download-alt' %} <span class="ir-icon-label">{% trans 'Download' %}</span></a>
     </p>
 
     {% irunner_storage_show source_repr language %} 

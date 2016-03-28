@@ -20,16 +20,17 @@
     <table class="table table-condensed">
         <tbody>
             {% for judgement in judgements %}
-                <tr{% if judgement == solution.best_judgement %} class="info"{% endif %}>
+                <tr{% if judgement == solution.best_judgement %} class="active"{% endif %}>
                     <td><a href="{% url 'solutions:show_judgement' judgement.id %}">{{ judgement.id }}</a></td>
+                    <td>{% if judgement.extra_info and judgement.extra_info.finish_testing_time %}{{ judgement.extra_info.finish_testing_time }}{% else %}&mdash;{% endif %}</td>
                     <td>
-                        {% irunner_solutions_scorebox judgement %}
                         {% irunner_solutions_judgementbox judgement tooltip=False %}
+                        {% irunner_solutions_scorebox judgement %}
                         {{ judgement.show_status }}
                     </td>
                     <td>
                         {% if judgement.rejudge_id %}
-                            {{ judgement.rejudge_id }}
+                            <a href="{% url 'solutions:rejudge' judgement.rejudge_id %}">{{ judgement.rejudge_id }}</a>
                         {% else %}
                             &mdash;
                         {% endif %}

@@ -14,6 +14,11 @@
     </h2>
 
     <dl class="dl-horizontal">
+        {% if extra_info and extra_info.creation_time %}
+            <dt>{% trans 'Created' %}</dt>
+            <dd>{{ extra_info.creation_time }}</dd>
+        {% endif %}
+
         {% if judgement.rejudge_id %}
             <dt>{% trans 'Rejudge' %}</dt>
             <dd><a href="{% url 'solutions:rejudge' judgement.rejudge_id %}">{{ judgement.rejudge_id }}</a></dd>
@@ -25,6 +30,8 @@
         <dt>{% trans 'Score' %}</dt>
         <dd>{{ judgement.score }} {% trans 'of' %} {{ judgement.max_score }}</dd>
     </dl>
+
+    {% irunner_solutions_checkfailed extra_info %}
 
     {% if test_results %}
         <h3>{% trans 'Test results' %}</h3>

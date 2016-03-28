@@ -150,6 +150,7 @@ class JudgementView(StaffMemberRequiredMixin, generic.View):
             'logs': logs,
             'test_results': test_results,
             'solution_permissions': permissions,
+            'extra_info': judgement.extra_info if hasattr(judgement, 'extra_info') else None,
         })
 
 
@@ -339,6 +340,9 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
             if hasattr(best, 'extra_info'):
                 context['extra_info'] = best.extra_info
 
+        context['attempt_count'] = Solution.objects.filter(problem_id=self.solution.problem_id, author_id=self.solution.author_id).count()
+        context['judgement_count'] = Judgement.objects.filter(solution_id=self.solution.id).count()
+
         context.update(**kwargs)
         return context
 
@@ -413,7 +417,7 @@ class SolutionJudgementsView(BaseSolutionView):
         return permissions.judgements
 
     def do_get(self, request, solution):
-        judgements = solution.judgement_set.all()
+        judgements = solution.judgement_set.order_by('-id').select_related('extra_info').all()
         context = self.get_context_data(judgements=judgements)
         return render(request, self.template_name, context)
 
