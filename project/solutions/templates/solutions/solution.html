@@ -93,13 +93,13 @@
                 <ul class="nav nav-pills ir-solution-nav-pills">
                     {% if solution_permissions.attempts %}
                         <li role="presentation"{% if active_tab == 'attempts' %} class="active"{% endif %}>
-                            <a href="{% url 'solutions:attempts' solution.id %}">{% trans 'Attempts' %} <span class="badge">{{ attempt_count }}</span></a>
+                            <a href="{% url 'solutions:attempts' solution.id %}">{% trans 'Attempts' %} ({{ attempt_count }})</a>
                         </li>
                     {% endif %}
 
                     {% if solution_permissions.judgements %}
                         <li role="presentation"{% if active_tab == 'judgements' %} class="active"{% endif %}>
-                            <a href="{% url 'solutions:judgements' solution.id %}">{% trans 'Judgements' %} <span class="badge">{{ judgement_count }}</span></a>
+                            <a href="{% url 'solutions:judgements' solution.id %}">{% trans 'Judgements' %} ({{ judgement_count }})</span></a>
                         </li>
                     {% endif %}
 

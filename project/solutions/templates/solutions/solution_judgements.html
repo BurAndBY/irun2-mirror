@@ -7,7 +7,7 @@
 {% block subtitle %}{% trans 'Judgements' %}{% endblock %}
 
 {% block main %}
-    <form method="post" action="{% url 'solutions:create_rejudge' %}">
+    <form method="post" action="{% url 'solutions:create_rejudge' %}" target="_blank">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ solution.id }}">
         {% buttons %}
