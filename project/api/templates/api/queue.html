@@ -9,7 +9,7 @@
 
     <form method="post">
         {% csrf_token %}
-        {% irunner_api_queue new_objects %}
+        {% irunner_api_queue new_objects show_checkboxes=True %}
         {% buttons %}
             <button type="submit" class="btn btn-warning ir-checkbox-driven" disabled>
                 {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Restart' context 'verb' %}</span>

@@ -165,15 +165,12 @@ def _try_decode_ascii(blob):
     return None
 
 
-def _represent(blob, full_size):
+def _represent(blob, full_size, max_lines):
     assert len(blob) <= full_size
     is_complete = len(blob) == full_size
 
     flags = 0
     text = None
-
-    if is_complete:
-        flags |= ResourseRepresentation.IS_COMPLETE
 
     if _is_binary(blob):
         flags |= ResourseRepresentation.IS_BINARY
@@ -191,6 +188,16 @@ def _represent(blob, full_size):
 
         if text is None:
             text = _try_decode_ascii(blob)
+
+    if text is not None and max_lines is not None:
+        lines = text.splitlines(True)
+        if len(lines) > max_lines:
+            keep_lines = max(0, max_lines - 10)
+            text = ''.join(lines[:keep_lines])
+            is_complete = False
+
+    if is_complete:
+        flags |= ResourseRepresentation.IS_COMPLETE
 
     return ResourseRepresentation(full_size, flags, text)
 
@@ -282,12 +289,12 @@ class FileSystemStorage(IDataStorage):
         else:
             return self._do_save(f)
 
-    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT):
+    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT, max_lines=None):
         if resource_id is None:
             return None
         blob = _get_data_directly(resource_id)
         if blob is not None:
-            return _represent(blob, len(blob))
+            return _represent(blob, len(blob), max_lines)
 
         target_name = self._get_path(resource_id)
         if not os.path.exists(target_name):
@@ -301,7 +308,7 @@ class FileSystemStorage(IDataStorage):
 
             fd.seek(0, os.SEEK_SET)
             blob = fd.read(part)
-            return _represent(blob, size)
+            return _represent(blob, size, max_lines)
 
     def _is_exist(self, resource_id):
         blob = _get_data_directly(resource_id)

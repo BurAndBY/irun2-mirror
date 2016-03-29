@@ -291,9 +291,8 @@ h3 { font-size: 20px; line-height: 32px; }
 
 .ir-limit-progressbar {
     position: relative;
-    margin: 0;
+    margin: 0 auto;
     width: 100px;
-    display: inline-block;
 }
 
 .ir-limit-progressbar-filling {
@@ -347,7 +346,9 @@ h3 { font-size: 20px; line-height: 32px; }
     overflow: auto;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-
+.ir-col-sourcelink {
+    width: 170px;
+}
 
 
 /**
@@ -914,6 +915,12 @@ tr:hover .ir-appear-on-hover {
     margin-left: 4px;
     margin-right: 4px;
 }
+.ir-icons a {
+    color: #f0ad4e;
+}
+.ir-icons a:hover, .ir-icons a:focus {
+    color: #8a6d3b;
+}
 
 /**
  * List of files per problem
@@ -1243,6 +1250,9 @@ tr:hover .ir-appear-on-hover {
 .ir-progress-bad {
     background-color: #d9534f;
 }
+.ir-progress-neutral {
+    background-color: #f0ad4e;
+}
 
 
 /**
@@ -1266,4 +1276,15 @@ tr:hover .ir-appear-on-hover {
 }
 .ir-valid-unk {
     color: #ccc;
+}
+
+
+.ir-challenge-file {
+    padding: 12px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-left-color: #f0ad4e;
+    border-radius: 3px;
 }

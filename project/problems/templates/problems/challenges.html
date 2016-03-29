@@ -1,0 +1,38 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+{% load staticfiles %}
+{% load irunner_users %}
+
+{% block main %}
+    <p>
+        <a href="{% url 'problems:new_challenge' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New challenge' %}</span>
+        </a>
+    </p>
+
+    {% if object_list %}
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>{% trans 'Created' %}</th>
+                    <th>{% trans 'Author' %}</th>
+                    <th>{% trans 'Solutions' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for challenge in object_list %}
+                <tr>
+                    <td><a href="{% url 'problems:challenge' problem.id challenge.id %}{{ navigator.query_string }}">{{ challenge.creation_time }}</a></td>
+                    <td>{% irunner_users_show challenge.author %}</td>
+                    <td>{{ challenge.num_solutions }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="ir-absence">{% trans 'No challenges' %}</div>
+    {% endif %}
+{% endblock %}

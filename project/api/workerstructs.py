@@ -52,6 +52,7 @@ class WorkerState(object):
 
 class WorkerChecker(object):
     IRUNNER = 'IRUNNER'
+    ACCEPT_ALL = 'ACCEPT_ALL'
 
     def __init__(self, source=None):
         self.source = source

@@ -3,7 +3,7 @@ from django.db import transaction
 
 from common.outcome import Outcome
 from problems.models import Validation, TestCaseValidation, ProblemRelatedSourceFile, TestCase
-from solutions.models import Judgement, TestCaseResult, JudgementExtraInfo, JudgementLog
+from solutions.models import Judgement, TestCaseResult, JudgementExtraInfo, JudgementLog, Challenge, ChallengedSolution
 
 from .models import DbObjectInQueue
 from .workerstructs import WorkerTestingJob, WorkerTestCase, WorkerProblem, WorkerFile, WorkerChecker, WorkerValidator, WorkerState
@@ -210,6 +210,63 @@ class JudgementInQueue(IObjectInQueue):
         if state.status == Judgement.PREPARING:
             JudgementExtraInfo.objects.filter(pk=self._judgement_id).update(start_testing_time=timezone.now())
 
+
+class ChallengedSolutionInQueue(IObjectInQueue):
+    def __init__(self, challenged_solution_id, db_obj_id=None):
+        super(ChallengedSolutionInQueue, self).__init__(db_obj_id)
+        self._pk = challenged_solution_id
+
+    @classmethod
+    def create(cls, db_obj):
+        if db_obj.challenged_solution_id is not None:
+            return ChallengedSolutionInQueue(challenged_solution_id=db_obj.challenged_solution_id, db_obj_id=db_obj.id)
+        return None
+
+    def persist(self, db_obj):
+        db_obj.challenged_solution_id = self._pk
+
+    def get_job(self):
+        cs = ChallengedSolution.objects.\
+            select_related('solution', 'challenge', 'challenge__problem').\
+            get(pk=self._pk)
+
+        job = WorkerTestingJob()
+
+        wtest = WorkerTestCase(0)
+        wtest.input = WorkerFile(cs.challenge.input_resource_id)
+        wtest.time_limit = cs.challenge.time_limit
+        wtest.memory_limit = cs.challenge.memory_limit
+
+        problem = cs.challenge.problem
+        job.problem = WorkerProblem(problem.id)
+        job.problem.name = problem.numbered_full_name()
+        job.problem.input_file_name = problem.input_filename
+        job.problem.output_file_name = problem.output_filename
+        job.problem.tests = [wtest]
+        job.problem.checker = WorkerChecker(None)
+        job.problem.checker.kind = WorkerChecker.ACCEPT_ALL
+
+        job.solution = cs.solution
+        job.stop_after_first_failed_test = False
+        return job
+
+    def put_report(self, report):
+        cs = ChallengedSolution.objects.get(pk=self._pk)
+        cs.outcome = report.outcome
+        if report.tests:
+            test = report.tests[0]
+            cs.output_resource_id = test.output_resource_id
+            cs.stdout_resource_id = test.stdout_resource_id
+            cs.stderr_resource_id = test.stderr_resource_id
+            cs.exit_code = test.exit_code
+            cs.time_used = test.time_used
+            cs.memory_used = test.memory_used
+        cs.save()
+
+    def update_state(self, state):
+        pass
+
+
 '''
 Common queue functions
 '''
@@ -218,6 +275,7 @@ Common queue functions
 OBJECT_IN_QUEUE_CLASSES = [
     ValidationInQueue,
     JudgementInQueue,
+    ChallengedSolutionInQueue,
 ]
 
 
@@ -226,6 +284,16 @@ def enqueue(obj, priority=10):
     db_obj = DbObjectInQueue(creation_time=ts, last_update_time=ts, priority=priority)
     obj.persist(db_obj)
     db_obj.save()
+
+
+def bulk_enqueue(objs, priority=10):
+    ts = timezone.now()
+    db_objs = []
+    for obj in objs:
+        db_obj = DbObjectInQueue(creation_time=ts, last_update_time=ts, priority=priority)
+        obj.persist(db_obj)
+        db_objs.append(db_obj)
+    DbObjectInQueue.objects.bulk_create(db_objs)
 
 
 def dequeue(worker_name):

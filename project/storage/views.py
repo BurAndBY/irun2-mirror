@@ -5,16 +5,9 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
 
-from utils import serve_resource
+from utils import parse_resource_id, serve_resource
 from forms import TextOrUploadForm
-from storage import create_storage, ResourceId
-
-
-def _parse_resource(resource_id):
-    try:
-        return ResourceId.parse(resource_id)
-    except:
-        raise Http404("Invalid resource id")
+from storage import create_storage
 
 
 class NewView(StaffMemberRequiredMixin, generic.FormView):
@@ -40,7 +33,7 @@ class ShowView(StaffMemberRequiredMixin, generic.View):
     template_name = 'storage/show.html'
 
     def get(self, request, resource_id):
-        resource_id = _parse_resource(resource_id)
+        resource_id = parse_resource_id(resource_id)
 
         storage = create_storage()
         representation = storage.represent(resource_id)
@@ -72,7 +65,7 @@ class StatisticsView(StaffMemberRequiredMixin, generic.View):
 
 class DownloadView(StaffMemberRequiredMixin, generic.View):
     def get(self, request, resource_id):
-        resource_id = _parse_resource(resource_id)
+        resource_id = parse_resource_id(resource_id)
         return serve_resource(request, resource_id, content_type='application/octet-stream', force_download=True)
 
 

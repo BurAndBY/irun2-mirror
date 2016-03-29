@@ -43,11 +43,7 @@
                 <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}"></td>
                 <td>{% irunner_users_show solution.author %}</td>
                 <td>{{ solution.reception_time }}</td>
-                <td class="text-nowrap">
-                    {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
-                    <a href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" title="{% trans 'Download' %} {{ solution.source_code.filename }}">{% bootstrap_icon 'cloud-download' %}</a>
-                    <span class="ir-file-size">({{ solution.source_code.size|filesizeformat }})</span>
-                </td>
+                <td class="text-nowrap">{% irunner_solutions_sourcelink solution %}</td>
                 <td class="text-nowrap">
                     <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}</a>
                     <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_scorebox solution.best_judgement %}</a>

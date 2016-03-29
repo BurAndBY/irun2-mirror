@@ -5,7 +5,14 @@ from django.http import StreamingHttpResponse
 from django.views.decorators.http import etag
 
 from models import FileMetadata
-from storage import create_storage
+from storage import create_storage, ResourceId
+
+
+def parse_resource_id(resource_id):
+    try:
+        return ResourceId.parse(resource_id)
+    except:
+        raise Http404("Invalid resource id")
 
 
 def store_with_metadata(f):

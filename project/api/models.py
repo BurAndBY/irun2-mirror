@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Validation
-from solutions.models import Judgement
+from solutions.models import Judgement, ChallengedSolution
 
 
 class DbObjectInQueue(models.Model):
@@ -26,3 +26,4 @@ class DbObjectInQueue(models.Model):
 
     judgement = models.ForeignKey(Judgement, null=True, on_delete=models.CASCADE)
     validation = models.ForeignKey(Validation, null=True, on_delete=models.CASCADE)
+    challenged_solution = models.ForeignKey(ChallengedSolution, null=True, on_delete=models.CASCADE)

@@ -29,6 +29,7 @@ def create_problem_tab_manager():
         Tab('tests', _('Tests'), 'list-alt', 'problems:tests'),
         Tab('validator', _('Validator'), 'ok', 'problems:validator'),
         Tab('solutions', _('Solutions'), 'tasks', 'problems:solutions'),
+        Tab('challenges', _('Challenges'), 'wrench', 'problems:challenges'),
         Tab('files', _('Files'), 'paperclip', 'problems:files'),
         Tab('tex', _('TeX editor'), 'text-size', 'problems:tex', subtab=True),
         Tab('pictures', _('Pictures'), 'picture', 'problems:pictures', subtab=True),

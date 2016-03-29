@@ -1,0 +1,75 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_proglangs %}
+{% load irunner_storage %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+{% load irunner_progress %}
+{% load staticfiles %}
+
+{% block main %}
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Created' %}</dt>
+        <dd>{{ challenge.creation_time }}</dd>
+
+        <dt>{% trans 'Author' %}</dt>
+        <dd>{% irunner_users_show challenge.author %}</dd>
+
+        <dt>{% trans 'Result' %}</dt>
+        <dd>{% irunner_progress url=progress_url value=stats.complete total=stats.total %}</dd>
+    </dl>
+ 
+    <div class="ir-challenge-file">
+        <h4>
+            {% bootstrap_icon 'copy' %} <a href="{% url 'problems:challenge_data' problem.id challenge.id challenge.input_resource_id %}" target="_blank">{% trans 'Input file' %}</a>
+            <span class="ir-file-size">({{ input_repr.size|filesizeformat }})</span>
+        </h4>
+        {% irunner_storage_show input_repr %}
+    </div>
+
+    {% for out in outputs %}
+        <div class="ir-challenge-file">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h4>
+                    {% if out.resource_id %}
+                        {% bootstrap_icon 'paste' %} <a href="{% url 'problems:challenge_data' problem.id challenge.id out.resource_id %}" target="_blank">{% trans 'Output file' %} {% trans '#' %}{{ forloop.counter }}</a>
+                        <span class="ir-file-size">({{ out.representation.size|filesizeformat }})</span>
+                    {% else %}
+                        {% bootstrap_icon 'ban-circle' %} {% trans 'No result got' %}
+                    {% endif %}
+                    </h4>
+                </div>
+                <div class="col-sm-3">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ out.percent }}%;">
+                            {{ out.solutions|length }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if out.representation %}
+                {% irunner_storage_show out.representation %}
+            {% endif %}
+
+            <table class="table ir-table-more-condensed ir-no-margin">
+                <tbody>
+                {% for cs in out.solutions %}
+                    <tr>
+                        <td class="ir-col-outcome">{% irunner_solutions_outcomebox cs.outcome tooltip=True %}</td>
+                        <td class="ir-col-limit">{% if cs.time_used != None %}{% irunner_solutions_timelimitbox cs.time_used challenge.time_limit %}{% endif %}</td>
+                        <td class="ir-col-limit">{% if cs.memory_used != None %}{% irunner_solutions_memorylimitbox cs.memory_used challenge.memory_limit %}{% endif %}</td>
+                        <td>{% irunner_users_show cs.solution.author %}</td>
+                        <td>{{ cs.solution.reception_time }}</td>
+                        <td class="ir-col-sourcelink">{% irunner_solutions_sourcelink cs.solution %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}

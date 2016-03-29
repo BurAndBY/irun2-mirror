@@ -20,7 +20,7 @@ from django.utils.translation import ungettext
 
 from mptt.templatetags.mptt_tags import cache_tree_children
 
-from api.queue import ValidationInQueue, enqueue
+from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bulk_enqueue
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
@@ -31,13 +31,14 @@ from common.pageutils import paginate
 from common.views import IRunnerListView
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
+from solutions.models import Challenge, ChallengedSolution, Judgement
 from storage.storage import create_storage
-from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata
+from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata, parse_resource_id
 import solutions.utils
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
-from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm
+from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm, ChallengeForm
 from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -1222,3 +1223,143 @@ class ProblemValidatorView(BaseProblemView):
 
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
+
+
+'''
+Challenges
+'''
+
+
+class ProblemChallengesView(BaseProblemView):
+    tab = 'challenges'
+    template_name = 'problems/challenges.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        challenges = Challenge.objects.\
+            filter(problem=problem).\
+            annotate(num_solutions=Count('challengedsolution')).\
+            order_by('-creation_time').all()
+
+        context = self._make_context(problem, {'object_list': challenges})
+        return render(request, self.template_name, context)
+
+
+class ProblemNewChallengeView(BaseProblemView):
+    tab = 'challenges'
+    template_name = 'problems/challenge_new.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        input_form = TestUploadOrTextForm()
+        challenge_form = ChallengeForm(initial={'time_limit': 1000})
+        context = self._make_context(problem, {'input_form': input_form, 'challenge_form': challenge_form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        input_form = TestUploadOrTextForm(request.POST, request.FILES)
+        challenge_form = ChallengeForm(data=request.POST)
+
+        if input_form.is_valid() and challenge_form.is_valid():
+            storage = create_storage()
+            resource_id = storage.save(input_form.extract_file_result())
+
+            solution_ids = problem.solution_set.\
+                filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED).\
+                values_list('id', flat=True)
+
+            with transaction.atomic():
+                challenge = Challenge(
+                    author=request.user,
+                    problem=problem,
+                    time_limit=challenge_form.cleaned_data['time_limit'],
+                    memory_limit=challenge_form.cleaned_data['memory_limit'],
+                    input_resource_id=resource_id,
+                )
+                challenge.save()
+
+                challenged_solutions = [ChallengedSolution(challenge=challenge, solution_id=solution_id) for solution_id in solution_ids]
+                ChallengedSolution.objects.bulk_create(challenged_solutions)
+
+                new_ids = ChallengedSolution.objects.filter(challenge=challenge).values_list('id', flat=True)
+                bulk_enqueue((ChallengedSolutionInQueue(pk) for pk in new_ids), priority=7)
+
+            return redirect_with_query_string(request, 'problems:challenge', problem.id, challenge.id)
+
+        context = self._make_context(problem, {'input_form': input_form, 'challenge_form': challenge_form})
+        return render(request, self.template_name, context)
+
+
+ChallengeOutput = collections.namedtuple('ChallengeOutput', 'resource_id representation solutions percent')
+ChallengeStats = collections.namedtuple('ChallengeStats', ['total', 'complete'])
+
+
+def fetch_challenge_stats(problem_id, challenge_id):
+    queryset = ChallengedSolution.objects.filter(challenge_id=challenge_id, challenge__problem_id=problem_id)
+    total = queryset.count()
+    complete = queryset.exclude(outcome=Outcome.NOT_AVAILABLE).count()
+    return ChallengeStats(total, complete)
+
+
+class ProblemChallengeView(BaseProblemView):
+    tab = 'challenges'
+    template_name = 'problems/challenge.html'
+
+    max_bytes = 8192
+    max_lines = 30
+
+    def get(self, request, problem_id, challenge_id):
+        problem = self._load(problem_id)
+
+        challenge = Challenge.objects.filter(problem=problem, pk=challenge_id).first()
+        if challenge is None:
+            return redirect_with_query_string(request, 'problems:challenges', problem.id)
+
+        storage = create_storage()
+
+        input_repr = storage.represent(challenge.input_resource_id, limit=self.max_bytes, max_lines=self.max_lines)
+
+        # output_resource_id -> [challenged_solutions]
+        outputs = {}
+
+        for cs in ChallengedSolution.objects.filter(challenge=challenge).order_by('-solution__reception_time'):
+            resource_id = None
+            if cs.outcome == Outcome.ACCEPTED and cs.output_resource_id is not None:
+                resource_id = cs.output_resource_id
+            outputs.setdefault(resource_id, []).append(cs)
+
+        num_solutions = sum(len(x) for x in outputs.values())
+
+        results = []
+        for resource_id in sorted(outputs, key=lambda x: len(outputs[x]) if x is not None else -1, reverse=True):
+            representation = storage.represent(resource_id, limit=self.max_bytes, max_lines=self.max_lines)
+            solutions = outputs[resource_id]
+            percent = 100 * len(solutions) // num_solutions
+            results.append(ChallengeOutput(resource_id, representation, solutions, percent))
+
+        progress_url = reverse('problems:challenge_status_json', kwargs={'problem_id': problem.id, 'challenge_id': challenge.id})
+        context = self._make_context(problem, {
+            'input_repr': input_repr,
+            'challenge': challenge,
+            'outputs': results,
+            'stats': fetch_challenge_stats(problem.id, challenge.id),
+            'progress_url': progress_url,
+        })
+        return render(request, self.template_name, context)
+
+
+class ProblemChallengeJsonView(BaseProblemView):
+    def get(self, request, problem_id, challenge_id):
+        self._load(problem_id)
+        stats = fetch_challenge_stats(problem_id, challenge_id)
+        return JsonResponse({
+            'total': stats.total,
+            'value': stats.complete,
+        })
+
+
+class ProblemChallengeDataView(BaseProblemView):
+    def get(self, request, problem_id, challenge_id, resource_id):
+        return serve_resource(request, parse_resource_id(resource_id), 'text/plain')

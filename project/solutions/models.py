@@ -120,3 +120,27 @@ class TestCaseResult(models.Model):
     checker_message = models.CharField(max_length=255, blank=True)
 
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
+
+
+class Challenge(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT)
+    creation_time = models.DateTimeField(auto_now_add=True)
+
+    problem = models.ForeignKey(Problem)
+    time_limit = models.IntegerField()
+    memory_limit = models.IntegerField(default=0)
+
+    input_resource_id = ResourceIdField()
+
+
+class ChallengedSolution(models.Model):
+    challenge = models.ForeignKey(Challenge)
+    solution = models.ForeignKey(Solution)
+
+    outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
+    output_resource_id = ResourceIdField(null=True)
+    stdout_resource_id = ResourceIdField(null=True)
+    stderr_resource_id = ResourceIdField(null=True)
+    exit_code = models.IntegerField(null=True)
+    time_used = models.IntegerField(null=True)
+    memory_used = models.IntegerField(null=True)

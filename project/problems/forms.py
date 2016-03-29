@@ -48,8 +48,8 @@ class ProblemExtraInfoForm(forms.ModelForm):
 
 
 class TestDescriptionForm(forms.ModelForm):
-    time_limit = TimeLimitField(required=True)
-    memory_limit = MemoryLimitField(required=False)
+    time_limit = TimeLimitField(label=_('Time limit'), required=True)
+    memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
 
     class Meta:
         model = TestCase
@@ -233,3 +233,13 @@ class ValidatorForm(forms.Form):
         qs = kwargs.pop('validators')
         super(ValidatorForm, self).__init__(*args, **kwargs)
         self.fields['validator'].queryset = qs
+
+
+'''
+Challenge
+'''
+
+
+class ChallengeForm(forms.Form):
+    time_limit = TimeLimitField(label=_('Time limit'), required=True)
+    memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)

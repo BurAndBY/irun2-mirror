@@ -30,11 +30,13 @@ ONE_LETTER_STATUS_CODES = {
     Judgement.TESTING: 'T',
 }
 
+ELLIPSIS = u'…'
+
 
 def _get_style(outcome, code):
     if outcome == Outcome.ACCEPTED:
         return 'ok'
-    elif code is not None:
+    elif code not in (None, ELLIPSIS):
         return 'fail'
     else:
         return ''
@@ -63,7 +65,7 @@ def irunner_solutions_judgementbox(judgement, tooltip=False):
             context['style'] = _get_style(judgement.outcome, code)
             context['test_no'] = judgement.test_number
         else:
-            context['code'] = ONE_LETTER_STATUS_CODES.get(judgement.status, u'…')
+            context['code'] = ONE_LETTER_STATUS_CODES.get(judgement.status, ELLIPSIS)
             context['test_no'] = judgement.test_number
     return context
 
@@ -85,7 +87,7 @@ def irunner_solutions_outcomebox(outcome, tooltip=False):
     '''
     context = {}
     if outcome is not None:
-        code = TWO_LETTER_OUTCOME_CODES.get(outcome)
+        code = TWO_LETTER_OUTCOME_CODES.get(outcome, ELLIPSIS)
         context = {
             'code': code,
             'style': _get_style(outcome, code),
@@ -188,3 +190,10 @@ def irunner_solutions_checkfailed(extra_info):
         context['reason'] = GENERAL_FAILURE_MESSAGES.get(extra_info.general_failure_reason, extra_info.general_failure_reason)
         context['message'] = extra_info.general_failure_message
     return context
+
+
+@register.inclusion_tag('solutions/irunner_solutions_sourcelink_tag.html')
+def irunner_solutions_sourcelink(solution):
+    return {
+        'solution': solution,
+    }

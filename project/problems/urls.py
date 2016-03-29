@@ -42,6 +42,12 @@ problem_urlpatterns = [
     url(r'^tex/(?P<file_id>[0-9]+)/$', views.ProblemTeXEditView.as_view(), name='edit_tex'),
     url(r'^tex/(?P<file_id>[0-9]+)/(?P<filename>.+)$', views.ProblemTeXEditRelatedFileView.as_view()),
 
+    url(r'^challenges/$', views.ProblemChallengesView.as_view(), name='challenges'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/$', views.ProblemChallengeView.as_view(), name='challenge'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/status/json/$', views.ProblemChallengeJsonView.as_view(), name='challenge_status_json'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/open/(?P<resource_id>[0-9a-f]*)$', views.ProblemChallengeDataView.as_view(), name='challenge_data'),
+    url(r'^challenges/new/$', views.ProblemNewChallengeView.as_view(), name='new_challenge'),
+
     url(r'^submit/$', views.ProblemSubmitView.as_view(), name='submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
     url(r'^folders/$', views.ProblemFoldersView.as_view(), name='folders'),
