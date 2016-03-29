@@ -29,8 +29,12 @@
                 <td>{{ obj.last_update_time|date:'Y-m-d H:i:s' }}</td>
                 <td><span class="badge">{{ obj.priority }}</span></td>
                 <td>
-                    {% if obj.validation %}
+                    {% if obj.validation_id %}
                         {% trans 'Validation' %}
+                    {% endif %}
+
+                    {% if obj.challenged_solution_id %}
+                        {% trans 'Challenge' %}
                     {% endif %}
 
                     {% if obj.judgement_id %}
