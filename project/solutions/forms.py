@@ -74,6 +74,9 @@ class AllSolutionsFilterForm(forms.Form):
     )
     compiler = forms.ChoiceField(choices=DEFAULT_COMPILER_CHOICES, required=False)
 
+    problem = forms.IntegerField(label=_('Problem ID'), required=False, widget=forms.TextInput)
+    user = forms.IntegerField(label=_('User ID'), required=False, widget=forms.TextInput)
+
     def __init__(self, *args, **kwargs):
         super(AllSolutionsFilterForm, self).__init__(*args, **kwargs)
 

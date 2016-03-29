@@ -115,6 +115,14 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             queryset = apply_state_filter(queryset, form.cleaned_data['state'])
             queryset = apply_compiler_filter(queryset, form.cleaned_data['compiler'])
 
+            user_id = form.cleaned_data.get('user')
+            if user_id is not None:
+                queryset = queryset.filter(author_id=user_id)
+
+            problem_id = form.cleaned_data.get('problem')
+            if problem_id is not None:
+                queryset = queryset.filter(problem_id=problem_id)
+
         context = paginate(request, queryset, self.paginate_by)
         context['form'] = form
         return render(request, self.template_name, context)

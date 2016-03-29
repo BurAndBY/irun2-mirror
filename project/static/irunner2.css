@@ -684,13 +684,19 @@ Yellow menu
  * Solution filter
  */
 .ir-solution-filter > select {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 200px;
+    max-width: 200px;
     padding: 4px 12px;
     height: auto;
 }
+.ir-solution-filter > input {
+    min-width: 160px;
+    max-width: 160px;
+    padding: 3px 12px;
+    height: auto;
+}
 .ir-solution-filter > button {
-    padding: 2px 12px;
+    padding: 3px 12px;
     height: auto;
 }
 .ir-solution-filter {

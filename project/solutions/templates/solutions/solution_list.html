@@ -13,6 +13,8 @@
 {% block content %}
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
+            {% render_field form.problem class='form-control' placeholder=form.problem.label %}
+            {% render_field form.user class='form-control' placeholder=form.user.label %}
             {% render_field form.compiler class='form-control' %}
             {% render_field form.state class='form-control' %}
             <button type="submit" class="btn btn-default">
