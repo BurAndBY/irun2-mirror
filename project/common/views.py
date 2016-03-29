@@ -2,10 +2,15 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.db.models import Count
+from django.contrib import auth
 
+from cauth.mixins import StaffMemberRequiredMixin
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
 from courses.calcpermissions import calculate_course_permissions
+from solutions.models import Solution
+from problems.models import Problem
 
 
 def home(request):
@@ -39,6 +44,37 @@ def about(request):
 def language(request):
     next = request.GET.get('next')
     return render(request, 'common/language.html', {'redirect_to': next})
+
+
+class HallOfFameView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'common/hall_of_fame.html'
+
+    def get(self, request):
+
+        user_ids = {}
+        problem_ids = {}
+
+        q = Solution.objects.values('author_id', 'problem_id').annotate(cnt=Count('*')).order_by('-cnt')[:20]
+
+        for record in q:
+            user_ids[record['author_id']] = None
+            problem_ids[record['problem_id']] = None
+
+        for user in auth.get_user_model().objects.filter(pk__in=user_ids):
+            user_ids[user.id] = user
+        for problem in Problem.objects.filter(pk__in=problem_ids):
+            problem_ids[problem.id] = problem
+
+        top_attempts = []
+        for record in q:
+            top_attempts.append((
+                record['cnt'],
+                user_ids[record['author_id']],
+                problem_ids[record['problem_id']],
+            ))
+
+        context = {'top_attempts': top_attempts}
+        return render(request, self.template_name, context)
 
 
 class IRunnerPaginationContext(object):

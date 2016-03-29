@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Hall of fame' %}{% endblock %}</h1>
+
+    <h3>{% trans 'Leaders in number of attempts' %}</h3>
+    <ul>
+    {% for cnt, user, problem in top_attempts %}
+        <li>
+            {{ cnt }}&nbsp;&mdash;
+            <a href="{% url 'solutions:list' %}?user={{ user.id }}&amp;problem={{ problem.id }}">{% irunner_users_show user %}</a>
+            {% trans 'on problem' %}
+            <a href="{% url 'problems:statement' problem.id %}">{{ problem.numbered_full_name }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

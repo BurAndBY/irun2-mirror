@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-29 20:44+0300\n"
-"PO-Revision-Date: 2016-03-29 20:46+0300\n"
+"POT-Creation-Date: 2016-03-30 00:59+0300\n"
+"PO-Revision-Date: 2016-03-30 01:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -70,10 +70,14 @@ msgid "Validation"
 msgstr "Контроль"
 
 #: .\api\templates\api\irunner_api_queue_tag.html:37
+msgid "Challenge"
+msgstr "Взлом"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:41
 msgid "Run"
 msgstr "Запуск"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:45
+#: .\api\templates\api\irunner_api_queue_tag.html:49
 msgid "Queue is empty."
 msgstr "Очередь пуста."
 
@@ -280,6 +284,18 @@ msgstr "Исходный код"
 msgid "Access denied"
 msgstr "Доступ запрещён"
 
+#: .\common\templates\common\hall_of_fame.html:9
+msgid "Hall of fame"
+msgstr "Зал славы"
+
+#: .\common\templates\common\hall_of_fame.html:11
+msgid "Leaders in number of attempts"
+msgstr "Лидеры по числу попыток"
+
+#: .\common\templates\common\hall_of_fame.html:17
+msgid "on problem"
+msgstr "по задаче"
+
 #: .\common\templates\common\home.html:6
 msgctxt "main page"
 msgid "Main"
@@ -386,7 +402,7 @@ msgstr ""
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
-#: .\solutions\templates\solutions\solution_list.html:30
+#: .\solutions\templates\solutions\solution_list.html:32
 msgid "Problem"
 msgstr "Задача"
 
@@ -700,7 +716,7 @@ msgstr "Критерий не используется в курсах."
 #: .\problems\templates\problems\files.html:78
 #: .\problems\templates\problems\show_test.html:38
 #: .\problems\templates\problems\show_test.html:119
-#: .\solutions\templates\solutions\solution_list.html:63
+#: .\solutions\templates\solutions\solution_list.html:65
 #: .\users\templates\users\folder.html:43
 msgid "Delete"
 msgstr "Удалить"
@@ -715,7 +731,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:295
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:303
 msgid "delete"
 msgstr "удалить"
 
@@ -769,7 +785,7 @@ msgstr "Решения"
 #: .\courses\templates\courses\solutions.html:35
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 #: .\solutions\templates\solutions\solution_attempts.html:18
-#: .\solutions\templates\solutions\solution_list.html:32
+#: .\solutions\templates\solutions\solution_list.html:34
 msgid "Time"
 msgstr "Время"
 
@@ -778,7 +794,7 @@ msgstr "Время"
 #: .\problems\templates\problems\solutions.html:37
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:20
-#: .\solutions\templates\solutions\solution_list.html:34
+#: .\solutions\templates\solutions\solution_list.html:36
 msgid "Status"
 msgstr "Статус"
 
@@ -1015,7 +1031,7 @@ msgstr "Мои решения"
 
 #: .\courses\templates\courses\solutions.html:20
 #: .\problems\templates\problems\solutions.html:22
-#: .\solutions\templates\solutions\solution_list.html:19
+#: .\solutions\templates\solutions\solution_list.html:21
 msgid "Apply"
 msgstr "Применить"
 
@@ -1027,7 +1043,7 @@ msgstr "Применить"
 #: .\solutions\templates\solutions\rejudge.html:40
 #: .\solutions\templates\solutions\rejudge_list.html:14
 #: .\solutions\templates\solutions\solution.html:23
-#: .\solutions\templates\solutions\solution_list.html:31
+#: .\solutions\templates\solutions\solution_list.html:33
 msgid "Author"
 msgstr "Автор"
 
@@ -1039,7 +1055,7 @@ msgstr "Автор"
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:80
 #: .\solutions\templates\solutions\solution_attempts.html:19
-#: .\solutions\templates\solutions\solution_list.html:33
+#: .\solutions\templates\solutions\solution_list.html:35
 msgid "File"
 msgstr "Файл"
 
@@ -1295,7 +1311,7 @@ msgstr "Генератор"
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:132 .\solutions\forms.py:80
+#: .\problems\models.py:132 .\solutions\forms.py:83
 msgid "compiler"
 msgstr "компилятор"
 
@@ -1607,7 +1623,7 @@ msgstr "Время отправления"
 
 #: .\problems\templates\problems\solutions.html:58
 #: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:60
+#: .\solutions\templates\solutions\solution_list.html:62
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
@@ -1833,15 +1849,23 @@ msgstr "Не готово"
 msgid "outcome"
 msgstr "вердикт"
 
-#: .\solutions\forms.py:89
+#: .\solutions\forms.py:77
+msgid "Problem ID"
+msgstr "ID задачи"
+
+#: .\solutions\forms.py:78
+msgid "User ID"
+msgstr "ID пользователя"
+
+#: .\solutions\forms.py:92
 msgid "First solution"
 msgstr "Первое решение"
 
-#: .\solutions\forms.py:90
+#: .\solutions\forms.py:93
 msgid "Second solution"
 msgstr "Второе решение"
 
-#: .\solutions\forms.py:91
+#: .\solutions\forms.py:94
 msgid "Show only contextual differences, else show full files"
 msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
@@ -2080,8 +2104,8 @@ msgstr "Изменения"
 msgid "Compare the soluton with the previous one"
 msgstr "Сравнить решение с предыдущим"
 
-#: .\solutions\templates\solutions\solution_list.html:71
-#: .\solutions\templates\solutions\solution_list.html:74
+#: .\solutions\templates\solutions\solution_list.html:73
+#: .\solutions\templates\solutions\solution_list.html:76
 msgid "No solutions selected"
 msgstr "Решения не выбраны"
 
@@ -2119,7 +2143,7 @@ msgstr "ошибка компиляции контролёра тестов"
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:193
+#: .\solutions\views.py:201
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
