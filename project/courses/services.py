@@ -430,6 +430,12 @@ class SlotResult(object):
     def is_penalty(self):
         return self.slot is None
 
+    def is_complete(self):
+        return (self.problem_result is not None
+                and self.problem_result.was_submitted()
+                and self.problem_result.is_ok()
+                and all(criterion_descr.ok for criterion_descr in self.criterion_descrs))
+
     def _set_criterion(self, criterion_id):
         for criterion_descr in self.criterion_descrs:
             if criterion_descr.criterion.id == criterion_id:
@@ -564,3 +570,12 @@ class UserResult(object):
                     return slot_result
 
         raise ValueError('no slot result was found for assignment')
+
+    def get_complete_main_problem_count(self):
+        return sum(sum(int(slot_result.is_complete()) for slot_result in topic_result.slot_results) for topic_result in self.topic_results)
+
+    def get_total_extra_problem_count(self):
+        return sum(len(topic_result.penalty_problem_results) for topic_result in self.topic_results)
+
+    def get_complete_extra_problem_count(self):
+        return sum(sum(int(slot_result.is_complete()) for slot_result in topic_result.penalty_problem_results) for topic_result in self.topic_results)

@@ -24,6 +24,7 @@
                         </th>
                     {% endwith %}
                 {% endfor %}
+                <th>{% trans 'Problems' %}</th>
                 <th>{% trans 'Result' %}</th>
             </tr>
         </thead>
@@ -76,6 +77,16 @@
                         </td>
                     {% endfor %}
                 {% endfor %}
+
+                <td class="ir-problem-summary">
+                    <strong>{{ user_result.get_complete_main_problem_count }}</strong>
+                    {% if user_result.get_total_extra_problem_count %}
+                        <span title="{% trans 'Extra problems' %}">
+                            ({{ user_result.get_complete_extra_problem_count }}&thinsp;/&thinsp;{{ user_result.get_total_extra_problem_count }})
+                        </span>
+                    {% endif %}
+                </td>
+
                 <td>
                 </td>
             </tr>

@@ -96,7 +96,13 @@ body {
     color: white;
     background-color: #5cb85c;
 }
-
+.ir-course-standings .ir-problem-summary {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.ir-course-standings .ir-problem-summary span {
+    color: #aa6708;
+}
 .ir-stripe > .ir-box {
     border-radius: 0;
 }
