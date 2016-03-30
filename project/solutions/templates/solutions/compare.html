@@ -43,6 +43,16 @@
                     <a href="{% url 'solutions:main' first.solution_id %}">{% trans 'Solution' %} {{ first.solution_id }}</a>
                 </h2>
                 <dl class="dl-horizontal">
+                    {% if show_author %}
+                        <dt>{% trans 'Author' %}</dt>
+                        <dd>{% irunner_users_show first.solution.author %}</dd>
+
+                        {% if first.environment.course %}
+                            <dt>{% trans 'Course' %}</dt>
+                            <dd>{{ first.environment.course }}</dd>
+                        {% endif %}
+                    {% endif %}
+
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ first.solution.reception_time }}</dd>
 
@@ -58,6 +68,16 @@
                     <a href="{% url 'solutions:main' second.solution_id %}">{% trans 'Solution' %} {{ second.solution_id }}</a>
                 </h2>
                 <dl class="dl-horizontal">
+                    {% if show_author %}
+                        <dt>{% trans 'Author' %}</dt>
+                        <dd>{% irunner_users_show second.solution.author %}</dd>
+
+                        {% if second.environment.course %}
+                            <dt>{% trans 'Course' %}</dt>
+                            <dd>{{ second.environment.course }}</dd>
+                        {% endif %}
+                    {% endif %}
+
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ second.solution.reception_time }}</dd>
 
