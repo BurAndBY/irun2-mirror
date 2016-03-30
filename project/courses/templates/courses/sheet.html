@@ -16,13 +16,13 @@
 {% block main %}
 
 {% if edit_mode %}
-    {% irunner_messagebox 'warning' %}
-        {% trans 'Edit mode is on.' %} {% trans 'All changes are saved automatically.' %}
-        <a href="{% url 'courses:course_sheet' course.id %}">{% trans 'Return to view mode (read-only).' %}</a>
+    {% irunner_messagebox 'warning' wide=True %}
+        <p>{% trans 'Edit mode is on.' %} {% trans 'All changes are saved automatically.' %}</p>
+        <p><a href="{% url 'courses:course_sheet' course.id %}">{% trans 'Return to view mode (read-only).' %}</a></p>
     {% irunner_endmessagebox %}
 {% endif %}
 
-<table class="ir-sheet" id="sheet">
+<table class="ir-sheet{% if not edit_mode %} ir-sheet-view{% endif %}" id="sheet">
     {% with data.course_descr.get_main_activities as main_activities %}
         {% with data.course_descr.get_extra_activities as extra_activities %}
             <thead>

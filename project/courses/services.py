@@ -478,12 +478,19 @@ class ActivityResult(object):
         self.record = record
 
     def get_html_class(self):
+        classes = []
+
         if self.activity.kind == Activity.MARK:
-            return 'ir-sheet-editable ir-sheet-editable-mark'
+            classes = ['ir-sheet-editable', 'ir-sheet-editable-mark']
+            if self.record is not None and self.record.mark in (1, 2, 3):
+                classes.append('ir-sheet-bad')
+
         elif self.activity.kind == Activity.PASSED_OR_NOT:
-            return 'ir-sheet-editable ir-sheet-editable-enum'
+            classes = ['ir-sheet-editable', 'ir-sheet-editable-enum']
         else:
-            return 'ir-sheet-readonly'
+            classes = ['ir-sheet-readonly']
+
+        return ' '.join(classes)
 
     def get_html_contents(self):
         if self.activity.kind == Activity.PROBLEM_SOLVING:
