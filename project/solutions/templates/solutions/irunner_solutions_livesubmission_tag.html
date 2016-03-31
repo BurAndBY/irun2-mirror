@@ -30,10 +30,10 @@
                 if (typeof data["ok"] !== "undefined") {
                     pbar.removeClass("progress-bar-info");
                     if (data["ok"] === false) {
-                        pbar.addClass("progress-bar-danger");
+                        pbar.addClass("progress-bar-success");
                     }
                     if (data["ok"] === true) {
-                        pbar.addClass("progress-bar-success");
+                        pbar.addClass("progress-bar-danger");
                     }
                 }
             } else {

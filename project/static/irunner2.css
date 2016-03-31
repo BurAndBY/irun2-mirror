@@ -282,12 +282,12 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 .ir-judgementbox-ok {
-    color: #5cb85c;
-    background-color: #dff0d8;
-}
-.ir-judgementbox-fail {
     color: #d9534f;
     background-color: #f2dede;
+}
+.ir-judgementbox-fail {
+    color: #5cb85c;
+    background-color: #dff0d8;
 }
 
 
