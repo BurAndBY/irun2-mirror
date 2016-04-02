@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^stats/$', views.StatisticsView.as_view(), name='statistics'),
     url(r'^resource/(?P<resource_id>[0-9a-f]*)/$', views.ShowView.as_view(), name='show'),
     url(r'^resource/(?P<resource_id>[0-9a-f]*)/download/$', views.DownloadView.as_view(), name='download'),
+    url(r'^resource/(?P<resource_id>[0-9a-f]*)/usage/$', views.UsageView.as_view(), name='usage'),
+    url(r'^resource/(?P<resource_id>[0-9a-f]*)/cleanup/$', views.CleanupView.as_view(), name='cleanup'),
 ]

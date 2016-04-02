@@ -2,30 +2,41 @@
 
 {% load i18n %}
 {% load irunner_storage %}
+{% load irunner_messagebox %}
 
 {% block title %}{% trans 'View resource' %} {{ resource_id }}{% endblock %}
 
 {% block content %}
     <h1>{% trans 'View resource' %}</h1>
 
-    <a class="btn btn-default" href="{% url 'storage:download' resource_id %}" role="button">{% trans 'Download' %}</a>
+    {% if representation %}
+        <p>
+            <a href="{% url 'storage:download' resource_id %}">{% trans 'Download' %}</a>
+        </p>
+        <p>
+            <a href="{% url 'storage:usage' resource_id %}">{% trans 'Resource usage' %}</a>
+        </p>
 
-    <dl class="dl-horizontal">
-        <dt>ID</dt>
-        <dd>{{ resource_id }}</dd>
+        <dl class="dl-horizontal">
+            <dt>ID</dt>
+            <dd>{{ resource_id }}</dd>
 
-        <dt>{% trans 'Size' %}</dt>
-        <dd>{{ representation.size|filesizeformat }}</dd>
+            <dt>{% trans 'Size' %}</dt>
+            <dd>{{ representation.size|filesizeformat }}</dd>
 
-        <dt>{% trans 'Is binary' %}</dt>
-        <dd>{{ representation.is_binary|yesno }}</dd>
+            <dt>{% trans 'Is binary' %}</dt>
+            <dd>{{ representation.is_binary|yesno }}</dd>
 
-        <dt>{% trans 'Is UTF-8' %}</dt>
-        <dd>{{ representation.is_utf8|yesno }}</dd>
+            <dt>{% trans 'Is UTF-8' %}</dt>
+            <dd>{{ representation.is_utf8|yesno }}</dd>
 
-        <dt>{% trans 'Has BOM' %}</dt>
-        <dd>{{ representation.has_bom|yesno }}</dd>
-    </dl>
-
-    {% irunner_storage_show representation %}
+            <dt>{% trans 'Has BOM' %}</dt>
+            <dd>{{ representation.has_bom|yesno }}</dd>
+        </dl>
+        {% irunner_storage_show representation %}
+    {% else %}
+        {% irunner_messagebox style='danger' wide=True %}
+            {% trans 'Resource not found in the file storage.' %}
+        {% irunner_endmessagebox %}
+    {% endif %}
 {% endblock %}

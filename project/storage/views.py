@@ -1,13 +1,19 @@
+from django.contrib import messages
 from django.core.files.base import ContentFile
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.utils.translation import ungettext
 from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
+from problems.models import TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
+from solutions.models import Judgement, JudgementLog, Challenge, TestCaseResult
 
-from utils import parse_resource_id, serve_resource
-from forms import TextOrUploadForm
-from storage import create_storage
+from .forms import TextOrUploadForm
+from .models import FileMetadata
+from .storage import create_storage, ResourceId
+from .utils import parse_resource_id, serve_resource
 
 
 class NewView(StaffMemberRequiredMixin, generic.FormView):
@@ -38,14 +44,69 @@ class ShowView(StaffMemberRequiredMixin, generic.View):
         storage = create_storage()
         representation = storage.represent(resource_id)
 
-        if representation is None:
-            raise Http404('Resource does not exist')
-
         context = {
             'resource_id': resource_id,
             'representation': representation
         }
         return render(request, self.template_name, context)
+
+
+class UsageView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'storage/usage.html'
+
+    def get(self, request, resource_id):
+        resource_id = parse_resource_id(resource_id)
+
+        judgements = Judgement.objects.filter(
+            Q(testcaseresult__input_resource_id=resource_id) |
+            Q(testcaseresult__output_resource_id=resource_id) |
+            Q(testcaseresult__answer_resource_id=resource_id) |
+            Q(testcaseresult__stdout_resource_id=resource_id) |
+            Q(testcaseresult__stderr_resource_id=resource_id)
+        ).distinct()
+
+        test_cases = TestCase.objects.filter(
+            Q(input_resource_id=resource_id) |
+            Q(answer_resource_id=resource_id)
+        ).distinct()
+
+        judgement_logs = JudgementLog.objects.filter(resource_id=resource_id)
+
+        challenges = Challenge.objects.filter(
+            Q(input_resource_id=resource_id) |
+            Q(challengedsolution__output_resource_id=resource_id) |
+            Q(challengedsolution__stdout_resource_id=resource_id) |
+            Q(challengedsolution__stderr_resource_id=resource_id)
+        ).distinct()
+
+        files = FileMetadata.objects.filter(resource_id=resource_id)
+
+        data_files = ProblemRelatedFile.objects.filter(resource_id=resource_id)
+        source_files = ProblemRelatedSourceFile.objects.filter(resource_id=resource_id)
+
+        context = {
+            'resource_id': resource_id,
+            'judgements': judgements,
+            'test_cases': test_cases,
+            'judgement_logs': judgement_logs,
+            'challenges': challenges,
+            'files': files,
+            'data_files': data_files,
+            'source_files': source_files,
+        }
+        return render(request, self.template_name, context)
+
+
+class CleanupView(StaffMemberRequiredMixin, generic.View):
+    def post(self, request, resource_id):
+        resource_id = parse_resource_id(resource_id)
+        rows_updated = 0
+        empty = ResourceId()
+        rows_updated += TestCaseResult.objects.filter(stdout_resource_id=resource_id).update(stdout_resource_id=empty)
+        rows_updated += TestCaseResult.objects.filter(stderr_resource_id=resource_id).update(stderr_resource_id=empty)
+        msg = ungettext('%(rows)s DB row updated', '%(rows)s DB rows updated', rows_updated) % {'rows': rows_updated}
+        messages.add_message(request, messages.INFO, msg)
+        return redirect('storage:usage', resource_id)
 
 
 class StatisticsView(StaffMemberRequiredMixin, generic.View):
@@ -58,7 +119,7 @@ class StatisticsView(StaffMemberRequiredMixin, generic.View):
         context = {
             'total_size': sum(p[1] for p in data),
             'total_count': len(data),
-            'top_list': sorted(data, key=lambda p: p[1], reverse=True)[:20]
+            'top_list': sorted(data, key=lambda p: p[1], reverse=True)[:100]
         }
         return render(request, self.template_name, context)
 

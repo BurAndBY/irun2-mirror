@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-30 00:59+0300\n"
-"PO-Revision-Date: 2016-03-30 01:05+0300\n"
+"POT-Creation-Date: 2016-04-02 13:52+0300\n"
+"PO-Revision-Date: 2016-04-02 13:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -70,10 +70,13 @@ msgid "Validation"
 msgstr "Контроль"
 
 #: .\api\templates\api\irunner_api_queue_tag.html:37
+#: .\storage\templates\storage\usage.html:34
 msgid "Challenge"
 msgstr "Взлом"
 
 #: .\api\templates\api\irunner_api_queue_tag.html:41
+#: .\storage\templates\storage\usage.html:19
+#: .\storage\templates\storage\usage.html:24
 msgid "Run"
 msgstr "Запуск"
 
@@ -138,7 +141,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:47
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:48
 msgid "Logout"
 msgstr "Выход"
 
@@ -155,7 +158,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:49
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:50
 msgid "Login"
 msgstr "Вход"
 
@@ -284,7 +287,7 @@ msgstr "Исходный код"
 msgid "Access denied"
 msgstr "Доступ запрещён"
 
-#: .\common\templates\common\hall_of_fame.html:9
+#: .\common\templates\common\hall_of_fame.html:9 .\templates\navbar.html:37
 msgid "Hall of fame"
 msgstr "Зал славы"
 
@@ -321,8 +324,8 @@ msgstr "Страница"
 #: .\courses\templates\courses\problems_base.html:28
 #: .\problems\templates\problems\show_test.html:21
 #: .\problems\templates\problems\sidebar.html:13
-#: .\solutions\templates\solutions\compare.html:51
-#: .\solutions\templates\solutions\compare.html:66
+#: .\solutions\templates\solutions\compare.html:61
+#: .\solutions\templates\solutions\compare.html:86
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
 #: .\solutions\templates\solutions\judgement.html:31
 #: .\solutions\templates\solutions\solution.html:59
@@ -396,13 +399,16 @@ msgstr ""
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:34
-#: .\courses\templates\courses\standings.html:60
+#: .\courses\templates\courses\standings.html:61
 #: .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
 #: .\solutions\templates\solutions\solution_list.html:32
+#: .\storage\templates\storage\usage.html:29
+#: .\storage\templates\storage\usage.html:45
+#: .\storage\templates\storage\usage.html:51
 msgid "Problem"
 msgstr "Задача"
 
@@ -425,6 +431,8 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: .\courses\forms.py:109 .\courses\templates\courses\settings_base.html:15
+#: .\courses\templates\courses\standings.html:32
+#: .\courses\templates\courses\standings_wide.html:27
 #: .\problems\navigator.py:25 .\problems\templates\problems\list_base.html:6
 #: .\problems\templates\problems\list_folder.html:11
 #: .\problems\templates\problems\list_folder.html:21
@@ -649,6 +657,8 @@ msgid "Reset"
 msgstr "Сброс"
 
 #: .\courses\templates\courses\assign.html:123
+#: .\courses\templates\courses\standings.html:85
+#: .\courses\templates\courses\standings_wide.html:84
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
 
@@ -1039,6 +1049,8 @@ msgstr "Применить"
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
 #: .\problems\templates\problems\solutions.html:34
+#: .\solutions\templates\solutions\compare.html:47
+#: .\solutions\templates\solutions\compare.html:72
 #: .\solutions\templates\solutions\rejudge.html:18
 #: .\solutions\templates\solutions\rejudge.html:40
 #: .\solutions\templates\solutions\rejudge_list.html:14
@@ -1056,6 +1068,9 @@ msgstr "Автор"
 #: .\solutions\templates\solutions\solution.html:80
 #: .\solutions\templates\solutions\solution_attempts.html:19
 #: .\solutions\templates\solutions\solution_list.html:35
+#: .\storage\templates\storage\usage.html:39
+#: .\storage\templates\storage\usage.html:44
+#: .\storage\templates\storage\usage.html:50
 msgid "File"
 msgstr "Файл"
 
@@ -1063,8 +1078,8 @@ msgstr "Файл"
 msgid "Widescreen version"
 msgstr "Широкоэкранная версия"
 
-#: .\courses\templates\courses\standings.html:32
-#: .\courses\templates\courses\standings_wide.html:27
+#: .\courses\templates\courses\standings.html:33
+#: .\courses\templates\courses\standings_wide.html:28
 #: .\problems\templates\problems\challenge.html:21
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:29
@@ -1433,7 +1448,7 @@ msgstr "Открыть"
 #: .\problems\templates\problems\tests.html:78
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
 #: .\solutions\templates\solutions\solution_source.html:19
-#: .\storage\templates\storage\show.html:11
+#: .\storage\templates\storage\show.html:14
 msgid "Download"
 msgstr "Загрузить"
 
@@ -1496,8 +1511,8 @@ msgstr "В системе нет условия для этой задачи"
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:14
 #: .\problems\templates\problems\show_test.html:47
 #: .\problems\templates\problems\tests.html:52
-#: .\solutions\templates\solutions\compare.html:50
-#: .\solutions\templates\solutions\compare.html:65
+#: .\solutions\templates\solutions\compare.html:60
+#: .\solutions\templates\solutions\compare.html:85
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\judgement.html:30
 #: .\solutions\templates\solutions\solution.html:58
@@ -1607,6 +1622,7 @@ msgstr "Открыть в новой вкладке"
 #: .\problems\templates\problems\show_test.html:21
 #: .\problems\templates\problems\tests.html:63
 #: .\solutions\templates\solutions\testcaseresult.html:50
+#: .\storage\templates\storage\usage.html:29
 msgid "Test"
 msgstr "Тест"
 
@@ -1615,8 +1631,8 @@ msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
 #: .\problems\templates\problems\solutions.html:35
-#: .\solutions\templates\solutions\compare.html:46
-#: .\solutions\templates\solutions\compare.html:61
+#: .\solutions\templates\solutions\compare.html:56
+#: .\solutions\templates\solutions\compare.html:81
 #: .\solutions\templates\solutions\rejudge.html:38
 msgid "Submission time"
 msgstr "Время отправления"
@@ -1920,7 +1936,7 @@ msgstr "Не удаётся сравнить решения."
 #: .\solutions\templates\solutions\compare.html:30
 #: .\solutions\templates\solutions\compare.html:34
 #: .\solutions\templates\solutions\compare.html:43
-#: .\solutions\templates\solutions\compare.html:58
+#: .\solutions\templates\solutions\compare.html:68
 #: .\solutions\templates\solutions\judgement_list.html:17
 #: .\solutions\templates\solutions\rejudge.html:39
 #: .\solutions\templates\solutions\solution.html:11
@@ -1929,15 +1945,21 @@ msgstr "Не удаётся сравнить решения."
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\compare.html:73
+#: .\solutions\templates\solutions\compare.html:51
+#: .\solutions\templates\solutions\compare.html:76
+#: .\solutions\templates\solutions\solution.html:54
+msgid "Course"
+msgstr "Курс"
+
+#: .\solutions\templates\solutions\compare.html:93
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
 
-#: .\solutions\templates\solutions\compare.html:86
+#: .\solutions\templates\solutions\compare.html:106
 msgid "Full files"
 msgstr "Файлы полностью"
 
-#: .\solutions\templates\solutions\compare.html:89
+#: .\solutions\templates\solutions\compare.html:109
 msgid "Differences only"
 msgstr "Только отличия"
 
@@ -2069,10 +2091,6 @@ msgstr "Количество решений"
 #: .\solutions\templates\solutions\solution.html:49
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
-
-#: .\solutions\templates\solutions\solution.html:54
-msgid "Course"
-msgstr "Курс"
 
 #: .\solutions\templates\solutions\solution.html:67
 msgid "Submitted"
@@ -2215,26 +2233,36 @@ msgstr "Новый ресурс"
 msgid "Submit"
 msgstr "Отправить"
 
-#: .\storage\templates\storage\show.html:6
-#: .\storage\templates\storage\show.html:9
+#: .\storage\templates\storage\show.html:7
+#: .\storage\templates\storage\show.html:10
+#: .\storage\templates\storage\usage.html:8
 msgid "View resource"
 msgstr "Просмотр ресурса"
 
 #: .\storage\templates\storage\show.html:17
+#: .\storage\templates\storage\usage.html:11
+msgid "Resource usage"
+msgstr "Использование ресурса"
+
+#: .\storage\templates\storage\show.html:24
 msgid "Size"
 msgstr "Размер"
 
-#: .\storage\templates\storage\show.html:20
+#: .\storage\templates\storage\show.html:27
 msgid "Is binary"
 msgstr "Является бинарным"
 
-#: .\storage\templates\storage\show.html:23
+#: .\storage\templates\storage\show.html:30
 msgid "Is UTF-8"
 msgstr "В кодировке UTF-8"
 
-#: .\storage\templates\storage\show.html:26
+#: .\storage\templates\storage\show.html:33
 msgid "Has BOM"
 msgstr "Имеет BOM"
+
+#: .\storage\templates\storage\show.html:39
+msgid "Resource not found in the file storage."
+msgstr "Ресурс не найден в хранилище."
 
 #: .\storage\templates\storage\statistics.html:11
 msgid "Resource count"
@@ -2247,6 +2275,14 @@ msgstr "Общий размер"
 #: .\storage\templates\storage\statistics.html:17
 msgid "The largest resources"
 msgstr "Самые большие ресурсы"
+
+#: .\storage\templates\storage\usage.html:24
+msgid "log"
+msgstr "журнал"
+
+#: .\storage\templates\storage\usage.html:58
+msgid "Cleanup stdout/stderr"
+msgstr "Очистить stdout/stderr"
 
 #: .\storage\validators.py:15
 msgid "Filename must be a string"
@@ -2278,6 +2314,14 @@ msgstr ""
 #: .\storage\validators.py:34
 msgid "Filename must not end with a space or a period"
 msgstr "Имя файла не должно заканчиваться на пробел или точку"
+
+#: .\storage\views.py:107
+#, python-format
+msgid "%(rows)s DB row updated"
+msgid_plural "%(rows)s DB rows updated"
+msgstr[0] "Обновлена %(rows)s строка в БД"
+msgstr[1] "Обновлены %(rows)s строки в БД"
+msgstr[2] "Обновлены %(rows)s строк в БД"
 
 #: .\templates\base.html:50
 msgid "DMA department of FAMCS BSU"

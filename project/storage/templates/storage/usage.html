@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_storage %}
+{% load irunner_messagebox %}
+
+{% block title %}{% trans 'View resource' %} {{ resource_id }}{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'Resource usage' %}</h1>
+    {% bootstrap_messages %}
+    <p>
+        <a href="{% url 'storage:show' resource_id %}">{{ resource_id }}</a>
+    </p>
+    <ul>
+        {% for judgement in judgements %}
+            <li><a href="{% url 'solutions:show_judgement' judgement.id %}">
+                {% trans 'Run' %} {{ judgement.id }}
+            </a></li>
+        {% endfor %}
+        {% for judgement_log in judgement_logs %}
+            <li><a href="{% url 'solutions:show_judgement' judgement_log.judgement_id %}">
+                {% trans 'Run' %} {{ judgement_log.judgement_id }} ({% trans 'log' %})
+            </a></li>
+        {% endfor %}
+        {% for test_case in test_cases %}
+            <li><a href="{% url 'problems:show_test' test_case.problem_id test_case.ordinal_number %}">
+                {% trans 'Problem' %} {{ test_case.problem_id }}, {% trans 'Test' %} {{ test_case.ordinal_number }}
+            </a></li>
+        {% endfor %}
+        {% for challenge in challenges %}
+            <li><a href="{% url 'problems:challenge' challenge.problem_id challenge.id %}">
+                {% trans 'Challenge' %} {{ challenge.id }}
+            </a></li>
+        {% endfor %}
+        {% for file in files %}
+            <li>
+                {% trans 'File' %} <span class="ir-monospace">{{ file.filename }}</span> <span class="ir-file-size">({{ file.size|filesizeformat }})</span>
+            </li>
+        {% endfor %}
+        {% for file in data_files %}
+            <li>
+                {% trans 'File' %} <span class="ir-monospace">{{ file.filename }}</span> <span class="ir-file-size">({{ file.size|filesizeformat }})</span>
+                (<a href="{% url 'problems:files' file.problem_id %}">{% trans 'Problem' %} {{ file.problem_id }}</a>)
+            </li>
+        {% endfor %}
+        {% for file in source_files %}
+            <li>
+                {% trans 'File' %} <span class="ir-monospace">{{ file.filename }}</span> <span class="ir-file-size">({{ file.size|filesizeformat }})</span>
+                (<a href="{% url 'problems:files' file.problem_id %}">{% trans 'Problem' %} {{ file.problem_id }}</a>)
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'storage:cleanup' resource_id %}">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger">{% trans 'Cleanup stdout/stderr' %}</button>
+        {% endbuttons %}
+    </form>
+{% endblock %}
