@@ -160,6 +160,10 @@ h3 { font-size: 20px; line-height: 32px; }
     word-break: normal;
 }
 
+.ir-last-name {
+    font-weight: 600;
+}
+
 .ir-problem-statement {
     margin: 0.5em;
     font-family: Verdana, sans-serif;

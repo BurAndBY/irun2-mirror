@@ -33,9 +33,9 @@ class UserDescription(namedtuple('UserDescription', 'id first_name last_name sub
 
     def as_html(self):
         if self.subgroup_name:
-            return format_html(u'{0} <strong>{1}</strong> ({2})', self.first_name, self.last_name, self.subgroup_name)
+            return format_html(u'{0} <span class="ir-last-name">{1}</span> ({2})', self.first_name, self.last_name, self.subgroup_name)
         else:
-            return format_html(u'{0} <strong>{1}</strong>', self.first_name, self.last_name)
+            return format_html(u'{0} <span class="ir-last-name">{1}</span>', self.first_name, self.last_name)
 
 
 class UserCache(object):
