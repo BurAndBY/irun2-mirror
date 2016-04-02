@@ -1,0 +1,29 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+
+<table class="sortable ir-topic-problems-list table-hover">
+    <thead>
+        <tr>
+            <th>{% trans 'level' %}</th>
+            <th data-defaultsort="disabled"></th>
+            <th>{% trans '#' %}</th>
+            <th class="ir-full-width">{% trans 'name' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% trans 'Assign' as assign_tooltip %}
+        {% trans 'Statement' as statement_tooltip %}
+
+        {% for problem_repr in problem_reprs %}
+        {% with problem_repr.problem as problem %}
+        <tr{% if problem_repr.used_by_me %} class="ir-problem-used-me"{% elif problem_repr.used_by_others %} class="ir-problem-used"{% endif %}>
+            <td>{% irunner_problems_difficulty problem.difficulty %}</td>
+            <td><a href="{% url 'courses:course_problems_problem' course_id problem.id %}" title="{{ statement_tooltip }}" target="_blank">{% bootstrap_icon 'file' %}</a></td>
+            <td><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{{ assign_tooltip }}">{{ problem.get_formatted_number }}</a></td>
+            <td class="ir-full-width"><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{% trans 'Assign' %}">{{ problem.full_name }}</a></td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+    </tbody>
+</table>

@@ -510,7 +510,13 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 .ir-assignment {
-    margin-bottom: 6px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.ir-assignment > tbody > tr > td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    vertical-align: top;
 }
 .ir-assignment > div {
     padding: 6px 8px;
@@ -536,7 +542,7 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-assignment .ir-topic {
     background-color: #fafafa;
-    width: 120px;
+    width: 140px;
 }
 .ir-assignment .ir-topic .ir-topic-name {
     font-weight: bold;
@@ -548,6 +554,9 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-assignment .ir-penalty {
     background-color: #FCF8E3;
+}
+.ir-assignment .ir-slot-penalty-cell {
+    background-color: #fcf8e3;
 }
 /*
 Yellow menu
@@ -839,12 +848,13 @@ span.ir-absence {
 }
 
 .ir-fake-panel {
-    border: 1px solid #ce4844;
+    border: 1px solid #428bca;
     border-left-width: 5px;
     border-radius: 3px;
     padding: 10px;
     font-size: 12px;
     margin-top: 8px;
+    background-color: white;
 }
 
 .ir-penalty-p {
@@ -853,6 +863,9 @@ span.ir-absence {
 }
 .ir-problem-used a {
     color: #ddd;
+}
+.ir-problem-used-me a {
+    color: #5cb85c;
 }
 
 .ir-button-before-text {

@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Problem, ProblemFolder
 from users.models import UserFolder
+from common.constants import EMPTY_SELECT
 from common.fields import TwoPanelModelMultipleChoiceField
 from common.mptt_fields import OrderedTreeNodeChoiceField
 import common.widgets
@@ -84,7 +85,7 @@ class ProblemAssignmentForm(forms.ModelForm):
 
 
 class AddExtraProblemSlotForm(forms.Form):
-    penaltytopic = forms.ModelChoiceField(label=_('Topic'), queryset=None)
+    penaltytopic = forms.ModelChoiceField(label=_('Topic'), queryset=None, empty_label=EMPTY_SELECT)
 
 
 class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):

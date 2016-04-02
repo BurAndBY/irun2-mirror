@@ -1,3 +1,4 @@
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_courses %}
 {% load irunner_problems %}
@@ -14,46 +15,39 @@
     {% endif %}
 >
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <div>
-                {% if editable %}
-                    <button type="button" class="btn btn-primary btn-xs ir-assign-button ir-button-before-text">{% trans 'Assign' %}</button>
-                {% endif %}
-
                 {% if problem_result %}
                     {% irunner_problems_difficulty problem_result.problem.difficulty %}
-                    <a href="{% url 'courses:course_problems_problem' course_id problem_result.problem.id %}">
-                        {{ problem_result.problem.numbered_full_name }}
-                    </a>
+                    <a href="{% url 'courses:course_problems_problem' course_id problem_result.problem.id %}" title="{% trans 'Statement' %}">{{ problem_result.problem.numbered_full_name }}</a>
                 {% else %}
                     <span class="ir-absence">{% trans 'No problem is assigned' %}</span>
+                {% endif %}
+                {% if editable %}
+                    <button type="button" class="btn btn-xs btn-default ir-assign-button" title="{% trans 'Assign' %}">{% bootstrap_icon 'pencil' %}</button>
                 {% endif %}
             </div>
             {% if problem_result %}
                 <div class="ir-best-solution">
-                    {% if problem_result.solutions %}
-                        {% with problem_result.solutions|length as cnt %}
-                            <button type="button" class="btn btn-default btn-xs ir-button-before-text" data-toggle="collapse" data-target="#solutions_{{ uid }}">
-                                {{ cnt }}&nbsp;{% blocktrans count counter=cnt %}solution{% plural %}solutions{% endblocktrans %}
-                            </button>
-                        {% endwith %}
-
-                    {% else %}
-                        <button type="button" class="btn btn-default btn-xs ir-button-before-text disabled">
+                    <span title="{% trans 'Best solution' %}">{% bootstrap_icon 'tasks' %}</span>
+                    <span class="ir-icon-label">
+                        {% if problem_result.best_solution %}
+                            {% url 'solutions:main' problem_result.best_solution.id as s_url %}
+                            <a href="{{ s_url }}">{% irunner_solutions_judgementbox problem_result.best_solution.best_judgement tooltip=True %}</a>
+                            <a href="{{ s_url }}">{% irunner_solutions_scorebox problem_result.best_solution.best_judgement %}</a>
+                        {% endif %}
+                        {% if problem_result.solutions %}
+                            {% with problem_result.solutions|length as cnt %}
+                                (<a href="{% if user_id %}{% url 'courses:all_solutions' course_id %}?user={{ user_id }}&amp;problem={{ problem_result.problem.id }}{% else %}{% url 'courses:my_solutions' course_id %}?problem={{ problem_result.problem.id }}{% endif %}">{{ cnt }}&nbsp;{% blocktrans count counter=cnt %}solution{% plural %}solutions{% endblocktrans %}</a>)
+                            {% endwith %}
+                        {% else %}
                             {% trans 'No solutions' %}
-                        </button>
-                    {% endif %}
-
-                    {% if problem_result.best_solution %}
-                        {% trans 'Best solution' %}:
-                        <a href="{% url 'solutions:main' problem_result.best_solution.id %}">{% irunner_solutions_scorebox problem_result.best_solution.best_judgement %}</a>
-                        <a href="{% url 'solutions:main' problem_result.best_solution.id %}">{% irunner_solutions_judgementbox problem_result.best_solution.best_judgement %}</a>
-                    {% endif %}
+                        {% endif %}
+                    </span>
                 </div>
-
             {% endif %}
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             {% if slot_result %}
                 {% for criterion_descr in slot_result.criterion_descrs %}
                     <div {% if editable %} class="ir-toggle-criterion"{% endif %}>
@@ -62,37 +56,6 @@
                     </div>
                 {% endfor %}
             {% endif %}
-        </div>
-    </div>
-
-    <div class="collapse" id="solutions_{{ uid }}">
-        <div class="ir-fake-panel">
-            <h4>{% trans 'Solutions' %}</h4>
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans '#' %}</th>
-                        <th class="ir-col-time">{% trans 'Time' %}</th>
-                        <th>{% trans 'Status' %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for solution in problem_result.solutions %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td class="ir-col-time">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
-                        <td class="text-nowrap">
-                            {% url 'solutions:main' solution.id as solution_url %}
-                            <a href="{{ solution_url }}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
-                            <a href="{{ solution_url }}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=show_outcome_tooltip %}</a>
-                            {% if solution.best_judgement %}
-                                <a href="{{ solution_url }}">{{ solution.best_judgement.show_status }}</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
     </div>
 </div>

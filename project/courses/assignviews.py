@@ -11,13 +11,14 @@ from services import make_course_single_result
 
 from common.networkutils import never_ever_cache
 from problems.models import Problem
+from problems.views import ProblemStatementMixin
 
 from .views import BaseCourseView
 
 
 AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topic_reprs')
-TopicRepresentation = namedtuple('TopicRepresentation', 'topic_result problem_reprs')
-ProblemRepresentation = namedtuple('ProblemRepresentation', 'problem used')
+TopicRepresentation = namedtuple('TopicRepresentation', 'topic_result')
+ProblemRepresentation = namedtuple('ProblemRepresentation', 'problem used used_by_others used_by_me')
 
 
 class BaseCourseAssignView(BaseCourseView):
@@ -57,37 +58,9 @@ class CourseAssignView(BaseCourseMemberAssignView):
     def get(self, request, course, membership):
         user_result = make_course_single_result(course, membership)
 
-        used_problems = {}
-        for topic_id, problem_id in Assignment.objects.\
-                filter(membership__course=course, membership__role=Membership.STUDENT).\
-                exclude(membership=membership).\
-                values_list('topic_id', 'problem_id'):
-            used_problems.setdefault(topic_id, set()).add(problem_id)
-
-        # find out what problem folders do we need
-        folder_ids = set()
-        for topic_result in user_result.topic_results:
-            topic = topic_result.topic_descr.topic
-            if topic.problem_folder_id is not None:
-                folder_ids.add(topic.problem_folder_id)
-
-        folder_id_to_problems = {}
-        for problem in Problem.objects.filter(folders__id__in=folder_ids).annotate(folder_id=F('folders__id')):
-            folder_id_to_problems.setdefault(problem.folder_id, []).append(problem)
-        assert None not in folder_id_to_problems
-
         topic_reprs = []
         for topic_result in user_result.topic_results:
-            topic = topic_result.topic_descr.topic
-
-            used_topic_problems = used_problems.get(topic.id, set())
-
-            problem_reprs = []
-            for problem in folder_id_to_problems.get(topic.problem_folder_id):
-                used = problem.id in used_topic_problems
-                problem_reprs.append(ProblemRepresentation(problem, used))
-
-            topic_repr = TopicRepresentation(topic_result, problem_reprs)
+            topic_repr = TopicRepresentation(topic_result)
             topic_reprs.append(topic_repr)
 
         assignment_repr = AssignmentDataRepresentation(topic_reprs)
@@ -95,7 +68,8 @@ class CourseAssignView(BaseCourseMemberAssignView):
         extra_form = AddExtraProblemSlotForm()
         extra_form.fields['penaltytopic'].queryset = course.topic_set.all()
 
-        context = self.get_context_data(data=assignment_repr, extra_form=extra_form, common_problem_results=user_result.common_problem_results)
+        context = self.get_context_data(data=assignment_repr, extra_form=extra_form,
+                                        common_problem_results=user_result.common_problem_results, user_id=membership.user_id)
         return render(request, self.template_name, context)
 
 
@@ -199,3 +173,29 @@ class CourseAssignCriterionApiView(BaseCourseMemberAssignView):
 
         else:
             return JsonResponse()
+
+
+class ListTopicProblemsApiView(BaseCourseMemberAssignView):
+    template_name = 'courses/api_list_problems.html'
+
+    @method_decorator(never_ever_cache)
+    def get(self, request, course, membership, topic_id):
+        problem_reprs = []
+        topic = Topic.objects.filter(pk=topic_id, course=course).first()
+
+        if topic is not None and topic.problem_folder_id is not None:
+            used_by_others = set()
+            used_by_me = set()
+
+            for membership_id, problem_id in Assignment.objects.\
+                    filter(membership__course=course, membership__role=Membership.STUDENT).\
+                    values_list('membership_id', 'problem_id'):
+                (used_by_me if membership_id == membership.id else used_by_others).add(problem_id)
+
+            for problem in Problem.objects.filter(folders__id=topic.problem_folder_id):
+                by_others = problem.id in used_by_others
+                by_me = problem.id in used_by_me
+                problem_reprs.append(ProblemRepresentation(problem, by_others or by_me, by_others, by_me))
+
+        context = {'problem_reprs': problem_reprs, 'course_id': course.id}
+        return render(request, self.template_name, context)

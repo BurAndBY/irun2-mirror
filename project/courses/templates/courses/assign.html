@@ -4,7 +4,6 @@
 {% load i18n %}
 {% load irunner_cache %}
 {% load irunner_courses %}
-{% load irunner_courses %}
 {% load irunner_solutions %}
 {% load irunner_problems %}
 {% load staticfiles %}
@@ -58,54 +57,27 @@
                             </td>
                         {% endif %}
 
-                        <td class="ir-slot-cell">
-                            {% if slot_result.is_penalty %}
-                                <div class="bg-warning text-warning ir-penalty-p">
-                                    {% trans 'Extra problem' %}
-                                    <div class="pull-right">
-                                        <form method="post" action="{% url 'courses:course_assignment_delete_penalty' course.id current_student.id slot_result.assignment.id %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-default btn-xs">
-                                                {% trans 'Remove' %}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            {% irunner_courses_slotresult slot_result course.id editable=True %}
+                        <td class="ir-slot-cell {% if slot_result.is_penalty %} ir-slot-penalty-cell{% endif %}" data-topic="{{ slot_result.topic_descr.topic.id }}">
+                            {% irunner_courses_slotresult slot_result course.id user_id=user_id editable=True %}
 
                             {# List of problems for topic to choose from #}
                             <div class="collapse ir-slider" id="problems_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
                                 <div class="ir-fake-panel">
                                     <h4>{% trans 'Select a problem to assign' %}</h4>
-                                    <table class="sortable ir-topic-problems-list table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>{% trans 'level' %}</th>
-                                                <th data-defaultsort="disabled"></th>
-                                                <th>{% trans '#' %}</th>
-                                                <th class="ir-full-width">{% trans 'name' %}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% trans 'Assign' as assign_tooltip %}
-                                            {% trans 'Statement' as statement_tooltip %}
-                                            {# Table is shifted left to reach smaller page size (no whitespaces). #}
-
-{% for problem_repr in topic_repr.problem_reprs %}{% with problem_repr.problem as problem %}
-<tr{% if problem_repr.used %} class="ir-problem-used"{% endif %}>
-    <td>{% irunner_problems_difficulty problem.difficulty %}</td>
-    <td><a href="{% url 'courses:course_problems_problem' course.id problem.id %}" title="{{ statement_tooltip }}" target="_blank">{% bootstrap_icon 'file' %}</a></td>
-    <td><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{{ assign_tooltip }}">{{ problem.get_formatted_number }}</a></td>
-    <td class="ir-full-width"><a href="#" role="button" class="ir-choose-button" data-problem="{{ problem.id }}" title="{% trans 'Assign' %}">{{ problem.full_name }}</a></td>
-</tr>
-{% endwith %}{% endfor %}
-                                        </tbody>
-                                    </table>
+                                    <div class="ir-ajax"></div>
                                     <br>
-                                    <button type="button" class="btn btn-default btn-xs ir-cancel-button">{% trans 'Cancel' %}</button>
-                                    <button type="button" class="btn btn-default btn-xs ir-choose-button">{% trans 'Reset' %}</button>
+                                    <p>
+                                        <button type="button" class="btn btn-default btn-sm ir-choose-button">{% trans 'Reset' %}</button>
+                                        <button type="button" class="btn btn-default btn-sm ir-cancel-button">{% trans 'Cancel' %}</button>
+                                    </p>
+                                    {% if slot_result.is_penalty %}
+                                        <form method="post" action="{% url 'courses:course_assignment_delete_penalty' course.id current_student.id slot_result.assignment.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                {% trans 'Remove extra problem' %}
+                                            </button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
                         </td>
@@ -188,7 +160,7 @@
         });
 
         var divWithProblems = $(this).parents(".ir-slider");
-        divWithProblems.collapse("hide");
+        hideListOfProblems(divWithProblems);
     }
 
     function toggleCriterion() {
@@ -222,17 +194,34 @@
         }
     }
 
+    function hideListOfProblems(frame) {
+        frame.parents(".ir-slot-cell").find(".ir-assign-button").removeClass("active");
+        frame.hide();
+    }
+
     $(document).ready(function() {
         $(".ir-cancel-button").click(function() {
             var divWithProblems = $(this).parents(".ir-slider");
-            divWithProblems.collapse("hide");
+            hideListOfProblems(divWithProblems);
         });
         $(document).on("click", ".ir-assign-button", function() {
-            var divWithProblems = $(this).parents("td").first().find(".ir-slider");
-            divWithProblems.collapse("toggle");
+            var frame = $(this).parents("td").first().find(".ir-slider");
+            if (frame.is(":visible")) {
+                hideListOfProblems(frame);
+            } else {
+                $(this).addClass("active");
+                frame.find(".ir-ajax").empty();
+                var topicId = $(this).parents(".ir-slot-cell").data("topic");
+                $.get("api/topic-problems/" + topicId + "/").done(function(response) {
+                    frame.find(".ir-ajax").html(response);
+                    $.bootstrapSortable(true);
+                    frame.find(".ir-choose-button").click(assignProblem);
+                    frame.show();
+                });
+            }
         });
+
         $(document).on("click", ".ir-criterion-editable", toggleCriterion);
-        $(".ir-choose-button").click(assignProblem);
     });
 </script>
 
