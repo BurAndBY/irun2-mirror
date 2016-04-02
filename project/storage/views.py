@@ -101,9 +101,8 @@ class CleanupView(StaffMemberRequiredMixin, generic.View):
     def post(self, request, resource_id):
         resource_id = parse_resource_id(resource_id)
         rows_updated = 0
-        empty = ResourceId()
-        rows_updated += TestCaseResult.objects.filter(stdout_resource_id=resource_id).update(stdout_resource_id=empty)
-        rows_updated += TestCaseResult.objects.filter(stderr_resource_id=resource_id).update(stderr_resource_id=empty)
+        rows_updated += TestCaseResult.objects.filter(stdout_resource_id=resource_id).update(stdout_resource_id=None)
+        rows_updated += TestCaseResult.objects.filter(stderr_resource_id=resource_id).update(stderr_resource_id=None)
         msg = ungettext('%(rows)s DB row updated', '%(rows)s DB rows updated', rows_updated) % {'rows': rows_updated}
         messages.add_message(request, messages.INFO, msg)
         return redirect('storage:usage', resource_id)
