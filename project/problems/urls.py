@@ -64,6 +64,10 @@ urlpatterns = [
     url(r'^(?P<problem_id>[0-9]+)/', include(problem_urlpatterns)),
 
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/$', views.ShowFolderView.as_view(), name='show_folder'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/properties/$', views.UpdateFolderView.as_view(), name='folder_properties'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/delete/$', views.DeleteFolderView.as_view(), name='delete_folder'),
+
     url(r'^search/$', views.SearchView.as_view(), name='search'),
 
     url(r'^tex/$', views.TeXView.as_view(), name='tex_playground'),

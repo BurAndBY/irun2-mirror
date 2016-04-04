@@ -243,3 +243,14 @@ Challenge
 class ChallengeForm(forms.Form):
     time_limit = TimeLimitField(label=_('Time limit'), required=True)
     memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
+
+
+'''
+Folders
+'''
+
+
+class ProblemFolderForm(forms.ModelForm):
+    class Meta:
+        model = ProblemFolder
+        fields = ['name']

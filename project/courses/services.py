@@ -493,6 +493,8 @@ class ActivityResult(object):
 
         elif self.activity.kind == Activity.PASSED_OR_NOT:
             classes = ['ir-sheet-editable', 'ir-sheet-editable-enum']
+            if self.record is not None and self.record.enum in (ActivityRecord.NO_PASS, ActivityRecord.ABSENCE):
+                classes.append('ir-sheet-bad')
         else:
             classes = ['ir-sheet-readonly']
 

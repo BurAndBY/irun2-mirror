@@ -10,10 +10,6 @@
 {% block sidebar %}
     {% trans "Problems" as root_name %}
 
-    <p>
-        <a href="{% url 'problems:show_tree' %}">{% trans 'Alternative view' %}</a>
-    </p>
-
     {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
 {% endblock %}
 
@@ -21,6 +17,20 @@
     {% trans "Problems" as root_name %}
 
     {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
+
+    <p>
+        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:create_folder' folder_id %}">
+            {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Create folder' %}</span>
+        </a>
+        {% if editable_folder %}
+            <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:folder_properties' folder_id %}">
+                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Folder properties' %}</span>
+            </a>
+            <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:delete_folder' folder_id %}">
+                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete folder' %}</span>
+            </a>
+        {% endif %}
+    </p>
 
     {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
 

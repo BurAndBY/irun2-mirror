@@ -12,7 +12,7 @@ from storage.storage import ResourceIdField
 
 
 class ProblemFolder(MPTTModel):
-    name = models.CharField(max_length=64)
+    name = models.CharField(_('name'), max_length=64)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
     def __unicode__(self):

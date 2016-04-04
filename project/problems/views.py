@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F, Q, Count
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
@@ -24,11 +24,12 @@ from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bul
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
-from common.folderutils import lookup_node_ex, cast_id, _fancytree_recursive_node_to_dict
+from common.folderutils import lookup_node_ex, cast_id, ROOT, _fancytree_recursive_node_to_dict
 from common.networkutils import redirect_with_query_string
 from common.outcome import Outcome
 from common.pageutils import paginate
 from common.views import IRunnerListView
+from courses.models import Course
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
 from solutions.models import Challenge, ChallengedSolution, Judgement
@@ -39,6 +40,7 @@ import solutions.utils
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
 from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm, ChallengeForm
+from .forms import ProblemFolderForm
 from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
 from .navigator import Navigator
 from .statement import StatementRepresentation
@@ -860,8 +862,10 @@ class ProblemFolderMixin(object):
         node_ex = lookup_node_ex(self.kwargs['folder_id_or_root'], cached_trees)
 
         context['cached_trees'] = cached_trees
+        context['folder'] = node_ex.object
         context['folder_id'] = node_ex.folder_id
         context['active_tab'] = 'folders'
+        context['editable_folder'] = node_ex.object is not None
         return context
 
 
@@ -881,6 +885,68 @@ class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListVi
         return Problem.objects\
             .filter(folders__id=folder_id)\
             .annotate(solution_count=Count('solution'))
+
+
+class CreateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.FormView):
+    template_name = 'problems/list_folder_form.html'
+    form_class = ProblemFolderForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateFolderView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Create folder')
+        context['show_parent'] = True
+        return context
+
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        obj = form.save(commit=False)
+        obj.parent_id = cast_id(folder_id_or_root)
+        obj.save()
+        return redirect('problems:show_folder', folder_id_or_root)
+
+
+class UpdateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.UpdateView):
+    template_name = 'problems/list_folder_form.html'
+    form_class = ProblemFolderForm
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateFolderView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Folder properties')
+        context['show_parent'] = False
+        return context
+
+    def get_success_url(self):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        return reverse('problems:show_folder', kwargs={'folder_id_or_root': folder_id_or_root})
+
+    def get_object(self):
+        folder_id = cast_id(self.kwargs['folder_id_or_root'])
+        if folder_id is not None:
+            return ProblemFolder.objects.get(pk=folder_id)
+        else:
+            raise Http404('no folder found')
+
+
+class DeleteFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'problems/list_folder_confirm_delete.html'
+
+    def list_courses(self, folder):
+        subfolder_ids = folder.get_descendants(include_self=True).values_list('id', flat=True)
+        return list(Course.objects.filter(topic__problem_folder_id__in=subfolder_ids).distinct())
+
+    def get(self, request, folder_id_or_root):
+        folder_id = cast_id(folder_id_or_root)
+        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+        context = self.get_context_data(course_list=self.list_courses(folder))
+        return render(request, self.template_name, context)
+
+    def post(self, request, folder_id_or_root):
+        folder_id = cast_id(folder_id_or_root)
+        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+        parent_id = folder.parent_id
+        with transaction.atomic():
+            folder.delete()
+        return redirect('problems:show_folder', parent_id if parent_id is not None else ROOT)
 
 
 '''
