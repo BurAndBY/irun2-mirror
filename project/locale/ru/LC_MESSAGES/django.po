@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-05 01:58+0300\n"
-"PO-Revision-Date: 2016-04-05 02:02+0300\n"
+"POT-Creation-Date: 2016-04-05 02:58+0300\n"
+"PO-Revision-Date: 2016-04-05 02:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -756,7 +756,7 @@ msgstr "удалить"
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:458
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:468
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -773,6 +773,14 @@ msgstr "Количество отправленных решений"
 #: .\courses\templates\courses\solutions.html:78
 msgid "No solutions"
 msgstr "Решений нет"
+
+#: .\courses\templates\courses\info.html:42
+msgid "all"
+msgstr "все"
+
+#: .\courses\templates\courses\info.html:47
+msgid "accepted"
+msgstr "принятые"
 
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:24
 msgid "No problem is assigned"
@@ -867,7 +875,7 @@ msgid "Submit solution"
 msgstr "Отправить решение"
 
 #: .\courses\templates\courses\problems_statement.html:37
-#: .\courses\templates\courses\sheet.html:117
+#: .\courses\templates\courses\sheet.html:124
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:33
@@ -1013,11 +1021,11 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:547
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:557
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:586
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:596
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1087,15 +1095,15 @@ msgstr "Итог"
 msgid "widescreen"
 msgstr "широкоэкр."
 
-#: .\courses\views.py:471
+#: .\courses\views.py:481
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:723
+#: .\courses\views.py:733
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:724
+#: .\courses\views.py:734
 msgid "— All —"
 msgstr "— Все —"
 

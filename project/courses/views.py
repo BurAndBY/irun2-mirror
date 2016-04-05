@@ -24,6 +24,7 @@ from calcpermissions import calculate_course_permissions
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
 from common.pageutils import paginate
+from common.outcome import Outcome
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
@@ -78,18 +79,27 @@ class CourseInfoView(BaseCourseView):
     def is_allowed(self, permissions):
         return permissions.info
 
+    def _make(self, solutions):
+        return [
+            (calendar.timegm(solution.reception_time.timetuple()) * 1000, i + 1)
+            for i, solution in enumerate(solutions)
+        ]
+
     def get(self, request, course):
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
             .order_by('reception_time')
 
-        activity_data = [
-            (calendar.timegm(solution.reception_time.timetuple()) * 1000, i + 1)
-            for i, solution in enumerate(solutions)
-        ]
-        activity_data_json = json.dumps(activity_data)
-        show_activity_plot = (len(activity_data) > 0)
-        return render(request, self.template_name, self.get_context_data(activity_data_json=activity_data_json, show_activity_plot=show_activity_plot))
+        all_solution_data = self._make(solutions)
+        accepted_solution_data = self._make(solutions.filter(best_judgement__outcome=Outcome.ACCEPTED))
+
+        show_activity_plot = (len(all_solution_data) > 0)
+
+        return render(request, self.template_name, self.get_context_data(
+            show_activity_plot=show_activity_plot,
+            all_solution_json=json.dumps(all_solution_data),
+            accepted_solution_json=json.dumps(accepted_solution_data),
+        ))
 
 
 class CourseSheetView(BaseCourseView):

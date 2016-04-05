@@ -37,15 +37,22 @@
 
     <script>
         $(document).ready(function() {
-            var activitySeries = {
+            var allSolutionSeries = {
                 color: "#337ab7",
-                data: {{ activity_data_json|safe }}
+                label: "{% trans 'all' %}",
+                data: {{ all_solution_json|safe }}
             };
-            var data = [activitySeries];
+            var acceptedSolutionSeries = {
+                color: "#5cb85c",
+                label: "{% trans 'accepted' %}",
+                data: {{ accepted_solution_json|safe }}
+            };
+
+            var data = [allSolutionSeries, acceptedSolutionSeries];
             var options = {
                 series: {
                     lines: { show: true },
-                    points: { show: true, radius: 1, fill: true, fillColor: "#337ab7" }
+                    points: { show: true, radius: 1, fill: true }
                 },
                 xaxis: {
                     mode: "time",
@@ -54,7 +61,8 @@
                 yaxis: {
                     tickDecimals: 0,
                     min: 0,
-                }
+                },
+                legend: { position: "nw" }
             };
             var div = $(".ir-activity-plot").first();
             if (div.length) {
