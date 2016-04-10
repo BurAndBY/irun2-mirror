@@ -145,7 +145,8 @@ class CreateUsersMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.For
 
 
 class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):
-    template_name = 'users/delete.html'
+    template_name = 'users/bulk_operation.html'
+    question = _('Are you sure you want to delete the users?')
 
     def get_queryset(self):
         return auth.get_user_model().objects
@@ -155,7 +156,8 @@ class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):
 
 
 class MoveUsersView(StaffMemberRequiredMixin, MassOperationView):
-    template_name = 'users/move.html'
+    template_name = 'users/bulk_operation.html'
+    question = _('Are you sure you want to move the users to another folder?')
     form_class = forms.MoveUsersForm
 
     def get_queryset(self):
@@ -164,6 +166,23 @@ class MoveUsersView(StaffMemberRequiredMixin, MassOperationView):
     def perform(self, queryset, form):
         folder = form.cleaned_data['folder']
         queryset.update(folder=folder)
+
+    def prepare_to_display(self, userprofile):
+        return userprofile.user
+
+
+class SwapFirstLastNameView(StaffMemberRequiredMixin, MassOperationView):
+    template_name = 'users/bulk_operation.html'
+    question = _('Are you sure you want to swap first and last name of these users?')
+
+    def get_queryset(self):
+        return auth.get_user_model().objects
+
+    def perform(self, queryset, form):
+        with transaction.atomic():
+            for user in queryset:
+                user.first_name, user.last_name = user.last_name, user.first_name
+                user.save()
 
 
 class BaseProfileView(StaffMemberRequiredMixin):

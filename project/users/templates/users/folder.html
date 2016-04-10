@@ -34,15 +34,17 @@
         </a>
 
         {% if has_users %}
-
-            <button onclick="irPerformActionOnSelected('{% url 'users:move' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
-                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span>
-            </button>
-
-            <button onclick="irPerformActionOnSelected('{% url 'users:delete' %}', '{{ request.path }}', '{% trans 'No users selected' %}')" class="btn btn-default btn-sm">
-                {% bootstrap_icon 'ok' %}&nbsp;{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
-            </button>
-
+            <div class="dropdown" style="display: inline-block;">
+                <button class="btn btn-default btn-sm dropdown-toggle ir-checkbox-driven" type="button" data-toggle="dropdown" disabled>
+                    {% bootstrap_icon 'check' %} <span class="ir-icon-label">{% trans 'Actions' %}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" id="ir_move">{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span></a></li>
+                    <li><a href="#" id="ir_delete">{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span></a></li>
+                    <li><a href="#" id="ir_swap">{% bootstrap_icon 'random' %} <span class="ir-icon-label">{% trans 'Swap first and last name' %}</span></a></li>
+                </ul>
+            </div>
         {% endif %}
     </p>
     {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
@@ -61,6 +63,10 @@
     <script>
     $(document).ready(function () {
         irSetUpSelectAll();
+        var here = '{{ request.path }}';
+        $("#ir_move").click(function() { irPerformActionOnSelected('{% url "users:move" %}', here); });
+        $("#ir_delete").click(function() { irPerformActionOnSelected('{% url "users:delete" %}', here); });
+        $("#ir_swap").click(function() { irPerformActionOnSelected('{% url "users:swap_first_last_name" %}', here); });
     });
     </script>
 {% endblock %}

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/mass-registration/$', views.CreateUsersMassView.as_view(), name='create_users_mass'),
     url(r'^delete/$', views.DeleteUsersView.as_view(), name='delete'),
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
+    url(r'^swap-first-last-name/$', views.SwapFirstLastNameView.as_view(), name='swap_first_last_name'),
 
     # single user profile
     url(r'^(?P<user_id>[0-9]+)/$', views.ProfileShowView.as_view(), name='profile_show'),

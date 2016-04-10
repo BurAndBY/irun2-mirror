@@ -210,6 +210,7 @@ def error403(request):
 class MassOperationView(generic.View):
     template_name = None
     form_class = None
+    question = None
     success_url = '/'
 
     @staticmethod
@@ -232,9 +233,10 @@ class MassOperationView(generic.View):
         ids = [object.pk for object in queryset]
 
         context = {
-            'object_list': queryset,
+            'object_list': [self.prepare_to_display(obj) for obj in queryset],
             'ids': ids,
-            'next': query_dict.get('next')
+            'next': query_dict.get('next'),
+            'question': self.question,
         }
         context = self.get_context_data(**context)
         return context
@@ -289,3 +291,6 @@ class MassOperationView(generic.View):
 
     def get_queryset(self):
         raise NotImplementedError()
+
+    def prepare_to_display(self, obj):
+        return obj
