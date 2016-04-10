@@ -1,0 +1,19 @@
+{% extends 'contests/settings_base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block submain %}
+
+<form method="post" autocomplete="off" class="form-horizontal">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    {% buttons layout='horizontal' %}
+        <button type="submit" class="btn btn-primary">
+            {% trans 'Save' %}
+        </button>
+        <a href="{% url 'contests:settings_delete' contest.id %}" class="btn btn-danger">{% trans 'Delete the contest' %}</a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

@@ -52,12 +52,17 @@
 
                     {% if solution_environment.course %}
                         <dt>{% trans 'Course' %}</dt>
-                        <dd><a href="{% url 'courses:show_course_info' solution_environment.course.id %}">{{ solution_environment.course.name }}</a></dd>
+                        <dd><a href="{% url 'courses:show_course_info' solution_environment.course.id %}">{{ solution_environment.course }}</a></dd>
 
                         {% if solution.best_judgement %}
                             <dt>{% trans 'Score' %}</dt>
                             <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
                         {% endif %}
+                    {% endif %}
+
+                    {% if solution_environment.contest %}
+                        <dt>{% trans 'Contest' %}</dt>
+                        <dd><a href="{% url 'contests:standings' solution_environment.contest.id %}">{{ solution_environment.contest }}</a></dd>
                     {% endif %}
                 </dl>
             </div>

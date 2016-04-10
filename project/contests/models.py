@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+
+from datetime import datetime, timedelta
+
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+from problems.models import Problem
+from proglangs.models import Compiler
+from solutions.models import Solution, Judgement
+from solutions.permissions import SolutionAccessLevel
+from storage.models import FileMetadata
+
+
+class UnauthorizedAccessLevel(object):
+    NO_ACCESS = 0
+    VIEW_STANDINGS = 1
+    VIEW_STANDINGS_AND_PROBLEMS = 2
+
+    CHOICES = (
+        (NO_ACCESS, _('No access')),
+        (VIEW_STANDINGS, _('View standings')),
+        (VIEW_STANDINGS_AND_PROBLEMS, _('View standings and problem statements')),
+    )
+
+
+def _default_contest_start_time():
+    ts = datetime.now() + timedelta(days=3)
+    ts = ts.replace(hour=10, minute=0, second=0, microsecond=0)
+    return ts
+
+
+class Contest(models.Model):
+    name = models.CharField(_('name'), max_length=255)
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
+    compilers = models.ManyToManyField(Compiler, blank=True)
+    problems = models.ManyToManyField(Problem, blank=True, through='ContestProblem')
+    statements = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL)
+    unauthorized_access = models.IntegerField(_(u'access for unauthorized users'),
+                                              choices=UnauthorizedAccessLevel.CHOICES, default=UnauthorizedAccessLevel.NO_ACCESS)
+    contestant_own_solutions_access = models.IntegerField(_(u'contestant’s access to his own solutions'),
+                                                          choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.SOURCE_CODE)
+    attempt_limit = models.PositiveIntegerField(_('maximum number of attempts per problem'), default=100)
+    file_size_limit = models.PositiveIntegerField(_('maximum solution file size (bytes)'), default=65536)
+    start_time = models.DateTimeField(_('start time'), default=_default_contest_start_time)
+    duration = models.DurationField(_('duration'), default=timedelta(hours=5))
+    freeze_time = models.DurationField(_('standings freeze time'), null=True, blank=True, default=timedelta(hours=4), help_text=_('If not set, there will be no freezing.'))
+    show_pending_runs = models.BooleanField(_('show pending runs during the freeze time'), blank=True, default=True)
+    unfreeze_standings = models.BooleanField(_('unfreeze standings after the end of the contest'), blank=True, default=False)
+    enable_upsolving = models.BooleanField(_('enable upsolving after the end of the contest'), blank=True, default=False)
+
+    def get_absolute_url(self):
+        return reverse('contests:standings', kwargs={'contest_id': self.pk})
+
+    def __unicode__(self):
+        return self.name
+
+    def clean(self):
+        if self.freeze_time is not None:
+            if self.freeze_time > self.duration:
+                raise ValidationError({'freeze_time': ValidationError(_('Freeze time must not exceed the contest duration.'))})
+
+    def get_problems(self):
+        return self.problems.order_by('link_to_contest')
+
+
+class Membership(models.Model):
+    CONTESTANT = 0
+    JUROR = 1
+
+    ROLE_CHOICES = (
+        (CONTESTANT, _('contestant')),
+        (JUROR, _('juror')),
+    )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contestmembership')
+    contest = models.ForeignKey(Contest)
+    role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
+
+
+class ContestProblem(models.Model):
+    contest = models.ForeignKey(Contest)
+    problem = models.ForeignKey(Problem, related_name='link_to_contest')
+    ordinal_number = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['ordinal_number']
+
+
+class ContestSolution(models.Model):
+    contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
+    solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)
+    fixed_judgement = models.ForeignKey(Judgement, null=True, on_delete=models.SET_NULL)

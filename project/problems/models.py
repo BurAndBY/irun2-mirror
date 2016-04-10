@@ -64,6 +64,15 @@ class Problem(models.Model):
     def numbered_short_name(self):
         return self._numbered_name(self.short_name)
 
+    # for contests
+    def unnumbered_brief_name(self):
+        if self.short_name:
+            return self.short_name
+        elif self.full_name:
+            return self.full_name
+        else:
+            return self.numbered_full_name()
+
 
 class ProblemExtraInfo(models.Model):
     problem = models.OneToOneField(Problem, null=False, on_delete=models.CASCADE, primary_key=True)

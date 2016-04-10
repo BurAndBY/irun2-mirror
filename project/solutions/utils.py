@@ -3,23 +3,24 @@ from django.utils import timezone
 
 from api.queue import enqueue, JudgementInQueue
 from common.networkutils import get_request_ip
-from proglangs.utils import guess_filename
 from solutions.models import Solution, Judgement, JudgementExtraInfo
 from storage.utils import store_with_metadata
 
 
-def new_solution(request, compiler, text, upload, problem_id=None):
+def new_solution(request, form, problem_id=None):
     '''
     Returns new Solution object.
+    Args:
+        form: SolutionForm instance
     '''
+    upload = form.cleaned_data['upload']
     if upload is None:
         # real file is not uploaded, we use text
-        filename = guess_filename(compiler.language, text)
-        upload = ContentFile(text.encode('utf-8'), name=filename)
+        upload = ContentFile(form.cleaned_data['text'].encode('utf-8'), name=form.cleaned_data['filename'])
 
     source_code = store_with_metadata(upload)
     solution = Solution(author=request.user, ip_address=get_request_ip(request), reception_time=timezone.now(),
-                        source_code=source_code, compiler=compiler, problem_id=problem_id)
+                        source_code=source_code, compiler=form.cleaned_data['compiler'], problem_id=problem_id)
 
     solution.save()
     return solution

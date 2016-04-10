@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.contrib import auth
 
 from cauth.mixins import StaffMemberRequiredMixin
+from contests.models import Contest, UnauthorizedAccessLevel
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
 from courses.calcpermissions import calculate_course_permissions
@@ -34,6 +35,11 @@ def home(request):
 
         context['courses_with_unread'] = courses_with_unread
 
+        contests = Contest.objects.filter(membership__user=request.user).order_by('-start_time').distinct()
+        context['my_contests'] = contests
+
+    public_contests = Contest.objects.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS).order_by('-start_time')
+    context['public_contests'] = public_contests
     return render(request, 'common/home.html', context)
 
 
@@ -198,7 +204,7 @@ class IRunnerListView(generic.list.MultipleObjectTemplateResponseMixin, IRunnerB
 
 
 def error403(request):
-    return render(request, 'common/error403.html', {})
+    return render(request, 'common/error403.html', {}, status=403)
 
 
 class MassOperationView(generic.View):

@@ -1,0 +1,35 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_messagebox %}
+
+{% block subtitle %}{% trans 'Problems' %}{% endblock %}
+
+{% block main %}
+    {% if statements %}
+        <p class="text-center">
+            <a href="{% url 'contests:statements' contest.id statements.filename %}" class="btn btn-default btn-lg" target="_blank">
+                {% bootstrap_icon 'download-alt' %}
+                {% trans 'Problem statements' %}
+                <span class="ir-file-size">({{ statements.size|filesizeformat }})</span>
+            </a>
+        </p>
+    {% endif %}
+
+    {% if problems %}
+        <table class="table table-hover table-condensed">
+        {% for letter, problem in problems %}
+            <tr>
+                {% url 'contests:problem' contest.id problem.id as purl %}
+                <td><a href="{{ purl }}"><strong>{{ letter }}</strong></a></td>
+                <td><a href="{{ purl }}">{{ problem.short_name }}</a></td>
+                <td><a href="{{ purl }}">{{ problem.full_name }}</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <div class="ir-absence">{% trans 'No problems' %}</div>
+    {% endif %}
+{% endblock %}

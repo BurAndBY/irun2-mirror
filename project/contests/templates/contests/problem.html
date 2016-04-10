@@ -1,0 +1,21 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+
+{% block subtitle %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
+
+{% block extrasidebar %}
+    {% if user.is_staff %}
+        <ul class="list-group">
+            <a href="{% url 'problems:overview' problem.id %}" class="list-group-item" target="_blank">
+                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
+            </a>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    {% irunner_problems_statement statement %}
+{% endblock %}

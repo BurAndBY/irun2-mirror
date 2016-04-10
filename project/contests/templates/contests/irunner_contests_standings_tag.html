@@ -1,0 +1,48 @@
+{% load i18n %}
+
+{% load bootstrap3 %}
+{% load irunner_users %}
+{% load irunner_time %}
+
+<div class="ir-contest-standings-header">
+    {% if results.frozen %}
+        <div class="ir-frozen">{% bootstrap_icon 'asterisk' %} {% trans 'The scoreboard was frozen at' %} {% irunner_time_deltahms results.contest.freeze_time %}</div>
+    {% endif %}
+    {% if results.last_success %}
+        <div class="ir-last">{% trans 'Last success' %}: {% irunner_users_show results.last_success.user %}, {{ results.last_success.labeled_problem.letter }}, {% irunner_time_deltahms results.last_success.when %}</div>
+    {% endif %}
+    {% if results.last_run %}
+        <div class="ir-last">{% trans 'Last run' %}: {% irunner_users_show results.last_run.user %}, {{ results.last_run.labeled_problem.letter }}, {% irunner_time_deltahms results.last_run.when %}</div>
+    {% endif %}
+</div>
+
+<table class="ir-contest-standings">
+    <thead>
+        <th class="ir-column-place">{% trans '#' %}</th>
+        <th class="ir-column-contestant">{% trans 'Contestant' %}</th>
+        {% for lp in results.contest_descr.labeled_problems %}
+            <th>
+                {{ lp.letter }}
+                {% if lp.problem.short_name %}
+                    <br>
+                    <span class="ir-problem-name">{{ lp.problem.short_name }}</span>
+                {% endif %}
+            </th>
+        {% endfor %}
+        <th class="ir-problem-count">=</th>
+        <th class="ir-column-penalty">{% trans 'Penalty' %}</th>
+    </thead>
+    <tbody>
+        {% for user_result in results.user_results %}
+            <tr class="{% if user_result.user.id == my_id %}ir-me{% else %}{% if user_result.get_row_tag %}ir-row-odd{% else %}ir-row-even{% endif %}{% endif %}">
+                <td class="ir-column-place">{{ user_result.get_place }}</td>
+                <td class="ir-column-contestant">{% if user_url %}<a href="{{ user_url }}?user={{ user_result.user.id }}">{% endif %}{% irunner_users_show user_result.user %}{% if user_url %}</a>{% endif %}</td>
+                {% for pr in user_result.problem_results %}
+                    <td>{{ pr.as_html }}</td>
+                {% endfor %}
+                <td class="ir-problem-count">{{ user_result.get_solved_problem_count }}</td>
+                <td class="ir-column-penalty">{{ user_result.get_penalty_time }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

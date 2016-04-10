@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_messagebox %}
 
@@ -19,18 +20,48 @@
     {% irunner_endmessagebox %}
 {% endif %}
 
-{% if courses_with_unread %}
-    <h2>{% trans 'My courses' %}</h2>
-    <ul>
-    {% for course, unread in courses_with_unread %}
-        <li>
-            <a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a>
-            {% if unread %}
-                <span class="badge">{{ unread }}</span>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
+<div class="row">
+{% if courses_with_unread or my_contests %}
+    <div class="col-sm-4">
+        {% if courses_with_unread %}
+            <h2>{% bootstrap_icon 'education' %} <span class="ir-icon-label">{% trans 'My courses' %}</span></h2>
+            <ul>
+            {% for course, unread in courses_with_unread %}
+                <li>
+                    <a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a>
+                    {% if unread %}
+                        <span class="badge">{{ unread }}</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if my_contests %}
+            <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'My contests' %}</span></h2>
+            <ul>
+            {% for contest in my_contests %}
+                <li>
+                    <a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endif %}
+
+{% if public_contests %}
+    <div class="col-sm-4">
+        <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'All contests' %}</span></h2>
+        <ul>
+        {% for contest in public_contests %}
+            <li>
+                <a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+</div>
 
 {% endblock %}

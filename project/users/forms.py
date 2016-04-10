@@ -84,7 +84,6 @@ class CreateUsersMassForm(forms.Form):
 
                     userprofile.full_clean(exclude=['user'])
                 except forms.ValidationError as e:
-                    print e
                     errors.append(forms.ValidationError(u'{0}: {1}'.format(user.username, u' '.join(e.messages))))
             if errors:
                 raise forms.ValidationError(errors)

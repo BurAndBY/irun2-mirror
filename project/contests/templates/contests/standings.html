@@ -1,0 +1,27 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_solutions %}
+{% load irunner_contests %}
+
+{% block subtitle %}{% trans 'Standings' context 'contest' %}{% endblock %}
+
+{% block extrasidebar %}
+<div class="list-group ir-list-group-success">
+    <a href="{% url 'contests:standings_wide' contest.id %}" class="list-group-item" target="_blank">
+        {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Widescreen version' %}</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block main %}
+    {% irunner_contests_timing timing %}
+
+    {% if results %}
+        {% irunner_contests_standings results my_id=my_id user_url=user_url %}
+    {% else %}
+        <div class="ir-absence">{% trans 'The scoreboard will be available after the start of the contest' %}</div>
+    {% endif %}
+{% endblock %}

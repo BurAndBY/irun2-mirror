@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^', include('solutions.urls', namespace='solutions')),
     url(r'^courses/', include('courses.urls', namespace='courses')),
+    url(r'^contests/', include('contests.urls', namespace='contests')),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^about/', common.views.about, name='about'),
     url('^', include('cauth.urls')),

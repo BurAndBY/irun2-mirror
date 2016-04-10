@@ -1,0 +1,61 @@
+{% extends 'contests/base.html' %}
+
+{% load i18n %}
+{% load irunner_contests %}
+{% load irunner_proglangs %}
+{% load irunner_solutions %}
+{% load irunner_pagination %}
+{% load irunner_users %}
+{% load bootstrap3 %}
+
+{% block subtitle %}{% trans 'All solutions' %}{% endblock %}
+
+{% block main %}
+    <form method="get" class="form-inline">
+        <div class="ir-solution-filter">
+            {{ problem_form.problem }}
+            {{ user_form.user }}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Apply' %}
+            </button>
+        </div>
+    </form>
+
+    {% if object_list %}
+        {% irunner_pagination pagination_context %}
+        <table class="table table-condensed table-striped ir-compact-table">
+            <thead>
+                <tr>
+                    <th>{% trans 'Problem' %}</th>
+                    <th>{% trans 'Author' %}</th>
+                    <th>{% trans 'Time' %}</th>
+                    <th>{% trans 'File' %}</th>
+                    <th>{% trans 'Status' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solution in object_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'contests:problem' contest.id solution.problem_id %}">{% irunner_contests_showproblem resolver solution.problem_id %}</a>
+                    </td>
+                    <td>{% irunner_users_show solution.author %}</td>
+                    <td>{{ solution.reception_time }}</td>
+                    <td>
+                        {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
+                        <a href="{% url 'solutions:source' solution.id %}" class="ir-monospace">{{ solution.source_code.filename }}</a>
+                        <span class="ir-file-size">({{ solution.source_code.size|filesizeformat }})</span>
+                    </td>
+                    <td>
+                        <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="ir-absence">
+            {% trans 'No solutions' %}
+        </div>
+    {% endif %}
+{% endblock %}

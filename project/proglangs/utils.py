@@ -37,20 +37,21 @@ def _extract_java_public_class(text):
             return m.group(1)
 
 
-def guess_filename(lang, text=None):
-    name = 'solution'
+def guess_filename(lang, text):
+    name = None
 
     if lang == Compiler.JAVA:
-        name = 'Solution'
-        if text is not None:
-            public_class = _extract_java_public_class(text)
-            if public_class is not None:
-                name = public_class
+        public_class = _extract_java_public_class(text)
+        if public_class is not None:
+            name = public_class
 
     elif lang == Compiler.CSHARP:
         name = 'Solution'
     else:
         name = 'solution'
+
+    if name is None:
+        return None
 
     extension = FILENAME_EXTENSIONS.get(lang)
 

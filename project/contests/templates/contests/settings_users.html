@@ -1,0 +1,29 @@
+{% extends 'contests/settings_base.html' %}
+
+{% load i18n %}
+{% load irunner_users %}
+{% load bootstrap3 %}
+
+{% block submain %}
+    {% bootstrap_messages %}
+
+    {% for view_model in view_models %}
+        {# view_model is RoleUsersViewModel #}
+        <div class="pull-right">
+            <a href="{% url 'contests:settings_user_role' contest.id view_model.tag %}" class="btn btn-sm btn-default">
+                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit the list' %}</span>
+            </a>
+        </div>
+        <h3>{{ view_model.name_plural }}</h3>
+        {% if view_model.users %}
+            <ol>
+                {% for user in view_model.users %}
+                    <li><a href="{% url 'users:profile_show' user.id %}">{% irunner_users_show user %}</a></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <div class="ir-absence">{% trans 'No users are set' %}</div>
+        {% endif %}
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+{% endblock %}

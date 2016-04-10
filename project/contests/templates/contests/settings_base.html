@@ -1,0 +1,33 @@
+{% extends 'contests/base.html' %}
+
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Settings' %}{% endblock %}
+
+{% block main %}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_properties' contest.id %}">{% trans 'Properties' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_compilers' contest.id %}">{% trans 'Compilers' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'problems' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_problems' contest.id %}">{% trans 'Problems' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'statements' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_statements' contest.id %}">{% trans 'Statements' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_users' contest.id %}">{% trans 'Users' %}</a>
+        </li>
+    </ul>
+
+    <div class="tab-content ir-tab-content">
+        {% block submain %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

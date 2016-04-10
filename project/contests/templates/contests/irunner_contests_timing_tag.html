@@ -1,0 +1,22 @@
+{% load i18n %}
+
+{% load bootstrap3 %}
+{% load irunner_time %}
+{% load irunner_users %}
+
+<div class="ir-contest-timing">
+    {% if status == 'BEFORE' %}
+        <div class="ir-state">{% trans 'The contest has not started' %}</div>
+        <div class="ir-time">{% trans 'Time left to start' %}: {% irunner_time_deltahms time_before %}</div>
+    {% endif %}
+
+    {% if status == 'IN_PROGRESS' %}
+        <div class="ir-state">{% trans 'The contest is running' %}</div>
+        <div class="ir-time">{{ time_passed }} {% trans 'of' %} {{ time_total }}</div>
+    {% endif %}
+
+    {% if status == 'AFTER' %}
+        <div class="ir-state">{% trans 'The contest is over' %}</div>
+        <div class="ir-time">{{ time_passed }} {% trans 'of' %} {{ time_total }}</div>
+    {% endif %}
+</div>

@@ -1,0 +1,54 @@
+{% extends 'contests/settings_base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_cache %}
+{% load irunner_proglangs %}
+{% load partition %}
+
+{% block submain %}
+
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="form-group">
+        <button type="button" id="ir_check_all" class="btn btn-default btn-sm">
+            {% bootstrap_icon 'check' %} <span class="ir-icon-label">{% trans 'Check all' %}</span>
+        </button>
+        <button type="button" id="ir_uncheck_all" class="btn btn-default btn-sm">
+            {% bootstrap_icon 'unchecked' %} <span class="ir-icon-label">{% trans 'Uncheck all' %}</span>
+        </button>
+    </div>
+    <div class="row">
+        {% for column in form.compilers|rows:2 %}
+        <div class="col-md-6">
+            <div class="form-group">
+                {% for checkbox in column %}
+                    <div class="checkbox">
+                        <label>
+                            {{ checkbox.tag }}
+                            {% irunner_cache_lookup compiler_cache checkbox.choice_value as compiler %}
+                            {% irunner_proglangs_compilerbox compiler tooltip=False %} <span{% if compiler.legacy %} class="ir-compiler-legacy"{% endif %}>{{ checkbox.choice_label }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+            {% trans 'Save' %}
+        </button>
+    </div>
+</form>
+<script>
+$(document).ready(function() {
+    $("#ir_check_all").click(function() {
+        $("input:checkbox").prop("checked", true);
+    });
+    $("#ir_uncheck_all").click(function() {
+        $("input:checkbox").prop("checked", false);
+    });
+});
+</script>
+{% endblock %}

@@ -822,13 +822,7 @@ class ProblemSubmitView(BaseProblemView):
         form = SolutionForm(request.POST, request.FILES)
         if form.is_valid():
             with transaction.atomic():
-                solution = solutions.utils.new_solution(
-                    request,
-                    form.cleaned_data['compiler'],
-                    form.cleaned_data['text'],
-                    form.cleaned_data['upload'],
-                    problem_id=problem.id,
-                )
+                solution = solutions.utils.new_solution(request, form, problem_id=problem.id)
                 solutions.utils.judge(solution)
 
             return redirect_with_query_string(request, 'problems:submission', problem.id, solution.id)

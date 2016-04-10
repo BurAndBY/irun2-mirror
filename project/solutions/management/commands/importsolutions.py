@@ -116,7 +116,7 @@ class Command(BaseCommand):
         present_problems = set(Problem.objects.all().values_list('id', flat=True))
 
         cur = db.cursor()
-        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime, senderIP, userID FROM irunner_solution WHERE solutionID')
+        cur.execute('SELECT solutionID, taskID, languageID, fileID, status, receivedTime, senderIP, userID FROM irunner_solution')
 
         for row in cur.fetchall():
             solution_id = row[0]
