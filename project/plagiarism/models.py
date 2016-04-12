@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from solutions.models import Solution
 
-class Algorithm(models.Model):    
+class Algorithm(models.Model):
     id = models.IntegerField(verbose_name='ID', primary_key=True)
     name = models.CharField(max_length=255)
     enabled = models.BooleanField()
@@ -16,6 +16,6 @@ class JudgementResult(models.Model):
     verdict = models.CharField(max_length=2048)
 
 class AggregatedResult(models.Model):
-    id = models.ForeignKey(JudgementResult, primary_key=True)
+    id = models.ForeignKey(Solution, primary_key=True)
     relevance = models.FloatField()
 
