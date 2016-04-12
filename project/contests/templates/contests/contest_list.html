@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Contests' %}{% endblock %}</h1>
+    {% if object_list %}
+        <ul>
+            {% for contest in object_list %}
+                <li><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% trans 'There are no contests available.' %}</p>
+    {% endif %}
+    <p><a href="{% url 'contests:new' %}">{% trans 'New contest' %}</a></p>
+{% endblock %}

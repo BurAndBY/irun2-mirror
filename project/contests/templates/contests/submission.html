@@ -1,0 +1,18 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+{% load irunner_messagebox %}
+{% load irunner_solutions %}
+
+{% block subtitle %}{% trans 'Submit solution' %}{% endblock %}
+
+{% block main %}
+    {% irunner_messagebox style='info' wide=True %}
+        <p>{% bootstrap_icon 'info-sign' %} <span class="ir-icon-label">{% trans "Your solution has been submitted successfully." %}</span></p>
+        <p class="small">{% trans "You are not required to wait for the judgement result: you may continue using the system and check the status of your submissions on ‘My solutions’ page anytime." %}</p>
+    {% irunner_endmessagebox %}
+
+    {% irunner_solutions_livesubmission solution_id %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'contests/settings_base.html' %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block submain %}
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form show_label=False %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Save' %}
+            </button>
+        {% endbuttons %}
+    </form>
+{% endblock %}

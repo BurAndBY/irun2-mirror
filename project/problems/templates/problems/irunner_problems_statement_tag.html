@@ -20,5 +20,5 @@ Download <a href="{{ statement.attachment_name|urlencode }}">{{ statement.attach
 {% endif %}
 
 {% if statement.is_empty %}
-<p class="text-center">{% trans 'There is no statement for this problem' %}</p>
+<div class="ir-absence">{% trans 'There is no statement for this problem' %}</div>
 {% endif %}

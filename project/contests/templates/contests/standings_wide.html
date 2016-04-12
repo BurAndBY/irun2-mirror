@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+
+{% block title %}{% trans 'Standings' context 'contest' %} ({% trans 'widescreen' %}) &mdash; {{ contest }}{% endblock %}
+
+{% block allbody %}
+<div class="container-fluid">
+    <h2 class="text-center">{{ contest }}</h2>
+
+    {% irunner_contests_timing timing %}
+
+    {% if results %}
+        {% irunner_contests_standings results my_id=my_id %}
+    {% else %}
+        <div class="ir-absence">{% trans 'The scoreboard will be available after the start of the contest' %}</div>
+    {% endif %}
+</div>
+{% endblock %}

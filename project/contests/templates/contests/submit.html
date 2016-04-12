@@ -1,0 +1,41 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_messagebox %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Submit solution' %}{% endblock %}
+
+{% block main %}
+    {% if status == 'BEFORE' %}
+        <div class="ir-absence">{% trans 'Submission form will be available after the start of the contest' %}</div>
+    {% endif %}
+    {% if status == 'AFTER' %}
+        <div class="ir-absence">{% trans 'The contest is over' %}</div>
+    {% endif %}
+    {% if status == 'UPSOLVING' %}
+        {% irunner_messagebox style='warning' wide=True %}
+            <p>{% bootstrap_icon 'warning-sign' %} <span class="ir-icon-label">{% trans 'The contest is over' %}. {% trans 'Upsolving mode is on: your submission will not affect the final standings.' %}</span></p>
+        {% irunner_endmessagebox %}
+    {% endif %}
+
+    {% if form %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            <div class="row">
+                <div class="col-md-7">
+                    {% bootstrap_field form.problem %}
+                </div>
+                <div class="col-md-5">
+                    {% bootstrap_field form.compiler %}
+                </div>
+            </div>
+            {% bootstrap_field form.text %}
+            {% bootstrap_field form.upload %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Send' %}</button>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+{% endblock %}

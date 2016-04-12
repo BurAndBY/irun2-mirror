@@ -1,0 +1,51 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+<ul class="list-group ir-list-group-success">
+    <li class="list-group-item list-group-item-success{% if active_tab == 'info' %} active{% endif %}">
+        {% bootstrap_icon 'info-sign' %}
+        <span class="ir-icon-label">{{ contest.name }}</span>
+    </li>
+
+    {% if permissions.problems %}
+        <a href="{% url 'contests:problems' contest.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
+            {% bootstrap_icon 'briefcase' %}
+            <span class="ir-icon-label">{% trans 'Problems' %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.standings %}
+        <a href="{% url 'contests:standings' contest.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
+            {% bootstrap_icon 'list-alt' %}
+            <span class="ir-icon-label">{% trans 'Standings' context 'contest' %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.all_solutions %}
+        <a href="{% url 'contests:all_solutions' contest.id %}" class="list-group-item{% if active_tab == 'all_solutions' %} active{% endif %}">
+            {% bootstrap_icon 'tasks' %}
+            <span class="ir-icon-label">{% trans 'All solutions' %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.my_solutions %}
+        <a href="{% url 'contests:my_solutions' contest.id %}" class="list-group-item{% if active_tab == 'my_solutions' %} active{% endif %}">
+            {% bootstrap_icon 'tasks' %}
+            <span class="ir-icon-label">{% trans 'My solutions' %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.submit %}
+        <a href="{% url 'contests:submit' contest.id %}{% if problem_to_submit %}?problem={{ problem_to_submit }}{% endif %}" class="list-group-item{% if active_tab == 'submit' %} active{% endif %}">
+            {% bootstrap_icon 'send' %}
+            <span class="ir-icon-label">{% if problem_to_submit %}<strong>{% endif %}{% trans 'Submit solution' %}{% if problem_to_submit %}</strong>{% endif %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.settings %}
+        <a href="{% url 'contests:settings_properties' contest.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
+            {% bootstrap_icon 'cog' %}
+            <span class="ir-icon-label">{% trans 'Settings' %}</span>
+        </a>
+    {% endif %}
+</ul>

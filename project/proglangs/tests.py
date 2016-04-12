@@ -6,7 +6,7 @@ from utils import guess_filename
 
 class GuessFilenameTests(TestCase):
     def test_java_1(self):
-        self.assertEqual(guess_filename(Compiler.JAVA), 'Solution.java')
+        self.assertEqual(guess_filename(Compiler.JAVA, ''), None)
 
     def test_java_2(self):
         code = 'public class solution {}'
@@ -26,3 +26,15 @@ class GuessFilenameTests(TestCase):
         public class New implements Runnable {
         '''
         self.assertEqual(guess_filename(Compiler.JAVA, code), 'New.java')
+
+    def test_java_5(self):
+        code = '''
+        public   class BinaryTree <T extends Comparable <T>>  {
+        '''
+        self.assertEqual(guess_filename(Compiler.JAVA, code), 'BinaryTree.java')
+
+    def test_java_6(self):
+        code = '''
+        public class BinaryTree<T extends Comparable <T>>  {
+        '''
+        self.assertEqual(guess_filename(Compiler.JAVA, code), 'BinaryTree.java')

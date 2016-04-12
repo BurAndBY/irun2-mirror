@@ -211,13 +211,7 @@ class CourseSubmitView(BaseCourseView):
                 userprofile.last_used_compiler = form.cleaned_data['compiler']
                 userprofile.save()
 
-                solution = new_solution(
-                    request,
-                    form.cleaned_data['compiler'],
-                    form.cleaned_data['text'],
-                    form.cleaned_data['upload'],
-                    problem_id=form.cleaned_data['problem']
-                )
+                solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
                 CourseSolution.objects.create(solution=solution, course=course)
                 judge(solution)
 

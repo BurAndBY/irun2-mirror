@@ -1,0 +1,15 @@
+{% extends "contests/settings_base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block submain %}
+    <h3>{% trans 'Delete the contest' %}</h3>
+    <p>{% trans 'Are you sure you want to permanently delete the contest? This action cannot be undone.' %}</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -150,6 +150,11 @@ h3 { font-size: 20px; line-height: 32px; }
     vertical-align: middle;
 }
 
+.ir-compact-table {
+    font-size: 13px;
+    line-height: normal;
+}
+
 .ir-icon-label {
     margin-left: 0.2em;
 }
@@ -368,7 +373,8 @@ h3 { font-size: 20px; line-height: 32px; }
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .ir-pill-content {
@@ -1321,4 +1327,100 @@ tr:hover .ir-appear-on-hover {
     border-left-width: 5px;
     border-left-color: #f0ad4e;
     border-radius: 3px;
+}
+
+
+/*
+Green menu
+*/
+.ir-list-group-success .active, .ir-list-group-success .active:hover, .ir-list-group-success .active:focus {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+
+.ir-compiler-legacy {
+    color: #ccc;
+}
+
+/**
+ * Contest standings
+ */
+.ir-contest-standings {
+    width: 100%;
+    line-height: 13px;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: "Tahoma", "Geneva", sans-serif;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.ir-contest-standings td, .ir-contest-standings th {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 2px;
+}
+.ir-contest-standings th {
+    border-bottom: 3px solid #ddd;
+}
+.ir-contest-standings .ir-accepted {
+    color: #5cb85c;
+    font-weight: bold;
+}
+.ir-contest-standings .ir-rejected {
+    color: #d9534f;
+}
+.ir-contest-standings .ir-pending {
+    color: #f0ad4e;
+}
+.ir-contest-standings .ir-ts {
+    color: #333;
+    font-size: 10px;
+}
+.ir-contest-standings .ir-row-odd > td {
+    /*background-color: #EBEFF2;*/
+    background-color: #f4f4f6;
+}
+.ir-contest-standings .ir-row-even > td {
+    /*background-color: #CBDBEA;*/
+    /*background-color: #f8f8f8;*/
+    background-color: #ffffff;
+}
+.ir-contest-standings .ir-column-place {
+    text-align: right;
+    padding-right: 4px;
+}
+.ir-contest-standings .ir-column-penalty {
+    text-align: right;
+}
+.ir-contest-standings .ir-column-contestant {
+    text-align: left;
+}
+.ir-contest-standings .ir-problem-name {
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.ir-contest-standings-header {
+    text-align: center;
+}
+.ir-contest-standings-header .ir-frozen {
+    color: #777;
+    font-style: italic;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.ir-contest-standings-header .ir-last {
+    font-size: 12px;
+    color: #777;
+}
+
+.ir-contest-timing {
+    text-align: center;
+}
+.ir-contest-timing .ir-state {
+    font-weight: bold;
+}
+.ir-contest-timing .ir-time {
+    color: #3c763d;
 }
