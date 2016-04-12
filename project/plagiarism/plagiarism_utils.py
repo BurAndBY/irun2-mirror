@@ -13,8 +13,3 @@ class QueryExecutor:
     		params = []
         self.cursor.execute(query, params)
         return self.cursor.fetchall()
-    
-
-    
-
-

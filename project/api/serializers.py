@@ -7,6 +7,7 @@ from common.outcome import Outcome
 from solutions.models import Judgement, JudgementLog, TestCaseResult
 from storage.storage import ResourceId
 from .workerstructs import WorkerTestingReport, WorkerState, WorkerGreeting
+from plagiarism.plagiarismstructs import PlagiarismSubJob, PlagiarismTestingJob
 
 
 def parse_resource_id(string):
@@ -176,3 +177,30 @@ class WorkerGreetingSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return WorkerGreeting(**validated_data)
+
+#
+# Plagiarism serializers
+#
+
+class PlagiarismJobFieldSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    resource_id = ResourceIdField(read_only=True)
+
+    def create(self, validated_data):
+        return PlagiarismSubJob(**validated_data)
+
+class PlagiarismJobField(serializers.Field):
+    def to_internal_value(self, data):
+        serializer = PlagiarismJobFieldSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.save()
+
+    def to_representation(self, obj):
+        return { "id" : obj.id, "resourceId" : obj.resource_id }
+
+class PlagiarismJobSerializer(serializers.Serializer):
+    solution = PlagiarismJobFieldSerializer(read_only=True)
+    solutions = serializers.ListField(child=PlagiarismJobField())
+
+    def create(self, validated_data):
+        return PlagiarismTestingJob(**validated_data)

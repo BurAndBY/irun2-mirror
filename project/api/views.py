@@ -21,7 +21,9 @@ from common.cast import make_int_list_quiet
 from .models import DbObjectInQueue
 from .queue import dequeue, update, finalize
 from .serializers import parse_resource_id
-from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, WorkerGreetingSerializer
+from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, WorkerGreetingSerializer, PlagiarismJobSerializer
+
+import plagiarism.plagiarism_api
 
 #
 # File Stroage API
@@ -164,3 +166,27 @@ class QueueView(StaffMemberRequiredMixin, generic.View):
         if ids:
             DbObjectInQueue.objects.filter(pk__in=ids).update(state=DbObjectInQueue.WAITING)
         return redirect('api:queue')
+
+'''
+Plagiarism Api
+'''
+
+class PlagiarismTakeView(WorkerAPIView):
+    def get(self, request, format=None):
+        return self.post(request, format)
+
+    def post(self, request, format=None):
+        job = plagiarism.plagiarism_api.get_testing_job()
+
+        if job is None:
+            raise Http404('Nothing to test')
+
+        serializer = PlagiarismJobSerializer(job)
+        return Response(serializer.data)
+
+import json
+
+class PlagiarismPutView(WorkerAPIView):
+    def put(self, request, format=None):
+        plagiarism.plagiarism_api.dump_plagiarism_report(request.data)
+        return Response(['ok'])
