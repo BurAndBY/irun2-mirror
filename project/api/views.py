@@ -18,12 +18,13 @@ from storage.storage import create_storage
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 
+import plagiarism.plagiarism_api
+
 from .models import DbObjectInQueue
 from .queue import dequeue, update, finalize
 from .serializers import parse_resource_id
 from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, WorkerGreetingSerializer, PlagiarismJobSerializer
 
-import plagiarism.plagiarism_api
 
 #
 # File Stroage API
@@ -171,6 +172,7 @@ class QueueView(StaffMemberRequiredMixin, generic.View):
 Plagiarism Api
 '''
 
+
 class PlagiarismTakeView(WorkerAPIView):
     def get(self, request, format=None):
         return self.post(request, format)
@@ -184,7 +186,6 @@ class PlagiarismTakeView(WorkerAPIView):
         serializer = PlagiarismJobSerializer(job)
         return Response(serializer.data)
 
-import json
 
 class PlagiarismPutView(WorkerAPIView):
     def put(self, request, format=None):
