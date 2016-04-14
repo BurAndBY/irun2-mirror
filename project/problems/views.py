@@ -8,16 +8,16 @@ import zipfile
 import collections
 
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.db.models import F, Q, Count
-from django.http import Http404, JsonResponse
+from django.db.models import F, Q, Count, ProtectedError
+from django.http import Http404, JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
-
 from mptt.templatetags.mptt_tags import cache_tree_children
 
 from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bulk_enqueue
@@ -30,6 +30,7 @@ from common.outcome import Outcome
 from common.pageutils import paginate
 from common.views import IRunnerListView
 from courses.models import Course
+from proglangs.models import Compiler
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
 from solutions.models import Challenge, ChallengedSolution, Judgement
@@ -40,9 +41,10 @@ import solutions.utils
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
 from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm, ChallengeForm
-from .forms import ProblemFolderForm
+from .forms import ProblemFolderForm, PolygonImportForm, SimpleProblemForm
 from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
-from .navigator import Navigator
+from .navigator import Navigator, make_folder_query_string
+from .polygon import import_full_package
 from .statement import StatementRepresentation
 from .texrenderer import render_tex
 from .description import IDescriptionImageLoader, render_description
@@ -871,7 +873,7 @@ class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListVi
         context = super(ShowFolderView, self).get_context_data(**kwargs)
         folder_id_or_root = self.kwargs['folder_id_or_root']
         if folder_id_or_root:
-            context['query_string'] = '?nav-folder={0}'.format(folder_id_or_root)
+            context['query_string'] = make_folder_query_string(folder_id_or_root)
         return context
 
     def get_queryset(self):
@@ -942,6 +944,66 @@ class DeleteFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.bas
             folder.delete()
         return redirect('problems:show_folder', parent_id if parent_id is not None else ROOT)
 
+
+class ImportFromPolygonView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'problems/list_import_from_polygon.html'
+
+    def get(self, request, folder_id_or_root):
+        # TODO: better way to select default compiler (remember last used?)
+        compiler = Compiler.objects.filter(description__contains='GNU C++', legacy=False).first()
+        form = PolygonImportForm(initial={'compiler': compiler})
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, folder_id_or_root):
+        form = PolygonImportForm(request.POST, request.FILES)
+        has_error = False
+        validation_error = None
+        exception = None
+        exception_type = None
+
+        if form.is_valid():
+            folder_id = cast_id(folder_id_or_root)
+            try:
+                with transaction.atomic():
+                    import_full_package(form.cleaned_data['upload'], form.cleaned_data['language'], form.cleaned_data['compiler'], folder_id)
+            except ValidationError as e:
+                has_error = True
+                validation_error = e
+            except Exception as e:
+                has_error = True
+                exception = e
+                exception_type = type(e).__name__
+
+            if not has_error:
+                return redirect('problems:show_folder', folder_id if folder_id is not None else ROOT)
+
+        context = self.get_context_data(form=form, has_error=has_error, validation_error=validation_error, exception=exception, exception_type=exception_type)
+        return render(request, self.template_name, context)
+
+
+class CreateProblemView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.FormView):
+    template_name = 'problems/list_folder_form.html'
+    form_class = SimpleProblemForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateProblemView, self).get_context_data(**kwargs)
+        context['form_name'] = _('New problem')
+        context['show_parent'] = True
+        return context
+
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        folder_id = cast_id(folder_id_or_root)
+        with transaction.atomic():
+            problem = form.save()
+            if folder_id is not None:
+                problem.folders.add(folder_id)
+
+        url = reverse('problems:overview', kwargs={'problem_id': problem.id})
+        url += make_folder_query_string(folder_id_or_root)
+        return HttpResponseRedirect(url)
 
 '''
 All problems: search
@@ -1423,3 +1485,34 @@ class ProblemChallengeJsonView(BaseProblemView):
 class ProblemChallengeDataView(BaseProblemView):
     def get(self, request, problem_id, challenge_id, resource_id):
         return serve_resource(request, parse_resource_id(resource_id), 'text/plain')
+
+
+'''
+Delete problem
+'''
+
+
+class ProblemDeleteView(BaseProblemView):
+    tab = 'properties'
+    template_name = 'problems/delete.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+        context = self._make_context(problem)
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        deleted = False
+        try:
+            problem.delete()
+            deleted = True
+        except ProtectedError:
+            pass
+
+        if deleted:
+            return redirect('problems:show_folder', ROOT)
+        else:
+            context = self._make_context(problem, {'error': True})
+            return render(request, self.template_name, context)

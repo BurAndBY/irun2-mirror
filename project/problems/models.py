@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -72,6 +73,11 @@ class Problem(models.Model):
             return self.full_name
         else:
             return self.numbered_full_name()
+
+    def clean(self):
+        has_name = (self.full_name and self.full_name.strip()) or (self.short_name and self.short_name.strip())
+        if self.number is None and not has_name:
+            raise ValidationError(_('A problem must have a number or a non-empty name.'))
 
 
 class ProblemExtraInfo(models.Model):

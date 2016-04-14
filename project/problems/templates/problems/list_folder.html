@@ -18,19 +18,44 @@
 
     {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
 
-    <p>
-        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:create_folder' folder_id %}">
-            {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Create folder' %}</span>
-        </a>
-        {% if editable_folder %}
-            <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:folder_properties' folder_id %}">
-                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Folder properties' %}</span>
-            </a>
-            <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'problems:delete_folder' folder_id %}">
-                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete folder' %}</span>
-            </a>
-        {% endif %}
-    </p>
+    <div class="form-group">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folder' %}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% irunner_folders_url 'problems:create_folder' folder_id %}">
+                            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span>
+                        </a>
+                    </li>
+                    {% if editable_folder %}
+                        <li>
+                            <a href="{% irunner_folders_url 'problems:folder_properties' folder_id %}">
+                                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Properties' %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% irunner_folders_url 'problems:delete_folder' folder_id %}">
+                                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="btn-group btn-group-sm" role="group">
+                <a class="btn btn-default" href="{% irunner_folders_url 'problems:create_problem' folder_id %}">
+                    {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New problem' %}</span>
+                </a>
+                <a class="btn btn-default" href="{% irunner_folders_url 'problems:import_from_polygon' folder_id %}">
+                    {% bootstrap_icon 'import' %} <span class="ir-icon-label">{% trans 'Import from Polygon' %}</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
 

@@ -1,0 +1,42 @@
+{% extends "problems/list_base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+{% load irunner_messagebox %}
+
+{% block sidebar %}
+    {% trans "Problems" as root_name %}
+    {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
+{% endblock %}
+
+{% block main %}
+    {% trans "Problems" as root_name %}
+    {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
+
+    {% if has_error %}
+        {% irunner_messagebox style='danger' wide=True %}
+            <h4>{% trans 'Import error' %}</h4>
+            {% if exception %}
+                <samp><strong>{{ exception_type }}</strong>: {{ exception }}</samp>
+            {% endif %}
+            {% if validation_error %}
+                <ul>
+                {% for e in validation_error.messages %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% irunner_endmessagebox %}
+    {% else %}
+        <h3>{% trans 'Import a problem from Polygon' %}</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Import' %}</button>
+                <a href="{% irunner_folders_url 'problems:show_folder' folder_id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+{% endblock %}

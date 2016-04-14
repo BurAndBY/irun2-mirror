@@ -1,4 +1,4 @@
-{% extends "users/base.html" %}
+{% extends "problems/list_base.html" %}
 
 {% load bootstrap3 %}
 {% load i18n %}
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
-            <a href="{% irunner_folders_url 'problems:show_folder' folder_id %}" class="btn btn-default">
+            <a href="{% irunner_folders_url 'problems:show_folder' folder_id %}" class="btn btn-link">
                 {% trans 'Cancel' %}
             </a>
         {% endbuttons %}

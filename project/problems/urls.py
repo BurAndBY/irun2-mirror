@@ -54,6 +54,7 @@ problem_urlpatterns = [
     url(r'^properties/$', views.ProblemPropertiesView.as_view(), name='properties'),
     url(r'^pictures/$', views.ProblemPicturesView.as_view(), name='pictures'),
     url(r'^validator/$', views.ProblemValidatorView.as_view(), name='validator'),
+    url(r'^delete/$', views.ProblemDeleteView.as_view(), name='delete'),
 ]
 
 urlpatterns = [
@@ -65,8 +66,10 @@ urlpatterns = [
 
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/$', views.ShowFolderView.as_view(), name='show_folder'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/problem/$', views.CreateProblemView.as_view(), name='create_problem'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/properties/$', views.UpdateFolderView.as_view(), name='folder_properties'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/delete/$', views.DeleteFolderView.as_view(), name='delete_folder'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/import-from-polygon/$', views.ImportFromPolygonView.as_view(), name='import_from_polygon'),
 
     url(r'^search/$', views.SearchView.as_view(), name='search'),
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-10 19:02+0300\n"
-"PO-Revision-Date: 2016-04-10 19:03+0300\n"
+"POT-Creation-Date: 2016-04-14 19:22+0300\n"
+"PO-Revision-Date: 2016-04-14 19:23+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -138,7 +138,7 @@ msgstr "Изменить язык интерфейса"
 #: .\problems\templates\problems\edit_tex.html:18
 #: .\problems\templates\problems\folders.html:20
 #: .\problems\templates\problems\list_folder_form.html:35
-#: .\problems\templates\problems\properties.html:47
+#: .\problems\templates\problems\properties.html:15
 #: .\proglangs\templates\proglangs\edit.html:14
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:30
@@ -404,13 +404,15 @@ msgstr "Каждый уровень доступа включает все пр�
 #: .\courses\templates\courses\settings_base.html:15
 #: .\courses\templates\courses\standings.html:32
 #: .\courses\templates\courses\standings_wide.html:27
-#: .\problems\navigator.py:25 .\problems\templates\problems\list_base.html:6
+#: .\problems\navigator.py:32 .\problems\templates\problems\list_base.html:6
 #: .\problems\templates\problems\list_folder.html:11
 #: .\problems\templates\problems\list_folder.html:17
 #: .\problems\templates\problems\list_folder_confirm_delete.html:8
 #: .\problems\templates\problems\list_folder_confirm_delete.html:13
 #: .\problems\templates\problems\list_folder_form.html:8
 #: .\problems\templates\problems\list_folder_form.html:13
+#: .\problems\templates\problems\list_import_from_polygon.html:9
+#: .\problems\templates\problems\list_import_from_polygon.html:14
 #: .\problems\templates\problems\tree.html:6 .\templates\navbar.html:23
 msgid "Problems"
 msgstr "Задачи"
@@ -486,7 +488,7 @@ msgstr "Просмотр результатов и условий задач"
 #: .\contests\models.py:37 .\courses\models.py:17 .\courses\models.py:24
 #: .\courses\models.py:49 .\courses\models.py:80 .\courses\models.py:88
 #: .\courses\templates\courses\api_list_problems.html:11
-#: .\problems\models.py:15 .\users\models.py:13
+#: .\problems\models.py:16 .\users\models.py:13
 msgid "name"
 msgstr "название"
 
@@ -604,8 +606,8 @@ msgstr "Время"
 
 #: .\contests\templates\contests\all_solutions.html:32
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:118
-#: .\problems\forms.py:136 .\problems\forms.py:140 .\problems\forms.py:159
+#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:125
+#: .\problems\forms.py:143 .\problems\forms.py:147 .\problems\forms.py:166
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\solutions.html:36
@@ -666,6 +668,7 @@ msgstr "Новое соревнование"
 
 #: .\contests\templates\contests\contest_form.html:12
 #: .\courses\templates\courses\course_form.html:12
+#: .\problems\templates\problems\list_folder.html:31
 msgid "Create"
 msgstr "Создать"
 
@@ -759,6 +762,7 @@ msgstr "Настройки"
 
 #: .\contests\templates\contests\settings_base.html:12
 #: .\courses\templates\courses\settings_base.html:12 .\problems\tabs.py:26
+#: .\problems\templates\problems\list_folder.html:37
 msgid "Properties"
 msgstr "Свойства"
 
@@ -796,11 +800,14 @@ msgstr "Пользователи не заданы"
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:16
 #: .\courses\templates\courses\settings_users_edit.html:20
+#: .\problems\templates\problems\delete.html:23
 #: .\problems\templates\problems\delete_file.html:15
 #: .\problems\templates\problems\edit_file.html:12
 #: .\problems\templates\problems\edit_test.html:51
 #: .\problems\templates\problems\edit_tex.html:19
+#: .\problems\templates\problems\list_folder_confirm_delete.html:35
 #: .\problems\templates\problems\list_folder_form.html:38
+#: .\problems\templates\problems\list_import_from_polygon.html:38
 #: .\problems\templates\problems\show_test.html:118
 #: .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
@@ -952,8 +959,8 @@ msgstr "оценка"
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:81 .\problems\models.py:79 .\problems\models.py:114
-#: .\problems\models.py:140 .\problems\models.py:150 .\problems\views.py:421
+#: .\courses\models.py:81 .\problems\models.py:85 .\problems\models.py:120
+#: .\problems\models.py:146 .\problems\models.py:156 .\problems\views.py:423
 #: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -1084,12 +1091,13 @@ msgid "Delete course"
 msgstr "Удалить курс"
 
 #: .\courses\templates\courses\course_confirm_delete.html:8
-msgid ""
-"Are you sure you want to permanently delete the course? This action cannot "
-"be undone."
-msgstr ""
-"Вы уверены, что хотите полностью удалить этот курс? Это действие не может "
-"быть отменено."
+msgid "Are you sure you want to permanently delete the course?"
+msgstr "Вы уверены, что хотите удалить этот курс?"
+
+#: .\courses\templates\courses\course_confirm_delete.html:8
+#: .\problems\templates\problems\delete.html:17
+msgid "This action cannot be undone."
+msgstr "Это действие не может быть отменено."
 
 #: .\courses\templates\courses\course_form.html:7
 #: .\courses\templates\courses\course_list.html:17
@@ -1126,10 +1134,12 @@ msgstr "Критерий не используется в курсах."
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
 #: .\courses\templates\courses\messages.html:109
 #: .\courses\templates\courses\settings_component.html:20
+#: .\problems\templates\problems\delete.html:20
 #: .\problems\templates\problems\delete_file.html:14
 #: .\problems\templates\problems\files.html:36
 #: .\problems\templates\problems\files.html:78
-#: .\problems\templates\problems\list_folder_confirm_delete.html:30
+#: .\problems\templates\problems\list_folder.html:42
+#: .\problems\templates\problems\list_folder_confirm_delete.html:32
 #: .\problems\templates\problems\show_test.html:38
 #: .\problems\templates\problems\show_test.html:119
 #: .\solutions\templates\solutions\solution_list.html:65
@@ -1271,7 +1281,8 @@ msgstr "Редактирование списка общих задач"
 msgid "Topics"
 msgstr "Темы"
 
-#: .\courses\templates\courses\settings_problems.html:15 .\users\forms.py:117
+#: .\courses\templates\courses\settings_problems.html:15
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:117
 #: .\users\templates\users\irunner_users_list_tag.html:19
 msgid "Folder"
 msgstr "Папка"
@@ -1456,19 +1467,19 @@ msgstr "Ограничение по памяти слишком большое (
 msgid "Memory limit is too small."
 msgstr "Ограничение по памяти слишком маленькое."
 
-#: .\problems\forms.py:24
+#: .\problems\forms.py:31
 msgid "Leave empty to use standard input."
 msgstr "Оставьте пустым, чтобы использовать стандартный ввод."
 
-#: .\problems\forms.py:25
+#: .\problems\forms.py:32
 msgid "Leave empty to use standard output."
 msgstr "Оставьте пустым, чтобы использовать стандартный вывод."
 
-#: .\problems\forms.py:32
+#: .\problems\forms.py:39
 msgid "Problem folders"
 msgstr "Папки с задачами"
 
-#: .\problems\forms.py:51 .\problems\forms.py:91 .\problems\forms.py:244
+#: .\problems\forms.py:58 .\problems\forms.py:98 .\problems\forms.py:251
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:18
 #: .\problems\templates\problems\show_test.html:51
@@ -1477,7 +1488,7 @@ msgstr "Папки с задачами"
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
-#: .\problems\forms.py:52 .\problems\forms.py:95 .\problems\forms.py:245
+#: .\problems\forms.py:59 .\problems\forms.py:102 .\problems\forms.py:252
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:22
 #: .\problems\templates\problems\show_test.html:55
@@ -1486,15 +1497,15 @@ msgstr "Ограничение по времени"
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
 
-#: .\problems\forms.py:112
+#: .\problems\forms.py:119
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:168
+#: .\problems\forms.py:175
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
-#: .\problems\forms.py:169
+#: .\problems\forms.py:176
 msgid ""
 "The archive should not contain any other files except test inputs and "
 "outputs."
@@ -1502,21 +1513,41 @@ msgstr ""
 "Архив не должен содержать других данных, кроме входных и выходных файлов "
 "тестов."
 
-#: .\problems\forms.py:170
+#: .\problems\forms.py:177
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:184
+#: .\problems\forms.py:191
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
-#: .\problems\forms.py:195
+#: .\problems\forms.py:202
 msgid "No test files found in the archive."
 msgstr "Тестовые файлы в архиве не найдены."
 
-#: .\problems\forms.py:230 .\problems\models.py:134 .\problems\tabs.py:30
+#: .\problems\forms.py:237 .\problems\models.py:140 .\problems\tabs.py:30
 msgid "Validator"
 msgstr "Контролёр тестов"
+
+#: .\problems\forms.py:273
+msgid "Russian"
+msgstr "Русский"
+
+#: .\problems\forms.py:274
+msgid "English"
+msgstr "Английский"
+
+#: .\problems\forms.py:277
+msgid "Full package (Windows) as a ZIP-archive"
+msgstr "Полный пакет (Windows) в виде ZIP-архива"
+
+#: .\problems\forms.py:278
+msgid "Problem statement language"
+msgstr "Язык условия задачи"
+
+#: .\problems\forms.py:279
+msgid "Compiler for checker and validator"
+msgstr "Компилятор для программы проверки и контролёра тестов"
 
 #: .\problems\importing.py:64
 #, python-format
@@ -1528,95 +1559,99 @@ msgstr "В архиве обнаружен неизвестный файл: %(na
 msgid "File not found in the archive: %(name)s"
 msgstr "Файл не найден в архиве: %(name)s"
 
-#: .\problems\models.py:23 .\problems\models.py:149
+#: .\problems\models.py:24 .\problems\models.py:155
 msgid "number"
 msgstr "номер"
 
-#: .\problems\models.py:24
+#: .\problems\models.py:25
 msgid "subnumber"
 msgstr "подномер"
 
-#: .\problems\models.py:25
+#: .\problems\models.py:26
 msgid "full name"
 msgstr "полное название"
 
-#: .\problems\models.py:26
+#: .\problems\models.py:27
 msgid "short name"
 msgstr "короткое название"
 
-#: .\problems\models.py:27
+#: .\problems\models.py:28
 msgid "difficulty"
 msgstr "сложность"
 
-#: .\problems\models.py:29
+#: .\problems\models.py:30
 msgid "input file name"
 msgstr "имя входного файла"
 
-#: .\problems\models.py:30
+#: .\problems\models.py:31
 msgid "output file name"
 msgstr "имя выходного файла"
 
-#: .\problems\models.py:32
+#: .\problems\models.py:33
 msgid "folders"
 msgstr "папки"
 
 #: .\problems\models.py:80
+msgid "A problem must have a number or a non-empty name."
+msgstr "У задачи должен быть номер или непустое название."
+
+#: .\problems\models.py:86
 msgid "hint"
 msgstr "подсказка"
 
-#: .\problems\models.py:93
+#: .\problems\models.py:99
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
-#: .\problems\models.py:94
+#: .\problems\models.py:100
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
 
-#: .\problems\models.py:95
+#: .\problems\models.py:101
 msgid "Additional statement file"
 msgstr "Дополнительный файл условия"
 
-#: .\problems\models.py:96
+#: .\problems\models.py:102
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\problems\models.py:97
+#: .\problems\models.py:103
 msgid "Sample input file"
 msgstr "Пример входного файла"
 
-#: .\problems\models.py:98
+#: .\problems\models.py:104
 msgid "Sample output file"
 msgstr "Пример выходного файла"
 
-#: .\problems\models.py:99
+#: .\problems\models.py:105
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:113 .\problems\models.py:139
+#: .\problems\models.py:119 .\problems\models.py:145
 msgid "file type"
 msgstr "тип файла"
 
-#: .\problems\models.py:129
+#: .\problems\models.py:135
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\models.py:130
+#: .\problems\models.py:136
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:131
+#: .\problems\models.py:137
 msgid "Contestant solution"
 msgstr "Решение участника"
 
-#: .\problems\models.py:132
+#: .\problems\models.py:138
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:133
+#: .\problems\models.py:139
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:141 .\solutions\forms.py:127
+#: .\problems\models.py:147 .\solutions\forms.py:127
 msgid "compiler"
 msgstr "компилятор"
 
@@ -1694,6 +1729,23 @@ msgstr "Старт"
 #: .\problems\templates\problems\challenges.html:36
 msgid "No challenges"
 msgstr "Нет взломов"
+
+#: .\problems\templates\problems\delete.html:10
+msgid "Unable to delete the problem because it is currently in use."
+msgstr "Нельзя удалить задачу, потому что она в данный момент используется."
+
+#: .\problems\templates\problems\delete.html:13
+#: .\problems\templates\problems\properties.html:18
+msgid "Delete the problem"
+msgstr "Удалить задачу"
+
+#: .\problems\templates\problems\delete.html:16
+msgid ""
+"You should probably do not do this. Consider moving the problem to a special "
+"folder instead of permanently deleting it."
+msgstr ""
+"Скорее всего, вам не следует делать этого. Рассмотрите вариант переноса "
+"задачи в специальную папку вместо того, чтобы удалять её совсем."
 
 #: .\problems\templates\problems\delete_file.html:8
 msgid "Are you sure you want to delete the file"
@@ -1849,21 +1901,20 @@ msgstr "Ошибка получения данных с сервера."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:23 .\problems\views.py:890
-#: .\users\templates\users\folder.html:19 .\users\views.py:94
-msgid "Create folder"
-msgstr "Создать папку"
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:992
+msgid "New problem"
+msgstr "Новая задача"
 
-#: .\problems\templates\problems\list_folder.html:27 .\problems\views.py:908
-msgid "Folder properties"
-msgstr "Свойства папки"
+#: .\problems\templates\problems\list_folder.html:54
+msgid "Import from Polygon"
+msgstr "Импорт из Polygon"
 
-#: .\problems\templates\problems\list_folder.html:30
+#: .\problems\templates\problems\list_folder_confirm_delete.html:16
 #: .\users\templates\users\folder.html:24
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\problems\templates\problems\list_folder_confirm_delete.html:17
+#: .\problems\templates\problems\list_folder_confirm_delete.html:19
 msgid ""
 "The folder or its subfolders are currently used in the following courses and "
 "cannot be deleted."
@@ -1871,7 +1922,7 @@ msgstr ""
 "Папка или её подпапки в настоящий момент используются в следующих курсах и "
 "не могут быть удалены."
 
-#: .\problems\templates\problems\list_folder_confirm_delete.html:26
+#: .\problems\templates\problems\list_folder_confirm_delete.html:28
 msgid ""
 "The folder is going to be deleted together with its subfolders. The problems "
 "they contain will not be deleted."
@@ -1890,6 +1941,18 @@ msgstr "в папке «%(nn)s»"
 #: .\users\templates\users\create_form.html:23
 msgid "in the root folder"
 msgstr "в корневой папке"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:19
+msgid "Import error"
+msgstr "Ошибка импорта"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:32
+msgid "Import a problem from Polygon"
+msgstr "Импортировать задачу из Polygon"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:37
+msgid "Import"
+msgstr "Импорт"
 
 #: .\problems\templates\problems\list_search.html:10
 msgid "Problem search"
@@ -2053,42 +2116,51 @@ msgstr "%(seconds)s с"
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
 
-#: .\problems\views.py:418
+#: .\problems\views.py:420
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:419
+#: .\problems\views.py:421
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:420
+#: .\problems\views.py:422
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:422
+#: .\problems\views.py:424
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:423
+#: .\problems\views.py:425
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:427
+#: .\problems\views.py:429
 #, python-format
 msgid "Test case #%(number)s has been saved."
 msgstr "Тест №%(number)s сохранён."
 
-#: .\problems\views.py:436
+#: .\problems\views.py:438
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:638
+#: .\problems\views.py:640
 #, python-format
 msgid "%(count)d test was added."
 msgid_plural "%(count)d tests were added."
 msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
+
+#: .\problems\views.py:892 .\users\templates\users\folder.html:19
+#: .\users\views.py:94
+msgid "Create folder"
+msgstr "Создать папку"
+
+#: .\problems\views.py:910
+msgid "Folder properties"
+msgstr "Свойства папки"
 
 #: .\proglangs\models.py:17
 msgid "Unknown"
@@ -2880,6 +2952,16 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Include HTML statement"
+#~ msgstr "Включить условие в формате HTML"
+
+#~ msgid ""
+#~ "Are you sure you want to permanently delete the course? This action "
+#~ "cannot be undone."
+#~ msgstr ""
+#~ "Вы уверены, что хотите полностью удалить этот курс? Это действие не может "
+#~ "быть отменено."
 
 #~ msgid "Unable to sumbit solutions."
 #~ msgstr "Отправлять решения нельзя."

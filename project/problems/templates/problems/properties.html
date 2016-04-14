@@ -7,44 +7,15 @@
 
 {% bootstrap_messages %}
 
-<form method="post">
+<form method="post" class="form-horizontal">
     {% csrf_token %}
-    {% bootstrap_form_errors form %}
-
-    <div class="row">
-        <div class="col-md-2">
-            {% bootstrap_field form.number %}
-        </div>
-        <div class="col-md-2">
-            {% bootstrap_field form.subnumber %}
-        </div>
-        <div class="col-md-8">
-            {% bootstrap_field form.full_name %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            {% bootstrap_field form.difficulty %}
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-            {% bootstrap_field form.short_name %}
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-sm-6">
-            {% bootstrap_field form.input_filename %}
-        </div>
-        <div class="col-sm-6">
-            {% bootstrap_field form.output_filename %}
-        </div>
-    </div>
-
-    {% buttons %}
-        <button type="submit" class="btn btn-default btn-primary">
+    {% bootstrap_form form layout='horizontal' %}
+    {% buttons layout='horizontal' %}
+        <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
+        </button>
+        <a href="{% url 'problems:delete' problem.id %}{{ navigator.query_string }}" class="btn btn-link">
+            {% trans 'Delete the problem' %}
         </button>
     {% endbuttons %}
 </form>

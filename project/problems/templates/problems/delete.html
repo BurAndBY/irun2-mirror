@@ -1,0 +1,28 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_messagebox %}
+
+{% block main %}
+    {% if error %}
+        {% irunner_messagebox style='danger' %}
+            <p>{% trans 'Unable to delete the problem because it is currently in use.' %}</p>
+        {% irunner_endmessagebox %}
+    {% else %}
+        <h2>{% trans 'Delete the problem' %}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <p>{% trans 'You should probably do not do this. Consider moving the problem to a special folder instead of permanently deleting it.' %}</p>
+            <p>{% trans 'This action cannot be undone.' %}</p>
+            {% buttons %}
+                <button type="submit" class="btn btn-danger">
+                    {% trans 'Delete' %}
+                </button>
+                <a href="{% url 'problems:properties' problem.id %}{{ navigator.query_string }}" class="btn btn-link">
+                    {% trans 'Cancel' %}
+                </a>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+{% endblock %}

@@ -10,13 +10,20 @@ from django.utils.translation import ugettext_lazy as _
 PARAM = u'nav-folder'
 
 
+def _create_query_string(params):
+    return '?' + urlencode(params)
+
+
+def make_folder_query_string(folder_id_or_root):
+    return _create_query_string([(PARAM, folder_id_or_root)])
+
+
 class NavigatorImpl(object):
     def __init__(self, folder, problem_id, problems_list):
         self.folder = folder
         self.pos = problems_list.index(problem_id)
         self.problems_list = problems_list
-
-        self._query_string = '?' + urlencode(self.iterate_query_params())
+        self._query_string = _create_query_string(self.iterate_query_params())
 
     def get_folder_url(self):
         return reverse('problems:show_folder', kwargs={'folder_id_or_root': self.folder.id if self.folder is not None else ROOT})
@@ -36,8 +43,8 @@ class NavigatorImpl(object):
         return self._query_string
 
     def iterate_query_params(self):
-        folder_id = unicode(self.folder.id) if self.folder is not None else ROOT
-        return [(PARAM, folder_id)]
+        folder_id_or_root = unicode(self.folder.id) if self.folder is not None else ROOT
+        return [(PARAM, folder_id_or_root)]
 
     def get_current_index(self):
         return self.pos + 1

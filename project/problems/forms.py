@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
 from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
+from proglangs.models import Compiler
 
 from .importing import extract_tests
 from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
@@ -14,6 +15,12 @@ from .fields import TimeLimitField, MemoryLimitField
 '''
 Edit single problem
 '''
+
+
+class SimpleProblemForm(forms.ModelForm):
+    class Meta:
+        model = Problem
+        fields = ['number', 'subnumber', 'full_name', 'short_name']
 
 
 class ProblemForm(forms.ModelForm):
@@ -254,3 +261,19 @@ class ProblemFolderForm(forms.ModelForm):
     class Meta:
         model = ProblemFolder
         fields = ['name']
+
+
+'''
+Polygon import
+'''
+
+
+class PolygonImportForm(forms.Form):
+    LANGUAGE_CHOICES = (
+        ('russian', _('Russian')),
+        ('english', _('English')),
+    )
+
+    upload = forms.FileField(label=_('Full package (Windows) as a ZIP-archive'), required=True, widget=forms.FileInput)
+    language = forms.ChoiceField(label=_('Problem statement language'), required=True, choices=LANGUAGE_CHOICES)
+    compiler = forms.ModelChoiceField(label=_('Compiler for checker and validator'), queryset=Compiler.objects.filter(language='cpp', legacy=False), required=True, empty_label=EMPTY_SELECT)

@@ -41,6 +41,9 @@ class ResourceId(object):
     def __hash__(self):
         return hash(self._binary)
 
+    def __len__(self):
+        return len(self._binary)
+
 
 class ResourceIdField(models.BinaryField):
     description = "Data storage resource identifier"

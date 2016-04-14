@@ -1,4 +1,4 @@
-{% extends "users/base.html" %}
+{% extends "problems/list_base.html" %}
 
 {% load bootstrap3 %}
 {% load i18n %}
@@ -12,6 +12,8 @@
 {% block main %}
     {% trans "Problems" as root_name %}
     {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
+
+    <h3>{% trans 'Delete folder' %}</h3>
 
     {% if course_list %}
         <p>{% trans 'The folder or its subfolders are currently used in the following courses and cannot be deleted.' %}</p>
@@ -29,6 +31,9 @@
             <button type="submit" class="btn btn-danger">
                 {% trans 'Delete' %}
             </button>
+            <a href="{% irunner_folders_url 'problems:show_folder' folder_id %}" class="btn btn-link">
+                {% trans 'Cancel' %}
+            </a>
         </form>
     {% endif %}
 {% endblock %}
