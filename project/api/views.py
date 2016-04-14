@@ -168,6 +168,7 @@ class QueueView(StaffMemberRequiredMixin, generic.View):
             DbObjectInQueue.objects.filter(pk__in=ids).update(state=DbObjectInQueue.WAITING)
         return redirect('api:queue')
 
+
 '''
 Plagiarism Api
 '''
