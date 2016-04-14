@@ -27,7 +27,7 @@
     </a>
     {% for tab in tab_manager.tabs %}
         <a href="{% url tab.url_pattern problem.id %}{{ navigator.query_string }}" class="list-group-item{% if active_tab == tab.key %} active{% endif %}">
-            {% if tab.subtab %}{% bootstrap_icon 'option-vertical' %}{% endif %}{% bootstrap_icon tab.icon %}
+            {% if tab.subtab %}{% bootstrap_icon 'menu-right' %}&nbsp;&nbsp;{% endif %}{% bootstrap_icon tab.icon %}
             <span class="ir-icon-label">{{ tab.name }}</span>
         </a>
     {% endfor %}

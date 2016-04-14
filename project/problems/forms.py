@@ -32,6 +32,11 @@ class ProblemForm(forms.ModelForm):
             'output_filename': _('Leave empty to use standard output.'),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ProblemForm, self).__init__(*args, **kwargs)
+        self.fields['input_filename'].widget.attrs['class'] = 'ir-monospace'
+        self.fields['output_filename'].widget.attrs['class'] = 'ir-monospace'
+
 
 class ProblemFoldersForm(forms.ModelForm):
     folders = OrderedTreeNodeMultipleChoiceField(

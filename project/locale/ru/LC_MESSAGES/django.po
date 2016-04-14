@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 19:22+0300\n"
-"PO-Revision-Date: 2016-04-14 19:23+0300\n"
+"POT-Creation-Date: 2016-04-14 19:35+0300\n"
+"PO-Revision-Date: 2016-04-14 19:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -606,8 +606,8 @@ msgstr "Время"
 
 #: .\contests\templates\contests\all_solutions.html:32
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:125
-#: .\problems\forms.py:143 .\problems\forms.py:147 .\problems\forms.py:166
+#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:130
+#: .\problems\forms.py:148 .\problems\forms.py:152 .\problems\forms.py:171
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\solutions.html:36
@@ -1475,11 +1475,11 @@ msgstr "Оставьте пустым, чтобы использовать ст�
 msgid "Leave empty to use standard output."
 msgstr "Оставьте пустым, чтобы использовать стандартный вывод."
 
-#: .\problems\forms.py:39
+#: .\problems\forms.py:44
 msgid "Problem folders"
 msgstr "Папки с задачами"
 
-#: .\problems\forms.py:58 .\problems\forms.py:98 .\problems\forms.py:251
+#: .\problems\forms.py:63 .\problems\forms.py:103 .\problems\forms.py:256
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:18
 #: .\problems\templates\problems\show_test.html:51
@@ -1488,7 +1488,7 @@ msgstr "Папки с задачами"
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
-#: .\problems\forms.py:59 .\problems\forms.py:102 .\problems\forms.py:252
+#: .\problems\forms.py:64 .\problems\forms.py:107 .\problems\forms.py:257
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:22
 #: .\problems\templates\problems\show_test.html:55
@@ -1497,15 +1497,15 @@ msgstr "Ограничение по времени"
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
 
-#: .\problems\forms.py:119
+#: .\problems\forms.py:124
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:175
+#: .\problems\forms.py:180
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
-#: .\problems\forms.py:176
+#: .\problems\forms.py:181
 msgid ""
 "The archive should not contain any other files except test inputs and "
 "outputs."
@@ -1513,39 +1513,39 @@ msgstr ""
 "Архив не должен содержать других данных, кроме входных и выходных файлов "
 "тестов."
 
-#: .\problems\forms.py:177
+#: .\problems\forms.py:182
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:191
+#: .\problems\forms.py:196
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
-#: .\problems\forms.py:202
+#: .\problems\forms.py:207
 msgid "No test files found in the archive."
 msgstr "Тестовые файлы в архиве не найдены."
 
-#: .\problems\forms.py:237 .\problems\models.py:140 .\problems\tabs.py:30
+#: .\problems\forms.py:242 .\problems\models.py:140 .\problems\tabs.py:30
 msgid "Validator"
 msgstr "Контролёр тестов"
 
-#: .\problems\forms.py:273
+#: .\problems\forms.py:278
 msgid "Russian"
 msgstr "Русский"
 
-#: .\problems\forms.py:274
+#: .\problems\forms.py:279
 msgid "English"
 msgstr "Английский"
 
-#: .\problems\forms.py:277
+#: .\problems\forms.py:282
 msgid "Full package (Windows) as a ZIP-archive"
 msgstr "Полный пакет (Windows) в виде ZIP-архива"
 
-#: .\problems\forms.py:278
+#: .\problems\forms.py:283
 msgid "Problem statement language"
 msgstr "Язык условия задачи"
 
-#: .\problems\forms.py:279
+#: .\problems\forms.py:284
 msgid "Compiler for checker and validator"
 msgstr "Компилятор для программы проверки и контролёра тестов"
 
@@ -1811,8 +1811,8 @@ msgid "Source files"
 msgstr "Файлы с кодом"
 
 #: .\problems\templates\problems\files.html:52
-msgid "(checkers)"
-msgstr "(чекеры)"
+msgid "(checkers, validators)"
+msgstr "(программы проверки, контролёры тестов)"
 
 #: .\problems\templates\problems\files.html:60 .\proglangs\views.py:40
 #: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:91
@@ -2332,7 +2332,7 @@ msgstr "просмотр деталей тестирования"
 
 #: .\solutions\permissions.py:28
 msgid "view testing details with checker messages"
-msgstr "просмотр деталей тестирования с сообщениями чекера"
+msgstr "просмотр деталей тестирования с сообщениями программы проверки"
 
 #: .\solutions\permissions.py:29
 msgid "view testing details and test data"
@@ -2430,7 +2430,7 @@ msgstr "Код выхода"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
 msgid "Checker Message"
-msgstr "Сообщение чекера"
+msgstr "Сообщение программы проверки"
 
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:60
 msgid "Hide"
