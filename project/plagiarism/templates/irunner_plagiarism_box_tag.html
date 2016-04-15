@@ -1,1 +1,0 @@
-<div class="ir-box ir-plagiarismbox{% if style %} ir-plagiarismbox-{{ style }}{% endif %}">{% if similarity != None %}<a href="{% url 'solutions:plagiarism' solution_id %}">{{ similarity|floatformat:2 }}</a>{% else %}?{% endif %}</div>
