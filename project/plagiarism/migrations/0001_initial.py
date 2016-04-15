@@ -2,42 +2,39 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import storage.storage
-import django.db.models.deletion
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('solutions', '0001_initial')
+        ('solutions', '0005_challenge_challengedsolution'),
     ]
 
     operations = [
         migrations.CreateModel(
+            name='AggregatedResult',
+            fields=[
+                ('id', models.OneToOneField(primary_key=True, serialize=False, to='solutions.Solution')),
+                ('relevance', models.FloatField()),
+            ],
+        ),
+        migrations.CreateModel(
             name='Algorithm',
             fields=[
-                ('id', models.IntegerField(verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=255)),
-                ('enabled', models.BooleanField()),              
+                ('enabled', models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
             name='JudgementResult',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('solution_to_judge', models.ForeignKey(to='solutions.Solution')),
-                ('solution_to_compare', models.ForeignKey(to='solutions.Solution')),
-                ('algo_id', models.ForeignKey(to='plagiarism.Algorithm')),
                 ('similarity', models.FloatField()),
                 ('verdict', models.CharField(max_length=2048)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='AggregatedResult',
-            fields=[
-                ('id', models.ForeignKey(to='solutions.Solution', primary_key=True)),
-                ('relevance', models.FloatField()),
+                ('algorithm', models.ForeignKey(to='plagiarism.Algorithm')),
+                ('solution_to_compare', models.ForeignKey(related_name='solution_to_compare', to='solutions.Solution')),
+                ('solution_to_judge', models.ForeignKey(related_name='solution_to_judge', to='solutions.Solution')),
             ],
         ),
     ]
