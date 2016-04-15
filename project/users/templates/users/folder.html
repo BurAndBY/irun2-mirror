@@ -14,28 +14,42 @@
 {% block main %}
     {% trans "Users" as root_name %}
     {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
-    <p>
-        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_folder' folder_id %}" role="button">
-            {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Create folder' %}</span>
-        </a>
 
-        {% if can_delete_folder %}
-            <a class="btn btn-default btn-sm" href="#" role="button">
-                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete folder' %}</span>
-            </a>
-        {% endif %}
+    <div class="form-group">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folder' %}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% irunner_folders_url 'users:create_folder' folder_id %}">
+                            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_user' folder_id %}" role="button">
-            {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% trans 'Create user' %}</span>
-        </a>
+            <div class="btn-group btn-group-sm" role="group">
+                <a class="btn btn-default" href="{% irunner_folders_url 'users:create_user' folder_id %}">
+                    {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New user' %}</span>
+                </a>
+            </div>
 
-        <a class="btn btn-default btn-sm" href="{% irunner_folders_url 'users:create_users_mass' folder_id %}" role="button">
-            {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Mass registration' %}</span>
-        </a>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Bulk operations' %}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% irunner_folders_url 'users:create_users_mass' folder_id %}">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Sign-up' %}</span></a></li>
+                    <li><a href="{% irunner_folders_url 'users:change_password_mass' folder_id %}">{% bootstrap_icon 'asterisk' %} <span class="ir-icon-label">{% trans 'Change password' context 'noun' %}</span></a></li>
+                </ul>
+            </div>
 
-        {% if has_users %}
-            <div class="dropdown" style="display: inline-block;">
-                <button class="btn btn-default btn-sm dropdown-toggle ir-checkbox-driven" type="button" data-toggle="dropdown" disabled>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle ir-checkbox-driven" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
                     {% bootstrap_icon 'check' %} <span class="ir-icon-label">{% trans 'Actions' %}</span>
                     <span class="caret"></span>
                 </button>
@@ -45,8 +59,11 @@
                     <li><a href="#" id="ir_swap">{% bootstrap_icon 'random' %} <span class="ir-icon-label">{% trans 'Swap first and last name' %}</span></a></li>
                 </ul>
             </div>
-        {% endif %}
-    </p>
+        </div>
+    </div>
+
+    {% bootstrap_messages %}
+
     {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
 
     <div class="panel panel-default">

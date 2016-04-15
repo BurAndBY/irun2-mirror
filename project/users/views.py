@@ -1,10 +1,12 @@
 import operator
 
-from django.contrib import auth
+from django.contrib import auth, messages
+from django.contrib.auth.hashers import make_password
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext
 from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
@@ -128,19 +130,56 @@ class CreateUsersMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.For
 
     def get_context_data(self, **kwargs):
         context = super(CreateUsersMassView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Mass user registration')
+        context['form_name'] = _('Bulk sign-up')
         return context
 
     def form_valid(self, form):
         folder_id_or_root = self.kwargs['folder_id_or_root']
         folder_id = cast_id(folder_id_or_root)
-        users = form.cleaned_data['tsv']
+        pairs = form.cleaned_data['pairs']
+        counter = 0
         with transaction.atomic():
-            for user, userprofile in users:
+            for user, userprofile in pairs:
                 user.save()
                 userprofile.user = user
                 userprofile.folder_id = folder_id
                 userprofile.save()
+                counter += 1
+
+        msg = ungettext('%(count)d user was added.', '%(count)d users were added.', counter) % {'count': counter}
+        messages.add_message(self.request, messages.INFO, msg)
+        return redirect('users:show_folder', folder_id_or_root)
+
+
+class ChangePasswordMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
+    template_name = 'users/create_form.html'
+    form_class = forms.ChangePasswordMassForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ChangePasswordMassView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Bulk password change')
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(ChangePasswordMassView, self).get_form_kwargs()
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        folder_id = cast_id(folder_id_or_root)
+        kwargs['folder_id'] = folder_id
+        return kwargs
+
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        pairs = form.cleaned_data['tsv']
+        counter = 0
+        with transaction.atomic():
+            for username, password in pairs:
+                # use weak hashing algorithm for better performance
+                hashed_password = make_password(password, None, 'md5')
+                counter += auth.get_user_model().objects.filter(username=username).update(password=hashed_password)
+                UserProfile.objects.filter(user__username=username).update(needs_change_password=False)
+
+        msg = ungettext('%(count)d password has been changed.', '%(count)d passwords have been changed.', counter) % {'count': counter}
+        messages.add_message(self.request, messages.INFO, msg)
         return redirect('users:show_folder', folder_id_or_root)
 
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-15 03:14+0300\n"
-"PO-Revision-Date: 2016-04-15 03:16+0300\n"
+"POT-Creation-Date: 2016-04-16 02:26+0300\n"
+"PO-Revision-Date: 2016-04-16 02:27+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -443,7 +443,7 @@ msgstr ""
 #: .\users\templates\users\delete_folder.html:10
 #: .\users\templates\users\folder.html:10
 #: .\users\templates\users\folder.html:15
-#: .\users\templates\users\irunner_users_list_tag.html:38
+#: .\users\templates\users\irunner_users_list_tag.html:40
 msgid "Users"
 msgstr "Пользователи"
 
@@ -459,14 +459,14 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\messages.html:26
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
-#: .\courses\templates\courses\solutions.html:34
+#: .\courses\templates\courses\solutions.html:35
 #: .\courses\templates\courses\standings.html:61
 #: .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
-#: .\solutions\templates\solutions\solution_list.html:32
+#: .\solutions\templates\solutions\solution_list.html:33
 #: .\storage\templates\storage\usage.html:29
 #: .\storage\templates\storage\usage.html:45
 #: .\storage\templates\storage\usage.html:51
@@ -594,14 +594,14 @@ msgstr "Все решения"
 
 #: .\contests\templates\contests\all_solutions.html:19
 #: .\contests\templates\contests\my_solutions.html:19
-#: .\courses\templates\courses\solutions.html:20
+#: .\courses\templates\courses\solutions.html:21
 #: .\problems\templates\problems\solutions.html:22
-#: .\solutions\templates\solutions\solution_list.html:21
+#: .\solutions\templates\solutions\solution_list.html:22
 msgid "Apply"
 msgstr "Применить"
 
 #: .\contests\templates\contests\all_solutions.html:30
-#: .\courses\templates\courses\solutions.html:32
+#: .\courses\templates\courses\solutions.html:33
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
 #: .\problems\templates\problems\solutions.html:34
@@ -611,22 +611,24 @@ msgstr "Применить"
 #: .\solutions\templates\solutions\rejudge.html:40
 #: .\solutions\templates\solutions\rejudge_list.html:14
 #: .\solutions\templates\solutions\solution.html:23
-#: .\solutions\templates\solutions\solution_list.html:33
+#: .\solutions\templates\solutions\solution_list.html:34
+#: .\solutions\templates\solutions\solution_plagiarism.html:16
 msgid "Author"
 msgstr "Автор"
 
 #: .\contests\templates\contests\all_solutions.html:31
 #: .\contests\templates\contests\my_solutions.html:31
-#: .\courses\templates\courses\solutions.html:35
+#: .\courses\templates\courses\solutions.html:36
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 #: .\solutions\templates\solutions\solution_attempts.html:18
-#: .\solutions\templates\solutions\solution_list.html:34
+#: .\solutions\templates\solutions\solution_list.html:35
+#: .\solutions\templates\solutions\solution_plagiarism.html:15
 msgid "Time"
 msgstr "Время"
 
 #: .\contests\templates\contests\all_solutions.html:32
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\courses\templates\courses\solutions.html:36 .\problems\forms.py:130
+#: .\courses\templates\courses\solutions.html:37 .\problems\forms.py:130
 #: .\problems\forms.py:148 .\problems\forms.py:152 .\problems\forms.py:171
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
@@ -634,7 +636,7 @@ msgstr "Время"
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:85
 #: .\solutions\templates\solutions\solution_attempts.html:19
-#: .\solutions\templates\solutions\solution_list.html:35
+#: .\solutions\templates\solutions\solution_list.html:36
 #: .\storage\templates\storage\usage.html:39
 #: .\storage\templates\storage\usage.html:44
 #: .\storage\templates\storage\usage.html:50
@@ -643,11 +645,11 @@ msgstr "Файл"
 
 #: .\contests\templates\contests\all_solutions.html:33
 #: .\contests\templates\contests\my_solutions.html:33
-#: .\courses\templates\courses\solutions.html:37
+#: .\courses\templates\courses\solutions.html:38
 #: .\problems\templates\problems\solutions.html:37
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:20
-#: .\solutions\templates\solutions\solution_list.html:36
+#: .\solutions\templates\solutions\solution_list.html:37
 msgid "Status"
 msgstr "Статус"
 
@@ -655,7 +657,7 @@ msgstr "Статус"
 #: .\contests\templates\contests\my_solutions.html:61
 #: .\courses\templates\courses\info.html:31
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:44
-#: .\courses\templates\courses\solutions.html:78
+#: .\courses\templates\courses\solutions.html:85
 msgid "No solutions"
 msgstr "Решений нет"
 
@@ -689,6 +691,7 @@ msgstr "Новое соревнование"
 #: .\contests\templates\contests\contest_form.html:12
 #: .\courses\templates\courses\course_form.html:12
 #: .\problems\templates\problems\list_folder.html:31
+#: .\users\templates\users\folder.html:28
 msgid "Create"
 msgstr "Создать"
 
@@ -725,6 +728,7 @@ msgstr "Последнее решение"
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:36
 #: .\solutions\templates\solutions\solution_attempts.html:16
+#: .\solutions\templates\solutions\solution_plagiarism.html:14
 msgid "#"
 msgstr "№"
 
@@ -1068,7 +1072,7 @@ msgstr "Преподаватель"
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:137
+#: .\courses\settingsviews.py:137 .\users\views.py:149
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -1179,8 +1183,8 @@ msgstr "Критерий не используется в курсах."
 #: .\problems\templates\problems\list_folder_confirm_delete.html:32
 #: .\problems\templates\problems\show_test.html:38
 #: .\problems\templates\problems\show_test.html:119
-#: .\solutions\templates\solutions\solution_list.html:65
-#: .\users\templates\users\folder.html:44
+#: .\solutions\templates\solutions\solution_list.html:68
+#: .\users\templates\users\folder.html:58
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1194,7 +1198,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:303
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:304
 msgid "delete"
 msgstr "удалить"
 
@@ -1313,8 +1317,9 @@ msgid "Topics"
 msgstr "Темы"
 
 #: .\courses\templates\courses\settings_problems.html:15
-#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:117
-#: .\users\templates\users\irunner_users_list_tag.html:19
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:171
+#: .\users\templates\users\folder.html:22
+#: .\users\templates\users\irunner_users_list_tag.html:20
 msgid "Folder"
 msgstr "Папка"
 
@@ -1413,6 +1418,13 @@ msgstr "Вернуться в режим просмотра (только чте
 msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
+
+#: .\courses\templates\courses\solutions.html:40
+#: .\solutions\templates\solutions\solution.html:131
+#: .\solutions\templates\solutions\solution_list.html:38
+#: .\solutions\templates\solutions\solution_plagiarism.html:8
+msgid "Plagiarism"
+msgstr "Плагиат"
 
 #: .\courses\templates\courses\standings.html:33
 #: .\courses\templates\courses\standings_wide.html:28
@@ -1698,7 +1710,7 @@ msgstr "Тесты"
 
 #: .\problems\tabs.py:31 .\problems\templates\problems\challenges.html:22
 #: .\problems\templates\problems\irunner_problems_list_tag.html:21
-#: .\solutions\templates\solutions\solution_list.html:11
+#: .\solutions\templates\solutions\solution_list.html:12
 #: .\templates\navbar.html:24
 msgid "Solutions"
 msgstr "Решения"
@@ -1941,7 +1953,6 @@ msgid "Import from Polygon"
 msgstr "Импорт из Polygon"
 
 #: .\problems\templates\problems\list_folder_confirm_delete.html:16
-#: .\users\templates\users\folder.html:24
 msgid "Delete folder"
 msgstr "Удалить папку"
 
@@ -2064,7 +2075,7 @@ msgstr "Время отправления"
 
 #: .\problems\templates\problems\solutions.html:58
 #: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:62
+#: .\solutions\templates\solutions\solution_list.html:65
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
@@ -2184,8 +2195,7 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:892 .\users\templates\users\folder.html:19
-#: .\users\views.py:94
+#: .\problems\views.py:892 .\users\views.py:96
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -2378,6 +2388,7 @@ msgid "and"
 msgstr "и"
 
 #: .\solutions\templates\solutions\compare.html:20
+#: .\solutions\templates\solutions\solution_plagiarism.html:32
 msgid "Compare"
 msgstr "Сравнить"
 
@@ -2578,14 +2589,26 @@ msgstr "Изменения"
 msgid "Compare the soluton with the previous one"
 msgstr "Сравнить решение с предыдущим"
 
-#: .\solutions\templates\solutions\solution_list.html:73
 #: .\solutions\templates\solutions\solution_list.html:76
+#: .\solutions\templates\solutions\solution_list.html:79
 msgid "No solutions selected"
 msgstr "Решения не выбраны"
 
 #: .\solutions\templates\solutions\solution_log.html:13
 msgid "Compilation log is not available"
 msgstr "Журнал компиляции недоступен"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:17
+msgid "Algo"
+msgstr "Алгоритм"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:18
+msgid "Similarity"
+msgstr "Похожесть"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:19
+msgid "Verdict"
+msgstr "Вердикт"
 
 #: .\solutions\templates\solutions\testcaseresult.html:29
 msgid "Standard output (stdout)"
@@ -2617,7 +2640,7 @@ msgstr "ошибка компиляции контролёра тестов"
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:201
+#: .\solutions\views.py:202
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -2795,45 +2818,66 @@ msgstr "Администрирование"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\users\forms.py:28
+#: .\users\forms.py:29
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:37
+#: .\users\forms.py:38
+msgid ""
+"Students: “[username] [last name] [first name]” or “[username] [last name] "
+"[first name] [patronymic]”"
+msgstr ""
+"Студенты: «[имя пользователя] [фамилия] [имя]» или «[имя пользователя] "
+"[фамилия] [имя] [отчество]»"
+
+#: .\users\forms.py:39
+msgid "Teams: “[username] [team name]”"
+msgstr "Команды: «[имя пользователя] [название команды]»"
+
+#: .\users\forms.py:42
+msgid "Mode"
+msgstr "Режим"
+
+#: .\users\forms.py:44 .\users\forms.py:113
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:38
-msgid ""
-"Lines in the format of “[username] [last name] [first name]” or “[username] "
-"[last name] [first name] [patronymic]”."
-msgstr ""
-"Строки в формате «[имя пользователя] [фамилия] [имя]» или «[имя "
-"пользователя] [фамилия] [имя] [отчество]»."
+#: .\users\forms.py:45
+msgid "Enter lines in the given format."
+msgstr "Введите строки в указанном формате."
 
-#: .\users\forms.py:39
+#: .\users\forms.py:46
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:59
+#: .\users\forms.py:60 .\users\forms.py:131
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:63
+#: .\users\forms.py:90
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:93
+#: .\users\forms.py:114
+msgid "Enter lines in the format of “[username] [password]”."
+msgstr "Введите строки в формате «[имя пользователя] [пароль]»."
+
+#: .\users\forms.py:139
+#, python-format
+msgid "User “%(username)s” does not exist."
+msgstr "Пользователь «%(username)s» не существует."
+
+#: .\users\forms.py:147
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:102
+#: .\users\forms.py:156
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:124
+#: .\users\forms.py:178
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -2842,7 +2886,7 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:141
+#: .\users\forms.py:195
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
@@ -2875,27 +2919,36 @@ msgstr "Пользователи не выбраны"
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: .\users\templates\users\folder.html:29 .\users\views.py:110
-msgid "Create user"
-msgstr "Создать пользователя"
+#: .\users\templates\users\folder.html:36
+msgid "New user"
+msgstr "Новый пользователь"
 
-#: .\users\templates\users\folder.html:33
-msgid "Mass registration"
-msgstr "Массовая регистрация"
+#: .\users\templates\users\folder.html:42
+msgid "Bulk operations"
+msgstr "Массовые операции"
 
-#: .\users\templates\users\folder.html:39
+#: .\users\templates\users\folder.html:46
+msgid "Sign-up"
+msgstr "Регистрация"
+
+#: .\users\templates\users\folder.html:47
+msgctxt "noun"
+msgid "Change password"
+msgstr "Изменение пароля"
+
+#: .\users\templates\users\folder.html:53
 msgid "Actions"
 msgstr "Действия"
 
-#: .\users\templates\users\folder.html:43
+#: .\users\templates\users\folder.html:57
 msgid "Move"
 msgstr "Переместить"
 
-#: .\users\templates\users\folder.html:45
+#: .\users\templates\users\folder.html:59
 msgid "Swap first and last name"
 msgstr "Поменять местами имя и фамилию"
 
-#: .\users\templates\users\folder.html:58
+#: .\users\templates\users\folder.html:75
 msgid "There are no users in the folder"
 msgstr "В этой папке нет пользователей"
 
@@ -2907,20 +2960,25 @@ msgstr "Поиск пользователей"
 msgid "No users found."
 msgstr "Пользователи не найдены."
 
-#: .\users\templates\users\irunner_users_list_tag.html:15
+#: .\users\templates\users\irunner_users_list_tag.html:16
 #: .\users\templates\users\profile_show.html:38
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: .\users\templates\users\irunner_users_list_tag.html:16
+#: .\users\templates\users\irunner_users_list_tag.html:17
 msgctxt "human"
 msgid "Full name"
 msgstr "Полное имя"
 
-#: .\users\templates\users\irunner_users_list_tag.html:17
+#: .\users\templates\users\irunner_users_list_tag.html:18
 #: .\users\templates\users\profile_show.html:48
 msgid "Last login"
 msgstr "Последний вход"
+
+#: .\users\templates\users\irunner_users_list_tag.html:45
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:284
+msgid "Update profile"
+msgstr "Обновить профиль"
 
 #: .\users\templates\users\profile_password.html:9
 msgid ""
@@ -2959,30 +3017,48 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:245
-msgid "Update profile"
-msgstr "Обновить профиль"
-
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:273
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:312
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:131
-msgid "Mass user registration"
-msgstr "Массовая регистрация пользователей"
+#: .\users\views.py:112
+msgid "Create user"
+msgstr "Создать пользователя"
 
-#: .\users\views.py:149
+#: .\users\views.py:133
+msgid "Bulk sign-up"
+msgstr "Массовая регистрация"
+
+#: .\users\views.py:160
+msgid "Bulk password change"
+msgstr "Массовое изменение паролей"
+
+#: .\users\views.py:181
+#, python-format
+msgid "%(count)d password has been changed."
+msgid_plural "%(count)d passwords have been changed."
+msgstr[0] "Изменён %(count)d пароль."
+msgstr[1] "Изменено %(count)d пароля."
+msgstr[2] "Изменено %(count)d паролей."
+
+#: .\users\views.py:188
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:160
+#: .\users\views.py:199
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:176
+#: .\users\views.py:215
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Mass registration"
+#~ msgstr "Массовая регистрация"
+
+#~ msgid "Mass user registration"
+#~ msgstr "Массовая регистрация пользователей"
 
 #~ msgid "Include HTML statement"
 #~ msgstr "Включить условие в формате HTML"
@@ -3064,22 +3140,3 @@ msgstr ""
 
 #~ msgid "Problems to solve"
 #~ msgstr "Задач для решения"
-
-#: .\courses\templates\courses\solutions.html:39
-#: .\solutions\templates\solutions\solution_list.html:37
-#: .\solutions\templates\solutions\solution.html:131
-#: .\solutions\templates\solutions\solution_plagiarism.html:7
-msgid "Plagiarism"
-msgstr "Плагиат"
-
-#: .\solutions\templates\solutions\solution_plagiarism.html:16
-msgid "Algo"
-msgstr "Алгоритм"
-
-#: .\solutions\templates\solutions\solution_plagiarism.html:17:
-msgid "Similarity"
-msgstr "Похожесть"
-
-#: .\solutions\templates\solutions\solution_plagiarism.html:18:
-msgid "Verdict"
-msgstr "Вердикт"
