@@ -1449,3 +1449,32 @@ Green menu
     margin-top: 10px;
     font-weight: bold;
 }
+
+/**
+ * Plagiarism box
+ */
+.ir-plagiarismbox {
+    background-color: #f5f5f5;
+    color: #888;
+    min-width: 3em;
+    border-radius: 2px;
+    border: 1px solid #888;
+    font-size: 0.9em;
+}
+.ir-plagiarismbox a {
+    color: #888;
+}
+.ir-plagiarismbox-warning {
+    background-color: #fcf8e3;
+    border: 1px solid #f0ad4e;
+}
+.ir-plagiarismbox-warning a {
+    color: #f0ad4e;
+}
+.ir-plagiarismbox-danger {
+    background-color: #f2dede;
+    border: 1px solid #d9534f;
+}
+.ir-plagiarismbox-danger a {
+    color: #d9534f;
+}

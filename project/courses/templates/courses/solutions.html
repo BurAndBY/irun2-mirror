@@ -5,6 +5,7 @@
 {% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_pagination %}
+{% load irunner_plagiarism %}
 {% load bootstrap3 %}
 
 {% block subtitle %}{{ page_title }}{% endblock %}
@@ -72,7 +73,7 @@
                     {% endif %}
                 </td>
                 {% if permissions.plagiarism %}
-                    <td>{% if solution.aggregatedresult %}<a href="{% url 'solutions:plagiarism' solution.id %}">{{ solution.aggregatedresult.relevance }}</a>{% else %}?{% endif %}</td>
+                    <td>{% irunner_plagiarism_box solution.aggregatedresult solution.id %}</td>
                 {% endif %}
             </tr>
             {% endfor %}

@@ -3,6 +3,7 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_pagination %}
+{% load irunner_plagiarism %}
 {% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load irunner_users %}
@@ -53,7 +54,7 @@
                     <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}</a>
                     <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
                 </td>
-                <td>{% if solution.aggregatedresult %}<a href="{% url 'solutions:plagiarism' solution.id %}">{{ solution.aggregatedresult.relevance }}</a>{% else %}?{% endif %}</td>
+                <td>{% irunner_plagiarism_box solution.aggregatedresult solution.id %}</td>
             </tr>
             {% endfor %}
         </tbody>
