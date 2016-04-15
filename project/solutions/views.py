@@ -665,6 +665,7 @@ class CompareSolutionsView(LoginRequiredMixin, generic.View):
 
 from plagiarism.models import JudgementResult
 
+
 class SolutionPlagiarismView(BaseSolutionView):
     tab = 'plagiarism'
     template_name = 'solutions/solution_plagiarism.html'
@@ -678,6 +679,7 @@ class SolutionPlagiarismView(BaseSolutionView):
             select_related('solution_to_judge').\
             select_related('solution_to_compare').\
             select_related('algorithm').\
-            select_related('solution_to_compare__author')
+            select_related('solution_to_compare__author').\
+            order_by('-similarity')
         context = self.get_context_data(judgements=plagiarism_judgements)
         return render(request, self.template_name, context)
