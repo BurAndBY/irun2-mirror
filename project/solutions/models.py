@@ -25,7 +25,6 @@ class Solution(models.Model):
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)
-    plagiarism_result = models.ForeignKey('plagiarism.AggregatedResult', null=True, related_name='+')
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')  # '+' means 'do not create a backwards relation'
 

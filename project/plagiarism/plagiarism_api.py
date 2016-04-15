@@ -22,6 +22,10 @@ def get_testing_job():
         judgement__outcome=Outcome.ACCEPTED,
         aggregatedresult__isnull=True).order_by('reception_time').first()
 
+    solution_to_test = Solution.objects.filter(
+        judgement__outcome=Outcome.ACCEPTED,
+        aggregatedresult__isnull=True).order_by('reception_time').first()
+
     if not solution_to_test:
         return None
 
@@ -69,5 +73,5 @@ def _create_judgementresult_insert(data):
 
 def dump_plagiarism_report(data):
     with transaction.atomic():
-            results = _create_judgementresult_insert(data)
-            [item.save() for item in results]
+        results = _create_judgementresult_insert(data)
+        [item.save() for item in results]

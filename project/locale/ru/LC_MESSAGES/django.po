@@ -2951,3 +2951,22 @@ msgstr ""
 
 #~ msgid "Problems to solve"
 #~ msgstr "Задач для решения"
+
+#: .\courses\templates\courses\solutions.html:39
+#: .\solutions\templates\solutions\solution_list.html:37
+#: .\solutions\templates\solutions\solution.html:131
+#: .\solutions\templates\solutions\solution_plagiarism.html:7
+msgid "Plagiarism"
+msgstr "Плагиат"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:16
+msgid "Algo"
+msgstr "Алгоритм"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:17:
+msgid "Similarity"
+msgstr "Похожесть"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:18:
+msgid "Verdict"
+msgstr "Вердикт"

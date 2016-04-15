@@ -35,6 +35,9 @@
                 <th class="ir-col-time">{% trans 'Time' %}</th>
                 <th>{% trans 'File' %}</th>
                 <th>{% trans 'Status' %}</th>
+                {% if permissions.plagiarism %}
+                <th>{% trans 'Plagiarism' %}</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -68,6 +71,9 @@
                         <a href="{{ solution_url }}">{{ solution.best_judgement.show_status }}</a>
                     {% endif %}
                 </td>
+                {% if permissions.plagiarism %}
+                    <td>{% if solution.aggregatedresult %}<a href="{% url 'solutions:plagiarism' solution.id %}">{{ solution.aggregatedresult.relevance }}</a>{% else %}?{% endif %}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
