@@ -20,11 +20,7 @@ def _make_job(solution, solutions):
 def get_testing_job():
     solution_to_test = Solution.objects.filter(
         judgement__outcome=Outcome.ACCEPTED,
-        aggregatedresult__isnull=True).order_by('reception_time').first()
-
-    solution_to_test = Solution.objects.filter(
-        judgement__outcome=Outcome.ACCEPTED,
-        aggregatedresult__isnull=True).order_by('reception_time').first()
+        aggregatedresult__isnull=True).order_by('-reception_time').first()
 
     if not solution_to_test:
         return None
@@ -36,9 +32,9 @@ def get_testing_job():
 
     solutions_to_compare = Solution.objects.filter(
         judgement__outcome=Outcome.ACCEPTED,
-        problem=solution_to_test.problem,
+        problem_id=solution_to_test.problem_id,
         reception_time__lt=solution_to_test.reception_time
-    ).exclude(author=solution_to_test.author)
+    ).exclude(author_id=solution_to_test.author_id).distinct()
 
     solutions = [
         {'id': sol.id, 'resource': sol.source_code.resource_id}
