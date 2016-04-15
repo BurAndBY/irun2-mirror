@@ -1,0 +1,27 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_users %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Messages' %}{% endblock %}
+
+{% block main %}
+    {% if not messages %}
+        <div class="ir-absence">{% trans 'No messages' %}</div>
+    {% else %}
+        {% for message in messages %}
+            <div class="row ir-contest-message">
+                <div class="col-sm-3">
+                    <p class="ir-when">{% bootstrap_icon 'time' %} {{ message.timestamp }}</p>
+                    <p class="ir-sender">{% bootstrap_icon 'user' %} {% irunner_users_show message.sender %}</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="ir-recipient">{% trans 'To' %}: {% if message.recipient %}{% irunner_users_show message.recipient %}{% else %}{% trans 'all' context 'to' %}{% endif %}</p>
+                    <p class="ir-subject">{{ message.subject }}</p>
+                    {{ message.text|linebreaks }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

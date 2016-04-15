@@ -7,6 +7,13 @@
         <span class="ir-icon-label">{{ contest.name }}</span>
     </li>
 
+    {% if permissions.standings %}
+        <a href="{% url 'contests:standings' contest.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
+            {% bootstrap_icon 'list-alt' %}
+            <span class="ir-icon-label">{% trans 'Standings' context 'contest' %}</span>
+        </a>
+    {% endif %}
+
     {% if permissions.problems %}
         <a href="{% url 'contests:problems' contest.id %}" class="list-group-item{% if active_tab == 'problems' %} active{% endif %}">
             {% bootstrap_icon 'briefcase' %}
@@ -14,10 +21,17 @@
         </a>
     {% endif %}
 
-    {% if permissions.standings %}
-        <a href="{% url 'contests:standings' contest.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
-            {% bootstrap_icon 'list-alt' %}
-            <span class="ir-icon-label">{% trans 'Standings' context 'contest' %}</span>
+    {% if permissions.read_messages or permissions.manage_messages %}
+        <a href="{% url 'contests:messages' contest.id %}" class="list-group-item{% if active_tab == 'messages' %} active{% endif %}">
+            {% bootstrap_icon 'envelope' %}
+            <span class="ir-icon-label">{% trans 'Messages' %}</span>
+        </a>
+    {% endif %}
+
+    {% if permissions.ask_questions or permissions.answer_questions %}
+        <a href="{% url 'contests:questions' contest.id %}" class="list-group-item{% if active_tab == 'questions' %} active{% endif %}">
+            {% bootstrap_icon 'question-sign' %}
+            <span class="ir-icon-label">{% trans 'Questions' %}</span>
         </a>
     {% endif %}
 

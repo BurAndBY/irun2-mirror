@@ -13,6 +13,8 @@ contest_urlpatterns = [
     url(r'^my/solutions/$', views.MySolutionsView.as_view(), name='my_solutions'),
     url(r'^submit/$', views.SubmitView.as_view(), name='submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.SubmissionView.as_view(), name='submission'),
+    url(r'^messages/$', views.MessagesView.as_view(), name='messages'),
+    url(r'^questions/$', views.QuestionsView.as_view(), name='questions'),
 ]
 
 contestsettings_urlpatterns = [

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 19:35+0300\n"
-"PO-Revision-Date: 2016-04-14 19:38+0300\n"
+"POT-Creation-Date: 2016-04-15 03:14+0300\n"
+"PO-Revision-Date: 2016-04-15 03:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -400,7 +400,7 @@ msgstr "Каждый уровень доступа включает все пр�
 #: .\contests\forms.py:44 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:18
-#: .\contests\templates\contests\sidebar.html:13 .\courses\forms.py:110
+#: .\contests\templates\contests\sidebar.html:20 .\courses\forms.py:110
 #: .\courses\templates\courses\settings_base.html:15
 #: .\courses\templates\courses\standings.html:32
 #: .\courses\templates\courses\standings_wide.html:27
@@ -552,6 +552,26 @@ msgstr "член жюри"
 msgid "role"
 msgstr "роль"
 
+#: .\contests\models.py:105
+msgid "Question"
+msgstr "Вопрос"
+
+#: .\contests\models.py:106
+msgid "Answer"
+msgstr "Ответ"
+
+#: .\contests\models.py:107
+msgid "Message"
+msgstr "Сообщение"
+
+#: .\contests\models.py:115 .\courses\models.py:163 .\feedback\models.py:12
+msgid "subject"
+msgstr "тема"
+
+#: .\contests\models.py:116 .\courses\models.py:173
+msgid "message"
+msgstr "сообщение"
+
 #: .\contests\services.py:50
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:22
 msgid "Contestant"
@@ -567,7 +587,7 @@ msgstr "Жюри"
 
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
-#: .\contests\templates\contests\sidebar.html:27
+#: .\contests\templates\contests\sidebar.html:41
 #: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
 msgid "All solutions"
 msgstr "Все решения"
@@ -730,6 +750,27 @@ msgstr "Соревнование идёт"
 msgid "The contest is over"
 msgstr "Соревнование окончено"
 
+#: .\contests\templates\contests\messages.html:7
+#: .\contests\templates\contests\sidebar.html:27
+#: .\courses\templates\courses\messages.html:7
+#: .\courses\templates\courses\messages_new.html:6
+#: .\courses\templates\courses\sidebar.html:29
+msgid "Messages"
+msgstr "Сообщения"
+
+#: .\contests\templates\contests\messages.html:11
+msgid "No messages"
+msgstr "Сообщений нет"
+
+#: .\contests\templates\contests\messages.html:20
+msgid "To"
+msgstr "Кому"
+
+#: .\contests\templates\contests\messages.html:20
+msgctxt "to"
+msgid "all"
+msgstr "всем"
+
 #: .\contests\templates\contests\problem.html:13
 #: .\courses\templates\courses\problems_statement.html:37
 #: .\courses\templates\courses\sheet.html:124
@@ -753,7 +794,7 @@ msgid "No problems"
 msgstr "Нет задач"
 
 #: .\contests\templates\contests\settings_base.html:5
-#: .\contests\templates\contests\sidebar.html:48
+#: .\contests\templates\contests\sidebar.html:62
 #: .\courses\templates\courses\settings_base.html:5
 #: .\courses\templates\courses\sidebar.html:79
 #: .\problems\templates\problems\challenge_new.html:19
@@ -814,7 +855,7 @@ msgstr "Пользователи не заданы"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: .\contests\templates\contests\sidebar.html:20
+#: .\contests\templates\contests\sidebar.html:13
 #: .\contests\templates\contests\standings.html:9
 #: .\contests\templates\contests\standings_wide.html:7
 msgctxt "contest"
@@ -822,11 +863,15 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:34
+msgid "Questions"
+msgstr "Вопросы"
+
+#: .\contests\templates\contests\sidebar.html:48
 #: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\contests\templates\contests\sidebar.html:41
+#: .\contests\templates\contests\sidebar.html:55
 #: .\contests\templates\contests\submission.html:9
 #: .\contests\templates\contests\submit.html:7
 #: .\courses\templates\courses\problems_statement.html:31
@@ -1000,14 +1045,6 @@ msgstr "незачёт"
 #: .\courses\models.py:147
 msgid "absence"
 msgstr "отсутствие"
-
-#: .\courses\models.py:163 .\feedback\models.py:12
-msgid "subject"
-msgstr "тема"
-
-#: .\courses\models.py:173
-msgid "message"
-msgstr "сообщение"
 
 #: .\courses\models.py:174 .\feedback\models.py:14
 msgid "attachment"
@@ -1200,12 +1237,6 @@ msgid_plural "solutions"
 msgstr[0] "решение"
 msgstr[1] "решения"
 msgstr[2] "решений"
-
-#: .\courses\templates\courses\messages.html:7
-#: .\courses\templates\courses\messages_new.html:6
-#: .\courses\templates\courses\sidebar.html:29
-msgid "Messages"
-msgstr "Сообщения"
 
 #: .\courses\templates\courses\messages.html:14
 #: .\courses\templates\courses\messages_new.html:13

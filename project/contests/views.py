@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 
@@ -14,7 +15,7 @@ from users.models import UserProfile
 
 from .calcpermissions import calculate_contest_permissions
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm
-from .models import Contest, Membership, ContestSolution
+from .models import Contest, Membership, ContestSolution, Message
 from .services import make_contestant_choices, make_problem_choices, make_contest_results, make_letter
 from .services import ProblemResolver, ContestTiming
 
@@ -308,4 +309,36 @@ class SubmissionView(BaseContestView):
             return redirect('contests:submit', contest.id)
 
         context = self.get_context_data(solution_id=solution_id)
+        return render(request, self.template_name, context)
+
+
+class MessagesView(BaseContestView):
+    tab = 'messages'
+    template_name = 'contests/messages.html'
+
+    def is_allowed(self, permissions):
+        return permissions.read_messages or permissions.manage_messages
+
+    def get(self, request, contest):
+        messages = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
+        if not self.permissions.manage_messages:
+            messages = messages.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
+
+        context = self.get_context_data(messages=messages)
+        return render(request, self.template_name, context)
+
+
+class QuestionsView(BaseContestView):
+    tab = 'questions'
+    template_name = 'contests/messages.html'
+
+    def is_allowed(self, permissions):
+        return permissions.read_messages or permissions.manage_messages
+
+    def get(self, request, contest):
+        messages = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
+        if not self.permissions.manage_messages:
+            messages = messages.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
+
+        context = self.get_context_data(messages=messages)
         return render(request, self.template_name, context)

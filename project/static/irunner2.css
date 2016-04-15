@@ -1424,3 +1424,28 @@ Green menu
 .ir-contest-timing .ir-time {
     color: #3c763d;
 }
+
+/**
+ * Contest messaging
+ */
+.ir-contest-message {
+    border: 1px solid #ddd;
+    border-left-width: 5px;
+    border-radius: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+.ir-contest-message p {
+    margin: 0;
+}
+.ir-contest-message .ir-recipient {
+    color: #737373;
+    font-size: 12px;
+}
+.ir-contest-message .ir-subject {
+    margin-top: 10px;
+    font-weight: bold;
+}

@@ -94,3 +94,34 @@ class ContestSolution(models.Model):
     contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
     solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)
     fixed_judgement = models.ForeignKey(Judgement, null=True, on_delete=models.SET_NULL)
+
+
+class Message(models.Model):
+    QUESTION = 3
+    ANSWER = 4
+    MESSAGE = 5
+
+    MESSAGE_TYPE_CHOICES = (
+        (QUESTION, _('Question')),
+        (ANSWER, _('Answer')),
+        (MESSAGE, _('Message')),
+    )
+
+    message_type = models.IntegerField(choices=MESSAGE_TYPE_CHOICES)
+    timestamp = models.DateTimeField()
+    parent = models.ForeignKey('Message', null=True, on_delete=models.CASCADE, related_name='+')
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT, related_name='+')
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.PROTECT, related_name='+')
+    subject = models.CharField(_('subject'), blank=False, null=True, max_length=255)
+    text = models.TextField(_('message'), blank=False, max_length=65535)
+    contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, blank=True, null=True, on_delete=models.PROTECT, related_name='+')
+    is_answered = models.BooleanField(default=False)
+
+
+class MessageUser(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('message', 'user')
