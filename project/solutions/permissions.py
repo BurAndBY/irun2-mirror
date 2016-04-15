@@ -35,7 +35,6 @@ class SolutionPermissions(object):
         self.state = False
         self.compilation_log = False
         self.source_code = False
-        self.plagiarism = False
         self.results = False
         self.exit_codes = False
         self.checker_messages = False
@@ -43,6 +42,7 @@ class SolutionPermissions(object):
         self.attempts = False
 
         # special permissions that are not included into the levels above
+        self.plagiarism = False
         self.judgements = False
         self.ip_address = False
 
@@ -56,7 +56,6 @@ class SolutionPermissions(object):
         if level >= SolutionAccessLevel.SOURCE_CODE:
             self.attempts = True
             self.source_code = True
-            self.plagiarism = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
             self.results = True
@@ -72,6 +71,7 @@ class SolutionPermissions(object):
         self.update(SolutionAccessLevel.FULL)
         self.judgements = True
         self.ip_address = True
+        self.plagiarism = True
 
     @staticmethod
     def all():
