@@ -125,6 +125,12 @@
                             <a href="{% url 'solutions:tests' solution.id %}">{% trans 'Test results' %}</a>
                         </li>
                     {% endif %}
+
+                    {% if solution_permissions.plagiarism %}
+                        <li role="presentation"{% if active_tab == 'plagiarism' %} class="active"{% endif %}>
+                            <a href="{% url 'solutions:plagiarism' solution.id %}">{% trans 'Plagiarism' %}</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

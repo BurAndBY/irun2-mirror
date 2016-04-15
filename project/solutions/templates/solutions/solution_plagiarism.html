@@ -1,0 +1,35 @@
+{% extends "solutions/solution.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_solutions %}
+
+{% block subtitle %}{% trans 'Plagiarism' %}{% endblock %}
+
+{% block main %}
+    <table class="table table-condensed">
+        <tbody>
+            <tr>
+                <th>{% trans '#' %}</th>
+                <th>{% trans 'Time' %}</th>
+                <th>{% trans 'Author' %}</th>
+                <th>{% trans 'Algo' %}</th>
+                <th>{% trans 'Similarity' %}</th>
+                <th>{% trans 'Verdict' %}</th>
+                <th></th>
+            </tr>
+
+            {% for judgement in judgements %}
+                <tr>
+                    <td>{{ judgement.solution_to_compare.id }}</td>
+                    <td>{{ judgement.solution_to_compare.reception_time }}</td>
+                    <td>{{ judgement.solution_to_compare.author }}</td>
+                    <td>{{ judgement.algorithm.id }}</td>
+                    <td>{{ judgement.similarity }}</td>
+                    <td>{{ judgement.verdict }}</td>
+                    <td><a href="{% url 'solutions:compare' %}?first={{judgement.solution_to_judge.id}}&second={{judgement.solution_to_compare.id}}">{% trans 'Compare' %}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

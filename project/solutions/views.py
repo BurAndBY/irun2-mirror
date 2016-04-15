@@ -109,6 +109,7 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             prefetch_related('author').\
             select_related('best_judgement').\
             select_related('source_code').\
+            select_related('aggregatedresult').\
             order_by('-id')
 
         if form.is_valid():
@@ -630,7 +631,6 @@ class CompareSolutionsView(LoginRequiredMixin, generic.View):
         first = fetch_solution(first_id, self.request.user)
         second = fetch_solution(second_id, self.request.user)
         ok = (first.text is not None) and (second.text is not None)
-
         context = {}
         context['first'] = first
         context['second'] = second
@@ -661,4 +661,23 @@ class CompareSolutionsView(LoginRequiredMixin, generic.View):
 
         # fallback
         context = {'form': form}
+        return render(request, self.template_name, context)
+
+from plagiarism.models import JudgementResult
+
+class SolutionPlagiarismView(BaseSolutionView):
+    tab = 'plagiarism'
+    template_name = 'solutions/solution_plagiarism.html'
+
+    def is_allowed(self, permissions):
+        return permissions.plagiarism
+
+    def do_get(self, request, solution):
+        plagiarism_judgements = JudgementResult.\
+            objects.filter(solution_to_judge=solution).all().\
+            select_related('solution_to_judge').\
+            select_related('solution_to_compare').\
+            select_related('algorithm').\
+            select_related('solution_to_compare__author')
+        context = self.get_context_data(judgements=plagiarism_judgements)
         return render(request, self.template_name, context)

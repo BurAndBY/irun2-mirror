@@ -11,6 +11,7 @@ solutions_urlpatterns = [
     url(r'^(?P<solution_id>[0-9]+)/tests/$', views.SolutionTestsView.as_view(), name='tests'),
     url(r'^(?P<solution_id>[0-9]+)/runs/$', views.SolutionJudgementsView.as_view(), name='judgements'),
     url(r'^(?P<solution_id>[0-9]+)/attempts/$', views.SolutionAttemptsView.as_view(), name='attempts'),
+    url(r'^(?P<solution_id>[0-9]+)/plagiarism/$', views.SolutionPlagiarismView.as_view(), name='plagiarism'),
     url(r'^(?P<solution_id>[0-9]+)/status/json/$', views.SolutionStatusJsonView.as_view(), name='status_json'),
 
     url(r'^(?P<solution_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.SolutionTestCaseResultView.as_view(), name='test_case_result'),

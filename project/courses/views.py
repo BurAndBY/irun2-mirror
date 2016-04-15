@@ -534,7 +534,7 @@ class CourseAllSolutionsView(BaseCourseView):
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
             .prefetch_related('compiler')\
-            .select_related('problem', 'source_code', 'best_judgement')\
+            .select_related('problem', 'source_code', 'best_judgement', 'aggregatedresult')\
             .order_by('-reception_time', 'id')
 
         if user_id is not None:

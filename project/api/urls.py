@@ -9,6 +9,9 @@ urlpatterns = [
     url(r'^jobs/take$', views.JobTakeView.as_view(), name='take_job'),
     url(r'^jobs/(?P<job_id>\d+)/result$', views.JobPutResultView.as_view()),
     url(r'^jobs/(?P<job_id>\d+)/state$', views.JobPutStateView.as_view()),
+    url(r'^plagiarism/take$', views.PlagiarismTakeView.as_view()),
+    url(r'^plagiarism/put$', views.PlagiarismPutView.as_view()),
+
 
     url(r'^queue/$', views.QueueView.as_view(), name='queue')
 ]
