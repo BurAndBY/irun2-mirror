@@ -21,10 +21,12 @@ class OrderedTreeNodeChoiceFieldMixin(object):
         nodes = {}
         roots = []
 
-        for obj in queryset:
+        object_list = list(queryset.iterator())
+
+        for obj in object_list:
             nodes[obj.pk] = OrderedTreeNodeChoiceField._Node(obj.pk, self.label_from_instance(obj))
 
-        for obj in queryset:
+        for obj in object_list:
             node = nodes[obj.pk]
             if obj.parent_id is None:
                 roots.append(node)
