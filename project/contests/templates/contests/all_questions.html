@@ -1,0 +1,20 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+{% load irunner_pagination %}
+{% load irunner_users %}
+
+{% block subtitle %}{% trans 'Questions' %}{% endblock %}
+
+{% block main %}
+    {% if not object_list %}
+        <div class="ir-absence">{% trans 'No questions' %}</div>
+    {% else %}
+        {% irunner_pagination pagination_context %}
+        {% for question in object_list %}
+            {% irunner_contests_question question contest_id=contest.id problem_resolver=resolver url_pattern='contests:all_questions_answers' %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

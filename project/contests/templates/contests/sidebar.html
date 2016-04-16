@@ -1,11 +1,11 @@
 {% load bootstrap3 %}
 {% load i18n %}
 
-<ul class="list-group ir-list-group-success">
-    <li class="list-group-item list-group-item-success{% if active_tab == 'info' %} active{% endif %}">
+<div class="list-group ir-list-group-success">
+    <a class="list-group-item list-group-item-success{% if active_tab == 'info' %} active{% endif %}">
         {% bootstrap_icon 'info-sign' %}
         <span class="ir-icon-label">{{ contest.name }}</span>
-    </li>
+    </a>
 
     {% if permissions.standings %}
         <a href="{% url 'contests:standings' contest.id %}" class="list-group-item{% if active_tab == 'standings' %} active{% endif %}">
@@ -29,10 +29,19 @@
         </a>
     {% endif %}
 
-    {% if permissions.ask_questions or permissions.answer_questions %}
-        <a href="{% url 'contests:questions' contest.id %}" class="list-group-item{% if active_tab == 'questions' %} active{% endif %}">
+    {% if permissions.ask_questions %}
+        <a href="{% url 'contests:my_questions' contest.id %}" class="list-group-item{% if active_tab == 'my_questions' %} active{% endif %}">
             {% bootstrap_icon 'question-sign' %}
             <span class="ir-icon-label">{% trans 'Questions' %}</span>
+            {% if unread_answers %}<span class="badge">{{ unread_answers }}</span>{% endif %}
+        </a>
+    {% endif %}
+
+    {% if permissions.answer_questions %}
+        <a href="{% url 'contests:all_questions' contest.id %}" class="list-group-item{% if active_tab == 'all_questions' %} active{% endif %}">
+            {% bootstrap_icon 'question-sign' %}
+            <span class="ir-icon-label">{% trans 'Questions' %}</span>
+            {% if unanswered_questions %}<span class="badge">{{ unanswered_questions }}</span>{% endif %}
         </a>
     {% endif %}
 
@@ -63,4 +72,4 @@
             <span class="ir-icon-label">{% trans 'Settings' %}</span>
         </a>
     {% endif %}
-</ul>
+</div>

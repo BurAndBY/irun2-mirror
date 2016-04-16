@@ -37,12 +37,7 @@
 <script>
     $(document).ready(function() {
         irSetUpTwoPanel("{{ uid }}", function(folderId) {
-            return Urls["{{ url_pattern }}"](
-                {% for param in url_params %}
-                    "{{ param }}",
-                {% endfor %}
-                folderId
-            );
+            return Urls["{{ url_pattern }}"]({% for param in url_params %}"{{ param }}", {% endfor %}folderId);
         });
     });
 </script>

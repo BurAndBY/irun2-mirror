@@ -1,12 +1,14 @@
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
-from django.utils.translation import pgettext
+from django.utils.translation import ugettext, pgettext
 from django.utils import timezone
 
+from common.constants import make_empty_select
 from common.pageutils import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
@@ -16,7 +18,7 @@ from storage.utils import serve_resource_metadata
 from users.models import UserProfile
 
 from .calcpermissions import calculate_contest_permissions
-from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm
+from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .models import Contest, Membership, ContestSolution, Message, MessageUser
 from .services import make_contestant_choices, make_problem_choices, make_contest_results, make_letter
 from .services import ProblemResolver, ContestTiming
@@ -56,6 +58,14 @@ class BaseContestView(generic.View):
             read_count = qs.filter(messageuser__user=me).count()
             context['unread_messages'] = all_count - read_count
 
+        if self.permissions.answer_questions:
+            qs = Message.objects.filter(contest=self.contest, message_type=Message.QUESTION, is_answered=False)
+            context['unanswered_questions'] = qs.count()
+
+        if self.permissions.ask_questions:
+            qs = Message.objects.filter(contest=self.contest, message_type=Message.QUESTION, sender=me, messageuser__isnull=True)
+            context['unread_answers'] = qs.count()
+
     def is_allowed(self, permissions):
         return False
 
@@ -70,6 +80,13 @@ class BaseContestView(generic.View):
         if not self.is_allowed(self.permissions):
             raise PermissionDenied()
         return super(BaseContestView, self).dispatch(request, self.contest, *args, **kwargs)
+
+
+class ProblemResolverMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(ProblemResolverMixin, self).get_context_data(**kwargs)
+        context['resolver'] = ProblemResolver(self.contest)
+        return context
 
 
 class GeneralView(BaseContestView):
@@ -177,7 +194,7 @@ class ProblemView(ProblemStatementMixin, ContestProblemsetMixin, BaseContestView
         return render(request, self.template_name, context)
 
 
-class AllSolutionsView(BaseContestView):
+class AllSolutionsView(ProblemResolverMixin, BaseContestView):
     tab = 'all_solutions'
     template_name = 'contests/all_solutions.html'
     paginate_by = 25
@@ -204,13 +221,12 @@ class AllSolutionsView(BaseContestView):
 
         context['user_form'] = user_form
         context['problem_form'] = problem_form
-        context['resolver'] = ProblemResolver(contest)
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
 
 
-class MySolutionsView(BaseContestView):
+class MySolutionsView(ProblemResolverMixin, BaseContestView):
     tab = 'my_solutions'
     template_name = 'contests/my_solutions.html'
     paginate_by = 25
@@ -232,7 +248,6 @@ class MySolutionsView(BaseContestView):
         context = paginate(request, solutions, self.paginate_by)
 
         context['problem_form'] = problem_form
-        context['resolver'] = ProblemResolver(contest)
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
@@ -329,6 +344,10 @@ class SubmissionView(BaseContestView):
         context = self.get_context_data(solution_id=solution_id)
         return render(request, self.template_name, context)
 
+'''
+Messages
+'''
+
 
 class MessagesView(BaseContestView):
     tab = 'messages'
@@ -357,34 +376,16 @@ class MessagesView(BaseContestView):
                 objs = [MessageUser(message_id=message_id, user=me) for message_id in unread_message_ids]
                 try:
                     MessageUser.objects.bulk_create(objs)
-                    pass
                 except IntegrityError:
-                    # unread counter is not critical for the competition
-                    pass
+                    pass  # unread counter is not critical for the competition
         return messages
 
     def get(self, request, contest):
-        qs = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
+        qs = contest.message_set.filter(message_type=Message.MESSAGE).order_by('-timestamp')
         if not self.permissions.manage_messages:
             qs = qs.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
 
         messages = self._mark_as_read(qs)
-
-        context = self.get_context_data(messages=messages)
-        return render(request, self.template_name, context)
-
-
-class QuestionsView(BaseContestView):
-    tab = 'questions'
-    template_name = 'contests/messages.html'
-
-    def is_allowed(self, permissions):
-        return permissions.read_messages or permissions.manage_messages
-
-    def get(self, request, contest):
-        messages = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
-        if not self.permissions.manage_messages:
-            messages = messages.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
 
         context = self.get_context_data(messages=messages)
         return render(request, self.template_name, context)
@@ -440,7 +441,7 @@ class EditMessageView(MessagesMixin, BaseContestView):
         return permissions.manage_messages
 
     def get(self, request, contest, message_id):
-        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        message = Message.objects.filter(pk=message_id, contest=contest, message_type=Message.MESSAGE).first()
         if message is None:
             return self.to_message_list()
 
@@ -449,7 +450,7 @@ class EditMessageView(MessagesMixin, BaseContestView):
         return render(request, self.template_name, context)
 
     def post(self, request, contest, message_id):
-        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        message = Message.objects.filter(pk=message_id, contest=contest, message_type=Message.MESSAGE).first()
         if message is None:
             return self.to_message_list()
 
@@ -470,7 +471,7 @@ class DeleteMessageView(MessagesMixin, BaseContestView):
         return permissions.manage_messages
 
     def get(self, request, contest, message_id):
-        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        message = Message.objects.filter(pk=message_id, contest=contest, message_type=Message.MESSAGE).first()
         if message is None:
             return self.to_message_list()
 
@@ -478,9 +479,208 @@ class DeleteMessageView(MessagesMixin, BaseContestView):
         return render(request, self.template_name, context)
 
     def post(self, request, contest, message_id):
-        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        message = Message.objects.filter(pk=message_id, contest=contest, message_type=Message.MESSAGE).first()
         if message is None:
             return self.to_message_list()
 
         message.delete()
         return self.to_message_list()
+
+'''
+Questions
+'''
+
+
+class AllQuestionsView(ProblemResolverMixin, BaseContestView):
+    tab = 'all_questions'
+    template_name = 'contests/all_questions.html'
+    paginate_by = 7
+
+    def is_allowed(self, permissions):
+        return permissions.answer_questions
+
+    def get(self, request, contest):
+        qs = contest.message_set.filter(message_type=Message.QUESTION).order_by('-timestamp')
+        context = paginate(request, qs, self.paginate_by)
+        context = self.get_context_data(**context)
+        return render(request, self.template_name, context)
+
+
+class SingleQuestionMixin(object):
+    def _load_question(self, message_id):
+        question = self.contest.message_set.filter(pk=message_id, message_type=Message.QUESTION).first()
+        return question
+
+
+class AllQuestionsAnswersView(SingleQuestionMixin, ProblemResolverMixin, BaseContestView):
+    tab = 'all_questions'
+    template_name = 'contests/question_answers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.answer_questions
+
+    def _load_answers(self, question):
+        answers = self.contest.message_set.filter(message_type=Message.ANSWER, parent=question).order_by('timestamp')
+        return answers
+
+    def get(self, request, contest, message_id):
+        question = self._load_question(message_id)
+        if question is None:
+            return redirect('contests:all_questions', contest.id)
+
+        answers = self._load_answers(question)
+        form = AnswerForm(initial={'answers': len(answers)})
+
+        context = self.get_context_data(question=question, answers=answers, form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest, message_id):
+        question = self._load_question(message_id)
+        if question is None:
+            return redirect('contests:all_questions', contest.id)
+
+        already_answered = False
+        answers = self._load_answers(question)
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer_count_old = form.cleaned_data['answers']
+            answer_count_new = len(answers)
+            if answer_count_old != answer_count_new:
+                already_answered = True
+                text = form.cleaned_data['text']
+                form = AnswerForm(initial={'answers': answer_count_new, 'text': text})
+            else:
+                message = form.save(commit=False)
+
+                message.contest = contest
+                message.message_type = Message.ANSWER
+                message.timestamp = timezone.now()
+                message.sender = request.user
+                message.parent = question
+
+                with transaction.atomic():
+                    message.save()
+                    Message.objects.filter(pk=question.id).update(is_answered=True)
+                    MessageUser.objects.filter(message=question).delete()
+
+                return redirect('contests:all_questions', contest.id)
+
+        context = self.get_context_data(question=question, answers=answers, form=form, already_answered=already_answered)
+        return render(request, self.template_name, context)
+
+
+class AllQuestionsDeleteView(SingleQuestionMixin, ProblemResolverMixin, BaseContestView):
+    tab = 'all_questions'
+    template_name = 'contests/all_questions_delete.html'
+
+    def is_allowed(self, permissions):
+        return permissions.answer_questions
+
+    def get(self, request, contest, message_id):
+        question = self._load_question(message_id)
+        if question is None:
+            return redirect('contests:all_questions', contest.id)
+        context = self.get_context_data(question=question)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest, message_id):
+        question = self._load_question(message_id)
+        if question is None:
+            return redirect('contests:all_questions', contest.id)
+        question.delete()
+        return redirect('contests:all_questions', contest.id)
+
+
+class MyQuestionsView(ProblemResolverMixin, BaseContestView):
+    tab = 'my_questions'
+    template_name = 'contests/my_questions.html'
+    paginate_by = 7
+
+    def is_allowed(self, permissions):
+        return permissions.ask_questions
+
+    def get(self, request, contest):
+        qs = contest.message_set.filter(message_type=Message.QUESTION, sender=request.user).order_by('-timestamp')
+        questions = list(qs)
+
+        me = self.request.user
+        if me.is_authenticated():
+            read_message_ids = set(qs.filter(messageuser__user=me).values_list('pk', flat=True))
+            for question in questions:
+                if question.pk not in read_message_ids:
+                    question.is_unread = True
+
+        context = self.get_context_data(questions=questions)
+        return render(request, self.template_name, context)
+
+
+class MyQuestionsNewView(ProblemResolverMixin, BaseContestView):
+    tab = 'my_questions'
+    template_name = 'contests/my_questions_form.html'
+    paginate_by = 7
+
+    def is_allowed(self, permissions):
+        return permissions.ask_questions
+
+    def _make_form(self, data=None):
+        problem_id_choices = make_problem_choices(self.contest, make_empty_select(ugettext('General question')))
+        form = QuestionForm(data=data, problem_id_choices=problem_id_choices)
+        return form
+
+    def get(self, request, contest):
+        form = self._make_form()
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest):
+        form = self._make_form(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+
+            message.contest = contest
+            message.problem_id = form.cleaned_data['problem_id']
+            message.message_type = Message.QUESTION
+            message.timestamp = timezone.now()
+            message.sender = request.user
+
+            with transaction.atomic():
+                message.save()
+                MessageUser.objects.create(message=message, user=request.user)
+
+            messages.add_message(self.request, messages.INFO, ugettext('The question has been successfully submitted.'))
+            return redirect('contests:my_questions', contest.id)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class MyQuestionsAnswersView(ProblemResolverMixin, BaseContestView):
+    tab = 'my_questions'
+    template_name = 'contests/question_answers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.ask_questions
+
+    def _load_answers(self, question):
+        answers = self.contest.message_set.\
+            filter(message_type=Message.ANSWER, parent=question).\
+            order_by('timestamp')
+        return answers
+
+    def _mark_as_read(self, question):
+        kwargs = {'message': question, 'user': self.request.user}
+        if not MessageUser.objects.filter(**kwargs).exists():
+            try:
+                MessageUser.objects.create(**kwargs)
+            except IntegrityError:
+                pass  # unread counter is not critical for the competition
+
+    def get(self, request, contest, message_id):
+        question = self.contest.message_set.filter(pk=message_id, sender=request.user, message_type=Message.QUESTION).first()
+        if question is None:
+            return redirect('contests:my_questions', contest.id)
+
+        answers = self._load_answers(question)
+        self._mark_as_read(question)
+        context = self.get_context_data(question=question, answers=answers)
+        return render(request, self.template_name, context)

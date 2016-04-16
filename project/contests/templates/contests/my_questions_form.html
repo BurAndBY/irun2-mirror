@@ -1,0 +1,23 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_users %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Messages' %}{% endblock %}
+
+{% block main %}
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+
+        {% buttons layout='horizontal' %}
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Send' %}
+            </button>
+            <a href="{% url 'contests:my_questions' contest.id %}" class="btn btn-link">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

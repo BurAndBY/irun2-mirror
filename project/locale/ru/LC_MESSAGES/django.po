@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-16 02:26+0300\n"
-"PO-Revision-Date: 2016-04-16 02:27+0300\n"
+"POT-Creation-Date: 2016-04-17 02:23+0300\n"
+"PO-Revision-Date: 2016-04-17 02:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -120,6 +120,8 @@ msgstr "Изменить язык интерфейса"
 
 #: .\cauth\templates\cauth\profile_edit.html:17
 #: .\common\templates\common\language.html:26
+#: .\contests\templates\contests\messages_form.html:16
+#: .\contests\templates\contests\messages_new.html:16
 #: .\contests\templates\contests\settings_compilers.html:40
 #: .\contests\templates\contests\settings_problems.html:12
 #: .\contests\templates\contests\settings_properties.html:13
@@ -393,11 +395,11 @@ msgstr[0] "%(count)d день"
 msgstr[1] "%(count)d дня"
 msgstr[2] "%(count)d дней"
 
-#: .\contests\forms.py:21 .\courses\forms.py:23
+#: .\contests\forms.py:23 .\courses\forms.py:23
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\contests\forms.py:44 .\contests\templates\contests\problems_later.html:5
+#: .\contests\forms.py:46 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:18
 #: .\contests\templates\contests\sidebar.html:20 .\courses\forms.py:110
@@ -417,15 +419,15 @@ msgstr "Каждый уровень доступа включает все пр�
 msgid "Problems"
 msgstr "Задачи"
 
-#: .\contests\forms.py:45
+#: .\contests\forms.py:47
 msgid "Order of problem addition is significant."
 msgstr "Порядок добавления задач имеет значение."
 
-#: .\contests\forms.py:51
+#: .\contests\forms.py:53
 msgid "Statements file"
 msgstr "Файл условий"
 
-#: .\contests\forms.py:52
+#: .\contests\forms.py:54
 msgid ""
 "You can upload a single file containing statements of all problems (usually "
 "in PDF format)."
@@ -433,7 +435,7 @@ msgstr ""
 "Вы можете загрузить один файл, содержащий условия всех задач (обычно в "
 "формате PDF)."
 
-#: .\contests\forms.py:62 .\contests\templates\contests\settings_base.html:24
+#: .\contests\forms.py:64 .\contests\templates\contests\settings_base.html:24
 #: .\courses\forms.py:98 .\courses\templates\courses\settings_base.html:24
 #: .\templates\navbar.html:22 .\users\templates\users\base.html:6
 #: .\users\templates\users\bulk_operation.html:8
@@ -447,12 +449,14 @@ msgstr ""
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\contests\forms.py:71 .\courses\forms.py:130
+#: .\contests\forms.py:73 .\courses\forms.py:130
 msgid "User"
 msgstr "Пользователь"
 
-#: .\contests\forms.py:79 .\contests\forms.py:86 .\contests\services.py:41
+#: .\contests\forms.py:81 .\contests\forms.py:88 .\contests\forms.py:133
+#: .\contests\services.py:41
 #: .\contests\templates\contests\all_solutions.html:29
+#: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:30
 #: .\contests\templates\contests\problem.html:7 .\courses\forms.py:75
 #: .\courses\forms.py:122 .\courses\forms.py:138 .\courses\forms.py:196
@@ -472,6 +476,11 @@ msgstr "Пользователь"
 #: .\storage\templates\storage\usage.html:51
 msgid "Problem"
 msgstr "Задача"
+
+#: .\contests\forms.py:104
+#: .\contests\templates\contests\irunner_contests_message_tag.html:18
+msgid "To"
+msgstr "Кому"
 
 #: .\contests\models.py:24
 msgid "No access"
@@ -553,6 +562,8 @@ msgid "role"
 msgstr "роль"
 
 #: .\contests\models.py:105
+#: .\contests\templates\contests\all_questions_delete.html:7
+#: .\contests\templates\contests\question_answers.html:9
 msgid "Question"
 msgstr "Вопрос"
 
@@ -572,8 +583,8 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\services.py:50
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:22
+#: .\contests\services.py:53
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Участник"
 
@@ -585,9 +596,72 @@ msgstr "Участники"
 msgid "Jury"
 msgstr "Жюри"
 
+#: .\contests\templates\contests\all_questions.html:9
+#: .\contests\templates\contests\my_questions.html:7
+#: .\contests\templates\contests\sidebar.html:35
+#: .\contests\templates\contests\sidebar.html:43
+msgid "Questions"
+msgstr "Вопросы"
+
+#: .\contests\templates\contests\all_questions.html:13
+#: .\contests\templates\contests\my_questions.html:19
+msgid "No questions"
+msgstr "Вопросов нет"
+
+#: .\contests\templates\contests\all_questions_delete.html:10
+msgid "The question is going to be deleted."
+msgstr "Вопрос будет удалён."
+
+#: .\contests\templates\contests\all_questions_delete.html:18
+#: .\contests\templates\contests\irunner_contests_message_tag.html:13
+#: .\contests\templates\contests\messages_delete.html:18
+#: .\contests\templates\contests\question_answers.html:45
+#: .\courses\templates\courses\criterion_confirm_delete.html:24
+#: .\courses\templates\courses\messages.html:109
+#: .\courses\templates\courses\settings_component.html:20
+#: .\problems\templates\problems\delete.html:20
+#: .\problems\templates\problems\delete_file.html:14
+#: .\problems\templates\problems\files.html:36
+#: .\problems\templates\problems\files.html:78
+#: .\problems\templates\problems\list_folder.html:42
+#: .\problems\templates\problems\list_folder_confirm_delete.html:32
+#: .\problems\templates\problems\show_test.html:38
+#: .\problems\templates\problems\show_test.html:119
+#: .\solutions\templates\solutions\solution_list.html:68
+#: .\users\templates\users\folder.html:58
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\contests\templates\contests\all_questions_delete.html:21
+#: .\contests\templates\contests\contest_confirm_delete.html:14
+#: .\contests\templates\contests\messages_delete.html:21
+#: .\contests\templates\contests\messages_form.html:19
+#: .\contests\templates\contests\messages_new.html:19
+#: .\contests\templates\contests\my_questions_form.html:19
+#: .\contests\templates\contests\question_answers.html:46
+#: .\contests\templates\contests\settings_users_edit.html:16
+#: .\courses\templates\courses\assign.html:71
+#: .\courses\templates\courses\messages.html:108
+#: .\courses\templates\courses\settings_common_problems_edit.html:16
+#: .\courses\templates\courses\settings_component.html:16
+#: .\courses\templates\courses\settings_users_edit.html:20
+#: .\problems\templates\problems\delete.html:23
+#: .\problems\templates\problems\delete_file.html:15
+#: .\problems\templates\problems\edit_file.html:12
+#: .\problems\templates\problems\edit_test.html:51
+#: .\problems\templates\problems\edit_tex.html:19
+#: .\problems\templates\problems\list_folder_confirm_delete.html:35
+#: .\problems\templates\problems\list_folder_form.html:38
+#: .\problems\templates\problems\list_import_from_polygon.html:38
+#: .\problems\templates\problems\show_test.html:118
+#: .\users\templates\users\bulk_operation.html:32
+#: .\users\templates\users\create_form.html:36
+msgid "Cancel"
+msgstr "Отмена"
+
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
-#: .\contests\templates\contests\sidebar.html:41
+#: .\contests\templates\contests\sidebar.html:51
 #: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
 msgid "All solutions"
 msgstr "Все решения"
@@ -662,7 +736,7 @@ msgid "No solutions"
 msgstr "Решений нет"
 
 #: .\contests\templates\contests\contest_confirm_delete.html:7
-#: .\contests\templates\contests\settings_properties.html:15
+#: .\contests\templates\contests\settings_properties.html:16
 msgid "Delete the contest"
 msgstr "Удалить соревнование"
 
@@ -703,6 +777,27 @@ msgstr "Соревнования"
 msgid "There are no contests available."
 msgstr "Нет доступных соревнований."
 
+#: .\contests\templates\contests\irunner_contests_message_tag.html:12
+#: .\contests\templates\contests\problem.html:13
+#: .\courses\templates\courses\problems_statement.html:37
+#: .\courses\templates\courses\sheet.html:124
+#: .\problems\templates\problems\files.html:35
+#: .\problems\templates\problems\files.html:77
+#: .\problems\templates\problems\show_test.html:33
+msgid "Edit"
+msgstr "Правка"
+
+#: .\contests\templates\contests\irunner_contests_message_tag.html:18
+#: .\contests\views.py:404
+msgctxt "to"
+msgid "all"
+msgstr "всем"
+
+#: .\contests\templates\contests\irunner_contests_question_tag.html:13
+#: .\contests\views.py:626
+msgid "General question"
+msgstr "Общий вопрос"
+
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:9
 msgid "The scoreboard was frozen at"
 msgstr "Таблица результатов заморожена по состоянию на"
@@ -715,7 +810,7 @@ msgstr "Последнее принятое решение"
 msgid "Last run"
 msgstr "Последнее решение"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:21
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:22
 #: .\contests\templates\contests\my_solutions.html:29
 #: .\courses\templates\courses\api_list_problems.html:10
 #: .\courses\templates\courses\settings_users.html:22
@@ -732,7 +827,7 @@ msgstr "Последнее решение"
 msgid "#"
 msgstr "№"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:33
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:34
 msgid "Penalty"
 msgstr "Штраф"
 
@@ -754,7 +849,11 @@ msgstr "Соревнование идёт"
 msgid "The contest is over"
 msgstr "Соревнование окончено"
 
-#: .\contests\templates\contests\messages.html:7
+#: .\contests\templates\contests\messages.html:8
+#: .\contests\templates\contests\messages_delete.html:7
+#: .\contests\templates\contests\messages_form.html:7
+#: .\contests\templates\contests\messages_new.html:7
+#: .\contests\templates\contests\my_questions_form.html:7
 #: .\contests\templates\contests\sidebar.html:27
 #: .\courses\templates\courses\messages.html:7
 #: .\courses\templates\courses\messages_new.html:6
@@ -762,27 +861,32 @@ msgstr "Соревнование окончено"
 msgid "Messages"
 msgstr "Сообщения"
 
-#: .\contests\templates\contests\messages.html:11
+#: .\contests\templates\contests\messages.html:14
+msgid "New message"
+msgstr "Новое сообщение"
+
+#: .\contests\templates\contests\messages.html:19
 msgid "No messages"
 msgstr "Сообщений нет"
 
-#: .\contests\templates\contests\messages.html:20
-msgid "To"
-msgstr "Кому"
+#: .\contests\templates\contests\messages_delete.html:10
+msgid "The message is going to be deleted."
+msgstr "Сообщение будет удалено."
 
-#: .\contests\templates\contests\messages.html:20
-msgctxt "to"
-msgid "all"
-msgstr "всем"
+#: .\contests\templates\contests\messages_form.html:16
+#: .\contests\templates\contests\messages_new.html:16
+#: .\contests\templates\contests\my_questions_form.html:16
+#: .\contests\templates\contests\submit.html:37
+#: .\courses\templates\courses\messages_new.html:25
+#: .\courses\templates\courses\submit.html:23
+#: .\feedback\templates\feedback\new.html:12
+#: .\problems\templates\problems\submit.html:11
+msgid "Send"
+msgstr "Отправить"
 
-#: .\contests\templates\contests\problem.html:13
-#: .\courses\templates\courses\problems_statement.html:37
-#: .\courses\templates\courses\sheet.html:124
-#: .\problems\templates\problems\files.html:35
-#: .\problems\templates\problems\files.html:77
-#: .\problems\templates\problems\show_test.html:33
-msgid "Edit"
-msgstr "Правка"
+#: .\contests\templates\contests\my_questions.html:12
+msgid "Ask a question"
+msgstr "Задать вопрос"
 
 #: .\contests\templates\contests\problems_later.html:8
 msgid "Problems will be available after the start of the contest"
@@ -797,8 +901,36 @@ msgstr "Условия задач"
 msgid "No problems"
 msgstr "Нет задач"
 
+#: .\contests\templates\contests\question_answers.html:14
+msgid "Warning"
+msgstr "Внимание"
+
+#: .\contests\templates\contests\question_answers.html:14
+msgid "Someone has already answered the question."
+msgstr "Кто-то уже ответил на вопрос."
+
+#: .\contests\templates\contests\question_answers.html:15
+msgid "Please read the answers and submit your answer again if needed."
+msgstr ""
+"Ознакомьтесь со списком ответов и, если необходимо, отправьте ваш ответ "
+"снова."
+
+#: .\contests\templates\contests\question_answers.html:36
+msgid "There are no answers to this question"
+msgstr "Ответов на этот вопрос нет"
+
+#: .\contests\templates\contests\question_answers.html:44
+msgctxt "verb"
+msgid "Answer"
+msgstr "Ответить"
+
+#: .\contests\templates\contests\question_answers.html:51
+#: .\courses\templates\courses\criterion_confirm_delete.html:18
+msgid "Back"
+msgstr "Назад"
+
 #: .\contests\templates\contests\settings_base.html:5
-#: .\contests\templates\contests\sidebar.html:62
+#: .\contests\templates\contests\sidebar.html:72
 #: .\courses\templates\courses\settings_base.html:5
 #: .\courses\templates\courses\sidebar.html:79
 #: .\problems\templates\problems\challenge_new.html:19
@@ -839,26 +971,6 @@ msgstr "Редактировать список"
 msgid "No users are set"
 msgstr "Пользователи не заданы"
 
-#: .\contests\templates\contests\settings_users_edit.html:16
-#: .\courses\templates\courses\assign.html:71
-#: .\courses\templates\courses\messages.html:108
-#: .\courses\templates\courses\settings_common_problems_edit.html:16
-#: .\courses\templates\courses\settings_component.html:16
-#: .\courses\templates\courses\settings_users_edit.html:20
-#: .\problems\templates\problems\delete.html:23
-#: .\problems\templates\problems\delete_file.html:15
-#: .\problems\templates\problems\edit_file.html:12
-#: .\problems\templates\problems\edit_test.html:51
-#: .\problems\templates\problems\edit_tex.html:19
-#: .\problems\templates\problems\list_folder_confirm_delete.html:35
-#: .\problems\templates\problems\list_folder_form.html:38
-#: .\problems\templates\problems\list_import_from_polygon.html:38
-#: .\problems\templates\problems\show_test.html:118
-#: .\users\templates\users\bulk_operation.html:32
-#: .\users\templates\users\create_form.html:36
-msgid "Cancel"
-msgstr "Отмена"
-
 #: .\contests\templates\contests\sidebar.html:13
 #: .\contests\templates\contests\standings.html:9
 #: .\contests\templates\contests\standings_wide.html:7
@@ -866,16 +978,12 @@ msgctxt "contest"
 msgid "Standings"
 msgstr "Результаты"
 
-#: .\contests\templates\contests\sidebar.html:34
-msgid "Questions"
-msgstr "Вопросы"
-
-#: .\contests\templates\contests\sidebar.html:48
+#: .\contests\templates\contests\sidebar.html:58
 #: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\contests\templates\contests\sidebar.html:55
+#: .\contests\templates\contests\sidebar.html:65
 #: .\contests\templates\contests\submission.html:9
 #: .\contests\templates\contests\submit.html:7
 #: .\courses\templates\courses\problems_statement.html:31
@@ -924,13 +1032,9 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\templates\contests\submit.html:37
-#: .\courses\templates\courses\messages_new.html:25
-#: .\courses\templates\courses\submit.html:23
-#: .\feedback\templates\feedback\new.html:12
-#: .\problems\templates\problems\submit.html:11
-msgid "Send"
-msgstr "Отправить"
+#: .\contests\views.py:650
+msgid "The question has been successfully submitted."
+msgstr "Вопрос был успешно отправлен."
 
 #: .\courses\forms.py:40
 msgid "Problem folder"
@@ -1164,29 +1268,9 @@ msgstr ""
 "Критерий в настоящий момент используется в следующих курсах и не может быть "
 "удалён."
 
-#: .\courses\templates\courses\criterion_confirm_delete.html:18
-msgid "Back"
-msgstr "Назад"
-
 #: .\courses\templates\courses\criterion_confirm_delete.html:20
 msgid "Criterion is not used in courses."
 msgstr "Критерий не используется в курсах."
-
-#: .\courses\templates\courses\criterion_confirm_delete.html:24
-#: .\courses\templates\courses\messages.html:109
-#: .\courses\templates\courses\settings_component.html:20
-#: .\problems\templates\problems\delete.html:20
-#: .\problems\templates\problems\delete_file.html:14
-#: .\problems\templates\problems\files.html:36
-#: .\problems\templates\problems\files.html:78
-#: .\problems\templates\problems\list_folder.html:42
-#: .\problems\templates\problems\list_folder_confirm_delete.html:32
-#: .\problems\templates\problems\show_test.html:38
-#: .\problems\templates\problems\show_test.html:119
-#: .\solutions\templates\solutions\solution_list.html:68
-#: .\users\templates\users\folder.html:58
-msgid "Delete"
-msgstr "Удалить"
 
 #: .\courses\templates\courses\criterion_list.html:8
 #: .\courses\templates\courses\settings_problems.html:28

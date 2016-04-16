@@ -1,0 +1,25 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+
+{% block subtitle %}{% trans 'Questions' %}{% endblock %}
+
+{% block main %}
+    <div class="form-group text-right">
+        <a href="{% url 'contests:my_questions_new' contest.id %}" class="btn btn-default">
+            {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Ask a question' %}</span>
+        </a>
+    </div>
+
+    {% bootstrap_messages %}
+
+    {% if not questions %}
+        <div class="ir-absence">{% trans 'No questions' %}</div>
+    {% else %}
+        {% for question in questions %}
+            {% irunner_contests_question question contest_id=contest.id problem_resolver=resolver url_pattern='contests:my_questions_answers' %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

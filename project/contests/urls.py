@@ -17,7 +17,12 @@ contest_urlpatterns = [
     url(r'^messages/new/$', views.NewMessageView.as_view(), name='messages_new'),
     url(r'^messages/(?P<message_id>[0-9]+)/edit/$', views.EditMessageView.as_view(), name='messages_edit'),
     url(r'^messages/(?P<message_id>[0-9]+)/delete/$', views.DeleteMessageView.as_view(), name='messages_delete'),
-    url(r'^questions/$', views.QuestionsView.as_view(), name='questions'),
+    url(r'^questions/$', views.AllQuestionsView.as_view(), name='all_questions'),
+    url(r'^questions/(?P<message_id>[0-9]+)/$', views.AllQuestionsAnswersView.as_view(), name='all_questions_answers'),
+    url(r'^questions/(?P<message_id>[0-9]+)/delete/$', views.AllQuestionsDeleteView.as_view(), name='all_questions_delete'),
+    url(r'^my/questions/$', views.MyQuestionsView.as_view(), name='my_questions'),
+    url(r'^my/questions/(?P<message_id>[0-9]+)/$', views.MyQuestionsAnswersView.as_view(), name='my_questions_answers'),
+    url(r'^my/questions/new/$', views.MyQuestionsNewView.as_view(), name='my_questions_new'),
 ]
 
 contestsettings_urlpatterns = [

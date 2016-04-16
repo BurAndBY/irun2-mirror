@@ -36,9 +36,12 @@ def make_lettered_name(letter, name):
         return letter
 
 
-def make_problem_choices(contest):
+def make_problem_choices(contest, empty_label=None):
+    if empty_label is None:
+        empty_label = make_empty_select(_('Problem'))
+
     result = []
-    result.append((None, make_empty_select(_('Problem'))))
+    result.append((None, empty_label))
     for i, problem in enumerate(contest.get_problems()):
         text = make_lettered_name(make_letter(i), problem.unnumbered_brief_name())
         result.append((problem.id, text))
@@ -46,9 +49,10 @@ def make_problem_choices(contest):
 
 
 def make_contestant_choices(contest, empty_label=None):
-    result = []
     if empty_label is None:
         empty_label = make_empty_select(_('Contestant'))
+
+    result = []
     result.append((None, empty_label))
     for user in contest.members.filter(contestmembership__role=Membership.CONTESTANT):
         result.append((user.id, user.get_full_name()))

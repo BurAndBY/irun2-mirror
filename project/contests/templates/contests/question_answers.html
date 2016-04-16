@@ -1,0 +1,54 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+{% load irunner_messagebox %}
+{% load irunner_users %}
+
+{% block subtitle %}{% trans 'Question' %}{% endblock %}
+
+{% block main %}
+    {% if form and already_answered %}
+        {% irunner_messagebox style='warning' wide=True %}
+            <p>{% bootstrap_icon 'warning-sign' %} <strong>{% trans 'Warning' %}!</strong> {% trans 'Someone has already answered the question.' %}</p>
+            <p>{% trans 'Please read the answers and submit your answer again if needed.' %}</p>
+        {% irunner_endmessagebox %}
+    {% endif %}
+
+    {% irunner_contests_question question contest_id=contest.id problem_resolver=resolver %}
+
+    {% if answers %}
+        {% for answer in answers %}
+
+            <div class="row ir-contest-message">
+                <div class="col-sm-3">
+                    <p class="ir-when">{% bootstrap_icon 'time' %} {{ answer.timestamp }}</p>
+                    <p class="ir-sender">{% bootstrap_icon 'user' %} {% irunner_users_show answer.sender %}</p>
+                </div>
+                <div class="col-sm-9">
+                    {{ answer.text|linebreaks }}
+                </div>
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <div class="ir-absence">{% trans 'There are no answers to this question' %}</div>
+    {% endif %}
+
+    {% if form %}
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form show_label=False %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Answer' context 'verb' %}</button>
+                <a href="{% url 'contests:all_questions_delete' contest.id question.id %}" class="btn btn-link">{% trans 'Delete' %}</a>
+                <a href="{% url 'contests:all_questions' contest.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+            {% endbuttons %}
+        </form>
+    {% else %}
+        {% buttons %}
+            <a href="{% url 'contests:my_questions' contest.id %}" class="btn btn-link">{% trans 'Back' %}</a>
+        {% endbuttons %}
+    {% endif %}
+{% endblock %}

@@ -1437,23 +1437,60 @@ Green menu
     margin-bottom: 10px;
     margin-left: 0;
     margin-right: 0;
+    position: relative;
 }
-.ir-contest-message-unread {
+.ir-contest-message-unread, .ir-contest-message-unread-hoverable {
     border-color: #f0ad4e;
+}
+
+.ir-contest-message-answered, .ir-contest-message-answered-hoverable {
+    border-color: #dff0d8;
+}
+.ir-contest-message-answered-hoverable:hover {
+    border-color: #d0e9c6;
+}
+
+.ir-contest-message-unanswered, .ir-contest-message-unanswered-hoverable {
+    border-color: #f2dede;
+}
+.ir-contest-message-unanswered-hoverable:hover {
+    border-color: #e4b9b9;
+}
+
+.ir-contest-message-hoverable:hover {
+    background-color: #f5f5f5;
+}
+.ir-contest-message .ir-link-spanner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* fixes overlap error in IE7/8 */
+    background-image: url('empty.gif');
 }
 .ir-contest-message p {
     margin: 0;
+}
+.ir-contest-message .ir-when {
+    font-size: 12px;
+}
+.ir-contest-message .ir-sender {
+    font-size: 12px;
 }
 .ir-contest-message .ir-recipient {
     color: #737373;
     font-size: 12px;
 }
 .ir-contest-message .ir-subject {
-    margin-top: 10px;
     font-weight: bold;
 }
 .ir-contest-message .ir-control {
-    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.ir-contest-message .ir-control a {
+    color: #737373;
 }
 
 /**

@@ -42,3 +42,13 @@ def irunner_contests_message(message, edit_mode=False, contest_id=None):
         'edit_mode': edit_mode,
         'contest_id': contest_id,
     }
+
+
+@register.inclusion_tag('contests/irunner_contests_question_tag.html')
+def irunner_contests_question(question, problem_resolver, contest_id=None, url_pattern=None):
+    return {
+        'question': question,
+        'resolver': problem_resolver,
+        'contest_id': contest_id,
+        'url_pattern': url_pattern,
+    }

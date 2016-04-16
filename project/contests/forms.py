@@ -105,3 +105,32 @@ class MessageForm(forms.ModelForm):
             new_fields['subject'] = self.fields['subject']
             new_fields['text'] = self.fields['text']
             self.fields = new_fields
+
+
+class AnswerForm(forms.ModelForm):
+    answers = forms.IntegerField(required=True, widget=forms.HiddenInput)
+
+    class Meta:
+        model = Message
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 4}),
+        }
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['subject', 'text']
+
+    def __init__(self, *args, **kwargs):
+        problem_id_choices = kwargs.pop('problem_id_choices', None)
+        super(QuestionForm, self).__init__(*args, **kwargs)
+
+        if problem_id_choices is not None:
+            # reorder fields
+            new_fields = OrderedDict()
+            new_fields['problem_id'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_id_choices, required=False, coerce=int)
+            new_fields['subject'] = self.fields['subject']
+            new_fields['text'] = self.fields['text']
+            self.fields = new_fields

@@ -18,19 +18,21 @@
 
 <table class="ir-contest-standings">
     <thead>
-        <th class="ir-column-place">{% trans '#' %}</th>
-        <th class="ir-column-contestant">{% trans 'Contestant' %}</th>
-        {% for lp in results.contest_descr.labeled_problems %}
-            <th>
-                {{ lp.letter }}
-                {% if lp.problem.short_name %}
-                    <br>
-                    <span class="ir-problem-name">{{ lp.problem.short_name }}</span>
-                {% endif %}
-            </th>
-        {% endfor %}
-        <th class="ir-problem-count">=</th>
-        <th class="ir-column-penalty">{% trans 'Penalty' %}</th>
+        <tr>
+            <th class="ir-column-place">{% trans '#' %}</th>
+            <th class="ir-column-contestant">{% trans 'Contestant' %}</th>
+            {% for lp in results.contest_descr.labeled_problems %}
+                <th>
+                    {{ lp.letter }}
+                    {% if lp.problem.short_name %}
+                        <br>
+                        <span class="ir-problem-name">{{ lp.problem.short_name }}</span>
+                    {% endif %}
+                </th>
+            {% endfor %}
+            <th class="ir-problem-count">=</th>
+            <th class="ir-column-penalty">{% trans 'Penalty' %}</th>
+        </tr>
     </thead>
     <tbody>
         {% for user_result in results.user_results %}

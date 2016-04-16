@@ -1,0 +1,20 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+{% load irunner_time %}
+{% load irunner_users %}
+
+<div class="row ir-contest-message{% if url_pattern %} ir-contest-message-hoverable{% endif %} ir-contest-message-{% if question.is_unread %}unread{% elif question.is_answered %}answered{% else %}unanswered{% endif %}{% if url_pattern %}-hoverable{% endif %}">
+    <div class="col-sm-3">
+        <p class="ir-when">{% bootstrap_icon 'time' %} {{ question.timestamp }}</p>
+        <p class="ir-sender">{% bootstrap_icon 'user' %} {% irunner_users_show question.sender %}</p>
+    </div>
+    <div class="col-sm-9">
+        <p class="ir-recipient">{% if question.problem %}{% trans 'Problem' %} {% irunner_contests_showproblem resolver question.problem_id %}{% else %}{% trans 'General question' %}{% endif %}</p>
+        <p class="ir-subject">{{ question.subject }}</p>
+        {{ question.text|linebreaks }}
+    </div>
+    {% if url_pattern %}
+        <a href="{% url url_pattern contest_id question.id %}"><span class="ir-link-spanner"></span></a>
+    {% endif %}
+</div>
