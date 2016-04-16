@@ -1,9 +1,11 @@
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
+from django.utils.translation import pgettext
+from django.utils import timezone
 
 from common.pageutils import paginate
 from problems.models import Problem
@@ -14,8 +16,8 @@ from storage.utils import serve_resource_metadata
 from users.models import UserProfile
 
 from .calcpermissions import calculate_contest_permissions
-from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm
-from .models import Contest, Membership, ContestSolution, Message
+from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm
+from .models import Contest, Membership, ContestSolution, Message, MessageUser
 from .services import make_contestant_choices, make_problem_choices, make_contest_results, make_letter
 from .services import ProblemResolver, ContestTiming
 
@@ -35,8 +37,24 @@ class BaseContestView(generic.View):
             'active_tab': self.tab,
             'active_subtab': self.subtab,
         }
+        self._fill_unread_counters(context)
         context.update(kwargs)
         return context
+
+    def _fill_unread_counters(self, context):
+        me = self.request.user
+        if not me.is_authenticated():
+            return
+
+        if self.permissions.read_messages or self.permissions.manage_messages:
+            qs = Message.objects.filter(contest=self.contest, message_type=Message.MESSAGE)
+            if not self.permissions.manage_messages:
+                qs = qs.filter(Q(recipient=me) | Q(recipient__isnull=True))
+
+            # TODO: less queries?
+            all_count = qs.count()
+            read_count = qs.filter(messageuser__user=me).count()
+            context['unread_messages'] = all_count - read_count
 
     def is_allowed(self, permissions):
         return False
@@ -319,10 +337,38 @@ class MessagesView(BaseContestView):
     def is_allowed(self, permissions):
         return permissions.read_messages or permissions.manage_messages
 
+    def _mark_as_read(self, qs):
+        messages = list(qs)
+
+        me = self.request.user
+        if me.is_authenticated():
+            read_message_ids = set(qs.filter(messageuser__user=me).values_list('pk', flat=True))
+            unread_message_ids = set()
+
+            print read_message_ids
+
+            for message in messages:
+                if message.pk not in read_message_ids:
+                    unread_message_ids.add(message.pk)
+                    message.is_unread = True
+
+            # Yes, update database on HTTP GET request...
+            if unread_message_ids:
+                objs = [MessageUser(message_id=message_id, user=me) for message_id in unread_message_ids]
+                try:
+                    MessageUser.objects.bulk_create(objs)
+                    pass
+                except IntegrityError:
+                    # unread counter is not critical for the competition
+                    pass
+        return messages
+
     def get(self, request, contest):
-        messages = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
+        qs = Message.objects.filter(message_type=Message.MESSAGE).order_by('-timestamp')
         if not self.permissions.manage_messages:
-            messages = messages.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
+            qs = qs.filter(Q(recipient=request.user) | Q(recipient__isnull=True))
+
+        messages = self._mark_as_read(qs)
 
         context = self.get_context_data(messages=messages)
         return render(request, self.template_name, context)
@@ -342,3 +388,99 @@ class QuestionsView(BaseContestView):
 
         context = self.get_context_data(messages=messages)
         return render(request, self.template_name, context)
+
+
+class MessagesMixin(object):
+    def to_message_list(self):
+        return redirect('contests:messages', self.contest.id)
+
+
+class NewMessageView(MessagesMixin, BaseContestView):
+    tab = 'messages'
+    template_name = 'contests/messages_form.html'
+
+    def _make_form(self, data=None):
+        recipient_id_choices = make_contestant_choices(self.contest, pgettext('to', 'all'))
+        form = MessageForm(data=data, recipient_id_choices=recipient_id_choices)
+        return form
+
+    def is_allowed(self, permissions):
+        return permissions.manage_messages
+
+    def get(self, request, contest):
+        form = self._make_form()
+        context = self.get_context_data(form=form, new=True)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest):
+        form = self._make_form(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+
+            message.contest = contest
+            message.recipient_id = form.cleaned_data['recipient_id']
+            message.message_type = Message.MESSAGE
+            message.timestamp = timezone.now()
+            message.sender = request.user
+
+            with transaction.atomic():
+                message.save()
+                MessageUser.objects.create(message=message, user=request.user)
+            return self.to_message_list()
+
+        context = self.get_context_data(form=form, new=True)
+        return render(request, self.template_name, context)
+
+
+class EditMessageView(MessagesMixin, BaseContestView):
+    tab = 'messages'
+    template_name = 'contests/messages_form.html'
+
+    def is_allowed(self, permissions):
+        return permissions.manage_messages
+
+    def get(self, request, contest, message_id):
+        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        if message is None:
+            return self.to_message_list()
+
+        form = MessageForm(instance=message)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest, message_id):
+        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        if message is None:
+            return self.to_message_list()
+
+        form = MessageForm(request.POST, instance=message)
+        if form.is_valid():
+            form.save()
+            return self.to_message_list()
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class DeleteMessageView(MessagesMixin, BaseContestView):
+    tab = 'messages'
+    template_name = 'contests/messages_delete.html'
+
+    def is_allowed(self, permissions):
+        return permissions.manage_messages
+
+    def get(self, request, contest, message_id):
+        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        if message is None:
+            return self.to_message_list()
+
+        context = self.get_context_data(message=message)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest, message_id):
+        message = Message.objects.filter(pk=message_id, contest=contest).first()
+        if message is None:
+            return self.to_message_list()
+
+        message.delete()
+        return self.to_message_list()

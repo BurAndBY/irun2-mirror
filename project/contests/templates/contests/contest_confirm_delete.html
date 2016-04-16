@@ -10,6 +10,9 @@
         {% csrf_token %}
         {% buttons %}
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
+	        <a href="{% url 'contests:settings_properties' contest.id %}" class="btn btn-link">
+	            {% trans 'Cancel' %}
+	        </a>
         {% endbuttons %}
     </form>
 {% endblock %}

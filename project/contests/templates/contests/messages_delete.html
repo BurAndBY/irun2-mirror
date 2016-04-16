@@ -1,0 +1,25 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_contests %}
+
+{% block subtitle %}{% trans 'Messages' %}{% endblock %}
+
+{% block main %}
+    <p>{% trans 'The message is going to be deleted.' %}</p>
+
+    {% irunner_contests_message message edit_mode=False %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger">
+                {% trans 'Delete' %}
+            </button>
+            <a href="{% url 'contests:messages' contest.id %}" class="btn btn-link">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

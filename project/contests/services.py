@@ -45,9 +45,11 @@ def make_problem_choices(contest):
     return tuple(result)
 
 
-def make_contestant_choices(contest):
+def make_contestant_choices(contest, empty_label=None):
     result = []
-    result.append((None, make_empty_select(_('Contestant'))))
+    if empty_label is None:
+        empty_label = make_empty_select(_('Contestant'))
+    result.append((None, empty_label))
     for user in contest.members.filter(contestmembership__role=Membership.CONTESTANT):
         result.append((user.id, user.get_full_name()))
     return tuple(result)

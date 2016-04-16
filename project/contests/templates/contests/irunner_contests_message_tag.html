@@ -1,0 +1,22 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_time %}
+{% load irunner_users %}
+
+<div class="row ir-contest-message{% if message.is_unread %} ir-contest-message-unread{% endif %}">
+    <div class="col-sm-3">
+        {% if edit_mode %}
+            <p class="ir-control">
+                <a href="{% url 'contests:messages_edit' contest_id message.id %}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a>
+                <a href="{% url 'contests:messages_delete' contest_id message.id %}" title="{% trans 'Delete' %}">{% bootstrap_icon 'remove' %}</a>
+            </p>
+        {% endif %}
+        <p class="ir-when">{% bootstrap_icon 'time' %} {{ message.timestamp }}</p>
+        <p class="ir-sender">{% bootstrap_icon 'user' %} {% irunner_users_show message.sender %}</p>
+    </div>
+    <div class="col-sm-9">
+        <p class="ir-recipient">{% trans 'To' %}: {% if message.recipient %}{% irunner_users_show message.recipient %}{% else %}{% trans 'all' context 'to' %}{% endif %}</p>
+        <p class="ir-subject">{{ message.subject }}</p>
+        {{ message.text|linebreaks }}
+    </div>
+</div>

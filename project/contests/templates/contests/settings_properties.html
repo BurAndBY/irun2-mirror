@@ -12,7 +12,9 @@
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
-        <a href="{% url 'contests:settings_delete' contest.id %}" class="btn btn-danger">{% trans 'Delete the contest' %}</a>
+        <a href="{% url 'contests:settings_delete' contest.id %}" class="btn btn-link">
+            {% trans 'Delete the contest' %}
+        </a>
     {% endbuttons %}
 </form>
 

@@ -33,3 +33,12 @@ def irunner_contests_timing(timing, user_url=None):
 @register.simple_tag
 def irunner_contests_showproblem(resolver, problem_id):
     return resolver.get_problem_name(problem_id)
+
+
+@register.inclusion_tag('contests/irunner_contests_message_tag.html')
+def irunner_contests_message(message, edit_mode=False, contest_id=None):
+    return {
+        'message': message,
+        'edit_mode': edit_mode,
+        'contest_id': contest_id,
+    }

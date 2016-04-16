@@ -1438,6 +1438,9 @@ Green menu
     margin-left: 0;
     margin-right: 0;
 }
+.ir-contest-message-unread {
+    border-color: #f0ad4e;
+}
 .ir-contest-message p {
     margin: 0;
 }
@@ -1448,6 +1451,9 @@ Green menu
 .ir-contest-message .ir-subject {
     margin-top: 10px;
     font-weight: bold;
+}
+.ir-contest-message .ir-control {
+    margin-bottom: 10px;
 }
 
 /**

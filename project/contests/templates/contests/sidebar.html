@@ -25,6 +25,7 @@
         <a href="{% url 'contests:messages' contest.id %}" class="list-group-item{% if active_tab == 'messages' %} active{% endif %}">
             {% bootstrap_icon 'envelope' %}
             <span class="ir-icon-label">{% trans 'Messages' %}</span>
+            {% if unread_messages %}<span class="badge">{{ unread_messages }}</span>{% endif %}
         </a>
     {% endif %}
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
+
 from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
@@ -9,7 +11,7 @@ from problems.models import Problem, ProblemFolder
 from solutions.forms import SolutionForm
 from users.models import UserFolder
 
-from .models import Contest
+from .models import Contest, Message
 
 
 class PropertiesForm(forms.ModelForm):
@@ -85,3 +87,21 @@ class ContestSolutionForm(SolutionForm):
         super(ContestSolutionForm, self).__init__(**kwargs)
         self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
         self.fields['compiler'].queryset = compiler_queryset
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['subject', 'text']
+
+    def __init__(self, *args, **kwargs):
+        recipient_id_choices = kwargs.pop('recipient_id_choices', None)
+        super(MessageForm, self).__init__(*args, **kwargs)
+
+        if recipient_id_choices is not None:
+            # reorder fields
+            new_fields = OrderedDict()
+            new_fields['recipient_id'] = forms.TypedChoiceField(label=_('To'), choices=recipient_id_choices, required=False, coerce=int)
+            new_fields['subject'] = self.fields['subject']
+            new_fields['text'] = self.fields['text']
+            self.fields = new_fields
