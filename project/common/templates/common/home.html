@@ -3,13 +3,26 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_messagebox %}
+{% load staticfiles %}
 
 {% block title %}{% trans 'Main' context 'main page' %}{% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-    <h1>{{ system_short_name }}</h1>
-    <p>{% trans 'Automatic testing system' %}</p>
+<div class="jumbotron ir-jumbotron">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="text-nowrap">{{ system_short_name }}</h1>
+            <p>{% trans 'Automatic testing system' %}</p>
+        </div>
+        <div class="col-md-6 text-right">
+            {% get_current_language as lng %}
+            {% if lng == 'ru' %}
+                <img src="{% static 'logo_ru.png' %}" width="376" height="96">
+            {% elif lng == 'en' %}
+                <img src="{% static 'logo_en.png' %}" width="232" height="97">
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 {% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password and not disable_change_password_warning %}
