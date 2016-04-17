@@ -474,6 +474,8 @@ class SolutionAttemptsView(BaseSolutionView):
 
         for cur in Solution.objects.\
                 filter(problem_id=solution.problem_id, author_id=solution.author_id).\
+                prefetch_related('compiler').\
+                select_related('source_code', 'best_judgement').\
                 order_by('reception_time'):
             delta = None
             pair = None
