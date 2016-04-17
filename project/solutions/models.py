@@ -25,6 +25,7 @@ class Solution(models.Model):
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     source_code = models.ForeignKey(FileMetadata)
     compiler = models.ForeignKey(Compiler)
+    stop_on_fail = models.BooleanField(default=False)
 
     best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')  # '+' means 'do not create a backwards relation'
 

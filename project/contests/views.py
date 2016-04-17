@@ -325,7 +325,7 @@ class SubmitView(BaseContestView):
                     # remember used compiler to select it again later
                     UserProfile.objects.filter(pk=request.user.id).update(last_used_compiler=form.cleaned_data['compiler'])
 
-                    solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
+                    solution = new_solution(request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=True)
                     ContestSolution.objects.create(solution=solution, contest=contest)
                     judge(solution)
 

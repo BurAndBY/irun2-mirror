@@ -140,7 +140,7 @@ class JudgementInQueue(IObjectInQueue):
         job = WorkerTestingJob()
         job.problem = self._make_workerproblem(judgement.solution.problem)
         job.solution = judgement.solution
-        job.stop_after_first_failed_test = False
+        job.stop_after_first_failed_test = judgement.solution.stop_on_fail
         return job
 
     @staticmethod

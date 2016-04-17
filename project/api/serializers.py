@@ -102,9 +102,10 @@ class WorkerProblemSerializer(serializers.Serializer):
 
 
 class WorkerTestingJobSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    problem = WorkerProblemSerializer(read_only=True)
+    id = serializers.IntegerField()
+    problem = WorkerProblemSerializer()
     solution = SolutionSerializer()
+    stop_after_first_failed_test = serializers.BooleanField()
 
 
 class TestCaseResultSerializer(serializers.Serializer):

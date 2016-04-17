@@ -7,7 +7,7 @@ from solutions.models import Solution, Judgement, JudgementExtraInfo
 from storage.utils import store_with_metadata
 
 
-def new_solution(request, form, problem_id=None):
+def new_solution(request, form, problem_id=None, stop_on_fail=False):
     '''
     Returns new Solution object.
     Args:
@@ -20,7 +20,7 @@ def new_solution(request, form, problem_id=None):
 
     source_code = store_with_metadata(upload)
     solution = Solution(author=request.user, ip_address=get_request_ip(request), reception_time=timezone.now(),
-                        source_code=source_code, compiler=form.cleaned_data['compiler'], problem_id=problem_id)
+                        source_code=source_code, compiler=form.cleaned_data['compiler'], problem_id=problem_id, stop_on_fail=stop_on_fail)
 
     solution.save()
     return solution
