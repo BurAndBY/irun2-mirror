@@ -8,7 +8,7 @@ from django.views import generic
 from django.utils.translation import ugettext, pgettext
 from django.utils import timezone
 
-from common.constants import make_empty_select
+from common.constants import make_empty_select, EMPTY_SELECT
 from common.pageutils import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
@@ -234,6 +234,12 @@ class MySolutionsView(ProblemResolverMixin, BaseContestView):
     def is_allowed(self, permissions):
         return permissions.my_solutions
 
+    def _make_problem_choices(self):
+        if not self.permissions.problems_before and self.timing.get() == ContestTiming.BEFORE:
+            return ((None, EMPTY_SELECT),)
+        else:
+            return make_problem_choices(self.contest)
+
     def get(self, request, contest):
         solutions = Solution.objects.all()\
             .filter(contestsolution__contest=contest, author=request.user)\
@@ -241,7 +247,7 @@ class MySolutionsView(ProblemResolverMixin, BaseContestView):
             .select_related('source_code', 'best_judgement')\
             .order_by('-reception_time', 'id')
 
-        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(contest))
+        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=self._make_problem_choices())
         if problem_form.is_valid():
             solutions = solutions.filter(problem_id=problem_form.cleaned_data['problem'])
 
@@ -623,7 +629,13 @@ class MyQuestionsNewView(ProblemResolverMixin, BaseContestView):
         return permissions.ask_questions
 
     def _make_form(self, data=None):
-        problem_id_choices = make_problem_choices(self.contest, make_empty_select(ugettext('General question')))
+        general_question = make_empty_select(ugettext('General question'))
+        if not self.permissions.problems_before and self.timing.get() == ContestTiming.BEFORE:
+            # do not show problem names before the contest
+            problem_id_choices = ((None, general_question),)
+        else:
+            problem_id_choices = make_problem_choices(self.contest, general_question)
+
         form = QuestionForm(data=data, problem_id_choices=problem_id_choices)
         return form
 
