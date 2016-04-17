@@ -29,7 +29,7 @@
                     <td>{{ judgement.algorithm.id }}</td>
                     <td>{{ judgement.similarity }}</td>
                     <td>{{ judgement.verdict }}</td>
-                    <td><a href="{% url 'solutions:compare' %}?first={{judgement.solution_to_judge.id}}&amp;second={{judgement.solution_to_compare.id}}">{% trans 'Compare' %}</a></td>
+                    <td><a href="{% url 'solutions:compare' %}?first={{ judgement.solution_to_compare_id }}&amp;second={{ judgement.solution_to_judge_id }}">{% trans 'Compare' %}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
