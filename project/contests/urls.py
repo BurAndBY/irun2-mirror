@@ -23,6 +23,7 @@ contest_urlpatterns = [
     url(r'^my/questions/$', views.MyQuestionsView.as_view(), name='my_questions'),
     url(r'^my/questions/(?P<message_id>[0-9]+)/$', views.MyQuestionsAnswersView.as_view(), name='my_questions_answers'),
     url(r'^my/questions/new/$', views.MyQuestionsNewView.as_view(), name='my_questions_new'),
+    url(r'^compilers/$', views.CompilersView.as_view(), name='compilers'),
 ]
 
 contestsettings_urlpatterns = [

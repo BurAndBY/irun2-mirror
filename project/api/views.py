@@ -14,6 +14,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from proglangs.models import Compiler, CompilerDetails
 from storage.storage import create_storage
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
@@ -146,6 +147,22 @@ class JobPutStateView(WorkerAPIView):
         obj = update(job_id)
         if obj is not None:
             obj.update_state(state)
+        return Response(['ok'])
+
+
+class CompilerSettingsView(WorkerAPIView):
+    def post(self, request, format=None):
+        for info in request.data:
+            handle = info.get('handle')
+            if handle is not None:
+                compiler = Compiler.objects.filter(handle=handle).first()
+                if compiler is not None:
+                    details = CompilerDetails(
+                        pk=compiler.id,
+                        compile_command=info.get('compile_command', ''),
+                        run_command=info.get('run_command', ''),
+                    )
+                    details.save()
         return Response(['ok'])
 
 

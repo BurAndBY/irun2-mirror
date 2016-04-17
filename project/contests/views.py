@@ -696,3 +696,20 @@ class MyQuestionsAnswersView(ProblemResolverMixin, BaseContestView):
         self._mark_as_read(question)
         context = self.get_context_data(question=question, answers=answers)
         return render(request, self.template_name, context)
+
+'''
+Compilers
+'''
+
+
+class CompilersView(BaseContestView):
+    tab = 'compilers'
+    template_name = 'contests/compilers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.compilers
+
+    def get(self, request, contest):
+        compilers = contest.compilers.select_related('compilerdetails').order_by('description')
+        context = self.get_context_data(compilers=compilers)
+        return render(request, self.template_name, context)

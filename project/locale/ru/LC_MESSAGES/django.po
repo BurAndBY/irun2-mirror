@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-17 02:23+0300\n"
-"PO-Revision-Date: 2016-04-17 02:25+0300\n"
+"POT-Creation-Date: 2016-04-17 16:55+0300\n"
+"PO-Revision-Date: 2016-04-17 16:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -108,7 +108,7 @@ msgstr "Редактировать профиль"
 
 #: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\registration\password_change_form.html:6
-#: .\common\templates\common\home.html:18
+#: .\common\templates\common\home.html:31
 #: .\users\templates\users\profile_password.html:6
 #: .\users\templates\users\profile_sidebar.html:17
 msgid "Change password"
@@ -307,28 +307,28 @@ msgstr "Лидеры по числу попыток"
 msgid "on problem"
 msgstr "по задаче"
 
-#: .\common\templates\common\home.html:7
+#: .\common\templates\common\home.html:8
 msgctxt "main page"
 msgid "Main"
 msgstr "Главная"
 
-#: .\common\templates\common\home.html:12
+#: .\common\templates\common\home.html:15
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
 
-#: .\common\templates\common\home.html:18
+#: .\common\templates\common\home.html:31
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\common\templates\common\home.html:27
+#: .\common\templates\common\home.html:40
 msgid "My courses"
 msgstr "Мои курсы"
 
-#: .\common\templates\common\home.html:41
+#: .\common\templates\common\home.html:54
 msgid "My contests"
 msgstr "Мои соревнования"
 
-#: .\common\templates\common\home.html:55
+#: .\common\templates\common\home.html:68
 msgid "All contests"
 msgstr "Все соревнования"
 
@@ -402,7 +402,7 @@ msgstr "Каждый уровень доступа включает все пр�
 #: .\contests\forms.py:46 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:18
-#: .\contests\templates\contests\sidebar.html:20 .\courses\forms.py:110
+#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:110
 #: .\courses\templates\courses\settings_base.html:15
 #: .\courses\templates\courses\standings.html:32
 #: .\courses\templates\courses\standings_wide.html:27
@@ -598,8 +598,8 @@ msgstr "Жюри"
 
 #: .\contests\templates\contests\all_questions.html:9
 #: .\contests\templates\contests\my_questions.html:7
-#: .\contests\templates\contests\sidebar.html:35
-#: .\contests\templates\contests\sidebar.html:43
+#: .\contests\templates\contests\sidebar.html:36
+#: .\contests\templates\contests\sidebar.html:44
 msgid "Questions"
 msgstr "Вопросы"
 
@@ -634,6 +634,7 @@ msgstr "Удалить"
 
 #: .\contests\templates\contests\all_questions_delete.html:21
 #: .\contests\templates\contests\contest_confirm_delete.html:14
+#: .\contests\templates\contests\contest_form.html:13
 #: .\contests\templates\contests\messages_delete.html:21
 #: .\contests\templates\contests\messages_form.html:19
 #: .\contests\templates\contests\messages_new.html:19
@@ -661,7 +662,7 @@ msgstr "Отмена"
 
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
-#: .\contests\templates\contests\sidebar.html:51
+#: .\contests\templates\contests\sidebar.html:52
 #: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
 msgid "All solutions"
 msgstr "Все решения"
@@ -735,6 +736,22 @@ msgstr "Статус"
 msgid "No solutions"
 msgstr "Решений нет"
 
+#: .\contests\templates\contests\compilers.html:7
+#: .\contests\templates\contests\settings_base.html:15
+#: .\contests\templates\contests\sidebar.html:73
+#: .\courses\templates\courses\settings_base.html:18
+#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:32
+msgid "Compilers"
+msgstr "Компиляторы"
+
+#: .\contests\templates\contests\compilers.html:24
+msgid "Compile command line"
+msgstr "Командная строка компиляции"
+
+#: .\contests\templates\contests\compilers.html:26
+msgid "Run command line"
+msgstr "Командная строка запуска"
+
 #: .\contests\templates\contests\contest_confirm_delete.html:7
 #: .\contests\templates\contests\settings_properties.html:16
 msgid "Delete the contest"
@@ -758,7 +775,7 @@ msgid "Confirm"
 msgstr "Подтвердить"
 
 #: .\contests\templates\contests\contest_form.html:7
-#: .\contests\templates\contests\contest_list.html:17
+#: .\contests\templates\contests\contest_list.html:20
 msgid "New contest"
 msgstr "Новое соревнование"
 
@@ -773,7 +790,7 @@ msgstr "Создать"
 msgid "Contests"
 msgstr "Соревнования"
 
-#: .\contests\templates\contests\contest_list.html:15
+#: .\contests\templates\contests\contest_list.html:18
 msgid "There are no contests available."
 msgstr "Нет доступных соревнований."
 
@@ -788,13 +805,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:404
+#: .\contests\views.py:410
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:626
+#: .\contests\views.py:632
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -819,7 +836,7 @@ msgstr "Последнее решение"
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\challenge.html:39
 #: .\problems\templates\problems\edit_test.html:16
-#: .\problems\templates\problems\tests.html:49
+#: .\problems\templates\problems\tests.html:67
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
 #: .\solutions\templates\solutions\rejudge.html:36
 #: .\solutions\templates\solutions\solution_attempts.html:16
@@ -854,7 +871,7 @@ msgstr "Соревнование окончено"
 #: .\contests\templates\contests\messages_form.html:7
 #: .\contests\templates\contests\messages_new.html:7
 #: .\contests\templates\contests\my_questions_form.html:7
-#: .\contests\templates\contests\sidebar.html:27
+#: .\contests\templates\contests\sidebar.html:28
 #: .\courses\templates\courses\messages.html:7
 #: .\courses\templates\courses\messages_new.html:6
 #: .\courses\templates\courses\sidebar.html:29
@@ -930,7 +947,7 @@ msgid "Back"
 msgstr "Назад"
 
 #: .\contests\templates\contests\settings_base.html:5
-#: .\contests\templates\contests\sidebar.html:72
+#: .\contests\templates\contests\sidebar.html:80
 #: .\courses\templates\courses\settings_base.html:5
 #: .\courses\templates\courses\sidebar.html:79
 #: .\problems\templates\problems\challenge_new.html:19
@@ -942,12 +959,6 @@ msgstr "Настройки"
 #: .\problems\templates\problems\list_folder.html:37
 msgid "Properties"
 msgstr "Свойства"
-
-#: .\contests\templates\contests\settings_base.html:15
-#: .\courses\templates\courses\settings_base.html:18
-#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:32
-msgid "Compilers"
-msgstr "Компиляторы"
 
 #: .\contests\templates\contests\settings_base.html:21
 msgid "Statements"
@@ -971,19 +982,19 @@ msgstr "Редактировать список"
 msgid "No users are set"
 msgstr "Пользователи не заданы"
 
-#: .\contests\templates\contests\sidebar.html:13
+#: .\contests\templates\contests\sidebar.html:14
 #: .\contests\templates\contests\standings.html:9
 #: .\contests\templates\contests\standings_wide.html:7
 msgctxt "contest"
 msgid "Standings"
 msgstr "Результаты"
 
-#: .\contests\templates\contests\sidebar.html:58
+#: .\contests\templates\contests\sidebar.html:59
 #: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\contests\templates\contests\sidebar.html:65
+#: .\contests\templates\contests\sidebar.html:66
 #: .\contests\templates\contests\submission.html:9
 #: .\contests\templates\contests\submit.html:7
 #: .\courses\templates\courses\problems_statement.html:31
@@ -1032,7 +1043,7 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:650
+#: .\contests\views.py:662
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
@@ -1610,7 +1621,7 @@ msgstr "Папки с задачами"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:18
 #: .\problems\templates\problems\show_test.html:51
-#: .\problems\templates\problems\tests.html:53
+#: .\problems\templates\problems\tests.html:71
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
@@ -1619,7 +1630,7 @@ msgstr "Ограничение по времени"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:22
 #: .\problems\templates\problems\show_test.html:55
-#: .\problems\templates\problems\tests.html:54
+#: .\problems\templates\problems\tests.html:72
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
@@ -1883,7 +1894,7 @@ msgid "Edit the test case"
 msgstr "Редактировать тест"
 
 #: .\problems\templates\problems\edit_test.html:18
-#: .\problems\templates\problems\tests.html:38
+#: .\problems\templates\problems\tests.html:40
 msgid "New test case"
 msgstr "Новый тест"
 
@@ -1910,8 +1921,8 @@ msgstr "Тип"
 #: .\problems\templates\problems\files.html:75
 #: .\problems\templates\problems\show_test.html:85
 #: .\problems\templates\problems\show_test.html:94
-#: .\problems\templates\problems\tests.html:68
-#: .\problems\templates\problems\tests.html:77
+#: .\problems\templates\problems\tests.html:86
+#: .\problems\templates\problems\tests.html:95
 #: .\solutions\templates\solutions\solution_source.html:18
 msgid "Open"
 msgstr "Открыть"
@@ -1920,8 +1931,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:76
 #: .\problems\templates\problems\show_test.html:86
 #: .\problems\templates\problems\show_test.html:95
-#: .\problems\templates\problems\tests.html:69
-#: .\problems\templates\problems\tests.html:78
+#: .\problems\templates\problems\tests.html:87
+#: .\problems\templates\problems\tests.html:96
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
 #: .\solutions\templates\solutions\solution_source.html:19
 #: .\storage\templates\storage\show.html:14
@@ -1982,7 +1993,7 @@ msgstr "В системе нет условия для этой задачи"
 
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:14
 #: .\problems\templates\problems\show_test.html:47
-#: .\problems\templates\problems\tests.html:52
+#: .\problems\templates\problems\tests.html:70
 #: .\solutions\templates\solutions\compare.html:60
 #: .\solutions\templates\solutions\compare.html:85
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
@@ -2106,12 +2117,12 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:50
+#: .\problems\templates\problems\tests.html:68
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:51
+#: .\problems\templates\problems\tests.html:69
 msgid "Output"
 msgstr "Выход"
 
@@ -2140,7 +2151,7 @@ msgid "Open in new tab"
 msgstr "Открыть в новой вкладке"
 
 #: .\problems\templates\problems\show_test.html:21
-#: .\problems\templates\problems\tests.html:63
+#: .\problems\templates\problems\tests.html:81
 #: .\solutions\templates\solutions\testcaseresult.html:50
 #: .\storage\templates\storage\usage.html:29
 msgid "Test"
@@ -2193,18 +2204,27 @@ msgstr ""
 "Идёт контроль тестов&hellip; Обновите страницу через некоторое время, чтобы "
 "увидеть результаты."
 
-#: .\problems\templates\problems\tests.html:41
+#: .\problems\templates\problems\tests.html:43
 #: .\problems\templates\problems\upload_archive.html:8
 msgid "New tests from archive"
 msgstr "Новые тесты из архива"
 
-#: .\problems\templates\problems\tests.html:102
+#: .\problems\templates\problems\tests.html:49
+#: .\users\templates\users\folder.html:53
+msgid "Actions"
+msgstr "Действия"
+
+#: .\problems\templates\problems\tests.html:53
 msgid "Set time limit"
 msgstr "Задать ограничение по времени"
 
-#: .\problems\templates\problems\tests.html:105
+#: .\problems\templates\problems\tests.html:54
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
+
+#: .\problems\templates\problems\tests.html:61
+msgid "No tests"
+msgstr "Нет тестов"
 
 #: .\problems\templates\problems\texs.html:28
 msgid "New statement"
@@ -2302,6 +2322,14 @@ msgstr "язык"
 #: .\proglangs\models.py:30
 msgid "compiler is considered legacy"
 msgstr "компилятор считается устаревшим"
+
+#: .\proglangs\models.py:41
+msgid "compile command"
+msgstr "команда компиляции"
+
+#: .\proglangs\models.py:42
+msgid "run command"
+msgstr "команда запуска"
 
 #: .\proglangs\templates\proglangs\index.html:11 .\proglangs\views.py:26
 msgid "New compiler"
@@ -3019,10 +3047,6 @@ msgstr "Регистрация"
 msgctxt "noun"
 msgid "Change password"
 msgstr "Изменение пароля"
-
-#: .\users\templates\users\folder.html:53
-msgid "Actions"
-msgstr "Действия"
 
 #: .\users\templates\users\folder.html:57
 msgid "Move"

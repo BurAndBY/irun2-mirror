@@ -19,6 +19,7 @@ class ContestPermissions(object):
         self.manage_messages = False
         self.ask_questions = False
         self.answer_questions = False
+        self.compilers = False
 
     def set_juror(self):
         self.standings = True
@@ -32,6 +33,7 @@ class ContestPermissions(object):
         self.submit_always = True
         self.manage_messages = True
         self.answer_questions = True
+        self.compilers = True
 
     def set_contestant(self, own_solutions_access):
         self.standings = True
@@ -40,6 +42,7 @@ class ContestPermissions(object):
         self.submit = True
         self.read_messages = True
         self.ask_questions = True
+        self.compilers = True
 
     def set_admin(self):
         self.set_juror()

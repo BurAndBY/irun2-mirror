@@ -67,6 +67,13 @@
         </a>
     {% endif %}
 
+    {% if permissions.compilers %}
+        <a href="{% url 'contests:compilers' contest.id %}" class="list-group-item{% if active_tab == 'compilers' %} active{% endif %}">
+            {% bootstrap_icon 'pushpin' %}
+            <span class="ir-icon-label">{% trans 'Compilers' %}</span>
+        </a>
+    {% endif %}
+
     {% if permissions.settings %}
         <a href="{% url 'contests:settings_properties' contest.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
             {% bootstrap_icon 'cog' %}
