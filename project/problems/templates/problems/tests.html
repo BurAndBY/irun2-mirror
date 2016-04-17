@@ -33,15 +33,33 @@
     {% endif %}
 {% endif %}
 
-<p>
-    <a href="{% url 'problems:new_test' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
-        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New test case' %}</span>
-    </a>
-    <a href="{% url 'problems:upload_archive' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
-        {% bootstrap_icon 'gift' %} <span class="ir-icon-label">{% trans 'New tests from archive' %}</span>
-    </a>
-</p>
+<div class="form-group">
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+            <a href="{% url 'problems:new_test' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+                {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New test case' %}</span>
+            </a>
+            <a href="{% url 'problems:upload_archive' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+                {% bootstrap_icon 'gift' %} <span class="ir-icon-label">{% trans 'New tests from archive' %}</span>
+            </a>
+        </div>
 
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle ir-checkbox-driven" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+                {% bootstrap_icon 'check' %} <span class="ir-icon-label">{% trans 'Actions' %}</span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" id="ir_set_time_limit">{% trans 'Set time limit' %}</a></li>
+                <li><a href="#" id="ir_set_memory_limit">{% trans 'Set memory limit' %}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% if not validated_test_cases %}
+    <div class="ir-absence">{% trans 'No tests' %}</div>
+{% else %}
 <table class="table table-condensed table-hover">
     <thead>
         <tr>
@@ -96,20 +114,20 @@
     {% endfor %}
     </tbody>
 </table>
-
-<p>
-    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_time_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
-        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set time limit' %}</span>
-    </button>
-    <button onclick="irPerformActionOnSelected('{% url 'problems:tests_mass_memory_limit' problem.id %}{{ navigator.query_string }}')" class="btn btn-default btn-sm ir-checkbox-driven" disabled>
-        {% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Set memory limit' %}</span>
-    </button>
-</p>
+{% endif %}
 
 <script>
     jQuery(document).ready(function($) {
         irSetUpSelectAll();
         $('[data-toggle="tooltip"]').tooltip();
+        $("#ir_set_time_limit").click(function(e) {
+            e.preventDefault();
+            irPerformActionOnSelected("{% url 'problems:tests_mass_time_limit' problem.id %}{{ navigator.query_string }}");
+        });
+        $("#ir_set_memory_limit").click(function(e) {
+            e.preventDefault();
+            irPerformActionOnSelected("{% url 'problems:tests_mass_memory_limit' problem.id %}{{ navigator.query_string }}");
+        });
     });
 </script>
 {% endblock %}

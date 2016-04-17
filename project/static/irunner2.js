@@ -33,18 +33,23 @@ function irPerformActionOnSelected(url, nextUrl, nothingSelectedMessage) {
         window.location.href = target;
     }
 }
+function irSetUpDriven() {
+    var numSelected = $(".ir-checkbox").filter(":checked").length;
+    $(".ir-checkbox-driven").prop("disabled", numSelected === 0);
+}
 function irSetUpSelectAll() {
     $("#selectall").click(function () {
         $(".ir-checkbox").prop("checked", this.checked);
-        $(".ir-checkbox-driven").prop("disabled", !this.checked);
+        irSetUpDriven();
     });
     $(".ir-checkbox").change(function () {
         var checkboxes = $(".ir-checkbox");
         var numSelected = checkboxes.filter(":checked").length;
         var check = (numSelected == checkboxes.length);
         $("#selectall").prop("checked", check);
-        $(".ir-checkbox-driven").prop("disabled", numSelected === 0);
+        irSetUpDriven();
     });
+    irSetUpDriven();
 }
 
 /**
