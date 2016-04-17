@@ -3,8 +3,9 @@
 
 <div class="list-group ir-list-group-success">
     <a class="list-group-item list-group-item-success{% if active_tab == 'info' %} active{% endif %}">
-        {% bootstrap_icon 'info-sign' %}
-        <span class="ir-icon-label">{{ contest.name }}</span>
+        {% bootstrap_icon 'info-sign' %} <span class="ir-icon-label">{{ contest.name }}</span>
+        <br>
+        {% bootstrap_icon 'calendar' %} <span class="ir-icon-label">{{ contest.start_time|date:"DATE_FORMAT" }}</span>
     </a>
 
     {% if permissions.standings %}

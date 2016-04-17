@@ -5,12 +5,15 @@
 
 {% block content %}
     <h1>{% block title %}{% trans 'Contests' %}{% endblock %}</h1>
-    {% if object_list %}
-        <ul>
-            {% for contest in object_list %}
-                <li><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a></li>
-            {% endfor %}
-        </ul>
+    {% if pairs %}
+        {% for year, contests in pairs %}
+            <h4>{{ year }}</h4>
+            <ul>
+                {% for contest in contests %}
+                    <li><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a> &mdash; {{ contest.start_time }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
     {% else %}
         <p>{% trans 'There are no contests available.' %}</p>
     {% endif %}
