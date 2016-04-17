@@ -87,16 +87,7 @@ class SolutionForm(forms.Form):
 
 class AllSolutionsFilterForm(forms.Form):
     STATE_CHOICES = (
-        ('', make_empty_select(_('status'))),
-        (_('state'), (
-            ('waiting', _('Waiting')),
-            ('preparing', _('Preparing')),
-            ('compiling', _('Compiling')),
-            ('testing', _('Testing')),
-            ('finishing', _('Finishing')),
-            ('done', _('Done')),
-            ('not-done', _('Not Done')),
-        )),
+        ('', make_empty_select(_('Status'))),
         (_('outcome'), (
             ('ok', _('Accepted')),
             ('ce', _('Compilation Error')),
@@ -109,11 +100,20 @@ class AllSolutionsFilterForm(forms.Form):
             ('sv', _('Security Violation')),
             ('cf', _('Check Failed'))
         )),
+        (_('state'), (
+            ('waiting', _('Waiting')),
+            ('preparing', _('Preparing')),
+            ('compiling', _('Compiling')),
+            ('testing', _('Testing')),
+            ('finishing', _('Finishing')),
+            ('done', _('Done')),
+            ('not-done', _('Not Done')),
+        )),
     )
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
 
     DEFAULT_COMPILER_CHOICES = (
-        ('', make_empty_select(_('language'))),
+        ('', make_empty_select(_('Language'))),
         (_('language'), Compiler.LANGUAGE_CHOICES[1:]),
     )
     compiler = forms.ChoiceField(choices=DEFAULT_COMPILER_CHOICES, required=False)

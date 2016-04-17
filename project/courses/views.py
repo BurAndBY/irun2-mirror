@@ -23,12 +23,15 @@ from calcpermissions import calculate_course_permissions
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
+from common.constants import make_empty_select
 from common.pageutils import paginate
 from common.outcome import Outcome
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
 from proglangs.models import Compiler
+from solutions.filters import apply_state_filter
+from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
 from solutions.utils import new_solution, judge
 from storage.utils import serve_resource_metadata
@@ -515,21 +518,36 @@ class CourseAllSolutionsView(BaseCourseView):
         # filters
         user_id = None
         problem_id = None
+        state = None
+
+        # User filter
 
         user_cache = self.get_user_cache()
-        user_form = SolutionListUserForm(data=request.GET, user_choices=make_student_choices(user_cache))
+        empty_select = make_empty_select(_('Student'))
+        user_form = SolutionListUserForm(data=request.GET, user_choices=make_student_choices(user_cache, empty_select=empty_select))
 
         if user_form.is_valid():
             user_id = user_form.cleaned_data['user']
 
+        # Problem filter
+
+        empty_select = make_empty_select(_('Problem'))
         if user_id is not None:
-            problem_choices = make_problem_choices(course, user_id=user_id)
+            problem_choices = make_problem_choices(course, user_id=user_id, empty_select=empty_select)
         else:
-            problem_choices = make_problem_choices(course, full=True)
+            problem_choices = make_problem_choices(course, full=True, empty_select=empty_select)
 
         problem_form = SolutionListProblemForm(data=request.GET, problem_choices=problem_choices)
         if problem_form.is_valid():
             problem_id = problem_form.cleaned_data['problem']
+
+        # State filter
+
+        filter_form = AllSolutionsFilterForm(request.GET)
+        if filter_form.is_valid():
+            state = filter_form.cleaned_data['state']
+
+        # Apply filters
 
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
@@ -543,10 +561,14 @@ class CourseAllSolutionsView(BaseCourseView):
         if problem_id is not None:
             solutions = solutions.filter(problem_id=problem_id)
 
+        if state is not None:
+            solutions = apply_state_filter(solutions, state)
+
         context = paginate(request, solutions, self.paginate_by)
 
         context['user_form'] = user_form
         context['problem_form'] = problem_form
+        context['filter_form'] = filter_form
         context['user_cache'] = user_cache
         context['page_title'] = _('All solutions')
 
@@ -570,7 +592,9 @@ class CourseMySolutionsView(BaseCourseView):
         return permissions.my_solutions
 
     def get(self, request, course):
-        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(course, user_id=request.user.id))
+        empty_select = make_empty_select(_('Problem'))
+        problem_choices = make_problem_choices(course, user_id=request.user.id, empty_select=empty_select)
+        problem_form = SolutionListProblemForm(data=request.GET, problem_choices=problem_choices)
         if problem_form.is_valid():
             problem_id = problem_form.cleaned_data['problem']
         else:
