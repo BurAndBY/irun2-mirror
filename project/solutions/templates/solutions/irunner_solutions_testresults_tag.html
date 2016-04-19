@@ -35,7 +35,6 @@
                     {% irunner_solutions_outcomebox test.outcome tooltip=False %} {{ test.get_outcome_display }}
                 </td>
             {% endif %}
-            </td>
             <td class="ir-col-score">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>
             <td class="ir-col-limit">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
             <td class="ir-col-limit">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
@@ -75,7 +74,7 @@
                 <h4 class="modal-title">{% trans 'Image' %}</h4>
             </div>
             <div class="modal-body text-center">
-                <img src="" id="imagepreview_{{ uid }}" class="ir-fit-image">
+                <img src="" alt="image" id="imagepreview_{{ uid }}" class="ir-fit-image">
             </div>
         </div>
     </div>
