@@ -638,7 +638,7 @@ class CompareSolutionsView(LoginRequiredMixin, generic.View):
         context['second'] = second
         context['has_error'] = not ok
         context['has_result'] = ok
-        context['show_author'] = (first.solution.author_id != second.solution.author_id)
+        context['show_author'] = (first.solution.author_id != second.solution.author_id) if (first.solution is not None and second.solution is not None) else False
         context['full'] = not contextual_diff
 
         if ok:
