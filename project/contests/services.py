@@ -62,8 +62,12 @@ def make_contestant_choices(contest, empty_label=None):
 class ProblemResolver(object):
     def __init__(self, contest):
         self._problems = {}
+        self._letters = {}
         for i, problem in enumerate(contest.get_problems()):
-            self._problems[force_text(problem.id)] = make_lettered_name(make_letter(i), problem.short_name)
+            letter = make_letter(i)
+            problem_id = force_text(problem.id)
+            self._letters[problem_id] = letter
+            self._problems[problem_id] = make_lettered_name(letter, problem.short_name)
 
     def get_problem_name(self, problem_id):
         name = self._problems.get(force_text(problem_id))
@@ -75,6 +79,9 @@ class ProblemResolver(object):
             else:
                 name = EMPTY_SELECT
         return name
+
+    def get_letter(self, problem_id):
+        return self._letters.get(force_text(problem_id), '')
 
 
 class ContestTiming(object):

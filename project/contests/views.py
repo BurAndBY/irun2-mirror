@@ -191,6 +191,7 @@ class ProblemView(ProblemStatementMixin, ContestProblemsetMixin, BaseContestView
         context['problem'] = problem
         context['statement'] = self.make_statement(problem)
         context['problem_to_submit'] = problem.id
+        context['letter'] = ProblemResolver(contest).get_letter(problem.id)
         return render(request, self.template_name, context)
 
 

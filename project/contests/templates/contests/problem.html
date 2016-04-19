@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load irunner_problems %}
 
-{% block subtitle %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
+{% block subtitle %}{% trans 'Problem' %} {{ letter }}{% endblock %}
 
 {% block extrasidebar %}
     {% if user.is_staff %}
@@ -17,5 +17,5 @@
 {% endblock %}
 
 {% block main %}
-    {% irunner_problems_statement statement %}
+    {% irunner_problems_statement statement letter=letter %}
 {% endblock %}

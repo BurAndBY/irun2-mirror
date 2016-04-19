@@ -13,8 +13,8 @@ def irunner_problems_difficulty(difficulty, used=False):
 
 
 @register.inclusion_tag('problems/irunner_problems_statement_tag.html')
-def irunner_problems_statement(statement):
-    return {'statement': statement}
+def irunner_problems_statement(statement, letter=None):
+    return {'statement': statement, 'letter': letter}
 
 
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
@@ -130,10 +130,11 @@ def represent_limits(problem):
 
 
 @register.inclusion_tag('problems/irunner_problems_heading_tag.html')
-def irunner_problems_heading(problem):
+def irunner_problems_heading(problem, letter=None):
     ls = represent_limits(problem)
     return {
         'problem': problem,
+        'letter': letter,
         'time_limit': ls.time_limit,
         'memory_limit': ls.memory_limit,
     }

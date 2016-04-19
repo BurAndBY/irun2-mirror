@@ -2,7 +2,7 @@
 
 {% load irunner_problems %}
 
-{% irunner_problems_heading statement.problem %}
+{% irunner_problems_heading statement.problem letter=letter %}
 
 {% if statement.attachment_name %}
 Download <a href="{{ statement.attachment_name|urlencode }}">{{ statement.attachment_name }}</a>
