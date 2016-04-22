@@ -4,8 +4,9 @@ from . import views, globalviews, settingsviews
 
 contest_urlpatterns = [
     url(r'^$', views.GeneralView.as_view()),
-    url(r'^standings/$', views.StandingsView.as_view(wide=False), name='standings'),
+    url(r'^standings/$', views.StandingsView.as_view(), name='standings'),
     url(r'^standings/wide/$', views.StandingsView.as_view(wide=True), name='standings_wide'),
+    url(r'^standings/raw/$', views.StandingsView.as_view(raw=True), name='standings_raw'),
     url(r'^statements/(?P<filename>.+)$', views.StatementsFileView.as_view(), name='statements'),
     url(r'^problems/$', views.ProblemsView.as_view(), name='problems'),
     url(r'^problems/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', views.ProblemView.as_view(), name='problem'),

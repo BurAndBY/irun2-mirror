@@ -9,11 +9,7 @@
 {% block subtitle %}{% trans 'Standings' context 'contest' %}{% endblock %}
 
 {% block extrasidebar %}
-<div class="list-group ir-list-group-success">
-    <a href="{% url 'contests:standings_wide' contest.id %}" class="list-group-item" target="_blank">
-        {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Widescreen version' %}</span>
-    </a>
-</div>
+    {% include 'contests/standings_extra_controls.html' %}
 {% endblock %}
 
 {% block main %}
@@ -23,5 +19,23 @@
         {% irunner_contests_standings results my_id=my_id user_url=user_url %}
     {% else %}
         <div class="ir-absence">{% trans 'The scoreboard will be available after the start of the contest' %}</div>
+    {% endif %}
+{% endblock %}
+
+{% block foot %}
+    {% if autorefresh %}
+        <script>
+            function poll() {
+                $.get("{% url 'contests:standings_raw' contest.id %}", function(data) {
+                    $("#ir_container").html(data);
+                    setTimeout(poll, 30000);
+                }).fail(function() {
+                    setTimeout(poll, 60000);
+                });
+            }
+            $(document).ready(function() {
+                poll();
+            });
+        </script>
     {% endif %}
 {% endblock %}

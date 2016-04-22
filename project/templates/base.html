@@ -36,11 +36,14 @@
 
             {% include 'navbar.html' %}
 
-            <div class="container">
+            <div class="container" id="ir_container">
                 {% block content %}
                 {% endblock %}
             </div>
 
+        {% endblock %}
+
+        {% block foot %}
         {% endblock %}
 
         <footer class="footer">

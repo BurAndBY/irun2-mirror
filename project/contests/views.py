@@ -97,9 +97,21 @@ class GeneralView(BaseContestView):
         return redirect('contests:standings', contest.id)
 
 
+AUTOREFRESH = 'autorefresh'
+
+
 class StandingsView(BaseContestView):
     tab = 'standings'
     wide = False
+    raw = False
+
+    def get_template_name(self):
+        if self.wide:
+            return 'contests/standings_wide.html'
+        if self.raw:
+            return 'contests/standings_raw.html'
+
+        return 'contests/standings.html'
 
     def is_allowed(self, permissions):
         return permissions.standings
@@ -109,7 +121,20 @@ class StandingsView(BaseContestView):
             return self.permissions.standings_before
         return True
 
+    def _parse_autorefresh(self, request):
+        autorefresh = request.session.get(AUTOREFRESH, False)
+
+        if AUTOREFRESH in request.GET:
+            autorefresh_requested = (request.GET.get(AUTOREFRESH) == '1')
+            if autorefresh != autorefresh_requested:
+                request.session[AUTOREFRESH] = autorefresh_requested
+                return autorefresh_requested
+
+        return autorefresh
+
     def get(self, request, contest):
+        autorefresh = self._parse_autorefresh(request)
+
         if self.are_standings_available():
             # Do not show standings before the contest because they contain names of problems!
             frozen = (self.timing.is_freeze_applicable()) and (not self.permissions.always_unfrozen_standings)
@@ -119,11 +144,11 @@ class StandingsView(BaseContestView):
             user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id}) if self.permissions.all_solutions else None
             my_id = request.user.id if request.user.is_authenticated() else None
 
-            context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url)
+            context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url, autorefresh=autorefresh)
         else:
-            context = self.get_context_data()
+            context = self.get_context_data(autorefresh=autorefresh)
 
-        template_name = 'contests/standings.html' if not self.wide else 'contests/standings_wide.html'
+        template_name = self.get_template_name()
         return render(request, template_name, context)
 
 

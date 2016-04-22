@@ -1,0 +1,15 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+<div class="list-group ir-list-group-success">
+    <a href="{% url 'contests:standings' contest.id %}?autorefresh={% if autorefresh %}0{% else %}1{% endif %}" class="list-group-item" title="{% trans 'Refresh the page every 30 seconds' %}">
+        {% if autorefresh %}
+            {% bootstrap_icon 'check' %} <span class="ir-icon-label">{% trans 'Autorefresh' %}</span>
+        {% else %}
+            {% bootstrap_icon 'unchecked' %} <span class="ir-icon-label">{% trans 'Autorefresh' %}</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'contests:standings_wide' contest.id %}" class="list-group-item" target="_blank">
+        {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Widescreen version' %}</span>
+    </a>
+</div>

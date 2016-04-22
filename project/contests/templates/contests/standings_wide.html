@@ -19,3 +19,13 @@
     {% endif %}
 </div>
 {% endblock %}
+
+{% block foot %}
+    {% if autorefresh %}
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() { location.reload(); }, 30000);
+            });
+        </script>
+    {% endif %}
+{% endblock %}
