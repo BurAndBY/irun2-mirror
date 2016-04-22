@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-17 16:55+0300\n"
-"PO-Revision-Date: 2016-04-17 16:59+0300\n"
+"POT-Creation-Date: 2016-04-22 22:20+0300\n"
+"PO-Revision-Date: 2016-04-22 22:21+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: .\api\models.py:14 .\solutions\forms.py:92 .\solutions\models.py:48
+#: .\api\models.py:14 .\solutions\forms.py:104 .\solutions\models.py:49
 msgid "Waiting"
 msgstr "Ожидание"
 
@@ -27,7 +27,7 @@ msgstr "Ожидание"
 msgid "Executing"
 msgstr "Выполнение"
 
-#: .\api\models.py:16 .\solutions\forms.py:97 .\solutions\models.py:47
+#: .\api\models.py:16 .\solutions\forms.py:109 .\solutions\models.py:48
 msgid "Done"
 msgstr "Готово"
 
@@ -224,48 +224,48 @@ msgstr "Ваши изменения сохранены."
 msgid "N/A"
 msgstr "N/A"
 
-#: .\common\outcome.py:19 .\solutions\forms.py:101
+#: .\common\outcome.py:19 .\solutions\forms.py:92
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\common\outcome.py:20 .\solutions\forms.py:102
+#: .\common\outcome.py:20 .\solutions\forms.py:93
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\common\outcome.py:21 .\solutions\forms.py:103
+#: .\common\outcome.py:21 .\solutions\forms.py:94
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\common\outcome.py:22 .\solutions\forms.py:104
+#: .\common\outcome.py:22 .\solutions\forms.py:95
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\common\outcome.py:23 .\solutions\forms.py:105
+#: .\common\outcome.py:23 .\solutions\forms.py:96
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\common\outcome.py:24 .\solutions\forms.py:106
+#: .\common\outcome.py:24 .\solutions\forms.py:97
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\common\outcome.py:25 .\solutions\forms.py:107
+#: .\common\outcome.py:25 .\solutions\forms.py:98
 msgid "Run-time Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\common\outcome.py:26 .\solutions\forms.py:108
+#: .\common\outcome.py:26 .\solutions\forms.py:99
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\common\outcome.py:27 .\solutions\forms.py:109
+#: .\common\outcome.py:27 .\solutions\forms.py:100
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\common\outcome.py:28 .\solutions\forms.py:110
+#: .\common\outcome.py:28 .\solutions\forms.py:101
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
 #: .\common\templates\common\about.html:5
-#: .\common\templates\common\about.html:8 .\templates\base.html:52
+#: .\common\templates\common\about.html:8 .\templates\base.html:55
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -329,8 +329,8 @@ msgid "My contests"
 msgstr "Мои соревнования"
 
 #: .\common\templates\common\home.html:68
-msgid "All contests"
-msgstr "Все соревнования"
+msgid "Contest results"
+msgstr "Результаты соревнований"
 
 #: .\common\templates\common\irunner_pagination_tag.html:34
 msgid "Page"
@@ -344,7 +344,7 @@ msgstr "Страница"
 #: .\problems\templates\problems\sidebar.html:13
 #: .\solutions\templates\solutions\compare.html:61
 #: .\solutions\templates\solutions\compare.html:86
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:39
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:38
 #: .\solutions\templates\solutions\judgement.html:31
 #: .\solutions\templates\solutions\solution.html:59
 msgid "of"
@@ -463,9 +463,9 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\messages.html:26
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
-#: .\courses\templates\courses\solutions.html:35
-#: .\courses\templates\courses\standings.html:61
-#: .\problems\templates\problems\base.html:5
+#: .\courses\templates\courses\solutions.html:39
+#: .\courses\templates\courses\standings.html:61 .\courses\views.py:534
+#: .\courses\views.py:595 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
@@ -663,20 +663,20 @@ msgstr "Отмена"
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:551
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:573
 msgid "All solutions"
 msgstr "Все решения"
 
 #: .\contests\templates\contests\all_solutions.html:19
 #: .\contests\templates\contests\my_solutions.html:19
-#: .\courses\templates\courses\solutions.html:21
+#: .\courses\templates\courses\solutions.html:25
 #: .\problems\templates\problems\solutions.html:22
 #: .\solutions\templates\solutions\solution_list.html:22
 msgid "Apply"
 msgstr "Применить"
 
 #: .\contests\templates\contests\all_solutions.html:30
-#: .\courses\templates\courses\solutions.html:33
+#: .\courses\templates\courses\solutions.html:37
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
 #: .\problems\templates\problems\solutions.html:34
@@ -693,7 +693,7 @@ msgstr "Автор"
 
 #: .\contests\templates\contests\all_solutions.html:31
 #: .\contests\templates\contests\my_solutions.html:31
-#: .\courses\templates\courses\solutions.html:36
+#: .\courses\templates\courses\solutions.html:40
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 #: .\solutions\templates\solutions\solution_attempts.html:18
 #: .\solutions\templates\solutions\solution_list.html:35
@@ -703,7 +703,7 @@ msgstr "Время"
 
 #: .\contests\templates\contests\all_solutions.html:32
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\courses\templates\courses\solutions.html:37 .\problems\forms.py:130
+#: .\courses\templates\courses\solutions.html:41 .\problems\forms.py:130
 #: .\problems\forms.py:148 .\problems\forms.py:152 .\problems\forms.py:171
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
@@ -720,8 +720,8 @@ msgstr "Файл"
 
 #: .\contests\templates\contests\all_solutions.html:33
 #: .\contests\templates\contests\my_solutions.html:33
-#: .\courses\templates\courses\solutions.html:38
-#: .\problems\templates\problems\solutions.html:37
+#: .\courses\templates\courses\solutions.html:42
+#: .\problems\templates\problems\solutions.html:37 .\solutions\forms.py:90
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:20
 #: .\solutions\templates\solutions\solution_list.html:37
@@ -732,7 +732,7 @@ msgstr "Статус"
 #: .\contests\templates\contests\my_solutions.html:61
 #: .\courses\templates\courses\info.html:31
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:44
-#: .\courses\templates\courses\solutions.html:85
+#: .\courses\templates\courses\solutions.html:89
 msgid "No solutions"
 msgstr "Решений нет"
 
@@ -805,13 +805,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:410
+#: .\contests\views.py:436
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:632
+#: .\contests\views.py:658
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -990,7 +990,7 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:590
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:614
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1004,15 +1004,25 @@ msgstr "Мои решения"
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\contests\templates\contests\standings.html:14
-#: .\courses\templates\courses\standings.html:14
-msgid "Widescreen version"
-msgstr "Широкоэкранная версия"
-
-#: .\contests\templates\contests\standings.html:25
+#: .\contests\templates\contests\standings.html:21
+#: .\contests\templates\contests\standings_raw.html:15
 #: .\contests\templates\contests\standings_wide.html:18
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
+
+#: .\contests\templates\contests\standings_extra_controls.html:5
+msgid "Refresh the page every 30 seconds"
+msgstr "Обновлять страницу каждые 30 секунд"
+
+#: .\contests\templates\contests\standings_extra_controls.html:7
+#: .\contests\templates\contests\standings_extra_controls.html:9
+msgid "Autorefresh"
+msgstr "Автообновление"
+
+#: .\contests\templates\contests\standings_extra_controls.html:13
+#: .\courses\templates\courses\standings.html:14
+msgid "Widescreen version"
+msgstr "Широкоэкранная версия"
 
 #: .\contests\templates\contests\standings_wide.html:7
 #: .\courses\templates\courses\standings_wide.html:9
@@ -1043,7 +1053,7 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:662
+#: .\contests\views.py:688
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
@@ -1074,7 +1084,7 @@ msgstr "Тема"
 #: .\courses\forms.py:198 .\courses\settingsviews.py:95
 #: .\courses\templates\courses\sheet.html:31
 #: .\courses\templates\courses\standings.html:24
-#: .\courses\templates\courses\standings_wide.html:19
+#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:526
 msgid "Student"
 msgstr "Студент"
 
@@ -1301,7 +1311,7 @@ msgstr "удалить"
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:462
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:465
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -1514,7 +1524,7 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\solutions.html:40
+#: .\courses\templates\courses\solutions.html:44
 #: .\solutions\templates\solutions\solution.html:131
 #: .\solutions\templates\solutions\solution_list.html:38
 #: .\solutions\templates\solutions\solution_plagiarism.html:8
@@ -1529,15 +1539,15 @@ msgstr "Плагиат"
 msgid "Result"
 msgstr "Итог"
 
-#: .\courses\views.py:475
+#: .\courses\views.py:478
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:727
+#: .\courses\views.py:751
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:728
+#: .\courses\views.py:752
 msgid "— All —"
 msgstr "— Все —"
 
@@ -2024,13 +2034,13 @@ msgstr "три примера"
 
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:69
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:101
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:100
 msgid "Loading..."
 msgstr "Загрузка..."
 
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:83
 #: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:43
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:106
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:105
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
@@ -2142,7 +2152,7 @@ msgid "There are no pictures."
 msgstr "Нет картинок."
 
 #: .\problems\templates\problems\pictures.html:33
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:75
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:74
 msgid "Image"
 msgstr "Изображение"
 
@@ -2315,7 +2325,7 @@ msgstr "Неизвестно"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:28 .\solutions\forms.py:116 .\solutions\forms.py:117
+#: .\proglangs\models.py:28 .\solutions\forms.py:117
 msgid "language"
 msgstr "язык"
 
@@ -2339,7 +2349,7 @@ msgstr "Новый компилятор"
 msgid "String identifier"
 msgstr "Строковый идентификатор"
 
-#: .\proglangs\templates\proglangs\index.html:20
+#: .\proglangs\templates\proglangs\index.html:20 .\solutions\forms.py:116
 msgid "Language"
 msgstr "Язык"
 
@@ -2406,38 +2416,34 @@ msgstr ""
 "убедитесь, что объявлен ровно один public-класс. Вы также можете попробовать "
 "загрузить файл вместо того, чтобы непосредственно вводить код."
 
-#: .\solutions\forms.py:90
-msgid "status"
-msgstr "статус"
-
 #: .\solutions\forms.py:91
+msgid "outcome"
+msgstr "вердикт"
+
+#: .\solutions\forms.py:103
 msgid "state"
 msgstr "состояние"
 
-#: .\solutions\forms.py:93 .\solutions\models.py:49
+#: .\solutions\forms.py:105 .\solutions\models.py:50
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\forms.py:94 .\solutions\models.py:50
+#: .\solutions\forms.py:106 .\solutions\models.py:51
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\forms.py:95 .\solutions\models.py:51
+#: .\solutions\forms.py:107 .\solutions\models.py:52
 #: .\solutions\templates\solutions\judgement_list.html:22
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\forms.py:96 .\solutions\models.py:52
+#: .\solutions\forms.py:108 .\solutions\models.py:53
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\forms.py:98
+#: .\solutions\forms.py:110
 msgid "Not Done"
 msgstr "Не готово"
-
-#: .\solutions\forms.py:100
-msgid "outcome"
-msgstr "вердикт"
 
 #: .\solutions\forms.py:121
 msgid "Problem ID"
@@ -2459,7 +2465,7 @@ msgstr "Второе решение"
 msgid "Show only contextual differences, else show full files"
 msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
-#: .\solutions\models.py:90
+#: .\solutions\models.py:91
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -2586,11 +2592,11 @@ msgstr "Код выхода"
 msgid "Checker Message"
 msgstr "Сообщение программы проверки"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:60
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:59
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:137
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:136
 msgid "No test results"
 msgstr "Нет результатов по тестам"
 
@@ -2914,11 +2920,11 @@ msgstr[0] "Обновлена %(rows)s строка в БД"
 msgstr[1] "Обновлены %(rows)s строки в БД"
 msgstr[2] "Обновлены %(rows)s строк в БД"
 
-#: .\templates\base.html:50
+#: .\templates\base.html:53
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФПМИ БГУ"
 
-#: .\templates\base.html:54
+#: .\templates\base.html:57
 msgid "Feedback"
 msgstr "Обратная связь"
 
@@ -3161,6 +3167,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "All contests"
+#~ msgstr "Все соревнования"
+
+#~ msgid "status"
+#~ msgstr "статус"
 
 #~ msgid "Mass registration"
 #~ msgstr "Массовая регистрация"
