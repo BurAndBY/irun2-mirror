@@ -41,7 +41,9 @@
             </td>
             <td class="text-nowrap">
                 <a href="{{ solution_url }}">{% irunner_solutions_judgementbox info.solution.best_judgement tooltip=True %}</a>
-                <a href="{{ solution_url }}">{% irunner_solutions_scorebox info.solution.best_judgement %}</a>
+                {% if not info.solution.stop_on_fail %}
+                    <a href="{{ solution_url }}">{% irunner_solutions_scorebox info.solution.best_judgement %}</a>
+                {% endif %}
             </td>
             <td>
                 {% if info.pair %}
