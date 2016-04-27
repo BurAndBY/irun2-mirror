@@ -26,7 +26,7 @@ class SimpleProblemForm(forms.ModelForm):
 class ProblemForm(forms.ModelForm):
     class Meta:
         model = Problem
-        fields = ['number', 'subnumber', 'full_name', 'short_name', 'difficulty', 'input_filename', 'output_filename']
+        fields = ['difficulty', 'input_filename', 'output_filename']
         help_texts = {
             'input_filename': _('Leave empty to use standard input.'),
             'output_filename': _('Leave empty to use standard output.'),

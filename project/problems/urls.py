@@ -51,6 +51,7 @@ problem_urlpatterns = [
     url(r'^submit/$', views.ProblemSubmitView.as_view(), name='submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
     url(r'^folders/$', views.ProblemFoldersView.as_view(), name='folders'),
+    url(r'^name/$', views.ProblemNameView.as_view(), name='name'),
     url(r'^properties/$', views.ProblemPropertiesView.as_view(), name='properties'),
     url(r'^pictures/$', views.ProblemPicturesView.as_view(), name='pictures'),
     url(r'^validator/$', views.ProblemValidatorView.as_view(), name='validator'),

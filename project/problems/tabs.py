@@ -23,6 +23,7 @@ class TabManager(object):
 
 def create_problem_tab_manager():
     tabs = [
+        Tab('name', _('Name'), 'tag', 'problems:name'),
         Tab('properties', _('Properties'), 'cog', 'problems:properties'),
         Tab('folders', _('Folders'), 'folder-open', 'problems:folders'),
         Tab('statement', _('Statement'), 'file', 'problems:statement'),

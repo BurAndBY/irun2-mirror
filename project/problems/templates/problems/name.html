@@ -14,6 +14,9 @@
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
+        <a href="{% url 'problems:delete' problem.id %}{{ navigator.query_string }}" class="btn btn-link">
+            {% trans 'Delete the problem' %}
+        </button>
     {% endbuttons %}
 </form>
 

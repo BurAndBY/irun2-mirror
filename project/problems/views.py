@@ -1276,6 +1276,37 @@ class ProblemPropertiesView(BaseProblemView):
 
 
 '''
+Name
+'''
+
+
+class ProblemNameView(BaseProblemView):
+    tab = 'name'
+    template_name = 'problems/name.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = SimpleProblemForm(instance=problem)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        form = SimpleProblemForm(request.POST, instance=problem)
+        if form.is_valid():
+            form.save()
+            if form.has_changed():
+                messages.add_message(request, messages.INFO, CHANGES_HAVE_BEEN_SAVED)
+            return redirect_with_query_string(request, 'problems:name', problem.id)
+
+        context = self._make_context(problem, {'form': form})
+        return render(request, self.template_name, context)
+
+
+'''
 Images
 '''
 
@@ -1493,7 +1524,7 @@ Delete problem
 
 
 class ProblemDeleteView(BaseProblemView):
-    tab = 'properties'
+    tab = 'name'
     template_name = 'problems/delete.html'
 
     def get(self, request, problem_id):
