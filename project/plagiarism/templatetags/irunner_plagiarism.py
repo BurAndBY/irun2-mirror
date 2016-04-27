@@ -25,3 +25,9 @@ def irunner_plagiarism_box(aggregated_result, solution_id):
     else:
         context['relevance'] = None
     return context
+
+
+@register.simple_tag(takes_context=False)
+def irunner_plagiarism_csscolor(x):
+    x = min(max(x, 0.0), 1.0)
+    return 'hsl(0, {0}%, 50%)'.format(round(x * 100))

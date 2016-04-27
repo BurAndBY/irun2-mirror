@@ -671,6 +671,7 @@ from plagiarism.models import JudgementResult
 class SolutionPlagiarismView(BaseSolutionView):
     tab = 'plagiarism'
     template_name = 'solutions/solution_plagiarism.html'
+    paginate_by = 25
 
     def is_allowed(self, permissions):
         return permissions.plagiarism
@@ -678,10 +679,10 @@ class SolutionPlagiarismView(BaseSolutionView):
     def do_get(self, request, solution):
         plagiarism_judgements = JudgementResult.\
             objects.filter(solution_to_judge=solution).all().\
-            select_related('solution_to_judge').\
             select_related('solution_to_compare').\
-            select_related('algorithm').\
             select_related('solution_to_compare__author').\
-            order_by('-similarity')
-        context = self.get_context_data(judgements=plagiarism_judgements)
+            order_by('-similarity', '-solution_to_compare__reception_time')
+
+        context = paginate(request, plagiarism_judgements, self.paginate_by)
+        context = self.get_context_data(**context)
         return render(request, self.template_name, context)
