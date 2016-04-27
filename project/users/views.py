@@ -13,6 +13,7 @@ from cauth.mixins import StaffMemberRequiredMixin
 from common.folderutils import lookup_node_ex, cast_id
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView
+from solutions.models import Solution
 
 import forms
 from models import UserFolder, UserProfile
@@ -247,7 +248,8 @@ class ProfileShowView(BaseProfileView, generic.View):
     template_name = 'users/profile_show.html'
 
     def get(self, request, user):
-        context = self.get_context_data()
+        num_solutions = Solution.objects.filter(author=user).count()
+        context = self.get_context_data(num_solutions=num_solutions)
         return render(request, self.template_name, context)
 
 

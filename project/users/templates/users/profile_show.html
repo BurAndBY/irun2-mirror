@@ -57,4 +57,13 @@
     <dd>{{ edited_profile.needs_change_password|yesno }}</dd>
 </dl>
 
+<dl class="dl-horizontal">
+    <dt>{% trans 'Solutions' %}</dt>
+    {% if num_solutions %}
+        <dd><a href="{% url 'solutions:list' %}?user={{ edited_user.id }}">{{ num_solutions }} {% blocktrans count counter=num_solutions %}solution{% plural %}solutions{% endblocktrans %}</a></dd>
+    {% else %}
+        <dd>{% trans 'no' %}</dd>
+    {% endif %}
+</dl>
+
 {% endblock %}
