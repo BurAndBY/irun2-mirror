@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load irunner_pagination %}
 {% load irunner_solutions %}
 {% load irunner_users %}
 
 {% block content %}
 <h1>{% block title %}{% trans 'Rejudges' %}{% endblock %}</h1>
+
+{% irunner_pagination pagination_context %}
 
 <table class="table table-condensed">
     <thead>

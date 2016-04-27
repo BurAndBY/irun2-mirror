@@ -13,7 +13,7 @@ from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pageutils import paginate
-from common.views import MassOperationView
+from common.views import MassOperationView, IRunnerListView
 from common.outcome import Outcome
 from problems.description import IDescriptionImageLoader, render_description
 from problems.models import Problem, ProblemRelatedFile
@@ -187,7 +187,7 @@ Rejudge
 '''
 
 
-class RejudgeListView(StaffMemberRequiredMixin, generic.ListView):
+class RejudgeListView(StaffMemberRequiredMixin, IRunnerListView):
     template_name = 'solutions/rejudge_list.html'
 
     def get_queryset(self):

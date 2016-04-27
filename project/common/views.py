@@ -86,7 +86,7 @@ class HallOfFameView(StaffMemberRequiredMixin, generic.View):
 
 class IRunnerBaseListView(generic.list.MultipleObjectMixin, generic.View):
     allow_all = True
-    paginate_by = 0
+    paginate_by = 25
 
     def get_context_data(self, **kwargs):
         queryset = kwargs.pop('object_list', self.object_list)
