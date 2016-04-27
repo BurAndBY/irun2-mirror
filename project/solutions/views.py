@@ -124,7 +124,7 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             if problem_id is not None:
                 queryset = queryset.filter(problem_id=problem_id)
 
-        context = paginate(request, queryset, self.paginate_by)
+        context = paginate(request, queryset, self.paginate_by, allow_all=False)
         context['form'] = form
         return render(request, self.template_name, context)
 '''
@@ -138,7 +138,7 @@ class JudgementListView(StaffMemberRequiredMixin, generic.View):
 
     def get(self, request):
         queryset = Judgement.objects.select_related('extra_info').order_by('-id')
-        context = paginate(request, queryset, self.paginate_by)
+        context = paginate(request, queryset, self.paginate_by, allow_all=False)
         return render(request, self.template_name, context)
 
 

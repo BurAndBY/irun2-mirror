@@ -31,7 +31,7 @@
         <li>
             <span class="ir-info">
                 {% if ctxt.page_obj %}
-                    {% trans 'Page' %} {{ ctxt.page_obj.number }}: {{ ctxt.page_obj.start_index }}–{{ ctxt.page_obj.end_index }} {% trans 'of' %} {{ ctxt.object_count }}
+                    <strong>{% trans 'Page' %} {{ ctxt.page_obj.number }}</strong>: {{ ctxt.page_obj.start_index }}–{{ ctxt.page_obj.end_index }} {% trans 'of' %} {{ ctxt.object_count }}
                 {% else %}
                     1–{{ ctxt.object_count }}
                 {% endif %}
@@ -73,12 +73,14 @@
                 {% endif %}
             </li>
         {% endfor %}
-        <li>
-            {% if ctxt.per_page_count == 0 %}
-                <span class="ir-selected">{% trans 'All' %}</span>
-            {% else %}
-                <a href="?size=0{{ ctxt.query_params_other }}">{% trans 'All' %}</a>
-            {% endif %}
-        </li>
+        {% if ctxt.allow_all %}
+            <li>
+                {% if ctxt.per_page_count == 0 %}
+                    <span class="ir-selected">{% trans 'All' %}</span>
+                {% else %}
+                    <a href="?size=0{{ ctxt.query_params_other }}">{% trans 'All' %}</a>
+                {% endif %}
+            </li>
+        {% endif %}
     </ul>
 </nav>
