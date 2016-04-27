@@ -1001,7 +1001,7 @@ class CreateProblemView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.Fo
             if folder_id is not None:
                 problem.folders.add(folder_id)
 
-        url = reverse('problems:overview', kwargs={'problem_id': problem.id})
+        url = reverse('problems:properties', kwargs={'problem_id': problem.id})
         url += make_folder_query_string(folder_id_or_root)
         return HttpResponseRedirect(url)
 
