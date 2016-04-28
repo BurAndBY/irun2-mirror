@@ -37,7 +37,7 @@ class CompilersForm(forms.ModelForm):
 
 
 class TopicForm(forms.ModelForm):
-    problem_folder = OrderedTreeNodeChoiceField(label=_('Problem folder'), queryset=ProblemFolder.objects.order_by('name'))
+    problem_folder = OrderedTreeNodeChoiceField(label=_('Problem folder'), queryset=None)
     num_problems = forms.IntegerField(label=_('Problems to assign per student in the course'), min_value=0, max_value=10, initial=1)
 
     class Meta:
@@ -46,6 +46,10 @@ class TopicForm(forms.ModelForm):
         widgets = {
             'criteria': forms.CheckboxSelectMultiple
         }
+
+    def __init__(self, *args, **kwargs):
+        super(TopicForm, self).__init__(*args, **kwargs)
+        self.fields['problem_folder'].queryset = ProblemFolder.objects.order_by('name')
 
 
 class ActivityForm(forms.ModelForm):

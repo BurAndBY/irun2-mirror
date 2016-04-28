@@ -144,7 +144,11 @@ class ChangePasswordMassForm(forms.Form):
 
 
 class MoveUsersForm(forms.Form):
-    folder = OrderedTreeNodeChoiceField(label=_('Destination folder'), queryset=UserFolder.objects.all(), required=False)
+    folder = OrderedTreeNodeChoiceField(label=_('Destination folder'), queryset=None, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(MoveUsersForm, self).__init__(*args, **kwargs)
+        self.fields['folder'].queryset = UserFolder.objects.all()
 
 '''
 User search
@@ -168,7 +172,7 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=UserFolder.objects.all(), required=False)
+    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=None, required=False)
 
     class Meta:
         model = UserProfile
@@ -178,6 +182,10 @@ class UserProfileForm(forms.ModelForm):
             'needs_change_password': _('User will see a warning message until he sets a new password. '
                                        'This prevents usage of insecure default passwords.')
         }
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['folder'].queryset = UserFolder.objects.all()
 
 
 class UserPermissionsForm(forms.ModelForm):
