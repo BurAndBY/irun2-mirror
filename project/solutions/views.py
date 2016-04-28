@@ -44,6 +44,8 @@ class DescriptionImageLoader(IDescriptionImageLoader):
 class TestCaseResultMixin(object):
     def serve_testcaseresult_page(self, testcaseresult, data_url_pattern, image_url_pattern, item_id):
         limit = 2**12
+        max_lines = 32
+        max_line_length = None
         storage = create_storage()
 
         context = {
@@ -51,11 +53,11 @@ class TestCaseResultMixin(object):
             'data_url_pattern': data_url_pattern,
             'image_url_pattern': image_url_pattern,
             'item_id': item_id,
-            'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit),
-            'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit),
-            'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit),
-            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit),
-            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit),
+            'input_repr': storage.represent(testcaseresult.input_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
+            'output_repr': storage.represent(testcaseresult.output_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
+            'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
+            'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
+            'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
         }
 
         test_case = testcaseresult.test_case

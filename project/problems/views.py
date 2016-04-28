@@ -322,6 +322,31 @@ class ProblemTestsView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
+FetchedTestCase = collections.namedtuple('FetchedTestCase', 'test_case input_repr answer_repr')
+
+
+class ProblemBrowseTestsView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/tests_browse.html'
+    max_lines = 10
+    max_line_length = 48
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        fetched_test_cases = []
+        test_cases = problem.testcase_set.all().order_by('ordinal_number')
+        storage = create_storage()
+
+        for test_case in test_cases:
+            input_repr = storage.represent(test_case.input_resource_id, max_lines=self.max_lines, max_line_length=self.max_line_length)
+            answer_repr = storage.represent(test_case.answer_resource_id, max_lines=self.max_lines, max_line_length=self.max_line_length)
+            fetched_test_cases.append(FetchedTestCase(test_case, input_repr, answer_repr))
+
+        context = self._make_context(problem, {'fetched_test_cases': fetched_test_cases})
+        return render(request, self.template_name, context)
+
+
 class DescriptionImageLoader(IDescriptionImageLoader):
     def __init__(self, problem, test_number):
         self._problem = problem

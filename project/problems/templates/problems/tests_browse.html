@@ -1,0 +1,38 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load irunner_storage %}
+{% load i18n %}
+
+{% block main %}
+{% if not fetched_test_cases %}
+    <div class="ir-absence">{% trans 'No tests' %}</div>
+{% else %}
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans '#' %}</th>
+            <th>{% trans 'Input' %}</th>
+            <th>{% trans 'Output' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for ftc in fetched_test_cases %}
+        {% with ftc.test_case as tc %}
+        <tr>
+            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></td>
+            <td>
+                <span class="ir-file-size">{{ ftc.test_case.input_size|filesizeformat }}</span>
+                {% irunner_storage_show ftc.input_repr compact=True %}
+            </td>
+            <td>
+                <span class="ir-file-size">{{ ftc.test_case.answer_size|filesizeformat }}</span>
+                {% irunner_storage_show ftc.answer_repr compact=True %}
+            </td>
+        </tr>
+        {% endwith %}
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

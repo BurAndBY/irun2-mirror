@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import binascii
 import hashlib
 import os
@@ -9,6 +11,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.db import models
 
 HASH_SIZE = 20
+ELLIPSIS = u'…'
 
 
 class ResourceId(object):
@@ -168,7 +171,17 @@ def _try_decode_ascii(blob):
     return None
 
 
-def _represent(blob, full_size, max_lines):
+def _cut_line(line, max_line_length):
+    if len(line) <= max_line_length:
+        return line
+    last_space = line.rfind(u' ', 0, max_line_length)
+    if last_space != -1 and last_space >= max_line_length // 2:
+        return line[:last_space] + ELLIPSIS
+    else:
+        return line[:(max_line_length-3)] + ELLIPSIS
+
+
+def _represent(blob, full_size, max_lines, max_line_length):
     assert len(blob) <= full_size
     is_complete = len(blob) == full_size
 
@@ -192,12 +205,27 @@ def _represent(blob, full_size, max_lines):
         if text is None:
             text = _try_decode_ascii(blob)
 
-    if text is not None and max_lines is not None:
-        lines = text.splitlines(True)
-        if len(lines) > max_lines:
-            keep_lines = max(0, max_lines - 10)
-            text = ''.join(lines[:keep_lines])
+    if text is not None and (max_lines is not None or max_line_length is not None):
+        lines = text.splitlines(False)
+        modified = False
+
+        if (max_lines is not None) and (len(lines) > max_lines):
+            keep_lines = max(0, max_lines - 1)
+            lines = lines[:keep_lines] + [ELLIPSIS]
+            modified = True
+
+        if (max_line_length is not None):
+            cut_lines = []
+            for line in lines:
+                cut_line = _cut_line(line, max_line_length)
+                if line != cut_line:
+                    modified = True
+                cut_lines.append(cut_line)
+            lines = cut_lines
+
+        if modified:
             is_complete = False
+            text = '\n'.join(lines)
 
     if is_complete:
         flags |= ResourseRepresentation.IS_COMPLETE
@@ -292,12 +320,12 @@ class FileSystemStorage(IDataStorage):
         else:
             return self._do_save(f)
 
-    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT, max_lines=None):
+    def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT, max_lines=None, max_line_length=None):
         if resource_id is None:
             return None
         blob = _get_data_directly(resource_id)
         if blob is not None:
-            return _represent(blob, len(blob), max_lines)
+            return _represent(blob, len(blob), max_lines, max_line_length)
 
         target_name = self._get_path(resource_id)
         if not os.path.exists(target_name):
@@ -311,7 +339,7 @@ class FileSystemStorage(IDataStorage):
 
             fd.seek(0, os.SEEK_SET)
             blob = fd.read(part)
-            return _represent(blob, size, max_lines)
+            return _represent(blob, size, max_lines, max_line_length)
 
     def _is_exist(self, resource_id):
         blob = _get_data_directly(resource_id)

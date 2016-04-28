@@ -7,7 +7,7 @@
             </div>
         {% else %}
             {% if representation.text != None %}
-                {% if not representation.is_complete %}
+                {% if not representation.is_complete and not compact %}
                 <div class="alert alert-info">
                     {% trans "The file is <strong>too big</strong>, so it is displayed truncated. You can download the full version." %}
                 </div>
@@ -16,7 +16,7 @@
                 {% if programming_language and representation.is_complete %}
                     <pre class="ir-pre"><code class="{{ programming_language }} hljs">{{ representation.text }}</code></pre>
                 {% else %}
-                    <pre class="ir-pre"><code class="hljs">{{ representation.text }}{% if not representation.is_complete %}...{% endif %}</code></pre>
+                    <pre class="ir-pre"><code class="hljs">{{ representation.text }}</code></pre>
                 {% endif %}
             {% endif %}
         {% endif %}
