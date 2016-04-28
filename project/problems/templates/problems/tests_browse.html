@@ -20,7 +20,9 @@
     {% for ftc in fetched_test_cases %}
         {% with ftc.test_case as tc %}
         <tr>
-            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></td>
+            <td>
+                <a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{{ tc.ordinal_number }}</a>
+            </td>
             <td>
                 <span class="ir-file-size">{{ ftc.test_case.input_size|filesizeformat }}</span>
                 {% irunner_storage_show ftc.input_repr compact=True %}
