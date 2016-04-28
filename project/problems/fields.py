@@ -11,6 +11,7 @@ class FloatStoredAsIntField(forms.FloatField):
 
     def __init__(self, *args, **kwargs):
         kwargs['min_value'] = 0
+        kwargs['help_text'] = self.help_text
         super(FloatStoredAsIntField, self).__init__(*args, **kwargs)
 
     def prepare_value(self, value):
@@ -54,7 +55,7 @@ class TimeLimitField(FloatStoredAsIntField):
         'too_big': _('Time limit is too big (exceeds %(limit)s s).'),
         'too_small': _('Time limit is too small.'),
     }
-
+    help_text = _('Time limit per test measured in seconds (i.e. 0.5 or 2).')
     int_to_float_ratio = 1000
     max_float_value = 3600
 
@@ -65,6 +66,6 @@ class MemoryLimitField(FloatStoredAsIntField):
         'too_big': _('Memory limit is too big (exceeds %(limit)s MB).'),
         'too_small': _('Memory limit is too small.'),
     }
-
+    help_text = _('Memory limit per test measured in mebibytes (i.e. 64 or 256).')
     int_to_float_ratio = 1024 * 1024
     max_float_value = 2048

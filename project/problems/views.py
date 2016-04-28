@@ -41,7 +41,7 @@ import solutions.utils
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
 from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm, ChallengeForm
-from .forms import ProblemFolderForm, PolygonImportForm, SimpleProblemForm
+from .forms import ProblemFolderForm, PolygonImportForm, SimpleProblemForm, ProblemExtraInfoForm
 from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
 from .navigator import Navigator, make_folder_query_string
 from .polygon import import_full_package
@@ -50,6 +50,14 @@ from .texrenderer import render_tex
 from .description import IDescriptionImageLoader, render_description
 from .tabs import PROBLEM_TAB_MANAGER
 from .validation import revalidate_testset
+
+
+def make_initial_limits(problem):
+    return {
+        'time_limit': problem.get_default_time_limit(),
+        'memory_limit': problem.get_default_memory_limit()
+    }
+
 
 '''
 Problem statement
@@ -169,7 +177,7 @@ class BaseProblemView(StaffMemberRequiredMixin, generic.View):
     tab = None
 
     def _load(self, problem_id):
-        return get_object_or_404(Problem, pk=problem_id)
+        return get_object_or_404(Problem.objects.select_related('extra'), pk=problem_id)
 
     def _make_context(self, problem, extra=None):
         tab_manager = PROBLEM_TAB_MANAGER
@@ -263,7 +271,7 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 '''
 Tests
 '''
-ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message')
+ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message has_default_limits')
 
 
 class ProblemTestsView(BaseProblemView):
@@ -295,7 +303,11 @@ class ProblemTestsView(BaseProblemView):
             is_valid, validator_message = validated_inputs.get(test_case.input_resource_id, (None, None))
             stats[is_valid] += 1
             all_test_count += 1
-            validated_test_cases.append(ValidatedTestCase(test_case, is_valid, validator_message))
+            has_default_limits = (
+                test_case.time_limit == problem.get_default_time_limit() and
+                test_case.memory_limit == problem.get_default_memory_limit()
+            )
+            validated_test_cases.append(ValidatedTestCase(test_case, is_valid, validator_message, has_default_limits))
 
         if all_test_count > 0:
             if stats[True] == all_test_count:
@@ -498,7 +510,7 @@ class ProblemTestsNewView(BaseProblemView):
 
         input_form = self._make_data_form('input')
         answer_form = self._make_data_form('answer')
-        description_form = TestDescriptionForm(initial={'time_limit': 1000})
+        description_form = TestDescriptionForm(initial=make_initial_limits(problem))
 
         context = self._make_context(problem, {
             'input_form': input_form,
@@ -556,7 +568,7 @@ class ProblemTestsBatchSetView(BaseProblemView):
         problem = self._load(problem_id)
         ids = make_int_list_quiet(request.GET.getlist('id'))
         context = self._make_context(problem, {
-            'form': self.form_class(),
+            'form': self.form_class(initial=make_initial_limits(problem)),
             'ids': ids,
             'url_pattern': self.url_pattern,
         })
@@ -565,7 +577,7 @@ class ProblemTestsBatchSetView(BaseProblemView):
     def post(self, request, problem_id):
         problem = self._load(problem_id)
         ids = make_int_list_quiet(request.POST.getlist('id'))
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, initial=make_initial_limits(problem))
         if form.is_valid():
             queryset = problem.testcase_set.filter(ordinal_number__in=ids)
             self.apply(queryset, form)
@@ -602,7 +614,7 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
         form = ProblemTestArchiveUploadForm()
-        description_form = TestDescriptionForm(initial={'time_limit': 1000})
+        description_form = TestDescriptionForm(initial=make_initial_limits(problem))
         context = self._make_context(problem, {'form': form, 'description_form': description_form})
         return render(request, self.template_name, context)
 
@@ -1252,26 +1264,40 @@ class ProblemPropertiesView(BaseProblemView):
     tab = 'properties'
     template_name = 'problems/properties.html'
 
+    def _make_forms(self, problem, data=None):
+        form = ProblemForm(data=data, instance=problem)
+        initial = {'default_time_limit': problem.get_default_time_limit(), 'default_memory_limit': problem.get_default_memory_limit()}
+        extra = problem.get_extra()
+        extra_form = ProblemExtraInfoForm(data=data, instance=extra, initial=initial)
+        return form, extra_form
+
     def get(self, request, problem_id):
         problem = self._load(problem_id)
-
-        form = ProblemForm(instance=problem)
-
         context = self._make_context(problem)
+
+        form, extra_form = self._make_forms(problem)
         context['form'] = form
+        context['extra_form'] = extra_form
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = ProblemForm(request.POST, instance=problem)
-        if form.is_valid():
-            form.save()
-            if form.has_changed():
+        form, extra_form = self._make_forms(problem, request.POST)
+        if form.is_valid() and extra_form.is_valid():
+            with transaction.atomic():
+                form.save()
+                extra = extra_form.save(commit=False)
+                extra.pk = problem.id
+                extra.save()
+
+            if form.has_changed() or extra_form.has_changed():
                 messages.add_message(request, messages.INFO, CHANGES_HAVE_BEEN_SAVED)
             return redirect_with_query_string(request, 'problems:properties', problem.id)
 
-        context = self._make_context(problem, {'form': form})
+        context = self._make_context(problem)
+        context['form'] = form
+        context['extra_form'] = extra_form
         return render(request, self.template_name, context)
 
 
@@ -1406,7 +1432,7 @@ class ProblemNewChallengeView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
         input_form = TestUploadOrTextForm()
-        challenge_form = ChallengeForm(initial={'time_limit': 1000})
+        challenge_form = ChallengeForm(initial=make_initial_limits(problem))
         context = self._make_context(problem, {'input_form': input_form, 'challenge_form': challenge_form})
         return render(request, self.template_name, context)
 

@@ -5,9 +5,6 @@
 
 <div class="row">
     <div class="col-md-6">
-        {% bootstrap_field form.description %}
-    </div>
-    <div class="col-md-6">
         <table class="ir-test-limits">
             <tbody>
                 <tr>
@@ -16,13 +13,16 @@
                 </tr>
                 <tr>
                     <td>{% trans 'Time limit' %}&nbsp;({% trans 's' %})</td>
-                    <td>{% bootstrap_field form.time_limit show_label=False %}</td>
+                    <td>{% bootstrap_field form.time_limit show_label=False show_help=False %}</td>
                 </tr>
                 <tr>
                     <td>{% trans 'Memory limit' %}&nbsp;({% trans 'MB' %})</td>
-                    <td>{% bootstrap_field form.memory_limit show_label=False %}</td>
+                    <td>{% bootstrap_field form.memory_limit show_label=False show_help=False %}</td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="col-md-6">
+        {% bootstrap_field form.description %}
     </div>
 </div>

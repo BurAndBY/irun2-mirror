@@ -2,14 +2,16 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from common.outcome import Outcome
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
+
+DEFAULT_TIME_LIMIT = 1000  # 1 s
+DEFAULT_MEMORY_LIMIT = 1 * 1024 * 1024 * 1024  # 1 GB
 
 
 class ProblemFolder(MPTTModel):
@@ -34,6 +36,20 @@ class Problem(models.Model):
 
     class Meta:
         ordering = ['number', 'subnumber', 'full_name']
+
+    def get_extra(self):
+        try:
+            return self.extra
+        except ObjectDoesNotExist:
+            return None
+
+    def get_default_time_limit(self):
+        extra = self.get_extra()
+        return extra.default_time_limit if extra is not None else DEFAULT_TIME_LIMIT
+
+    def get_default_memory_limit(self):
+        extra = self.get_extra()
+        return extra.default_memory_limit if extra is not None else DEFAULT_MEMORY_LIMIT
 
     def get_formatted_number(self):
         if self.number is None:
@@ -81,9 +97,11 @@ class Problem(models.Model):
 
 
 class ProblemExtraInfo(models.Model):
-    problem = models.OneToOneField(Problem, null=False, on_delete=models.CASCADE, primary_key=True)
+    problem = models.OneToOneField(Problem, null=False, on_delete=models.CASCADE, primary_key=True, related_name='extra')
     description = models.TextField(_('description'), blank=True)  # public
     hint = models.TextField(_('hint'), blank=True)  # private
+    default_time_limit = models.IntegerField(default=DEFAULT_TIME_LIMIT)
+    default_memory_limit = models.IntegerField(default=DEFAULT_MEMORY_LIMIT)
 
 
 class ProblemRelatedFile(FileMetadataBase):

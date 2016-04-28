@@ -120,8 +120,8 @@ def memory_formatter(value):
 
 
 def represent_limits(problem):
-    time_limit = Bounds()
-    memory_limit = Bounds()
+    time_limit = Bounds(problem.get_default_time_limit())
+    memory_limit = Bounds(problem.get_default_memory_limit())
     for tl, ml in problem.testcase_set.values_list('time_limit', 'memory_limit'):
         time_limit.add(tl)
         memory_limit.add(ml)

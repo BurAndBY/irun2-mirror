@@ -44,9 +44,9 @@
                 {% trans 'Save' %}
             </button>
             {% if test_number %}
-                <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-default">
+                <a href="{% url 'problems:show_test' problem.id test_number %}{{ navigator.query_string }}" role="button" class="btn btn-link">
             {% else %}
-                <a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-default">
+                <a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-link">
             {% endif %}
                 {% trans 'Cancel' %}
             </a>

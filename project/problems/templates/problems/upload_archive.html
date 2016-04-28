@@ -13,7 +13,12 @@
         <hr>
         {% bootstrap_form form %}
         {% buttons %}
-            <button type="submit" class="btn btn-primary">{% trans 'Upload' %}</button>
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Upload' %}
+            </button>
+            <a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-link">
+                {% trans 'Cancel' %}
+            </a>
         {% endbuttons %}
     </form>
 {% endblock %}

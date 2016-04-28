@@ -10,6 +10,7 @@
 <form method="post" class="form-horizontal">
     {% csrf_token %}
     {% bootstrap_form form layout='horizontal' %}
+    {% bootstrap_form extra_form layout='horizontal' %}
     {% buttons layout='horizontal' %}
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}

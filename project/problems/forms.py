@@ -9,7 +9,7 @@ from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from proglangs.models import Compiler
 
 from .importing import extract_tests
-from .models import Problem, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
+from .models import Problem, ProblemExtraInfo, ProblemFolder, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
 from .fields import TimeLimitField, MemoryLimitField
 
 '''
@@ -28,6 +28,7 @@ class ProblemForm(forms.ModelForm):
         model = Problem
         fields = ['difficulty', 'input_filename', 'output_filename']
         help_texts = {
+            'difficulty': _('Difficulty level on the ten-point scale (for courses).'),
             'input_filename': _('Leave empty to use standard input.'),
             'output_filename': _('Leave empty to use standard output.'),
         }
@@ -55,8 +56,15 @@ class ProblemFoldersForm(forms.ModelForm):
 
 
 class ProblemExtraInfoForm(forms.ModelForm):
+    default_time_limit = TimeLimitField(label=_('Time limit'), required=True)
+    default_memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
+
     class Meta:
-        fields = ['offered', 'description', 'hint']
+        model = ProblemExtraInfo
+        fields = ['default_time_limit', 'default_memory_limit', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+        }
 
 
 class TestDescriptionForm(forms.ModelForm):
