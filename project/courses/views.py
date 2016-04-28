@@ -10,15 +10,16 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
 
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
-from services import get_assigned_problem_set, get_simple_assignments
+from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
 from calcpermissions import calculate_course_permissions
 
 from cauth.mixins import StaffMemberRequiredMixin
@@ -191,11 +192,15 @@ class CourseSubmitView(BaseCourseView):
         return initial
 
     def _make_form(self, data=None, files=None):
+        def check_limit(problem_id):
+            return get_attempt_quota(self.course, self.request.user, problem_id) == 0
+
         form = SolutionForm(
             data=data,
             files=files,
             problem_choices=self._make_choices(),
             compiler_queryset=self.course.compilers,
+            attempt_limit_checker=check_limit,
             initial=self._make_initial(),
         )
         return form
@@ -642,6 +647,32 @@ class CourseMyProblemsView(BaseCourseView):
         context = self.get_context_data(user_result=user_result)
         return render(request, self.template_name, context)
 
+
+'''
+My attempts
+'''
+
+
+class CourseMyAttemptsView(BaseCourseView):
+    def is_allowed(self, permissions):
+        return permissions.submit
+
+    def get(self, request, course):
+        problem_id = str_to_uint(request.GET.get('problem'))
+        attempts = get_attempt_quota(course, request.user, problem_id)
+
+        if attempts is not None:
+            if attempts > 0:
+                message = ungettext(
+                    'You have %(count)d attempt remaining for the problem during the day.',
+                    'You have %(count)d attempts remaining for the problem during the day.',
+                    attempts) % {'count': attempts}
+            else:
+                message = ugettext('You have no attempts remaining for the problem. Please try again later.')
+        else:
+            message = ugettext('The number of attempts is not limited.')
+
+        return JsonResponse({'message': message})
 
 '''
 Messages

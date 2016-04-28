@@ -17,10 +17,39 @@
                 {% bootstrap_field form.compiler %}
             </div>
         </div>
+
+        <div class="form-group">
+            <p class="text-info" id="ir_attempts">&nbsp;</p>
+        </div>
+
         {% bootstrap_field form.text %}
         {% bootstrap_field form.upload %}
         {% buttons %}
-            <button type="submit" class="btn btn-default">{% bootstrap_icon 'send' %} <span class="ir-icon-label">{% trans 'Send' %}</span></button>
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon 'send' %} <span class="ir-icon-label">{% trans 'Send' %}</span>
+            </button>
         {% endbuttons %}
     </form>
+
+    <script>
+        function onProblemSelected() {
+            var problemId = $("#id_problem").val();
+            if (problemId) {
+                $.getJSON("{% url 'courses:my_attempts' course.id %}?problem=" + problemId, function(data) {
+                    if (data["message"]) {
+                        $("#ir_attempts").text(data["message"]);
+                    }
+                }).fail(function() {
+                    $("#ir_attempts").text("{% trans 'Error while getting data from server.' %}");
+                });
+            } else {
+                $("#ir_attempts").text("{% trans 'Please select a problem.' %}");
+            }
+        }
+
+        $(document).ready(function() {
+            $("#id_problem").change(onProblemSelected);
+            onProblemSelected();
+        });
+    </script>
 {% endblock %}

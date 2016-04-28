@@ -18,7 +18,7 @@ from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgrou
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['name', 'student_own_solutions_access', 'student_all_solutions_access', 'enable_sheet']
+        fields = ['name', 'student_own_solutions_access', 'student_all_solutions_access', 'enable_sheet', 'attempts_a_day']
         help_texts = {
             'student_own_solutions_access': _('Each access level includes all the previous onces.')
         }
@@ -121,10 +121,19 @@ class CourseCommonProblemsForm(forms.ModelForm):
 
 
 class SolutionForm(solutions.forms.SolutionForm):
-    def __init__(self, problem_choices, compiler_queryset, **kwargs):
+    def __init__(self, problem_choices, compiler_queryset, attempt_limit_checker, **kwargs):
         super(SolutionForm, self).__init__(**kwargs)
         self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
         self.fields['compiler'].queryset = compiler_queryset
+        self.attempt_limit_checker = attempt_limit_checker
+
+    def clean(self):
+        cleaned_data = super(SolutionForm, self).clean()
+        problem = cleaned_data.get('problem')
+        if problem is not None:
+            if self.attempt_limit_checker(problem):
+                raise forms.ValidationError(_('Attempt count limit is reached.'), code='limit')
+        return cleaned_data
 
 
 class SolutionListUserForm(forms.Form):

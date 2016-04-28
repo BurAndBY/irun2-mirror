@@ -35,6 +35,8 @@ class Course(models.Model):
 
     common_problems = models.ManyToManyField(Problem, blank=True)
 
+    attempts_a_day = models.PositiveIntegerField(_('Number of attempts a day per problem'), null=True, blank=True, default=5)
+
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 

@@ -31,6 +31,8 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
 
+    url(r'^(?P<course_id>[0-9]+)/my/attempts/$', views.CourseMyAttemptsView.as_view(), name='my_attempts'),
+
     # Messages
 
     url(r'^(?P<course_id>[0-9]+)/mailbox/$', views.CourseMessagesEmptyView.as_view(), name='messages_empty'),

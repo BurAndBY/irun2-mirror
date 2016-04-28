@@ -29,7 +29,7 @@ class SolutionForm(forms.Form):
     text = forms.CharField(
         label=_('Enter source code'),
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control ir-monospace'}),
+        widget=forms.Textarea(attrs={'class': 'form-control ir-monospace', 'rows': 8}),
         max_length=2**20
     )
     upload = forms.FileField(
@@ -83,6 +83,7 @@ class SolutionForm(forms.Form):
         cleaned_data['filename'] = filename
 
         self._check_size(text, upload)
+        return cleaned_data
 
 
 class AllSolutionsFilterForm(forms.Form):

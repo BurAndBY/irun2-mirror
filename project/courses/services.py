@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from datetime import timedelta
+
 from django.contrib import auth
 from django.db.models import F
 from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 
 from itertools import chain
 from collections import namedtuple
@@ -156,6 +159,25 @@ def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
         data.append((unicode(user_descr.id), unicode(user_descr)))
     return tuple(data)
 
+'''
+Attempt quota
+'''
+
+
+def get_attempt_quota(course, user, problem_id):
+    if (course.attempts_a_day is None) or (not user.is_authenticated()):
+        return None
+
+    ts = timezone.now() - timedelta(days=1)
+
+    used = Solution.objects.filter(
+        coursesolution__course=course,
+        author=user,
+        problem_id=problem_id,
+        reception_time__gte=ts
+        ).count()
+
+    return max(0, course.attempts_a_day - used)
 
 '''
 Assigned problems

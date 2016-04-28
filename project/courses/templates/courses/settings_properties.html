@@ -9,12 +9,13 @@
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
-        <button type="submit" class="btn btn-default">
+        <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
+        <a href="{% url 'courses:course_settings_delete' course.id %}" class="btn btn-link">
+            {% trans 'Delete the course' %}
+        </a>
     {% endbuttons %}
 </form>
-
-<a href="{% url 'courses:course_settings_delete' course.id %}">{% trans 'Delete the course' %}</a>
 
 {% endblock %}
