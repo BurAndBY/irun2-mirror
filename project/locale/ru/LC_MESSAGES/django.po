@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 18:32+0300\n"
-"PO-Revision-Date: 2016-04-29 18:33+0300\n"
+"POT-Creation-Date: 2016-04-29 22:23+0300\n"
+"PO-Revision-Date: 2016-04-29 22:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -134,6 +134,7 @@ msgstr "Изменить язык интерфейса"
 #: .\courses\templates\courses\settings_properties.html:13
 #: .\courses\templates\courses\settings_users.html:44
 #: .\courses\templates\courses\settings_users_edit.html:17
+#: .\news\templates\news\update.html:13
 #: .\problems\templates\problems\batch_edit_tests.html:15
 #: .\problems\templates\problems\edit_file.html:11
 #: .\problems\templates\problems\edit_test.html:44
@@ -150,7 +151,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:49
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:50
 msgid "Logout"
 msgstr "Выход"
 
@@ -167,7 +168,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:51
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:52
 msgid "Login"
 msgstr "Вход"
 
@@ -334,6 +335,11 @@ msgstr "Мои соревнования"
 msgid "Contest results"
 msgstr "Результаты соревнований"
 
+#: .\common\templates\common\home.html:81 .\news\templates\news\index.html:9
+#: .\news\templates\news\show.html:6 .\templates\navbar.html:39
+msgid "News"
+msgstr "Новости"
+
 #: .\common\templates\common\irunner_pagination_tag.html:34
 msgid "Page"
 msgstr "Страница"
@@ -367,6 +373,7 @@ msgstr "Загрузка"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
 #: .\courses\templates\courses\assign.html:107
+#: .\news\templates\news\new.html:13
 msgid "Add"
 msgstr "Добавить"
 
@@ -578,6 +585,7 @@ msgid "Message"
 msgstr "Сообщение"
 
 #: .\contests\models.py:115 .\courses\models.py:165 .\feedback\models.py:12
+#: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
@@ -648,6 +656,7 @@ msgstr "Удалить"
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:16
 #: .\courses\templates\courses\settings_users_edit.html:20
+#: .\news\templates\news\new.html:14 .\news\templates\news\update.html:14
 #: .\problems\templates\problems\batch_edit_tests.html:18
 #: .\problems\templates\problems\delete.html:23
 #: .\problems\templates\problems\delete_file.html:15
@@ -681,6 +690,7 @@ msgstr "Применить"
 
 #: .\contests\templates\contests\all_solutions.html:30
 #: .\courses\templates\courses\solutions.html:37
+#: .\news\templates\news\index.html:19
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
 #: .\problems\templates\problems\solutions.html:34
@@ -948,6 +958,7 @@ msgstr "Ответить"
 
 #: .\contests\templates\contests\question_answers.html:51
 #: .\courses\templates\courses\criterion_confirm_delete.html:18
+#: .\news\templates\news\show.html:15
 msgid "Back"
 msgstr "Назад"
 
@@ -1192,7 +1203,7 @@ msgstr "отсутствие"
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\services.py:125 .\courses\templates\courses\assign.html:123
+#: .\courses\services.py:126 .\courses\templates\courses\assign.html:123
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
 msgid "Common problems"
@@ -1598,7 +1609,7 @@ msgstr "— Общий вопрос —"
 msgid "— All —"
 msgstr "— Все —"
 
-#: .\feedback\models.py:13
+#: .\feedback\models.py:13 .\news\models.py:10
 msgid "message body"
 msgstr "тело сообщения"
 
@@ -1635,6 +1646,30 @@ msgstr "Ваше сообщение сохранено."
 #: .\irunner2\settings_prod.py:43
 msgid "Wiki"
 msgstr "Вики"
+
+#: .\news\models.py:11
+msgid "show on the main page"
+msgstr "показывать на главной странице"
+
+#: .\news\templates\news\index.html:12 .\news\templates\news\new.html:7
+msgid "Add news"
+msgstr "Добавить новость"
+
+#: .\news\templates\news\index.html:18
+msgid "Date"
+msgstr "Дата"
+
+#: .\news\templates\news\index.html:20
+msgid "Subject"
+msgstr "Тема"
+
+#: .\news\templates\news\index.html:21
+msgid "Visibility"
+msgstr "Видимость"
+
+#: .\news\templates\news\update.html:7
+msgid "Update news"
+msgstr "Обновить новость"
 
 #: .\problems\fields.py:54
 msgid "Time limit cannot be negative."
@@ -2029,7 +2064,7 @@ msgstr "Файлы с кодом"
 msgid "(checkers, validators)"
 msgstr "(программы проверки, контролёры тестов)"
 
-#: .\problems\templates\problems\files.html:60 .\proglangs\views.py:40
+#: .\problems\templates\problems\files.html:60 .\proglangs\views.py:42
 #: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:91
 msgid "Compiler"
 msgstr "Компилятор"
@@ -2413,7 +2448,7 @@ msgstr "команда компиляции"
 msgid "run command"
 msgstr "команда запуска"
 
-#: .\proglangs\templates\proglangs\index.html:11 .\proglangs\views.py:26
+#: .\proglangs\templates\proglangs\index.html:11 .\proglangs\views.py:28
 msgid "New compiler"
 msgstr "Новый компилятор"
 

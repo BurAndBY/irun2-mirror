@@ -9,6 +9,7 @@ from contests.models import Contest, UnauthorizedAccessLevel
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
 from courses.calcpermissions import calculate_course_permissions
+from news.models import NewsMessage
 from solutions.models import Solution
 from problems.models import Problem
 
@@ -41,6 +42,10 @@ def home(request):
 
     public_contests = Contest.objects.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS).order_by('-start_time')
     context['public_contests'] = public_contests
+
+    news = NewsMessage.objects.filter(is_public=True).order_by('-when')
+    context['news'] = news
+
     return render(request, 'common/home.html', context)
 
 

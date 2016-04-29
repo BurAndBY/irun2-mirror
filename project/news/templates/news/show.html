@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{% trans 'News' %}{% endblock %}
+
+{% block content %}
+    <h4>{{ object.when }}</h4>
+    <h3>{{ object.subject }}</h3>
+    <hr>
+    {{ object.body|urlize|linebreaks }}
+    <hr>
+    <p>
+        <a href="{% url 'home' %}">{% trans 'Back' %}</a>
+    </p>
+{% endblock %}

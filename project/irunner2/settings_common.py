@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'contests',
     'courses',
     'feedback',
+    'news',
     'plagiarism',
     'problems',
     'proglangs',

@@ -75,6 +75,21 @@
         </ul>
     </div>
 {% endif %}
+
+{% if news %}
+    <div class="col-sm-4">
+        <h2>{% bootstrap_icon 'bullhorn' %} <span class="ir-icon-label">{% trans 'News' %}</span></h2>
+        <ul class="list-unstyled">
+        {% for obj in news %}
+            <li>
+                <strong>{{ obj.when|date:"DATE_FORMAT" }}</strong>
+                <p><a href="{% url 'news:show' obj.id %}">{{ obj.subject }}</a></p>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 </div>
 
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_users %}
+{% load irunner_yesno %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'News' %}{% endblock %}</h1>
+
+    <div class="form-group">
+        <a href="{% url 'news:new' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add news' %}</span></a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{% trans 'Date' %}</th>
+                <th>{% trans 'Author' %}</th>
+                <th>{% trans 'Subject' %}</th>
+                <th>{% trans 'Visibility' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in object_list %}
+                <tr>
+                    <td><a href="{% url 'news:update' msg.id %}">{{ msg.when }}</a></td>
+                    <td>{% irunner_users_show msg.author %}</td>
+                    <td>{{ msg.subject }}</td>
+                    <td>{% irunner_yesno msg.is_public %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

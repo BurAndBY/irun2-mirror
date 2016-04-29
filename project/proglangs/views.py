@@ -2,10 +2,12 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
+from cauth.mixins import StaffMemberRequiredMixin
+
 from .models import Compiler
 
 
-class IndexView(ListView):
+class IndexView(StaffMemberRequiredMixin, ListView):
     template_name = 'proglangs/index.html'
     context_object_name = 'compilers'
 
@@ -13,7 +15,7 @@ class IndexView(ListView):
         return Compiler.objects.all()
 
 
-class CreateCompilerView(CreateView):
+class CreateCompilerView(StaffMemberRequiredMixin, CreateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
     fields = ['handle', 'language', 'description', 'legacy']
@@ -27,7 +29,7 @@ class CreateCompilerView(CreateView):
         return context
 
 
-class UpdateCompilerView(UpdateView):
+class UpdateCompilerView(StaffMemberRequiredMixin, UpdateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
     fields = ['handle', 'language', 'description', 'legacy']

@@ -5,6 +5,7 @@ from django.views import generic
 
 import storage.utils as fsutils
 from common.views import IRunnerListView
+from cauth.mixins import StaffMemberRequiredMixin
 
 import forms
 import models
@@ -52,7 +53,7 @@ class FeedbackThanksView(generic.View):
         return render(request, 'feedback/thanks.html', {})
 
 
-class ListFeedbackView(IRunnerListView):
+class ListFeedbackView(StaffMemberRequiredMixin, IRunnerListView):
     model = models.FeedbackMessage
     template_name = 'feedback/list.html'
     paginate_by = 7
@@ -61,7 +62,7 @@ class ListFeedbackView(IRunnerListView):
         return ListFeedbackView.model.objects.order_by('-when')
 
 
-class FeedbackDownloadView(generic.View):
+class FeedbackDownloadView(StaffMemberRequiredMixin, generic.View):
     def get(self, request, message_id, filename):
         message = get_object_or_404(models.FeedbackMessage, pk=message_id)
         if message.attachment is None:
@@ -72,7 +73,7 @@ class FeedbackDownloadView(generic.View):
         return fsutils.serve_resource_metadata(request, message.attachment)
 
 
-class FeedbackDeleteView(generic.DeleteView):
+class FeedbackDeleteView(StaffMemberRequiredMixin, generic.DeleteView):
     model = models.FeedbackMessage
     template_name = 'feedback/confirm.html'
     success_url = reverse_lazy('feedback:list')
