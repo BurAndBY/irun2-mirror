@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
+from django.template import defaultfilters
 
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
@@ -193,7 +194,8 @@ class CourseSubmitView(BaseCourseView):
 
     def _make_form(self, data=None, files=None):
         def check_limit(problem_id):
-            return get_attempt_quota(self.course, self.request.user, problem_id) == 0
+            quota, _ = get_attempt_quota(self.course, self.request.user, problem_id)
+            return quota == 0
 
         form = SolutionForm(
             data=data,
@@ -659,7 +661,7 @@ class CourseMyAttemptsView(BaseCourseView):
 
     def get(self, request, course):
         problem_id = str_to_uint(request.GET.get('problem'))
-        attempts = get_attempt_quota(course, request.user, problem_id)
+        attempts, next_try = get_attempt_quota(course, request.user, problem_id)
 
         if attempts is not None:
             if attempts > 0:
@@ -668,7 +670,13 @@ class CourseMyAttemptsView(BaseCourseView):
                     'You have %(count)d attempts remaining for the problem during the day.',
                     attempts) % {'count': attempts}
             else:
-                message = ugettext('You have no attempts remaining for the problem. Please try again later.')
+                message = ugettext('You have no attempts remaining for the problem.')
+                if next_try is not None:
+                    tz = timezone.get_current_timezone()
+                    ts = defaultfilters.date(next_try.astimezone(tz), 'DATETIME_FORMAT')
+
+                    message += ' '
+                    message += ugettext('Please try again after %(ts)s.') % {'ts': ts}
         else:
             message = ugettext('The number of attempts is not limited.')
 

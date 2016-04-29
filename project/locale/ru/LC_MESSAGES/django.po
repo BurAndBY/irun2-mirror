@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 02:19+0300\n"
-"PO-Revision-Date: 2016-04-29 02:28+0300\n"
+"POT-Creation-Date: 2016-04-29 18:32+0300\n"
+"PO-Revision-Date: 2016-04-29 18:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -466,8 +466,8 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:39
-#: .\courses\templates\courses\standings.html:61 .\courses\views.py:539
-#: .\courses\views.py:600 .\problems\templates\problems\base.html:5
+#: .\courses\templates\courses\standings.html:61 .\courses\views.py:541
+#: .\courses\views.py:602 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
@@ -667,7 +667,7 @@ msgstr "Отмена"
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:578
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:580
 msgid "All solutions"
 msgstr "Все решения"
 
@@ -995,7 +995,7 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:619
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:621
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1093,7 +1093,7 @@ msgstr "Достигнуто ограничение по числу попыто
 #: .\courses\forms.py:211 .\courses\settingsviews.py:95
 #: .\courses\templates\courses\sheet.html:31
 #: .\courses\templates\courses\standings.html:24
-#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:531
+#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:533
 msgid "Student"
 msgstr "Студент"
 
@@ -1324,7 +1324,7 @@ msgstr "удалить"
 msgid "There are no criteria defined."
 msgstr "Критерии не определены."
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:470
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:472
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -1564,11 +1564,11 @@ msgstr "Ошибка получения данных с сервера."
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
-#: .\courses\views.py:483
+#: .\courses\views.py:485
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:667
+#: .\courses\views.py:669
 #, python-format
 msgid "You have %(count)d attempt remaining for the problem during the day."
 msgid_plural ""
@@ -1577,20 +1577,24 @@ msgstr[0] "Осталась %(count)d попытка по задаче в теч
 msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
 msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
 
-#: .\courses\views.py:671
-msgid "You have no attempts remaining for the problem. Please try again later."
-msgstr ""
-"Доступные попытки по задаче закончились. Попробуйте отправить решение позже."
-
 #: .\courses\views.py:673
+msgid "You have no attempts remaining for the problem."
+msgstr "Доступные попытки по задаче закончились."
+
+#: .\courses\views.py:679
+#, python-format
+msgid "Please try again after %(ts)s."
+msgstr "Попробуйте отправить решение после %(ts)s."
+
+#: .\courses\views.py:681
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
 
-#: .\courses\views.py:782
+#: .\courses\views.py:790
 msgid "— General question —"
 msgstr "— Общий вопрос —"
 
-#: .\courses\views.py:783
+#: .\courses\views.py:791
 msgid "— All —"
 msgstr "— Все —"
 

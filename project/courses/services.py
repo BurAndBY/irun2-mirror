@@ -163,21 +163,30 @@ def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
 Attempt quota
 '''
 
+AttemptQuotaInfo = namedtuple('AttemptQuotaInfo', 'quota next_try')
+
 
 def get_attempt_quota(course, user, problem_id):
     if (course.attempts_a_day is None) or (not user.is_authenticated()):
-        return None
+        return AttemptQuotaInfo(None, None)
+
+    if course.attempts_a_day <= 0:
+        return AttemptQuotaInfo(0, None)
 
     ts = timezone.now() - timedelta(days=1)
 
-    used = Solution.objects.filter(
+    times = Solution.objects.filter(
         coursesolution__course=course,
         author=user,
         problem_id=problem_id,
         reception_time__gte=ts
-        ).count()
+        ).order_by('-reception_time')[:course.attempts_a_day].values_list('reception_time', flat=True)
 
-    return max(0, course.attempts_a_day - used)
+    times = list(times)
+    if len(times) >= course.attempts_a_day:
+        return AttemptQuotaInfo(0, times[-1] + timedelta(days=1))
+    else:
+        return AttemptQuotaInfo(course.attempts_a_day - len(times), None)
 
 '''
 Assigned problems
