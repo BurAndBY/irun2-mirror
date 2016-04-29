@@ -13,6 +13,7 @@ from itertools import chain
 from collections import namedtuple
 
 from common.constants import EMPTY_SELECT
+from common.outcome import Outcome
 from problems.models import Problem
 from solutions.models import Solution, Judgement
 
@@ -180,7 +181,10 @@ def get_attempt_quota(course, user, problem_id):
         author=user,
         problem_id=problem_id,
         reception_time__gte=ts
-        ).order_by('-reception_time')[:course.attempts_a_day].values_list('reception_time', flat=True)
+        ).\
+        exclude(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.COMPILATION_ERROR).\
+        order_by('-reception_time')[:course.attempts_a_day].\
+        values_list('reception_time', flat=True)
 
     times = list(times)
     if len(times) >= course.attempts_a_day:
