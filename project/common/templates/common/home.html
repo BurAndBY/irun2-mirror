@@ -17,9 +17,9 @@
         <div class="col-md-6 text-right">
             {% get_current_language as lng %}
             {% if lng == 'ru' %}
-                <img src="{% static 'logo_ru.png' %}" width="376" height="96">
+                <img class="img-responsive" src="{% static 'logo_ru.png' %}" width="376" height="96">
             {% elif lng == 'en' %}
-                <img src="{% static 'logo_en.png' %}" width="232" height="97">
+                <img class="img-responsive" src="{% static 'logo_en.png' %}" width="232" height="97">
             {% endif %}
         </div>
     </div>
