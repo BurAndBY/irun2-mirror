@@ -80,14 +80,15 @@
                 {% endfor %}
             {% endfor %}
             <td class="ir-problem-summary text-nowrap">
-                <strong>{{ user_result.get_complete_main_problem_count }}</strong>
+                {{ user_result.get_complete_main_problem_count }}
                 {% if user_result.get_total_extra_problem_count %}
                     <span title="{% trans 'Extra problems' %}">
                         ({{ user_result.get_complete_extra_problem_count }}&thinsp;/&thinsp;{{ user_result.get_total_extra_problem_count }})
                     </span>
                 {% endif %}
             </td>
-            <td>
+            <td class="ir-problem-summary text-nowrap">
+                <strong>{{ user_result.get_problem_solving_mark }}</strong>
             </td>
         </tr>
         {% endfor %}

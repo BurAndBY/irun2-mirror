@@ -30,7 +30,7 @@
     {% if object_list %}
 
     {% irunner_pagination pagination_context %}
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed table-striped ir-compact-table">
         <thead>
             <tr>
                 {% if show_author %}
@@ -49,7 +49,7 @@
             {% for solution in object_list %}
             <tr>
                 {% if show_author %}
-                    <td>{% irunner_courses_showuser solution.author_id user_cache %}</td>
+                    <td class="text-nowrap">{% irunner_courses_showuser solution.author_id user_cache %}</td>
                 {% endif %}
                 <td>
                     {% if solution.problem %}
@@ -64,7 +64,7 @@
                         <a href="{% url 'solutions:source' solution.id %}">{% irunner_proglangs_compilerbox solution.compiler tooltip=True %}</a>
                     {% endif %}
                     {% if show_filename %}
-                        <a href="{% url 'solutions:source' solution.id %}"><span class="small ir-monospace">{{ solution.source_code.filename }}</span></a>
+                        <a href="{% url 'solutions:source' solution.id %}"><span class="small ir-monospace">{{ solution.source_code.filename|truncatechars:14 }}</span></a>
                     {% endif %}
                 </td>
                 <td class="text-nowrap">

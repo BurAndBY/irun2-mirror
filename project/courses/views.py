@@ -516,7 +516,7 @@ Solutions list
 class CourseAllSolutionsView(BaseCourseView):
     tab = 'all_solutions'
     template_name = 'courses/solutions.html'
-    paginate_by = 12
+    paginate_by = 25
 
     def is_allowed(self, permissions):
         return permissions.all_solutions
@@ -593,7 +593,7 @@ class CourseAllSolutionsView(BaseCourseView):
 class CourseMySolutionsView(BaseCourseView):
     tab = 'my_solutions'
     template_name = 'courses/solutions.html'
-    paginate_by = 12
+    paginate_by = 25
 
     def is_allowed(self, permissions):
         return permissions.my_solutions
@@ -622,7 +622,7 @@ class CourseMySolutionsView(BaseCourseView):
 
         # tune visual representation for better fitting screen width
         context['show_author'] = False  # all solutions belong to the same author
-        context['show_compilerbox'] = False
+        context['show_compilerbox'] = True
         context['show_filename'] = True
         context['show_verbose_outcome'] = True
         context['show_outcome_tooltip'] = False

@@ -469,7 +469,6 @@ class SlotResult(object):
 
     def is_complete(self):
         return (self.problem_result is not None
-                and self.problem_result.was_submitted()
                 and self.problem_result.is_ok()
                 and all(criterion_descr.ok for criterion_descr in self.criterion_descrs))
 
@@ -512,8 +511,9 @@ class TopicResult(object):
 
 
 class ActivityResult(object):
-    def __init__(self, activity):
+    def __init__(self, activity, problem_solving_mark):
         self.activity = activity
+        self.problem_solving_mark = problem_solving_mark
         self.record = None
 
     def register_activity_record(self, record):
@@ -524,7 +524,7 @@ class ActivityResult(object):
         classes = []
 
         if self.activity.kind == Activity.MARK:
-            classes = ['ir-sheet-editable', 'ir-sheet-editable-mark']
+            classes = ['ir-sheet-editable', 'ir-score', 'ir-sheet-editable-mark']
             if self.record is not None and self.record.mark in (1, 2, 3):
                 classes.append('ir-sheet-bad')
 
@@ -533,13 +533,14 @@ class ActivityResult(object):
             if self.record is not None and self.record.enum in (ActivityRecord.NO_PASS, ActivityRecord.ABSENCE):
                 classes.append('ir-sheet-bad')
         else:
-            classes = ['ir-sheet-readonly']
+            classes = ['ir-score']
 
         return ' '.join(classes)
 
     def get_html_contents(self):
         if self.activity.kind == Activity.PROBLEM_SOLVING:
-            return u''  # TODO
+            return unicode(self.problem_solving_mark.get_mark())
+
         if self.record is not None:
             if self.activity.kind == Activity.MARK:
                 if self.record.mark > 0:
@@ -549,6 +550,39 @@ class ActivityResult(object):
 
         return u''
 
+    def get_mark(self):
+        if self.activity.kind == Activity.PROBLEM_SOLVING:
+            return self.problem_solving_mark.get_mark()
+
+        if self.record is not None:
+            if self.activity.kind == Activity.MARK:
+                return self.record.mark
+            elif self.activity.kind == Activity.PASSED_OR_NOT:
+                return 10 if self.record.enum == ActivityRecord.PASS else 0
+
+        return 0
+
+
+class ProblemSolvingMark(object):
+    def __init__(self, topic_results):
+        self.topic_results = topic_results
+
+    def get_mark(self):
+        if len(self.topic_results) == 0:
+            return 0
+
+        sum_values = 0
+        for topic_result in self.topic_results:
+            best = 0
+            for slot_result in topic_result.slot_results:
+                if slot_result.is_complete():
+                    d = slot_result.problem_result.problem.difficulty
+                    if d is not None:
+                        best = max(best, d)
+            sum_values += best
+
+        return int(round(1.0 * sum_values / len(self.topic_results)))
+
 
 class UserResult(object):
     def __init__(self, course_descr, user, membership):
@@ -557,7 +591,8 @@ class UserResult(object):
         self.membership = membership
         self.topic_results = [TopicResult(topic_descr) for topic_descr in course_descr.topic_descrs]
         self.common_problem_results = [ProblemResult(problem) for problem in course_descr.common_problems]
-        self.activity_results = [ActivityResult(activity) for activity in course_descr.activities]
+        self.problem_solving_mark = ProblemSolvingMark(self.topic_results)
+        self.activity_results = [ActivityResult(activity, self.problem_solving_mark) for activity in course_descr.activities]
 
     def get_slot_results(self):
         for topic_result in self.topic_results:
@@ -618,3 +653,23 @@ class UserResult(object):
 
     def get_complete_extra_problem_count(self):
         return sum(sum(int(slot_result.is_complete()) for slot_result in topic_result.penalty_problem_results) for topic_result in self.topic_results)
+
+    def get_problem_solving_mark(self):
+        return self.problem_solving_mark.get_mark()
+
+    def get_final_mark(self):
+        sum_values = 0.
+
+        for res in self.activity_results:
+            if res.activity.weight > 0.:
+                sum_values += res.get_mark() * res.activity.weight
+
+        result = None
+
+        if sum_values < 4. - 1.e-6:
+            # round down
+            result = int(sum_values)
+        else:
+            result = int(round(sum_values))
+
+        return max(min(result, 10), 1)

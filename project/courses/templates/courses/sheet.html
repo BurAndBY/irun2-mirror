@@ -34,7 +34,7 @@
                     {% endif %}
 
                     {% if not edit_mode %}
-                        <th rowspan="3">Оценка текущего контроля</th>
+                        <th rowspan="3" class="ir-final-mark ir-activity">Оценка текущего контроля</th>
                     {% endif %}
 
                     {% if extra_activities %}
@@ -43,15 +43,15 @@
                 </tr>
                 <tr>
                     {% for activity in main_activities %}
-                        <th{% if activity.description %} title="{{ activity.description }}"{% endif %}>{{ activity.name }}</th>
+                        <th{% if activity.description %} title="{{ activity.description }}"{% endif %} class="ir-activity">{{ activity.name }}</th>
                     {% endfor %}
                     {% for activity in extra_activities %}
-                        <th rowspan="2"{% if activity.description %} title="{{ activity.description }}"{% endif %}>{{ activity.name }}</th>
+                        <th rowspan="2"{% if activity.description %} title="{{ activity.description }}"{% endif %} class="ir-activity">{{ activity.name }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
                     {% for activity in main_activities %}
-                        <th>{{ activity.weight }}</th>
+                        <th class="ir-activity">{{ activity.weight }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -71,15 +71,15 @@
                     {% endif %}
                 </td>
                 {% for r in ur.get_main_activity_results %}
-                    <td class="{{ r.get_html_class }}"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
+                    <td class="{{ r.get_html_class }} ir-activity"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
                 {% endfor %}
 
                 {% if not edit_mode %}
-                    <td class="ir-score"></td>
+                    <td class="ir-score ir-final-mark ir-activity"><strong>{{ ur.get_final_mark }}</strong></td>
                 {% endif %}
 
                 {% for r in ur.get_extra_activity_results %}
-                    <td class="{{ r.get_html_class }}"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
+                    <td class="{{ r.get_html_class }} ir-activity"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}

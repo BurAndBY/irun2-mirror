@@ -82,7 +82,7 @@ body {
     border-left-color: #ddd;
 }
 .ir-me > td {
-    background-color: #FFFFCC;
+    background-color: #ffffcc !important;
 }
 .ir-course-standings .ir-scorebox {
     min-width: 4em;
@@ -97,8 +97,8 @@ body {
     background-color: #5cb85c;
 }
 .ir-course-standings .ir-problem-summary {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 .ir-course-standings .ir-problem-summary span {
     color: #aa6708;
@@ -477,6 +477,9 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-sheet table, .ir-sheet td, .ir-sheet th {
     border: 1px solid #ccc;
 }
+.ir-sheet tbody > tr:first-child > td {
+    border-top: 4px solid #ccc;
+}
 .ir-sheet td, .ir-sheet th {
     font-family: "Arial", sans-serif;
     font-size: 14px;
@@ -488,14 +491,19 @@ h3 { font-size: 20px; line-height: 32px; }
     padding: 4px 6px;
     font-size: 12px;
 }
-.ir-score {
+.ir-sheet .ir-activity {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ir-sheet .ir-final-mark {
+    background-color: #edf7fc;
+}
+.ir-sheet .ir-score {
     text-align: right;
 }
 .ir-sheet td:focus {
     background-color: #D9EDF7;
-}
-.ir-sheet-editable-mark {
-    text-align: right;
 }
 .ir-sheet-view .ir-sheet-bad {
     color: #d9534f;
