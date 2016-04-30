@@ -37,7 +37,7 @@
                     <th>{% trans 'Author' %}</th>
                 {% endif %}
                 <th>{% trans 'Problem' %}</th>
-                <th class="ir-col-time">{% trans 'Time' %}</th>
+                <th>{% trans 'Time' %}</th>
                 <th>{% trans 'File' %}</th>
                 <th>{% trans 'Status' %}</th>
                 {% if permissions.plagiarism %}
@@ -58,19 +58,19 @@
                         &mdash;
                     {% endif %}
                 </td>
-                <td class="ir-col-time">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
-                <td>
+                <td class="text-nowrap">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td class="text-nowrap">
                     {% if show_compilerbox %}
                         <a href="{% url 'solutions:source' solution.id %}">{% irunner_proglangs_compilerbox solution.compiler tooltip=True %}</a>
                     {% endif %}
                     {% if show_filename %}
-                        <small><tt><a href="{% url 'solutions:source' solution.id %}">{{ solution.source_code.filename }}</a></tt></small>
+                        <a href="{% url 'solutions:source' solution.id %}"><span class="small ir-monospace">{{ solution.source_code.filename }}</span></a>
                     {% endif %}
                 </td>
                 <td class="text-nowrap">
                     {% url 'solutions:main' solution.id as solution_url %}
-                    <a href="{{ solution_url }}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
                     <a href="{{ solution_url }}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=show_outcome_tooltip %}</a>
+                    <a href="{{ solution_url }}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
 
                     {% if show_verbose_outcome and solution.best_judgement %}
                         <a href="{{ solution_url }}">{{ solution.best_judgement.show_status }}</a>

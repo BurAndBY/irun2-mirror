@@ -235,6 +235,7 @@ h3 { font-size: 20px; line-height: 32px; }
  * Programming Language Box
  */
 .ir-langbox {
+    /*
     border-radius: 4px;
     color: #333;
     font-size: 11px;
@@ -243,7 +244,16 @@ h3 { font-size: 20px; line-height: 32px; }
     padding-top: 2px;
     text-align: center;
     width: 50px;
-    display: inline-block;
+    display: inline-block;*/
+    min-width: 4em;
+    border-radius: 2px;
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.ir-langbox span {
+    font-size: 0.9em;
 }
 .ir-langbox-cpp, .ir-langbox-c {
     /*background-color: #DD7E6B;*/
@@ -690,7 +700,7 @@ Yellow menu
 .ir-criterion {
     font-weight: bold;
     font-size: 0.9em;
-    min-width: 1.3em;
+    min-width: 1.4em;
     border-radius: 2px;
     background-color: #eee;
     color: white;

@@ -437,7 +437,9 @@ class ProblemResult(object):
         return self.best_solution.best_judgement.max_score
 
     def is_ok(self):
-        return self.best_solution.best_judgement.score == self.best_solution.best_judgement.max_score
+        return (self.best_solution is not None and
+                self.best_solution.best_judgement is not None and
+                self.best_solution.best_judgement.score == self.best_solution.best_judgement.max_score)
 
 
 class SlotResult(object):

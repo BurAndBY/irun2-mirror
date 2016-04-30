@@ -125,7 +125,7 @@
                         </td>
                     {% endif %}
                     <td>
-                        {% irunner_courses_problemresult problem_result course.id %}
+                        {% irunner_courses_problemresult problem_result course.id user_id=user_id %}
                     </td>
                 </tr>
             {% endfor %}
