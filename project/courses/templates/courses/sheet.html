@@ -61,7 +61,7 @@
     <tbody>
         {% for ur in data.user_results %}
             <tr{% if edit_mode %} data-membership="{{ ur.membership.id }}"{% endif %}{% if ur.user == user %} class="ir-me"{% endif %}>
-                <td>{{ forloop.counter }}</td>
+                <td class="text-right">{{ forloop.counter }}</td>
                 <td class="text-nowrap">
                     {{ ur.user.last_name }} {{ ur.user.first_name }}
                     {% if ur.membership.subgroup %}
