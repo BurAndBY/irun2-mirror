@@ -36,6 +36,12 @@ class Compiler(models.Model):
         ordering = ['description']
 
 
+def get_language_label(x):
+    for language, label in Compiler.LANGUAGE_CHOICES:
+        if language == x:
+            return label
+
+
 class CompilerDetails(models.Model):
     compiler = models.OneToOneField(Compiler, on_delete=models.CASCADE, primary_key=True)
     compile_command = models.CharField(_('compile command'), max_length=255, blank=True)

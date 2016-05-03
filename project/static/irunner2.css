@@ -1539,3 +1539,9 @@ Green menu
 .ir-plagiarismbox-danger a {
     color: #d9534f;
 }
+
+
+.ir-latest-solver {
+    margin-bottom: 12px;
+    font-size: 12px;
+}

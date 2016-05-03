@@ -2,6 +2,7 @@
 
 import calendar
 import json
+from collections import Counter, namedtuple
 
 from django.contrib import auth
 from django.core.urlresolvers import reverse
@@ -31,7 +32,7 @@ from common.outcome import Outcome
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
-from proglangs.models import Compiler
+from proglangs.models import Compiler, get_language_label
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
@@ -77,6 +78,9 @@ class BaseCourseView(generic.View):
         return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
 
 
+ProgrammingLanguageBar = namedtuple('ProgrammingLanguageBar', 'language label count percent')
+
+
 class CourseInfoView(BaseCourseView):
     tab = 'info'
     template_name = 'courses/info.html'
@@ -86,24 +90,53 @@ class CourseInfoView(BaseCourseView):
 
     def _make(self, solutions):
         return [
-            (calendar.timegm(solution.reception_time.timetuple()) * 1000, i + 1)
-            for i, solution in enumerate(solutions)
+            (calendar.timegm(reception_time.timetuple()) * 1000, i + 1)
+            for i, reception_time in enumerate(solutions.values_list('reception_time', flat=True))
         ]
 
     def get(self, request, course):
+        student_user_ids = Membership.objects.filter(course=course, role=Membership.STUDENT).values_list('user_id', flat=True)
+
+        user_cache = self.get_user_cache()
+        student_user_ids = [user.id for user in user_cache.list_students()]
+
         solutions = Solution.objects.all()\
             .filter(coursesolution__course=course)\
+            .filter(author_id__in=student_user_ids)\
             .order_by('reception_time')
 
+        accepted_solutions = solutions.filter(best_judgement__outcome=Outcome.ACCEPTED)
+
         all_solution_data = self._make(solutions)
-        accepted_solution_data = self._make(solutions.filter(best_judgement__outcome=Outcome.ACCEPTED))
+        accepted_solution_data = self._make(accepted_solutions)
+
+        if accepted_solution_data and all_solution_data:
+            if accepted_solution_data[-1][0] != all_solution_data[-1][0]:
+                accepted_solution_data.append((all_solution_data[-1][0], accepted_solution_data[-1][1]))
 
         show_activity_plot = (len(all_solution_data) > 0)
+
+        latest_accepted_solutions = accepted_solutions.order_by('-reception_time')[:5]
+
+        language_stats = Counter()
+        total = 0
+        for language in solutions.values_list('compiler__language', flat=True):
+            language_stats[language] += 1
+            total += 1
+
+        language_bars = []
+        for language, count in language_stats.most_common():
+            percent = count * 100 // total
+            label = get_language_label(language) or language
+            language_bars.append(ProgrammingLanguageBar(language, label, count, percent))
 
         return render(request, self.template_name, self.get_context_data(
             show_activity_plot=show_activity_plot,
             all_solution_json=json.dumps(all_solution_data),
             accepted_solution_json=json.dumps(accepted_solution_data),
+            user_cache=user_cache,
+            latest_accepted_solutions=latest_accepted_solutions,
+            language_bars=language_bars,
         ))
 
 

@@ -1,7 +1,10 @@
 {% extends 'courses/base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load staticfiles %}
+{% load irunner_courses %}
+{% load irunner_problems %}
 
 {% block title %}{{ course.name }}{% endblock %}
 
@@ -14,19 +17,55 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-lg-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">{% trans 'Notices' %}</div>
-                <div class="panel-body">
-                </div>
-            </div>
-        </div>
         <div class="col-lg-7">
             <div class="panel panel-default">
                 <div class="panel-heading">{% trans 'Number of submitted solutions' %}</div>
                 <div class="panel-body">
                     {% if show_activity_plot %}
                         <div class="ir-activity-plot"></div>
+                    {% else %}
+                        <div class="ir-absence">{% trans 'No solutions' %}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if language_bars %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">{% trans 'Programming language popularity' %}</div>
+                    <div class="panel-body">
+                        {% for bar in language_bars %}
+                            <div class="row">
+                                <div class="col-xs-2 text-right">
+                                    <strong>{{ bar.label }}</strong>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div class="progress">
+                                        <div class="progress-bar ir-langbox-{{ bar.language }}" role="progressbar" style="min-width: 2em; width: {{ bar.percent }}%; color: #333">
+                                            {{ bar.count }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">{% trans 'Latest accepted solutions' %}</div>
+                <div class="panel-body">
+                    {% if latest_accepted_solutions %}
+                        {% for solution in latest_accepted_solutions %}
+                            <div class="ir-latest-solver">
+                                {% bootstrap_icon 'time' %} <span class="ir-icon-label">{{ solution.reception_time|timesince }} {% trans 'ago' %}</span>
+                                <br>
+                                {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% irunner_courses_showuser solution.author_id user_cache %}</span>
+                                <br>
+                                {% irunner_problems_difficulty problem_result.problem.difficulty %}
+                                <a href="{% url 'courses:course_problems_problem' course.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
+                            </div>
+                        {% endfor %}
                     {% else %}
                         <div class="ir-absence">{% trans 'No solutions' %}</div>
                     {% endif %}
