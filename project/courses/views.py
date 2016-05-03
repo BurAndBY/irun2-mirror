@@ -116,7 +116,7 @@ class CourseInfoView(BaseCourseView):
 
         show_activity_plot = (len(all_solution_data) > 0)
 
-        latest_accepted_solutions = accepted_solutions.order_by('-reception_time')[:5]
+        latest_accepted_solutions = accepted_solutions.order_by('-reception_time')[:7]
 
         language_stats = Counter()
         total = 0
