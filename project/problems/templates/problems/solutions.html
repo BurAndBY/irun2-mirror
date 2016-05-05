@@ -12,20 +12,42 @@
 
 <form method="get" class="form-inline">
     <div class="ir-solution-filter">
-        {% for name, value in navigator.query_params %}
-            <input type="hidden" name="{{ name }}" value="{{ value }}">
-        {% endfor %}
+        <div class="pull-left">
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#ir_bulk_buttons">
+                {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Bulk operations' %}</span>
+            </button>
+        </div>
 
-        {% render_field form.compiler class='form-control' %}
-        {% render_field form.state class='form-control' %}
-        <button type="submit" class="btn btn-default">
-            {% trans 'Apply' %}
-        </button>
+        <div class="pull-right">
+            {% for name, value in navigator.query_params %}
+                <input type="hidden" name="{{ name }}" value="{{ value }}">
+            {% endfor %}
+
+            {% render_field form.compiler class='form-control' %}
+            {% render_field form.state class='form-control' %}
+            <button type="submit" class="btn btn-default">
+                {% trans 'Apply' %}
+            </button>
+        </div>
     </div>
 </form>
 
-<form method="post" target="_blank" action="{% url 'solutions:create_rejudge' %}">
+<form method="post" target="_blank" action="{% url 'problems:solutions_process' problem.id %}">
     {% csrf_token %}
+
+    <div class="collapse" id="ir_bulk_buttons">
+        {% buttons %}
+        <div class="btn-group">
+            <button type="submit" name="rejudge_all" class="btn btn-default">
+                {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge all solutions' %}</span>
+            </button>
+            <button type="submit" name="rejudge_accepted" class="btn btn-default">
+                {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge accepted solutions' %}</span>
+            </button>
+        </div>
+        {% endbuttons %}
+    </div>
+
     {% irunner_pagination pagination_context %}
     <table class="table table-condensed table-striped">
         <thead>
@@ -54,8 +76,11 @@
     </table>
 
     {% buttons %}
-        <button type="submit" class="btn btn-default ir-checkbox-driven" id="ir_rejudge_button" disabled>
+        <button type="submit" name="rejudge" class="btn btn-default ir-checkbox-driven" disabled>
             {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
+        </button>
+        <button type="submit" name="pack" class="btn btn-default ir-checkbox-driven" disabled>
+            {% bootstrap_icon 'compressed' %} <span class="ir-icon-label">{% trans 'Download archive' %}</span>
         </button>
         <button type="button" class="btn btn-default" id="ir_compare_button" title="{% trans 'Check two solutions to compare.' %}" disabled>
             {% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Compare solutions' %}</span>
@@ -67,7 +92,7 @@
     function setButtonStates() {
         var checkboxes = $(".ir-checkbox");
         var numSelected = checkboxes.filter(":checked").length;
-        $("#ir_rejudge_button").prop("disabled", numSelected === 0);
+        $(".ir-checkbox-driven").prop("disabled", numSelected === 0);
         $("#ir_compare_button").prop("disabled", numSelected !== 2);
     }
     function compareButtonClick() {

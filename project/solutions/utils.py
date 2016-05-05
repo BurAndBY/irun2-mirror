@@ -1,9 +1,9 @@
 from django.core.files.base import ContentFile
 from django.utils import timezone
 
-from api.queue import enqueue, JudgementInQueue
+from api.queue import enqueue, bulk_enqueue, JudgementInQueue
 from common.networkutils import get_request_ip
-from solutions.models import Solution, Judgement, JudgementExtraInfo
+from solutions.models import Solution, Judgement, JudgementExtraInfo, Rejudge
 from storage.utils import store_with_metadata
 
 
@@ -38,3 +38,34 @@ def judge(solution, rejudge=None, set_best=True):
     if set_best and solution.best_judgement_id is None:
         solution.best_judgement = judgement
         solution.save()
+
+
+def bulk_rejudge(solutions, author):
+    '''
+    solutions: queryset
+
+    Note: should be launched inside DB transaction.
+    '''
+    rejudge = Rejudge.objects.create(author=author)
+
+    judgements = []
+    for solution_id, best_judgement_id in solutions.values_list('pk', 'best_judgement_id'):
+        judgement = Judgement(solution_id=solution_id, rejudge=rejudge, judgement_before_id=best_judgement_id)
+        judgements.append(judgement)
+
+    Judgement.objects.bulk_create(judgements)
+
+    # get back pk's of newly created objects
+    judgement_ids = Judgement.objects.filter(rejudge=rejudge).values_list('pk', flat=True)
+
+    ts = timezone.now()
+    judgement_extra_infos = []
+    for judgement_id in judgement_ids:
+        info = JudgementExtraInfo(judgement_id=judgement_id, creation_time=ts)
+        judgement_extra_infos.append(info)
+
+    JudgementExtraInfo.objects.bulk_create(judgement_extra_infos)
+
+    bulk_enqueue((JudgementInQueue(pk) for pk in judgement_ids), priority=5)
+
+    return rejudge

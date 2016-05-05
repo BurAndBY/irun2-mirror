@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-03 20:31+0300\n"
-"PO-Revision-Date: 2016-05-03 20:32+0300\n"
+"POT-Creation-Date: 2016-05-05 12:22+0300\n"
+"PO-Revision-Date: 2016-05-05 12:23+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -464,22 +464,22 @@ msgstr "Пользователь"
 
 #: .\contests\forms.py:81 .\contests\forms.py:88 .\contests\forms.py:133
 #: .\contests\services.py:41
-#: .\contests\templates\contests\all_solutions.html:29
+#: .\contests\templates\contests\all_solutions.html:31
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\templates\contests\my_solutions.html:30
+#: .\contests\templates\contests\my_solutions.html:32
 #: .\contests\templates\contests\problem.html:7 .\courses\forms.py:79
 #: .\courses\forms.py:126 .\courses\forms.py:151 .\courses\forms.py:209
 #: .\courses\templates\courses\messages.html:26
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
-#: .\courses\templates\courses\solutions.html:39
+#: .\courses\templates\courses\solutions.html:41
 #: .\courses\templates\courses\standings.html:61 .\courses\views.py:574
 #: .\courses\views.py:635 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
-#: .\solutions\templates\solutions\solution_list.html:32
+#: .\solutions\templates\solutions\solution_list.html:34
 #: .\storage\templates\storage\usage.html:29
 #: .\storage\templates\storage\usage.html:45
 #: .\storage\templates\storage\usage.html:51
@@ -637,7 +637,7 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\list_folder_confirm_delete.html:32
 #: .\problems\templates\problems\show_test.html:38
 #: .\problems\templates\problems\show_test.html:119
-#: .\solutions\templates\solutions\solution_list.html:72
+#: .\solutions\templates\solutions\solution_list.html:74
 #: .\users\templates\users\folder.html:58
 msgid "Delete"
 msgstr "Удалить"
@@ -680,74 +680,75 @@ msgstr "Отмена"
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\contests\templates\contests\all_solutions.html:19
-#: .\contests\templates\contests\my_solutions.html:19
-#: .\courses\templates\courses\solutions.html:25
-#: .\problems\templates\problems\solutions.html:22
-#: .\solutions\templates\solutions\solution_list.html:22
+#: .\contests\templates\contests\all_solutions.html:20
+#: .\contests\templates\contests\my_solutions.html:20
+#: .\courses\templates\courses\solutions.html:26
+#: .\problems\templates\problems\solutions.html:29
+#: .\solutions\templates\solutions\solution_list.html:23
 msgid "Apply"
 msgstr "Применить"
 
-#: .\contests\templates\contests\all_solutions.html:30
-#: .\courses\templates\courses\solutions.html:37
+#: .\contests\templates\contests\all_solutions.html:32
+#: .\courses\templates\courses\solutions.html:39
 #: .\news\templates\news\index.html:19
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
-#: .\problems\templates\problems\solutions.html:34
+#: .\problems\templates\problems\solutions.html:56
 #: .\solutions\templates\solutions\compare.html:47
 #: .\solutions\templates\solutions\compare.html:72
 #: .\solutions\templates\solutions\rejudge.html:18
-#: .\solutions\templates\solutions\rejudge.html:40
+#: .\solutions\templates\solutions\rejudge.html:41
 #: .\solutions\templates\solutions\rejudge_list.html:17
 #: .\solutions\templates\solutions\solution.html:23
-#: .\solutions\templates\solutions\solution_list.html:33
+#: .\solutions\templates\solutions\solution_list.html:35
 #: .\solutions\templates\solutions\solution_plagiarism.html:20
 msgid "Author"
 msgstr "Автор"
 
-#: .\contests\templates\contests\all_solutions.html:31
-#: .\contests\templates\contests\my_solutions.html:31
-#: .\courses\templates\courses\solutions.html:40
+#: .\contests\templates\contests\all_solutions.html:33
+#: .\contests\templates\contests\my_solutions.html:33
+#: .\courses\templates\courses\solutions.html:42
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:12
 #: .\solutions\templates\solutions\solution_attempts.html:18
-#: .\solutions\templates\solutions\solution_list.html:34
+#: .\solutions\templates\solutions\solution_list.html:36
 #: .\solutions\templates\solutions\solution_plagiarism.html:19
 msgid "Time"
 msgstr "Время"
 
-#: .\contests\templates\contests\all_solutions.html:32
-#: .\contests\templates\contests\my_solutions.html:32
-#: .\courses\templates\courses\solutions.html:41 .\problems\forms.py:138
+#: .\contests\templates\contests\all_solutions.html:34
+#: .\contests\templates\contests\my_solutions.html:34
+#: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:138
 #: .\problems\forms.py:156 .\problems\forms.py:160 .\problems\forms.py:179
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
-#: .\problems\templates\problems\solutions.html:36
+#: .\problems\templates\problems\solutions.html:58
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:85
 #: .\solutions\templates\solutions\solution_attempts.html:19
-#: .\solutions\templates\solutions\solution_list.html:35
+#: .\solutions\templates\solutions\solution_list.html:37
 #: .\storage\templates\storage\usage.html:39
 #: .\storage\templates\storage\usage.html:44
 #: .\storage\templates\storage\usage.html:50
 msgid "File"
 msgstr "Файл"
 
-#: .\contests\templates\contests\all_solutions.html:33
-#: .\contests\templates\contests\my_solutions.html:33
-#: .\courses\templates\courses\solutions.html:42
-#: .\problems\templates\problems\solutions.html:37 .\solutions\forms.py:91
+#: .\contests\templates\contests\all_solutions.html:35
+#: .\contests\templates\contests\my_solutions.html:35
+#: .\courses\templates\courses\solutions.html:44
+#: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:91
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:20
-#: .\solutions\templates\solutions\solution_list.html:36
+#: .\solutions\templates\solutions\solution_list.html:38
 msgid "Status"
 msgstr "Статус"
 
-#: .\contests\templates\contests\all_solutions.html:58
-#: .\contests\templates\contests\my_solutions.html:61
+#: .\contests\templates\contests\all_solutions.html:60
+#: .\contests\templates\contests\my_solutions.html:63
 #: .\courses\templates\courses\info.html:27
 #: .\courses\templates\courses\info.html:70
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
-#: .\courses\templates\courses\solutions.html:89
+#: .\courses\templates\courses\solutions.html:91
+#: .\solutions\templates\solutions\rejudge.html:93
 msgid "No solutions"
 msgstr "Решений нет"
 
@@ -843,7 +844,7 @@ msgid "Last run"
 msgstr "Последнее решение"
 
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:22
-#: .\contests\templates\contests\my_solutions.html:29
+#: .\contests\templates\contests\my_solutions.html:31
 #: .\courses\templates\courses\api_list_problems.html:10
 #: .\courses\templates\courses\settings_users.html:22
 #: .\courses\templates\courses\sheet.html:30
@@ -854,7 +855,7 @@ msgstr "Последнее решение"
 #: .\problems\templates\problems\tests.html:73
 #: .\problems\templates\problems\tests_browse.html:14
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:9
-#: .\solutions\templates\solutions\rejudge.html:36
+#: .\solutions\templates\solutions\rejudge.html:37
 #: .\solutions\templates\solutions\solution_attempts.html:16
 #: .\solutions\templates\solutions\solution_plagiarism.html:18
 msgid "#"
@@ -1159,7 +1160,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:83 .\problems\models.py:101 .\problems\models.py:138
-#: .\problems\models.py:164 .\problems\models.py:174 .\problems\views.py:460
+#: .\problems\models.py:164 .\problems\models.py:174 .\problems\views.py:511
 #: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -1328,7 +1329,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:306
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:309
 msgid "delete"
 msgstr "удалить"
 
@@ -1554,9 +1555,9 @@ msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\solutions.html:44
+#: .\courses\templates\courses\solutions.html:46
 #: .\solutions\templates\solutions\solution.html:131
-#: .\solutions\templates\solutions\solution_list.html:37
+#: .\solutions\templates\solutions\solution_list.html:39
 #: .\solutions\templates\solutions\solution_plagiarism.html:10
 msgid "Plagiarism"
 msgstr "Плагиат"
@@ -2145,7 +2146,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1029
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1080
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2277,26 +2278,43 @@ msgstr "Тест"
 msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
-#: .\problems\templates\problems\solutions.html:35
+#: .\problems\templates\problems\solutions.html:17
+#: .\users\templates\users\folder.html:42
+msgid "Bulk operations"
+msgstr "Массовые операции"
+
+#: .\problems\templates\problems\solutions.html:42
+msgid "Rejudge all solutions"
+msgstr "Перетестировать все решения"
+
+#: .\problems\templates\problems\solutions.html:45
+msgid "Rejudge accepted solutions"
+msgstr "Перетестировать принятые решения"
+
+#: .\problems\templates\problems\solutions.html:57
 #: .\solutions\templates\solutions\compare.html:56
 #: .\solutions\templates\solutions\compare.html:81
-#: .\solutions\templates\solutions\rejudge.html:38
+#: .\solutions\templates\solutions\rejudge.html:39
 msgid "Submission time"
 msgstr "Время отправления"
 
-#: .\problems\templates\problems\solutions.html:58
+#: .\problems\templates\problems\solutions.html:80
 #: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:71
+#: .\solutions\templates\solutions\solution_list.html:73
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\problems\templates\problems\solutions.html:60
+#: .\problems\templates\problems\solutions.html:83
+msgid "Download archive"
+msgstr "Загрузить архив"
+
+#: .\problems\templates\problems\solutions.html:85
 #: .\solutions\templates\solutions\solution_attempts.html:70
 msgid "Check two solutions to compare."
 msgstr "Отметьте два решения для сравнения."
 
-#: .\problems\templates\problems\solutions.html:61
+#: .\problems\templates\problems\solutions.html:86
 #: .\solutions\templates\solutions\solution_attempts.html:71
 msgid "Compare solutions"
 msgstr "Сравнить решения"
@@ -2330,7 +2348,7 @@ msgid "Browse"
 msgstr "Обзор"
 
 #: .\problems\templates\problems\tests.html:55
-#: .\solutions\templates\solutions\solution_list.html:67
+#: .\solutions\templates\solutions\solution_list.html:69
 #: .\users\templates\users\folder.html:53
 msgid "Actions"
 msgstr "Действия"
@@ -2384,36 +2402,36 @@ msgstr "%(seconds)s с"
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
 
-#: .\problems\views.py:457
+#: .\problems\views.py:508
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:458
+#: .\problems\views.py:509
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:459
+#: .\problems\views.py:510
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:461
+#: .\problems\views.py:512
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:462
+#: .\problems\views.py:513
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:466
+#: .\problems\views.py:517
 #, python-format
 msgid "Test case #%(number)s has been saved."
 msgstr "Тест №%(number)s сохранён."
 
-#: .\problems\views.py:475
+#: .\problems\views.py:526
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:677
+#: .\problems\views.py:728
 #, python-format
 msgid "%(count)d test was added."
 msgid_plural "%(count)d tests were added."
@@ -2421,11 +2439,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:929 .\users\views.py:97
+#: .\problems\views.py:980 .\users\views.py:97
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:947
+#: .\problems\views.py:998
 msgid "Folder properties"
 msgstr "Свойства папки"
 
@@ -2577,7 +2595,7 @@ msgstr "Второе решение"
 msgid "Show only contextual differences, else show full files"
 msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
-#: .\solutions\models.py:91
+#: .\solutions\models.py:92
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
@@ -2631,7 +2649,7 @@ msgstr "Не удаётся сравнить решения."
 #: .\solutions\templates\solutions\compare.html:43
 #: .\solutions\templates\solutions\compare.html:68
 #: .\solutions\templates\solutions\judgement_list.html:17
-#: .\solutions\templates\solutions\rejudge.html:39
+#: .\solutions\templates\solutions\rejudge.html:40
 #: .\solutions\templates\solutions\solution.html:11
 #: .\solutions\templates\solutions\solution.html:18
 #: .\solutions\templates\solutions\solution_attempts.html:29
@@ -2748,23 +2766,31 @@ msgstr "Запуски"
 msgid "In queue"
 msgstr "В очереди"
 
-#: .\solutions\templates\solutions\rejudge.html:41
+#: .\solutions\templates\solutions\rejudge.html:42
+msgid "Before"
+msgstr "До"
+
+#: .\solutions\templates\solutions\rejudge.html:43
+msgid "After"
+msgstr "После"
+
+#: .\solutions\templates\solutions\rejudge.html:44
 msgid "Current"
 msgstr "Текущий"
 
-#: .\solutions\templates\solutions\rejudge.html:42
-msgid "After Rejudge"
-msgstr "После перетестирования"
-
-#: .\solutions\templates\solutions\rejudge.html:88
+#: .\solutions\templates\solutions\rejudge.html:100
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: .\solutions\templates\solutions\rejudge.html:89
+#: .\solutions\templates\solutions\rejudge.html:101
 msgid "Rollback"
 msgstr "Откатить"
 
-#: .\solutions\templates\solutions\rejudge.html:95
+#: .\solutions\templates\solutions\rejudge.html:103
+msgid "Clone"
+msgstr "Клонировать"
+
+#: .\solutions\templates\solutions\rejudge.html:108
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
@@ -3149,10 +3175,6 @@ msgstr "Создать новую папку"
 msgid "New user"
 msgstr "Новый пользователь"
 
-#: .\users\templates\users\folder.html:42
-msgid "Bulk operations"
-msgstr "Массовые операции"
-
 #: .\users\templates\users\folder.html:46
 msgid "Sign-up"
 msgstr "Регистрация"
@@ -3276,6 +3298,9 @@ msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
 
+#~ msgid "After Rejudge"
+#~ msgstr "После перетестирования"
+
 #~ msgid "Notices"
 #~ msgstr "Объявления"
 
@@ -3315,9 +3340,6 @@ msgstr ""
 
 #~ msgid "Creator of the rejudge"
 #~ msgstr "Создатель перетестирования"
-
-#~ msgid "Upload archive"
-#~ msgstr "Загрузить архив"
 
 #~ msgid "Upload tests as an archive"
 #~ msgstr "Загрузить тесты архивом"

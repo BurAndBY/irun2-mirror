@@ -14,16 +14,18 @@
 {% block main %}
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
-            {% if user_form %}
-                {{ user_form.user }}
-            {% endif %}
-            {{ problem_form.problem }}
-            {% if filter_form %}
-                {% render_field filter_form.state class='form-control' %}
-            {% endif %}
-            <button type="submit" class="btn btn-default">
-                {% trans 'Apply' %}
-            </button>
+            <div class="pull-right">
+                {% if user_form %}
+                    {{ user_form.user }}
+                {% endif %}
+                {{ problem_form.problem }}
+                {% if filter_form %}
+                    {% render_field filter_form.state class='form-control' %}
+                {% endif %}
+                <button type="submit" class="btn btn-default">
+                    {% trans 'Apply' %}
+                </button>
+            </div>
         </div>
     </form>
 

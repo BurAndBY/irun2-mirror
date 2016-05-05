@@ -55,6 +55,7 @@ class Judgement(models.Model):
 
     solution = models.ForeignKey(Solution)
     rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL, default=None)
+    judgement_before = models.ForeignKey('Judgement', null=True, on_delete=models.SET_NULL, default=None, related_name='+')
 
     status = models.IntegerField(default=WAITING, choices=STATUS_CHOICES)
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)

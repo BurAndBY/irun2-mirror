@@ -6,6 +6,7 @@ import operator
 import re
 import zipfile
 import collections
+import StringIO
 
 from django.contrib import messages
 from django.core.exceptions import ValidationError
@@ -13,7 +14,7 @@ from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F, Q, Count, ProtectedError
-from django.http import Http404, JsonResponse, HttpResponseRedirect
+from django.http import Http404, JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
@@ -37,6 +38,7 @@ from solutions.models import Challenge, ChallengedSolution, Judgement
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata, parse_resource_id
 import solutions.utils
+from solutions.utils import bulk_rejudge
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
 from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
@@ -245,6 +247,55 @@ class ProblemSolutionsView(BaseProblemView):
         context['form'] = form
         return render(request, self.template_name, context)
 
+
+class ProblemSolutionsProcessView(BaseProblemView):
+    def _pack_zip(self, problem, solution_ids):
+        max_size = 1 * 1024 * 1024
+
+        solutions = problem.solution_set.\
+            filter(pk__in=solution_ids).\
+            select_related('source_code')
+
+        # Open StringIO to grab in-memory ZIP contents
+        s = StringIO.StringIO()
+
+        storage = create_storage()
+
+        # The zip compressor
+        with zipfile.ZipFile(s, 'w') as zf:
+            for solution in solutions:
+                blob, is_complete = storage.read_blob(solution.source_code.resource_id, max_size=max_size)
+                if is_complete:
+                    fn = u'{0}/{1}'.format(solution.id, solution.source_code.filename)
+                    zf.writestr(fn, blob)
+
+        # Grab ZIP file from in-memory, make response with correct MIME-type
+        response = HttpResponse(s.getvalue(), content_type='application/x-zip-compressed')
+        response['Content-Disposition'] = 'attachment; filename="solutions-{0}.zip"'.format(problem.id)
+        return response
+
+    def _rejudge(self, problem, solutions):
+        with transaction.atomic():
+            rejudge = bulk_rejudge(solutions, self.request.user)
+        return redirect('solutions:rejudge', rejudge.id)
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        solution_ids = make_int_list_quiet(request.POST.getlist('id'))
+        if 'pack' in request.POST:
+            return self._pack_zip(problem, solution_ids)
+
+        if 'rejudge' in request.POST:
+            return self._rejudge(problem, problem.solution_set.filter(pk__in=solution_ids))
+
+        if 'rejudge_all' in request.POST:
+            return self._rejudge(problem, problem.solution_set)
+
+        if 'rejudge_accepted' in request.POST:
+            return self._rejudge(problem, problem.solution_set.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED))
+
+        return redirect_with_query_string(request, 'problems:solutions', problem.id)
 
 '''
 Statement

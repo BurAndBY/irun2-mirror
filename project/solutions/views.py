@@ -26,7 +26,7 @@ from .compare import fetch_solution
 from .forms import AllSolutionsFilterForm, CompareSolutionsForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog
 from .permissions import SolutionPermissions
-from .utils import judge
+from .utils import judge, bulk_rejudge
 from .filters import apply_state_filter, apply_compiler_filter
 
 
@@ -205,20 +205,15 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
         return context
 
     def perform(self, filtered_queryset, form):
-        author = self.request.user
-
         with transaction.atomic():
-            rejudge = Rejudge.objects.create(author=author)
-            for solution in filtered_queryset:
-                judge(solution=solution, rejudge=rejudge, set_best=False)
-
+            rejudge = bulk_rejudge(filtered_queryset, self.request.user)
         return redirect('solutions:rejudge', rejudge.id)
 
     def get_queryset(self):
         return Solution.objects.order_by('id')
 
 
-RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after'])
+RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after', 'current'])
 RejudgeStats = namedtuple('RejudgeStats', ['total', 'accepted', 'rejected'])
 
 
@@ -240,16 +235,19 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
 
         for new_judgement in rejudge.judgement_set.all().\
                 select_related('solution').\
+                select_related('judgement_before').\
                 select_related('solution__best_judgement').\
                 select_related('solution__author').\
                 select_related('solution__source_code').\
                 prefetch_related('solution__compiler'):
             solution = new_judgement.solution
 
-            if solution.problem_id is not None:
-                problem_ids.add(solution.problem_id)
+            problem_ids.add(solution.problem_id)
 
-            object_list.append(RejudgeInfo(solution, solution.best_judgement, new_judgement))
+            before = new_judgement.judgement_before
+            after = new_judgement
+            current = solution.best_judgement
+            object_list.append(RejudgeInfo(solution, before, after, current))
 
         problem = None
         if len(problem_ids) == 1:
@@ -268,6 +266,11 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
     def post(self, request, rejudge_id):
         need_commit = ('commit' in request.POST)
         need_rollback = ('rollback' in request.POST)
+        need_clone = ('clone' in request.POST)
+        if need_clone:
+            with transaction.atomic():
+                rejudge = bulk_rejudge(Solution.objects.filter(judgement__rejudge_id=rejudge_id), self.request.user)
+            return redirect('solutions:rejudge', rejudge.id)
 
         if (need_commit ^ need_rollback):
             target = True if need_commit else False
@@ -280,7 +283,7 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
                         solution.best_judgement = new_judgement
                         solution.save()
 
-        return HttpResponseRedirect(reverse('solutions:rejudge', args=[rejudge_id]))
+        return redirect('solutions:rejudge', rejudge_id)
 
 
 class RejudgeJsonView(StaffMemberRequiredMixin, generic.View):

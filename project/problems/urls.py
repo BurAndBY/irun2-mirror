@@ -23,6 +23,7 @@ problem_urlpatterns = [
     url(r'^tests/download/answer-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='answer', download=True), name='test_answer_download'),
 
     url(r'^solutions/$', views.ProblemSolutionsView.as_view(), name='solutions'),
+    url(r'^solutions/process/$', views.ProblemSolutionsProcessView.as_view(), name='solutions_process'),
 
     url(r'^files/$', views.ProblemFilesView.as_view(), name='files'),
     url(r'^files/data/(?P<file_id>[0-9]+)/open/(?P<filename>.+)$', views.ProblemFilesFileOpenView.as_view(), name='data_file_open'),

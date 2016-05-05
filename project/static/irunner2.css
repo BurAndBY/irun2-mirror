@@ -731,28 +731,28 @@ Yellow menu
 /*
  * Solution filter
  */
-.ir-solution-filter > select {
+.ir-solution-filter select {
     min-width: 200px;
     max-width: 200px;
     padding: 4px 12px;
     height: auto;
 }
-.ir-solution-filter > input {
+.ir-solution-filter input {
     min-width: 160px;
     max-width: 160px;
     padding: 3px 12px;
     height: auto;
 }
-.ir-solution-filter > button {
+.ir-solution-filter button {
     padding: 3px 12px;
     height: auto;
 }
 .ir-solution-filter {
     background-color: #efefef;
-    text-align: right;
     margin-bottom: 5px;
     border-radius: 4px;
     padding: 7px;
+    overflow: hidden;
 }
 
 /**

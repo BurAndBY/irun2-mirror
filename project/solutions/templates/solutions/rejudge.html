@@ -30,6 +30,7 @@
         <dd>{% irunner_progress url=progress_url value_good=stats.accepted value_bad=stats.rejected total=stats.total %}</dd>
     </dl>
 
+    {% if object_list %}
     <table class="table table-condensed">
         <thead>
             <tr>
@@ -38,8 +39,9 @@
                 <th>{% trans 'Submission time' %}</th>
                 <th>{% trans 'Solution' %}</th>
                 <th>{% trans 'Author' %}</th>
-                <th>{% trans 'Current' %}</th>
-                <th>{% trans 'After Rejudge' %}</th>
+                <th>{% bootstrap_icon 'triangle-left' %} {% trans 'Before' %}</th>
+                <th>{% bootstrap_icon 'triangle-right' %} {% trans 'After' %}</th>
+                <th class="active">{% bootstrap_icon 'pause' %} {% trans 'Current' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -76,20 +78,31 @@
                         </a>
                     {% endif %}
                 </td>
+                <td class="active">
+                    {% if info.current %}
+                        <a href="{% url 'solutions:show_judgement' info.current.id %}">
+                            {% irunner_solutions_judgementbox info.current tooltip=True %}{% irunner_solutions_scorebox info.current %}
+                        </a>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    {% if rejudge.committed == None %}
-        <form method="post">
-            {% csrf_token %}
-            {% buttons %}
-                <button type="submit" name="commit" class="btn btn-primary">{% trans 'Commit' %}</button>
-                <button type="submit" name="rollback" class="btn btn-default">{% trans 'Rollback' %}</button>
-            {% endbuttons %}
-        </form>
+    {% else %}
+    <div class="ir-absence">{% trans 'No solutions' %}</div>
     {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+            {% if rejudge.committed == None %}
+                <button type="submit" name="commit" class="btn btn-primary">{% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Commit' %}</span></button>
+                <button type="submit" name="rollback" class="btn btn-default">{% bootstrap_icon 'remove' %} <span class="ir-icon-label">{% trans 'Rollback' %}</span></button>
+            {% endif %}
+            <button type="submit" name="clone" class="btn btn-default">{% bootstrap_icon 'duplicate' %} <span class="ir-icon-label">{% trans 'Clone' %}</span></button>
+        {% endbuttons %}
+    </form>
 
     <p>
         <a href="{% url 'solutions:rejudge_list' %}">{% trans 'To the list of rejudges' %}</a>

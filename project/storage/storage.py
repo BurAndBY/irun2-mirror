@@ -252,6 +252,14 @@ class IDataStorage(object):
     def check_availability(self, resource_ids):
         raise NotImplementedError()
 
+    def read_blob(self, resource_id, max_size):
+        '''
+        Returns a tuple (blob, is_complete).
+        If file is larger than max_size, only max_size bytes are read.
+        Returns (None, false) if file does not exist.
+        '''
+        raise NotImplementedError()
+
     def list_all(self):
         '''
         Generates tuples (resource_id, size) for each stored file.
@@ -367,6 +375,28 @@ class FileSystemStorage(IDataStorage):
         fd.seek(0, os.SEEK_SET)
 
         return ServedData(size, FileWrapper(fd))
+
+    def read_blob(self, resource_id, max_size):
+        blob = _get_data_directly(resource_id)
+        if blob is not None:
+            if max_size is None or len(blob) <= max_size:
+                return (blob, True)
+            else:
+                return (blob[:max_size], False)
+
+        target_name = self._get_path(resource_id)
+        if not os.path.exists(target_name):
+            return (None, False)
+
+        fd = open(target_name, 'rb')
+        if max_size is None:
+            return (fd.read(), True)
+        else:
+            blob = fd.read(max_size + 1)
+            if len(blob) <= max_size:
+                return (blob, True)
+            else:
+                return (blob[:max_size], False)
 
     def check_availability(self, resource_ids):
         return [self._is_exist(resource_id) for resource_id in resource_ids]
