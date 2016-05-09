@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-sm-9">
                     <h4>
-                    {% if out.resource_id %}
+                    {% if out.resource_id != None %}
                         {% bootstrap_icon 'paste' %} <a href="{% url 'problems:challenge_data' problem.id challenge.id out.resource_id %}" target="_blank">{% trans 'Output file' %} {% trans '#' %}{{ forloop.counter }}</a>
                         <span class="ir-file-size">({{ out.representation.size|filesizeformat }})</span>
                     {% else %}
