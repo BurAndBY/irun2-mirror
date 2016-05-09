@@ -47,7 +47,7 @@
     <div class="col-sm-4">
         <div class="ir-test-description">
             {% if test_case %}
-                <h4><a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">{% trans 'Test' %}</a></h4>
+                <h5><a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">{% trans 'Test' %}</a></h5>
                 <p>{{ description.text|linebreaksbr }}</p>
 
                 {% if description.images %}
@@ -58,7 +58,6 @@
                                     <td>
                                         {% url image_url_pattern item_id test_case_result.id filename as img_url %}
                                         <a href="#" class="ir-full-image-link"><img src="{{ img_url }}" alt="{{ filename }}"></a>
-                                        {#TrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrashTrash #}
                                     </td>
                                 </tr>
                             {% endfor %}

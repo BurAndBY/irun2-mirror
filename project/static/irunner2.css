@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Alegreya Sans SC';
+  font-weight: 500;
+  font-style: normal;
+  src: url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.eot');
+  src: url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.eot?#iefix') format('embedded-opentype'),
+       local('Alegreya Sans SC Medium'),
+       local('Alegreya-Sans-SC-500'),
+       url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.woff2') format('woff2'),
+       url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.woff') format('woff'),
+       url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.ttf') format('truetype'),
+       url('./fonts/Alegreya-Sans-SC-500/Alegreya-Sans-SC-500.svg#AlegreyaSansSC') format('svg');
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -27,6 +41,23 @@ body {
 .ir-footer a {
     margin-left: 8px;
     margin-right: 8px;
+}
+
+/**
+ * Jumbotron
+ */
+.ir-jumbotron h1 {
+    font-family: 'Alegreya Sans SC', Arial, sans-serif;
+}
+.ir-jumbotron img {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.ir-navbar-brand {
+    font-family: 'Alegreya Sans SC', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
 }
 
 /**
@@ -753,35 +784,6 @@ Yellow menu
     border-radius: 4px;
     padding: 7px;
     overflow: hidden;
-}
-
-/**
- * User interface language
- */
-.navbar-nav > li > form > input[type="submit"] {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 20px;
-}
-@media (min-width: 768px) {
-    .navbar-nav > li > form > input[type="submit"] {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-}
-
-.navbar-nav > li > .ir-current-time {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    line-height: 20px;
-    color: #777;
-}
-@media (min-width: 768px) {
-    .navbar-nav > li > .ir-current-time {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
 }
 
 /**

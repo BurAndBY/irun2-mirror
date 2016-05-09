@@ -49,8 +49,8 @@
         <footer class="footer">
             <div class="container">
                 <div class="ir-footer">
-                    <div>{{ system_full_name }} #{{ REVISION }}</div>
-                    <div>&copy; 2001&thinsp;&ndash;&thinsp;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>
+                    <div>{{ system_full_name }} <span class="ir-monospace">#{{ REVISION }}</span></div>
+                    <div>&copy; 2001&ndash;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>
                     <div>
                         <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
                         <a href="{% url 'language' %}?next={% irunner_next %}">Язык&thinsp;/&thinsp;Language</a>
