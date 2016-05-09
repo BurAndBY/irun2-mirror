@@ -1547,3 +1547,10 @@ Green menu
     margin-bottom: 12px;
     font-size: 12px;
 }
+
+.ir-accepted-solution-count {
+    color: #5cb85c;
+}
+.ir-all-solution-count {
+    color: #ccc;
+}

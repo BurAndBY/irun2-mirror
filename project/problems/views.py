@@ -967,8 +967,7 @@ class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListVi
     def get_queryset(self):
         folder_id = cast_id(self.kwargs['folder_id_or_root'])
         return Problem.objects\
-            .filter(folders__id=folder_id)\
-            .annotate(solution_count=Count('solution'))
+            .filter(folders__id=folder_id)
 
 
 class CreateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.FormView):
@@ -1121,7 +1120,6 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
             terms = query.split()
             if terms:
                 queryset = queryset.filter(reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
-        queryset = queryset.annotate(solution_count=Count('solution'))
         return queryset
 
     def get(self, request):

@@ -4,6 +4,8 @@ from django.utils.translation import ugettext as _
 
 from common.constants import NO, STDIN, STDOUT
 
+from problems.utils import ProblemInfoManager
+
 register = template.Library()
 
 
@@ -19,8 +21,10 @@ def irunner_problems_statement(statement, letter=None):
 
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
 def irunner_problems_list(problems, pagination_context=None, show_checkbox=False, query_string=u''):
+    manager = ProblemInfoManager(problems)
     return {
         'problems': problems,
+        'infomanager': manager,
         'pagination_context': pagination_context,
         'show_checkbox': show_checkbox,
         'query_string': query_string
@@ -148,3 +152,8 @@ def irunner_problems_timelimit(value):
 @register.simple_tag
 def irunner_problems_memorylimit(value):
     return memory_formatter(value)
+
+
+@register.assignment_tag
+def irunner_problems_getinfo(problem_id, manager):
+    return manager.get(problem_id)
