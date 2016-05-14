@@ -90,7 +90,15 @@ class TestUploadOrTextForm(forms.Form):
         upload = self.cleaned_data['upload']
         if upload is None:
             text = self.cleaned_data['text']
-            upload = ContentFile(text.encode('utf-8'))
+            if text is not None:
+                if len(text) > 0:
+                    # Normalize text to use windows newlines.
+                    # Trailing newline is added. Empty file is left empty.
+                    lines = text.splitlines()
+                    newline = '\r\n'
+                    text = newline.join(lines) + newline
+
+                upload = ContentFile(text.encode('utf-8'))
         return upload
 
 
