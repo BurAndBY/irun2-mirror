@@ -9,8 +9,13 @@ from storage import create_storage, ResourceId
 
 
 def parse_resource_id(resource_id):
+    '''
+    Returns valid resource id or throws 404 error.
+    '''
     try:
-        return ResourceId.parse(resource_id)
+        resource_id = ResourceId.parse(resource_id)
+        assert resource_id is not None
+        return resource_id
     except:
         raise Http404("Invalid resource id")
 

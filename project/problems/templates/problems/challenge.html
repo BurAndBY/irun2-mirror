@@ -52,6 +52,18 @@
                 </div>
             </div>
 
+            {% if out.resource_id != None %}
+                <form method="post" action="{% url 'problems:challenge_add_test' problem.id challenge.id %}{{ navigator.query_string }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="answer" value="{{ out.resource_id }}">
+                    {% buttons %}
+                        <button type="submit" class="btn btn-default btn-sm">
+                            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add to test cases' %}</span>
+                        </button>
+                    {% endbuttons %}
+                </form>
+            {% endif %}
+
             {% if out.representation %}
                 {% irunner_storage_show out.representation %}
             {% endif %}

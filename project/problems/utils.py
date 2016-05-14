@@ -1,10 +1,14 @@
 from collections import namedtuple
 
+from django.contrib import messages
 from django.db.models import Count
+from django.utils.translation import ugettext
 
 from common.outcome import Outcome
 from problems.models import Problem
 from solutions.models import Judgement
+
+from .validation import revalidate_testset
 
 ProblemInfo = namedtuple('ProblemInfo', 'all_solution_count accepted_solution_count test_count')
 
@@ -47,3 +51,13 @@ class ProblemInfoManager(object):
             self.accepted_solution_counts.get(problem_id, 0),
             self.test_counts.get(problem_id, 0),
         )
+
+
+def register_new_test(test_case, problem, request):
+    test_case.problem = problem
+    test_case.ordinal_number = problem.testcase_set.count() + 1  # TODO: fix possible data race
+    test_case.save()
+    revalidate_testset(problem.id)
+
+    msg = ugettext('Test %(no)d has been added.') % {'no': test_case.ordinal_number}
+    messages.add_message(request, messages.INFO, msg)

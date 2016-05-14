@@ -46,6 +46,7 @@ problem_urlpatterns = [
 
     url(r'^challenges/$', views.ProblemChallengesView.as_view(), name='challenges'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/$', views.ProblemChallengeView.as_view(), name='challenge'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/add-test/$', views.ProblemChallengeAddTestView.as_view(), name='challenge_add_test'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/status/json/$', views.ProblemChallengeJsonView.as_view(), name='challenge_status_json'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/open/(?P<resource_id>[0-9a-f]*)$', views.ProblemChallengeDataView.as_view(), name='challenge_data'),
     url(r'^challenges/new/$', views.ProblemNewChallengeView.as_view(), name='new_challenge'),

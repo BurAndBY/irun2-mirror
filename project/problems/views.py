@@ -51,6 +51,7 @@ from .statement import StatementRepresentation
 from .texrenderer import render_tex
 from .description import IDescriptionImageLoader, render_description
 from .tabs import PROBLEM_TAB_MANAGER
+from .utils import register_new_test
 from .validation import revalidate_testset
 
 
@@ -514,7 +515,7 @@ class ProblemTestsTestEditView(BaseProblemView):
     }
 
     def _notify_about_changes(self, test_number, changed_fields):
-        message = unicode(_('Test case #%(number)s has been saved.') % {'number': test_number})
+        message = unicode(_('Test %(number)s has been saved.') % {'number': test_number})
 
         names = []
         for field in changed_fields:
@@ -607,10 +608,7 @@ class ProblemTestsNewView(BaseProblemView):
             test_case = description_form.save(commit=False)
             test_case.set_input(storage, input_form.extract_file_result())
             test_case.set_answer(storage, answer_form.extract_file_result())
-            test_case.problem = problem
-            test_case.ordinal_number = problem.testcase_set.count() + 1  # TODO: fix possible data race
-            test_case.save()
-            revalidate_testset(problem.id)
+            register_new_test(test_case, problem, request)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
 
         context = self._make_context(problem, {
@@ -725,7 +723,7 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
                     test_case.ordinal_number = num_tests
                 TestCase.objects.bulk_create(test_cases)
 
-            msg = ungettext('%(count)d test was added.', '%(count)d tests were added.', len(test_cases)) % {'count': len(test_cases)}
+            msg = ungettext('%(count)d test has been added.', '%(count)d tests have been added.', len(test_cases)) % {'count': len(test_cases)}
             messages.add_message(request, messages.INFO, msg)
             revalidate_testset(problem.id)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
@@ -1601,6 +1599,36 @@ class ProblemChallengeView(BaseProblemView):
             'progress_url': progress_url,
         })
         return render(request, self.template_name, context)
+
+
+class ProblemChallengeAddTestView(BaseProblemView):
+    def post(self, request, problem_id, challenge_id):
+        problem = self._load(problem_id)
+
+        challenge = Challenge.objects.filter(problem=problem, pk=challenge_id).first()
+        if challenge is None:
+            return redirect_with_query_string(request, 'problems:challenges', problem.id)
+
+        # throws 404 on invalid data
+        answer_resource_id = parse_resource_id(request.POST.get('answer'))
+        storage = create_storage()
+        answer_repr = storage.represent(answer_resource_id)
+
+        if answer_repr is not None:
+            input_resource_id = challenge.input_resource_id
+            input_repr = storage.represent(input_resource_id)
+
+            if input_repr is not None:
+                tc = TestCase()
+                tc.input_resource_id = input_resource_id
+                tc.input_size = input_repr.size
+                tc.answer_resource_id = answer_resource_id
+                tc.answer_size = answer_repr.size
+                tc.time_limit = challenge.time_limit
+                tc.memory_limit = challenge.memory_limit
+                register_new_test(tc, problem, request)
+
+        return redirect_with_query_string(request, 'problems:tests', problem.id)
 
 
 class ProblemChallengeJsonView(BaseProblemView):
