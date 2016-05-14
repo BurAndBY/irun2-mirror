@@ -444,6 +444,8 @@ class ProblemTestsTestView(BaseProblemView):
             'time_limit': test_case.time_limit,
             'memory_limit': test_case.memory_limit,
             'points': test_case.points,
+            'author': test_case.author,
+            'creation_time': test_case.creation_time,
         })
         return render(request, self.template_name, context)
 

@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load bootstrap3 %}
 {% load irunner_storage %}
+{% load irunner_users %}
 
 <div class="row">
     <div class="col-sm-8">
@@ -48,6 +49,14 @@
         <div class="ir-test-description">
             {% if test_case %}
                 <h5><a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">{% trans 'Test' %}</a></h5>
+
+                {% if test_case.author != None %}
+                    <p>{% bootstrap_icon 'user' %} {% irunner_users_show test_case.author %}</p>
+                {% endif %}
+                {% if test_case.creation_time != None %}
+                    <p>{% bootstrap_icon 'time' %} {{ test_case.creation_time }}</p>
+                {% endif %}
+
                 <p>{{ description.text|linebreaksbr }}</p>
 
                 {% if description.images %}

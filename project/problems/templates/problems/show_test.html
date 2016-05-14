@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load irunner_problems %}
 {% load irunner_storage %}
+{% load irunner_users %}
 
 {% block main %}
 
@@ -55,6 +56,18 @@
             <td>{% trans 'Memory limit' %}</td>
             <td>{% irunner_problems_memorylimit memory_limit %}</td>
         </tr>
+        {% if author != None %}
+            <tr>
+                <td>{% trans 'Author' %}</td>
+                <td>{% irunner_users_show author %}</td>
+            </tr>
+        {% endif %}
+        {% if creation_time != None %}
+            <tr>
+                <td>{% trans 'Created' context 'test' %}</td>
+                <td>{{ creation_time }}</td>
+            </tr>
+        {% endif %}
         {% if description.text %}
             <tr>
                 <td>{% trans 'Description' %}</td>

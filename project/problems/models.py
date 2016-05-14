@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from mptt.models import MPTTModel, TreeForeignKey
@@ -182,6 +183,9 @@ class TestCase(models.Model):
     time_limit = models.IntegerField()
     memory_limit = models.IntegerField(default=0)
     points = models.IntegerField(default=1)
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    creation_time = models.DateTimeField(null=True)
 
     class Meta:
         unique_together = ('problem', 'ordinal_number')
