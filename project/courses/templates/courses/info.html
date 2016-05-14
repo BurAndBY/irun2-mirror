@@ -62,6 +62,7 @@
                                 <br>
                                 {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id solution.author_id %}">{% endif %}{% irunner_courses_showuser solution.author_id user_cache %}{% if permissions.assign %}</a>{% endif %}</span>
                                 <br>
+                                {% bootstrap_icon 'file' %}
                                 {% irunner_problems_difficulty solution.problem.difficulty %}
                                 <a href="{% url 'courses:course_problems_problem' course.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
                             </div>

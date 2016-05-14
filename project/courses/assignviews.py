@@ -45,7 +45,9 @@ class BaseCourseMemberAssignView(BaseCourseAssignView):
         return context
 
     def dispatch(self, request, course_id, user_id, *args, **kwargs):
-        membership = get_object_or_404(Membership, user_id=user_id, course_id=course_id, role=Membership.STUDENT)
+        membership = Membership.objects.filter(user_id=user_id, course_id=course_id, role=Membership.STUDENT).first()
+        if membership is None:
+            return redirect('courses:course_assignment_empty', course_id)
         self.membership = membership
         return super(BaseCourseMemberAssignView, self).dispatch(request, course_id, membership, *args, **kwargs)
 

@@ -3,6 +3,7 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_courses %}
+{% load irunner_problems %}
 
 {% block subtitle %}{% trans 'Messages' %}{% endblock %}
 
@@ -22,13 +23,19 @@
                         <div class="ir-mail-thread-subject{% if t.unread and thread.id != t.id %} ir-mail-thread-subject-unread{% endif %}">
                             {% if t.subject %}{{ t.subject }}{% else %}[{% trans 'No subject' %}]{% endif %}
                         </div>
-                        {% if t.problem %}
-                            <div class="ir-mail-thread-problem">{% trans 'Problem' %}: {{ t.problem.numbered_full_name }}</div>
-                        {% endif %}
-                        {% if t.person_id and t.person_id != request.user.id %}
+                        {% if t.person_id != None %}
+                            {% if t.person_id != request.user.id %}
+                                <div class="ir-mail-thread-author">
+                                    {% bootstrap_icon 'user' %} {% irunner_courses_showuser t.person_id user_cache %}
+                                </div>
+                            {% endif %}
+                        {% else %}
                             <div class="ir-mail-thread-author">
-                                {% irunner_courses_showuser t.person_id user_cache %}
+                                {% bootstrap_icon 'globe' %} <em>{% trans 'Public conversation' %}</em>
                             </div>
+                        {% endif %}
+                        {% if t.problem %}
+                            <div class="ir-mail-thread-problem">{% bootstrap_icon 'file' %} {{ t.problem.numbered_full_name }}</div>
                         {% endif %}
                     </a>
                 {% endfor %}
@@ -37,10 +44,30 @@
 
         <div class="col-sm-8">
             {% if messages %}
+                    <div class="ir-mail-message ir-mail-message-first">
+                        {% if thread.subject %}
+                            <div class="ir-subject">{{ thread.subject }}</div>
+                        {% endif %}
+                        <div>
+                            {% if thread.person_id != None %}
+                                {% bootstrap_icon 'user' %} {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id thread.person_id %}">{% endif %}{% irunner_courses_showuser thread.person_id user_cache %}{% if permissions.assign %}</a>{% endif %}
+                            {% else %}
+                                {% bootstrap_icon 'globe' %} <em>{% trans 'Public conversation' %}</em>
+                            {% endif %}
+                        </div>
+
+                        {% if thread.problem %}
+                            <div>
+                                {% bootstrap_icon 'file' %}
+                                {% irunner_problems_difficulty problem.difficulty %}
+                                <a href="{% url 'courses:course_problems_problem' course.id thread.problem.id %}">{{ thread.problem.numbered_full_name }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 {% for message in messages %}
                     <div class="ir-mail-message{% if message.unread %} ir-mail-message-unread{% endif %}">
                         <div class="ir-mail-message-heading">
-                            <span class="ir-mail-message-author">{% irunner_courses_showuser message.author_id user_cache %}</span>
+                            <span class="ir-mail-message-author">{% bootstrap_icon 'share-alt' %} {% irunner_courses_showuser message.author_id user_cache %}</span>
                             <span class="ir-mail-message-date">{{ message.timestamp }}</span>
                         </div>
                         <div class="ir-mail-message-body">{{ message.body|urlize|linebreaksbr }}</div>
@@ -71,7 +98,7 @@
                                 {% csrf_token %}
                                 {% bootstrap_form message_form show_label=False %}
                                 {% buttons %}
-                                    <button type="submit" class="btn btn-default">
+                                    <button type="submit" class="btn btn-primary">
                                         {% trans 'Reply' %}
                                     </button>
                                     {% if can_delete %}

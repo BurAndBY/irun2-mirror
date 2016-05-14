@@ -916,9 +916,11 @@ span.ir-absence {
 .ir-mail-message-unread {
     border-left-color: #ce4844;
 }
+.ir-mail-message-first {
+    border-left-color: #337ab7;
+}
 .ir-mail-message-author {
     float: left;
-    font-weight: bold;
 }
 .ir-mail-message-date {
     float: right;
@@ -933,9 +935,17 @@ span.ir-absence {
     overflow: hidden;
     padding-bottom: 10px;
 }
+.ir-mail-message .ir-subject {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
 
 .ir-mail-thread {
-    padding: 4px 15px;
+    padding: 4px 10px;
+}
+.ir-mail-thread-subject {
+    font-size: 12px;
+    margin-bottom: 4px;
 }
 .ir-mail-thread-subject-unread {
     font-weight: bold;
@@ -944,10 +954,12 @@ span.ir-absence {
 .ir-mail-thread-problem {
     color: #bbb;
     font-size: 11px;
+    margin-left: 16px;
 }
 .ir-mail-thread-author {
     color: #bbb;
     font-size: 11px;
+    margin-left: 16px;
 }
 .ir-mail-thread-date {
     float: right;
