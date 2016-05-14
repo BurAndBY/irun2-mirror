@@ -1345,10 +1345,11 @@ tr:hover .ir-appear-on-hover {
     margin-bottom: 16px;
     border: 1px solid #eee;
     border-left-width: 5px;
-    border-left-color: #f0ad4e;
     border-radius: 3px;
 }
-
+.ir-challenge-file-output {
+    border-left-color: #f0ad4e;
+}
 
 /*
 Green menu

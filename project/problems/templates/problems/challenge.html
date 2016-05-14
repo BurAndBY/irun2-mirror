@@ -22,22 +22,26 @@
         <dd>{% irunner_progress url=progress_url value=stats.complete total=stats.total %}</dd>
     </dl>
  
-    <div class="ir-challenge-file">
+    <div class="ir-challenge-file ir-challenge-file-input">
         <h4>
-            {% bootstrap_icon 'copy' %} <a href="{% url 'problems:challenge_data' problem.id challenge.id challenge.input_resource_id %}" target="_blank">{% trans 'Input file' %}</a>
-            <span class="ir-file-size">({{ input_repr.size|filesizeformat }})</span>
+            <a href="{% url 'problems:challenge_data_open' problem.id challenge.id challenge.input_resource_id input_filename %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
+            <a href="{% url 'problems:challenge_data_download' problem.id challenge.id challenge.input_resource_id input_filename %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
+            {% trans 'Input file' %}
+            <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
         </h4>
         {% irunner_storage_show input_repr %}
     </div>
 
     {% for out in outputs %}
-        <div class="ir-challenge-file">
+        <div class="ir-challenge-file ir-challenge-file-output">
             <div class="row">
                 <div class="col-sm-9">
                     <h4>
                     {% if out.resource_id != None %}
-                        {% bootstrap_icon 'paste' %} <a href="{% url 'problems:challenge_data' problem.id challenge.id out.resource_id %}" target="_blank">{% trans 'Output file' %} {% trans '#' %}{{ forloop.counter }}</a>
-                        <span class="ir-file-size">({{ out.representation.size|filesizeformat }})</span>
+                        <a href="{% url 'problems:challenge_data_open' problem.id challenge.id out.resource_id out.filename %}" title="{% trans 'Open' %}">{% bootstrap_icon 'open-file' %}</a>
+                        <a href="{% url 'problems:challenge_data_download' problem.id challenge.id out.resource_id out.filename %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a>
+                        {% trans 'Output file' %} {% trans '#' %}{{ forloop.counter }}
+                        <span class="ir-file-size">[{{ out.representation.size|filesizeformat }}]</span>
                     {% else %}
                         {% bootstrap_icon 'ban-circle' %} {% trans 'No result got' %}
                     {% endif %}

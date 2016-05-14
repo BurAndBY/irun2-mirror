@@ -1543,7 +1543,7 @@ class ProblemNewChallengeView(BaseProblemView):
         return render(request, self.template_name, context)
 
 
-ChallengeOutput = collections.namedtuple('ChallengeOutput', 'resource_id representation solutions percent')
+ChallengeOutput = collections.namedtuple('ChallengeOutput', 'resource_id representation solutions percent filename')
 ChallengeStats = collections.namedtuple('ChallengeStats', ['total', 'complete'])
 
 
@@ -1584,15 +1584,18 @@ class ProblemChallengeView(BaseProblemView):
         num_solutions = sum(len(x) for x in outputs.values())
 
         results = []
-        for resource_id in sorted(outputs, key=lambda x: len(outputs[x]) if x is not None else -1, reverse=True):
+        resource_ids = sorted(outputs, key=lambda x: len(outputs[x]) if x is not None else -1, reverse=True)
+        for i, resource_id in enumerate(resource_ids):
             representation = storage.represent(resource_id, limit=self.max_bytes, max_lines=self.max_lines)
             solutions = outputs[resource_id]
             percent = 100 * len(solutions) // num_solutions
-            results.append(ChallengeOutput(resource_id, representation, solutions, percent))
+            filename = u'challenge-{0}-output-{1:02}'.format(challenge.id, i + 1)
+            results.append(ChallengeOutput(resource_id, representation, solutions, percent, filename))
 
         progress_url = reverse('problems:challenge_status_json', kwargs={'problem_id': problem.id, 'challenge_id': challenge.id})
         context = self._make_context(problem, {
             'input_repr': input_repr,
+            'input_filename': u'challenge-{0}-input'.format(challenge.id),
             'challenge': challenge,
             'outputs': results,
             'stats': fetch_challenge_stats(problem.id, challenge.id),
@@ -1642,8 +1645,24 @@ class ProblemChallengeJsonView(BaseProblemView):
 
 
 class ProblemChallengeDataView(BaseProblemView):
-    def get(self, request, problem_id, challenge_id, resource_id):
-        return serve_resource(request, parse_resource_id(resource_id), 'text/plain')
+    download = False
+
+    def _is_resource_available(self, challenge, resource_id):
+        if challenge.input_resource_id == resource_id:
+            return True
+        if ChallengedSolution.objects.filter(challenge=challenge, output_resource_id=resource_id).exists():
+            return True
+        return False
+
+    def get(self, request, problem_id, challenge_id, resource_id, filename):
+        problem = self._load(problem_id)
+        challenge = get_object_or_404(problem.challenge_set, pk=challenge_id)
+        resource_id = parse_resource_id(resource_id)
+
+        if self._is_resource_available(challenge, resource_id):
+            return serve_resource(request, resource_id, 'text/plain', force_download=self.download)
+        else:
+            raise Http404('no resource found for current challenge')
 
 
 '''

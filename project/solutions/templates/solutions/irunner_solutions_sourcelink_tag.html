@@ -4,7 +4,7 @@
 
 {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
 <span class="ir-icons"><!--
---><a href="{% url 'solutions:source' solution.id %}" title="{% trans 'View source code' %}">{% bootstrap_icon 'folder-open' %}</a><!--
---><a href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" title="{% trans 'Download' %} {{ solution.source_code.filename }}">{% bootstrap_icon 'cloud-download' %}</a><!--
+--><a href="{% url 'solutions:source' solution.id %}" title="{% trans 'View source code' %}">{% bootstrap_icon 'file' %}</a><!--
+--><a href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" title="{% trans 'Download' %} {{ solution.source_code.filename }}">{% bootstrap_icon 'download-alt' %}</a><!--
 --></span>
 <span class="ir-file-size">({{ solution.source_code.size|filesizeformat }})</span>

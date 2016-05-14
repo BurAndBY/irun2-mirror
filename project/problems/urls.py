@@ -48,7 +48,8 @@ problem_urlpatterns = [
     url(r'^challenges/(?P<challenge_id>[0-9]+)/$', views.ProblemChallengeView.as_view(), name='challenge'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/add-test/$', views.ProblemChallengeAddTestView.as_view(), name='challenge_add_test'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/status/json/$', views.ProblemChallengeJsonView.as_view(), name='challenge_status_json'),
-    url(r'^challenges/(?P<challenge_id>[0-9]+)/open/(?P<resource_id>[0-9a-f]*)$', views.ProblemChallengeDataView.as_view(), name='challenge_data'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/open/(?P<resource_id>[0-9a-f]*)/(?P<filename>[a-z0-9\-]+)\.txt$', views.ProblemChallengeDataView.as_view(download=False), name='challenge_data_open'),
+    url(r'^challenges/(?P<challenge_id>[0-9]+)/download/(?P<resource_id>[0-9a-f]*)/(?P<filename>[a-z0-9\-]+)\.txt$', views.ProblemChallengeDataView.as_view(download=True), name='challenge_data_download'),
     url(r'^challenges/new/$', views.ProblemNewChallengeView.as_view(), name='new_challenge'),
 
     url(r'^submit/$', views.ProblemSubmitView.as_view(), name='submit'),
