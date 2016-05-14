@@ -25,6 +25,7 @@
             <button type="submit" class="btn btn-primary">
                 {% bootstrap_icon 'play' %} <span class="ir-icon-label">{% trans 'Start' %}</span>
             </button>
+            <a href="{% url 'problems:challenges' problem.id %}{{ navigator.query_string }}" class="btn btn-link">{% trans 'Cancel' %}</a>
         {% endbuttons %}
     </form>
 {% endblock %}
