@@ -41,8 +41,13 @@ rejudges_urlpatterns = [
     url(r'^$', views.RejudgeListView.as_view(), name='rejudge_list'),
 ]
 
+challenges_urlpatterns = [
+    url(r'^$', views.ChallengeListView.as_view(), name='challenge_list'),
+]
+
 urlpatterns = [
     url(r'^solutions/', include(solutions_urlpatterns)),
     url(r'^runs/', include(judgements_urlpatterns)),
     url(r'^rejudges/', include(rejudges_urlpatterns)),
+    url(r'^challenges/', include(challenges_urlpatterns)),
 ]

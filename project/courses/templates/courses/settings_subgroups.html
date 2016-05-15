@@ -12,7 +12,7 @@
         {% endfor %}
         </ul>
     {% else %}
-        {% trans 'No subgroups.' %}
+        {% trans 'No subgroups' %}
     {% endif %}
     <p>
         <a href="{% url 'courses:course_settings_subgroup_create' course.id %}">{% trans 'New subgroup' %}</a>

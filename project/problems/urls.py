@@ -52,6 +52,8 @@ problem_urlpatterns = [
     url(r'^challenges/(?P<challenge_id>[0-9]+)/download/(?P<resource_id>[0-9a-f]*)/(?P<filename>[a-z0-9\-]+)\.txt$', views.ProblemChallengeDataView.as_view(download=True), name='challenge_data_download'),
     url(r'^challenges/new/$', views.ProblemNewChallengeView.as_view(), name='new_challenge'),
 
+    url(r'^rejudges/$', views.ProblemRejudgesView.as_view(), name='rejudges'),
+
     url(r'^submit/$', views.ProblemSubmitView.as_view(), name='submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.ProblemSubmissionView.as_view(), name='submission'),
     url(r'^folders/$', views.ProblemFoldersView.as_view(), name='folders'),

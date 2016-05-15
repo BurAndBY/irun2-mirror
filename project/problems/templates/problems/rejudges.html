@@ -1,0 +1,33 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_users %}
+{% load irunner_yesno %}
+
+{% block main %}
+    {% if object_list %}
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>{% trans 'Created' context 'rejudge' %}</th>
+                    <th>{% trans 'Author' %}</th>
+                    <th>{% trans 'Solutions' %}</th>
+                    <th>{% trans 'State' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for rejudge in object_list %}
+                <tr>
+                    <td><a href="{% url 'solutions:rejudge' rejudge.id %}">{{ rejudge.creation_time }}</a></td>
+                    <td>{% irunner_users_show rejudge.author %}</td>
+                    <td>{{ rejudge.num_solutions }}</td>
+                    <td>{% irunner_yesno rejudge.committed %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="ir-absence">{% trans 'No rejudges' %}</div>
+    {% endif %}
+{% endblock %}

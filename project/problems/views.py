@@ -34,7 +34,7 @@ from courses.models import Course
 from proglangs.models import Compiler
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
-from solutions.models import Challenge, ChallengedSolution, Judgement
+from solutions.models import Challenge, ChallengedSolution, Judgement, Rejudge
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata, parse_resource_id
 import solutions.utils
@@ -1696,3 +1696,25 @@ class ProblemDeleteView(BaseProblemView):
         else:
             context = self._make_context(problem, {'error': True})
             return render(request, self.template_name, context)
+
+
+'''
+Rejudges
+'''
+
+
+class ProblemRejudgesView(BaseProblemView):
+    tab = 'rejudges'
+    template_name = 'problems/rejudges.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        rejudges = Rejudge.objects.\
+            filter(judgement__solution__problem=problem).\
+            annotate(num_solutions=Count('judgement')).\
+            order_by('-creation_time', '-id').\
+            distinct()
+
+        context = self._make_context(problem, {'object_list': rejudges})
+        return render(request, self.template_name, context)

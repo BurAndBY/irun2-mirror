@@ -36,7 +36,7 @@
         {% endfor %}
         </ul>
     {% else %}
-        {% trans 'No topics.' %}
+        {% trans 'No topics' %}
     {% endif %}
     <p>
         <a href="{% url 'courses:course_settings_topics_create' course.id %}">{% trans 'New topic' %}</a>

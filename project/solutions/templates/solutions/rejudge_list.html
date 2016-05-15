@@ -4,6 +4,7 @@
 {% load irunner_pagination %}
 {% load irunner_solutions %}
 {% load irunner_users %}
+{% load irunner_yesno %}
 
 {% block content %}
 <h1>{% block title %}{% trans 'Rejudges' %}{% endblock %}</h1>
@@ -15,7 +16,7 @@
         <tr>
             <th>ID</th>
             <th>{% trans 'Author' %}</th>
-            <th>{% trans 'Time created' %}</th>
+            <th>{% trans 'Created' context 'rejudge' %}</th>
             <th>{% trans 'Number of solutions' %}</th>
             <th>{% trans 'State' %}</th>
         </tr>
@@ -28,12 +29,11 @@
                 <td>{{ rejudge.creation_time }}</td>
                 <td>{{ rejudge.num_judgements }}</td>
                 <td>
+                    {% irunner_yesno rejudge.committed %}
                     {% if rejudge.committed == True %}
                         <span class="text-success">{% trans 'committed' %}</span>
                     {% elif rejudge.committed == False %}
                         <span class="text-danger">{% trans 'rolled back' %}</span>
-                    {% else %}
-                        &mdash;
                     {% endif %}
                 </td>
             </tr>

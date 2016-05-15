@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-15 15:20+0300\n"
-"PO-Revision-Date: 2016-05-15 15:25+0300\n"
+"POT-Creation-Date: 2016-05-15 16:15+0300\n"
+"PO-Revision-Date: 2016-05-15 16:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -32,9 +32,10 @@ msgid "Done"
 msgstr "Готово"
 
 #: .\api\templates\api\irunner_api_queue_tag.html:12
+#: .\problems\templates\problems\rejudges.html:16
 #: .\solutions\templates\solutions\judgement.html:27
 #: .\solutions\templates\solutions\rejudge.html:26
-#: .\solutions\templates\solutions\rejudge_list.html:20
+#: .\solutions\templates\solutions\rejudge_list.html:21
 msgid "State"
 msgstr "Состояние"
 
@@ -83,7 +84,7 @@ msgstr "Запуск"
 msgid "Queue is empty."
 msgstr "Очередь пуста."
 
-#: .\api\templates\api\queue.html:8 .\templates\navbar.html:30
+#: .\api\templates\api\queue.html:8 .\templates\navbar.html:31
 msgid "Queue"
 msgstr "Очередь"
 
@@ -150,7 +151,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:50
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:51
 msgid "Logout"
 msgstr "Выход"
 
@@ -167,7 +168,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:52
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:53
 msgid "Login"
 msgstr "Вход"
 
@@ -297,7 +298,7 @@ msgstr "Исходный код"
 msgid "Access denied"
 msgstr "Доступ запрещён"
 
-#: .\common\templates\common\hall_of_fame.html:9 .\templates\navbar.html:37
+#: .\common\templates\common\hall_of_fame.html:9 .\templates\navbar.html:38
 msgid "Hall of fame"
 msgstr "Зал славы"
 
@@ -335,7 +336,7 @@ msgid "Contest results"
 msgstr "Результаты соревнований"
 
 #: .\common\templates\common\home.html:81 .\news\templates\news\index.html:9
-#: .\news\templates\news\show.html:6 .\templates\navbar.html:39
+#: .\news\templates\news\show.html:6 .\templates\navbar.html:40
 msgid "News"
 msgstr "Новости"
 
@@ -476,6 +477,7 @@ msgstr "Пользователь"
 #: .\courses\views.py:636 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
+#: .\solutions\templates\solutions\challenge_list.html:20
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
 #: .\solutions\templates\solutions\solution_list.html:34
@@ -694,13 +696,15 @@ msgstr "Применить"
 #: .\news\templates\news\index.html:19
 #: .\problems\templates\problems\challenge.html:18
 #: .\problems\templates\problems\challenges.html:21
+#: .\problems\templates\problems\rejudges.html:14
 #: .\problems\templates\problems\show_test.html:61
 #: .\problems\templates\problems\solutions.html:56
+#: .\solutions\templates\solutions\challenge_list.html:18
 #: .\solutions\templates\solutions\compare.html:47
 #: .\solutions\templates\solutions\compare.html:72
 #: .\solutions\templates\solutions\rejudge.html:18
 #: .\solutions\templates\solutions\rejudge.html:41
-#: .\solutions\templates\solutions\rejudge_list.html:17
+#: .\solutions\templates\solutions\rejudge_list.html:18
 #: .\solutions\templates\solutions\solution.html:23
 #: .\solutions\templates\solutions\solution_list.html:35
 #: .\solutions\templates\solutions\solution_plagiarism.html:20
@@ -758,7 +762,7 @@ msgstr "Решений нет"
 #: .\contests\templates\contests\settings_base.html:15
 #: .\contests\templates\contests\sidebar.html:73
 #: .\courses\templates\courses\settings_base.html:18
-#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:32
+#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:33
 msgid "Compilers"
 msgstr "Компиляторы"
 
@@ -804,7 +808,7 @@ msgstr "Новое соревнование"
 msgid "Create"
 msgstr "Создать"
 
-#: .\contests\templates\contests\contest_list.html:7 .\templates\navbar.html:38
+#: .\contests\templates\contests\contest_list.html:7 .\templates\navbar.html:39
 msgid "Contests"
 msgstr "Соревнования"
 
@@ -934,7 +938,7 @@ msgstr "Условия задач"
 #: .\contests\templates\contests\problems_list.html:33
 #: .\problems\templates\problems\irunner_problems_list_tag.html:44
 msgid "No problems"
-msgstr "Нет задач"
+msgstr "Задач нет"
 
 #: .\contests\templates\contests\question_answers.html:14
 msgid "Warning"
@@ -1019,7 +1023,7 @@ msgstr "Мои решения"
 #: .\courses\templates\courses\problems_statement.html:31
 #: .\courses\templates\courses\sidebar.html:72
 #: .\courses\templates\courses\submission.html:6
-#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:37
+#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:38
 msgid "Submit solution"
 msgstr "Отправить решение"
 
@@ -1322,7 +1326,7 @@ msgstr "Критерий не используется в курсах."
 
 #: .\courses\templates\courses\criterion_list.html:8
 #: .\courses\templates\courses\settings_problems.html:28
-#: .\templates\navbar.html:33
+#: .\templates\navbar.html:34
 msgid "Criteria"
 msgstr "Критерии"
 
@@ -1335,8 +1339,8 @@ msgid "delete"
 msgstr "удалить"
 
 #: .\courses\templates\courses\criterion_list.html:22
-msgid "There are no criteria defined."
-msgstr "Критерии не определены."
+msgid "There are no criteria defined"
+msgstr "Критерии не определены"
 
 #: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:506
 msgid "New criterion"
@@ -1483,8 +1487,8 @@ msgid "To assign"
 msgstr "Для назначения"
 
 #: .\courses\templates\courses\settings_problems.html:39
-msgid "No topics."
-msgstr "Нет тем."
+msgid "No topics"
+msgstr "Тем нет"
 
 #: .\courses\templates\courses\settings_problems.html:42
 msgid "New topic"
@@ -1522,8 +1526,8 @@ msgid "New kind of activity"
 msgstr "Новый вид деятельности"
 
 #: .\courses\templates\courses\settings_subgroups.html:15
-msgid "No subgroups."
-msgstr "Нет подгрупп."
+msgid "No subgroups"
+msgstr "Подгрупп нет"
 
 #: .\courses\templates\courses\settings_subgroups.html:18
 msgid "New subgroup"
@@ -1926,25 +1930,32 @@ msgstr "Тесты"
 
 #: .\problems\tabs.py:32 .\problems\templates\problems\challenges.html:22
 #: .\problems\templates\problems\irunner_problems_list_tag.html:22
+#: .\problems\templates\problems\rejudges.html:15
 #: .\solutions\templates\solutions\solution_list.html:12
 #: .\templates\navbar.html:24 .\users\templates\users\profile_show.html:61
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\problems\tabs.py:33
+#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
+#: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"
 
-#: .\problems\tabs.py:34
+#: .\problems\tabs.py:34 .\solutions\templates\solutions\rejudge_list.html:10
+#: .\templates\navbar.html:29
+msgid "Rejudges"
+msgstr "Перетестирования"
+
+#: .\problems\tabs.py:35
 msgid "Files"
 msgstr "Файлы"
 
-#: .\problems\tabs.py:35 .\problems\templates\problems\tex_playground.html:7
-#: .\templates\navbar.html:35
+#: .\problems\tabs.py:36 .\problems\templates\problems\tex_playground.html:7
+#: .\templates\navbar.html:36
 msgid "TeX editor"
 msgstr "Редактор TeX"
 
-#: .\problems\tabs.py:36
+#: .\problems\tabs.py:37
 msgid "Pictures"
 msgstr "Картинки"
 
@@ -2016,13 +2027,14 @@ msgid "Start"
 msgstr "Старт"
 
 #: .\problems\templates\problems\challenges.html:20
+#: .\solutions\templates\solutions\challenge_list.html:19
 msgctxt "challenge"
 msgid "Created"
 msgstr "Создан"
 
 #: .\problems\templates\problems\challenges.html:36
 msgid "No challenges"
-msgstr "Нет взломов"
+msgstr "Взломов нет"
 
 #: .\problems\templates\problems\delete.html:10
 msgid "Unable to delete the problem because it is currently in use."
@@ -2271,8 +2283,8 @@ msgstr[1] "файла"
 msgstr[2] "файлов"
 
 #: .\problems\templates\problems\pictures.html:24
-msgid "There are no pictures."
-msgstr "Нет картинок."
+msgid "No pictures"
+msgstr "Картинок нет"
 
 #: .\problems\templates\problems\pictures.html:33
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:74
@@ -2282,6 +2294,16 @@ msgstr "Изображение"
 #: .\problems\templates\problems\pictures.html:39
 msgid "Open in new tab"
 msgstr "Открыть в новой вкладке"
+
+#: .\problems\templates\problems\rejudges.html:13
+#: .\solutions\templates\solutions\rejudge_list.html:19
+msgctxt "rejudge"
+msgid "Created"
+msgstr "Создано"
+
+#: .\problems\templates\problems\rejudges.html:31
+msgid "No rejudges"
+msgstr "Перетестирований нет"
 
 #: .\problems\templates\problems\show_test.html:22
 #: .\problems\templates\problems\tests.html:87
@@ -2653,7 +2675,12 @@ msgstr "просмотр деталей тестирования с сообще
 msgid "view testing details and test data"
 msgstr "просмотр деталей тестирования и данных тестов"
 
-#: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:36
+#: .\solutions\templates\solutions\challenge_list.html:21
+#: .\solutions\templates\solutions\rejudge_list.html:20
+msgid "Number of solutions"
+msgstr "Количество решений"
+
+#: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:37
 msgid "Comparison of solutions"
 msgstr "Сравнение решений"
 
@@ -2719,12 +2746,12 @@ msgid "KB"
 msgstr "КБ"
 
 #: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:4
-#: .\solutions\templates\solutions\rejudge_list.html:32
+#: .\solutions\templates\solutions\rejudge_list.html:34
 msgid "committed"
 msgstr "зафиксировано"
 
 #: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:6
-#: .\solutions\templates\solutions\rejudge_list.html:34
+#: .\solutions\templates\solutions\rejudge_list.html:36
 msgid "rolled back"
 msgstr "отменено"
 
@@ -2784,7 +2811,7 @@ msgid "Compilation log"
 msgstr "Журнал компиляции"
 
 #: .\solutions\templates\solutions\judgement_list.html:9
-#: .\templates\navbar.html:29
+#: .\templates\navbar.html:30
 msgid "Runs"
 msgstr "Запуски"
 
@@ -2819,19 +2846,6 @@ msgstr "Клонировать"
 #: .\solutions\templates\solutions\rejudge.html:108
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
-
-#: .\solutions\templates\solutions\rejudge_list.html:9
-#: .\templates\navbar.html:28
-msgid "Rejudges"
-msgstr "Перетестирования"
-
-#: .\solutions\templates\solutions\rejudge_list.html:18
-msgid "Time created"
-msgstr "Время создания"
-
-#: .\solutions\templates\solutions\rejudge_list.html:19
-msgid "Number of solutions"
-msgstr "Количество решений"
 
 #: .\solutions\templates\solutions\solution.html:49
 msgid "Input&thinsp;/&thinsp;output"
@@ -2931,7 +2945,7 @@ msgstr "Введите текст здесь"
 msgid "Filename"
 msgstr "Имя файла"
 
-#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:34
+#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:35
 msgid "File storage"
 msgstr "Хранилище файлов"
 
@@ -3092,7 +3106,7 @@ msgstr "Обратная связь"
 msgid "Administration"
 msgstr "Администрирование"
 
-#: .\templates\navbar.html:31
+#: .\templates\navbar.html:32
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
@@ -3323,6 +3337,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "There are no pictures."
+#~ msgstr "Нет картинок."
+
+#~ msgid "Time created"
+#~ msgstr "Время создания"
 
 #~ msgid "— General question —"
 #~ msgstr "— Общий вопрос —"

@@ -19,7 +19,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>{% trans 'There are no criteria defined.' %}</p>
+        <p>{% trans 'There are no criteria defined' %}</p>
     {% endif %}
     <p><a href="{% url 'courses:criterion_new' %}">{% trans 'New criterion' %}</a></p>
 {% endblock %}

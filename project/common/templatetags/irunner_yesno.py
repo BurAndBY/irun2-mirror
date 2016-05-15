@@ -9,4 +9,4 @@ def irunner_yesno(value):
         return '<span class="glyphicon glyphicon-ok text-success"></span>'
     if value is False:
         return '<span class="glyphicon glyphicon-remove text-danger"></span>'
-    return ''
+    return '&mdash;'

@@ -24,7 +24,7 @@ from storage.utils import serve_resource, serve_resource_metadata
 from .calcpermissions import calculate_permissions
 from .compare import fetch_solution
 from .forms import AllSolutionsFilterForm, CompareSolutionsForm
-from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog
+from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Challenge
 from .permissions import SolutionPermissions
 from .utils import judge, bulk_rejudge
 from .filters import apply_state_filter, apply_compiler_filter
@@ -691,3 +691,19 @@ class SolutionPlagiarismView(BaseSolutionView):
         context = paginate(request, plagiarism_judgements, self.paginate_by)
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
+
+
+'''
+Global challenges list
+'''
+
+
+class ChallengeListView(StaffMemberRequiredMixin, IRunnerListView):
+    template_name = 'solutions/challenge_list.html'
+
+    def get_queryset(self):
+        return Challenge.objects.\
+            annotate(num_solutions=Count('challengedsolution')).\
+            select_related('problem').\
+            order_by('-creation_time', '-id').\
+            all()
