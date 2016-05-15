@@ -18,7 +18,8 @@ from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
 from django.template import defaultfilters
 
-from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm, MailThreadForm, MailMessageForm
+from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
+from forms import MailThreadForm, MailMessageForm, MailResolvedForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
 from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
 from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
@@ -792,7 +793,7 @@ class CourseMessagesView(CourseMessagesSingleThreadView):
 
         message_form = MailMessageForm(request.POST, request.FILES)
         if message_form.is_valid():
-            post_message(request.user, thread, message_form)
+            post_message(request.user, thread, message_form, self.permissions.messages_all)
             return redirect('courses:messages', course.id, thread_id)
 
         context = self.get_context_data(messages=messages, message_form=message_form)
@@ -816,12 +817,23 @@ class CourseMessagesThreadDeleteView(CourseMessagesSingleThreadView):
         return redirect('courses:messages_empty', course.id)
 
 
+class CourseMessagesThreadResolveView(CourseMessagesSingleThreadView):
+    def post(self, request, course, thread_id):
+        thread = self._load_thread(thread_id)
+        if self.permissions.messages_resolve:
+            form = MailResolvedForm(request.POST)
+            if form.is_valid():
+                thread.resolved = form.cleaned_data['resolved']
+                thread.save()
+        return JsonResponse({})
+
+
 class CourseMessagesNewView(BaseCourseView):
     tab = 'messages'
     template_name = 'courses/messages_new.html'
 
-    general_question = _(u'— General question —')
-    all_users = _(u'— All —')
+    general_question = make_empty_select(_('General question'))
+    all_users = make_empty_select(_('All'))
 
     def is_allowed(self, permissions):
         return permissions.messages_send_any or permissions.messages_send_own
@@ -855,7 +867,7 @@ class CourseMessagesNewView(BaseCourseView):
                 else:
                     thread.person_id = request.user.id
 
-                post_message(request.user, thread, message_form)
+                post_message(request.user, thread, message_form, self.permissions.messages_all)
                 return redirect('courses:messages', course.id, thread.id)
 
         context = self.get_context_data(thread_form=thread_form, message_form=message_form)

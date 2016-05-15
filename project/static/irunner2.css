@@ -917,7 +917,7 @@ span.ir-absence {
     border-left-color: #ce4844;
 }
 .ir-mail-message-first {
-    border-left-color: #337ab7;
+    border-color: #337ab7;
 }
 .ir-mail-message-author {
     float: left;
@@ -938,10 +938,14 @@ span.ir-absence {
 .ir-mail-message .ir-subject {
     font-size: 18px;
     margin-bottom: 16px;
+    text-align: center;
 }
 
 .ir-mail-thread {
     padding: 4px 10px;
+}
+.ir-mail-thread-unresolved {
+    background-color: #fcf8e3;
 }
 .ir-mail-thread-subject {
     font-size: 12px;

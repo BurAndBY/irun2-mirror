@@ -18,7 +18,7 @@
 
             <div class="list-group">
                 {% for t in threads %}
-                    <a href="{% url 'courses:messages' course.id t.id %}" class="list-group-item ir-mail-thread{% if thread.id == t.id %} active{% endif %}">
+                    <a href="{% url 'courses:messages' course.id t.id %}" class="list-group-item ir-mail-thread{% if thread.id == t.id %} active{% elif permissions.messages_resolve and not t.resolved %} ir-mail-thread-unresolved{% endif %}">
                         <span class="ir-mail-thread-date">{{ t.last_message_timestamp|date:"SHORT_DATE_FORMAT" }}</span>
                         <div class="ir-mail-thread-subject{% if t.unread and thread.id != t.id %} ir-mail-thread-subject-unread{% endif %}">
                             {% if t.subject %}{{ t.subject }}{% else %}[{% trans 'No subject' %}]{% endif %}
@@ -63,6 +63,13 @@
                                 <a href="{% url 'courses:course_problems_problem' course.id thread.problem.id %}">{{ thread.problem.numbered_full_name }}</a>
                             </div>
                         {% endif %}
+                        {% if permissions.messages_resolve %}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ir_resolved"{% if thread.resolved %} checked{% endif %}> {% trans 'Consider the issue resolved' %}
+                                </label>
+                            </div>
+                        {% endif %}
                     </div>
                 {% for message in messages %}
                     <div class="ir-mail-message{% if message.unread %} ir-mail-message-unread{% endif %}">
@@ -88,7 +95,7 @@
 
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#replyForm">{% trans 'Reply to thread' %}</a>
+                            {% bootstrap_icon 'share-alt' %} <a role="button" data-toggle="collapse" href="#replyForm">{% trans 'Reply to thread' %}</a>
                         </h4>
                     </div>
 
@@ -139,5 +146,20 @@
             </div>
         </div>
     </div>
+    {% endif %}
+
+    {% if permissions.messages_resolve and thread %}
+    <script>
+        $(document).ready(function() {
+            $("#ir_resolved").change(function(e) {
+                e.preventDefault();
+                var checked = $(this).is(":checked");
+                $.post("{% url 'courses:messages_thread_resolve' course.id thread.id %}", {
+                    resolved: (checked ? "on" : ""),
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                });
+            });
+        });
+    </script>
     {% endif %}
 {% endblock %}

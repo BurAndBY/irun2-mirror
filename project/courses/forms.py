@@ -225,3 +225,7 @@ class MailMessageForm(forms.ModelForm):
         widgets = {
             'body': forms.Textarea(attrs={'rows': 5}),
         }
+
+
+class MailResolvedForm(forms.Form):
+    resolved = forms.BooleanField(required=False)

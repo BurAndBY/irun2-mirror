@@ -23,6 +23,7 @@ class CoursePermissions(object):
         self.messages_send_any = False
         self.messages_send_own = False
         self.messages_delete_thread = False
+        self.messages_resolve = False
         self.plagiarism = False
 
     def set_common(self):
@@ -54,6 +55,7 @@ class CoursePermissions(object):
         self.messages_all = True
         self.messages_send_any = True
         self.messages_delete_thread = True
+        self.messages_resolve = True
         self.plagiarism = True
 
     def set_admin(self):

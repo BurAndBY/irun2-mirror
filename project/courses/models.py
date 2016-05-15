@@ -166,6 +166,7 @@ class MailThread(models.Model):
     problem = models.ForeignKey(Problem, null=True)
     person = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     last_message_timestamp = models.DateTimeField()
+    resolved = models.BooleanField(blank=True, default=True)
 
 
 class MailMessage(models.Model):

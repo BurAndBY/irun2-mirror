@@ -66,7 +66,7 @@ def get_unread_thread_count(course, user, permissions):
     return total_count - read_count
 
 
-def post_message(user, thread, message_form):
+def post_message(user, thread, message_form, is_message_admin):
     ts = timezone.now()
 
     message = message_form.save(commit=False)
@@ -78,6 +78,7 @@ def post_message(user, thread, message_form):
     message.author = user
     message.timestamp = ts
     thread.last_message_timestamp = ts
+    thread.resolved = is_message_admin
 
     with transaction.atomic():
         thread.save()
