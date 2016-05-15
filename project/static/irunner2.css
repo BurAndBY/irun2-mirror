@@ -523,7 +523,7 @@ h3 { font-size: 20px; line-height: 32px; }
     font-size: 12px;
 }
 .ir-sheet .ir-activity {
-    max-width: 100px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
