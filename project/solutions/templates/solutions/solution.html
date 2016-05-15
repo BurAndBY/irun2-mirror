@@ -35,7 +35,9 @@
                         <dt>{% trans 'Problem' %}</dt>
                         {# What link to the problem is the best? #}
                         <dd>
-                            {% irunner_problems_difficulty solution.problem.difficulty %}
+                            {% if solution.problem.difficulty != None %}
+                                {% irunner_problems_difficulty solution.problem.difficulty %}
+                            {% endif %}
                             {% if user.is_staff %}
                                 <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
                             {% elif solution_environment.course %}
