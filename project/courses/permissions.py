@@ -69,6 +69,7 @@ class CoursePermissions(object):
         self.messages_all = True
         self.messages_send_any = True
         self.messages_delete_thread = True
+        self.messages_resolve = True
         self.plagiarism = True
 
     def disable_sheet(self):
