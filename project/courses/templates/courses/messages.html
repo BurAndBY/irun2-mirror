@@ -59,7 +59,7 @@
                         {% if thread.problem %}
                             <div>
                                 {% bootstrap_icon 'file' %}
-                                {% irunner_problems_difficulty problem.difficulty %}
+                                {% irunner_problems_difficulty thread.problem.difficulty %}
                                 <a href="{% url 'courses:course_problems_problem' course.id thread.problem.id %}">{{ thread.problem.numbered_full_name }}</a>
                             </div>
                         {% endif %}
