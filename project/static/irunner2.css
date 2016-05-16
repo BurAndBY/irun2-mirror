@@ -1268,7 +1268,10 @@ tr:hover .ir-appear-on-hover {
     display: inline-block;
 }
 .ir-difflib tbody {
-    border-top: 2px solid #c0c0c0;
+    border-top: 18px solid #c0c0c0;
+}
+.ir-difflib tbody:first-of-type {
+    border-top: 0;
 }
 
 .ir-solution-timedelta {
