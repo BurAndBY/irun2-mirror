@@ -2,8 +2,9 @@ import zipfile
 import xml.etree.ElementTree as ET
 
 from django.core.files.base import ContentFile
+from django.utils import timezone
 
-from problems.models import Problem, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
+from problems.models import Problem, ProblemExtraInfo, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
 from storage.storage import create_storage
 from storage.utils import store_and_fill_metadata
 
@@ -60,7 +61,7 @@ def load_statement(myzip, problem, language):
             related_file.save()
 
 
-def parse_archive(myzip, language, compiler):
+def parse_archive(myzip, language, compiler, user):
     problem_xml_data = myzip.read('problem.xml')
     root = ET.fromstring(problem_xml_data)
 
@@ -77,9 +78,18 @@ def parse_archive(myzip, language, compiler):
     tests = []
     storage = create_storage()
 
+    ts = timezone.now()
+
+    tl_ml_set = False
+
     for testset in judging.findall('testset'):
         time_limit = get_int(testset, 'time-limit')
         memory_limit = get_int(testset, 'memory-limit')
+
+        if not tl_ml_set:
+            ProblemExtraInfo.objects.create(problem=problem, default_time_limit=time_limit, default_memory_limit=memory_limit)
+            tl_ml_set = True
+
         test_count = get_int(testset, 'test-count')
 
         input_pattern = testset.find('input-path-pattern').text
@@ -90,6 +100,8 @@ def parse_archive(myzip, language, compiler):
             tc = TestCase(problem=problem, ordinal_number=number, time_limit=time_limit, memory_limit=memory_limit)
             tc.set_input(storage, ContentFile(myzip.read(input_pattern % (number,))))
             tc.set_answer(storage, ContentFile(myzip.read(answer_pattern % (number,))))
+            tc.author = user
+            tc.creation_time = ts
             tc.full_clean()
             tests.append(tc)
 
@@ -107,8 +119,8 @@ def parse_archive(myzip, language, compiler):
     return problem
 
 
-def import_full_package(upload, language, compiler, folder_id=None):
+def import_full_package(upload, language, compiler, user, folder_id=None):
     with zipfile.ZipFile(upload, 'r', allowZip64=True) as myzip:
-        problem = parse_archive(myzip, language, compiler)
+        problem = parse_archive(myzip, language, compiler, user)
     if folder_id is not None:
         problem.folders.add(folder_id)

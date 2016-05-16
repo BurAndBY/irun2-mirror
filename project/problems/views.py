@@ -17,6 +17,7 @@ from django.db.models import F, Q, Count, ProtectedError
 from django.http import Http404, JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -703,6 +704,7 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
             test_cases = []
             storage = create_storage()
 
+            ts = timezone.now()
             canonical_test_case = description_form.save(commit=False)
 
             with zipfile.ZipFile(form.cleaned_data['upload'], 'r', allowZip64=True) as myzip:
@@ -713,6 +715,8 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
                         memory_limit=canonical_test_case.memory_limit,
                         points=canonical_test_case.points,
                         description=canonical_test_case.description,
+                        creation_time=ts,
+                        author=request.user,
                     )
                     test_case.set_input(storage, ContentFile(myzip.read(input_name)))
                     test_case.set_answer(storage, ContentFile(myzip.read(answer_name)))
@@ -1054,7 +1058,7 @@ class ImportFromPolygonView(StaffMemberRequiredMixin, ProblemFolderMixin, generi
             folder_id = cast_id(folder_id_or_root)
             try:
                 with transaction.atomic():
-                    import_full_package(form.cleaned_data['upload'], form.cleaned_data['language'], form.cleaned_data['compiler'], folder_id)
+                    import_full_package(form.cleaned_data['upload'], form.cleaned_data['language'], form.cleaned_data['compiler'], request.user, folder_id)
             except ValidationError as e:
                 has_error = True
                 validation_error = e
