@@ -13,10 +13,10 @@
         {% csrf_token %}
         {% bootstrap_form form show_label=False %}
         {% buttons %}
-            <button type="submit" class="btn btn-default">
+            <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
-            <a href="{% url 'courses:course_settings_users' course.id %}" role="button" class="btn btn-default">
+            <a href="{% url 'courses:course_settings_users' course.id %}" role="button" class="btn btn-link">
                 {% trans 'Cancel' %}
             </a>
         {% endbuttons %}

@@ -66,7 +66,7 @@ class SubgroupForm(forms.ModelForm):
         model = Subgroup
         fields = ['name']
         help_texts = {
-            'name': _(u'Use short subgroup names, e. g. &laquo;1st&raquo;, &laquo;2 s.&raquo;, &laquo;EPS&raquo;.')
+            'name': _(u'Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’.')
         }
 
 
