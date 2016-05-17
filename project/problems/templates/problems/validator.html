@@ -3,7 +3,14 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_proglangs %}
+{% load irunner_storage %}
 {% load staticfiles %}
+
+{% block head %}
+    {% if language %}
+        <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
+    {% endif %}
+{% endblock %}
 
 {% block main %}
     <form method="post">
@@ -13,4 +20,13 @@
             <button type="submit" class="btn btn-primary">{% trans 'Revalidate testset' %}</button>
         {% endbuttons %}
     </form>
+
+    {% if source_repr %}
+        {% irunner_storage_show source_repr language %}
+        {% if language %}
+            <script>
+                hljs.initHighlightingOnLoad();
+            </script>
+        {% endif %}
+    {% endif %}
 {% endblock %}

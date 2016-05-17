@@ -33,6 +33,7 @@ from common.pageutils import paginate
 from common.views import IRunnerListView
 from courses.models import Course
 from proglangs.models import Compiler
+from proglangs.utils import get_highlightjs_class
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
 from solutions.models import Challenge, ChallengedSolution, Judgement, Rejudge
@@ -1450,13 +1451,20 @@ class ProblemValidatorView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
         initial = {}
+        context = {}
 
         validation = Validation.objects.filter(problem=problem).first()
         if validation is not None:
             initial['validator'] = validation.validator
 
+            if validation.validator is not None:
+                storage = create_storage()
+                context['language'] = get_highlightjs_class(validation.validator.compiler.language)
+                context['source_repr'] = storage.represent(validation.validator.resource_id)
+
         form = self._create_form(problem, initial=initial)
-        context = self._make_context(problem, {'form': form})
+        context['form'] = form
+        context = self._make_context(problem, context)
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id):
