@@ -38,7 +38,8 @@ urlpatterns = [
     url('^', include('cauth.urls')),
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),
-    url(r'^hall-of-fame/$', common.views.HallOfFameView.as_view(), name='hall_of_fame')
+    url(r'^hall-of-fame/$', common.views.HallOfFameView.as_view(), name='hall_of_fame'),
+    url(r'^activity/$', common.views.ActivityView.as_view(), name='activity'),
 ]
 
 handler403 = 'common.views.error403'

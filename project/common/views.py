@@ -1,16 +1,20 @@
+import datetime
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.db.models import Count
 from django.contrib import auth
+from django.utils import timezone
 
 from cauth.mixins import StaffMemberRequiredMixin
+from common.outcome import Outcome
 from contests.models import Contest, UnauthorizedAccessLevel
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
 from courses.calcpermissions import calculate_course_permissions
 from news.models import NewsMessage
-from solutions.models import Solution
+from solutions.models import Solution, Judgement
 from problems.models import Problem
 
 from .pageutils import IRunnerPaginator
@@ -86,6 +90,63 @@ class HallOfFameView(StaffMemberRequiredMixin, generic.View):
             ))
 
         context = {'top_attempts': top_attempts}
+        return render(request, self.template_name, context)
+
+
+class SingleDayInfo(object):
+    def __init__(self, date):
+        self.date = date
+        self.accepted = 0
+        self.rejected = 0
+        self._max_value = None
+
+    def set_max_value(self, max_value):
+        self._max_value = max_value if max_value > 0 else 1
+
+    def get_accepted_percent(self):
+        return int(100 * self.accepted // self._max_value)
+
+    def get_all_percent(self):
+        return int(100 * (self.accepted + self.rejected) // self._max_value)
+
+
+class ActivityView(generic.View):
+    template_name = 'common/activity.html'
+
+    def get(self, request):
+        ts = timezone.now()
+        today = timezone.localtime(ts).date()
+        delta = datetime.timedelta(days=1)
+
+        mp = {}
+        results = []
+
+        for _ in range(365):
+            info = SingleDayInfo(today)
+            results.append(info)
+            mp[today] = info
+            today -= delta
+
+        for ts, outcome in Solution.objects.\
+                filter(reception_time__gte=today, best_judgement__status=Judgement.DONE).\
+                values_list('reception_time', 'best_judgement__outcome'):
+            loc = timezone.localtime(ts)
+            info = mp.get(loc.date())
+            if info is not None:
+                if outcome == Outcome.ACCEPTED:
+                    info.accepted += 1
+                else:
+                    info.rejected += 1
+
+        results.reverse()
+
+        max_value = 0
+        for info in results:
+            max_value = max(max_value, info.accepted + info.rejected)
+        for info in results:
+            info.set_max_value(max_value)
+
+        context = {'results': results}
         return render(request, self.template_name, context)
 
 

@@ -1574,3 +1574,40 @@ Green menu
 .ir-all-solution-count {
     color: #ccc;
 }
+
+/**
+ * Custom activity chart
+ */
+.ir-activity-chart {
+    display: table;
+    width: 100%;
+}
+.ir-activity-chart > .ir-row {
+    display: table-row;
+}
+.ir-activity-chart > .ir-row > .ir-bar-container {
+    display: table-cell;
+    height: 200px;
+    position: relative;
+}
+.ir-activity-chart .ir-bar {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+.ir-activity-chart .ir-bar-container:hover {
+    background-color: #fafafa;
+}
+.ir-activity-chart .ir-bar-container .ir-accepted {
+    background-color: #dff0d8;
+}
+.ir-activity-chart .ir-bar-container:hover .ir-accepted {
+    background-color: #5cb85c;
+}
+
+.ir-activity-chart .ir-bar-container .ir-rejected {
+    background-color: #f2dede;
+}
+.ir-activity-chart .ir-bar-container:hover .ir-rejected {
+    background-color: #d9534f;
+}

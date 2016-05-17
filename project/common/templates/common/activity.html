@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_solutions %}
+{% load irunner_users %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Activity' %}{% endblock %}</h1>
+
+    <h3>{% trans 'Submission count during the year' %}</h3>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="ir-activity-chart">
+                <div class="ir-row">
+                    {% for info in results %}
+                        <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent }}%"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent }}%"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
