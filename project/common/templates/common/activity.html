@@ -9,12 +9,27 @@
     <h1>{% block title %}{% trans 'Activity' %}{% endblock %}</h1>
 
     <h3>{% trans 'Submission count during the year' %}</h3>
-
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="ir-activity-chart">
                 <div class="ir-row">
-                    {% for info in results %}
+                    {% for info in results_year %}
+                        <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent }}%"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent }}%"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>{% trans 'Submission count in courses during the current term' %} <small>{% trans 'starting from' %} {{ term_start }}</small></h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="ir-activity-chart">
+                <div class="ir-row">
+                    {% for info in results_term %}
                         <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
                             <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent }}%"></div>
                             <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent }}%"></div>

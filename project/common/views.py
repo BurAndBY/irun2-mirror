@@ -110,43 +110,64 @@ class SingleDayInfo(object):
         return int(100 * (self.accepted + self.rejected) // self._max_value)
 
 
+def _make_chart(queryset, start_date, end_date):
+    day = datetime.timedelta(days=1)
+    mp = {}
+    results = []
+    today = start_date
+    while (today <= end_date) and (len(results) <= 1000):
+        info = SingleDayInfo(today)
+        results.append(info)
+        mp[today] = info
+        today += day
+
+    db_start_date = start_date - day
+    for ts, outcome in queryset.\
+            filter(reception_time__gte=db_start_date, best_judgement__status=Judgement.DONE).\
+            values_list('reception_time', 'best_judgement__outcome'):
+        loc = timezone.localtime(ts)
+        info = mp.get(loc.date())
+        if info is not None:
+            if outcome == Outcome.ACCEPTED:
+                info.accepted += 1
+            else:
+                info.rejected += 1
+
+    max_value = 0
+    for info in results:
+        max_value = max(max_value, info.accepted + info.rejected)
+    for info in results:
+        info.set_max_value(max_value)
+    return results
+
+
+def _get_term_start(today):
+    if today.month >= 9:
+        term_start = datetime.date(today.year, 9, 1)
+    elif today.month <= 1:
+        term_start = datetime.date(today.year - 1, 9, 1)
+    else:
+        term_start = datetime.date(today.year, 2, 1)
+    return term_start
+
+
 class ActivityView(generic.View):
     template_name = 'common/activity.html'
 
     def get(self, request):
         ts = timezone.now()
         today = timezone.localtime(ts).date()
-        delta = datetime.timedelta(days=1)
 
-        mp = {}
-        results = []
+        results_year = _make_chart(Solution.objects.all(), today - datetime.timedelta(days=365), today)
 
-        for _ in range(365):
-            info = SingleDayInfo(today)
-            results.append(info)
-            mp[today] = info
-            today -= delta
+        term_start = _get_term_start(today)
+        results_term = _make_chart(Solution.objects.filter(coursesolution__isnull=False), term_start, today)
 
-        for ts, outcome in Solution.objects.\
-                filter(reception_time__gte=today, best_judgement__status=Judgement.DONE).\
-                values_list('reception_time', 'best_judgement__outcome'):
-            loc = timezone.localtime(ts)
-            info = mp.get(loc.date())
-            if info is not None:
-                if outcome == Outcome.ACCEPTED:
-                    info.accepted += 1
-                else:
-                    info.rejected += 1
-
-        results.reverse()
-
-        max_value = 0
-        for info in results:
-            max_value = max(max_value, info.accepted + info.rejected)
-        for info in results:
-            info.set_max_value(max_value)
-
-        context = {'results': results}
+        context = {
+            'results_year': results_year,
+            'results_term': results_term,
+            'term_start': term_start,
+        }
         return render(request, self.template_name, context)
 
 

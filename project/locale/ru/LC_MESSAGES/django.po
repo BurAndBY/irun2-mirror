@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-18 02:13+0300\n"
-"PO-Revision-Date: 2016-05-18 02:14+0300\n"
+"POT-Creation-Date: 2016-05-18 02:49+0300\n"
+"PO-Revision-Date: 2016-05-18 02:51+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -151,7 +151,7 @@ msgstr "Изменить язык интерфейса"
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:51
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:52
 msgid "Logout"
 msgstr "Выход"
 
@@ -168,7 +168,7 @@ msgid "Log in again."
 msgstr "Войдите снова."
 
 #: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:53
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:54
 msgid "Login"
 msgstr "Вход"
 
@@ -293,13 +293,21 @@ msgstr ""
 msgid "Source code"
 msgstr "Исходный код"
 
-#: .\common\templates\common\activity.html:9
+#: .\common\templates\common\activity.html:9 .\templates\navbar.html:41
 msgid "Activity"
 msgstr "Активность"
 
 #: .\common\templates\common\activity.html:11
 msgid "Submission count during the year"
 msgstr "Число посылок в течение года"
+
+#: .\common\templates\common\activity.html:27
+msgid "Submission count in courses during the current term"
+msgstr "Число посылок в курсах в текущем семестре"
+
+#: .\common\templates\common\activity.html:27
+msgid "starting from"
+msgstr "начиная с"
 
 #: .\common\templates\common\error403.html:6
 #: .\common\templates\common\error403.html:10
