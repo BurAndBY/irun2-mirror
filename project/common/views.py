@@ -104,10 +104,10 @@ class SingleDayInfo(object):
         self._max_value = max_value if max_value > 0 else 1
 
     def get_accepted_percent(self):
-        return int(100 * self.accepted // self._max_value)
+        return 100.0 * self.accepted / self._max_value
 
     def get_all_percent(self):
-        return int(100 * (self.accepted + self.rejected) // self._max_value)
+        return 100.0 * (self.accepted + self.rejected) / self._max_value
 
 
 def _make_chart(queryset, start_date, end_date):

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load l10n %}
 {% load irunner_problems %}
 {% load irunner_solutions %}
 {% load irunner_users %}
@@ -15,8 +16,8 @@
                 <div class="ir-row">
                     {% for info in results_year %}
                         <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
-                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent }}%"></div>
-                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent }}%"></div>
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent|unlocalize }}%"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent|unlocalize }}%"></div>
                         </div>
                     {% endfor %}
                 </div>
@@ -31,8 +32,8 @@
                 <div class="ir-row">
                     {% for info in results_term %}
                         <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
-                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent }}%"></div>
-                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent }}%"></div>
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent|unlocalize }}%"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent|unlocalize }}%"></div>
                         </div>
                     {% endfor %}
                 </div>
