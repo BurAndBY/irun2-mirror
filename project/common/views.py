@@ -102,7 +102,7 @@ class SingleDayInfo(object):
         self._height = None
 
     def set_height(self, height):
-        self._height = height
+        self._height = float(height)
 
     def set_max_value(self, max_value):
         self._max_value = max_value if max_value > 0 else 1
