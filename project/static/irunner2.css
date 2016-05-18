@@ -1599,8 +1599,15 @@ Green menu
     background-color: #fafafa;
 }
 .ir-activity-chart .ir-bar-container .ir-accepted {
+    background-color: #76d276;
+}
+.ir-activity-chart .ir-bar-container:hover .ir-accepted {
     background-color: #5cb85c;
 }
+
 .ir-activity-chart .ir-bar-container .ir-rejected {
+    background-color: #f36d69;
+}
+.ir-activity-chart .ir-bar-container:hover .ir-rejected {
     background-color: #d9534f;
 }
