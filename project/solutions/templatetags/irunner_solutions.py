@@ -96,23 +96,33 @@ def irunner_solutions_outcomebox(outcome, tooltip=False):
     return context
 
 
-@register.inclusion_tag('solutions/irunner_solutions_scorebox_tag.html')
-def irunner_solutions_scorebox(judgement=None):
+@register.simple_tag(takes_context=False)
+def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
     '''
     Displays score for a judgement.
 
     args:
         judgement
     '''
-    context = {}
-    if judgement is not None and judgement.status == Judgement.DONE:
-        context = {
-            'defined': True,
-            'score': judgement.score,
-            'max_score': judgement.max_score,
-            'accepted': (judgement.outcome == Outcome.ACCEPTED),
-        }
-    return context
+
+    classes = ['ir-box', 'ir-scorebox']
+    contents = '&mdash;'
+
+    if judgement is not None:
+        accepted = (judgement.outcome == Outcome.ACCEPTED)
+
+        if accepted:
+            classes.append('ir-scorebox-accepted')
+
+        if accepted and hide_score_if_accepted:
+            contents = '&nbsp;'
+        else:
+            if judgement.score == judgement.max_score:
+                contents = u'{0}'.format(judgement.score)
+            else:
+                contents = u'{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
+
+    return '<div class="{0}">{1}</div>'.format(' '.join(classes), contents)
 
 
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')

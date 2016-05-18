@@ -67,7 +67,7 @@
                                     {% endfor %}
                                     {% with slot_result.problem_result as pr %}
                                         {% if pr and pr.was_submitted %}
-                                            {% irunner_solutions_scorebox pr.best_solution.best_judgement %}
+                                            {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=True %}
                                         {% else %}
                                             {% irunner_solutions_scorebox %}
                                         {% endif %}
