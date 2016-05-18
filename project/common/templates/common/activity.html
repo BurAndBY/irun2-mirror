@@ -16,8 +16,8 @@
                 <div class="ir-row">
                     {% for info in results_year %}
                         <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
-                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent|unlocalize }}%"></div>
-                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent|unlocalize }}%"></div>
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_px|unlocalize }}px"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_px|unlocalize }}px"></div>
                         </div>
                     {% endfor %}
                 </div>
@@ -32,8 +32,8 @@
                 <div class="ir-row">
                     {% for info in results_term %}
                         <div class="ir-bar-container" title="{{ info.date }}&#10;✔: {{ info.accepted }}&#10;✘: {{ info.rejected }}">
-                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_percent|unlocalize }}%"></div>
-                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_percent|unlocalize }}%"></div>
+                            <div class="ir-bar ir-rejected" style="height: {{ info.get_all_px|unlocalize }}px"></div>
+                            <div class="ir-bar ir-accepted" style="height: {{ info.get_accepted_px|unlocalize }}px"></div>
                         </div>
                     {% endfor %}
                 </div>

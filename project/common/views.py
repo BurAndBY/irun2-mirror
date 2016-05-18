@@ -99,18 +99,22 @@ class SingleDayInfo(object):
         self.accepted = 0
         self.rejected = 0
         self._max_value = None
+        self._height = None
+
+    def set_height(self, height):
+        self._height = height
 
     def set_max_value(self, max_value):
         self._max_value = max_value if max_value > 0 else 1
 
-    def get_accepted_percent(self):
-        return 100.0 * self.accepted / self._max_value
+    def get_accepted_px(self):
+        return self._height * self.accepted / self._max_value
 
-    def get_all_percent(self):
-        return 100.0 * (self.accepted + self.rejected) / self._max_value
+    def get_all_px(self):
+        return self._height * (self.accepted + self.rejected) / self._max_value
 
 
-def _make_chart(queryset, start_date, end_date):
+def _make_chart(queryset, start_date, end_date, chart_height):
     day = datetime.timedelta(days=1)
     mp = {}
     results = []
@@ -138,6 +142,7 @@ def _make_chart(queryset, start_date, end_date):
         max_value = max(max_value, info.accepted + info.rejected)
     for info in results:
         info.set_max_value(max_value)
+        info.set_height(chart_height)
     return results
 
 
@@ -153,20 +158,22 @@ def _get_term_start(today):
 
 class ActivityView(generic.View):
     template_name = 'common/activity.html'
+    chart_height = 200
 
     def get(self, request):
         ts = timezone.now()
         today = timezone.localtime(ts).date()
 
-        results_year = _make_chart(Solution.objects.all(), today - datetime.timedelta(days=365), today)
+        results_year = _make_chart(Solution.objects.all(), today - datetime.timedelta(days=365), today, self.chart_height)
 
         term_start = _get_term_start(today)
-        results_term = _make_chart(Solution.objects.filter(coursesolution__isnull=False), term_start, today)
+        results_term = _make_chart(Solution.objects.filter(coursesolution__isnull=False), term_start, today, self.chart_height)
 
         context = {
             'results_year': results_year,
             'results_term': results_term,
             'term_start': term_start,
+            'chart_height': self.chart_height,
         }
         return render(request, self.template_name, context)
 
