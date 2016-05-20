@@ -1659,3 +1659,10 @@ Green menu
 .ir-pygments .ir-referred-line {
     background-color: #ff3;
 }
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #333;
+    background: #f8f8f8;
+}
