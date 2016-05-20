@@ -9,3 +9,4 @@ djangorestframework-camel-case==0.2.0
 djangorestframework==3.3.1
 MySQL-python==1.2.5
 six==1.9.0
+Pygments==2.1.3

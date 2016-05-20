@@ -1,6 +1,7 @@
 {% extends "solutions/solution.html" %}
 
 {% load i18n %}
+{% load irunner_sourcecode %}
 {% load irunner_storage %}
 {% load staticfiles %}
 {% load bootstrap3 %}
@@ -8,22 +9,72 @@
 {% block subtitle %}{% trans 'Source code' %}{% endblock %}
 
 {% block head %}
-    {% if language %}
-        <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
-    {% endif %}
+    {% irunner_sourcecode_css %}
 {% endblock %}
 
 {% block main %}
-    <p>
-        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'open-file' %} <span class="ir-icon-label">{% trans 'Open' %}</span></a>
-        <a class="btn btn-default btn-sm" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}" role="button">{% bootstrap_icon 'download-alt' %} <span class="ir-icon-label">{% trans 'Download' %}</span></a>
-    </p>
+    <div class="form-group">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group" role="group">
+                <a class="btn btn-default" href="{% url 'solutions:source_open' solution.id solution.source_code.filename %}">
+                    {% bootstrap_icon 'open-file' %} <span class="ir-icon-label">{% trans 'Open' %}</span>
+                </a>
+                <a class="btn btn-default" href="{% url 'solutions:source_download' solution.id solution.source_code.filename %}">
+                    {% bootstrap_icon 'download-alt' %} <span class="ir-icon-label">{% trans 'Download' %}</span>
+                </a>
+            </div>
 
-    {% irunner_storage_show source_repr language %} 
+            <div class="btn-group btn-group" role="group">
+                <button type="button" class="btn btn-default" id="ir_select_all">
+                    {% bootstrap_icon 'text-background' %} <span class="ir-icon-label">{% trans 'Select all' %}</span>
+                </button>
+            </div>
 
-    {% if language %}
-        <script>
-            hljs.initHighlightingOnLoad();
-        </script>
-    {% endif %}
+            <div class="btn-group btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% bootstrap_icon 'text-color' %} <span class="ir-icon-label">{% trans 'Style' %}: {{ highlight_style }}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for style in highlight_styles %}
+                        <li><a href="?style={{ style }}" class="small">{{ style }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% irunner_storage_showcode source_repr compiler hrefs=True %}
+
+    <script>
+        function selectElementText(el) {
+            var doc = window.document, sel, range;
+            if (window.getSelection && doc.createRange) {
+                sel = window.getSelection();
+                range = doc.createRange();
+                range.selectNodeContents(el);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else if (doc.body.createTextRange) {
+                range = doc.body.createTextRange();
+                range.moveToElementText(el);
+                range.select();
+            }
+        }
+
+        $(document).ready(function() {
+            var hash = window.location.hash;
+            if (hash && hash.indexOf('#line-') == 0) {
+                hash = hash.substr(1);
+                var link = $('a[href="#' + hash + '"]');
+                $(link).addClass('ir-referred-line');
+            }
+            $('#ir_select_all').click(function() {
+                var elems = $(".code pre");
+                if (elems.length) {
+                    selectElementText(elems[0]);
+                }
+            });
+        });
+    </script>
 {% endblock %}

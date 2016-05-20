@@ -1611,3 +1611,51 @@ Green menu
 .ir-activity-chart .ir-bar-container:hover .ir-rejected {
     background-color: #d9534f;
 }
+
+/**
+ * Pygments
+ */
+.ir-pygments pre {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
+    letter-spacing: 0.015em;
+    line-height: 120%;
+    padding: 0.5em;
+    border: 0;
+    margin: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    background-color: transparent;
+}
+.ir-pygments {
+    overflow-x: auto;
+    overflow-y: hidden; /* fixes display issues on Chrome browsers */
+    display: block;
+    margin-bottom: 10px;
+}
+.ir-pygments .linenos pre {
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    background-color: #fafafa;
+}
+.ir-pygments .code {
+    width: 100%;
+}
+.ir-pygments .code pre {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-radius: 0 4px 4px 0;
+}
+.ir-pygments .linenos a {
+    color: #999;
+    text-decoration: none;
+}
+.ir-pygments .linenos a:active, .ir-pygments .linenos a:hover {
+    color: #ccc;
+    text-decoration: none;
+}
+.ir-pygments .ir-referred-line {
+    background-color: #ff3;
+}

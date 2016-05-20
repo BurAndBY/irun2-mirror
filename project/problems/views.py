@@ -1459,7 +1459,7 @@ class ProblemValidatorView(BaseProblemView):
 
             if validation.validator is not None:
                 storage = create_storage()
-                context['language'] = get_highlightjs_class(validation.validator.compiler.language)
+                context['compiler'] = validation.validator.compiler
                 context['source_repr'] = storage.represent(validation.validator.resource_id)
 
         form = self._create_form(problem, initial=initial)

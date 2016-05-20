@@ -12,6 +12,7 @@ from django.utils.timesince import timesince
 from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
+from common.highlight import list_highlight_styles, get_highlight_style, update_highlight_style
 from common.pageutils import paginate
 from common.views import MassOperationView, IRunnerListView
 from common.outcome import Outcome
@@ -401,11 +402,15 @@ class SolutionSourceView(BaseSolutionView):
         return permissions.source_code
 
     def do_get(self, request, solution):
+        update_highlight_style(request)
+
         storage = create_storage()
         source_repr = storage.represent(solution.source_code.resource_id)
 
         context = self.get_context_data()
-        context['language'] = get_highlightjs_class(solution.compiler.language)
+        context['highlight_styles'] = list_highlight_styles()
+        context['highlight_style'] = get_highlight_style(request)
+        context['compiler'] = solution.compiler
         context['source_repr'] = source_repr
         return render(request, self.template_name, context)
 

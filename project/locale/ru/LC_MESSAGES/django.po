@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-18 02:49+0300\n"
-"PO-Revision-Date: 2016-05-18 02:51+0300\n"
+"POT-Creation-Date: 2016-05-21 01:55+0300\n"
+"PO-Revision-Date: 2016-05-21 01:56+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -289,23 +289,23 @@ msgstr ""
 #: .\common\templates\common\about.html:29
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:8
 #: .\solutions\templates\solutions\solution.html:115
-#: .\solutions\templates\solutions\solution_source.html:8
+#: .\solutions\templates\solutions\solution_source.html:9
 msgid "Source code"
 msgstr "Исходный код"
 
-#: .\common\templates\common\activity.html:9 .\templates\navbar.html:41
+#: .\common\templates\common\activity.html:10 .\templates\navbar.html:41
 msgid "Activity"
 msgstr "Активность"
 
-#: .\common\templates\common\activity.html:11
+#: .\common\templates\common\activity.html:12
 msgid "Submission count during the year"
 msgstr "Число посылок в течение года"
 
-#: .\common\templates\common\activity.html:27
+#: .\common\templates\common\activity.html:28
 msgid "Submission count in courses during the current term"
 msgstr "Число посылок в курсах в текущем семестре"
 
-#: .\common\templates\common\activity.html:27
+#: .\common\templates\common\activity.html:28
 msgid "starting from"
 msgstr "начиная с"
 
@@ -1346,7 +1346,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:309
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:310
 msgid "delete"
 msgstr "удалить"
 
@@ -1991,7 +1991,7 @@ msgstr[2] "тестов"
 #: .\problems\templates\problems\show_test.html:107
 #: .\problems\templates\problems\tests.html:92
 #: .\problems\templates\problems\tests.html:101
-#: .\solutions\templates\solutions\solution_source.html:18
+#: .\solutions\templates\solutions\solution_source.html:20
 msgid "Open"
 msgstr "Открыть"
 
@@ -2004,7 +2004,7 @@ msgstr "Открыть"
 #: .\problems\templates\problems\tests.html:93
 #: .\problems\templates\problems\tests.html:102
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
-#: .\solutions\templates\solutions\solution_source.html:19
+#: .\solutions\templates\solutions\solution_source.html:23
 #: .\storage\templates\storage\show.html:14
 msgid "Download"
 msgstr "Загрузить"
@@ -2568,7 +2568,7 @@ msgstr "файл бинарный"
 msgid "the file is too big"
 msgstr "файл слишком большой"
 
-#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:179
+#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:189
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
@@ -2917,8 +2917,17 @@ msgstr "Вердикт"
 #: .\solutions\templates\solutions\testcaseresult.html:43
 #: .\storage\templates\storage\irunner_storage_show_tag.html:24
 #: .\storage\templates\storage\irunner_storage_showbrief_tag.html:23
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:21
 msgid "No data"
 msgstr "Нет данных"
+
+#: .\solutions\templates\solutions\solution_source.html:29
+msgid "Select all"
+msgstr "Выделить всё"
+
+#: .\solutions\templates\solutions\solution_source.html:35
+msgid "Style"
+msgstr "Стиль"
 
 #: .\solutions\templates\solutions\testcaseresult.html:30
 msgid "Standard output (stdout)"
@@ -2932,19 +2941,19 @@ msgstr "Стандартный вывод ошибок (stderr)"
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\templatetags\irunner_solutions.py:180
+#: .\solutions\templatetags\irunner_solutions.py:190
 msgid "error while compiling checker"
 msgstr "ошибка компиляции программы проверки"
 
-#: .\solutions\templatetags\irunner_solutions.py:181
+#: .\solutions\templatetags\irunner_solutions.py:191
 msgid "error while compiling validator"
 msgstr "ошибка компиляции контролёра тестов"
 
-#: .\solutions\templatetags\irunner_solutions.py:182
+#: .\solutions\templatetags\irunner_solutions.py:192
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:204
+#: .\solutions\views.py:205
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -2979,12 +2988,14 @@ msgid "Storage statistics"
 msgstr "Статистика хранения"
 
 #: .\storage\templates\storage\irunner_storage_show_tag.html:6
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:8
 msgid ""
 "The file is <strong>binary</strong> and its content can not be displayed."
 msgstr ""
 "Файл <strong>бинарный</strong> и его содержимое не может быть показано."
 
 #: .\storage\templates\storage\irunner_storage_show_tag.html:12
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:14
 msgid ""
 "The file is <strong>too big</strong>, so it is displayed truncated. You can "
 "download the full version."

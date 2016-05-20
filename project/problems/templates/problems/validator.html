@@ -2,14 +2,11 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_proglangs %}
 {% load irunner_storage %}
-{% load staticfiles %}
+{% load irunner_sourcecode %}
 
 {% block head %}
-    {% if language %}
-        <script src="{% static 'Highlight.js/highlight.pack.js' %}"></script>
-    {% endif %}
+    {% irunner_sourcecode_css %}
 {% endblock %}
 
 {% block main %}
@@ -22,11 +19,6 @@
     </form>
 
     {% if source_repr %}
-        {% irunner_storage_show source_repr language %}
-        {% if language %}
-            <script>
-                hljs.initHighlightingOnLoad();
-            </script>
-        {% endif %}
+        {% irunner_storage_showcode source_repr compiler %}
     {% endif %}
 {% endblock %}
