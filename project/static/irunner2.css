@@ -1642,6 +1642,9 @@ Green menu
 .ir-pygments .code {
     width: 100%;
 }
+.ir-pygments td {
+    vertical-align: top;
+}
 .ir-pygments .code pre {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
