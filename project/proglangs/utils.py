@@ -9,7 +9,7 @@ HIGHLIGHTJS = {
     Compiler.PASCAL: 'delphi',
     Compiler.DELPHI: 'delphi',
     Compiler.PYTHON: 'py',
-    Compiler.CSHARP: 'cs',
+    Compiler.CSHARP: 'csharp',
 }
 
 
