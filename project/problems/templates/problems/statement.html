@@ -1,6 +1,16 @@
 {% extends 'problems/base.html' %}
 
+{% load bootstrap3 %}
+{% load i18n %}
 {% load irunner_problems %}
+
+{% block extrasidebar %}
+    <div class="list-group">
+        <a href="?print=1" class="list-group-item">
+            {% bootstrap_icon 'print' %} <span class="ir-icon-label">{% trans 'Print version' %}</span>
+        </a>
+    </div>
+{% endblock %}
 
 {% block main %}
     {% irunner_problems_statement statement %}

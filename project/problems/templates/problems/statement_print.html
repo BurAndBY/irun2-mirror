@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+
+{% block title %}{% trans 'Problem' %} {{ problem.numbered_full_name }}{% endblock %}
+
+{% block allbody %}
+<div class="container-fluid">
+    {% irunner_problems_statement statement %}
+</div>
+{% endblock %}

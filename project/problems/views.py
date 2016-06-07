@@ -308,6 +308,7 @@ Statement
 class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
     tab = 'statement'
     template_name = 'problems/statement.html'
+    template_name_print = 'problems/statement_print.html'
 
     def get(self, request, problem_id, filename):
         problem = self._load(problem_id)
@@ -319,7 +320,8 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 
         context = self._make_context(problem)
         context['statement'] = st
-        return render(request, self.template_name, context)
+        template_name = self.template_name_print if (request.GET.get('print') == '1') else self.template_name
+        return render(request, template_name, context)
 
 
 '''

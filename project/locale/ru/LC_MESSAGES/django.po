@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-21 01:55+0300\n"
-"PO-Revision-Date: 2016-05-21 01:56+0300\n"
+"POT-Creation-Date: 2016-06-07 13:11+0300\n"
+"PO-Revision-Date: 2016-06-07 13:12+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -268,7 +268,7 @@ msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
 #: .\common\templates\common\about.html:5
-#: .\common\templates\common\about.html:8 .\templates\base.html:55
+#: .\common\templates\common\about.html:8 .\templates\base.html:54
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
@@ -493,6 +493,7 @@ msgstr "Пользователь"
 #: .\courses\views.py:636 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
+#: .\problems\templates\problems\statement_print.html:7
 #: .\solutions\templates\solutions\challenge_list.html:20
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
@@ -1177,7 +1178,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:83 .\problems\models.py:102 .\problems\models.py:139
-#: .\problems\models.py:165 .\problems\models.py:175 .\problems\views.py:516
+#: .\problems\models.py:165 .\problems\models.py:175 .\problems\views.py:518
 #: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
 msgid "description"
 msgstr "описание"
@@ -2186,7 +2187,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1084
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1086
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2374,6 +2375,10 @@ msgstr "Отметьте два решения для сравнения."
 msgid "Compare solutions"
 msgstr "Сравнить решения"
 
+#: .\problems\templates\problems\statement.html:10
+msgid "Print version"
+msgstr "Версия для печати"
+
 #: .\problems\templates\problems\tests.html:15
 msgid "An error occurred while running validator"
 msgstr "Во время выполнения контролёра тестов произошла ошибка"
@@ -2438,7 +2443,7 @@ msgstr ""
 msgid "Upload"
 msgstr "Загрузить"
 
-#: .\problems\templates\problems\validator.html:20
+#: .\problems\templates\problems\validator.html:17
 msgid "Revalidate testset"
 msgstr "Выполнить контроль набора тестов"
 
@@ -2462,36 +2467,36 @@ msgstr "%(megabytes)s МБ"
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:513
+#: .\problems\views.py:515
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:514
+#: .\problems\views.py:516
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:515
+#: .\problems\views.py:517
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:517
+#: .\problems\views.py:519
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:518
+#: .\problems\views.py:520
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:522
+#: .\problems\views.py:524
 #, python-format
 msgid "Test %(number)s has been saved."
 msgstr "Тест %(number)s сохранён."
 
-#: .\problems\views.py:531
+#: .\problems\views.py:533
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:733
+#: .\problems\views.py:735
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -2499,11 +2504,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:984 .\users\views.py:97
+#: .\problems\views.py:986 .\users\views.py:97
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1002
+#: .\problems\views.py:1004
 msgid "Folder properties"
 msgstr "Свойства папки"
 
@@ -3117,11 +3122,11 @@ msgstr[0] "Обновлена %(rows)s строка в БД"
 msgstr[1] "Обновлены %(rows)s строки в БД"
 msgstr[2] "Обновлены %(rows)s строк в БД"
 
-#: .\templates\base.html:53
+#: .\templates\base.html:52
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФПМИ БГУ"
 
-#: .\templates\base.html:57
+#: .\templates\base.html:56
 msgid "Feedback"
 msgstr "Обратная связь"
 
