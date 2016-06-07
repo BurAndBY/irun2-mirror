@@ -26,7 +26,7 @@
                 <a href="{% url 'feedback:delete' message.id %}">{% bootstrap_icon 'remove' %}</a>
             </div>
         </div>
-        <div class="panel-body"><div class="ir-data">{{ message.body|urlize }}</div></div>
+        <div class="panel-body">{{ message.body|urlize|linebreaksbr }}</div>
         {% if message.attachment %}
             <div class="panel-footer">
                 {% trans 'Attachment' %}:
