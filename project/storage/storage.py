@@ -3,6 +3,7 @@
 import binascii
 import hashlib
 import os
+import sys
 import tempfile
 
 from django.conf import settings
@@ -310,8 +311,10 @@ class FileSystemStorage(IDataStorage):
             if not os.path.exists(target_name):
                 try:
                     os.rename(temp_name, target_name)
-                except WindowsError:
-                    pass
+                except OSError as e:
+                    # HACK: The file is locked by antivirus
+                    if not (sys.platform.startswith('win') and isinstance(e, WindowsError)):
+                        raise
             else:
                 os.remove(temp_name)
 
