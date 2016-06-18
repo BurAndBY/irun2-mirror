@@ -4,11 +4,12 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 
-from .storage import ResourceId, FileSystemStorage
+from .storage import ResourceId, FileSystemStorage, ResourseRepresentation
 from .validators import validate_filename
 
-import tempfile
+import os
 import shutil
+import tempfile
 
 
 class DataIdTests(TestCase):
@@ -29,21 +30,53 @@ class DataIdTests(TestCase):
 
 
 class FileSystemStorageTests(TestCase):
+    def _run_simple(self, fs, msg, resource_id_string):
+        # msg should be plain ASCII string
+
+        h = fs.save(ContentFile(msg))
+        self.assertTrue(type(h) is ResourceId)
+        self.assertEqual(str(h), resource_id_string)
+
+        # read completely
+        blob_read, is_complete = fs.read_blob(h, len(msg) * 10)
+        self.assertTrue(is_complete)
+        self.assertEqual(blob_read, msg)
+
+        blob_read, is_complete = fs.read_blob(h, len(msg))
+        self.assertTrue(is_complete)
+        self.assertEqual(blob_read, msg)
+
+        # read partially
+        partial_length = len(msg) // 2
+        if partial_length < len(msg):
+            blob_read, is_complete = fs.read_blob(h, partial_length)
+            self.assertFalse(is_complete)
+            self.assertEqual(blob_read, msg[:partial_length])
+
+        # represent
+        representation = fs.represent(h)
+        self.assertTrue(type(representation) is ResourseRepresentation)
+        self.assertTrue(representation.is_complete())
+        self.assertTrue(representation.is_utf8())
+        self.assertEqual(representation.text, msg)
+
     def test_blob(self):
         dirpath = tempfile.mkdtemp()
         try:
-            fs = FileSystemStorage(dirpath)
+            fs = FileSystemStorage(os.path.join(dirpath, 'filestorage'))
 
             msg = 'The quick brown fox jumps over the lazy dog'
             sha1 = '2fd4e1c67a2d28fced849ee1bb76e7391b93eb12'
-            h = fs.save(ContentFile(msg))
-            self.assertEqual(str(h), sha1)
+            self._run_simple(fs, msg, sha1)
 
-            h = fs.save(ContentFile(''))
-            self.assertEqual(str(h), '')
+            self._run_simple(fs, '', '')
+            self._run_simple(fs, '0', '30')  # ASCII '0' = 48 = 0x30
+            self._run_simple(fs, '00', '3030')
+            self._run_simple(fs, '0123456789', '30313233343536373839')
+            self._run_simple(fs, 'hello', 'hello'.encode('hex'))
 
-            h = fs.save(ContentFile('hello'))
-            self.assertEqual(str(h), 'hello'.encode('hex'))
+            does_not_exist = ResourceId.parse('59db6ba4a6aff5ed3d980542daf41be65624a1e8')
+            self.assertTrue(fs.represent(does_not_exist) is None)
 
         finally:
             shutil.rmtree(dirpath)
