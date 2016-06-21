@@ -4,6 +4,7 @@
 {% load l10n %}
 {% load irunner_problems %}
 {% load irunner_solutions %}
+{% load irunner_stats %}
 {% load irunner_users %}
 
 {% block content %}
@@ -25,8 +26,10 @@
         </div>
     </div>
 
-    <h3>{% trans 'Submission count in courses during the current term' %} <small>{% trans 'starting from' %} {{ term_start }}</small></h3>
+    <h3>{% trans 'Statistics of courses during the current term' %} <small>{% trans 'starting from' %} {{ term_start }}</small></h3>
+
     <div class="panel panel-default">
+        <div class="panel-heading">{% trans 'Submission count' %}</div>
         <div class="panel-body">
             <div class="ir-activity-chart">
                 <div class="ir-row">
@@ -40,4 +43,34 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">{% trans 'All solutions' %}</div>
+                <div class="panel-body">
+                    {% irunner_stats_proglangbars all_proglangbars %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">{% trans 'Accepted solutions' %}</div>
+                <div class="panel-body">
+                    {% irunner_stats_proglangbars accepted_proglangbars %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">{% trans 'Outcomes' %}</div>
+                <div class="panel-body">
+                    {% irunner_stats_outcomebars outcomebars %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

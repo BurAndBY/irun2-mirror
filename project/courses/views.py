@@ -2,7 +2,7 @@
 
 import calendar
 import json
-from collections import Counter, namedtuple
+from collections import namedtuple
 
 from django.contrib import auth
 from django.core.urlresolvers import reverse
@@ -30,10 +30,11 @@ from common.cast import str_to_uint
 from common.constants import make_empty_select
 from common.pageutils import paginate
 from common.outcome import Outcome
+from common.statutils import build_proglangbars
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
-from proglangs.models import Compiler, get_language_label
+from proglangs.models import Compiler
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
@@ -79,9 +80,6 @@ class BaseCourseView(generic.View):
         return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
 
 
-ProgrammingLanguageBar = namedtuple('ProgrammingLanguageBar', 'language label count percent')
-
-
 class CourseInfoView(BaseCourseView):
     tab = 'info'
     template_name = 'courses/info.html'
@@ -119,17 +117,7 @@ class CourseInfoView(BaseCourseView):
 
         latest_accepted_solutions = accepted_solutions.order_by('-reception_time')[:7]
 
-        language_stats = Counter()
-        total = 0
-        for language in solutions.values_list('compiler__language', flat=True):
-            language_stats[language] += 1
-            total += 1
-
-        language_bars = []
-        for language, count in language_stats.most_common():
-            percent = count * 100 // total
-            label = get_language_label(language) or language
-            language_bars.append(ProgrammingLanguageBar(language, label, count, percent))
+        language_bars = build_proglangbars(solutions)
 
         return render(request, self.template_name, self.get_context_data(
             show_activity_plot=show_activity_plot,

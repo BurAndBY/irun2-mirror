@@ -1596,8 +1596,11 @@ Green menu
     position: absolute;
     width: 100%;
 }
-.ir-activity-chart .ir-bar-container:hover {
+.ir-activity-chart .ir-bar-container {
     background-color: #fafafa;
+}
+.ir-activity-chart .ir-bar-container:hover {
+    background-color: #eeeeee;
 }
 .ir-activity-chart .ir-bar-container .ir-accepted {
     background-color: #76d276;

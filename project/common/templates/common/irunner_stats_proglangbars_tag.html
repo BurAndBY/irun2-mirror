@@ -1,0 +1,14 @@
+{% for bar in data %}
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <strong>{{ bar.label }}</strong>
+        </div>
+        <div class="col-xs-10">
+            <div class="progress">
+                <div class="progress-bar ir-langbox-{{ bar.language }}" role="progressbar" style="min-width: 2em; width: {{ bar.percent }}%; color: #333">
+                    {{ bar.count }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

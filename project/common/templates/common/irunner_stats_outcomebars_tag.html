@@ -1,0 +1,13 @@
+{% load irunner_solutions %}
+
+<table class="table table-condensed">
+    <tbody>
+        {% for bar in data %}
+            <tr>
+                <td>{% irunner_solutions_outcomebox bar.outcome %}</td>
+                <td>{{ bar.name }}</td>
+                <td class="text-right"><strong>{{ bar.count }}</strong></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

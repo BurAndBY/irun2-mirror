@@ -8,7 +8,6 @@ from django.contrib import auth
 from django.utils import timezone
 
 from cauth.mixins import StaffMemberRequiredMixin
-from common.outcome import Outcome
 from contests.models import Contest, UnauthorizedAccessLevel
 from courses.models import Course, Membership
 from courses.messaging import get_unread_thread_count
@@ -17,7 +16,9 @@ from news.models import NewsMessage
 from solutions.models import Solution, Judgement
 from problems.models import Problem
 
+from .outcome import Outcome
 from .pageutils import IRunnerPaginator
+from .statutils import build_proglangbars, build_outcomebars
 
 
 def home(request):
@@ -169,11 +170,23 @@ class ActivityView(generic.View):
         term_start = _get_term_start(today)
         results_term = _make_chart(Solution.objects.filter(coursesolution__isnull=False), term_start, today, self.chart_height)
 
+        term_solution_queryset = Solution.objects.\
+            filter(coursesolution__isnull=False).\
+            filter(reception_time__gte=term_start)
+
+        all_proglangbars = build_proglangbars(term_solution_queryset)
+        accepted_proglangbars = build_proglangbars(term_solution_queryset.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED))
+
+        outcomebars = build_outcomebars(term_solution_queryset)
+
         context = {
             'results_year': results_year,
             'results_term': results_term,
             'term_start': term_start,
             'chart_height': self.chart_height,
+            'all_proglangbars': all_proglangbars,
+            'accepted_proglangbars': accepted_proglangbars,
+            'outcomebars': outcomebars,
         }
         return render(request, self.template_name, context)
 

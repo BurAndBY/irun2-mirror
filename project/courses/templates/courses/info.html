@@ -5,6 +5,7 @@
 {% load staticfiles %}
 {% load irunner_courses %}
 {% load irunner_problems %}
+{% load irunner_stats %}
 
 {% block title %}{{ course.name }}{% endblock %}
 
@@ -33,20 +34,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">{% trans 'Programming language popularity' %}</div>
                     <div class="panel-body">
-                        {% for bar in language_bars %}
-                            <div class="row">
-                                <div class="col-xs-2 text-right">
-                                    <strong>{{ bar.label }}</strong>
-                                </div>
-                                <div class="col-xs-10">
-                                    <div class="progress">
-                                        <div class="progress-bar ir-langbox-{{ bar.language }}" role="progressbar" style="min-width: 2em; width: {{ bar.percent }}%; color: #333">
-                                            {{ bar.count }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
+                        {% irunner_stats_proglangbars language_bars %}
                     </div>
                 </div>
             {% endif %}
