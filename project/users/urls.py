@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^(?P<user_id>[0-9]+)/update/$', views.ProfileUpdateView.as_view(), name='profile_update'),
     url(r'^(?P<user_id>[0-9]+)/password/$', views.ProfilePasswordView.as_view(), name='profile_password'),
     url(r'^(?P<user_id>[0-9]+)/permissions/$', views.ProfilePermissionsView.as_view(), name='profile_permissions'),
+    url(r'^(?P<user_id>[0-9]+)/card/$', views.UserCardView.as_view(), name='card'),
 ]

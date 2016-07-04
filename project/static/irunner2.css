@@ -1689,3 +1689,23 @@ Green menu
         border: 0;
     }
 }
+
+/**
+ * User card
+ */
+.ir-card {
+    width: 100%;
+}
+.ir-card > p {
+    margin-bottom: 4px;
+}
+.ir-card .ir-name {
+    font-size: 18px;
+}
+.ir-card > ul {
+    padding-left: 0;
+    list-style-position: inside;
+}
+.ir-card > ul > li {
+    font-size: 11px;
+}

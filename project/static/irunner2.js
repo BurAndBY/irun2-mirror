@@ -169,3 +169,90 @@ function irInsertAtCursor(textAreaControl, myValue) {
     }
     myField.focus();
 }
+
+/**
+ * User cards
+ */
+function _irCardWaitingDone() {
+    var self = $(this).data("ir_card");
+    if (self.state === "wait") {
+        _irCardFetchAndShow.call(this);
+    }
+}
+function _irCardLinkHandlerIn() {
+    var self = $(this).data("ir_card");
+    if (self.state === "out") {
+        self.state = "wait";
+        setTimeout(_irCardWaitingDone.bind(this), 500);
+    }
+}
+function _irCardShow() {
+    var self = $(this).data("ir_card");
+    if (self.state === "wait" || self.state === "fetch") {
+        self.state = "in";
+        $(this).popover({
+            content: self.content,
+            html: true,
+            delay: { show: 500, hide: 200 },
+            trigger: "hover"
+        }).popover('show');
+    }
+}
+function _irCardFetchAndShow() {
+    var self = $(this).data("ir_card");
+    if (self.content !== null) {
+        _irCardShow.call(this);
+    } else {
+        self.state = "fetch";
+        var $this = $(this);
+        var url = $this.data("poload");
+        $.get(url, function(d) {
+            self.content = d;
+            if (self.state === "fetch") {
+                _irCardShow.call($this);
+            }
+        });
+    }
+}
+function _irCardLinkHandlerOut() {
+    var self = $(this).data("ir_card");
+    if (self.state !== "in") {
+        self.state = "out";
+    }
+}
+
+function enableUserCard() {
+    var self = {
+        state: "out",
+        content: null
+    };
+    $(this).data("ir_card", self);
+    $(this).hover(_irCardLinkHandlerIn, _irCardLinkHandlerOut);
+}
+
+// http://jsfiddle.net/hermanho/4886bozw/
+var originalLeave = $.fn.popover.Constructor.prototype.leave;
+$.fn.popover.Constructor.prototype.leave = function(obj){
+    var self = obj instanceof this.constructor ?
+    obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type);
+    var container, timeout;
+
+    originalLeave.call(this, obj);
+
+    if (obj.currentTarget) {
+        container = $(obj.currentTarget).siblings('.popover');
+        timeout = self.timeout;
+        container.one('mouseenter', function() {
+            // We entered the actual popover – call off the dogs
+            clearTimeout(timeout);
+            // Let's monitor popover content instead
+            container.one('mouseleave', function(){
+                $.fn.popover.Constructor.prototype.leave.call(self, self);
+            });
+        });
+    }
+};
+
+$(document).ready(function() {
+    $(".ir-card-link").each(enableUserCard);
+});

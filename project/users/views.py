@@ -8,11 +8,13 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
+from django.http import HttpResponse
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.folderutils import lookup_node_ex, cast_id
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView
+from courses.models import Membership
 from solutions.models import Solution
 
 import forms
@@ -313,3 +315,22 @@ class ProfilePermissionsView(ProfileTwoFormsView):
         context = super(ProfilePermissionsView, self).get_context_data(**kwargs)
         context['page_title'] = _('Permissions')
         return context
+
+
+class UserCardView(StaffMemberRequiredMixin, generic.View):
+    max_memberships = 10
+    template_name = 'users/user_card.html'
+
+    def get(self, request, user_id):
+        user = get_object_or_404(auth.get_user_model(), pk=user_id)
+        profile = user.userprofile
+        course_memberships = Membership.objects.filter(user=user, role=Membership.STUDENT).\
+            select_related('course', 'subgroup').\
+            order_by('-id')[:self.max_memberships]
+
+        context = {
+            'user': user,
+            'profile': profile,
+            'course_memberships': course_memberships,
+        }
+        return render(request, self.template_name, context)

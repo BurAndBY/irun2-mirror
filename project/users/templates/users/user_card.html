@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<div class="ir-card">
+    <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
+    <p class="ir-monospace">
+        {% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}
+        {{ user.username }}
+        {% if request.user.is_staff %}</a>{% endif %}
+    </p>
+
+    {% if course_memberships %}
+        <ul>
+        {% for membership in course_memberships %}
+            <li>
+                {{ membership.course }}
+                {% if membership.subgroup %}
+                    <span class="ir-subgroup-label">({% trans 'subgroup' %} {{ membership.subgroup.name }})</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>

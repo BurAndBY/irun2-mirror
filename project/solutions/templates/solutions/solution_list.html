@@ -45,7 +45,7 @@
             <tr>
                 <td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td>
                 <td>{% irunner_problems_difficulty solution.problem.difficulty %} <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a></td>
-                <td class="text-nowrap"><a href="{% url 'users:profile_show' solution.author_id %}">{% irunner_users_show solution.author %}</a></td>
+                <td class="text-nowrap">{% irunner_users_card solution.author %}</td>
                 <td class="text-nowrap">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
                 <td class="text-nowrap">
                     {% irunner_proglangs_compilerbox solution.compiler %}
