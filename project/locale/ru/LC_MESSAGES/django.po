@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-22 00:22+0300\n"
-"PO-Revision-Date: 2016-06-22 00:23+0300\n"
+"POT-Creation-Date: 2016-07-08 00:45+0300\n"
+"PO-Revision-Date: 2016-07-08 00:48+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -61,7 +61,7 @@ msgstr "Приоритет"
 #: .\problems\templates\problems\overview.html:70
 #: .\problems\templates\problems\show_test.html:73
 #: .\proglangs\templates\proglangs\index.html:19
-#: .\users\templates\users\profile_show.html:29
+#: .\users\templates\users\profile_show.html:35
 msgid "Description"
 msgstr "Описание"
 
@@ -109,8 +109,7 @@ msgstr "Редактировать профиль"
 #: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:31
-#: .\users\templates\users\profile_password.html:6
-#: .\users\templates\users\profile_sidebar.html:17
+#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:319
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -146,8 +145,9 @@ msgstr "Изменить язык интерфейса"
 #: .\proglangs\templates\proglangs\edit.html:14
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:30
-#: .\users\templates\users\profile_password.html:18
-#: .\users\templates\users\profile_update.html:17
+#: .\users\templates\users\profile_password.html:16
+#: .\users\templates\users\profile_photo.html:19
+#: .\users\templates\users\profile_update.html:15
 msgid "Save"
 msgstr "Сохранить"
 
@@ -215,7 +215,7 @@ msgstr "стандартный вывод"
 #: .\common\constants.py:12 .\courses\forms.py:169
 #: .\problems\templates\problems\overview.html:47
 #: .\problems\templatetags\irunner_problems.py:87
-#: .\users\templates\users\profile_show.html:65
+#: .\users\templates\users\profile_show.html:71
 msgid "no"
 msgstr "нет"
 
@@ -288,7 +288,7 @@ msgstr ""
 
 #: .\common\templates\common\about.html:29
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:8
-#: .\solutions\templates\solutions\solution.html:115
+#: .\solutions\templates\solutions\solution.html:111
 #: .\solutions\templates\solutions\solution_source.html:9
 msgid "Source code"
 msgstr "Исходный код"
@@ -317,7 +317,7 @@ msgstr "Число посылок"
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:602
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:609
 msgid "All solutions"
 msgstr "Все решения"
 
@@ -390,13 +390,13 @@ msgstr "Страница"
 #: .\solutions\templates\solutions\compare.html:86
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:38
 #: .\solutions\templates\solutions\judgement.html:31
-#: .\solutions\templates\solutions\solution.html:61
+#: .\solutions\templates\solutions\solution.html:57
 msgid "of"
 msgstr "из"
 
 #: .\common\templates\common\irunner_pagination_tag.html:79
 #: .\common\templates\common\irunner_pagination_tag.html:81
-#: .\courses\views.py:824
+#: .\courses\views.py:831
 msgid "All"
 msgstr "Все"
 
@@ -409,7 +409,7 @@ msgid "Loading"
 msgstr "Загрузка"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
-#: .\courses\templates\courses\assign.html:107
+#: .\courses\templates\courses\assign.html:105
 #: .\news\templates\news\new.html:13
 msgid "Add"
 msgstr "Добавить"
@@ -509,14 +509,14 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
-#: .\courses\templates\courses\standings.html:61 .\courses\views.py:563
-#: .\courses\views.py:624 .\problems\templates\problems\base.html:5
+#: .\courses\templates\courses\standings.html:58 .\courses\views.py:570
+#: .\courses\views.py:631 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\problems\templates\problems\statement_print.html:7
 #: .\solutions\templates\solutions\challenge_list.html:20
 #: .\solutions\templates\solutions\rejudge.html:22
-#: .\solutions\templates\solutions\solution.html:35
+#: .\solutions\templates\solutions\solution.html:27
 #: .\solutions\templates\solutions\solution_list.html:35
 #: .\storage\templates\storage\usage.html:29
 #: .\storage\templates\storage\usage.html:45
@@ -544,7 +544,7 @@ msgstr "Просмотр результатов и условий задач"
 #: .\contests\models.py:37 .\courses\models.py:17 .\courses\models.py:24
 #: .\courses\models.py:51 .\courses\models.py:82 .\courses\models.py:90
 #: .\courses\templates\courses\api_list_problems.html:11
-#: .\problems\models.py:19 .\users\models.py:13
+#: .\problems\models.py:19 .\users\models.py:14
 msgid "name"
 msgstr "название"
 
@@ -665,7 +665,7 @@ msgstr "Вопрос будет удалён."
 #: .\contests\templates\contests\messages_delete.html:18
 #: .\contests\templates\contests\question_answers.html:45
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
-#: .\courses\templates\courses\messages.html:143
+#: .\courses\templates\courses\messages.html:149
 #: .\courses\templates\courses\settings_component.html:17
 #: .\problems\templates\problems\delete.html:20
 #: .\problems\templates\problems\delete_file.html:14
@@ -689,8 +689,8 @@ msgstr "Удалить"
 #: .\contests\templates\contests\my_questions_form.html:19
 #: .\contests\templates\contests\question_answers.html:46
 #: .\contests\templates\contests\settings_users_edit.html:16
-#: .\courses\templates\courses\assign.html:71
-#: .\courses\templates\courses\messages.html:142
+#: .\courses\templates\courses\assign.html:69
+#: .\courses\templates\courses\messages.html:148
 #: .\courses\templates\courses\messages_new.html:27
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:21
@@ -759,7 +759,7 @@ msgstr "Время"
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\solutions.html:58
 #: .\problems\templates\problems\texs.html:11
-#: .\solutions\templates\solutions\solution.html:87
+#: .\solutions\templates\solutions\solution.html:83
 #: .\solutions\templates\solutions\solution_attempts.html:19
 #: .\solutions\templates\solutions\solution_list.html:38
 #: .\storage\templates\storage\usage.html:39
@@ -849,7 +849,7 @@ msgstr "Нет доступных соревнований."
 #: .\contests\templates\contests\irunner_contests_message_tag.html:12
 #: .\contests\templates\contests\problem.html:13
 #: .\courses\templates\courses\problems_statement.html:37
-#: .\courses\templates\courses\sheet.html:124
+#: .\courses\templates\courses\sheet.html:120
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:34
@@ -863,7 +863,7 @@ msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:658 .\courses\views.py:823
+#: .\contests\views.py:658 .\courses\views.py:830
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -883,7 +883,7 @@ msgstr "Последнее решение"
 #: .\contests\templates\contests\my_solutions.html:31
 #: .\courses\templates\courses\api_list_problems.html:10
 #: .\courses\templates\courses\settings_users.html:27
-#: .\courses\templates\courses\sheet.html:30
+#: .\courses\templates\courses\sheet.html:31
 #: .\courses\templates\courses\standings.html:23
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\challenge.html:43
@@ -1043,7 +1043,7 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:643
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:650
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1135,13 +1135,13 @@ msgid "Attempt count limit is reached."
 msgstr "Достигнуто ограничение по числу попыток."
 
 #: .\courses\forms.py:211 .\courses\settingsviews.py:95
-#: .\courses\templates\courses\sheet.html:31
+#: .\courses\templates\courses\sheet.html:32
 #: .\courses\templates\courses\standings.html:24
-#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:555
+#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:562
 msgid "Student"
 msgstr "Студент"
 
-#: .\courses\forms.py:216 .\courses\templates\courses\messages.html:85
+#: .\courses\forms.py:216 .\courses\templates\courses\messages.html:91
 #: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
 msgid "Attachment"
 msgstr "Вложение"
@@ -1192,7 +1192,7 @@ msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:83 .\problems\models.py:102 .\problems\models.py:139
 #: .\problems\models.py:165 .\problems\models.py:175 .\problems\views.py:518
-#: .\proglangs\models.py:29 .\users\models.py:16 .\users\models.py:27
+#: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:28
 msgid "description"
 msgstr "описание"
 
@@ -1212,7 +1212,7 @@ msgstr "студент"
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:108
+#: .\courses\models.py:108 .\users\templates\users\user_card.html:23
 msgid "subgroup"
 msgstr "подгруппа"
 
@@ -1236,13 +1236,13 @@ msgstr "отсутствие"
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\services.py:126 .\courses\templates\courses\assign.html:123
+#: .\courses\services.py:154 .\courses\templates\courses\assign.html:121
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
 msgid "Common problems"
 msgstr "Общие задачи"
 
-#: .\courses\settingsviews.py:95 .\courses\templates\courses\assign.html:27
+#: .\courses\settingsviews.py:95 .\courses\templates\courses\assign.html:26
 msgid "Students"
 msgstr "Студенты"
 
@@ -1254,7 +1254,7 @@ msgstr "Преподаватель"
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:137 .\users\views.py:150
+#: .\courses\settingsviews.py:137 .\users\views.py:160
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -1291,20 +1291,20 @@ msgstr "Условие"
 msgid "Assignment of problems"
 msgstr "Назначение задач"
 
-#: .\courses\templates\courses\assign.html:66
+#: .\courses\templates\courses\assign.html:64
 msgid "Select a problem to assign"
 msgstr "Выберите задачу для назначения"
 
-#: .\courses\templates\courses\assign.html:70
+#: .\courses\templates\courses\assign.html:68
 msgid "Reset"
 msgstr "Сброс"
 
-#: .\courses\templates\courses\assign.html:77
+#: .\courses\templates\courses\assign.html:75
 msgid "Remove extra problem"
 msgstr "Удалить дополнительную задачу"
 
-#: .\courses\templates\courses\assign.html:95
-#: .\courses\templates\courses\standings.html:85
+#: .\courses\templates\courses\assign.html:93
+#: .\courses\templates\courses\standings.html:82
 #: .\courses\templates\courses\standings_wide.html:84
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
@@ -1368,7 +1368,7 @@ msgstr "удалить"
 msgid "There are no criteria defined"
 msgstr "Критерии не определены"
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:494
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:501
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -1402,7 +1402,7 @@ msgstr "Задача не назначена"
 
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:57
 #: .\problems\templates\problems\overview.html:112
-#: .\users\templates\users\profile_show.html:63
+#: .\users\templates\users\profile_show.html:69
 msgid "solution"
 msgid_plural "solutions"
 msgstr[0] "решение"
@@ -1419,32 +1419,32 @@ msgid "No subject"
 msgstr "Без темы"
 
 #: .\courses\templates\courses\messages.html:34
-#: .\courses\templates\courses\messages.html:55
+#: .\courses\templates\courses\messages.html:61
 msgid "Public conversation"
 msgstr "Общедоступный разговор"
 
-#: .\courses\templates\courses\messages.html:69
+#: .\courses\templates\courses\messages.html:75
 msgid "Consider the issue resolved"
 msgstr "Считать вопрос решённым"
 
-#: .\courses\templates\courses\messages.html:98
+#: .\courses\templates\courses\messages.html:104
 msgid "Reply to thread"
 msgstr "Ответ в тему"
 
-#: .\courses\templates\courses\messages.html:109
+#: .\courses\templates\courses\messages.html:115
 msgid "Reply"
 msgstr "Ответить"
 
-#: .\courses\templates\courses\messages.html:113
-#: .\courses\templates\courses\messages.html:133
+#: .\courses\templates\courses\messages.html:119
+#: .\courses\templates\courses\messages.html:139
 msgid "Delete thread"
 msgstr "Удалить тему"
 
-#: .\courses\templates\courses\messages.html:136
+#: .\courses\templates\courses\messages.html:142
 msgid "Conversation will be deleted"
 msgstr "Переписка будет удалена"
 
-#: .\courses\templates\courses\messages.html:136
+#: .\courses\templates\courses\messages.html:142
 #, python-format
 msgid "%(counter)s message"
 msgid_plural "%(counter)s messages"
@@ -1479,7 +1479,7 @@ msgid "Subgroups"
 msgstr "Подгруппы"
 
 #: .\courses\templates\courses\settings_base.html:27
-#: .\courses\templates\courses\sheet.html:14
+#: .\courses\templates\courses\sheet.html:15
 #: .\courses\templates\courses\sidebar.html:51
 msgid "Sheet"
 msgstr "Ведомость"
@@ -1493,7 +1493,7 @@ msgid "Topics"
 msgstr "Темы"
 
 #: .\courses\templates\courses\settings_problems.html:15
-#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:175
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:178
 #: .\users\templates\users\folder.html:22
 #: .\users\templates\users\irunner_users_list_tag.html:20
 msgid "Folder"
@@ -1575,15 +1575,15 @@ msgstr "Редактирование списка студентов"
 msgid "Edit teachers list"
 msgstr "Редактирование списка преподавателей"
 
-#: .\courses\templates\courses\sheet.html:20
+#: .\courses\templates\courses\sheet.html:21
 msgid "Edit mode is on."
 msgstr "Включён режим редактирования."
 
-#: .\courses\templates\courses\sheet.html:20
+#: .\courses\templates\courses\sheet.html:21
 msgid "All changes are saved automatically."
 msgstr "Все изменения автоматически сохраняются."
 
-#: .\courses\templates\courses\sheet.html:21
+#: .\courses\templates\courses\sheet.html:22
 msgid "Return to view mode (read-only)."
 msgstr "Вернуться в режим просмотра (только чтение)."
 
@@ -1596,7 +1596,7 @@ msgid "Standings"
 msgstr "Журнал"
 
 #: .\courses\templates\courses\solutions.html:46
-#: .\solutions\templates\solutions\solution.html:133
+#: .\solutions\templates\solutions\solution.html:129
 #: .\solutions\templates\solutions\solution_list.html:40
 #: .\solutions\templates\solutions\solution_plagiarism.html:10
 msgid "Plagiarism"
@@ -1621,11 +1621,11 @@ msgstr "Ошибка получения данных с сервера."
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
-#: .\courses\views.py:507
+#: .\courses\views.py:514
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:691
+#: .\courses\views.py:698
 #, python-format
 msgid "You have %(count)d attempt remaining for the problem during the day."
 msgid_plural ""
@@ -1634,16 +1634,16 @@ msgstr[0] "Осталась %(count)d попытка по задаче в теч
 msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
 msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
 
-#: .\courses\views.py:695
+#: .\courses\views.py:702
 msgid "You have no attempts remaining for the problem."
 msgstr "Доступные попытки по задаче закончились."
 
-#: .\courses\views.py:701
+#: .\courses\views.py:708
 #, python-format
 msgid "Please try again after %(ts)s."
 msgstr "Попробуйте отправить решение после %(ts)s."
 
-#: .\courses\views.py:703
+#: .\courses\views.py:710
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
 
@@ -1958,7 +1958,7 @@ msgstr "Тесты"
 #: .\problems\templates\problems\irunner_problems_list_tag.html:22
 #: .\problems\templates\problems\rejudges.html:15
 #: .\solutions\templates\solutions\solution_list.html:13
-#: .\templates\navbar.html:24 .\users\templates\users\profile_show.html:61
+#: .\templates\navbar.html:24 .\users\templates\users\profile_show.html:67
 msgid "Solutions"
 msgstr "Решения"
 
@@ -2125,7 +2125,7 @@ msgid "(checkers, validators)"
 msgstr "(программы проверки, контролёры тестов)"
 
 #: .\problems\templates\problems\files.html:60 .\proglangs\views.py:42
-#: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:93
+#: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:89
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -2165,7 +2165,7 @@ msgstr "В системе нет условия для этой задачи"
 #: .\solutions\templates\solutions\compare.html:85
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\judgement.html:30
-#: .\solutions\templates\solutions\solution.html:60
+#: .\solutions\templates\solutions\solution.html:56
 msgid "Score"
 msgstr "Очки"
 
@@ -2517,7 +2517,7 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:986 .\users\views.py:97
+#: .\problems\views.py:986 .\users\views.py:107
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -2573,8 +2573,8 @@ msgstr "не найдено"
 msgid "access denied"
 msgstr "доступ запрещён"
 
-#: .\solutions\compare.py:38 .\users\templates\users\profile_show.html:49
-#: .\users\templates\users\profile_show.html:52
+#: .\solutions\compare.py:38 .\users\templates\users\profile_show.html:55
+#: .\users\templates\users\profile_show.html:58
 msgid "no data"
 msgstr "нет данных"
 
@@ -2741,7 +2741,7 @@ msgstr "Решение"
 
 #: .\solutions\templates\solutions\compare.html:51
 #: .\solutions\templates\solutions\compare.html:76
-#: .\solutions\templates\solutions\solution.html:56
+#: .\solutions\templates\solutions\solution.html:48
 msgid "Course"
 msgstr "Курс"
 
@@ -2829,13 +2829,13 @@ msgid "Rejudge"
 msgstr "Перетестирование"
 
 #: .\solutions\templates\solutions\judgement.html:37
-#: .\solutions\templates\solutions\solution.html:127
+#: .\solutions\templates\solutions\solution.html:123
 #: .\solutions\templates\solutions\solution_tests.html:6
 msgid "Test results"
 msgstr "Результаты тестов"
 
 #: .\solutions\templates\solutions\judgement.html:42
-#: .\solutions\templates\solutions\solution.html:121
+#: .\solutions\templates\solutions\solution.html:117
 #: .\solutions\templates\solutions\solution_log.html:6
 msgid "Compilation log"
 msgstr "Журнал компиляции"
@@ -2877,32 +2877,32 @@ msgstr "Клонировать"
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
-#: .\solutions\templates\solutions\solution.html:51
+#: .\solutions\templates\solutions\solution.html:43
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
 
-#: .\solutions\templates\solutions\solution.html:66
+#: .\solutions\templates\solutions\solution.html:62
 msgid "Contest"
 msgstr "Соревнование"
 
-#: .\solutions\templates\solutions\solution.html:74
+#: .\solutions\templates\solutions\solution.html:70
 msgid "Submitted"
 msgstr "Отправлено"
 
-#: .\solutions\templates\solutions\solution.html:78
+#: .\solutions\templates\solutions\solution.html:74
 msgid "Judged"
 msgstr "Протестировано"
 
-#: .\solutions\templates\solutions\solution.html:83
+#: .\solutions\templates\solutions\solution.html:79
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:103
+#: .\solutions\templates\solutions\solution.html:99
 #: .\solutions\templates\solutions\solution_attempts.html:9
 msgid "Attempts"
 msgstr "Попытки"
 
-#: .\solutions\templates\solutions\solution.html:109
+#: .\solutions\templates\solutions\solution.html:105
 #: .\solutions\templates\solutions\solution_judgements.html:7
 msgid "Judgements"
 msgstr "Запуски"
@@ -3151,11 +3151,11 @@ msgstr "Администрирование"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\users\forms.py:29
+#: .\users\forms.py:32
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:38
+#: .\users\forms.py:41
 msgid ""
 "Students: “[username] [last name] [first name]” or “[username] [last name] "
 "[first name] [patronymic]”"
@@ -3163,54 +3163,54 @@ msgstr ""
 "Студенты: «[имя пользователя] [фамилия] [имя]» или «[имя пользователя] "
 "[фамилия] [имя] [отчество]»"
 
-#: .\users\forms.py:39
+#: .\users\forms.py:42
 msgid "Teams: “[username] [team name]”"
 msgstr "Команды: «[имя пользователя] [название команды]»"
 
-#: .\users\forms.py:42
+#: .\users\forms.py:45
 msgid "Mode"
 msgstr "Режим"
 
-#: .\users\forms.py:44 .\users\forms.py:113
+#: .\users\forms.py:47 .\users\forms.py:116
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:45
+#: .\users\forms.py:48
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
 
-#: .\users\forms.py:46
+#: .\users\forms.py:49
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:60 .\users\forms.py:131
+#: .\users\forms.py:63 .\users\forms.py:134
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:90
+#: .\users\forms.py:93
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:114
+#: .\users\forms.py:117
 msgid "Enter lines in the format of “[username] [password]”."
 msgstr "Введите строки в формате «[имя пользователя] [пароль]»."
 
-#: .\users\forms.py:139
+#: .\users\forms.py:142
 #, python-format
 msgid "User “%(username)s” does not exist."
 msgstr "Пользователь «%(username)s» не существует."
 
-#: .\users\forms.py:147
+#: .\users\forms.py:150
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:160
+#: .\users\forms.py:163
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:182
+#: .\users\forms.py:185
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -3219,30 +3219,49 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:203
+#: .\users\forms.py:206
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
 
-#: .\users\models.py:24
+#: .\users\forms.py:211 .\users\templates\users\irunner_users_photo_tag.html:7
+#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:344
+#: .\users\views.py:349
+msgid "Photo"
+msgstr "Фотография"
+
+#: .\users\forms.py:211
+msgid "Select JPEG image."
+msgstr "Выберите изображение в формате JPEG."
+
+#: .\users\models.py:25
 msgid "folder"
 msgstr "папка"
 
-#: .\users\models.py:25
+#: .\users\models.py:26
 msgid "patronymic"
 msgstr "отчество"
 
-#: .\users\models.py:26
+#: .\users\models.py:27
 msgid "password needs to be changed by user"
 msgstr "пользователю необходимо изменить пароль"
 
-#: .\users\models.py:28
+#: .\users\models.py:29
 msgid "last used compiler"
 msgstr "последний использованный компилятор"
 
-#: .\users\models.py:29
+#: .\users\models.py:30
 msgid "API access"
 msgstr "Доступ к API"
+
+#: .\users\photo.py:15
+msgid "The image cannot be opened and identified."
+msgstr "Изображение не может быть открыто и опознано."
+
+#: .\users\photo.py:18
+#, python-format
+msgid "The image format %(format)s is not supported."
+msgstr "Формат изображения %(format)s не поддерживается."
 
 #: .\users\templates\users\bulk_operation.html:38
 msgid "No users selected"
@@ -3273,7 +3292,11 @@ msgstr "Переместить"
 msgid "Swap first and last name"
 msgstr "Поменять местами имя и фамилию"
 
-#: .\users\templates\users\folder.html:75
+#: .\users\templates\users\folder.html:60
+msgid "Export as JSON"
+msgstr "Экспорт в JSON"
+
+#: .\users\templates\users\folder.html:76
 msgid "There are no users in the folder"
 msgstr "В этой папке нет пользователей"
 
@@ -3286,7 +3309,7 @@ msgid "No users found."
 msgstr "Пользователи не найдены."
 
 #: .\users\templates\users\irunner_users_list_tag.html:16
-#: .\users\templates\users\profile_show.html:38
+#: .\users\templates\users\profile_show.html:44
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -3296,16 +3319,16 @@ msgid "Full name"
 msgstr "Полное имя"
 
 #: .\users\templates\users\irunner_users_list_tag.html:18
-#: .\users\templates\users\profile_show.html:48
+#: .\users\templates\users\profile_show.html:54
 msgid "Last login"
 msgstr "Последний вход"
 
 #: .\users\templates\users\irunner_users_list_tag.html:45
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:286
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:313
 msgid "Update profile"
 msgstr "Обновить профиль"
 
-#: .\users\templates\users\profile_password.html:9
+#: .\users\templates\users\profile_password.html:7
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user's "
 "password, but you can set a new password."
@@ -3313,52 +3336,52 @@ msgstr ""
 "Пароли не хранятся в открытом виде, поэтому нет возможности увидеть пароль "
 "этого пользователя. Но вы можете установить новый пароль."
 
-#: .\users\templates\users\profile_show.html:13
+#: .\users\templates\users\profile_show.html:17
 msgid "The user belongs to staff and has extended access permissions."
 msgstr ""
 "Пользователь входит в число сотрудников и обладает расширенными правами."
 
-#: .\users\templates\users\profile_show.html:17
+#: .\users\templates\users\profile_show.html:23
 msgid "First name"
 msgstr "Имя"
 
-#: .\users\templates\users\profile_show.html:20
+#: .\users\templates\users\profile_show.html:26
 msgid "Patronymic"
 msgstr "Отчество"
 
-#: .\users\templates\users\profile_show.html:23
+#: .\users\templates\users\profile_show.html:29
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\users\templates\users\profile_show.html:43
+#: .\users\templates\users\profile_show.html:49
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: .\users\templates\users\profile_show.html:51
+#: .\users\templates\users\profile_show.html:57
 msgid "Date joined"
 msgstr "Дата регистрации"
 
-#: .\users\templates\users\profile_show.html:56
+#: .\users\templates\users\profile_show.html:62
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:314
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:338
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:113
+#: .\users\views.py:123
 msgid "Create user"
 msgstr "Создать пользователя"
 
-#: .\users\views.py:134
+#: .\users\views.py:144
 msgid "Bulk sign-up"
 msgstr "Массовая регистрация"
 
-#: .\users\views.py:161
+#: .\users\views.py:171
 msgid "Bulk password change"
 msgstr "Массовое изменение паролей"
 
-#: .\users\views.py:182
+#: .\users\views.py:192
 #, python-format
 msgid "%(count)d password has been changed."
 msgid_plural "%(count)d passwords have been changed."
@@ -3366,15 +3389,15 @@ msgstr[0] "Изменён %(count)d пароль."
 msgstr[1] "Изменено %(count)d пароля."
 msgstr[2] "Изменено %(count)d паролей."
 
-#: .\users\views.py:189
+#: .\users\views.py:199
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:200
+#: .\users\views.py:210
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:216
+#: .\users\views.py:243
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"

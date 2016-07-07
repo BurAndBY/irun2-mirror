@@ -29,7 +29,7 @@
                 <td><input type="checkbox" class="ir-checkbox" name="{{ user.id }}"></td>
             {% endif %}
             <td class="ir-monospace"><a href="{% url 'users:profile_show' user.id %}">{{ user.username }}</a></td>
-            <td>{% irunner_users_show user %}</td>
+            <td>{% irunner_users_card user %}</td>
             <td>{% if user.last_login %}{{ user.last_login }}{% else %}&mdash;{% endif %}</td>
             {% if show_folder %}
                 <td>

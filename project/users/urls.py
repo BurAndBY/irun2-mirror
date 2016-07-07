@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/bulk/change-password/$', views.ChangePasswordMassView.as_view(), name='change_password_mass'),
     url(r'^delete/$', views.DeleteUsersView.as_view(), name='delete'),
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
+    url(r'^export\.json$', views.ExportView.as_view(), name='export'),
     url(r'^swap-first-last-name/$', views.SwapFirstLastNameView.as_view(), name='swap_first_last_name'),
 
     # single user profile
@@ -18,5 +19,7 @@ urlpatterns = [
     url(r'^(?P<user_id>[0-9]+)/update/$', views.ProfileUpdateView.as_view(), name='profile_update'),
     url(r'^(?P<user_id>[0-9]+)/password/$', views.ProfilePasswordView.as_view(), name='profile_password'),
     url(r'^(?P<user_id>[0-9]+)/permissions/$', views.ProfilePermissionsView.as_view(), name='profile_permissions'),
+    url(r'^(?P<user_id>[0-9]+)/photo/$', views.ProfilePhotoView.as_view(), name='profile_photo'),
     url(r'^(?P<user_id>[0-9]+)/card/$', views.UserCardView.as_view(), name='card'),
+    url(r'^(?P<user_id>[0-9]+)/photo/(?P<resource_id>[0-9a-f]*)\.jpg$', views.PhotoView.as_view(), name='photo'),
 ]

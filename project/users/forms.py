@@ -5,10 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
+from django.core.files.base import ContentFile
 
+from common.fakefile import FakeFile
 from common.mptt_fields import OrderedTreeNodeChoiceField
 
-from models import UserFolder, UserProfile
+from users.models import UserFolder, UserProfile
+from users.photo import generate_thumbnail
 
 
 class MassUserInitForm(forms.Form):
@@ -202,3 +205,18 @@ class UserProfilePermissionsForm(forms.ModelForm):
         help_texts = {
             'has_api_access': _('For service accounts used by the testing module.')
         }
+
+
+class PhotoForm(forms.Form):
+    upload = forms.FileField(label=_('Photo'), required=False, help_text=_(u'Select JPEG image.'))
+
+    def clean(self):
+        cleaned_data = super(PhotoForm, self).clean()
+        upload = cleaned_data.get('upload')
+        if (upload) and (type(upload) is not FakeFile):
+            thumb = None
+            try:
+                thumb = generate_thumbnail(upload)
+            except forms.ValidationError as e:
+                self.add_error('upload', e)
+            cleaned_data['thumbnail'] = ContentFile(thumb, name='thumb.jpg')

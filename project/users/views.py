@@ -1,24 +1,32 @@
+import json
 import operator
 
 from django.contrib import auth, messages
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from cauth.mixins import StaffMemberRequiredMixin
+from common.cast import make_int_list_quiet
+from common.fakefile import FakeFile
 from common.folderutils import lookup_node_ex, cast_id
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView
 from courses.models import Membership
 from solutions.models import Solution
+from storage.utils import create_storage, parse_resource_id, serve_resource
 
 import forms
 from models import UserFolder, UserProfile
+from users.forms import PhotoForm
 
 
 class IndexView(StaffMemberRequiredMixin, generic.View):
@@ -213,6 +221,23 @@ class MoveUsersView(StaffMemberRequiredMixin, MassOperationView):
         return userprofile.user
 
 
+class ExportView(StaffMemberRequiredMixin, generic.View):
+    def get(self, request):
+        user_ids = make_int_list_quiet(request.GET.getlist('id'))
+        users = []
+        for user in auth.get_user_model().objects.filter(id__in=user_ids).select_related('userprofile'):
+            users.append({
+                'id': user.id,
+                'username': user.username,
+                'firstName': user.first_name,
+                'lastName': user.last_name,
+                'patronymic': user.userprofile.patronymic,
+            })
+        data = {'users': users}
+        blob = json.dumps(data, ensure_ascii=False, indent=4)
+        return HttpResponse(blob, content_type='application/json')
+
+
 class SwapFirstLastNameView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'users/bulk_operation.html'
     question = _('Are you sure you want to swap first and last name of these users?')
@@ -229,6 +254,7 @@ class SwapFirstLastNameView(StaffMemberRequiredMixin, MassOperationView):
 
 class BaseProfileView(StaffMemberRequiredMixin):
     tab = None
+    page_title = None
 
     def get_context_data(self, **kwargs):
         context = {
@@ -236,6 +262,8 @@ class BaseProfileView(StaffMemberRequiredMixin):
             'edited_profile': self.user.userprofile,
             'active_tab': self.tab,
         }
+        if self.page_title is not None:
+            context['page_title'] = self.page_title
         context.update(kwargs)
         return context
 
@@ -282,16 +310,13 @@ class ProfileUpdateView(ProfileTwoFormsView):
     template_name = 'users/profile_update.html'
     user_form_class = forms.UserForm
     userprofile_form_class = forms.UserProfileForm
-
-    def get_context_data(self, **kwargs):
-        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
-        context['page_title'] = _('Update profile')
-        return context
+    page_title = _('Update profile')
 
 
 class ProfilePasswordView(BaseProfileView, generic.View):
     tab = 'password'
     template_name = 'users/profile_password.html'
+    page_title = _('Change password')
 
     def get(self, request, user):
         form = auth.forms.AdminPasswordChangeForm(user)
@@ -310,19 +335,78 @@ class ProfilePermissionsView(ProfileTwoFormsView):
     template_name = 'users/profile_update.html'
     user_form_class = forms.UserPermissionsForm
     userprofile_form_class = forms.UserProfilePermissionsForm
-
-    def get_context_data(self, **kwargs):
-        context = super(ProfilePermissionsView, self).get_context_data(**kwargs)
-        context['page_title'] = _('Permissions')
-        return context
+    page_title = _('Permissions')
 
 
-class UserCardView(StaffMemberRequiredMixin, generic.View):
+class ProfilePhotoView(BaseProfileView, generic.View):
+    tab = 'photo'
+    template_name = 'users/profile_photo.html'
+    page_title = _('Photo')
+
+    def _make_form(self, profile, data=None, files=None):
+        if profile.photo is not None:
+            url = reverse('users:photo', kwargs={'user_id': profile.user_id, 'resource_id': profile.photo})
+            name = ugettext('Photo')
+            f = FakeFile(url, name)
+        else:
+            f = None
+        form = PhotoForm(data=data, files=files, initial={'upload': f})
+        return form
+
+    def get(self, request, user):
+        form = self._make_form(user.userprofile)
+        context = self.get_context_data(form=form, profile=user.userprofile)
+        return render(request, self.template_name, context)
+
+    def post(self, request, user):
+        profile = user.userprofile
+        form = self._make_form(user.userprofile, request.POST, request.FILES)
+        if form.is_valid():
+            upload = form.cleaned_data['upload']
+
+            if not upload:
+                profile.photo = None
+                profile.photo_thumbnail = None
+                profile.save()
+            elif type(upload) is FakeFile:
+                # do not change existing file
+                pass
+            else:
+                storage = create_storage()
+                profile.photo = storage.save(upload)
+                profile.photo_thumbnail = storage.save(form.cleaned_data['thumbnail'])
+                profile.save()
+
+            return redirect('users:profile_photo', user_id=user.id)
+
+        context = self.get_context_data(form=form, profile=profile)
+        return render(request, self.template_name, context)
+
+
+def is_allowed(request_user, target_user):
+    if not request_user.is_authenticated():
+        return False
+    if request_user == target_user:
+        return True
+    if request_user.is_staff or target_user.is_staff:
+        return True
+
+    def get_courses(user):
+        return set(Membership.objects.filter(user=user).values_list('course_id', flat=True))
+
+    if get_courses(request_user) & get_courses(target_user):
+        return True
+    return False
+
+
+class UserCardView(generic.View):
     max_memberships = 10
     template_name = 'users/user_card.html'
 
     def get(self, request, user_id):
         user = get_object_or_404(auth.get_user_model(), pk=user_id)
+        if not is_allowed(request.user, user):
+            raise PermissionDenied()
         profile = user.userprofile
         course_memberships = Membership.objects.filter(user=user, role=Membership.STUDENT).\
             select_related('course', 'subgroup').\
@@ -334,3 +418,11 @@ class UserCardView(StaffMemberRequiredMixin, generic.View):
             'course_memberships': course_memberships,
         }
         return render(request, self.template_name, context)
+
+
+class PhotoView(generic.View):
+    def get(self, request, user_id, resource_id):
+        resource_id = parse_resource_id(resource_id)
+        valid_ids = UserProfile.objects.filter(user_id=user_id).values_list('photo', 'photo_thumbnail').first()
+        if (valid_ids is not None) and (resource_id in valid_ids):
+            return serve_resource(request, resource_id, content_type='image/jpeg', cache_forever=True)

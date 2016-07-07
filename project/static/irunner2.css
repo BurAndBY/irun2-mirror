@@ -168,6 +168,11 @@ h3 { font-size: 20px; line-height: 32px; }
     white-space: normal;
 }
 
+.popover {
+    max-width: 380px;
+    min-width: 380px;
+}
+
 .ir-table-more-condensed > thead > tr > th,
 .ir-table-more-condensed > tbody > tr > th,
 .ir-table-more-condensed > tfoot > tr > th,
@@ -1696,16 +1701,93 @@ Green menu
 .ir-card {
     width: 100%;
 }
-.ir-card > p {
+.ir-card p {
     margin-bottom: 4px;
 }
 .ir-card .ir-name {
     font-size: 18px;
 }
-.ir-card > ul {
+.ir-card ul {
     padding-left: 0;
     list-style-position: inside;
 }
-.ir-card > ul > li {
+.ir-card ul > li {
     font-size: 11px;
+}
+
+/**
+ * User card link
+ */
+.ir-card-link-nohref {
+    color: #555;
+    text-decoration: none;
+    border-bottom: 1px dotted #555;
+}
+.ir-card-link-nohref:hover,
+.ir-card-link-nohref:focus {
+    color: #777;
+    text-decoration: none;
+    border-bottom: 1px dotted #777;
+}
+
+/**
+ * User card links in courses
+ */
+.ir-course-user-nolink {
+    color: #555;
+    text-decoration: none;
+}
+.ir-course-user-nolink .ir-lname {
+    font-weight: 600;
+}
+.ir-course-user-nolink:hover,
+.ir-course-user-nolink:focus {
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px dotted #777;
+}
+
+.ir-course-user-link .ir-lname {
+    font-weight: 600;
+}
+
+/**
+ * User photo
+ */
+.ir-photobox {
+    display: inline-block;
+    border: 1px solid #e1e1e8;
+}
+.ir-photobox > div {
+    width: 96px;
+    height: 128px;
+    background-color: #efefef;
+}
+
+/**
+ * Subgroup badge
+ */
+.ir-subgroup-badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 2px 4px;
+    line-height: 1;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+.ir-subgroup-badge-0 {
+    background-color: #777;
+}
+.ir-subgroup-badge-1 {
+    background-color: #F7EBAD;
+}
+.ir-subgroup-badge-2 {
+    background-color: #D9EDF7;
+}
+.ir-subgroup-badge-3 {
+    background-color: #e1b16a;
 }

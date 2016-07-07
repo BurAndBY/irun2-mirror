@@ -2,12 +2,15 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_users %}
 
 {% block main %}
-    <p>{% trans "Raw passwords are not stored, so there is no way to see this user's password, but you can set a new password." %}</p>
-
-    <form action="" method="post" class="form-horizontal">
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
         {% csrf_token %}
+
+        {% buttons layout='horizontal' %}
+            {% irunner_users_photo profile %}
+        {% endbuttons %}
 
         {% bootstrap_form form layout='horizontal' %}
 

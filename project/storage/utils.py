@@ -47,7 +47,7 @@ def store_and_fill_metadata(f, filemetadatabase):
     filemetadatabase.resource_id = resource_id
 
 
-def serve_resource(request, resource_id, content_type=None, force_download=False):
+def serve_resource(request, resource_id, content_type=None, force_download=False, cache_forever=False):
     '''
     Fulfils HTTP GET request serving a file.
     '''
@@ -66,6 +66,8 @@ def serve_resource(request, resource_id, content_type=None, force_download=False
         # response['Content-Disposition'] = 'inline; filename="{0}"'.format(filename)
         if force_download:
             response['Content-Disposition'] = 'attachment'
+        if cache_forever:
+            response['Cache-Control'] = 'max-age=31556926'  # approx. 1 year
         return response
 
     return do_actually_serve(request)

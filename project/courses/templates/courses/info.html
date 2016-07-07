@@ -48,7 +48,7 @@
                             <div class="ir-latest-solver">
                                 {% bootstrap_icon 'time' %} <span class="ir-icon-label">{{ solution.reception_time|timesince }} {% trans 'ago' %}</span>
                                 <br>
-                                {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id solution.author_id %}">{% endif %}{% irunner_courses_showuser solution.author_id user_cache %}{% if permissions.assign %}</a>{% endif %}</span>
+                                {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% if permissions.assign %}{% url 'courses:course_assignment' course.id solution.author_id as assign_url %}{% irunner_courses_user_card solution.author_id user_cache url=assign_url %}{% else %}{% irunner_courses_user_card solution.author_id user_cache %}{% endif %}</span>
                                 <br>
                                 {% bootstrap_icon 'file' %}
                                 {% irunner_problems_difficulty solution.problem.difficulty %}

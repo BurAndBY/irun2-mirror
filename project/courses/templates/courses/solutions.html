@@ -51,7 +51,7 @@
             {% for solution in object_list %}
             <tr>
                 {% if show_author %}
-                    <td class="text-nowrap">{% irunner_courses_showuser solution.author_id user_cache %}</td>
+                    <td class="text-nowrap">{% irunner_courses_user_card solution.author_id user_cache %}</td>
                 {% endif %}
                 <td>
                     {% if solution.problem %}

@@ -50,7 +50,13 @@
                         {% endif %}
                         <div>
                             {% if thread.person_id != None %}
-                                {% bootstrap_icon 'user' %} {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id thread.person_id %}">{% endif %}{% irunner_courses_showuser thread.person_id user_cache %}{% if permissions.assign %}</a>{% endif %}
+                                {% bootstrap_icon 'user' %}
+                                {% if permissions.assign %}
+                                    {% url 'courses:course_assignment' course.id thread.person_id as assign_url %}
+                                    {% irunner_courses_user_card thread.person_id user_cache url=assign_url %}
+                                {% else %}
+                                    {% irunner_courses_user_card thread.person_id user_cache %}
+                                {% endif %}
                             {% else %}
                                 {% bootstrap_icon 'globe' %} <em>{% trans 'Public conversation' %}</em>
                             {% endif %}
@@ -74,7 +80,7 @@
                 {% for message in messages %}
                     <div class="ir-mail-message{% if message.unread %} ir-mail-message-unread{% endif %}">
                         <div class="ir-mail-message-heading">
-                            <span class="ir-mail-message-author">{% bootstrap_icon 'share-alt' %} {% irunner_courses_showuser message.author_id user_cache %}</span>
+                            <span class="ir-mail-message-author">{% bootstrap_icon 'share-alt' %} {% irunner_courses_user_card message.author_id user_cache %}</span>
                             <span class="ir-mail-message-date">{{ message.timestamp }}</span>
                         </div>
                         <div class="ir-mail-message-body">{{ message.body|urlize|linebreaksbr }}</div>

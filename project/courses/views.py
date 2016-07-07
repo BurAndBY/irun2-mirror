@@ -80,6 +80,13 @@ class BaseCourseView(generic.View):
         return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
 
 
+class UserCacheMixinMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(UserCacheMixinMixin, self).get_context_data(**kwargs)
+        context['user_cache'] = self.get_user_cache()
+        return context
+
+
 class CourseInfoView(BaseCourseView):
     tab = 'info'
     template_name = 'courses/info.html'
@@ -129,7 +136,7 @@ class CourseInfoView(BaseCourseView):
         ))
 
 
-class CourseSheetView(BaseCourseView):
+class CourseSheetView(UserCacheMixinMixin, BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
 
@@ -142,7 +149,7 @@ class CourseSheetView(BaseCourseView):
         return render(request, self.template_name, context)
 
 
-class CourseSheetEditView(BaseCourseView):
+class CourseSheetEditView(UserCacheMixinMixin, BaseCourseView):
     tab = 'sheet'
     template_name = 'courses/sheet.html'
 
@@ -457,7 +464,7 @@ class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
             return result
 
 
-class CourseStandingsView(BaseCourseView):
+class CourseStandingsView(UserCacheMixinMixin, BaseCourseView):
     tab = 'standings'
     template_name = 'courses/standings.html'
 

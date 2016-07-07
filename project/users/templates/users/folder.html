@@ -57,6 +57,7 @@
                     <li><a href="#" id="ir_move">{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span></a></li>
                     <li><a href="#" id="ir_delete">{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span></a></li>
                     <li><a href="#" id="ir_swap">{% bootstrap_icon 'random' %} <span class="ir-icon-label">{% trans 'Swap first and last name' %}</span></a></li>
+                    <li><a href="#" id="ir_export">{% bootstrap_icon 'export' %} <span class="ir-icon-label">{% trans 'Export as JSON' %}</span></a></li>
                 </ul>
             </div>
         </div>
@@ -84,6 +85,7 @@
         $("#ir_move").click(function() { irPerformActionOnSelected('{% url "users:move" %}', here); });
         $("#ir_delete").click(function() { irPerformActionOnSelected('{% url "users:delete" %}', here); });
         $("#ir_swap").click(function() { irPerformActionOnSelected('{% url "users:swap_first_last_name" %}', here); });
+        $("#ir_export").click(function() { irPerformActionOnSelected('{% url "users:export" %}'); });
     });
     </script>
 {% endblock %}

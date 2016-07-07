@@ -20,13 +20,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h4 class="panel-title">
-            <a role="button" data-toggle="collapse" href="#studentList">
-                {% if current_student %}
-                    {{ current_student.as_html|safe }}
-                {% else %}
-                    {% trans 'Students' %}
-                {% endif %}
-            </a>
+            {% if current_student %}
+                {% irunner_courses_user_card current_student.id user_cache %}&nbsp;&mdash;
+            {% endif %}
+            <a role="button" data-toggle="collapse" href="#studentList">{% trans 'Students' %}</a>
         </h4>
     </div>
 
@@ -34,7 +31,8 @@
         <div class="panel-body">
             <ul>
                 {% for user_descr in student_list %}
-                    <li><a href="{% url 'courses:course_assignment' course.id user_descr.id %}">{{ user_descr.as_html|safe }}</a></li>
+                    {% url 'courses:course_assignment' course.id user_descr.id as assign_url %}
+                    <li>{% irunner_courses_user_card user_descr.id user_cache url=assign_url %}</li>
                 {% endfor %}
             </ul>
         </div>

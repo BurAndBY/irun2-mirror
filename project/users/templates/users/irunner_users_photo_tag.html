@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<div class="ir-photobox">
+    <div>
+        {% if enabled %}
+            <a href="{% url 'users:photo' user_id photo %}">
+                <img src="{% url 'users:photo' user_id photo_thumbnail %}" alt="{% trans 'Photo' %}">
+            </a>
+        {% endif %}
+    </div>
+</div>

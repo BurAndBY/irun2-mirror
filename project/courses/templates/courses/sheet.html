@@ -2,6 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_courses %}
 {% load irunner_messagebox %}
 {% load staticfiles %}
 
@@ -63,12 +64,7 @@
             <tr{% if edit_mode %} data-membership="{{ ur.membership.id }}"{% endif %}{% if ur.user == user %} class="ir-me"{% endif %}>
                 <td class="text-right">{{ forloop.counter }}</td>
                 <td class="text-nowrap">
-                    {{ ur.user.last_name }} {{ ur.user.first_name }}
-                    {% if ur.membership.subgroup %}
-                        <span class="ir-subgroup-label">
-                            ({{ ur.membership.subgroup }})
-                        </span>
-                    {% endif %}
+                    {% irunner_courses_user_card ur.user.id user_cache last_name_first=True %}
                 </td>
                 {% for r in ur.get_main_activity_results %}
                     <td class="{{ r.get_html_class }} ir-activity"{% if edit_mode %} data-activity="{{ r.activity.id }}"{% endif %}>{{ r.get_html_contents }}</td>

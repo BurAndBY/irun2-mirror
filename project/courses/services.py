@@ -18,14 +18,19 @@ from problems.models import Problem
 from solutions.models import Solution, Judgement
 
 
-from models import Assignment, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate
+from models import Assignment, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate, Subgroup
 
 '''
 Cache of Course Users
 '''
 
 
-class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup_name')):
+class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup_number subgroup_name')):
+    '''
+    Fields:
+        subgroup_number: 1-based number of subgroup, 0 means no subgroup.
+    '''
+
     def __unicode__(self):
         '''
         Returns a string in the form of 'name surname (subgroup)'.
@@ -41,6 +46,13 @@ class UserDescription(namedtuple('UserDescription', 'id first_name last_name sub
         else:
             return format_html(u'{0} <span class="ir-last-name">{1}</span>', self.first_name, self.last_name)
 
+    def get_full_name(self, last_name_first=False):
+        if last_name_first:
+            tokens = (self.last_name, self.first_name)
+        else:
+            tokens = (self.first_name, self.last_name)
+        return u' '.join(tokens).strip()
+
 
 class UserCache(object):
     def __init__(self, course_id):
@@ -48,13 +60,29 @@ class UserCache(object):
         self._teachers = []
         self._students = []
 
+        count = 0
+        subgroup_numbers = {}
+        subgroup_names = {}
+
+        for subgroup in Subgroup.objects.filter(course_id=course_id).order_by('id'):
+            count += 1
+            subgroup_numbers[subgroup.pk] = count
+            subgroup_names[subgroup.pk] = subgroup.name
+
         for membership in Membership.objects.\
                 filter(course_id=course_id).\
-                select_related('user', 'subgroup').\
+                select_related('user').\
                 order_by('user__last_name', 'user__first_name', 'user__id'):
             user = membership.user
-            subgroup_name = membership.subgroup.name if membership.subgroup else None
-            descr = UserDescription(user.id, user.first_name, user.last_name, subgroup_name)
+            subgroup_id = membership.subgroup_id
+
+            descr = UserDescription(
+                user.id,
+                user.first_name,
+                user.last_name,
+                subgroup_numbers.get(subgroup_id, 0),
+                subgroup_names.get(subgroup_id)
+            )
             self._put(user.id, descr)
 
             if membership.role == Membership.STUDENT:
@@ -72,7 +100,7 @@ class UserCache(object):
         '''
         User = auth.get_user_model()
         user = User.objects.get(pk=user_id)
-        return UserDescription(user.id, user.first_name, user.last_name, None)
+        return UserDescription(user.id, user.first_name, user.last_name, 0, None)
 
     def list_students(self):
         return self._students

@@ -13,7 +13,7 @@ from common.networkutils import never_ever_cache
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
 
-from .views import BaseCourseView
+from .views import BaseCourseView, UserCacheMixinMixin
 
 
 AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topic_reprs')
@@ -26,7 +26,7 @@ class BaseCourseAssignView(BaseCourseView):
         return permissions.assign
 
 
-class CourseEmptyAssignView(BaseCourseAssignView):
+class CourseEmptyAssignView(UserCacheMixinMixin, BaseCourseAssignView):
     tab = 'assign'
     template_name = 'courses/assign.html'
 
@@ -36,7 +36,7 @@ class CourseEmptyAssignView(BaseCourseAssignView):
         return render(request, self.template_name, context)
 
 
-class BaseCourseMemberAssignView(BaseCourseAssignView):
+class BaseCourseMemberAssignView(UserCacheMixinMixin, BaseCourseAssignView):
     def get_context_data(self, **kwargs):
         context = super(BaseCourseMemberAssignView, self).get_context_data(**kwargs)
         user_cache = self.get_user_cache()

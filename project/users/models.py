@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from proglangs.models import Compiler
+from storage.storage import ResourceIdField
 
 
 # Create your models here.
@@ -27,6 +28,8 @@ class UserProfile(models.Model):
     description = models.CharField(_('description'), max_length=255, blank=True)
     last_used_compiler = models.ForeignKey(Compiler, verbose_name=_('last used compiler'), on_delete=models.SET_NULL, null=True, blank=True)
     has_api_access = models.BooleanField(_('API access'), default=False)
+    photo = ResourceIdField(null=True)
+    photo_thumbnail = ResourceIdField(null=True)
 
 
 def create_user_profile(sender, instance, created, **kwargs):

@@ -1,23 +1,30 @@
 {% load i18n %}
+{% load irunner_users %}
 
 <div class="ir-card">
-    <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
-    <p class="ir-monospace">
-        {% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}
-        {{ user.username }}
-        {% if request.user.is_staff %}</a>{% endif %}
-    </p>
+    <div class="media">
+        <div class="media-left">
+            {% irunner_users_photo profile %}
+        </div>
+    <div class="media-body">
+        <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
+        <p class="ir-monospace">
+            {% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}
+            {{ user.username }}
+            {% if request.user.is_staff %}</a>{% endif %}
+        </p>
 
-    {% if course_memberships %}
-        <ul>
-        {% for membership in course_memberships %}
-            <li>
-                {{ membership.course }}
-                {% if membership.subgroup %}
-                    <span class="ir-subgroup-label">({% trans 'subgroup' %} {{ membership.subgroup.name }})</span>
-                {% endif %}
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+        {% if course_memberships %}
+            <ul class="list-unstyled">
+            {% for membership in course_memberships %}
+                <li>
+                    {{ membership.course }}
+                    {% if membership.subgroup %}
+                        <span class="ir-subgroup-label">({% trans 'subgroup' %} {{ membership.subgroup.name }})</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </div>

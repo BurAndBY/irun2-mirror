@@ -7,11 +7,17 @@
 
 {% block main %}
 
-<h1>{% irunner_users_show edited_user %} <small>{{ edited_user.username }}</small></h1>
-
-{% if edited_user.is_staff %}
-<div class="alert alert-danger" role="alert">{% trans 'The user belongs to staff and has extended access permissions.' %}</div>
-{% endif %}
+<dl class="dl-horizontal">
+    <dt>
+        {% irunner_users_photo edited_profile %}
+    </dt>
+    <dd>
+        <h1>{% irunner_users_show edited_user %} <small>{{ edited_user.username }}</small></h1>
+        {% if edited_user.is_staff %}
+            <div class="alert alert-danger" role="alert">{% trans 'The user belongs to staff and has extended access permissions.' %}</div>
+        {% endif %}
+    </dd>
+</dl>
 
 <dl class="dl-horizontal">
     <dt>{% trans 'First name' %}</dt>

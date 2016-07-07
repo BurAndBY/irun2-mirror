@@ -194,6 +194,7 @@ function _irCardShow() {
             content: self.content,
             html: true,
             delay: { show: 500, hide: 200 },
+            placement: "auto",
             trigger: "hover"
         }).popover('show');
     }

@@ -9,7 +9,7 @@
 
 {% block extrasidebar %}
     <ul class="list-group">
-        <li href="#" class="list-group-item list-group-item-info">
+        <li class="list-group-item list-group-item-info">
             {% trans 'Problem' %}
         </li>
 
@@ -18,7 +18,7 @@
                 {% bootstrap_icon 'link' %} <span class="ir-icon-label">{% trans 'Problem is assigned' %}</span>
                 <ul>
                     {% for simple_assignment in simple_assignments %}
-                        <li>{% irunner_courses_showuser simple_assignment.user_id user_cache %}</li>
+                        <li>{% irunner_courses_user_card simple_assignment.user_id user_cache %}</li>
                     {% endfor %}
                 </ul>
             {% else %}
