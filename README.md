@@ -6,9 +6,9 @@
 
 Вам понадобится Python 2.7.
 
-Для установки библиотеки MySQL-python может понадобиться предварительно установить заголовочные файлы Python и клиентскую библиотеку MySQL. Для Debian/Ubuntu это можно сделать так:
+Для установки библиотеки MySQL-python может понадобиться предварительно установить заголовочные файлы Python, клиентскую библиотеку MySQL и библиотеку для работы с jpeg. Для Debian/Ubuntu это можно сделать так:
 
-    sobols@magellan:~$ sudo apt-get install python-dev libmysqlclient-dev
+    sobols@magellan:~$ sudo apt-get install python-dev libmysqlclient-dev libjpeg-dev
 
 Для Windows можно найти уже собранный wheel с MySQL-python.
 
