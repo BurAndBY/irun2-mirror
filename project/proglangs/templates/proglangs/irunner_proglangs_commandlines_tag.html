@@ -1,0 +1,33 @@
+{% load i18n %}
+
+{% load irunner_proglangs %}
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    {% for compiler in compilers %}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+                <span class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#ir_block_{{ forloop.counter }}" aria-expanded="{% if expanded %}true{% else %}false{% endif %}" aria-controls="ir_block_{{ forloop.counter }}">
+                        {{ compiler.description }}
+                    </a>
+                </span>
+            </div>
+            <div id="ir_block_{{ forloop.counter }}" class="panel-collapse collapse{% if expanded %} in{% endif %}" role="tabpanel">
+                <div class="panel-body">
+                    {% if compiler.compilerdetails %}
+                        <dl>
+                            <dt>{% trans 'Language' %}</dt>
+                            <dd>{% irunner_proglangs_compilerbox compiler tooltip=False %}</dd>
+
+                            <dt>{% trans 'Compile command line' %}</dt>
+                            <dd><samp class="small">{{ compiler.compilerdetails.compile_command }}</samp></dd>
+
+                            <dt>{% trans 'Run command line' %}</dt>
+                            <dd><samp class="small">{{ compiler.compilerdetails.run_command }}</samp></dd>
+                        </dl>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

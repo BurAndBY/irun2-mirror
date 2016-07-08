@@ -2,6 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_proglangs %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -9,9 +10,15 @@
 
 <form method="post" class="form">
     {% csrf_token %}
+
+    {% if object %}
+    	{% irunner_proglangs_commandlines object expanded=True %}
+    {% endif %}
+
     {% bootstrap_form form %}
     {% buttons %}
-        <button type="submit" class="btn btn-default">{% trans 'Save' %}</button>
+        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+        <a href="{% url 'proglangs:index' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
     {% endbuttons %}
 </form>
 

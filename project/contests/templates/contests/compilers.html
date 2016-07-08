@@ -7,29 +7,5 @@
 {% block subtitle %}{% trans 'Compilers' %}{% endblock %}
 
 {% block main %}
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        {% for compiler in compilers %}
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
-                    <span class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#ir_block_{{ forloop.counter }}" aria-expanded="false" aria-controls="ir_block_{{ forloop.counter }}">
-                            {{ compiler.description }}
-                        </a>
-                    </span>
-                </div>
-                <div id="ir_block_{{ forloop.counter }}" class="panel-collapse collapse" role="tabpanel">
-                    <div class="panel-body">
-                        {% if compiler.compilerdetails %}
-                            <dl>
-                                <dt>{% trans 'Compile command line' %}</dt>
-                                <dd><samp>{{ compiler.compilerdetails.compile_command }}</samp></dd>
-                                <dt>{% trans 'Run command line' %}</dt>
-                                <dd><samp>{{ compiler.compilerdetails.run_command }}</samp></dd>
-                            </dl>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    {% irunner_proglangs_commandlines compilers expanded=False %}
 {% endblock %}

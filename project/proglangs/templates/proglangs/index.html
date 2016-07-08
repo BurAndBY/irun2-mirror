@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_proglangs %}
 
@@ -7,14 +8,13 @@
 
 <h1>{% block title %}{% trans 'Compilers' %}{% endblock %}</h1>
 
-<p>
-    <a href="{% url 'proglangs:create' %}">{% trans 'New compiler' %}</a>
-</p>
+<div class="form-group">
+    <a href="{% url 'proglangs:create' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New compiler' %}</span></a> 
+</div>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>{% trans 'String identifier' %}</th>
             <th>{% trans 'Description' %}</th>
             <th>{% trans 'Language' %}</th>
@@ -24,8 +24,7 @@
     <tbody>
     {% for compiler in compilers %}
         <tr {% if compiler.legacy %} class="active" {% endif %}>
-            <td>{{ compiler.id }}</td>
-            <td><a href="{% url 'proglangs:update' compiler.id %}">{{ compiler.handle }}</a></td>
+            <td class="ir-monospace"><a href="{% url 'proglangs:update' compiler.id %}">{{ compiler.handle }}</a></td>
             <td>{{ compiler.description }}</td>
             <td>{% irunner_proglangs_compilerbox compiler tooltip=False %}</td>
             <td>{{ compiler.legacy|yesno }}</td>
