@@ -867,3 +867,16 @@ class CourseMessagesNewView(BaseCourseView):
 
         context = self.get_context_data(thread_form=thread_form, message_form=message_form)
         return render(request, self.template_name, context)
+
+
+class CourseCompilersView(BaseCourseView):
+    tab = 'compilers'
+    template_name = 'courses/compilers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.info
+
+    def get(self, request, course):
+        compilers = course.compilers.select_related('compilerdetails').order_by('description')
+        context = self.get_context_data(compilers=compilers)
+        return render(request, self.template_name, context)

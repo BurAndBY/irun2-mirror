@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/sheet/$', views.CourseSheetView.as_view(), name='course_sheet'),
     url(r'^(?P<course_id>[0-9]+)/sheet/edit/$', views.CourseSheetEditView.as_view(), name='course_sheet_edit'),
     url(r'^(?P<course_id>[0-9]+)/sheet/edit/api/(?P<membership_id>[0-9]+)/(?P<activity_id>[0-9]+)/$', views.CourseSheetEditApiView.as_view(), name='course_sheet_edit_api'),
+    url(r'^(?P<course_id>[0-9]+)/compilers/$', views.CourseCompilersView.as_view(), name='course_compilers'),
 
     url(r'^(?P<course_id>[0-9]+)/submit/$', views.CourseSubmitView.as_view(), name='course_submit'),
     url(r'^(?P<course_id>[0-9]+)/submission/(?P<solution_id>[0-9]+)/$', views.CourseSubmissionView.as_view(), name='course_submission'),

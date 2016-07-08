@@ -1,0 +1,10 @@
+{% extends 'courses/base.html' %}
+
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block subtitle %}{% trans 'Compilers' %}{% endblock %}
+
+{% block main %}
+    {% irunner_proglangs_commandlines compilers expanded=False %}
+{% endblock %}

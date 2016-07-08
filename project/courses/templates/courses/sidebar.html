@@ -73,6 +73,13 @@
         </a>
     {% endif %}
 
+    {% if permissions.info %}
+        <a href="{% url 'courses:course_compilers' course.id %}" class="list-group-item{% if active_tab == 'compilers' %} active{% endif %}">
+            {% bootstrap_icon 'pushpin' %}
+            <span class="ir-icon-label">{% trans 'Compilers' %}</span>
+        </a>
+    {% endif %}
+
     {% if permissions.settings %}
         <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
             {% bootstrap_icon 'cog' %}
