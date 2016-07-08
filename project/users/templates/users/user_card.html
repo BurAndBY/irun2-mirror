@@ -1,3 +1,4 @@
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_users %}
 
@@ -8,11 +9,15 @@
         </div>
     <div class="media-body">
         <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
-        <p class="ir-monospace">
-            {% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}
-            {{ user.username }}
-            {% if request.user.is_staff %}</a>{% endif %}
+        <p>
+            {% bootstrap_icon 'user' %} <span class="ir-icon-label ir-monospace">{% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}{{ user.username }}{% if request.user.is_staff %}</a>{% endif %}</span>
         </p>
+
+        {% if user.email and request.user.is_staff %}
+        <p>
+            {% bootstrap_icon 'envelope' %} <span class="ir-icon-label ir-monospace">{{ user.email }}</span>
+        </p>
+        {% endif %}
 
         {% if course_memberships %}
             <ul class="list-unstyled">
