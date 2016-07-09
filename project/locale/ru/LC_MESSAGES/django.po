@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-08 00:45+0300\n"
-"PO-Revision-Date: 2016-07-08 00:48+0300\n"
+"POT-Creation-Date: 2016-07-08 21:32+0300\n"
+"PO-Revision-Date: 2016-07-08 21:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -60,7 +60,7 @@ msgstr "Приоритет"
 #: .\problems\templates\problems\files.html:59
 #: .\problems\templates\problems\overview.html:70
 #: .\problems\templates\problems\show_test.html:73
-#: .\proglangs\templates\proglangs\index.html:19
+#: .\proglangs\templates\proglangs\index.html:20
 #: .\users\templates\users\profile_show.html:35
 msgid "Description"
 msgstr "Описание"
@@ -128,7 +128,7 @@ msgstr "Изменить язык интерфейса"
 #: .\contests\templates\contests\settings_users_edit.html:13
 #: .\courses\templates\courses\criterion_form.html:12
 #: .\courses\templates\courses\settings_common_problems_edit.html:13
-#: .\courses\templates\courses\settings_compilers.html:31
+#: .\courses\templates\courses\settings_compilers.html:42
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
 #: .\courses\templates\courses\settings_users.html:49
@@ -142,7 +142,7 @@ msgstr "Изменить язык интерфейса"
 #: .\problems\templates\problems\list_folder_form.html:35
 #: .\problems\templates\problems\name.html:15
 #: .\problems\templates\problems\properties.html:16
-#: .\proglangs\templates\proglangs\edit.html:14
+#: .\proglangs\templates\proglangs\edit.html:20
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\delete_folder.html:30
 #: .\users\templates\users\profile_password.html:16
@@ -708,6 +708,7 @@ msgstr "Удалить"
 #: .\problems\templates\problems\list_import_from_polygon.html:38
 #: .\problems\templates\problems\show_test.html:131
 #: .\problems\templates\problems\upload_archive.html:20
+#: .\proglangs\templates\proglangs\edit.html:21
 #: .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
 msgid "Cancel"
@@ -791,18 +792,12 @@ msgstr "Решений нет"
 #: .\contests\templates\contests\compilers.html:7
 #: .\contests\templates\contests\settings_base.html:15
 #: .\contests\templates\contests\sidebar.html:73
+#: .\courses\templates\courses\compilers.html:6
 #: .\courses\templates\courses\settings_base.html:18
-#: .\proglangs\templates\proglangs\index.html:8 .\templates\navbar.html:33
+#: .\courses\templates\courses\sidebar.html:79
+#: .\proglangs\templates\proglangs\index.html:10 .\templates\navbar.html:33
 msgid "Compilers"
 msgstr "Компиляторы"
-
-#: .\contests\templates\contests\compilers.html:24
-msgid "Compile command line"
-msgstr "Командная строка компиляции"
-
-#: .\contests\templates\contests\compilers.html:26
-msgid "Run command line"
-msgstr "Командная строка запуска"
 
 #: .\contests\templates\contests\contest_confirm_delete.html:7
 #: .\contests\templates\contests\settings_properties.html:16
@@ -1002,7 +997,7 @@ msgstr "Назад"
 #: .\contests\templates\contests\settings_base.html:5
 #: .\contests\templates\contests\sidebar.html:80
 #: .\courses\templates\courses\settings_base.html:5
-#: .\courses\templates\courses\sidebar.html:79
+#: .\courses\templates\courses\sidebar.html:86
 #: .\problems\templates\problems\challenge_new.html:19
 msgid "Settings"
 msgstr "Настройки"
@@ -1018,10 +1013,12 @@ msgid "Statements"
 msgstr "Условия"
 
 #: .\contests\templates\contests\settings_compilers.html:15
+#: .\courses\templates\courses\settings_compilers.html:16
 msgid "Check all"
 msgstr "Отметить все"
 
 #: .\contests\templates\contests\settings_compilers.html:18
+#: .\courses\templates\courses\settings_compilers.html:19
 msgid "Uncheck all"
 msgstr "Снять пометки"
 
@@ -1212,7 +1209,7 @@ msgstr "студент"
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:108 .\users\templates\users\user_card.html:23
+#: .\courses\models.py:108 .\users\templates\users\user_card.html:28
 msgid "subgroup"
 msgstr "подгруппа"
 
@@ -2538,32 +2535,50 @@ msgid "language"
 msgstr "язык"
 
 #: .\proglangs\models.py:30
-msgid "compiler is considered legacy"
-msgstr "компилятор считается устаревшим"
+msgid "compiler is enabled by default in new courses"
+msgstr "компилятор включён по умолчанию в новых курсах"
 
-#: .\proglangs\models.py:47
+#: .\proglangs\models.py:31
+msgid "compiler is enabled by default in new contests"
+msgstr "компилятор включён по умолчанию в новых соревнованиях"
+
+#: .\proglangs\models.py:48
 msgid "compile command"
 msgstr "команда компиляции"
 
-#: .\proglangs\models.py:48
+#: .\proglangs\models.py:49
 msgid "run command"
 msgstr "команда запуска"
 
-#: .\proglangs\templates\proglangs\index.html:11 .\proglangs\views.py:28
+#: .\proglangs\templates\proglangs\index.html:13 .\proglangs\views.py:28
 msgid "New compiler"
 msgstr "Новый компилятор"
 
-#: .\proglangs\templates\proglangs\index.html:18
+#: .\proglangs\templates\proglangs\index.html:19
 msgid "String identifier"
 msgstr "Строковый идентификатор"
 
-#: .\proglangs\templates\proglangs\index.html:20 .\solutions\forms.py:117
+#: .\proglangs\templates\proglangs\index.html:21
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:19
+#: .\solutions\forms.py:117
 msgid "Language"
 msgstr "Язык"
 
-#: .\proglangs\templates\proglangs\index.html:21
-msgid "Legacy?"
-msgstr "Устарел?"
+#: .\proglangs\templates\proglangs\index.html:22
+msgid "For courses?"
+msgstr "Для курсов?"
+
+#: .\proglangs\templates\proglangs\index.html:23
+msgid "For contests?"
+msgstr "Для соревнований?"
+
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:22
+msgid "Compile command line"
+msgstr "Командная строка компиляции"
+
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:25
+msgid "Run command line"
+msgstr "Командная строка запуска"
 
 #: .\solutions\compare.py:26
 msgid "not found"
@@ -3401,6 +3416,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "compiler is considered legacy"
+#~ msgstr "компилятор считается устаревшим"
+
+#~ msgid "Legacy?"
+#~ msgstr "Устарел?"
 
 #~ msgid "There are no pictures."
 #~ msgstr "Нет картинок."

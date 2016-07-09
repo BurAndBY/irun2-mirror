@@ -27,7 +27,8 @@ class Compiler(models.Model):
     handle = models.CharField(_('string identifier'), max_length=30, unique=True)
     language = models.CharField(_('language'), max_length=8, choices=LANGUAGE_CHOICES, default=UNKNOWN, blank=True)
     description = models.CharField(_('description'), max_length=255, blank=True)
-    legacy = models.BooleanField(_('compiler is considered legacy'), default=False)
+    default_for_courses = models.BooleanField(_('compiler is enabled by default in new courses'), default=False)
+    default_for_contests = models.BooleanField(_('compiler is enabled by default in new contests'), default=False)
 
     def __unicode__(self):
         return self.description

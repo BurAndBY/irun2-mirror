@@ -53,7 +53,8 @@ class Command(BaseCommand):
                 defaults={
                     'handle': handle,
                     'description': row[2],
-                    'legacy': _is_legacy(handle),
+                    'default_for_courses': not _is_legacy(handle),
+                    'default_for_contests': not _is_legacy(handle),
                     'language': _get_language(handle)
                 }
             )

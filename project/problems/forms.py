@@ -297,4 +297,8 @@ class PolygonImportForm(forms.Form):
 
     upload = forms.FileField(label=_('Full package (Windows) as a ZIP-archive'), required=True, widget=forms.FileInput)
     language = forms.ChoiceField(label=_('Problem statement language'), required=True, choices=LANGUAGE_CHOICES)
-    compiler = forms.ModelChoiceField(label=_('Compiler for checker and validator'), queryset=Compiler.objects.filter(language='cpp', legacy=False), required=True, empty_label=EMPTY_SELECT)
+    compiler = forms.ModelChoiceField(label=_('Compiler for checker and validator'), queryset=None, required=True, empty_label=EMPTY_SELECT)
+
+    def __init__(self, *args, **kwargs):
+        super(PolygonImportForm, self).__init__(*args, **kwargs)
+        self.fields['compiler'].queryset = Compiler.objects.filter(language='cpp', default_for_courses=True)

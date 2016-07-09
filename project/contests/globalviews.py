@@ -31,5 +31,5 @@ class ContestCreateView(StaffMemberRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         with transaction.atomic():
             contest = form.save(commit=True)
-            contest.compilers = Compiler.objects.filter(legacy=False)
+            contest.compilers = Compiler.objects.filter(default_for_contests=True)
         return redirect('contests:settings_properties', contest.id)

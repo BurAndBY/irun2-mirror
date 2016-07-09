@@ -18,7 +18,7 @@ class IndexView(StaffMemberRequiredMixin, ListView):
 class CreateCompilerView(StaffMemberRequiredMixin, CreateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
-    fields = ['handle', 'language', 'description', 'legacy']
+    fields = ['handle', 'language', 'description', 'default_for_courses', 'default_for_contests']
 
     def get_success_url(self):
         return reverse('proglangs:index')
@@ -32,7 +32,7 @@ class CreateCompilerView(StaffMemberRequiredMixin, CreateView):
 class UpdateCompilerView(StaffMemberRequiredMixin, UpdateView):
     model = Compiler
     template_name = 'proglangs/edit.html'
-    fields = ['handle', 'language', 'description', 'legacy']
+    fields = ['handle', 'language', 'description', 'default_for_courses', 'default_for_contests']
 
     def get_success_url(self):
         return reverse('proglangs:index')

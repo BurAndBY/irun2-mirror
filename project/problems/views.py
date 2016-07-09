@@ -1044,7 +1044,7 @@ class ImportFromPolygonView(StaffMemberRequiredMixin, ProblemFolderMixin, generi
 
     def get(self, request, folder_id_or_root):
         # TODO: better way to select default compiler (remember last used?)
-        compiler = Compiler.objects.filter(description__contains='GNU C++', legacy=False).first()
+        compiler = Compiler.objects.filter(description__contains='GNU C++', default_for_courses=True).first()
         form = PolygonImportForm(initial={'compiler': compiler})
 
         context = self.get_context_data(form=form)
