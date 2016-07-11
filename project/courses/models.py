@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
 from solutions.models import Solution
 from solutions.permissions import SolutionAccessLevel
 from storage.models import FileMetadata
+
+from courses.utils import make_year_of_study_string, make_academic_year_string
 
 
 class Criterion(models.Model):
@@ -21,7 +25,7 @@ class Criterion(models.Model):
 
 
 class Course(models.Model):
-    name = models.CharField(_('name'), max_length=64)
+    name = models.CharField(_('name'), max_length=64, blank=True)
     compilers = models.ManyToManyField(Compiler, blank=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
 
@@ -37,14 +41,31 @@ class Course(models.Model):
 
     attempts_a_day = models.PositiveIntegerField(_('Number of attempts a day per problem'), null=True, blank=True, default=5)
 
+    year_of_study = models.PositiveIntegerField(_('Year of study'), null=True, blank=True)
+    group = models.PositiveIntegerField(_('Group number'), null=True, blank=True)
+    academic_year = models.PositiveIntegerField(_('Academic year'), null=True, blank=True)
+
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})
 
+    def clean(self):
+        if (len(self.name) == 0) and (self.year_of_study is None) and (self.group is None) and (self.academic_year is None):
+            raise ValidationError(_('No information is given to identify the course.'))
+
     def __unicode__(self):
-        return self.name
+        tokens = []
+        if self.year_of_study is not None:
+            tokens.append(make_year_of_study_string(self.year_of_study))
+        if self.group is not None:
+            tokens.append(ugettext(u'%(group)d group') % {'group': self.group})
+        if len(self.name) > 0:
+            tokens.append(self.name)
+        if self.academic_year is not None:
+            tokens.append(make_academic_year_string(self.academic_year))
+        return u' '.join(tokens)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['academic_year', 'year_of_study', 'group', 'name']
 
 
 class Topic(models.Model):

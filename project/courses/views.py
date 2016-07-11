@@ -34,7 +34,6 @@ from common.statutils import build_proglangbars
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
 from problems.models import Problem, ProblemFolder
 from problems.views import ProblemStatementMixin
-from proglangs.models import Compiler
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
@@ -441,27 +440,6 @@ class CourseProblemsProblemView(ProblemStatementMixin, CourseStatementMixin, Bas
         context['problem'] = problem
         context['statement'] = self.make_statement(problem)
         return render(request, self.template_name, context)
-
-
-'''
-List of courses
-'''
-
-
-class CourseListView(StaffMemberRequiredMixin, generic.ListView):
-    model = Course
-
-
-class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
-    model = Course
-    fields = ['name']
-
-    def form_valid(self, form):
-        with transaction.atomic():
-            result = super(CourseCreateView, self).form_valid(form)
-            course = self.object
-            course.compilers = Compiler.objects.filter(default_for_courses=True)
-            return result
 
 
 class CourseStandingsView(UserCacheMixinMixin, BaseCourseView):

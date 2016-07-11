@@ -1,10 +1,10 @@
 from django.conf.urls import url
 
-from . import views, settingsviews, assignviews
+from . import views, globalviews, settingsviews, assignviews
 
 urlpatterns = [
-    url(r'^$', views.CourseListView.as_view(), name='index'),
-    url(r'^new/$', views.CourseCreateView.as_view(), name='new'),
+    url(r'^$', globalviews.CourseListView.as_view(), name='index'),
+    url(r'^new/$', globalviews.CourseCreateView.as_view(), name='new'),
 
     url(r'^criteria/$', views.CriterionListView.as_view(), name='criterion_index'),
     url(r'^criteria/new/$', views.CriterionCreateView.as_view(), name='criterion_new'),
@@ -58,6 +58,8 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/settings/$', settingsviews.CourseSettingsPropertiesView.as_view(), name='course_settings_properties'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/delete/$', settingsviews.CourseSettingsDeleteView.as_view(), name='course_settings_delete'),
+
+    url(r'^(?P<course_id>[0-9]+)/settings/access/$', settingsviews.CourseSettingsAccessView.as_view(), name='course_settings_access'),
 
     url(r'^(?P<course_id>[0-9]+)/settings/problems/$', settingsviews.CourseSettingsProblemsView.as_view(), name='course_settings_problems'),
     url(r'^(?P<course_id>[0-9]+)/settings/problems/topics/create/$', settingsviews.CourseSettingsTopicsCreateView.as_view(), name='course_settings_topics_create'),

@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib import auth
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Problem, ProblemFolder
@@ -13,12 +14,47 @@ import common.widgets
 import solutions.forms
 
 from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership, MailThread, MailMessage
+from courses.utils import make_year_of_study_string, make_academic_year_string
+
+
+def make_year_of_study_choices():
+    return [(unicode(), unicode())] + [
+        (year, make_year_of_study_string(year))
+        for year in xrange(1, 7)
+    ]
+
+
+def make_academic_year_choices():
+    cur_year = timezone.now().date().year
+
+    return [(unicode(), unicode())] + [
+        (year, make_academic_year_string(year))
+        for year in xrange(2004, cur_year + 2)
+    ]
+
+
+class NewCourseForm(forms.ModelForm):
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False, choices=make_year_of_study_choices, coerce=int, empty_value=None)
+    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False, choices=make_academic_year_choices, coerce=int, empty_value=None)
+
+    class Meta:
+        model = Course
+        fields = ['name', 'year_of_study', 'group', 'academic_year']
 
 
 class PropertiesForm(forms.ModelForm):
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False, choices=make_year_of_study_choices, coerce=int, empty_value=None)
+    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False, choices=make_academic_year_choices, coerce=int, empty_value=None)
+
     class Meta:
         model = Course
-        fields = ['name', 'student_own_solutions_access', 'student_all_solutions_access', 'enable_sheet', 'attempts_a_day']
+        fields = ['name', 'year_of_study', 'group', 'academic_year', 'enable_sheet', 'attempts_a_day']
+
+
+class AccessForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['student_own_solutions_access', 'student_all_solutions_access']
         help_texts = {
             'student_own_solutions_access': _('Each access level includes all the previous onces.')
         }

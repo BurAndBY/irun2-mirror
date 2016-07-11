@@ -5,16 +5,18 @@
 
 {% block submain %}
 
-<form method="post" autocomplete="off">
+<form method="post" autocomplete="off" class="form-horizontal">
     {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
+    {% bootstrap_form form layout='horizontal' %}
+    {% buttons layout='horizontal' %}
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
-        <a href="{% url 'courses:course_settings_delete' course.id %}" class="btn btn-link">
-            {% trans 'Delete the course' %}
-        </a>
+        {% if can_delete %}
+            <a href="{% url 'courses:course_settings_delete' course.id %}" class="btn btn-link">
+                {% trans 'Delete the course' %}
+            </a>
+        {% endif %}
     {% endbuttons %}
 </form>
 

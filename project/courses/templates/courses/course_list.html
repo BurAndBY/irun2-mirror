@@ -4,15 +4,29 @@
 {% load i18n %}
 
 {% block content %}
+    <div class="pull-right">
+        <a href="{% url 'courses:new' %}" class="btn btn-default">
+            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New course' %}</span>
+        </a>
+    </div>
+
     <h1>{% block title %}{% trans 'Courses' %}{% endblock %}</h1>
-    {% if object_list %}
-        <ul>
-            {% for course in object_list %}
-                <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a></li>
-            {% endfor %}
-        </ul>
+    {% if pairs %}
+        <div class="row">
+        {% for year, courses in pairs %}
+            <div class="col-md-4 col-sm-6">
+                {% if year != None %}
+                    <h3>{{ year }}</h3>
+                {% endif %}
+                <ul>
+                    {% for course in courses %}
+                        <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
     {% else %}
-        <p>{% trans 'There are no courses available.' %}</p>
+        <div class="ir-absence">{% trans 'There are no courses available.' %}</div>
     {% endif %}
-    <p><a href="{% url 'courses:new' %}">{% trans 'New course' %}</a></p>
 {% endblock %}

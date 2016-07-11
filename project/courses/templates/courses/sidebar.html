@@ -5,7 +5,7 @@
     {% if permissions.info %}
         <a href="{% url 'courses:show_course_info' course.id %}" class="list-group-item list-group-item-info{% if active_tab == 'info' %} active{% endif %}">
             {% bootstrap_icon 'info-sign' %}
-            <span class="ir-icon-label">{{ course.name }}</span>
+            <span class="ir-icon-label">{{ course }}</span>
         </a>
     {% endif %}
 

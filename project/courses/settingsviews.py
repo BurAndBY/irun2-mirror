@@ -11,7 +11,7 @@ from common.cacheutils import AllObjectsCache
 from proglangs.models import Compiler
 from problems.models import Problem
 
-from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm
+from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm, AccessForm
 from forms import TwoPanelUserMultipleChoiceField, TwoPanelProblemMultipleChoiceField
 from forms import create_member_subgroup_formset_class
 from models import Membership
@@ -32,7 +32,7 @@ class CourseSettingsPropertiesView(CourseSettingsView):
     def get(self, request, course):
         form = PropertiesForm(instance=course)
 
-        context = self.get_context_data(form=form)
+        context = self.get_context_data(form=form, can_delete=True)
         return render(request, self.template_name, context)
 
     def post(self, request, course):
@@ -40,6 +40,26 @@ class CourseSettingsPropertiesView(CourseSettingsView):
         if form.is_valid():
             form.save()
             return redirect('courses:course_settings_properties', course_id=course.id)
+
+        context = self.get_context_data(form=form, can_delete=True)
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsAccessView(CourseSettingsView):
+    subtab = 'access'
+    template_name = 'courses/settings_properties.html'
+
+    def get(self, request, course):
+        form = AccessForm(instance=course)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        form = AccessForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('courses:course_settings_access', course_id=course.id)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
