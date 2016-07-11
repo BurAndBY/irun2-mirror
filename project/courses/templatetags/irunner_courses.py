@@ -65,7 +65,7 @@ def irunner_courses_user_card(user_id, user_cache, last_name_first=False, url=No
 
     subgroup = u''
     if user_descr.subgroup_name:
-        subgroup = format_html(' <span class="{0}">{1}</span>', subgroup_class, user_descr.subgroup_name)
+        subgroup = format_html(u' <span class="{0}">{1}</span>', subgroup_class, user_descr.subgroup_name)
 
     href = u''
     cls = u'ir-course-user-nolink'
