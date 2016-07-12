@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-11 22:11+0300\n"
-"PO-Revision-Date: 2016-07-11 22:22+0300\n"
+"POT-Creation-Date: 2016-07-13 00:22+0300\n"
+"PO-Revision-Date: 2016-07-13 00:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -109,7 +109,7 @@ msgstr "Редактировать профиль"
 #: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:31
-#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:319
+#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:354
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -676,7 +676,7 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\show_test.html:39
 #: .\problems\templates\problems\show_test.html:132
 #: .\solutions\templates\solutions\solution_list.html:75
-#: .\users\templates\users\folder.html:58
+#: .\users\templates\users\folder.html:59
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1108,6 +1108,14 @@ msgstr ""
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
+#: .\courses\forms.py:37 .\courses\forms.py:46 .\courses\models.py:44
+msgid "Year of study"
+msgstr "Год обучения"
+
+#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:46
+msgid "Academic year"
+msgstr "Учебный год"
+
 #: .\courses\forms.py:76
 msgid "Problem folder"
 msgstr "Папка с задачами"
@@ -1168,17 +1176,9 @@ msgstr "включить ведомость успеваемости"
 msgid "Number of attempts a day per problem"
 msgstr "Число попыток по задаче в день"
 
-#: .\courses\models.py:44
-msgid "Year of study"
-msgstr "Год обучения"
-
 #: .\courses\models.py:45
 msgid "Group number"
 msgstr "Номер группы"
-
-#: .\courses\models.py:46
-msgid "Academic year"
-msgstr "Учебный год"
 
 #: .\courses\models.py:53
 msgid "No information is given to identify the course."
@@ -1273,7 +1273,7 @@ msgstr "Преподаватель"
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:157 .\users\views.py:160
+#: .\courses\settingsviews.py:157 .\users\views.py:161
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -1516,7 +1516,7 @@ msgid "Topics"
 msgstr "Темы"
 
 #: .\courses\templates\courses\settings_problems.html:15
-#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:178
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:226
 #: .\users\templates\users\folder.html:22
 #: .\users\templates\users\irunner_users_list_tag.html:20
 msgid "Folder"
@@ -1811,7 +1811,7 @@ msgstr "Ограничение по памяти"
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:196
+#: .\problems\forms.py:196 .\users\forms.py:154
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
@@ -1827,7 +1827,7 @@ msgstr ""
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:212
+#: .\problems\forms.py:212 .\users\forms.py:192
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
@@ -2450,7 +2450,7 @@ msgstr "Обзор"
 
 #: .\problems\templates\problems\tests.html:55
 #: .\solutions\templates\solutions\solution_list.html:70
-#: .\users\templates\users\folder.html:53
+#: .\users\templates\users\folder.html:54
 msgid "Actions"
 msgstr "Действия"
 
@@ -2545,7 +2545,7 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:986 .\users\views.py:107
+#: .\problems\views.py:986 .\users\views.py:108
 msgid "Create folder"
 msgstr "Создать папку"
 
@@ -3197,11 +3197,11 @@ msgstr "Администрирование"
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\users\forms.py:32
+#: .\users\forms.py:36
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:41
+#: .\users\forms.py:45
 msgid ""
 "Students: “[username] [last name] [first name]” or “[username] [last name] "
 "[first name] [patronymic]”"
@@ -3209,54 +3209,68 @@ msgstr ""
 "Студенты: «[имя пользователя] [фамилия] [имя]» или «[имя пользователя] "
 "[фамилия] [имя] [отчество]»"
 
-#: .\users\forms.py:42
+#: .\users\forms.py:46
 msgid "Teams: “[username] [team name]”"
 msgstr "Команды: «[имя пользователя] [название команды]»"
 
-#: .\users\forms.py:45
+#: .\users\forms.py:49
 msgid "Mode"
 msgstr "Режим"
 
-#: .\users\forms.py:47 .\users\forms.py:116
+#: .\users\forms.py:51 .\users\forms.py:120
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:48
+#: .\users\forms.py:52
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
 
-#: .\users\forms.py:49
+#: .\users\forms.py:53
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:63 .\users\forms.py:134
+#: .\users\forms.py:67 .\users\forms.py:138
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:93
+#: .\users\forms.py:97
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:117
+#: .\users\forms.py:121
 msgid "Enter lines in the format of “[username] [password]”."
 msgstr "Введите строки в формате «[имя пользователя] [пароль]»."
 
-#: .\users\forms.py:142
+#: .\users\forms.py:146
 #, python-format
 msgid "User “%(username)s” does not exist."
 msgstr "Пользователь «%(username)s» не существует."
 
-#: .\users\forms.py:150
+#: .\users\forms.py:175
+msgid "Archive should not contain subdirectories."
+msgstr "Архив не должен содержать подкаталогов."
+
+#: .\users\forms.py:178
+#, python-format
+msgid "File extension %(ext)s is not supported."
+msgstr "Расширение файла %(ext)s не поддерживается."
+
+#: .\users\forms.py:180
+#, python-format
+msgid "User %(username)s is not found."
+msgstr "Пользователь %(username)s не найден."
+
+#: .\users\forms.py:198
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:163
+#: .\users\forms.py:211
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:185
+#: .\users\forms.py:233
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -3265,18 +3279,18 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:206
+#: .\users\forms.py:254
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
 
-#: .\users\forms.py:211 .\users\templates\users\irunner_users_photo_tag.html:7
-#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:344
-#: .\users\views.py:349
+#: .\users\forms.py:259 .\users\templates\users\irunner_users_photo_tag.html:7
+#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:379
+#: .\users\views.py:384
 msgid "Photo"
 msgstr "Фотография"
 
-#: .\users\forms.py:211
+#: .\users\forms.py:259
 msgid "Select JPEG image."
 msgstr "Выберите изображение в формате JPEG."
 
@@ -3330,19 +3344,23 @@ msgctxt "noun"
 msgid "Change password"
 msgstr "Изменение пароля"
 
-#: .\users\templates\users\folder.html:57
+#: .\users\templates\users\folder.html:48
+msgid "Upload photo"
+msgstr "Загрузка фотографий"
+
+#: .\users\templates\users\folder.html:58
 msgid "Move"
 msgstr "Переместить"
 
-#: .\users\templates\users\folder.html:59
+#: .\users\templates\users\folder.html:60
 msgid "Swap first and last name"
 msgstr "Поменять местами имя и фамилию"
 
-#: .\users\templates\users\folder.html:60
+#: .\users\templates\users\folder.html:61
 msgid "Export as JSON"
 msgstr "Экспорт в JSON"
 
-#: .\users\templates\users\folder.html:76
+#: .\users\templates\users\folder.html:77
 msgid "There are no users in the folder"
 msgstr "В этой папке нет пользователей"
 
@@ -3370,7 +3388,7 @@ msgid "Last login"
 msgstr "Последний вход"
 
 #: .\users\templates\users\irunner_users_list_tag.html:45
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:313
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:348
 msgid "Update profile"
 msgstr "Обновить профиль"
 
@@ -3411,23 +3429,23 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:338
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:373
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:123
+#: .\users\views.py:124
 msgid "Create user"
 msgstr "Создать пользователя"
 
-#: .\users\views.py:144
+#: .\users\views.py:145
 msgid "Bulk sign-up"
 msgstr "Массовая регистрация"
 
-#: .\users\views.py:171
+#: .\users\views.py:172
 msgid "Bulk password change"
 msgstr "Массовое изменение паролей"
 
-#: .\users\views.py:192
+#: .\users\views.py:193
 #, python-format
 msgid "%(count)d password has been changed."
 msgid_plural "%(count)d passwords have been changed."
@@ -3435,15 +3453,27 @@ msgstr[0] "Изменён %(count)d пароль."
 msgstr[1] "Изменено %(count)d пароля."
 msgstr[2] "Изменено %(count)d паролей."
 
-#: .\users\views.py:199
+#: .\users\views.py:204
+msgid "Bulk photo upload"
+msgstr "Массовая загрузка фотографий"
+
+#: .\users\views.py:227
+#, python-format
+msgid "%(count)d photo has been uploaded."
+msgid_plural "%(count)d photos have been uploaded."
+msgstr[0] "Добавлена %(count)d фотография."
+msgstr[1] "Добавлено %(count)d фотографии."
+msgstr[2] "Добавлено %(count)d фотографий."
+
+#: .\users\views.py:234
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:210
+#: .\users\views.py:245
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:243
+#: .\users\views.py:278
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"

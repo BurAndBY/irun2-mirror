@@ -4,6 +4,7 @@ import operator
 from django.contrib import auth, messages
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import PermissionDenied
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
@@ -12,7 +13,7 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
@@ -190,6 +191,40 @@ class ChangePasswordMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.
                 UserProfile.objects.filter(user__username=username).update(needs_change_password=False)
 
         msg = ungettext('%(count)d password has been changed.', '%(count)d passwords have been changed.', counter) % {'count': counter}
+        messages.add_message(self.request, messages.INFO, msg)
+        return redirect('users:show_folder', folder_id_or_root)
+
+
+class UploadPhotoMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
+    template_name = 'users/create_form.html'
+    form_class = forms.UploadPhotoMassForm
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadPhotoMassView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Bulk photo upload')
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(UploadPhotoMassView, self).get_form_kwargs()
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        folder_id = cast_id(folder_id_or_root)
+        kwargs['folder_id'] = folder_id
+        return kwargs
+
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        upload = form.cleaned_data['upload']
+        counter = 0
+        storage = create_storage()
+
+        with transaction.atomic():
+            for user_id, photos in upload.iteritems():
+                photo, photo_thumbnail = photos
+                photo_id = storage.save(ContentFile(photo))
+                photo_thumbnail_id = storage.save(ContentFile(photo_thumbnail))
+                counter += UserProfile.objects.filter(pk=user_id).update(photo=photo_id, photo_thumbnail=photo_thumbnail_id)
+
+        msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}
         messages.add_message(self.request, messages.INFO, msg)
         return redirect('users:show_folder', folder_id_or_root)
 

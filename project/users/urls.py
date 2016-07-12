@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/new/user/$', views.CreateUserView.as_view(), name='create_user'),
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/bulk/sign-up/$', views.CreateUsersMassView.as_view(), name='create_users_mass'),
     url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/bulk/change-password/$', views.ChangePasswordMassView.as_view(), name='change_password_mass'),
+    url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/bulk/upload-photo/$', views.UploadPhotoMassView.as_view(), name='upload_photo_mass'),
     url(r'^delete/$', views.DeleteUsersView.as_view(), name='delete'),
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
     url(r'^export\.json$', views.ExportView.as_view(), name='export'),

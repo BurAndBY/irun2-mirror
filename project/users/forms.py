@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import os
+import zipfile
+import StringIO
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
@@ -144,6 +148,50 @@ class ChangePasswordMassForm(forms.Form):
             pairs.append((username, password))
 
         return pairs
+
+
+class UploadPhotoMassForm(forms.Form):
+    upload = forms.FileField(label=_('ZIP-archive'), required=True, widget=forms.FileInput)
+
+    def __init__(self, *args, **kwargs):
+        self.folder_id = kwargs.pop('folder_id', None)
+        super(UploadPhotoMassForm, self).__init__(*args, **kwargs)
+
+    def clean_upload(self):
+        upload = self.cleaned_data.get('upload')
+
+        # map: user_id -> (photo, photo_thumbnail) as blobs
+        result = {}
+
+        user_model = auth.get_user_model()
+        usernames = {}
+        for user_id, username in user_model.objects.filter(userprofile__folder_id=self.folder_id).values_list('pk', 'username'):
+            usernames[username] = user_id
+
+        try:
+            with zipfile.ZipFile(upload, 'r', allowZip64=True) as myzip:
+                for filename in myzip.namelist():
+                    if '/' in filename:
+                        raise forms.ValidationError(_('Archive should not contain subdirectories.'))
+                    name, extension = os.path.splitext(filename)
+                    if extension != '.jpg':
+                        raise forms.ValidationError(_('File extension %(ext)s is not supported.'), params={'ext': extension})
+                    if name not in usernames:
+                        raise forms.ValidationError(_('User %(username)s is not found.'), params={'username': name})
+
+                    photo = myzip.read(filename)
+
+                    buff = StringIO.StringIO()
+                    buff.write(photo)
+                    buff.seek(0)
+                    photo_thumbnail = generate_thumbnail(buff)
+
+                    result[usernames[name]] = (photo, photo_thumbnail)
+
+        except zipfile.BadZipfile:
+            raise forms.ValidationError(_('Archive format is not supported.'))
+
+        return result
 
 
 class MoveUsersForm(forms.Form):

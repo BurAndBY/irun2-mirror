@@ -45,6 +45,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% irunner_folders_url 'users:create_users_mass' folder_id %}">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Sign-up' %}</span></a></li>
                     <li><a href="{% irunner_folders_url 'users:change_password_mass' folder_id %}">{% bootstrap_icon 'asterisk' %} <span class="ir-icon-label">{% trans 'Change password' context 'noun' %}</span></a></li>
+                    <li><a href="{% irunner_folders_url 'users:upload_photo_mass' folder_id %}">{% bootstrap_icon 'camera' %} <span class="ir-icon-label">{% trans 'Upload photo' %}</span></a></li>
                 </ul>
             </div>
 
