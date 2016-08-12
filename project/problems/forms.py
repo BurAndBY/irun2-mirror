@@ -61,9 +61,12 @@ class ProblemExtraInfoForm(forms.ModelForm):
 
     class Meta:
         model = ProblemExtraInfo
-        fields = ['default_time_limit', 'default_memory_limit', 'description']
+        fields = ['sample_test_count', 'default_time_limit', 'default_memory_limit', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
+        }
+        help_texts = {
+            'sample_test_count': _('Full feedback will be available for the first <i>N</i> test cases.')
         }
 
 

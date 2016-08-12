@@ -70,6 +70,7 @@
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall"></th>
+            <th></th>
             <th>{% trans '#' %}</th>
             <th>{% trans 'Input' %}</th>
             <th>{% trans 'Output' %}</th>
@@ -84,7 +85,8 @@
         {% with vtc.test_case as tc %}
         <tr{% if not vtc.has_default_limits %} class="warning"{% endif %}>
             <td><input type="checkbox" class="ir-checkbox" name="{{ tc.ordinal_number }}"></td>
-            <td><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></td>
+            <td>{% if vtc.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span>{% endif %}</td>
+            <td><strong><a href="{% url 'problems:show_test' problem.id tc.ordinal_number %}{{ navigator.query_string }}">{% trans 'Test' %}&nbsp;{{ tc.ordinal_number }}</a></strong></td>
             <td>
                 <div class="dropdown">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle ir-dotted">{{ tc.input_size|filesizeformat }}</a>

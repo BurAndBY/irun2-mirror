@@ -327,7 +327,7 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 '''
 Tests
 '''
-ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message has_default_limits')
+ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message has_default_limits is_sample')
 
 
 class ProblemTestsView(BaseProblemView):
@@ -355,6 +355,9 @@ class ProblemTestsView(BaseProblemView):
         stats = collections.Counter()
         all_test_count = 0
 
+        extra = problem.get_extra()
+        sample_test_count = extra.sample_test_count if (extra is not None) else 0
+
         for test_case in test_cases:
             is_valid, validator_message = validated_inputs.get(test_case.input_resource_id, (None, None))
             stats[is_valid] += 1
@@ -363,7 +366,8 @@ class ProblemTestsView(BaseProblemView):
                 test_case.time_limit == problem.get_default_time_limit() and
                 test_case.memory_limit == problem.get_default_memory_limit()
             )
-            validated_test_cases.append(ValidatedTestCase(test_case, is_valid, validator_message, has_default_limits))
+            is_sample = (test_case.ordinal_number <= sample_test_count)
+            validated_test_cases.append(ValidatedTestCase(test_case, is_valid, validator_message, has_default_limits, is_sample))
 
         if all_test_count > 0:
             if stats[True] == all_test_count:

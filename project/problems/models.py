@@ -103,6 +103,7 @@ class ProblemExtraInfo(models.Model):
     hint = models.TextField(_('hint'), blank=True)  # private
     default_time_limit = models.IntegerField(default=DEFAULT_TIME_LIMIT)
     default_memory_limit = models.IntegerField(default=DEFAULT_MEMORY_LIMIT)
+    sample_test_count = models.IntegerField(_('number of sample tests'), default=0)
 
 
 class ProblemRelatedFile(FileMetadataBase):
