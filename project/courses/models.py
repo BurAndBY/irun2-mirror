@@ -62,6 +62,8 @@ class Course(models.Model):
             tokens.append(self.name)
         if self.academic_year is not None:
             tokens.append(make_academic_year_string(self.academic_year))
+        if len(tokens) == 0:
+            tokens.append('<...>')
         return u' '.join(tokens)
 
     class Meta:
