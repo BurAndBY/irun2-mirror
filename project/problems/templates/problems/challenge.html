@@ -79,7 +79,7 @@
                         <td>{% irunner_solutions_outcomebox cs.outcome tooltip=True %}</td>
                         <td class="ir-col-limit">{% if cs.time_used != None %}{% irunner_solutions_timelimitbox cs.time_used challenge.time_limit %}{% endif %}</td>
                         <td class="ir-col-limit">{% if cs.memory_used != None %}{% irunner_solutions_memorylimitbox cs.memory_used challenge.memory_limit %}{% endif %}</td>
-                        <td>{% irunner_users_show cs.solution.author %}</td>
+                        <td>{% irunner_users_card cs.solution.author %}</td>
                         <td>{{ cs.solution.reception_time|date:"SHORT_DATE_FORMAT" }}</td>
                         <td class="ir-col-sourcelink">{% irunner_solutions_sourcelink cs.solution %}</td>
                     </tr>

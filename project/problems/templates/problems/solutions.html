@@ -63,7 +63,7 @@
             {% for solution in object_list %}
             <tr>
                 <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}"></td>
-                <td>{% irunner_users_show solution.author %}</td>
+                <td>{% irunner_users_card solution.author %}</td>
                 <td>{{ solution.reception_time }}</td>
                 <td class="text-nowrap">{% irunner_solutions_sourcelink solution %}</td>
                 <td class="text-nowrap">
