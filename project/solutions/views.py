@@ -606,7 +606,15 @@ class BaseSolutionTestDataView(BaseSolutionView):
     with_related = False
 
     def is_allowed(self, permissions):
-        return permissions.tests_data
+        if permissions.tests_data:
+            return True
+        if permissions.sample_results:
+            testcaseresult_id = self.kwargs.get('testcaseresult_id')
+            if testcaseresult_id is not None:
+                is_sample = TestCaseResult.objects.filter(pk=testcaseresult_id).values_list('is_sample', flat=True).first()
+                if is_sample:
+                    return True
+        return False
 
 
 class SolutionTestCaseResultView(TestCaseResultMixin, BaseSolutionTestDataView):

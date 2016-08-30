@@ -135,15 +135,21 @@ def irunner_solutions_testresults(test_results, solution_permissions, url_patter
 
     uid = unicode(uuid.uuid1().hex)
 
-    enable_tests_data = solution_permissions.tests_data and url_pattern
+    any_toggleable = False
+
+    pairs = []
+    for test in test_results:
+        toggleable = (url_pattern is not None) and (solution_permissions.tests_data or test.is_sample)
+        any_toggleable |= toggleable
+        pairs.append((test, toggleable))
 
     return {
-        'test_results': test_results,
+        'test_results': pairs,
         'solution_permissions': solution_permissions,
         'url_pattern': url_pattern,
         'first_placeholder': first_placeholder,
         'uid': uid,
-        'enable_tests_data': enable_tests_data,
+        'any_toggleable': any_toggleable,
     }
 
 

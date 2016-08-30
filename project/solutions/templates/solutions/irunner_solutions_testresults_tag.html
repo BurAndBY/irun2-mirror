@@ -29,12 +29,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for test in test_results %}
-        <tr{% if enable_tests_data %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
+        {% for test, toggleable in test_results %}
+        <tr{% if toggleable %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
             <td class="ir-col-no">{% if test.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span>&nbsp;{% endif %}{{ forloop.counter }}</td>
 
             {# arrow > is shown only when the row can be expanded #}
-            <td class="ir-col-arrow">{% if enable_tests_data %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
+            <td class="ir-col-arrow">{% if toggleable %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
 
             <td class="ir-col-outcome">{% irunner_solutions_outcomebox test.outcome tooltip=solution_permissions.exit_codes %}</td>
             {% if not solution_permissions.exit_codes %}
@@ -70,7 +70,7 @@
     </tbody>
 </table>
 
-{% if enable_tests_data %}
+{% if any_toggleable %}
 <!-- For showing test case images -->
 <div class="modal fade" id="imagemodal_{{ uid }}" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
