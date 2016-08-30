@@ -1,3 +1,4 @@
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_solutions %}
 
@@ -30,7 +31,7 @@
     <tbody>
         {% for test in test_results %}
         <tr{% if enable_tests_data %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
-            <td class="ir-col-no">{{ forloop.counter }}</td>
+            <td class="ir-col-no">{% if test.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span>&nbsp;{% endif %}{{ forloop.counter }}</td>
 
             {# arrow > is shown only when the row can be expanded #}
             <td class="ir-col-arrow">{% if enable_tests_data %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>

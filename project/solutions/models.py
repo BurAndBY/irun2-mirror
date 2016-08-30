@@ -123,6 +123,8 @@ class TestCaseResult(models.Model):
 
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
 
+    is_sample = models.BooleanField(default=False)
+
 
 class Challenge(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT)

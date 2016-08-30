@@ -420,10 +420,15 @@ class SolutionTestsView(BaseSolutionView):
     template_name = 'solutions/solution_tests.html'
 
     def is_allowed(self, permissions):
-        return permissions.results
+        return permissions.sample_results or permissions.results
 
     def do_get(self, request, solution):
         test_results = solution.best_judgement.testcaseresult_set.all()
+
+        if self.permissions.sample_results and not self.permissions.results:
+            # Show only sample test cases
+            test_results = test_results.filter(is_sample=True)
+
         context = self.get_context_data(test_results=test_results)
         return render(request, self.template_name, context)
 
@@ -511,7 +516,7 @@ class SolutionAttemptsView(BaseSolutionView):
 class SolutionMainView(BaseSolutionView):
     def _get_class(self, request, solution, permissions):
         judgement = solution.best_judgement
-        if permissions.results:
+        if permissions.sample_results or permissions.results:
             if judgement is not None:
                 test_results_count = judgement.testcaseresult_set.count()
                 if test_results_count > 0:

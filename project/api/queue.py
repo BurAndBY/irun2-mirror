@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.db import transaction
 
 from common.outcome import Outcome
-from problems.models import Validation, TestCaseValidation, ProblemRelatedSourceFile, TestCase
+from problems.models import Validation, TestCaseValidation, ProblemRelatedSourceFile, TestCase, ProblemExtraInfo
 from solutions.models import Judgement, TestCaseResult, JudgementExtraInfo, JudgementLog, Challenge, ChallengedSolution
 
 from .models import DbObjectInQueue
@@ -185,14 +185,25 @@ class JudgementInQueue(IObjectInQueue):
             filter(pk=judgement.id).\
             update(finish_testing_time=timezone.now(), general_failure_reason=gf_reason, general_failure_message=gf_message)
 
-        present_test_case_ids = TestCase.objects.\
+        sample_test_count = ProblemExtraInfo.objects.\
             filter(problem__solution__judgement=judgement).\
-            values_list('pk', flat=True)
-        present_test_case_ids = set(present_test_case_ids)
+            values_list('sample_test_count', flat=True).\
+            first() or 0
+
+        present_test_case_ids = set()
+        sample_test_case_ids = set()
+
+        for test_case_id, ordinal_number in TestCase.objects.\
+                filter(problem__solution__judgement=judgement).\
+                values_list('pk', 'ordinal_number'):
+            present_test_case_ids.add(test_case_id)
+            if ordinal_number <= sample_test_count:
+                sample_test_case_ids.add(test_case_id)
 
         judgement.testcaseresult_set.all().delete()
         for t in report.tests:
             t.judgement_id = judgement.id
+            t.is_sample = (t.test_case_id in sample_test_case_ids)
             if t.test_case_id not in present_test_case_ids:
                 # the test case has probably been deleted while testing
                 t.test_case_id = None
