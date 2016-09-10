@@ -80,6 +80,7 @@ class WorkerTestCaseSerializer(serializers.Serializer):
     time_limit = serializers.IntegerField(read_only=True)
     memory_limit = serializers.IntegerField(read_only=True)
     max_score = serializers.IntegerField(read_only=True)
+    is_sample = serializers.BooleanField()
 
 
 class WorkerCheckerSerializer(serializers.Serializer):
@@ -124,6 +125,7 @@ class TestCaseResultSerializer(serializers.Serializer):
     answer_resource_id = ResourceIdField(allow_null=True)
     stdout_resource_id = ResourceIdField(allow_null=True)
     stderr_resource_id = ResourceIdField(allow_null=True)
+    is_sample = serializers.BooleanField(default=False)
 
     def create(self, validated_data):
         return TestCaseResult(**validated_data)
@@ -160,6 +162,7 @@ class WorkerTestingReportSerializer(serializers.Serializer):
     logs = serializers.ListField(child=JudgementLogField())
     general_failure_reason = serializers.CharField(allow_null=True, allow_blank=True, default='')
     general_failure_message = serializers.CharField(allow_null=True, allow_blank=True, default='')
+    sample_tests_passed = serializers.BooleanField(required=False)
 
     def create(self, validated_data):
         return WorkerTestingReport(**validated_data)

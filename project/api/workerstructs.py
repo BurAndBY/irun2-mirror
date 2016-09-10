@@ -11,6 +11,7 @@ class WorkerTestCase(object):
         self.time_limit = 0
         self.memory_limit = 0
         self.max_score = 0
+        self.is_sample = False
 
 
 class WorkerProblem(object):
@@ -33,7 +34,7 @@ class WorkerTestingJob(object):
 
 
 class WorkerTestingReport(object):
-    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs, general_failure_reason, general_failure_message):
+    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs, general_failure_reason, general_failure_message, sample_tests_passed):
         self.outcome = outcome
         self.first_failed_test = first_failed_test
         self.tests = tests
@@ -42,6 +43,7 @@ class WorkerTestingReport(object):
         self.logs = logs
         self.general_failure_reason = general_failure_reason
         self.general_failure_message = general_failure_message
+        self.sample_tests_passed = sample_tests_passed
 
 
 class WorkerState(object):

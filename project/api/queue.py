@@ -145,6 +145,11 @@ class JudgementInQueue(IObjectInQueue):
 
     @staticmethod
     def _make_workerproblem(problem):
+        sample_test_count = ProblemExtraInfo.objects.\
+            filter(problem=problem).\
+            values_list('sample_test_count', flat=True).\
+            first() or 0
+
         wtests = []
         for tc in problem.testcase_set.all().order_by('ordinal_number', 'id'):
             wtest = WorkerTestCase(tc.id)
@@ -154,7 +159,7 @@ class JudgementInQueue(IObjectInQueue):
             wtest.time_limit = tc.time_limit
             wtest.memory_limit = tc.memory_limit
             wtest.max_score = tc.points
-
+            wtest.is_sample = (tc.ordinal_number <= sample_test_count)
             wtests.append(wtest)
 
         wproblem = WorkerProblem(problem.id)
@@ -176,6 +181,7 @@ class JudgementInQueue(IObjectInQueue):
         judgement.score = report.score
         judgement.max_score = report.max_score
         judgement.test_number = report.first_failed_test
+        judgement.sample_tests_passed = report.sample_tests_passed
         judgement.save()
 
         gf_reason = report.general_failure_reason or ''
@@ -185,25 +191,17 @@ class JudgementInQueue(IObjectInQueue):
             filter(pk=judgement.id).\
             update(finish_testing_time=timezone.now(), general_failure_reason=gf_reason, general_failure_message=gf_message)
 
-        sample_test_count = ProblemExtraInfo.objects.\
-            filter(problem__solution__judgement=judgement).\
-            values_list('sample_test_count', flat=True).\
-            first() or 0
-
         present_test_case_ids = set()
-        sample_test_case_ids = set()
 
         for test_case_id, ordinal_number in TestCase.objects.\
                 filter(problem__solution__judgement=judgement).\
                 values_list('pk', 'ordinal_number'):
             present_test_case_ids.add(test_case_id)
-            if ordinal_number <= sample_test_count:
-                sample_test_case_ids.add(test_case_id)
 
         judgement.testcaseresult_set.all().delete()
+
         for t in report.tests:
             t.judgement_id = judgement.id
-            t.is_sample = (t.test_case_id in sample_test_case_ids)
             if t.test_case_id not in present_test_case_ids:
                 # the test case has probably been deleted while testing
                 t.test_case_id = None

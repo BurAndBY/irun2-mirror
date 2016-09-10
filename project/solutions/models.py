@@ -64,6 +64,8 @@ class Judgement(models.Model):
     score = models.IntegerField(default=0)
     max_score = models.IntegerField(default=0)
 
+    sample_tests_passed = models.NullBooleanField(default=None)
+
     def show_status(self):
         if self.status != Judgement.DONE:
             result = self.get_status_display()
