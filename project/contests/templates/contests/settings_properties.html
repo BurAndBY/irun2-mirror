@@ -12,9 +12,11 @@
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
-        <a href="{% url 'contests:settings_delete' contest.id %}" class="btn btn-link">
-            {% trans 'Delete the contest' %}
-        </a>
+        {% if can_delete %}
+            <a href="{% url 'contests:settings_delete' contest.id %}" class="btn btn-link">
+                {% trans 'Delete the contest' %}
+            </a>
+        {% endif %}
     {% endbuttons %}
 </form>
 

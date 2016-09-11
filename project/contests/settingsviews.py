@@ -12,7 +12,7 @@ from problems.models import Problem
 from proglangs.models import Compiler
 from storage.utils import store_with_metadata
 
-from .forms import PropertiesForm, CompilersForm, ProblemsForm, StatementsForm, UsersForm
+from .forms import PropertiesForm, AccessForm, LimitsForm, CompilersForm, ProblemsForm, StatementsForm, UsersForm
 from .forms import TwoPanelProblemMultipleChoiceField, TwoPanelUserMultipleChoiceField
 from .models import Membership, ContestProblem
 from .views import BaseContestView
@@ -25,23 +25,49 @@ class ContestSettingsView(BaseContestView):
         return permissions.settings
 
 
-class PropertiesView(ContestSettingsView):
-    subtab = 'properties'
+class SingleFormView(ContestSettingsView):
     template_name = 'contests/settings_properties.html'
+    form_class = None
+    url_pattern = None
+    can_delete = False
+
+    def get_context_data(self, **kwargs):
+        context = super(SingleFormView, self).get_context_data(**kwargs)
+        context['can_delete'] = self.can_delete
+        return context
 
     def get(self, request, contest):
-        form = PropertiesForm(instance=contest)
+        form = self.form_class(instance=contest)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, contest):
-        form = PropertiesForm(request.POST, instance=contest)
+        form = self.form_class(request.POST, instance=contest)
         if form.is_valid():
             form.save()
-            return redirect('contests:settings_properties', contest_id=contest.id)
+            return redirect(self.url_pattern, contest_id=contest.id)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
+
+
+class PropertiesView(SingleFormView):
+    form_class = PropertiesForm
+    subtab = 'properties'
+    url_pattern = 'contests:settings_properties'
+    can_delete = True
+
+
+class AccessView(SingleFormView):
+    form_class = AccessForm
+    subtab = 'access'
+    url_pattern = 'contests:settings_access'
+
+
+class LimitsView(SingleFormView):
+    form_class = LimitsForm
+    subtab = 'limits'
+    url_pattern = 'contests:settings_limits'
 
 
 class DeleteView(ContestSettingsView):

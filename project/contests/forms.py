@@ -17,14 +17,25 @@ from .models import Contest, Message
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Contest
-        fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving',
-                  'unauthorized_access', 'contestant_own_solutions_access', 'attempt_limit', 'file_size_limit']
-        help_texts = {
-            'contestant_own_solutions_access': _('Each access level includes all the previous onces.')
-        }
+        fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
         widgets = {
             'rules': forms.Select(attrs={'disabled': True}),
         }
+
+
+class AccessForm(forms.ModelForm):
+    class Meta:
+        model = Contest
+        fields = ['unauthorized_access', 'contestant_own_solutions_access']
+        help_texts = {
+            'contestant_own_solutions_access': _('Each access level includes all the previous onces.')
+        }
+
+
+class LimitsForm(forms.ModelForm):
+    class Meta:
+        model = Contest
+        fields = ['attempt_limit', 'file_size_limit']
 
 
 class CompilersForm(forms.ModelForm):

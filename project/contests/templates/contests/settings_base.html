@@ -11,6 +11,12 @@
         <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
             <a href="{% url 'contests:settings_properties' contest.id %}">{% trans 'Properties' %}</a>
         </li>
+        <li role="presentation"{% if active_subtab == 'access' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_access' contest.id %}">{% trans 'Access' %}</a>
+        </li>
+        <li role="presentation"{% if active_subtab == 'limits' %} class="active"{% endif %}>
+            <a href="{% url 'contests:settings_limits' contest.id %}">{% trans 'Limits' %}</a>
+        </li>
         <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
             <a href="{% url 'contests:settings_compilers' contest.id %}">{% trans 'Compilers' %}</a>
         </li>

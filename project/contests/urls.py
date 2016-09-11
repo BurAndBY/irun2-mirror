@@ -29,6 +29,8 @@ contest_urlpatterns = [
 
 contestsettings_urlpatterns = [
     url(r'^$', settingsviews.PropertiesView.as_view(), name='settings_properties'),
+    url(r'^access/$', settingsviews.AccessView.as_view(), name='settings_access'),
+    url(r'^limits/$', settingsviews.LimitsView.as_view(), name='settings_limits'),
     url(r'^delete/$', settingsviews.DeleteView.as_view(), name='settings_delete'),
     url(r'^compilers/$', settingsviews.CompilersView.as_view(), name='settings_compilers'),
     url(r'^problems/$', settingsviews.ProblemsView.as_view(), name='settings_problems'),
