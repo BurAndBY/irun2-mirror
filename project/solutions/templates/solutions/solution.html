@@ -8,13 +8,13 @@
 {% load irunner_users %}
 {% load staticfiles %}
 
-{% block title %}{% block subtitle %}{% endblock %} &mdash; {% trans 'Solution' %} {{ solution.id }}{% endblock %}
+{% block title %}{% block subtitle %}{% trans 'Result' %}{% endblock %} &mdash; {% trans 'Solution' %} {{ solution.id }}{% endblock %}
 
 {% block content %}
 <div class="panel panel-default ir-solution-panel">
     <div class="panel-body">
         <h2>
-            {% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}
+            {% irunner_solutions_judgementbox solution.best_judgement tooltip=True complete=solution_permissions.state %}
             {% trans 'Solution' %} {{ solution.id }}
         </h2>
         <div class="row">
@@ -52,7 +52,7 @@
                             </a>
                         </dd>
 
-                        {% if solution.best_judgement %}
+                        {% if solution.best_judgement and solution_permissions.state %}
                             <dt>{% trans 'Score' %}</dt>
                             <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
                         {% endif %}
@@ -118,7 +118,7 @@
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.results %}
+                    {% if solution_permissions.sample_results or solution_permissions.results %}
                         <li role="presentation"{% if active_tab == 'tests' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:tests' solution.id %}">{% trans 'Test results' %}</a>
                         </li>

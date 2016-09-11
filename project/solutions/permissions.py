@@ -32,6 +32,7 @@ class SolutionAccessLevel(object):
 
 class SolutionPermissions(object):
     def __init__(self):
+        self.state_on_samples = False
         self.state = False
         self.compilation_log = False
         self.source_code = False
@@ -49,6 +50,7 @@ class SolutionPermissions(object):
 
     def update(self, level):
         if level >= SolutionAccessLevel.STATE:
+            self.state_on_samples = True
             self.state = True
 
         if level >= SolutionAccessLevel.COMPILATION_LOG:

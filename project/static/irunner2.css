@@ -344,7 +344,10 @@ h3 { font-size: 20px; line-height: 32px; }
     color: #d9534f;
     background-color: #f2dede;
 }
-
+.ir-judgementbox-pending {
+    color: #f0ad4e;
+    background-color: #fcf8e3;
+}
 
 /**
  * Progress bars with centered text

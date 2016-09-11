@@ -43,7 +43,7 @@ def _get_style(outcome, code):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def irunner_solutions_judgementbox(judgement, tooltip=False):
+def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True):
     '''
     Displays judgement state.
 
@@ -58,15 +58,28 @@ def irunner_solutions_judgementbox(judgement, tooltip=False):
         'tooltip': judgement.show_status() if (tooltip and (judgement is not None)) else '',
     }
 
+    tooltip_text = ''
+
     if judgement is not None:
         if judgement.status == Judgement.DONE:
-            code = TWO_LETTER_OUTCOME_CODES.get(judgement.outcome)
-            context['code'] = code
-            context['style'] = _get_style(judgement.outcome, code)
-            context['test_no'] = judgement.test_number
+            if complete or (judgement.sample_tests_passed is False):
+                code = TWO_LETTER_OUTCOME_CODES.get(judgement.outcome)
+                context['code'] = code
+                context['style'] = _get_style(judgement.outcome, code)
+                context['test_no'] = judgement.test_number
+                tooltip_text = judgement.show_status()
+            else:
+                context['code'] = 'AC'
+                context['style'] = 'pending'
+                tooltip_text = _('Accepted for testing')
         else:
             context['code'] = ONE_LETTER_STATUS_CODES.get(judgement.status, ELLIPSIS)
-            context['test_no'] = judgement.test_number
+            if complete:
+                context['test_no'] = judgement.test_number
+
+    if tooltip:
+        context['tooltip'] = tooltip_text
+
     return context
 
 

@@ -388,7 +388,7 @@ class SolutionEmptyView(BaseSolutionView):
     template_name = 'solutions/solution.html'
 
     def is_allowed(self, permissions):
-        return permissions.state
+        return permissions.state_on_samples
 
     def do_get(self, request, solution):
         return render(request, self.template_name, self.get_context_data())
@@ -531,7 +531,7 @@ class SolutionMainView(BaseSolutionView):
         if permissions.source_code:
             return SolutionSourceView
 
-        if permissions.state:
+        if permissions.state_on_samples:
             return SolutionEmptyView
 
     def do_checked_get(self, *args, **kwargs):
