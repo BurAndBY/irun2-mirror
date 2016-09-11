@@ -26,7 +26,7 @@ class ContestListView(StaffMemberRequiredMixin, generic.View):
 
 class ContestCreateView(StaffMemberRequiredMixin, generic.CreateView):
     model = Contest
-    fields = ['name', 'start_time', 'duration', 'freeze_time']
+    fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time']
 
     def form_valid(self, form):
         with transaction.atomic():

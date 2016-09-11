@@ -17,10 +17,13 @@ from .models import Contest, Message
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Contest
-        fields = ['name', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving',
+        fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving',
                   'unauthorized_access', 'contestant_own_solutions_access', 'attempt_limit', 'file_size_limit']
         help_texts = {
             'contestant_own_solutions_access': _('Each access level includes all the previous onces.')
+        }
+        widgets = {
+            'rules': forms.Select(attrs={'disabled': True}),
         }
 
 

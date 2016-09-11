@@ -34,7 +34,16 @@ def _default_contest_start_time():
 
 
 class Contest(models.Model):
+    ACM = 1
+    IOI = 2
+
+    RULES_CHOICES = (
+        (ACM, 'ACM'),
+        (IOI, 'IOI'),
+    )
+
     name = models.CharField(_('name'), max_length=255)
+    rules = models.IntegerField(_('rules'), choices=RULES_CHOICES, default=ACM)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
     compilers = models.ManyToManyField(Compiler, blank=True)
     problems = models.ManyToManyField(Problem, blank=True, through='ContestProblem')
