@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import ACCEPTED_FOR_TESTING
 from common.outcome import Outcome
 from problems.models import Problem, TestCase
 from proglangs.models import Compiler
@@ -66,13 +67,27 @@ class Judgement(models.Model):
 
     sample_tests_passed = models.NullBooleanField(default=None)
 
-    def show_status(self):
+    def show_status(self, complete=True):
+        '''
+        If complete is False, we show sample results only.
+        '''
         if self.status != Judgement.DONE:
             result = self.get_status_display()
         else:
-            result = self.get_outcome_display()
-        if self.test_number != 0:
-            result += ' ({0})'.format(self.test_number)
+            if (complete) or (self.sample_tests_passed is False):
+                result = self.get_outcome_display()
+            else:
+                result = ACCEPTED_FOR_TESTING
+
+        test = self.test_number
+
+        if not complete:
+            if not (self.status == Judgement.DONE and self.sample_tests_passed is False):
+                # hide number of tests
+                test = 0
+
+        if test != 0:
+            result += ' ({0})'.format(test)
         return result
 
 

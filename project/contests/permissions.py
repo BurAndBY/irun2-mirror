@@ -47,4 +47,4 @@ class ContestPermissions(object):
     def set_admin(self):
         self.set_juror()
 
-InContestAccessLevel = namedtuple('InContestAccessLevel', 'contest level')
+InContestAccessLevel = namedtuple('InContestAccessLevel', 'contest level samples_only_state')

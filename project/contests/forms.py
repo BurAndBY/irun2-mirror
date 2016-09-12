@@ -18,9 +18,6 @@ class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Contest
         fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
-        widgets = {
-            'rules': forms.Select(attrs={'disabled': True}),
-        }
 
 
 class AccessForm(forms.ModelForm):

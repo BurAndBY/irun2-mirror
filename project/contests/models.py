@@ -51,7 +51,7 @@ class Contest(models.Model):
     unauthorized_access = models.IntegerField(_(u'access for unauthorized users'),
                                               choices=UnauthorizedAccessLevel.CHOICES, default=UnauthorizedAccessLevel.NO_ACCESS)
     contestant_own_solutions_access = models.IntegerField(_(u'contestant’s access to his own solutions'),
-                                                          choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.SOURCE_CODE)
+                                                          choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS)
     attempt_limit = models.PositiveIntegerField(_('maximum number of attempts per problem'), default=100)
     file_size_limit = models.PositiveIntegerField(_('maximum solution file size (bytes)'), default=65536)
     start_time = models.DateTimeField(_('start time'), default=_default_contest_start_time)

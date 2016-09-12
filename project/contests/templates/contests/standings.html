@@ -18,7 +18,7 @@
     {% if results %}
         {% irunner_contests_standings results my_id=my_id user_url=user_url %}
     {% else %}
-        <div class="ir-absence">{% trans 'The scoreboard will be available after the start of the contest' %}</div>
+        <div class="ir-absence">{{ no_standings_yet_message }}</div>
     {% endif %}
 {% endblock %}
 

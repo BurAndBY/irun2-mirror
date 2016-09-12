@@ -20,8 +20,9 @@ from users.models import UserProfile
 from .calcpermissions import calculate_contest_permissions
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .models import Contest, Membership, ContestSolution, Message, MessageUser
-from .services import make_contestant_choices, make_problem_choices, make_contest_results, make_letter
+from .services import make_contestant_choices, make_problem_choices, make_letter
 from .services import ProblemResolver, ContestTiming
+from .services import create_contest_service
 
 
 class BaseContestView(generic.View):
@@ -71,6 +72,7 @@ class BaseContestView(generic.View):
 
     def dispatch(self, request, contest_id, *args, **kwargs):
         self.contest = get_object_or_404(Contest, pk=contest_id)
+        self.service = create_contest_service(self.contest)
         self.timing = ContestTiming(self.contest)
         if request.user.is_authenticated():
             self.permissions = calculate_contest_permissions(self.contest, request.user, Membership.objects.filter(contest_id=contest_id, user=request.user))
@@ -116,10 +118,10 @@ class StandingsView(BaseContestView):
     def is_allowed(self, permissions):
         return permissions.standings
 
-    def are_standings_available(self):
-        if self.timing.get() == ContestTiming.BEFORE:
-            return self.permissions.standings_before
-        return True
+    def get_context_data(self, **kwargs):
+        context = super(StandingsView, self).get_context_data(**kwargs)
+        context['no_standings_yet_message'] = self.service.get_no_standings_yet_message()
+        return context
 
     def _parse_autorefresh(self, request):
         autorefresh = request.session.get(AUTOREFRESH, False)
@@ -135,18 +137,17 @@ class StandingsView(BaseContestView):
     def get(self, request, contest):
         autorefresh = self._parse_autorefresh(request)
 
-        if self.are_standings_available():
+        # privileged users may click on contestants to see their solutions
+        user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id}) if self.permissions.all_solutions else None
+        my_id = request.user.id if request.user.is_authenticated() else None
+        contest_results = None
+
+        if self.service.are_standings_available(self.permissions, self.timing):
             # Do not show standings before the contest because they contain names of problems!
             frozen = (self.timing.is_freeze_applicable()) and (not self.permissions.always_unfrozen_standings)
-            contest_results = make_contest_results(contest, frozen=frozen)
+            contest_results = self.service.make_contest_results(contest, frozen=frozen)
 
-            # privileged users may click on contestants to see their solutions
-            user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id}) if self.permissions.all_solutions else None
-            my_id = request.user.id if request.user.is_authenticated() else None
-
-            context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url, autorefresh=autorefresh)
-        else:
-            context = self.get_context_data(autorefresh=autorefresh)
+        context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url, autorefresh=autorefresh)
 
         template_name = self.get_template_name()
         return render(request, template_name, context)
@@ -247,6 +248,7 @@ class AllSolutionsView(ProblemResolverMixin, BaseContestView):
 
         context['user_form'] = user_form
         context['problem_form'] = problem_form
+        context['show_scores'] = not self.service.should_stop_on_fail()
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
@@ -280,6 +282,9 @@ class MySolutionsView(ProblemResolverMixin, BaseContestView):
         context = paginate(request, solutions, self.paginate_by)
 
         context['problem_form'] = problem_form
+        complete = self.service.should_show_my_solutions_completely(self.timing)
+        context['complete'] = complete
+        context['show_scores'] = complete and not self.service.should_stop_on_fail()
 
         context = self.get_context_data(**context)
         return render(request, self.template_name, context)
@@ -351,7 +356,7 @@ class SubmitView(BaseContestView):
                     # remember used compiler to select it again later
                     UserProfile.objects.filter(pk=request.user.id).update(last_used_compiler=form.cleaned_data['compiler'])
 
-                    solution = new_solution(request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=True)
+                    solution = new_solution(request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=self.service.should_stop_on_fail())
                     ContestSolution.objects.create(solution=solution, contest=contest)
                     judge(solution)
 

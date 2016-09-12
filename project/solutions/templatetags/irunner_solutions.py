@@ -5,6 +5,7 @@ import uuid
 from django import template
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import ACCEPTED_FOR_TESTING
 from common.outcome import Outcome
 from solutions.models import Judgement
 from solutions.permissions import SolutionPermissions
@@ -55,10 +56,8 @@ def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True):
         'code': '—',
         'style': '',
         'test_no': 0,
-        'tooltip': judgement.show_status() if (tooltip and (judgement is not None)) else '',
+        'tooltip': '',
     }
-
-    tooltip_text = ''
 
     if judgement is not None:
         if judgement.status == Judgement.DONE:
@@ -67,20 +66,30 @@ def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True):
                 context['code'] = code
                 context['style'] = _get_style(judgement.outcome, code)
                 context['test_no'] = judgement.test_number
-                tooltip_text = judgement.show_status()
             else:
                 context['code'] = 'AC'
                 context['style'] = 'pending'
-                tooltip_text = _('Accepted for testing')
         else:
             context['code'] = ONE_LETTER_STATUS_CODES.get(judgement.status, ELLIPSIS)
             if complete:
                 context['test_no'] = judgement.test_number
 
     if tooltip:
-        context['tooltip'] = tooltip_text
+        context['tooltip'] = judgement.show_status(complete)
 
     return context
+
+
+@register.simple_tag(takes_context=False)
+def irunner_solutions_judgementtext(judgement, complete=True):
+    '''
+    Displays judgement state as text (i. e. "Wrong Answer (42)").
+    '''
+    text = ''
+    if judgement is not None:
+        text = judgement.show_status(complete)
+
+    return text
 
 
 def _find_in_choices(choices, what):

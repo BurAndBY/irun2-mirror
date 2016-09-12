@@ -18,6 +18,9 @@ def calculate_permissions(solution, user):
     permissions = SolutionPermissions()
     permissions.update(level)
 
+    if in_contest.contest is not None and in_contest.samples_only_state:
+        permissions.state = False
+
     if user.is_staff:
         permissions.set_all()
 

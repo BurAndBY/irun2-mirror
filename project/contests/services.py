@@ -12,7 +12,7 @@ from common.outcome import Outcome
 from problems.models import Problem
 from solutions.models import Judgement
 
-from .models import ContestSolution, Membership
+from .models import Contest, ContestSolution, Membership
 
 LabeledProblem = namedtuple('LabeledProblem', 'letter problem')
 
@@ -137,19 +137,30 @@ class ContestTiming(object):
                     self._freeze_applicable = True
 
 
+ColumnPresence = namedtuple('ColumnPresence', 'solved_problem_count penalty_time total_score')
 RunDescription = namedtuple('RunDescription', 'user labeled_problem when')
-ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results last_success last_run')
+ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results last_success last_run column_presence')
+
+# cs here means 'ContestSolution'
+
+
+def _get_judgement(cs):
+    # TODO: Speedup select_related('fixed_judgement')
+    # return cs.fixed_judgement if cs.fixed_judgement is not None else cs.solution.best_judgement
+    return cs.solution.best_judgement
 
 
 def _get_kind(cs, freeze_time, show_pending_runs):
     if (freeze_time is not None) and (cs.solution.reception_time >= freeze_time):
         return SolutionKind.PENDING if show_pending_runs else None
 
-    judgement = cs.fixed_judgement if cs.fixed_judgement is not None else cs.solution.best_judgement
+    judgement = _get_judgement(cs)
 
     if judgement is not None and judgement.status == Judgement.DONE:
         if judgement.outcome == Outcome.COMPILATION_ERROR:
-            # skip CE
+            # skip CE (compatibility, this case is included into 'sample_tests_passed is False')
+            return None
+        if judgement.sample_tests_passed is False:
             return None
         if judgement.outcome == Outcome.ACCEPTED:
             return SolutionKind.ACCEPTED
@@ -161,20 +172,26 @@ def _get_kind(cs, freeze_time, show_pending_runs):
         return SolutionKind.PENDING
 
 
-def make_contest_results(contest, frozen):
+def _get_score(cs):
+    judgement = _get_judgement(cs)
+    assert (judgement is not None) and (judgement.status == Judgement.DONE)
+    return judgement.score
+
+
+def _make_contest_results(contest, frozen, user_result_class, column_presence):
     contest_descr = ContestDescr(contest)
 
     # fetch all contestants from the contest
     users = contest.members.filter(contestmembership__role=Membership.CONTESTANT)
     user_id_result = {}
     for user in users:
-        user_id_result[user.id] = UserResult(contest_descr, user)
+        user_id_result[user.id] = user_result_class(contest_descr, user)
 
     # fetch solutions
     queryset = ContestSolution.objects.\
         filter(contest=contest).\
         filter(solution__reception_time__gte=contest.start_time, solution__reception_time__lt=contest.start_time+contest.duration).\
-        select_related('fixed_judgement', 'solution', 'solution__best_judgement').\
+        select_related('solution', 'solution__best_judgement').\
         order_by('solution__reception_time')
 
     freeze_time = None
@@ -192,16 +209,21 @@ def make_contest_results(contest, frozen):
 
         problem_index = contest_descr.get_problem_index(cs.solution.problem_id)
         if problem_index is None:
-            # The problem has been excluded from th contest.
+            # The problem has been excluded from the contest.
             continue
 
         kind = _get_kind(cs, freeze_time, contest.show_pending_runs)
         if kind is None:
             continue
 
+        score = None
+        if (kind is SolutionKind.REJECTED) or (kind is SolutionKind.ACCEPTED):
+            # no score for pending runs
+            score = _get_score(cs)
+
         when = cs.solution.reception_time - contest.start_time
         penalty_time = when.seconds // 60
-        user_result.register_solution(problem_index, kind, penalty_time)
+        user_result.register_solution(problem_index, kind, penalty_time, score)
 
         run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when)
         last_run = run
@@ -221,13 +243,13 @@ def make_contest_results(contest, frozen):
     for i, user_result in enumerate(user_results):
         if (i == 0) or (user_results[i - 1].get_key() != user_results[i].get_key()):
             place = i
-        if (i > 0) and (user_results[i - 1].get_solved_problem_count() != user_results[i].get_solved_problem_count()):
+        if (i > 0) and (user_results[i - 1].get_tag_key() != user_results[i].get_tag_key()):
             tag = tag ^ 1
 
         user_result.set_place(place + 1)
         user_result.set_row_tag(tag)
 
-    return ContestResults(contest, contest_descr, frozen, user_results, last_success, last_run)
+    return ContestResults(contest, contest_descr, frozen, user_results, last_success, last_run, column_presence)
 
 
 class ContestDescr(object):
@@ -251,7 +273,7 @@ class SolutionKind(object):
 REJECTED_SUBMISSION_PENALTY = 20
 
 
-class ProblemResult(object):
+class ACMProblemResult(object):
     def __init__(self):
         self._kind = SolutionKind.REJECTED
         self._num_submissions = 0  # including the accepted one
@@ -269,7 +291,7 @@ class ProblemResult(object):
     def get_acceptance_time(self):
         return self._acceptance_time
 
-    def register_solution(self, kind, penalty_time):
+    def register_solution(self, kind, penalty_time, score):
         if self._kind == SolutionKind.PENDING:
             self._num_submissions += 1
         elif self._kind == SolutionKind.REJECTED:
@@ -294,32 +316,70 @@ class ProblemResult(object):
         return mark_safe(result)
 
 
-class UserResult(object):
-    def __init__(self, contest_descr, user):
-        self.contest_descr = contest_descr
-        self.user = user
-        self.problem_results = [ProblemResult() for _ in contest_descr.labeled_problems]
+class IOIProblemResult(object):
+    def __init__(self):
+        self._score = None
 
+    def get_score(self):
+        return self._score
+
+    def register_solution(self, kind, penalty_time, score):
+        if score is not None:
+            self._score = score
+
+    def as_html(self):
+        if self._score is None:
+            result = u'.'
+        else:
+            result = u'{0}'.format(self._score)
+        return mark_safe(result)
+
+
+class UserResultBase(object):
+    def __init__(self, user, problem_results):
+        self.user = user
+        self.problem_results = problem_results
         self._place = None
         self._row_tag = None
-        self._solved_problem_count = None
-        self._penalty_time = None
-        self._last_acceptance = None
 
-    def register_solution(self, problem_index, kind, penalty_time):
-        self.problem_results[problem_index].register_solution(kind, penalty_time)
-
-    def finalize(self):
-        self._solved_problem_count = sum(pr.is_ok() for pr in self.problem_results)
-        self._penalty_time = sum(pr.get_penalty_time() for pr in self.problem_results)
-        accepts = [pr.get_acceptance_time() for pr in self.problem_results if pr.get_acceptance_time() is not None]
-        self._last_acceptance = max(accepts) if accepts else 0
+    def register_solution(self, problem_index, kind, penalty_time, score):
+        self.problem_results[problem_index].register_solution(kind, penalty_time, score)
 
     def set_place(self, place):
         self._place = place
 
     def set_row_tag(self, tag):
         self._row_tag = tag
+
+    def get_place(self):
+        return self._place
+
+    def get_row_tag(self):
+        return self._row_tag
+
+    def finalize(self):
+        pass
+
+    def get_key(self):
+        raise NotImplementedError()
+
+    def get_tag_key(self):
+        raise NotImplementedError()
+
+
+class ACMUserResult(UserResultBase):
+    def __init__(self, contest_descr, user):
+        super(ACMUserResult, self).__init__(user, [ACMProblemResult() for _ in contest_descr.labeled_problems])
+
+        self._solved_problem_count = None
+        self._penalty_time = None
+        self._last_acceptance = None
+
+    def finalize(self):
+        self._solved_problem_count = sum(pr.is_ok() for pr in self.problem_results)
+        self._penalty_time = sum(pr.get_penalty_time() for pr in self.problem_results)
+        accepts = [pr.get_acceptance_time() for pr in self.problem_results if pr.get_acceptance_time() is not None]
+        self._last_acceptance = max(accepts) if accepts else 0
 
     def get_solved_problem_count(self):
         return self._solved_problem_count
@@ -330,8 +390,88 @@ class UserResult(object):
     def get_key(self):
         return (-self._solved_problem_count, self._penalty_time, self._last_acceptance)
 
-    def get_place(self):
-        return self._place
+    def get_tag_key(self):
+        return self._solved_problem_count
 
-    def get_row_tag(self):
-        return self._row_tag
+
+class IOIUserResult(UserResultBase):
+    def __init__(self, contest_descr, user):
+        super(IOIUserResult, self).__init__(user, [IOIProblemResult() for _ in contest_descr.labeled_problems])
+
+        self._total_score = 0
+
+    def finalize(self):
+        self._total_score = sum(((pr.get_score() or 0) for pr in self.problem_results))
+
+    def get_total_score(self):
+        return self._total_score
+
+    def get_key(self):
+        return (-self._total_score,)
+
+    def get_tag_key(self):
+        return self.get_key()
+
+
+class IContestService(object):
+    def get_no_standings_yet_message(self):
+        raise NotImplementedError()
+
+    def are_standings_available(self, permissions, timing):
+        raise NotImplementedError()
+
+    def should_stop_on_fail(self):
+        raise NotImplementedError()
+
+    def should_show_my_solutions_completely(self, timing):
+        raise NotImplementedError()
+
+    def make_contest_results(self, contest, frozen):
+        raise NotImplementedError()
+
+
+def create_contest_service(contest):
+    if contest.rules == Contest.ACM:
+        return ACMContestService()
+    if contest.rules == Contest.IOI:
+        return IOIContestService()
+
+
+class ACMContestService(IContestService):
+    def get_no_standings_yet_message(self):
+        return _('The scoreboard will be available after the start of the contest')
+
+    def are_standings_available(self, permissions, timing):
+        if timing.get() == ContestTiming.BEFORE:
+            return permissions.standings_before
+        return True
+
+    def should_stop_on_fail(self):
+        return True
+
+    def should_show_my_solutions_completely(self, timing):
+        return True
+
+    def make_contest_results(self, contest, frozen):
+        return _make_contest_results(contest, frozen, ACMUserResult, ColumnPresence(True, True, False))
+
+
+class IOIContestService(IContestService):
+    def get_no_standings_yet_message(self):
+        return _('The scoreboard is hidden')
+
+    def are_standings_available(self, permissions, timing):
+        if timing.get() in (ContestTiming.BEFORE, ContestTiming.IN_PROGRESS):
+            return permissions.standings_before
+        return True
+
+    def should_stop_on_fail(self):
+        return False
+
+    def should_show_my_solutions_completely(self, timing):
+        return (timing.get() == ContestTiming.AFTER) and (not timing.is_freeze_applicable())
+
+    def make_contest_results(self, contest, frozen):
+        if frozen:
+            return None
+        return _make_contest_results(contest, False, IOIUserResult, ColumnPresence(False, False, True))

@@ -1411,7 +1411,7 @@ Green menu
 .ir-contest-standings td, .ir-contest-standings th {
     text-align: center;
     border: 1px solid #ddd;
-    padding: 2px;
+    padding: 4px;
 }
 .ir-contest-standings th {
     border-bottom: 3px solid #ddd;
@@ -1432,7 +1432,7 @@ Green menu
 }
 .ir-contest-standings .ir-row-odd > td {
     /*background-color: #EBEFF2;*/
-    background-color: #f4f4f6;
+    background-color: #EEEEF0;
 }
 .ir-contest-standings .ir-row-even > td {
     /*background-color: #CBDBEA;*/
@@ -1470,6 +1470,7 @@ Green menu
 
 .ir-contest-timing {
     text-align: center;
+    font-size: 16px;
 }
 .ir-contest-timing .ir-state {
     font-weight: bold;
@@ -1800,6 +1801,7 @@ Green menu
 }
 
 .ir-sample-test-mark {
-    color: #f0ad4e;
+    /*color: #f0ad4e;*/
+    color: #ddd;
     font-size: 0.8em;
 }

@@ -30,8 +30,17 @@
                     {% endif %}
                 </th>
             {% endfor %}
-            <th class="ir-problem-count">=</th>
-            <th class="ir-column-penalty">{% trans 'Penalty' %}</th>
+
+            {# summary columns #}
+            {% if results.column_presence.solved_problem_count %}
+                <th class="ir-problem-count">=</th>
+            {% endif %}
+            {% if results.column_presence.penalty_time %}
+                <th class="ir-column-penalty">{% trans 'Penalty' %}</th>
+            {% endif %}
+            {% if results.column_presence.total_score %}
+                <th>{% trans 'Sum' %}</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -42,8 +51,17 @@
                 {% for pr in user_result.problem_results %}
                     <td>{{ pr.as_html }}</td>
                 {% endfor %}
-                <td class="ir-problem-count">{{ user_result.get_solved_problem_count }}</td>
-                <td class="ir-column-penalty">{{ user_result.get_penalty_time }}</td>
+
+                {# summary columns #}
+                {% if results.column_presence.solved_problem_count %}
+                    <td class="ir-problem-count">{{ user_result.get_solved_problem_count }}</td>
+                {% endif %}
+                {% if results.column_presence.penalty_time %}
+                    <td class="ir-column-penalty">{{ user_result.get_penalty_time }}</td>
+                {% endif %}
+                {% if results.column_presence.total_score %}
+                    <td>{{ user_result.get_total_score }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>

@@ -33,6 +33,9 @@
                     <th>{% trans 'Time' %}</th>
                     <th>{% trans 'File' %}</th>
                     <th>{% trans 'Status' %}</th>
+                    {% if show_scores %}
+                        <th>{% trans 'Score' %}</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +54,9 @@
                     <td>
                         <a href="{% url 'solutions:main' solution.id %}">{% irunner_solutions_judgementbox solution.best_judgement tooltip=True %}</a>
                     </td>
+                    {% if show_scores %}
+                        <td>{% irunner_solutions_scorebox solution.best_judgement %}</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

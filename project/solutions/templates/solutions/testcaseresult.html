@@ -52,7 +52,15 @@
     <div class="col-sm-4">
         <div class="ir-test-description">
             {% if test_case %}
-                <h5><a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">{% trans 'Test' %}</a></h5>
+                <h5>
+                    {% if user.is_staff %}
+                        <a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">
+                    {% endif %}
+                        {% trans 'Test' %}
+                    {% if user.is_staff %}
+                        </a>
+                    {% endif %}
+                </h5>
 
                 {% if test_case.author != None %}
                     <p>{% bootstrap_icon 'user' %} {% irunner_users_show test_case.author %}</p>

@@ -554,17 +554,23 @@ class SolutionStatusJsonView(BaseSolutionView):
     with_related = False
 
     def is_allowed(self, permissions):
-        return permissions.state
+        return permissions.state_on_samples or permissions.state
 
     def do_get(self, request, solution):
         judgement = solution.best_judgement
+
         if judgement is not None:
+            final = (judgement.status == Judgement.DONE)
+            complete = self.permissions.state
             data = {
-                'text': judgement.show_status(),
-                'final': judgement.status == Judgement.DONE
+                'text': unicode(judgement.show_status(complete)),
+                'final': final
             }
-            if judgement.status == Judgement.DONE:
-                data['ok'] = judgement.outcome == Outcome.ACCEPTED
+            if final:
+                if complete or (judgement.sample_tests_passed is False):
+                    data['color'] = 'green' if (judgement.outcome == Outcome.ACCEPTED) else 'red'
+                else:
+                    data['color'] = 'yellow'
         else:
             data = {
                 'text': 'N/A',

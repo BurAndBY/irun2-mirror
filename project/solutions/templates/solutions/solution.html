@@ -20,6 +20,14 @@
         <div class="row">
             <div class="col-md-6">
                 <dl class="dl-horizontal">
+                    <dt>{% trans 'Result' %}</dt>
+                    <dd>{% irunner_solutions_judgementtext solution.best_judgement complete=solution_permissions.state %}</dd>
+
+                    {% if solution_permissions.state and solution.best_judgement and not solution.stop_on_fail %}
+                        <dt>{% trans 'Score' %}</dt>
+                        <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
+                    {% endif %}
+
                     <dt>{% trans 'Author' %}</dt>
                     <dd>{% irunner_users_card solution.author %}</dd>
 
@@ -51,11 +59,6 @@
                                 {{ solution_environment.course }}
                             </a>
                         </dd>
-
-                        {% if solution.best_judgement and solution_permissions.state %}
-                            <dt>{% trans 'Score' %}</dt>
-                            <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
-                        {% endif %}
                     {% endif %}
 
                     {% if solution_environment.contest %}

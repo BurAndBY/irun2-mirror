@@ -13,6 +13,7 @@ class SolutionAccessLevel(object):
     STATE = 1
     COMPILATION_LOG = 2
     SOURCE_CODE = 3
+    TESTING_DETAILS_ON_SAMPLE_TESTS = 7
     TESTING_DETAILS = 4
     TESTING_DETAILS_CHECKER_MESSAGES = 5
     TESTING_DETAILS_TEST_DATA = 6
@@ -24,6 +25,7 @@ class SolutionAccessLevel(object):
         (STATE, _('view current solution state')),
         (COMPILATION_LOG, _('view compilation log')),
         (SOURCE_CODE, _('view source code')),
+        (TESTING_DETAILS_ON_SAMPLE_TESTS, _('view testing details on sample tests')),
         (TESTING_DETAILS, _('view testing details')),
         (TESTING_DETAILS_CHECKER_MESSAGES, _('view testing details with checker messages')),
         (TESTING_DETAILS_TEST_DATA, _('view testing details and test data')),
@@ -49,6 +51,10 @@ class SolutionPermissions(object):
         self.ip_address = False
 
     def update(self, level):
+        if level == SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS:
+            self.sample_results = True
+            level = SolutionAccessLevel.SOURCE_CODE
+
         if level >= SolutionAccessLevel.STATE:
             self.state_on_samples = True
             self.state = True
@@ -61,8 +67,8 @@ class SolutionPermissions(object):
             self.source_code = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
-            self.sample_results = True
             self.results = True
+            self.sample_results = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES:
             self.exit_codes = True

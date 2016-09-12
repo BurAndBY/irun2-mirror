@@ -27,13 +27,16 @@
             if (data["final"] === true) {
                 var pbar = panel.find(".progress-bar");
                 pbar.removeClass("active").removeClass("progress-bar-striped");
-                if (typeof data["ok"] !== "undefined") {
+                if (typeof data["color"] !== "undefined") {
                     pbar.removeClass("progress-bar-info");
-                    if (data["ok"] === false) {
+                    if (data["color"] === "red") {
                         pbar.addClass("progress-bar-danger");
                     }
-                    if (data["ok"] === true) {
+                    if (data["color"] === "green") {
                         pbar.addClass("progress-bar-success");
+                    }
+                    if (data["color"] === "yellow") {
+                        pbar.addClass("progress-bar-warning");
                     }
                 }
             } else {
