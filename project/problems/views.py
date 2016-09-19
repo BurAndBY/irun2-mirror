@@ -334,6 +334,20 @@ class ProblemTestsView(BaseProblemView):
     tab = 'tests'
     template_name = 'problems/tests.html'
 
+    def _fill_summary(self, context, test_cases):
+        total_input_size = 0
+        total_answer_size = 0
+        total_points = 0
+
+        for test_case in test_cases:
+            total_input_size += test_case.input_size
+            total_answer_size += test_case.answer_size
+            total_points += test_case.points
+
+        context['total_input_size'] = total_input_size
+        context['total_answer_size'] = total_answer_size
+        context['total_points'] = total_points
+
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
@@ -378,6 +392,7 @@ class ProblemTestsView(BaseProblemView):
                 context['validation_status'] = 'UNKNOWN'
 
         context['validated_test_cases'] = validated_test_cases
+        self._fill_summary(context, test_cases)
         context = self._make_context(problem, context)
         return render(request, self.template_name, context)
 

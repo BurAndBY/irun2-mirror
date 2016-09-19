@@ -121,6 +121,19 @@
         {% endwith %}
     {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <td>&#x3A3;</td>
+            <td></td>
+            <td></td>
+            <td>{{ total_input_size|filesizeformat }}</td>
+            <td>{{ total_answer_size|filesizeformat }}</td>
+            <td>{{ total_points }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
 </table>
 {% endif %}
 
