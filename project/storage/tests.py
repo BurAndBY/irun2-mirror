@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 
+from .encodings import try_decode_ascii
 from .storage import ResourceId, FileSystemStorage, ResourseRepresentation
 from .validators import validate_filename
 
@@ -120,3 +121,15 @@ class FilenameValidatorTests(TestCase):
 
     def test_end(self):
         self._check_fail(u'1.cpp.', u'1.cpp. ', u'1. .', u'.', u' ')
+
+
+class GuessAsciiEncodingTests(TestCase):
+    def test_decode_cyrillic(self):
+        msg = u'Привет, мир!'
+        self.assertEqual(try_decode_ascii(msg.encode('cp1251')), msg)
+        self.assertEqual(try_decode_ascii(msg.encode('cp866')), msg)
+
+    def test_decode_plain(self):
+        msg = u'Hello, world!'
+        self.assertEqual(try_decode_ascii(msg.encode('cp1251')), msg)
+        self.assertEqual(try_decode_ascii(msg.encode('cp866')), msg)

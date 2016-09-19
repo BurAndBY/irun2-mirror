@@ -11,6 +11,8 @@ from django.core.files.base import File
 from django.core.servers.basehttp import FileWrapper
 from django.db import models
 
+from .encodings import try_decode_ascii
+
 HASH_SIZE = 20
 ELLIPSIS = u'…'
 
@@ -163,15 +165,6 @@ def _try_decode_utf8(blob, is_complete):
     return None
 
 
-def _try_decode_ascii(blob):
-    try:
-        return blob.decode('windows-1251')
-    except UnicodeDecodeError:
-        pass
-
-    return None
-
-
 def _cut_line(line, max_line_length):
     if len(line) <= max_line_length:
         return line
@@ -204,7 +197,7 @@ def _represent(blob, full_size, max_lines, max_line_length):
                 flags |= ResourseRepresentation.IS_UTF8
 
         if text is None:
-            text = _try_decode_ascii(blob)
+            text = try_decode_ascii(blob)
 
     if text is not None and (max_lines is not None or max_line_length is not None):
         lines = text.splitlines(False)
