@@ -89,11 +89,17 @@
 <script>
 function showHideTest_{{ uid }}(row) {
     var testcaseresultId = row.data("testid");
-    {% if first_placeholder %}
-        var url = Urls["{{ url_pattern }}"]("{{ first_placeholder }}", testcaseresultId);
+    {% if url_pattern == 'solutions:test_case_result' and first_placeholder %}
+        {# hack for IE8 #}
+        var url = "/solutions/" + "{{ first_placeholder }}" + "/tests/" + testcaseresultId + "/";
     {% else %}
-        var url = Urls["{{ url_pattern }}"](testcaseresultId);
+        {% if first_placeholder %}
+            var url = Urls["{{ url_pattern }}"]("{{ first_placeholder }}", testcaseresultId);
+        {% else %}
+            var url = Urls["{{ url_pattern }}"](testcaseresultId);
+        {% endif %}
     {% endif %}
+
     if (!url) {
         return;
     }
