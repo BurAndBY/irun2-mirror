@@ -182,7 +182,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
     contest_descr = ContestDescr(contest)
 
     # fetch all contestants from the contest
-    users = contest.members.filter(contestmembership__role=Membership.CONTESTANT)
+    users = contest.members.filter(contestmembership__role=Membership.CONTESTANT).select_related('userprofile')
     user_id_result = {}
     for user in users:
         user_id_result[user.id] = user_result_class(contest_descr, user)
@@ -339,6 +339,7 @@ class UserResultBase(object):
     def __init__(self, user, problem_results):
         self.user = user
         self.problem_results = problem_results
+        self.members = user.userprofile.members
         self._place = None
         self._row_tag = None
 

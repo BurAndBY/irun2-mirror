@@ -1453,6 +1453,10 @@ Green menu
     font-weight: normal;
     font-size: 11px;
 }
+.ir-contest-standings .ir-members {
+    color: #777;
+    font-size: 0.8em;
+}
 
 .ir-contest-standings-header {
     text-align: center;
