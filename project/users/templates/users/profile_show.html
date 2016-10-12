@@ -1,5 +1,6 @@
 {% extends 'users/profile_base.html' %}
 
+{% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_users %}
 
@@ -13,6 +14,12 @@
     </dt>
     <dd>
         <h1>{% irunner_users_show edited_user %} <small>{{ edited_user.username }}</small></h1>
+        {% if edited_profile.is_team %}
+            <h4>
+                <span title="{% trans 'Team' %}">{% bootstrap_icon 'user' %}{% bootstrap_icon 'user' %}{% bootstrap_icon 'user' %}</span>
+                {{ edited_profile.members }}
+            </h4>
+        {% endif %}
         {% if edited_user.is_staff %}
             <div class="alert alert-danger" role="alert">{% trans 'The user belongs to staff and has extended access permissions.' %}</div>
         {% endif %}
@@ -20,14 +27,22 @@
 </dl>
 
 <dl class="dl-horizontal">
-    <dt>{% trans 'First name' %}</dt>
-    <dd>{{ edited_user.first_name }}</dd>
+    {% if edited_profile.is_team %}
+        <dt>{% trans 'Name' %}</dt>
+        <dd>{{ edited_user.first_name }}</dd>
 
-    <dt>{% trans 'Patronymic' %}</dt>
-    <dd>{{ edited_profile.patronymic }}</dd>
+        <dt></dt>
+        <dd>{{ edited_user.last_name }}</dd>
+    {% else %}
+        <dt>{% trans 'First name' %}</dt>
+        <dd>{{ edited_user.first_name }}</dd>
 
-    <dt>{% trans 'Last name' %}</dt>
-    <dd>{{ edited_user.last_name }}</dd>
+        <dt>{% trans 'Patronymic' %}</dt>
+        <dd>{{ edited_profile.patronymic }}</dd>
+
+        <dt>{% trans 'Last name' %}</dt>
+        <dd>{{ edited_user.last_name }}</dd>
+    {% endif %}
 </dl>
 
 {% if edited_profile.description %}

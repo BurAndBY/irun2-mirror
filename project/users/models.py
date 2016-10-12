@@ -21,6 +21,14 @@ class UserFolder(MPTTModel):
 
 
 class UserProfile(models.Model):
+    PERSON = 1
+    TEAM = 2
+
+    KIND_CHOICES = (
+        (PERSON, _('Person')),
+        (TEAM, _('Team')),
+    )
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)  # required
     folder = models.ForeignKey(UserFolder, verbose_name=_('folder'), on_delete=models.PROTECT, null=True, blank=True)
     patronymic = models.CharField(_('patronymic'), max_length=30, blank=True)
@@ -30,6 +38,11 @@ class UserProfile(models.Model):
     has_api_access = models.BooleanField(_('API access'), default=False)
     photo = ResourceIdField(null=True)
     photo_thumbnail = ResourceIdField(null=True)
+    kind = models.IntegerField(_('kind'), choices=KIND_CHOICES, default=PERSON)
+    members = models.CharField(_('members'), max_length=255, blank=True)
+
+    def is_team(self):
+        return self.kind == UserProfile.TEAM
 
 
 def create_user_profile(sender, instance, created, **kwargs):

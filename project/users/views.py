@@ -340,6 +340,14 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
         return render(request, self.template_name, self.get_context_data(user_form=user_form, userprofile_form=userprofile_form))
 
 
+class ProfileMainView(ProfileTwoFormsView):
+    tab = 'main'
+    template_name = 'users/profile_update.html'
+    user_form_class = forms.UserMainForm
+    userprofile_form_class = forms.UserProfileMainForm
+    page_title = _('Main properties')
+
+
 class ProfileUpdateView(ProfileTwoFormsView):
     tab = 'update'
     template_name = 'users/profile_update.html'

@@ -212,31 +212,55 @@ class UserSearchForm(forms.Form):
 
 
 '''
-User profile
+User profile: main
+'''
+
+
+class UserMainForm(forms.ModelForm):
+    class Meta:
+        model = auth.get_user_model()
+        fields = ['is_active', 'username']
+
+
+class UserProfileMainForm(forms.ModelForm):
+    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=None, required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ['folder']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileMainForm, self).__init__(*args, **kwargs)
+        self.fields['folder'].queryset = UserFolder.objects.all()
+
+
+'''
+User profile: update
 '''
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['is_active', 'username', 'email', 'last_name', 'first_name']
+        fields = ['email', 'last_name', 'first_name']
 
 
 class UserProfileForm(forms.ModelForm):
-    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=None, required=False)
-
     class Meta:
         model = UserProfile
-        fields = ['patronymic', 'folder', 'needs_change_password', 'description']
+        fields = ['patronymic', 'needs_change_password', 'kind', 'members', 'description']
 
         help_texts = {
             'needs_change_password': _('User will see a warning message until he sets a new password. '
                                        'This prevents usage of insecure default passwords.')
         }
+        widgets = {
+            'kind': forms.RadioSelect
+        }
 
-    def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
-        self.fields['folder'].queryset = UserFolder.objects.all()
+'''
+User profile: permissions
+'''
 
 
 class UserPermissionsForm(forms.ModelForm):
@@ -253,6 +277,11 @@ class UserProfilePermissionsForm(forms.ModelForm):
         help_texts = {
             'has_api_access': _('For service accounts used by the testing module.')
         }
+
+
+'''
+Photos
+'''
 
 
 class PhotoForm(forms.Form):

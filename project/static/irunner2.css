@@ -1715,6 +1715,9 @@ Green menu
 .ir-card .ir-name {
     font-size: 18px;
 }
+.ir-card .ir-members {
+    font-style: italic;
+}
 .ir-card ul {
     padding-left: 0;
     list-style-position: inside;
@@ -1722,7 +1725,9 @@ Green menu
 .ir-card ul > li {
     font-size: 11px;
 }
-
+.ir-card .glyphicon {
+    color: #e1e1e8;
+}
 /**
  * User card link
  */

@@ -3,14 +3,24 @@
 {% load irunner_users %}
 
 <div class="ir-card">
-    <div class="media">
+<div class="media">
+    {% if not profile.is_team %}
         <div class="media-left">
             {% irunner_users_photo profile %}
         </div>
+    {% endif %}
     <div class="media-body">
         <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
+        {% if profile.is_team and profile.members %}
+            <p class="ir-members">{{ profile.members }}</p>
+        {% endif %}
         <p>
-            {% bootstrap_icon 'user' %} <span class="ir-icon-label ir-monospace">{% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}{{ user.username }}{% if request.user.is_staff %}</a>{% endif %}</span>
+            {% if profile.is_team %}
+                {% bootstrap_icon 'user' %}{% bootstrap_icon 'user' %}{% bootstrap_icon 'user' %}
+            {% else %}
+                {% bootstrap_icon 'user' %}
+            {% endif %}
+            <span class="ir-icon-label ir-monospace">{% if request.user.is_staff %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}{{ user.username }}{% if request.user.is_staff %}</a>{% endif %}</span>
         </p>
 
         {% if user.email and request.user.is_staff %}
@@ -32,4 +42,5 @@
             </ul>
         {% endif %}
     </div>
+</div>
 </div>

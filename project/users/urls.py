@@ -17,6 +17,7 @@ urlpatterns = [
 
     # single user profile
     url(r'^(?P<user_id>[0-9]+)/$', views.ProfileShowView.as_view(), name='profile_show'),
+    url(r'^(?P<user_id>[0-9]+)/main/$', views.ProfileMainView.as_view(), name='profile_main'),
     url(r'^(?P<user_id>[0-9]+)/update/$', views.ProfileUpdateView.as_view(), name='profile_update'),
     url(r'^(?P<user_id>[0-9]+)/password/$', views.ProfilePasswordView.as_view(), name='profile_password'),
     url(r'^(?P<user_id>[0-9]+)/permissions/$', views.ProfilePermissionsView.as_view(), name='profile_permissions'),
