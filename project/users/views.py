@@ -195,12 +195,11 @@ class UpdateProfileMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.F
             elif field == 'team_name':
                 for user_id, name in pairs:
                     UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM)
-                    auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
+                    counter += auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
 
             elif field == 'team_members':
                 for user_id, members in pairs:
-                    UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM, members=members)
-                    auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
+                    counter += UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM, members=members)
 
         msg = ungettext('%(count)d profile has been updated.', '%(count)d profiles have been updated.', counter) % {'count': counter}
         messages.add_message(self.request, messages.INFO, msg)
