@@ -163,17 +163,17 @@ class CreateUsersMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.For
         return redirect('users:show_folder', folder_id_or_root)
 
 
-class ChangePasswordMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
+class UpdateProfileMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
     template_name = 'users/create_form.html'
-    form_class = forms.ChangePasswordMassForm
+    form_class = forms.UpdateProfileMassForm
 
     def get_context_data(self, **kwargs):
-        context = super(ChangePasswordMassView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Bulk password change')
+        context = super(UpdateProfileMassView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Bulk profile update')
         return context
 
     def get_form_kwargs(self):
-        kwargs = super(ChangePasswordMassView, self).get_form_kwargs()
+        kwargs = super(UpdateProfileMassView, self).get_form_kwargs()
         folder_id_or_root = self.kwargs['folder_id_or_root']
         folder_id = cast_id(folder_id_or_root)
         kwargs['folder_id'] = folder_id
@@ -183,14 +183,26 @@ class ChangePasswordMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.
         folder_id_or_root = self.kwargs['folder_id_or_root']
         pairs = form.cleaned_data['tsv']
         counter = 0
+        field = form.cleaned_data['field']
         with transaction.atomic():
-            for username, password in pairs:
-                # use weak hashing algorithm for better performance
-                hashed_password = make_password(password, None, 'md5')
-                counter += auth.get_user_model().objects.filter(username=username).update(password=hashed_password)
-                UserProfile.objects.filter(user__username=username).update(needs_change_password=False)
+            if field == 'password':
+                for user_id, password in pairs:
+                    # use weak hashing algorithm for better performance
+                    hashed_password = make_password(password, None, 'md5')
+                    counter += auth.get_user_model().objects.filter(pk=user_id).update(password=hashed_password)
+                    UserProfile.objects.filter(pk=user_id).update(needs_change_password=False)
 
-        msg = ungettext('%(count)d password has been changed.', '%(count)d passwords have been changed.', counter) % {'count': counter}
+            elif field == 'team_name':
+                for user_id, name in pairs:
+                    UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM)
+                    auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
+
+            elif field == 'team_members':
+                for user_id, members in pairs:
+                    UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM, members=members)
+                    auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
+
+        msg = ungettext('%(count)d profile has been updated.', '%(count)d profiles have been updated.', counter) % {'count': counter}
         messages.add_message(self.request, messages.INFO, msg)
         return redirect('users:show_folder', folder_id_or_root)
 

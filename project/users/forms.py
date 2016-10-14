@@ -115,14 +115,21 @@ class CreateUsersMassForm(forms.Form):
         return cleaned_data
 
 
-class ChangePasswordMassForm(forms.Form):
+class UpdateProfileMassForm(forms.Form):
+    FIELD_CHOICES = (
+        ('password', _('Password')),
+        ('team_name', _('Team name')),
+        ('team_members', _('Team members')),
+    )
+
+    field = forms.ChoiceField(label=_('Field to update'), choices=FIELD_CHOICES)
     tsv = forms.CharField(widget=forms.Textarea, required=True,
                           label=_('Data about users'),
-                          help_text=_(u'Enter lines in the format of “[username] [password]”.'))
+                          help_text=_(u'Enter lines in the format of “[username] [value]”.'))
 
     def __init__(self, *args, **kwargs):
         self.folder_id = kwargs.pop('folder_id', None)
-        super(ChangePasswordMassForm, self).__init__(*args, **kwargs)
+        super(UpdateProfileMassForm, self).__init__(*args, **kwargs)
 
     def clean_tsv(self):
         data = self.cleaned_data['tsv']
@@ -133,19 +140,21 @@ class ChangePasswordMassForm(forms.Form):
             line = line.strip()
             if not line:
                 continue
-            tokens = line.split()
+            tokens = line.split(None, 1)
             if len(tokens) != 2:
                 raise forms.ValidationError(_(u'Line %(number)s does not match the template.'),
                                             code='tokens', params={'number': number + 1})
-            username, password = tokens
+            username, value = tokens
 
             qs = user_model.objects.filter(username=username)
             if self.folder_id is not None:
                 qs = qs.filter(userprofile__folder_id=self.folder_id)
-            if not qs.exists():
+
+            user_id = qs.values_list('id', flat=True).first()
+            if user_id is None:
                 raise forms.ValidationError(_(u'User “%(username)s” does not exist.'),
                                             code='not_exists', params={'username': username})
-            pairs.append((username, password))
+            pairs.append((user_id, value))
 
         return pairs
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-12 15:02+0300\n"
-"PO-Revision-Date: 2016-10-12 15:03+0300\n"
+"POT-Creation-Date: 2016-10-14 18:06+0300\n"
+"PO-Revision-Date: 2016-10-14 18:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -109,7 +109,7 @@ msgstr "Редактировать профиль"
 #: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:31
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:362
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:374
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -644,12 +644,12 @@ msgstr "сообщение"
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:442
+#: .\contests\services.py:443
 #: .\contests\templates\contests\standings_raw.html:15
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:461
+#: .\contests\services.py:462
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
@@ -1549,7 +1549,7 @@ msgid "Topics"
 msgstr "Темы"
 
 #: .\courses\templates\courses\settings_problems.html:15
-#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:226
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:235
 #: .\users\templates\users\folder.html:22
 #: .\users\templates\users\irunner_users_list_tag.html:20
 msgid "Folder"
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:199 .\users\forms.py:154
+#: .\problems\forms.py:199 .\users\forms.py:163
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
@@ -1867,7 +1867,7 @@ msgstr ""
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:215 .\users\forms.py:192
+#: .\problems\forms.py:215 .\users\forms.py:201
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
@@ -2324,7 +2324,7 @@ msgid "Search for..."
 msgstr "Искать..."
 
 #: .\problems\templates\problems\overview.html:11
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:348
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:360
 msgid "Main properties"
 msgstr "Основные свойства"
 
@@ -3262,7 +3262,7 @@ msgstr "Команды: «[имя пользователя] [название к
 msgid "Mode"
 msgstr "Режим"
 
-#: .\users\forms.py:51 .\users\forms.py:120
+#: .\users\forms.py:51 .\users\forms.py:127
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
@@ -3270,11 +3270,11 @@ msgstr "Данные о пользователях"
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
 
-#: .\users\forms.py:53
+#: .\users\forms.py:53 .\users\forms.py:120
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:67 .\users\forms.py:138
+#: .\users\forms.py:67 .\users\forms.py:145
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
@@ -3285,37 +3285,49 @@ msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
 #: .\users\forms.py:121
-msgid "Enter lines in the format of “[username] [password]”."
-msgstr "Введите строки в формате «[имя пользователя] [пароль]»."
+msgid "Team name"
+msgstr "Название команды"
 
-#: .\users\forms.py:146
+#: .\users\forms.py:122
+msgid "Team members"
+msgstr "Состав команды"
+
+#: .\users\forms.py:125
+msgid "Field to update"
+msgstr "Поле для обновления"
+
+#: .\users\forms.py:128
+msgid "Enter lines in the format of “[username] [value]”."
+msgstr "Введите строки в формате «[имя пользователя] [значение]»."
+
+#: .\users\forms.py:155
 #, python-format
 msgid "User “%(username)s” does not exist."
 msgstr "Пользователь «%(username)s» не существует."
 
-#: .\users\forms.py:175
+#: .\users\forms.py:184
 msgid "Archive should not contain subdirectories."
 msgstr "Архив не должен содержать подкаталогов."
 
-#: .\users\forms.py:178
+#: .\users\forms.py:187
 #, python-format
 msgid "File extension %(ext)s is not supported."
 msgstr "Расширение файла %(ext)s не поддерживается."
 
-#: .\users\forms.py:180
+#: .\users\forms.py:189
 #, python-format
 msgid "User %(username)s is not found."
 msgstr "Пользователь %(username)s не найден."
 
-#: .\users\forms.py:198
+#: .\users\forms.py:207
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:211
+#: .\users\forms.py:220
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:254
+#: .\users\forms.py:263
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -3324,18 +3336,18 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:278
+#: .\users\forms.py:287
 msgid "For service accounts used by the testing module."
 msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
 
-#: .\users\forms.py:288 .\users\templates\users\irunner_users_photo_tag.html:7
-#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:387
-#: .\users\views.py:392
+#: .\users\forms.py:297 .\users\templates\users\irunner_users_photo_tag.html:7
+#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:399
+#: .\users\views.py:404
 msgid "Photo"
 msgstr "Фотография"
 
-#: .\users\forms.py:288
+#: .\users\forms.py:297
 msgid "Select JPEG image."
 msgstr "Выберите изображение в формате JPEG."
 
@@ -3398,8 +3410,8 @@ msgstr "Регистрация"
 
 #: .\users\templates\users\folder.html:47
 msgctxt "noun"
-msgid "Change password"
-msgstr "Изменение пароля"
+msgid "Update profiles"
+msgstr "Обновление профилей"
 
 #: .\users\templates\users\folder.html:48
 msgid "Upload photo"
@@ -3445,7 +3457,7 @@ msgid "Last login"
 msgstr "Последний вход"
 
 #: .\users\templates\users\irunner_users_list_tag.html:45
-#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:356
+#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:368
 msgid "Update profile"
 msgstr "Обновить профиль"
 
@@ -3486,7 +3498,7 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:381
+#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:393
 msgid "Permissions"
 msgstr "Права доступа"
 
@@ -3499,22 +3511,22 @@ msgid "Bulk sign-up"
 msgstr "Массовая регистрация"
 
 #: .\users\views.py:172
-msgid "Bulk password change"
-msgstr "Массовое изменение паролей"
+msgid "Bulk profile update"
+msgstr "Массовое обновление профилей"
 
-#: .\users\views.py:193
+#: .\users\views.py:205
 #, python-format
-msgid "%(count)d password has been changed."
-msgid_plural "%(count)d passwords have been changed."
-msgstr[0] "Изменён %(count)d пароль."
-msgstr[1] "Изменено %(count)d пароля."
-msgstr[2] "Изменено %(count)d паролей."
+msgid "%(count)d profile has been updated."
+msgid_plural "%(count)d profiles have been updated."
+msgstr[0] "Обновлён %(count)d профиль."
+msgstr[1] "Обновлено %(count)d профиля."
+msgstr[2] "Обновлено %(count)d профилей."
 
-#: .\users\views.py:204
+#: .\users\views.py:216
 msgid "Bulk photo upload"
 msgstr "Массовая загрузка фотографий"
 
-#: .\users\views.py:227
+#: .\users\views.py:239
 #, python-format
 msgid "%(count)d photo has been uploaded."
 msgid_plural "%(count)d photos have been uploaded."
@@ -3522,18 +3534,31 @@ msgstr[0] "Добавлена %(count)d фотография."
 msgstr[1] "Добавлено %(count)d фотографии."
 msgstr[2] "Добавлено %(count)d фотографий."
 
-#: .\users\views.py:234
+#: .\users\views.py:246
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:245
+#: .\users\views.py:257
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:278
+#: .\users\views.py:290
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgctxt "noun"
+#~ msgid "Change password"
+#~ msgstr "Изменение пароля"
+
+#~ msgid "Bulk password change"
+#~ msgstr "Массовое изменение паролей"
+
+#~ msgid "%(count)d password has been changed."
+#~ msgid_plural "%(count)d passwords have been changed."
+#~ msgstr[0] "Изменён %(count)d пароль."
+#~ msgstr[1] "Изменено %(count)d пароля."
+#~ msgstr[2] "Изменено %(count)d паролей."
 
 #~ msgid "compiler is considered legacy"
 #~ msgstr "компилятор считается устаревшим"
