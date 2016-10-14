@@ -1401,9 +1401,9 @@ Green menu
  */
 .ir-contest-standings {
     width: 100%;
-    line-height: 13px;
+    line-height: 14px;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 14px;
     font-family: "Tahoma", "Geneva", sans-serif;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -1412,6 +1412,10 @@ Green menu
     text-align: center;
     border: 1px solid #ddd;
     padding: 4px;
+}
+.ir-contest-standings th {
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 .ir-contest-standings th {
     border-bottom: 3px solid #ddd;
