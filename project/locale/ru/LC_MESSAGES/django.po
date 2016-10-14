@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-14 18:06+0300\n"
-"PO-Revision-Date: 2016-10-14 18:08+0300\n"
+"POT-Creation-Date: 2016-10-15 01:50+0300\n"
+"PO-Revision-Date: 2016-10-15 01:51+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -109,7 +109,7 @@ msgstr "Редактировать профиль"
 #: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:31
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:374
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:373
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -504,7 +504,7 @@ msgid "User"
 msgstr "Пользователь"
 
 #: .\contests\forms.py:92 .\contests\forms.py:99 .\contests\forms.py:144
-#: .\contests\services.py:41
+#: .\contests\services.py:42
 #: .\contests\templates\contests\all_solutions.html:31
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
@@ -639,17 +639,17 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\services.py:53
+#: .\contests\services.py:54
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:443
+#: .\contests\services.py:471
 #: .\contests\templates\contests\standings_raw.html:15
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:462
+#: .\contests\services.py:490
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
@@ -872,6 +872,15 @@ msgstr "Соревнования"
 msgid "There are no contests available."
 msgstr "Нет доступных соревнований."
 
+#: .\contests\templates\contests\export.html:7
+#: .\contests\templates\contests\sidebar.html:87
+msgid "Export"
+msgstr "Экспорт"
+
+#: .\contests\templates\contests\export.html:13
+msgid "System"
+msgstr "Система"
+
 #: .\contests\templates\contests\irunner_contests_message_tag.html:12
 #: .\contests\templates\contests\problem.html:13
 #: .\courses\templates\courses\problems_statement.html:37
@@ -883,13 +892,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:441
+#: .\contests\views.py:442
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:663 .\courses\views.py:808
+#: .\contests\views.py:664 .\courses\views.py:808
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1141,7 +1150,7 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:693
+#: .\contests\views.py:694
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
@@ -2324,7 +2333,7 @@ msgid "Search for..."
 msgstr "Искать..."
 
 #: .\problems\templates\problems\overview.html:11
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:360
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:359
 msgid "Main properties"
 msgstr "Основные свойства"
 
@@ -3342,8 +3351,8 @@ msgstr ""
 "Для служебных учётных записей, которые используются модулем тестирования."
 
 #: .\users\forms.py:297 .\users\templates\users\irunner_users_photo_tag.html:7
-#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:399
-#: .\users\views.py:404
+#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:398
+#: .\users\views.py:403
 msgid "Photo"
 msgstr "Фотография"
 
@@ -3457,7 +3466,7 @@ msgid "Last login"
 msgstr "Последний вход"
 
 #: .\users\templates\users\irunner_users_list_tag.html:45
-#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:368
+#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:367
 msgid "Update profile"
 msgstr "Обновить профиль"
 
@@ -3498,7 +3507,7 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:393
+#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:392
 msgid "Permissions"
 msgstr "Права доступа"
 
@@ -3514,7 +3523,7 @@ msgstr "Массовая регистрация"
 msgid "Bulk profile update"
 msgstr "Массовое обновление профилей"
 
-#: .\users\views.py:205
+#: .\users\views.py:204
 #, python-format
 msgid "%(count)d profile has been updated."
 msgid_plural "%(count)d profiles have been updated."
@@ -3522,11 +3531,11 @@ msgstr[0] "Обновлён %(count)d профиль."
 msgstr[1] "Обновлено %(count)d профиля."
 msgstr[2] "Обновлено %(count)d профилей."
 
-#: .\users\views.py:216
+#: .\users\views.py:215
 msgid "Bulk photo upload"
 msgstr "Массовая загрузка фотографий"
 
-#: .\users\views.py:239
+#: .\users\views.py:238
 #, python-format
 msgid "%(count)d photo has been uploaded."
 msgid_plural "%(count)d photos have been uploaded."
@@ -3534,15 +3543,15 @@ msgstr[0] "Добавлена %(count)d фотография."
 msgstr[1] "Добавлено %(count)d фотографии."
 msgstr[2] "Добавлено %(count)d фотографий."
 
-#: .\users\views.py:246
+#: .\users\views.py:245
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:257
+#: .\users\views.py:256
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:290
+#: .\users\views.py:289
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"

@@ -4,11 +4,12 @@ from django.core.urlresolvers import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views import generic
-from django.utils.translation import ugettext, pgettext
 from django.utils import timezone
+from django.utils.translation import ugettext, pgettext
+from django.views import generic
 
 from common.constants import make_empty_select, EMPTY_SELECT
+from common.networkutils import make_json_response
 from common.pageutils import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
@@ -21,8 +22,8 @@ from .calcpermissions import calculate_contest_permissions
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .models import Contest, Membership, ContestSolution, Message, MessageUser
 from .services import make_contestant_choices, make_problem_choices, make_letter
-from .services import ProblemResolver, ContestTiming
-from .services import create_contest_service
+from .services import ProblemResolver, ContestTiming, SolutionKind
+from .services import create_contest_service, total_minutes
 
 
 class BaseContestView(generic.View):
@@ -744,3 +745,42 @@ class CompilersView(BaseContestView):
         compilers = contest.compilers.select_related('compilerdetails').order_by('description')
         context = self.get_context_data(compilers=compilers)
         return render(request, self.template_name, context)
+
+
+'''
+Export
+'''
+
+
+class ExportView(BaseContestView):
+    tab = 'export'
+    template_name = 'contests/export.html'
+
+    def is_allowed(self, permissions):
+        return permissions.export
+
+    def get(self, request, contest):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+
+class S4RiSExportView(ExportView):
+    def get(self, request, contest):
+        results = self.service.make_contest_results(contest, frozen=False)
+
+        runs = [{
+            'contestant': run.user.get_full_name(),
+            'problemLetter': run.labeled_problem.letter,
+            'timeMinutesFromStart': total_minutes(run.when),
+            'success': (run.kind is SolutionKind.ACCEPTED),
+        } for run in results.all_runs if run.kind in (SolutionKind.ACCEPTED, SolutionKind.REJECTED)]
+
+        json = {
+            'contestName': unicode(contest),
+            'problemLetters': [lp.letter for lp in results.contest_descr.labeled_problems],
+            'contestants': [ur.user.get_full_name() for ur in results.user_results],
+            'runs': runs
+        }
+        if contest.freeze_time is not None:
+            json['freezeTimeMinutesFromStart'] = total_minutes(contest.freeze_time)
+        return make_json_response(json)

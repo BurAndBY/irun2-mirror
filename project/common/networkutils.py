@@ -1,7 +1,9 @@
+import json
+
 from functools import wraps
 
 from django.views.decorators.cache import patch_cache_control
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import resolve_url
 
 
@@ -41,3 +43,8 @@ def redirect_with_query_string(request, *args, **kwargs):
         url += '?'
         url += request.GET.urlencode()
     return HttpResponseRedirect(url)
+
+
+def make_json_response(data):
+    blob = json.dumps(data, ensure_ascii=False, indent=4)
+    return HttpResponse(blob, content_type='application/json')

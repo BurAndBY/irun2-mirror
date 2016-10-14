@@ -25,6 +25,8 @@ contest_urlpatterns = [
     url(r'^my/questions/(?P<message_id>[0-9]+)/$', views.MyQuestionsAnswersView.as_view(), name='my_questions_answers'),
     url(r'^my/questions/new/$', views.MyQuestionsNewView.as_view(), name='my_questions_new'),
     url(r'^compilers/$', views.CompilersView.as_view(), name='compilers'),
+    url(r'^export/$', views.ExportView.as_view(), name='export'),
+    url(r'^export/S4RiS-StanD\.json$', views.S4RiSExportView.as_view(), name='export_s4ris'),
 ]
 
 contestsettings_urlpatterns = [

@@ -1,0 +1,15 @@
+{% extends 'contests/base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Export' %}{% endblock %}
+
+{% block main %}
+    <h3>S4RiS Standings Dancing</h3>
+    <ul>
+        <li><a href="{% url 'contests:export_s4ris' contest.id %}">JSON</a></li>
+        <li><a href="{% static 'S4RiS-StanD/index.html' %}">{% trans 'System' %}</a></li>
+    </ul>
+{% endblock %}

@@ -60,6 +60,11 @@ def make_contestant_choices(contest, empty_label=None):
     return tuple(result)
 
 
+def total_minutes(td):
+    # TODO: add days, ...
+    return td.seconds // 60
+
+
 class ProblemResolver(object):
     def __init__(self, contest):
         self._problems = {}
@@ -139,8 +144,8 @@ class ContestTiming(object):
 
 
 ColumnPresence = namedtuple('ColumnPresence', 'solved_problem_count penalty_time total_score')
-RunDescription = namedtuple('RunDescription', 'user labeled_problem when')
-ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results last_success last_run column_presence')
+RunDescription = namedtuple('RunDescription', 'user labeled_problem when kind')
+ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results all_runs last_success last_run column_presence')
 
 # cs here means 'ContestSolution'
 
@@ -199,6 +204,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
     if frozen and (contest.freeze_time is not None):
         freeze_time = contest.start_time + contest.freeze_time
 
+    all_runs = []
     last_success = None
     last_run = None
 
@@ -226,14 +232,15 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
 
         received = cs.solution.reception_time
         when = received - contest.start_time
-        penalty_time = when.seconds // 60
+        penalty_time = total_minutes(when)
 
         problem_result = user_result.get_problem_result(problem_index)
         problem_result.register_solution(kind, penalty_time, score)
         if received + RECENT_CHANGES_WINDOW >= ts_now:
             problem_result.notify_recently_updated()
 
-        run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when)
+        run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when, kind)
+        all_runs.append(run)
         last_run = run
         if kind == SolutionKind.ACCEPTED:
             last_success = run
@@ -257,7 +264,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
         user_result.set_place(place + 1)
         user_result.set_row_tag(tag)
 
-    return ContestResults(contest, contest_descr, frozen, user_results, last_success, last_run, column_presence)
+    return ContestResults(contest, contest_descr, frozen, user_results, all_runs, last_success, last_run, column_presence)
 
 
 class ContestDescr(object):
@@ -366,9 +373,6 @@ class UserResultBase(object):
 
     def get_problem_result(self, problem_index):
         return self.problem_results[problem_index]
-
-    #def register_solution(self, problem_index, kind, penalty_time, score):
-    #    self.problem_results[problem_index].register_solution(kind, penalty_time, score)
 
     def set_place(self, place):
         self._place = place
