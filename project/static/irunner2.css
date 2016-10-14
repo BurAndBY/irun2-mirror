@@ -1443,6 +1443,12 @@ Green menu
     /*background-color: #f8f8f8;*/
     background-color: #ffffff;
 }
+.ir-contest-standings .ir-row-odd > .ir-recent {
+    background-color: #D8EAF0;
+}
+.ir-contest-standings .ir-row-even > .ir-recent {
+    background-color: #E6F9FF;
+}
 .ir-contest-standings .ir-column-place {
     text-align: right;
     padding-right: 4px;

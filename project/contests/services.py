@@ -17,6 +17,7 @@ from .models import Contest, ContestSolution, Membership
 LabeledProblem = namedtuple('LabeledProblem', 'letter problem')
 
 LETTERS = u'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+RECENT_CHANGES_WINDOW = timezone.timedelta(minutes=30)
 
 
 def make_letter(x):
@@ -201,6 +202,8 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
     last_success = None
     last_run = None
 
+    ts_now = timezone.now()
+
     for cs in queryset:
         user_result = user_id_result.get(cs.solution.author_id)
         if user_result is None:
@@ -221,9 +224,14 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
             # no score for pending runs
             score = _get_score(cs)
 
-        when = cs.solution.reception_time - contest.start_time
+        received = cs.solution.reception_time
+        when = received - contest.start_time
         penalty_time = when.seconds // 60
-        user_result.register_solution(problem_index, kind, penalty_time, score)
+
+        problem_result = user_result.get_problem_result(problem_index)
+        problem_result.register_solution(kind, penalty_time, score)
+        if received + RECENT_CHANGES_WINDOW >= ts_now:
+            problem_result.notify_recently_updated()
 
         run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when)
         last_run = run
@@ -273,8 +281,20 @@ class SolutionKind(object):
 REJECTED_SUBMISSION_PENALTY = 20
 
 
-class ACMProblemResult(object):
+class ProblemResultBase(object):
     def __init__(self):
+        self._updated_recently = False
+
+    def notify_recently_updated(self):
+        self._updated_recently = True
+
+    def is_recently_updated(self):
+        return self._updated_recently
+
+
+class ACMProblemResult(ProblemResultBase):
+    def __init__(self):
+        super(ACMProblemResult, self).__init__()
         self._kind = SolutionKind.REJECTED
         self._num_submissions = 0  # including the accepted one
         self._acceptance_time = None
@@ -316,8 +336,9 @@ class ACMProblemResult(object):
         return mark_safe(result)
 
 
-class IOIProblemResult(object):
+class IOIProblemResult(ProblemResultBase):
     def __init__(self):
+        super(IOIProblemResult, self).__init__()
         self._score = None
 
     def get_score(self):
@@ -343,8 +364,11 @@ class UserResultBase(object):
         self._place = None
         self._row_tag = None
 
-    def register_solution(self, problem_index, kind, penalty_time, score):
-        self.problem_results[problem_index].register_solution(kind, penalty_time, score)
+    def get_problem_result(self, problem_index):
+        return self.problem_results[problem_index]
+
+    #def register_solution(self, problem_index, kind, penalty_time, score):
+    #    self.problem_results[problem_index].register_solution(kind, penalty_time, score)
 
     def set_place(self, place):
         self._place = place

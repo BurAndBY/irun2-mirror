@@ -49,7 +49,7 @@
                 <td class="ir-column-place">{{ user_result.get_place }}</td>
                 <td class="ir-column-contestant">{% if user_url %}<a href="{{ user_url }}?user={{ user_result.user.id }}">{% endif %}{% irunner_users_show user_result.user %}{% if user_url %}</a>{% endif %}{% if user_result.members %}<br><span class="ir-members">({{ user_result.members }})</span>{% endif %}</td>
                 {% for pr in user_result.problem_results %}
-                    <td>{{ pr.as_html }}</td>
+                    <td{% if pr.is_recently_updated %} class="ir-recent"{% endif %}>{{ pr.as_html }}</td>
                 {% endfor %}
 
                 {# summary columns #}
