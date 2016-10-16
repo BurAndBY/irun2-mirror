@@ -27,6 +27,7 @@ contest_urlpatterns = [
     url(r'^compilers/$', views.CompilersView.as_view(), name='compilers'),
     url(r'^export/$', views.ExportView.as_view(), name='export'),
     url(r'^export/S4RiS-StanD\.json$', views.S4RiSExportView.as_view(), name='export_s4ris'),
+    url(r'^export/ejudge\.xml$', views.EjudgeExportView.as_view(), name='export_ejudge'),
 ]
 
 contestsettings_urlpatterns = [

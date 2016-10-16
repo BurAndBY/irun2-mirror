@@ -3,6 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext, pgettext
@@ -19,11 +20,12 @@ from storage.utils import serve_resource_metadata
 from users.models import UserProfile
 
 from .calcpermissions import calculate_contest_permissions
+from .exporting import export_to_s4ris_json, export_to_ejudge_xml
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .models import Contest, Membership, ContestSolution, Message, MessageUser
 from .services import make_contestant_choices, make_problem_choices, make_letter
-from .services import ProblemResolver, ContestTiming, SolutionKind
-from .services import create_contest_service, total_minutes
+from .services import ProblemResolver, ContestTiming
+from .services import create_contest_service
 
 
 class BaseContestView(generic.View):
@@ -767,20 +769,12 @@ class ExportView(BaseContestView):
 class S4RiSExportView(ExportView):
     def get(self, request, contest):
         results = self.service.make_contest_results(contest, frozen=False)
-
-        runs = [{
-            'contestant': run.user.get_full_name(),
-            'problemLetter': run.labeled_problem.letter,
-            'timeMinutesFromStart': total_minutes(run.when),
-            'success': (run.kind is SolutionKind.ACCEPTED),
-        } for run in results.all_runs if run.kind in (SolutionKind.ACCEPTED, SolutionKind.REJECTED)]
-
-        json = {
-            'contestName': unicode(contest),
-            'problemLetters': [lp.letter for lp in results.contest_descr.labeled_problems],
-            'contestants': [ur.user.get_full_name() for ur in results.user_results],
-            'runs': runs
-        }
-        if contest.freeze_time is not None:
-            json['freezeTimeMinutesFromStart'] = total_minutes(contest.freeze_time)
+        json = export_to_s4ris_json(contest, results)
         return make_json_response(json)
+
+
+class EjudgeExportView(ExportView):
+    def get(self, request, contest):
+        results = self.service.make_contest_results(contest, frozen=False)
+        xml = export_to_ejudge_xml(contest, results)
+        return HttpResponse(xml, content_type='application/xml; charset=utf-8')

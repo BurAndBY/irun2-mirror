@@ -65,6 +65,11 @@ def total_minutes(td):
     return td.seconds // 60
 
 
+def total_seconds(td):
+    # TODO: add days, ...
+    return td.seconds
+
+
 class ProblemResolver(object):
     def __init__(self, contest):
         self._problems = {}
@@ -144,7 +149,7 @@ class ContestTiming(object):
 
 
 ColumnPresence = namedtuple('ColumnPresence', 'solved_problem_count penalty_time total_score')
-RunDescription = namedtuple('RunDescription', 'user labeled_problem when kind')
+RunDescription = namedtuple('RunDescription', 'user labeled_problem when kind solution_id')
 ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results all_runs last_success last_run column_presence')
 
 # cs here means 'ContestSolution'
@@ -239,7 +244,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence):
         if received + RECENT_CHANGES_WINDOW >= ts_now:
             problem_result.notify_recently_updated()
 
-        run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when, kind)
+        run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when, kind, cs.solution_id)
         all_runs.append(run)
         last_run = run
         if kind == SolutionKind.ACCEPTED:

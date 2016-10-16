@@ -12,4 +12,9 @@
         <li><a href="{% url 'contests:export_s4ris' contest.id %}">JSON</a></li>
         <li><a href="{% static 'S4RiS-StanD/index.html' %}">{% trans 'System' %}</a></li>
     </ul>
+
+    <h3>ejudge</h3>
+    <ul>
+        <li><a href="{% url 'contests:export_ejudge' contest.id %}">XML</a></li>
+    </ul>
 {% endblock %}
