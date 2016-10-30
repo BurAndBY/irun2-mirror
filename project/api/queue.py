@@ -1,3 +1,6 @@
+import urllib2
+
+from django.conf import settings
 from django.utils import timezone
 from django.db import transaction
 
@@ -288,11 +291,21 @@ OBJECT_IN_QUEUE_CLASSES = [
 ]
 
 
+def _notify_enqueued():
+    if settings.SEMAPHORE:
+        try:
+            req = urllib2.Request(settings.SEMAPHORE + 'signal', '')
+            urllib2.urlopen(req).read()
+        except:
+            pass
+
+
 def enqueue(obj, priority=10):
     ts = timezone.now()
     db_obj = DbObjectInQueue(creation_time=ts, last_update_time=ts, priority=priority)
     obj.persist(db_obj)
     db_obj.save()
+    _notify_enqueued()
 
 
 def bulk_enqueue(objs, priority=10):
@@ -303,6 +316,7 @@ def bulk_enqueue(objs, priority=10):
         obj.persist(db_obj)
         db_objs.append(db_obj)
     DbObjectInQueue.objects.bulk_create(db_objs)
+    _notify_enqueued()
 
 
 def dequeue(worker_name):

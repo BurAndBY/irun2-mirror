@@ -181,3 +181,5 @@ LOGGING = {
 # External links in the navbar
 
 EXTERNAL_LINKS = []
+
+SEMAPHORE = 'http://127.0.0.1:17083/'

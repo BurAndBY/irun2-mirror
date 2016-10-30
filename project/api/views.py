@@ -103,18 +103,7 @@ class JobTakeView(WorkerAPIView):
         serializer.is_valid(raise_exception=True)
         greeting = serializer.save()
 
-        TIMEOUT = 20.0
-
-        start_time = time.time()
-        while True:
-            passed = time.time() - start_time
-            if passed >= TIMEOUT:
-                break
-            obj = dequeue(greeting.name)
-            if obj is not None:
-                break
-            time.sleep(0.5)
-
+        obj = dequeue(greeting.name)
         if obj is None:
             raise Http404('Nothing to test')
 
