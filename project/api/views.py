@@ -209,3 +209,16 @@ class PlagiarismPutView(WorkerAPIView):
     def put(self, request, format=None):
         plagiarism.plagiarism_api.dump_plagiarism_report(request.data)
         return Response(['ok'])
+
+
+class SleepView(WorkerAPIView):
+    def get(self, request):
+        secs = request.GET.get('secs', 0.)
+        try:
+            secs = float(secs)
+        except (TypeError, ValueError):
+            secs = 0.
+
+        time.sleep(secs)
+
+        return Response(['ok'])

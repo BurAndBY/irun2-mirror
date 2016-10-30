@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^compiler-settings$', views.CompilerSettingsView.as_view()),
     url(r'^plagiarism/take$', views.PlagiarismTakeView.as_view()),
     url(r'^plagiarism/put$', views.PlagiarismPutView.as_view()),
+    url(r'^sleep$', views.SleepView.as_view()),
 
     url(r'^queue/$', views.QueueView.as_view(), name='queue')
 ]
