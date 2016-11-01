@@ -12,7 +12,8 @@ from problems.models import Problem
 from proglangs.models import Compiler
 from storage.utils import store_with_metadata
 
-from .forms import PropertiesForm, AccessForm, LimitsForm, CompilersForm, ProblemsForm, StatementsForm, UsersForm
+from .forms import PropertiesForm, AccessForm, LimitsForm, CompilersForm
+from .forms import ProblemsForm, StatementsForm, UsersForm, PrintingForm
 from .forms import TwoPanelProblemMultipleChoiceField, TwoPanelUserMultipleChoiceField
 from .models import Membership, ContestProblem
 from .views import BaseContestView
@@ -283,3 +284,9 @@ class UsersJsonListView(ContestSettingsView):
     def get(self, request, contest, folder_id):
         users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
         return TwoPanelUserMultipleChoiceField.ajax(users)
+
+
+class PrintingView(SingleFormView):
+    form_class = PrintingForm
+    subtab = 'printing'
+    url_pattern = 'contests:settings_printing'

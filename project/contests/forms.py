@@ -6,12 +6,14 @@ from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import EMPTY_SELECT
 from common.fields import TwoPanelModelMultipleChoiceField
 from problems.models import Problem, ProblemFolder
 from solutions.forms import SolutionForm
 from users.models import UserFolder
 
-from .models import Contest, Message
+from contests.printing import check_size_limits
+from contests.models import Contest, Message, Printout
 
 
 class PropertiesForm(forms.ModelForm):
@@ -45,6 +47,12 @@ class CompilersForm(forms.ModelForm):
         widgets = {
             'compilers': forms.CheckboxSelectMultiple
         }
+
+
+class PrintingForm(forms.ModelForm):
+    class Meta:
+        model = Contest
+        fields = ['enable_printing', 'rooms']
 
 
 class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
@@ -145,3 +153,40 @@ class QuestionForm(forms.ModelForm):
             new_fields['subject'] = self.fields['subject']
             new_fields['text'] = self.fields['text']
             self.fields = new_fields
+
+
+def _make_room_choices(rooms_str):
+    rooms = [x for x in (x.strip() for x in rooms_str.split(',')) if x]
+    return [(None, EMPTY_SELECT)] + [(x, x) for x in rooms]
+
+
+class PrintoutForm(forms.ModelForm):
+    class Meta:
+        model = Printout
+        fields = ['room', 'text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'form-control ir-monospace', 'rows': 12}),
+            'room': forms.Select(),
+        }
+        help_texts = {
+            'room': _('Choose the room where you are to use the closest printer.')
+        }
+
+    def __init__(self, *args, **kwargs):
+        rooms = kwargs.pop('rooms')
+        super(PrintoutForm, self).__init__(*args, **kwargs)
+        self.fields['room'].widget.choices = _make_room_choices(rooms)
+
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+
+        if (text is not None) and (not check_size_limits(text)):
+            raise forms.ValidationError(_('Text is too long.'), code='length')
+
+        return text
+
+
+class EditPrintoutForm(forms.ModelForm):
+    class Meta:
+        model = Printout
+        fields = ['room', 'status']

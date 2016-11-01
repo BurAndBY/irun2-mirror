@@ -1,4 +1,7 @@
 from django import template
+from django.utils.html import escape
+
+from common.stringutils import cut_text_block
 
 from contests.services import ContestTiming
 
@@ -52,3 +55,9 @@ def irunner_contests_question(question, problem_resolver, contest_id=None, url_p
         'contest_id': contest_id,
         'url_pattern': url_pattern,
     }
+
+
+@register.simple_tag
+def irunner_contests_printoutsnippet(text):
+    _, text = cut_text_block(text, 10, 80)
+    return escape(text)

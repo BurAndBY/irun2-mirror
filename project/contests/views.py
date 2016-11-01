@@ -22,7 +22,8 @@ from users.models import UserProfile
 from .calcpermissions import calculate_contest_permissions
 from .exporting import export_to_s4ris_json, export_to_ejudge_xml
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
-from .models import Contest, Membership, ContestSolution, Message, MessageUser
+from .forms import PrintoutForm, EditPrintoutForm
+from .models import Contest, Membership, ContestSolution, Message, MessageUser, Printout, ContestUserRoom
 from .services import make_contestant_choices, make_problem_choices, make_letter
 from .services import ProblemResolver, ContestTiming
 from .services import create_contest_service
@@ -778,3 +779,112 @@ class EjudgeExportView(ExportView):
         results = self.service.make_contest_results(contest, frozen=False)
         xml = export_to_ejudge_xml(contest, results)
         return HttpResponse(xml, content_type='application/xml; charset=utf-8')
+
+
+'''
+Printing
+'''
+
+
+class PrintingView(BaseContestView):
+    tab = 'printing'
+    template_name = 'contests/printing.html'
+    paginate_by = 25
+
+    def is_allowed(self, permissions):
+        return permissions.printing
+
+    def get(self, request, contest):
+
+        qs = Printout.objects.filter(contest=contest).order_by('-timestamp')
+
+        context = paginate(request, qs, self.paginate_by)
+        context['enable_links'] = self.permissions.manage_printing
+        context['show_author'] = self.permissions.manage_printing
+        context = self.get_context_data(**context)
+
+        return render(request, self.template_name, context)
+
+
+class NewPrintoutView(BaseContestView):
+    tab = 'printing'
+    template_name = 'contests/printout_new.html'
+
+    def is_allowed(self, permissions):
+        return permissions.printing
+
+    def _make_form(self, data=None):
+        room = None
+        cur = ContestUserRoom.objects.filter(contest=self.contest, user=self.request.user).first()
+        if cur is not None:
+            room = cur.room
+
+        form = PrintoutForm(data=data, rooms=self.contest.rooms, initial={'room': room})
+        return form
+
+    def _get_status(self):
+        if self.permissions.manage_printing:
+            return True
+        return (self.timing.get() == ContestTiming.IN_PROGRESS)
+
+    def get(self, request, contest):
+        enabled = self._get_status()
+        form = self._make_form() if enabled else None
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest):
+        enabled = self._get_status()
+        if enabled:
+            form = self._make_form(request.POST)
+            if form.is_valid():
+                printout = form.save(commit=False)
+                printout.contest = contest
+                printout.user = request.user
+                printout.timestamp = timezone.now()
+                with transaction.atomic():
+                    printout.save()
+                    # remember used room to select it again later
+                    ContestUserRoom.objects.update_or_create(contest=contest, user=request.user, defaults={'room': printout.room})
+                return redirect('contests:printing', contest.id)
+        else:
+            form = None
+        context = self.get_context_data(form=form, enable_links=True)
+        return render(request, self.template_name, context)
+
+
+class ShowPrintoutView(BaseContestView):
+    tab = 'printing'
+    template_name = 'contests/printout_show.html'
+
+    def is_allowed(self, permissions):
+        return permissions.manage_printing
+
+    def get(self, request, contest, printout_id):
+        printout = get_object_or_404(Printout, pk=printout_id, contest=contest)
+        context = self.get_context_data(printout=printout)
+        return render(request, self.template_name, context)
+
+
+class EditPrintoutView(BaseContestView):
+    tab = 'printing'
+    template_name = 'contests/printout_edit.html'
+
+    def is_allowed(self, permissions):
+        return permissions.manage_printing
+
+    def get(self, request, contest, printout_id):
+        printout = get_object_or_404(Printout, pk=printout_id, contest=contest)
+        form = EditPrintoutForm(instance=printout)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest, printout_id):
+        printout = get_object_or_404(Printout, pk=printout_id, contest=contest)
+        form = EditPrintoutForm(request.POST, instance=printout)
+        if form.is_valid():
+            form.save()
+            return redirect('contests:printing', contest.id)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)

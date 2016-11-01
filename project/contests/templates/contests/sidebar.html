@@ -87,4 +87,11 @@
             <span class="ir-icon-label">{% trans 'Export' %}</span>
         </a>
     {% endif %}
+
+    {% if permissions.printing %}
+        <a href="{% url 'contests:printing' contest.id %}" class="list-group-item{% if active_tab == 'printing' %} active{% endif %}">
+            {% bootstrap_icon 'print' %}
+            <span class="ir-icon-label">{% trans 'Printing' %}</span>
+        </a>
+    {% endif %}
 </div>

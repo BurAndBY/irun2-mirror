@@ -1824,3 +1824,13 @@ Green menu
     color: #ddd;
     font-size: 0.8em;
 }
+
+.ir-printout {
+    border: none;
+    border-radius: 0;
+    font-size: 11px;
+    line-height: 11px;
+    white-space: pre-wrap;
+    padding: 4px;
+    margin: 0;
+}

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import transaction
 from django.http import Http404, StreamingHttpResponse
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views import generic
 
 from rest_framework import permissions
@@ -18,6 +19,7 @@ from proglangs.models import Compiler, CompilerDetails
 from storage.storage import create_storage
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
+from contests.models import Printout
 
 import plagiarism.plagiarism_api
 
@@ -211,3 +213,30 @@ class SleepView(WorkerAPIView):
         time.sleep(secs)
 
         return Response(['ok'])
+
+
+'''
+Printing API
+'''
+
+
+class PrintingView(WorkerAPIView):
+    def get(self, request):
+        result = []
+        printouts = Printout.objects.filter(status=Printout.WAITING).order_by('timestamp')
+        for printout in printouts:
+            data = {
+                'id': printout.id,
+                'text': printout.text,
+                'room': printout.room,
+                'user': printout.user.get_full_name(),
+                'timestamp': timezone.localtime(printout.timestamp).strftime('%d.%m.%Y %H:%M:%S')
+            }
+            result.append(data)
+        return Response(result)
+
+
+class PrintingDoneView(WorkerAPIView):
+    def post(self, request, printout_id):
+        Printout.objects.filter(pk=printout_id, status=Printout.WAITING).update(status=Printout.DONE)
+        return Response('OK')

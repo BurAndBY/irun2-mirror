@@ -28,6 +28,10 @@ contest_urlpatterns = [
     url(r'^export/$', views.ExportView.as_view(), name='export'),
     url(r'^export/S4RiS-StanD\.json$', views.S4RiSExportView.as_view(), name='export_s4ris'),
     url(r'^export/ejudge\.xml$', views.EjudgeExportView.as_view(), name='export_ejudge'),
+    url(r'^printing/$', views.PrintingView.as_view(), name='printing'),
+    url(r'^printouts/new/$', views.NewPrintoutView.as_view(), name='new_printout'),
+    url(r'^printouts/(?P<printout_id>[0-9]+)/$', views.ShowPrintoutView.as_view(), name='show_printout'),
+    url(r'^printouts/(?P<printout_id>[0-9]+)/edit/$', views.EditPrintoutView.as_view(), name='edit_printout'),
 ]
 
 contestsettings_urlpatterns = [
@@ -42,6 +46,7 @@ contestsettings_urlpatterns = [
     url(r'^users/$', settingsviews.UsersView.as_view(), name='settings_users'),
     url(r'^users/(?P<tag>[a-z]+)/$', settingsviews.UserRoleView.as_view(), name='settings_user_role'),
     url(r'^users/list/(?P<folder_id>[0-9]+)/$', settingsviews.UsersJsonListView.as_view(), name='settings_users_json_list'),
+    url(r'^printing/$', settingsviews.PrintingView.as_view(), name='settings_printing'),
 ]
 
 urlpatterns = [

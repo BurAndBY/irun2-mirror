@@ -11,10 +11,10 @@ from django.core.files.base import File
 from django.core.servers.basehttp import FileWrapper
 from django.db import models
 
+from common.stringutils import cut_text_block
 from .encodings import try_decode_ascii
 
 HASH_SIZE = 20
-ELLIPSIS = u'…'
 
 
 class ResourceId(object):
@@ -165,16 +165,6 @@ def _try_decode_utf8(blob, is_complete):
     return None
 
 
-def _cut_line(line, max_line_length):
-    if len(line) <= max_line_length:
-        return line
-    last_space = line.rfind(u' ', 0, max_line_length)
-    if last_space != -1 and last_space >= max_line_length // 2:
-        return line[:last_space] + ELLIPSIS
-    else:
-        return line[:(max_line_length-3)] + ELLIPSIS
-
-
 def _represent(blob, full_size, max_lines, max_line_length):
     assert len(blob) <= full_size
     is_complete = len(blob) == full_size
@@ -199,27 +189,10 @@ def _represent(blob, full_size, max_lines, max_line_length):
         if text is None:
             text = try_decode_ascii(blob)
 
-    if text is not None and (max_lines is not None or max_line_length is not None):
-        lines = text.splitlines(False)
-        modified = False
-
-        if (max_lines is not None) and (len(lines) > max_lines):
-            keep_lines = max(0, max_lines - 1)
-            lines = lines[:keep_lines] + [ELLIPSIS]
-            modified = True
-
-        if (max_line_length is not None):
-            cut_lines = []
-            for line in lines:
-                cut_line = _cut_line(line, max_line_length)
-                if line != cut_line:
-                    modified = True
-                cut_lines.append(cut_line)
-            lines = cut_lines
-
+    if text is not None:
+        modified, text = cut_text_block(text, max_lines, max_line_length)
         if modified:
             is_complete = False
-            text = '\n'.join(lines)
 
     if is_complete:
         flags |= ResourseRepresentation.IS_COMPLETE

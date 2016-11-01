@@ -1,0 +1,40 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_contests %}
+{% load irunner_users %}
+{% load irunner_pagination %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Messages' %}{% endblock %}
+
+{% block main %}
+    <div class="form-group text-right">
+        <a href="{% url 'contests:new_printout' contest.id %}" class="btn btn-default">
+            {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'New printout' %}</span>
+        </a>
+    </div>
+    {% if not object_list %}
+        <div class="ir-absence">{% trans 'No printouts' %}</div>
+    {% else %}
+        {% irunner_pagination pagination_context %}
+        <table class="table table-condensed">
+            <thead>
+                {% if show_author %}<th>{% trans 'Author' %}</th>{% endif %}
+                <th>{% trans 'Time' %}</th>
+                <th>{% trans 'Status' %}</th>
+                <th>{% trans 'Text' %}</th>
+            </thead>
+            <tbody>
+            {% for printout in object_list %}
+                <tr>
+                    {% if show_author %}<td>{% irunner_users_show printout.user %}{% if printout.room %}<br><small>({% trans 'room' %} {{ printout.room }})</small>{% endif %}</td>{% endif %}
+                    <td>{% if enable_links %}<a href="{% url 'contests:show_printout' contest.id printout.id %}">{% endif %}{{ printout.timestamp|date:"SHORT_DATETIME_FORMAT" }}{% if enable_links %}</a>{% endif %}</td>
+                    <td>{% if enable_links %}<a href="{% url 'contests:edit_printout' contest.id printout.id %}">{% endif %}{{ printout.get_status_display }}{% if enable_links %}</a>{% endif %}</td>
+                    <td><pre class="ir-printout">{% irunner_contests_printoutsnippet printout.text %}</pre></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

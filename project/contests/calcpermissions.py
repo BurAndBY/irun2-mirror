@@ -28,6 +28,9 @@ def calculate_contest_permissions(contest, user, memberships):
             elif membership.role == Membership.JUROR:
                 permissions.set_juror()
 
+    if not contest.enable_printing:
+        permissions.disable_printing()
+
     return permissions
 
 

@@ -1,0 +1,22 @@
+{% extends 'contests/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Printout' %}{% endblock %}
+
+{% block main %}
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Save' %}
+            </button>
+            <a href="{% url 'contests:printing' contest.id %}" class="btn btn-link">
+                {% trans 'Cancel' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

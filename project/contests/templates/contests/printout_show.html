@@ -1,0 +1,26 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_users %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'Printout' %}{% endblock %}
+
+{% block main %}
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Created' %}</dt>
+        <dd>{{ printout.timestamp }}</dd>
+
+        <dt>{% trans 'Author' %}</dt>
+        <dd>{% irunner_users_show printout.user %}</dd>
+
+        <dt>{% trans 'Room' %}</dt>
+        <dd>{{ printout.room }}</dd>
+
+        <dt>{% trans 'Status' %}</dt>
+        <dd>{{ printout.get_status_display }}</dd>
+    </dl>
+    <hr>
+    <pre class="ir-printout">{{ printout.text }}</pre>
+    <br>
+{% endblock %}

@@ -60,6 +60,8 @@ class Contest(models.Model):
     show_pending_runs = models.BooleanField(_('show pending runs during the freeze time'), blank=True, default=True)
     unfreeze_standings = models.BooleanField(_('unfreeze standings after the end of the contest'), blank=True, default=False)
     enable_upsolving = models.BooleanField(_('enable upsolving after the end of the contest'), blank=True, default=False)
+    enable_printing = models.BooleanField(_('enable printing'), blank=True, default=False)
+    rooms = models.CharField(_('rooms (comma-separated)'), blank=True, max_length=255)
 
     def get_absolute_url(self):
         return reverse('contests:standings', kwargs={'contest_id': self.pk})
@@ -134,3 +136,33 @@ class MessageUser(models.Model):
 
     class Meta:
         unique_together = ('message', 'user')
+
+
+class Printout(models.Model):
+    DONE = 0
+    WAITING = 1
+    PRINTING = 2
+    CANCELLED = 3
+
+    STATUS_CHOICES = (
+        (DONE, _('Done')),
+        (WAITING, _('Waiting')),
+        (PRINTING, _('Printing')),
+        (CANCELLED, _('Cancelled')),
+    )
+
+    contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT, related_name='+')
+    room = models.CharField(_('room'), blank=False, max_length=64)
+    timestamp = models.DateTimeField()
+    text = models.TextField(_('text'), blank=False, max_length=65535)
+    status = models.IntegerField(default=WAITING, choices=STATUS_CHOICES)
+
+
+class ContestUserRoom(models.Model):
+    contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT, related_name='+')
+    room = models.CharField(_('room'), blank=True, max_length=64)
+
+    class Meta:
+        unique_together = ('contest', 'user')

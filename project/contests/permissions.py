@@ -21,6 +21,8 @@ class ContestPermissions(object):
         self.answer_questions = False
         self.compilers = False
         self.export = False
+        self.printing = False
+        self.manage_printing = False
 
     def set_juror(self):
         self.standings = True
@@ -36,6 +38,8 @@ class ContestPermissions(object):
         self.answer_questions = True
         self.compilers = True
         self.export = True
+        self.printing = True
+        self.manage_printing = True
 
     def set_contestant(self, own_solutions_access):
         self.standings = True
@@ -45,8 +49,13 @@ class ContestPermissions(object):
         self.read_messages = True
         self.ask_questions = True
         self.compilers = True
+        self.printing = True
 
     def set_admin(self):
         self.set_juror()
+
+    def disable_printing(self):
+        self.printing = False
+        self.manage_printing = False
 
 InContestAccessLevel = namedtuple('InContestAccessLevel', 'contest level samples_only_state')

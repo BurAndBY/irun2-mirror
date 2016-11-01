@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^plagiarism/take$', views.PlagiarismTakeView.as_view()),
     url(r'^plagiarism/put$', views.PlagiarismPutView.as_view()),
     url(r'^sleep$', views.SleepView.as_view()),
+    url(r'^printing$', views.PrintingView.as_view()),
+    url(r'^printing/(?P<printout_id>\d+)$', views.PrintingDoneView.as_view()),
 
     url(r'^queue/$', views.QueueView.as_view(), name='queue')
 ]

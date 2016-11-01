@@ -1,0 +1,27 @@
+{% extends 'contests/base.html' %}
+
+{% load irunner_users %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block subtitle %}{% trans 'New printout' %}{% endblock %}
+
+{% block main %}
+    {% if form %}
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    {% trans 'Send' %}
+                </button>
+                <a href="{% url 'contests:printing' contest.id %}" class="btn btn-link">
+                    {% trans 'Cancel' %}
+                </a>
+            {% endbuttons %}
+        </form>
+    {% else %}
+        <div class="ir-absence">{% trans 'Printing is only available during the contest' %}</div> 
+    {% endif %}
+{% endblock %}
