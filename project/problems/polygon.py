@@ -81,6 +81,7 @@ def parse_archive(myzip, language, compiler, user):
     ts = timezone.now()
 
     tl_ml_set = False
+    total_tests = 0
 
     for testset in judging.findall('testset'):
         time_limit = get_int(testset, 'time-limit')
@@ -97,7 +98,8 @@ def parse_archive(myzip, language, compiler, user):
 
         for i in xrange(test_count):
             number = i + 1
-            tc = TestCase(problem=problem, ordinal_number=number, time_limit=time_limit, memory_limit=memory_limit)
+            total_tests += 1
+            tc = TestCase(problem=problem, ordinal_number=total_tests, time_limit=time_limit, memory_limit=memory_limit)
             tc.set_input(storage, ContentFile(myzip.read(input_pattern % (number,))))
             tc.set_answer(storage, ContentFile(myzip.read(answer_pattern % (number,))))
             tc.author = user
