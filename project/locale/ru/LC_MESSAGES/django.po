@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 09:19+0300\n"
-"PO-Revision-Date: 2016-11-01 09:23+0300\n"
+"POT-Creation-Date: 2016-11-01 10:08+0300\n"
+"PO-Revision-Date: 2016-11-01 10:09+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -325,7 +325,7 @@ msgstr "Число посылок"
 #: .\contests\templates\contests\all_solutions.html:11
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:587
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:588
 msgid "All solutions"
 msgstr "Все решения"
 
@@ -404,7 +404,7 @@ msgstr "из"
 
 #: .\common\templates\common\irunner_pagination_tag.html:79
 #: .\common\templates\common\irunner_pagination_tag.html:81
-#: .\courses\views.py:809
+#: .\courses\views.py:810
 msgid "All"
 msgstr "Все"
 
@@ -517,8 +517,8 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
-#: .\courses\templates\courses\standings.html:58 .\courses\views.py:548
-#: .\courses\views.py:609 .\problems\templates\problems\base.html:5
+#: .\courses\templates\courses\standings.html:58 .\courses\views.py:549
+#: .\courses\views.py:610 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\problems\templates\problems\statement_print.html:7
@@ -671,7 +671,7 @@ msgid "Cancelled"
 msgstr "Отменено"
 
 #: .\contests\models.py:156 .\contests\models.py:165
-#: .\contests\templates\contests\printing.html:31
+#: .\contests\templates\contests\printing.html:32
 msgid "room"
 msgstr "аудитория"
 
@@ -783,7 +783,7 @@ msgid "Apply"
 msgstr "Применить"
 
 #: .\contests\templates\contests\all_solutions.html:32
-#: .\contests\templates\contests\printing.html:23
+#: .\contests\templates\contests\printing.html:24
 #: .\contests\templates\contests\printout_show.html:14
 #: .\courses\templates\courses\solutions.html:39
 #: .\news\templates\news\index.html:19
@@ -806,7 +806,7 @@ msgstr "Автор"
 
 #: .\contests\templates\contests\all_solutions.html:33
 #: .\contests\templates\contests\my_solutions.html:33
-#: .\contests\templates\contests\printing.html:24
+#: .\contests\templates\contests\printing.html:25
 #: .\courses\templates\courses\solutions.html:42
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:18
@@ -834,7 +834,7 @@ msgstr "Файл"
 
 #: .\contests\templates\contests\all_solutions.html:35
 #: .\contests\templates\contests\my_solutions.html:35
-#: .\contests\templates\contests\printing.html:25
+#: .\contests\templates\contests\printing.html:26
 #: .\contests\templates\contests\printout_show.html:20
 #: .\courses\templates\courses\solutions.html:44
 #: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:91
@@ -939,13 +939,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:445
+#: .\contests\views.py:447
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:667 .\courses\views.py:808
+#: .\contests\views.py:669 .\courses\views.py:809
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1050,11 +1050,11 @@ msgstr "Задать вопрос"
 msgid "New printout"
 msgstr "Новая распечатка"
 
-#: .\contests\templates\contests\printing.html:18
+#: .\contests\templates\contests\printing.html:19
 msgid "No printouts"
 msgstr "Распечаток нет"
 
-#: .\contests\templates\contests\printing.html:26
+#: .\contests\templates\contests\printing.html:27
 msgid "Text"
 msgstr "Текст"
 
@@ -1168,7 +1168,7 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:628
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:629
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1225,9 +1225,13 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:697
+#: .\contests\views.py:699
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
+
+#: .\contests\views.py:851
+msgid "Your printout has been successfully added to printing queue."
+msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
 #: .\courses\forms.py:37 .\courses\forms.py:46 .\courses\models.py:44
 msgid "Year of study"
@@ -1264,7 +1268,7 @@ msgstr "Достигнуто ограничение по числу попыто
 #: .\courses\forms.py:247 .\courses\settingsviews.py:115
 #: .\courses\templates\courses\sheet.html:32
 #: .\courses\templates\courses\standings.html:24
-#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:540
+#: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:541
 msgid "Student"
 msgstr "Студент"
 
@@ -1331,7 +1335,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:106 .\problems\models.py:102 .\problems\models.py:140
-#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:537
+#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:538
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
@@ -1500,7 +1504,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:310
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:313
 msgid "delete"
 msgstr "удалить"
 
@@ -1508,7 +1512,7 @@ msgstr "удалить"
 msgid "There are no criteria defined"
 msgstr "Критерии не определены"
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:479
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:480
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -1768,11 +1772,11 @@ msgstr "Пожалуйста, выберите задачу."
 msgid "%(year)d year"
 msgstr "%(year)d курс"
 
-#: .\courses\views.py:492
+#: .\courses\views.py:493
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:676
+#: .\courses\views.py:677
 #, python-format
 msgid "You have %(count)d attempt remaining for the problem during the day."
 msgid_plural ""
@@ -1781,16 +1785,16 @@ msgstr[0] "Осталась %(count)d попытка по задаче в теч
 msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
 msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
 
-#: .\courses\views.py:680
+#: .\courses\views.py:681
 msgid "You have no attempts remaining for the problem."
 msgstr "Доступные попытки по задаче закончились."
 
-#: .\courses\views.py:686
+#: .\courses\views.py:687
 #, python-format
 msgid "Please try again after %(ts)s."
 msgstr "Попробуйте отправить решение после %(ts)s."
 
-#: .\courses\views.py:688
+#: .\courses\views.py:689
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
 
@@ -2346,7 +2350,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1105
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1106
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2632,36 +2636,36 @@ msgstr "%(megabytes)s МБ"
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:534
+#: .\problems\views.py:535
 msgid "score"
 msgstr "очки"
 
-#: .\problems\views.py:535
+#: .\problems\views.py:536
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:536
+#: .\problems\views.py:537
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:538
+#: .\problems\views.py:539
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:539
+#: .\problems\views.py:540
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:543
+#: .\problems\views.py:544
 #, python-format
 msgid "Test %(number)s has been saved."
 msgstr "Тест %(number)s сохранён."
 
-#: .\problems\views.py:552
+#: .\problems\views.py:553
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:754
+#: .\problems\views.py:755
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -2669,11 +2673,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:1005 .\users\views.py:108
+#: .\problems\views.py:1006 .\users\views.py:108
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1023
+#: .\problems\views.py:1024
 msgid "Folder properties"
 msgstr "Свойства папки"
 
@@ -3146,7 +3150,7 @@ msgstr "ошибка компиляции контролёра тестов"
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:205
+#: .\solutions\views.py:206
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"

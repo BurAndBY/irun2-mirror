@@ -848,6 +848,7 @@ class NewPrintoutView(BaseContestView):
                     printout.save()
                     # remember used room to select it again later
                     ContestUserRoom.objects.update_or_create(contest=contest, user=request.user, defaults={'room': printout.room})
+                messages.add_message(self.request, messages.INFO, ugettext('Your printout has been successfully added to printing queue.'))
                 return redirect('contests:printing', contest.id)
         else:
             form = None

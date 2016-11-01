@@ -14,6 +14,7 @@
             {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'New printout' %}</span>
         </a>
     </div>
+    {% bootstrap_messages %}
     {% if not object_list %}
         <div class="ir-absence">{% trans 'No printouts' %}</div>
     {% else %}
