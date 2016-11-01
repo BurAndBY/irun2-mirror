@@ -130,8 +130,8 @@ class TestCaseResult(models.Model):
     time_limit = models.IntegerField(default=0)
     time_used = models.IntegerField()
 
-    memory_limit = models.IntegerField(default=0)
-    memory_used = models.IntegerField()
+    memory_limit = models.BigIntegerField(default=0)
+    memory_used = models.BigIntegerField()
 
     score = models.IntegerField()
     max_score = models.IntegerField()
