@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy, pgettext_lazy
 from django.utils.timesince import timesince
 from django.views import generic
 
+from api.queue import notify_enqueued
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.highlight import list_highlight_styles, get_highlight_style, update_highlight_style
 from common.pageutils import paginate
@@ -208,6 +209,7 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
     def perform(self, filtered_queryset, form):
         with transaction.atomic():
             rejudge = bulk_rejudge(filtered_queryset, self.request.user)
+        notify_enqueued()
         return redirect('solutions:rejudge', rejudge.id)
 
     def get_queryset(self):
@@ -271,6 +273,7 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
         if need_clone:
             with transaction.atomic():
                 rejudge = bulk_rejudge(Solution.objects.filter(judgement__rejudge_id=rejudge_id), self.request.user)
+            notify_enqueued()
             return redirect('solutions:rejudge', rejudge.id)
 
         if (need_commit ^ need_rollback):

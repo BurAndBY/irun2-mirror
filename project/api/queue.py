@@ -291,7 +291,7 @@ OBJECT_IN_QUEUE_CLASSES = [
 ]
 
 
-def _notify_enqueued():
+def notify_enqueued():
     if settings.SEMAPHORE:
         try:
             req = urllib2.Request(settings.SEMAPHORE + 'signal', '')
@@ -305,7 +305,6 @@ def enqueue(obj, priority=10):
     db_obj = DbObjectInQueue(creation_time=ts, last_update_time=ts, priority=priority)
     obj.persist(db_obj)
     db_obj.save()
-    _notify_enqueued()
 
 
 def bulk_enqueue(objs, priority=10):
@@ -316,7 +315,7 @@ def bulk_enqueue(objs, priority=10):
         obj.persist(db_obj)
         db_objs.append(db_obj)
     DbObjectInQueue.objects.bulk_create(db_objs)
-    _notify_enqueued()
+    return (len(db_objs) > 0)
 
 
 def dequeue(worker_name):

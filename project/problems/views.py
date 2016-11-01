@@ -22,7 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from mptt.templatetags.mptt_tags import cache_tree_children
 
-from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bulk_enqueue
+from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bulk_enqueue, notify_enqueued
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
@@ -280,6 +280,7 @@ class ProblemSolutionsProcessView(BaseProblemView):
     def _rejudge(self, problem, solutions):
         with transaction.atomic():
             rejudge = bulk_rejudge(solutions, self.request.user)
+        notify_enqueued()
         return redirect('solutions:rejudge', rejudge.id)
 
     def post(self, request, problem_id):
@@ -940,7 +941,7 @@ class ProblemSubmitView(BaseProblemView):
             with transaction.atomic():
                 solution = solutions.utils.new_solution(request, form, problem_id=problem.id)
                 solutions.utils.judge(solution)
-
+            notify_enqueued()
             return redirect_with_query_string(request, 'problems:submission', problem.id, solution.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1499,12 +1500,15 @@ class ProblemValidatorView(BaseProblemView):
                 'is_pending': need_validation,
                 'general_failure_reason': '',
             }
+            enqueued = False
             with transaction.atomic():
                 validation, _ = Validation.objects.update_or_create(problem=problem, defaults=upd)
                 validation.testcasevalidation_set.all().delete()
                 if need_validation:
                     enqueue(ValidationInQueue(validation.id))
-
+                    enqueued = True
+            if enqueued:
+                notify_enqueued()
             return redirect_with_query_string(request, 'problems:validator', problem.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1556,6 +1560,7 @@ class ProblemNewChallengeView(BaseProblemView):
                 filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED).\
                 values_list('id', flat=True)
 
+            enqueued = False
             with transaction.atomic():
                 challenge = Challenge(
                     author=request.user,
@@ -1570,7 +1575,10 @@ class ProblemNewChallengeView(BaseProblemView):
                 ChallengedSolution.objects.bulk_create(challenged_solutions)
 
                 new_ids = ChallengedSolution.objects.filter(challenge=challenge).values_list('id', flat=True)
-                bulk_enqueue((ChallengedSolutionInQueue(pk) for pk in new_ids), priority=7)
+                enqueued = bulk_enqueue((ChallengedSolutionInQueue(pk) for pk in new_ids), priority=7)
+
+            if enqueued:
+                notify_enqueued()
 
             return redirect_with_query_string(request, 'problems:challenge', problem.id, challenge.id)
 

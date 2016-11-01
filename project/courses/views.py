@@ -25,6 +25,7 @@ from services import UserCache, make_problem_choices, make_student_choices, make
 from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
 from calcpermissions import calculate_course_permissions
 
+from api.queue import notify_enqueued
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
 from common.constants import make_empty_select
@@ -252,7 +253,7 @@ class CourseSubmitView(BaseCourseView):
                 solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
                 CourseSolution.objects.create(solution=solution, course=course)
                 judge(solution)
-
+            notify_enqueued()
             return redirect('courses:course_submission', course.id, solution.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)

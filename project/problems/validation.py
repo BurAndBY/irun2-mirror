@@ -1,6 +1,6 @@
 from .models import Validation, TestCaseValidation
 
-from api.queue import ValidationInQueue, enqueue
+from api.queue import ValidationInQueue, enqueue, notify_enqueued
 
 
 def revalidate_testset(problem_id, clear=False):
@@ -10,3 +10,4 @@ def revalidate_testset(problem_id, clear=False):
             TestCaseValidation.objects.filter(validation__problem_id=problem_id).delete()
 
         enqueue(ValidationInQueue(validation_id))
+        notify_enqueued()
