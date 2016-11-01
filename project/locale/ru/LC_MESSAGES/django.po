@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-01 10:08+0300\n"
+"POT-Creation-Date: 2016-11-02 01:46+0300\n"
 "PO-Revision-Date: 2016-11-01 10:09+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -661,7 +661,8 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:150 .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:150
+#: .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
@@ -678,6 +679,10 @@ msgstr "аудитория"
 #: .\contests\models.py:158
 msgid "text"
 msgstr "текст"
+
+#: .\contests\models.py:159
+msgid "status"
+msgstr "статус"
 
 #: .\contests\services.py:54
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:23
@@ -911,7 +916,8 @@ msgstr "Новое соревнование"
 msgid "Create"
 msgstr "Создать"
 
-#: .\contests\templates\contests\contest_list.html:7 .\templates\navbar.html:39
+#: .\contests\templates\contests\contest_list.html:7
+#: .\templates\navbar.html:39
 msgid "Contests"
 msgstr "Соревнования"
 
@@ -2123,7 +2129,8 @@ msgstr "Тесты"
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
+#: .\problems\tabs.py:33
+#: .\solutions\templates\solutions\challenge_list.html:10
 #: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"
@@ -3680,9 +3687,6 @@ msgstr ""
 
 #~ msgid "All contests"
 #~ msgstr "Все соревнования"
-
-#~ msgid "status"
-#~ msgstr "статус"
 
 #~ msgid "Mass registration"
 #~ msgstr "Массовая регистрация"

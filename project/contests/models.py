@@ -156,7 +156,7 @@ class Printout(models.Model):
     room = models.CharField(_('room'), blank=False, max_length=64)
     timestamp = models.DateTimeField()
     text = models.TextField(_('text'), blank=False, max_length=65535)
-    status = models.IntegerField(default=WAITING, choices=STATUS_CHOICES)
+    status = models.IntegerField(_('status'), default=WAITING, choices=STATUS_CHOICES)
 
 
 class ContestUserRoom(models.Model):
