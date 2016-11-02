@@ -799,6 +799,8 @@ class PrintingView(BaseContestView):
     def get(self, request, contest):
 
         qs = Printout.objects.filter(contest=contest).order_by('-timestamp')
+        if not self.permissions.manage_printing:
+            qs.filter(user=request.user)
 
         context = paginate(request, qs, self.paginate_by)
         context['enable_links'] = self.permissions.manage_printing
