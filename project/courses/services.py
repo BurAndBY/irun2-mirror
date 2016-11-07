@@ -701,3 +701,6 @@ class UserResult(object):
             result = int(round(sum_values))
 
         return max(min(result, 10), 1)
+
+    def get_complete_common_problem_count(self):
+        return sum(int(pr.is_ok()) for pr in self.common_problem_results)

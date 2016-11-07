@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-02 01:46+0300\n"
-"PO-Revision-Date: 2016-11-01 10:09+0300\n"
+"POT-Creation-Date: 2016-11-07 23:55+0300\n"
+"PO-Revision-Date: 2016-11-07 23:56+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -458,7 +458,8 @@ msgstr "Каждый уровень доступа включает все пр�
 #: .\contests\templates\contests\settings_base.html:24
 #: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:150
 #: .\courses\templates\courses\settings_base.html:18
-#: .\courses\templates\courses\standings.html:32
+#: .\courses\templates\courses\standings.html:34
+#: .\courses\templates\courses\standings.html:114
 #: .\courses\templates\courses\standings_wide.html:27
 #: .\problems\navigator.py:32 .\problems\templates\problems\list_base.html:6
 #: .\problems\templates\problems\list_folder.html:11
@@ -517,7 +518,7 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
-#: .\courses\templates\courses\standings.html:58 .\courses\views.py:549
+#: .\courses\templates\courses\standings.html:60 .\courses\views.py:549
 #: .\courses\views.py:610 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
@@ -661,8 +662,7 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:150
-#: .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:150 .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
@@ -916,8 +916,7 @@ msgstr "Новое соревнование"
 msgid "Create"
 msgstr "Создать"
 
-#: .\contests\templates\contests\contest_list.html:7
-#: .\templates\navbar.html:39
+#: .\contests\templates\contests\contest_list.html:7 .\templates\navbar.html:39
 msgid "Contests"
 msgstr "Соревнования"
 
@@ -972,7 +971,8 @@ msgstr "Последнее решение"
 #: .\courses\templates\courses\api_list_problems.html:10
 #: .\courses\templates\courses\settings_users.html:27
 #: .\courses\templates\courses\sheet.html:31
-#: .\courses\templates\courses\standings.html:23
+#: .\courses\templates\courses\standings.html:25
+#: .\courses\templates\courses\standings.html:107
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\challenge.html:43
 #: .\problems\templates\problems\tests.html:74
@@ -1235,7 +1235,7 @@ msgstr ""
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
-#: .\contests\views.py:851
+#: .\contests\views.py:853
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
@@ -1273,7 +1273,8 @@ msgstr "Достигнуто ограничение по числу попыто
 
 #: .\courses\forms.py:247 .\courses\settingsviews.py:115
 #: .\courses\templates\courses\sheet.html:32
-#: .\courses\templates\courses\standings.html:24
+#: .\courses\templates\courses\standings.html:26
+#: .\courses\templates\courses\standings.html:108
 #: .\courses\templates\courses\standings_wide.html:19 .\courses\views.py:541
 msgid "Student"
 msgstr "Студент"
@@ -1389,6 +1390,7 @@ msgstr "Вложение"
 #: .\courses\services.py:154 .\courses\templates\courses\assign.html:121
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
+#: .\courses\templates\courses\standings.html:103
 msgid "Common problems"
 msgstr "Общие задачи"
 
@@ -1454,7 +1456,7 @@ msgid "Remove extra problem"
 msgstr "Удалить дополнительную задачу"
 
 #: .\courses\templates\courses\assign.html:93
-#: .\courses\templates\courses\standings.html:82
+#: .\courses\templates\courses\standings.html:84
 #: .\courses\templates\courses\standings_wide.html:84
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
@@ -1752,7 +1754,11 @@ msgstr "Журнал"
 msgid "Plagiarism"
 msgstr "Плагиат"
 
-#: .\courses\templates\courses\standings.html:33
+#: .\courses\templates\courses\standings.html:21
+msgid "Individual problems"
+msgstr "Индивидуальные задачи"
+
+#: .\courses\templates\courses\standings.html:35
 #: .\courses\templates\courses\standings_wide.html:28
 #: .\problems\templates\problems\challenge.html:21
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:9
@@ -2129,8 +2135,7 @@ msgstr "Тесты"
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\problems\tabs.py:33
-#: .\solutions\templates\solutions\challenge_list.html:10
+#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
 #: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"

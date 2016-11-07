@@ -65,8 +65,7 @@ body {
  */
 .ir-course-standings > thead:first-child > tr:first-child > th {
     border-top: 2px solid #ddd;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding: 4px;
 }
 .ir-course-standings tbody > tr > td {
     border: 1px solid #ddd;
@@ -118,14 +117,13 @@ body {
 .ir-course-standings .ir-scorebox {
     min-width: 4em;
     border-radius: 2px;
-    background-color: #ccc;
+    background-color: #d9d9d9;
     color: white;
     font-size: 0.9em;
-    font-weight: bold;
 }
 .ir-course-standings .ir-scorebox-accepted {
     color: white;
-    background-color: #5cb85c;
+    background-color: #76d276;
 }
 .ir-course-standings .ir-problem-summary {
     padding-left: 4px;
