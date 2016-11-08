@@ -186,7 +186,7 @@ def _get_kind(cs, freeze_time, show_pending_runs):
 def _get_score(cs):
     judgement = _get_judgement(cs)
     assert (judgement is not None) and (judgement.status == Judgement.DONE)
-    return judgement.score
+    return (judgement.score, judgement.max_score)
 
 
 def _make_contest_results(contest, frozen, user_result_class, column_presence, user_regex):
@@ -355,19 +355,25 @@ class IOIProblemResult(ProblemResultBase):
     def __init__(self):
         super(IOIProblemResult, self).__init__()
         self._score = None
+        self._max_score = None
 
     def get_score(self):
         return self._score
 
     def register_solution(self, kind, penalty_time, score):
         if score is not None:
-            self._score = score
+            self._score, self._max_score = score
 
     def as_html(self):
         if self._score is None:
             result = u'.'
         else:
-            result = u'{0}'.format(self._score)
+            if self._max_score == 0:
+                result = u'{0}'.format(self._score)
+            elif self._score == self._max_score:
+                result = u'<span class="ir-accepted">{0}</span>'.format(self._score)
+            else:
+                result = u'<span class="ir-rejected">{0}</span>'.format(self._score)
         return mark_safe(result)
 
 
