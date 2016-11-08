@@ -120,6 +120,7 @@ class UpdateProfileMassForm(forms.Form):
         ('password', _('Password')),
         ('team_name', _('Team name')),
         ('team_members', _('Team members')),
+        ('full_name', _('Last name, first name, patronymic')),
     )
 
     field = forms.ChoiceField(label=_('Field to update'), choices=FIELD_CHOICES)

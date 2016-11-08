@@ -219,6 +219,15 @@ class UpdateProfileMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.F
                 for user_id, members in pairs:
                     counter += UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM, members=members)
 
+            elif field == 'full_name':
+                for user_id, full_name in pairs:
+                    tokens = full_name.split(None, 2)
+                    while len(tokens) < 3:
+                        tokens.append('')
+
+                    counter += UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.PERSON, patronymic=tokens[2])
+                    auth.get_user_model().objects.filter(pk=user_id).update(last_name=tokens[0], first_name=tokens[1])
+
         msg = ungettext('%(count)d profile has been updated.', '%(count)d profiles have been updated.', counter) % {'count': counter}
         messages.add_message(self.request, messages.INFO, msg)
         return redirect('users:show_folder', folder_id_or_root)
