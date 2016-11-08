@@ -121,7 +121,12 @@
                     {{ forloop.counter }}
                 </td>
                 <td class="text-nowrap">
-                    {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
+                    {% if permissions.assign %}
+                        {% url 'courses:course_assignment' course.id user_result.user.id as assign_url %}
+                        {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
+                    {% else %}
+                        {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
+                    {% endif %}
                 </td>
                 {% for pr in user_result.common_problem_results %}
                     <td class="text-nowrap ir-slot">

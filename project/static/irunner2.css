@@ -63,6 +63,9 @@ body {
 /**
  * Course standings
  */
+.ir-course-standings {
+    margin-bottom: 20px;
+}
 .ir-course-standings > thead:first-child > tr:first-child > th {
     border-top: 2px solid #ddd;
     padding: 4px;
