@@ -18,7 +18,7 @@ from django.http import HttpResponse
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.fakefile import FakeFile
-from common.folderutils import lookup_node_ex, cast_id
+from common.folderutils import lookup_node_ex, cast_id, ROOT
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView
 from courses.models import Membership
@@ -97,6 +97,24 @@ class ShowFolderView(StaffMemberRequiredMixin, UserFolderMixin, IRunnerListView)
     def get_queryset(self):
         folder_id = cast_id(self.kwargs['folder_id_or_root'])
         return auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
+
+
+class DeleteFolderView(StaffMemberRequiredMixin, UserFolderMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'users/folder_confirm_delete.html'
+
+    def get(self, request, folder_id_or_root):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request, folder_id_or_root):
+        folder_id = cast_id(folder_id_or_root)
+        folder = get_object_or_404(UserFolder, pk=folder_id)
+        parent_id = folder.parent_id
+        with transaction.atomic():
+            # TODO: check that it is empty, ...
+            if (folder.get_descendant_count() == 0) and (not folder.userprofile_set.exists()):
+                folder.delete()
+        return redirect('users:show_folder', parent_id if parent_id is not None else ROOT)
 
 
 class CreateFolderView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):

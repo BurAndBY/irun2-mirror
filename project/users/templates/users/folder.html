@@ -28,6 +28,13 @@
                             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span>
                         </a>
                     </li>
+                    {% if can_delete_folder %}
+                        <li>
+                            <a href="{% irunner_folders_url 'users:delete_folder' folder_id %}">
+                                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
 

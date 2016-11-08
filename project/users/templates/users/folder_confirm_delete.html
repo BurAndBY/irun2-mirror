@@ -1,0 +1,27 @@
+{% extends "users/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+
+{% block sidebar %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+{% endblock %}
+
+{% block main %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+
+    <h3>{% trans 'Delete folder' %}</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+            {% trans 'Delete' %}
+        </button>
+        <a href="{% irunner_folders_url 'users:show_folder' folder_id %}" class="btn btn-link">
+            {% trans 'Cancel' %}
+        </a>
+    </form>
+{% endblock %}
