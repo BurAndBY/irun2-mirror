@@ -30,7 +30,6 @@ class ContestPermissions(object):
         self.always_unfrozen_standings = True
         self.problems = True
         self.problems_before = True
-        self.settings = True
         self.all_solutions = True
         self.submit = True
         self.submit_always = True
@@ -53,6 +52,7 @@ class ContestPermissions(object):
 
     def set_admin(self):
         self.set_juror()
+        self.settings = True
 
     def disable_printing(self):
         self.printing = False
