@@ -43,7 +43,8 @@ import solutions.utils
 from solutions.utils import bulk_rejudge
 
 from .forms import ProblemForm, ProblemSearchForm, TestDescriptionForm, TestUploadOrTextForm, TestUploadForm, ProblemRelatedDataFileForm, ProblemRelatedSourceFileForm
-from .forms import TeXForm, ProblemRelatedTeXFileForm, MassSetTimeLimitForm, MassSetMemoryLimitForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
+from .forms import TeXForm, ProblemRelatedTeXFileForm, ProblemFoldersForm, ProblemTestArchiveUploadForm
+from .forms import MassSetTimeLimitForm, MassSetMemoryLimitForm, MassSetPointsForm
 from .forms import ProblemRelatedDataFileNewForm, ProblemRelatedSourceFileNewForm, ValidatorForm, ChallengeForm
 from .forms import ProblemFolderForm, PolygonImportForm, SimpleProblemForm, ProblemExtraInfoForm
 from .models import Problem, ProblemRelatedFile, ProblemRelatedSourceFile, TestCase, ProblemFolder, Validation
@@ -532,7 +533,7 @@ class ProblemTestsTestEditView(BaseProblemView):
         return render(request, self.template_name, context)
 
     field_names = {
-        'points': _('score'),
+        'points': _('points'),
         'time_limit': _('time limit'),
         'memory_limit': _('memory limit'),
         'description': _('description'),
@@ -705,6 +706,14 @@ class ProblemTestsSetMemoryLimitView(ProblemTestsBatchSetView):
 
     def apply(self, queryset, valid_form):
         queryset.update(memory_limit=valid_form.cleaned_data['memory_limit'])
+
+
+class ProblemTestsSetPointsView(ProblemTestsBatchSetView):
+    form_class = MassSetPointsForm
+    url_pattern = 'problems:tests_mass_points'
+
+    def apply(self, queryset, valid_form):
+        queryset.update(points=valid_form.cleaned_data['points'])
 
 
 class ProblemTestsUploadArchiveView(BaseProblemView):

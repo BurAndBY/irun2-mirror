@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-07 23:55+0300\n"
-"PO-Revision-Date: 2016-11-07 23:56+0300\n"
+"POT-Creation-Date: 2016-11-08 11:02+0300\n"
+"PO-Revision-Date: 2016-11-08 11:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -822,8 +822,8 @@ msgstr "Время"
 
 #: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\my_solutions.html:34
-#: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:149
-#: .\problems\forms.py:167 .\problems\forms.py:171 .\problems\forms.py:190
+#: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:153
+#: .\problems\forms.py:171 .\problems\forms.py:175 .\problems\forms.py:194
 #: .\problems\templates\problems\files.html:19
 #: .\problems\templates\problems\files.html:57
 #: .\problems\templates\problems\solutions.html:58
@@ -851,9 +851,6 @@ msgstr "Статус"
 
 #: .\contests\templates\contests\all_solutions.html:37
 #: .\contests\templates\contests\my_solutions.html:37
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
-#: .\problems\templates\problems\show_test.html:48
-#: .\problems\templates\problems\tests.html:77
 #: .\solutions\templates\solutions\compare.html:60
 #: .\solutions\templates\solutions\compare.html:85
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:18
@@ -975,7 +972,7 @@ msgstr "Последнее решение"
 #: .\courses\templates\courses\standings.html:107
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\challenge.html:43
-#: .\problems\templates\problems\tests.html:74
+#: .\problems\templates\problems\tests.html:75
 #: .\problems\templates\problems\tests_browse.html:14
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
@@ -1342,7 +1339,7 @@ msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
 #: .\courses\models.py:106 .\problems\models.py:102 .\problems\models.py:140
-#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:538
+#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:539
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
@@ -1923,21 +1920,21 @@ msgid "Problem folders"
 msgstr "Папки с задачами"
 
 #: .\problems\forms.py:59 .\problems\forms.py:74 .\problems\forms.py:122
-#: .\problems\forms.py:275
+#: .\problems\forms.py:279
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\problems\templates\problems\show_test.html:52
-#: .\problems\templates\problems\tests.html:78
+#: .\problems\templates\problems\tests.html:79
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
 #: .\problems\forms.py:60 .\problems\forms.py:75 .\problems\forms.py:126
-#: .\problems\forms.py:276
+#: .\problems\forms.py:280
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
 #: .\problems\templates\problems\show_test.html:56
-#: .\problems\templates\problems\tests.html:79
+#: .\problems\templates\problems\tests.html:80
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
@@ -1947,15 +1944,22 @@ msgid "Full feedback will be available for the first <i>N</i> test cases."
 msgstr ""
 "Для первых <i>N</i> тестов будут открыты полные результаты тестирования."
 
-#: .\problems\forms.py:143
+#: .\problems\forms.py:130
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
+#: .\problems\templates\problems\show_test.html:48
+#: .\problems\templates\problems\tests.html:78
+msgid "Points"
+msgstr "Баллы"
+
+#: .\problems\forms.py:147
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:199 .\users\forms.py:163
+#: .\problems\forms.py:203 .\users\forms.py:163
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
-#: .\problems\forms.py:200
+#: .\problems\forms.py:204
 msgid ""
 "The archive should not contain any other files except test inputs and "
 "outputs."
@@ -1963,39 +1967,39 @@ msgstr ""
 "Архив не должен содержать других данных, кроме входных и выходных файлов "
 "тестов."
 
-#: .\problems\forms.py:201
+#: .\problems\forms.py:205
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:215 .\users\forms.py:201
+#: .\problems\forms.py:219 .\users\forms.py:201
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
-#: .\problems\forms.py:226
+#: .\problems\forms.py:230
 msgid "No test files found in the archive."
 msgstr "Тестовые файлы в архиве не найдены."
 
-#: .\problems\forms.py:261 .\problems\models.py:160 .\problems\tabs.py:31
+#: .\problems\forms.py:265 .\problems\models.py:160 .\problems\tabs.py:31
 msgid "Validator"
 msgstr "Контролёр тестов"
 
-#: .\problems\forms.py:297
+#: .\problems\forms.py:301
 msgid "Russian"
 msgstr "Русский"
 
-#: .\problems\forms.py:298
+#: .\problems\forms.py:302
 msgid "English"
 msgstr "Английский"
 
-#: .\problems\forms.py:301
+#: .\problems\forms.py:305
 msgid "Full package (Windows) as a ZIP-archive"
 msgstr "Полный пакет (Windows) в виде ZIP-архива"
 
-#: .\problems\forms.py:302
+#: .\problems\forms.py:306
 msgid "Problem statement language"
 msgstr "Язык условия задачи"
 
-#: .\problems\forms.py:303
+#: .\problems\forms.py:307
 msgid "Compiler for checker and validator"
 msgstr "Компилятор для программы проверки и контролёра тестов"
 
@@ -2176,8 +2180,8 @@ msgstr[2] "тестов"
 #: .\problems\templates\problems\files.html:75
 #: .\problems\templates\problems\show_test.html:98
 #: .\problems\templates\problems\show_test.html:107
-#: .\problems\templates\problems\tests.html:94
-#: .\problems\templates\problems\tests.html:103
+#: .\problems\templates\problems\tests.html:95
+#: .\problems\templates\problems\tests.html:104
 #: .\solutions\templates\solutions\solution_source.html:20
 msgid "Open"
 msgstr "Открыть"
@@ -2188,8 +2192,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:76
 #: .\problems\templates\problems\show_test.html:99
 #: .\problems\templates\problems\show_test.html:108
-#: .\problems\templates\problems\tests.html:95
-#: .\problems\templates\problems\tests.html:104
+#: .\problems\templates\problems\tests.html:96
+#: .\problems\templates\problems\tests.html:105
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
 #: .\solutions\templates\solutions\solution_source.html:23
 #: .\storage\templates\storage\show.html:14
@@ -2362,7 +2366,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1106
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1115
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2441,13 +2445,13 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:75
+#: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:15
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:76
+#: .\problems\templates\problems\tests.html:77
 #: .\problems\templates\problems\tests_browse.html:16
 msgid "Output"
 msgstr "Выход"
@@ -2495,7 +2499,7 @@ msgid "No rejudges"
 msgstr "Перетестирований нет"
 
 #: .\problems\templates\problems\show_test.html:22
-#: .\problems\templates\problems\tests.html:89
+#: .\problems\templates\problems\tests.html:90
 #: .\solutions\templates\solutions\testcaseresult.html:59
 #: .\storage\templates\storage\usage.html:29
 msgid "Test"
@@ -2597,12 +2601,16 @@ msgstr "Задать ограничение по времени"
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
 
-#: .\problems\templates\problems\tests.html:67
+#: .\problems\templates\problems\tests.html:61
+msgid "Set points"
+msgstr "Задать баллы"
+
+#: .\problems\templates\problems\tests.html:68
 #: .\problems\templates\problems\tests_browse.html:9
 msgid "No tests"
 msgstr "Нет тестов"
 
-#: .\problems\templates\problems\tests.html:88
+#: .\problems\templates\problems\tests.html:89
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:34
 msgid "Sample test"
 msgstr "Тест-пример"
@@ -2648,36 +2656,36 @@ msgstr "%(megabytes)s МБ"
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:535
-msgid "score"
-msgstr "очки"
-
 #: .\problems\views.py:536
+msgid "points"
+msgstr "баллы"
+
+#: .\problems\views.py:537
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:537
+#: .\problems\views.py:538
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:539
+#: .\problems\views.py:540
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:540
+#: .\problems\views.py:541
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:544
+#: .\problems\views.py:545
 #, python-format
 msgid "Test %(number)s has been saved."
 msgstr "Тест %(number)s сохранён."
 
-#: .\problems\views.py:553
+#: .\problems\views.py:554
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:755
+#: .\problems\views.py:764
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -2685,11 +2693,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:1006 .\users\views.py:108
+#: .\problems\views.py:1015 .\users\views.py:108
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1024
+#: .\problems\views.py:1033
 msgid "Folder properties"
 msgstr "Свойства папки"
 
@@ -3646,6 +3654,9 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "score"
+#~ msgstr "очки"
 
 #~ msgctxt "noun"
 #~ msgid "Change password"

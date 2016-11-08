@@ -126,6 +126,10 @@ class MassSetMemoryLimitForm(forms.Form):
     memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
 
 
+class MassSetPointsForm(forms.Form):
+    points = forms.IntegerField(label=_('Points'), required=True, min_value=0, initial=1)
+
+
 class ValidateUniqueFilenameMixin(object):
     def clean(self):
         cleaned_data = super(ValidateUniqueFilenameMixin, self).clean()
