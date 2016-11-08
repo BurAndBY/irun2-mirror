@@ -46,6 +46,7 @@ contestsettings_urlpatterns = [
     url(r'^users/$', settingsviews.UsersView.as_view(), name='settings_users'),
     url(r'^users/(?P<tag>[a-z]+)/$', settingsviews.UserRoleView.as_view(), name='settings_user_role'),
     url(r'^users/list/(?P<folder_id>[0-9]+)/$', settingsviews.UsersJsonListView.as_view(), name='settings_users_json_list'),
+    url(r'^filters/$', settingsviews.UsersFilterVew.as_view(), name='settings_filters'),
     url(r'^printing/$', settingsviews.PrintingView.as_view(), name='settings_printing'),
 ]
 

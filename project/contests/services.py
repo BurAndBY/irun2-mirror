@@ -189,13 +189,16 @@ def _get_score(cs):
     return judgement.score
 
 
-def _make_contest_results(contest, frozen, user_result_class, column_presence):
+def _make_contest_results(contest, frozen, user_result_class, column_presence, user_regex):
     contest_descr = ContestDescr(contest)
 
     # fetch all contestants from the contest
     users = contest.members.filter(contestmembership__role=Membership.CONTESTANT).select_related('userprofile')
     user_id_result = {}
     for user in users:
+        if user_regex is not None:
+            if not user_regex.match(user.username):
+                continue
         user_id_result[user.id] = user_result_class(contest_descr, user)
 
     # fetch solutions
@@ -460,7 +463,7 @@ class IContestService(object):
     def should_show_my_solutions_completely(self, timing):
         raise NotImplementedError()
 
-    def make_contest_results(self, contest, frozen):
+    def make_contest_results(self, contest, frozen, user_regex=None):
         raise NotImplementedError()
 
 
@@ -486,8 +489,8 @@ class ACMContestService(IContestService):
     def should_show_my_solutions_completely(self, timing):
         return True
 
-    def make_contest_results(self, contest, frozen):
-        return _make_contest_results(contest, frozen, ACMUserResult, ColumnPresence(True, True, False))
+    def make_contest_results(self, contest, frozen, user_regex=None):
+        return _make_contest_results(contest, frozen, ACMUserResult, ColumnPresence(True, True, False), user_regex)
 
 
 class IOIContestService(IContestService):
@@ -505,7 +508,7 @@ class IOIContestService(IContestService):
     def should_show_my_solutions_completely(self, timing):
         return (timing.get() == ContestTiming.AFTER) and (not timing.is_freeze_applicable())
 
-    def make_contest_results(self, contest, frozen):
+    def make_contest_results(self, contest, frozen, user_regex=None):
         if frozen:
             return None
-        return _make_contest_results(contest, False, IOIUserResult, ColumnPresence(False, False, True))
+        return _make_contest_results(contest, False, IOIUserResult, ColumnPresence(False, False, True), user_regex)

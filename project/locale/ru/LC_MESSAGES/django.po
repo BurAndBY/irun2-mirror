@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-08 11:02+0300\n"
-"PO-Revision-Date: 2016-11-08 11:05+0300\n"
+"POT-Creation-Date: 2016-11-08 20:57+0300\n"
+"PO-Revision-Date: 2016-11-08 20:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -126,6 +126,7 @@ msgstr "Изменить язык интерфейса"
 #: .\contests\templates\contests\messages_new.html:16
 #: .\contests\templates\contests\printout_edit.html:15
 #: .\contests\templates\contests\settings_compilers.html:40
+#: .\contests\templates\contests\settings_filter.html:13
 #: .\contests\templates\contests\settings_problems.html:12
 #: .\contests\templates\contests\settings_properties.html:13
 #: .\contests\templates\contests\settings_statements.html:12
@@ -449,11 +450,11 @@ msgstr[0] "%(count)d день"
 msgstr[1] "%(count)d дня"
 msgstr[2] "%(count)d дней"
 
-#: .\contests\forms.py:30 .\courses\forms.py:59
+#: .\contests\forms.py:32 .\courses\forms.py:59
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\contests\forms.py:65 .\contests\templates\contests\problems_later.html:5
+#: .\contests\forms.py:67 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:24
 #: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:150
@@ -474,15 +475,15 @@ msgstr "Каждый уровень доступа включает все пр�
 msgid "Problems"
 msgstr "Задачи"
 
-#: .\contests\forms.py:66
+#: .\contests\forms.py:68
 msgid "Order of problem addition is significant."
 msgstr "Порядок добавления задач имеет значение."
 
-#: .\contests\forms.py:72
+#: .\contests\forms.py:74
 msgid "Statements file"
 msgstr "Файл условий"
 
-#: .\contests\forms.py:73
+#: .\contests\forms.py:75
 msgid ""
 "You can upload a single file containing statements of all problems (usually "
 "in PDF format)."
@@ -490,7 +491,7 @@ msgstr ""
 "Вы можете загрузить один файл, содержащий условия всех задач (обычно в "
 "формате PDF)."
 
-#: .\contests\forms.py:83 .\contests\templates\contests\settings_base.html:30
+#: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
 #: .\courses\forms.py:138 .\courses\templates\courses\settings_base.html:27
 #: .\templates\navbar.html:22 .\users\templates\users\base.html:6
 #: .\users\templates\users\bulk_operation.html:8
@@ -504,11 +505,11 @@ msgstr ""
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\contests\forms.py:92 .\courses\forms.py:179
+#: .\contests\forms.py:94 .\courses\forms.py:179
 msgid "User"
 msgstr "Пользователь"
 
-#: .\contests\forms.py:100 .\contests\forms.py:107 .\contests\forms.py:152
+#: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
 #: .\contests\services.py:42
 #: .\contests\templates\contests\all_solutions.html:31
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
@@ -533,18 +534,18 @@ msgstr "Пользователь"
 msgid "Problem"
 msgstr "Задача"
 
-#: .\contests\forms.py:123
+#: .\contests\forms.py:125
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
 msgid "To"
 msgstr "Кому"
 
-#: .\contests\forms.py:172
+#: .\contests\forms.py:174
 msgid "Choose the room where you are to use the closest printer."
 msgstr ""
 "Выберите аудиторию, в которой вы находитесь, чтобы использовать ближайший "
 "принтер."
 
-#: .\contests\forms.py:184
+#: .\contests\forms.py:186
 msgid "Text is too long."
 msgstr "Текст слишком большой."
 
@@ -560,8 +561,9 @@ msgstr "Просмотр результатов"
 msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
 
-#: .\contests\models.py:45 .\courses\models.py:21 .\courses\models.py:28
-#: .\courses\models.py:74 .\courses\models.py:105 .\courses\models.py:113
+#: .\contests\models.py:45 .\contests\models.py:173 .\courses\models.py:21
+#: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:105
+#: .\courses\models.py:113
 #: .\courses\templates\courses\api_list_problems.html:11
 #: .\problems\models.py:19 .\users\models.py:14
 msgid "name"
@@ -684,25 +686,29 @@ msgstr "текст"
 msgid "status"
 msgstr "статус"
 
+#: .\contests\models.py:174
+msgid "regular expression"
+msgstr "регулярное выражение"
+
 #: .\contests\services.py:54
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:476
+#: .\contests\services.py:479
 #: .\contests\templates\contests\standings_raw.html:15
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:495
+#: .\contests\services.py:498
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
-#: .\contests\settingsviews.py:202
+#: .\contests\settingsviews.py:203
 msgid "Contestants"
 msgstr "Участники"
 
-#: .\contests\settingsviews.py:203
+#: .\contests\settingsviews.py:204
 msgid "Jury"
 msgstr "Жюри"
 
@@ -941,13 +947,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:447
+#: .\contests\views.py:466
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:669 .\courses\views.py:809
+#: .\contests\views.py:688 .\courses\views.py:809
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1111,6 +1117,7 @@ msgid "Answer"
 msgstr "Ответить"
 
 #: .\contests\templates\contests\question_answers.html:51
+#: .\contests\templates\contests\settings_filter.html:16
 #: .\courses\templates\courses\criterion_confirm_delete.html:18
 #: .\news\templates\news\show.html:15
 msgid "Back"
@@ -1153,13 +1160,22 @@ msgstr "Отметить все"
 msgid "Uncheck all"
 msgstr "Снять пометки"
 
+#: .\contests\templates\contests\settings_filter.html:7
+msgid "User filters"
+msgstr "Фильтры по пользователям"
+
 #: .\contests\templates\contests\settings_users.html:14
 #: .\courses\templates\courses\settings_problems.html:59
 #: .\courses\templates\courses\settings_users.html:17
 msgid "Edit the list"
 msgstr "Редактировать список"
 
-#: .\contests\templates\contests\settings_users.html:25
+#: .\contests\templates\contests\settings_users.html:18
+#: .\contests\templates\contests\standings_extra_controls.html:7
+msgid "Filters"
+msgstr "Фильтры"
+
+#: .\contests\templates\contests\settings_users.html:30
 msgid "No users are set"
 msgstr "Пользователи не заданы"
 
@@ -1185,16 +1201,21 @@ msgstr "Мои решения"
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\contests\templates\contests\standings_extra_controls.html:5
+#: .\contests\templates\contests\standings_extra_controls.html:20
+#: .\courses\templates\courses\assign.html:68
+msgid "Reset"
+msgstr "Сброс"
+
+#: .\contests\templates\contests\standings_extra_controls.html:27
 msgid "Refresh the page every 30 seconds"
 msgstr "Обновлять страницу каждые 30 секунд"
 
-#: .\contests\templates\contests\standings_extra_controls.html:7
-#: .\contests\templates\contests\standings_extra_controls.html:9
+#: .\contests\templates\contests\standings_extra_controls.html:29
+#: .\contests\templates\contests\standings_extra_controls.html:31
 msgid "Autorefresh"
 msgstr "Автообновление"
 
-#: .\contests\templates\contests\standings_extra_controls.html:13
+#: .\contests\templates\contests\standings_extra_controls.html:35
 #: .\courses\templates\courses\standings.html:14
 msgid "Widescreen version"
 msgstr "Широкоэкранная версия"
@@ -1228,11 +1249,11 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:699
+#: .\contests\views.py:718
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
-#: .\contests\views.py:853
+#: .\contests\views.py:872
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
@@ -1443,10 +1464,6 @@ msgstr "Назначение задач"
 #: .\courses\templates\courses\assign.html:64
 msgid "Select a problem to assign"
 msgstr "Выберите задачу для назначения"
-
-#: .\courses\templates\courses\assign.html:68
-msgid "Reset"
-msgstr "Сброс"
 
 #: .\courses\templates\courses\assign.html:75
 msgid "Remove extra problem"

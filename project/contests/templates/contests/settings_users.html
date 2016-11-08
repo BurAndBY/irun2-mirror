@@ -13,6 +13,11 @@
             <a href="{% url 'contests:settings_user_role' contest.id view_model.tag %}" class="btn btn-sm btn-default">
                 {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit the list' %}</span>
             </a>
+            {% if view_model.enable_filters %}
+                <a href="{% url 'contests:settings_filters' contest.id %}" class="btn btn-sm btn-default">
+                    {% bootstrap_icon 'filter' %} <span class="ir-icon-label">{% trans 'Filters' %}</span>
+                </a>
+            {% endif %}
         </div>
         <h3>{{ view_model.name_plural }}</h3>
         {% if view_model.users %}

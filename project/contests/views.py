@@ -1,3 +1,5 @@
+import re
+
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -105,6 +107,7 @@ class GeneralView(BaseContestView):
 
 
 AUTOREFRESH = 'autorefresh'
+FILTER = 'filter'
 
 
 class StandingsView(BaseContestView):
@@ -139,8 +142,23 @@ class StandingsView(BaseContestView):
 
         return autorefresh
 
+    def _parse_filter(self, request, filters):
+        fid = request.GET.get(FILTER)
+        if fid is not None:
+            try:
+                fid = int(fid)
+            except (ValueError, TypeError):
+                pass
+            for f in filters:
+                if f.id == fid:
+                    return (fid, re.compile(f.regex))
+        return (None, None)
+
     def get(self, request, contest):
         autorefresh = self._parse_autorefresh(request)
+
+        filters = contest.userfilter_set.order_by('name')
+        cur_filter_id, user_regex = self._parse_filter(request, filters)
 
         # privileged users may click on contestants to see their solutions
         user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id}) if self.permissions.all_solutions else None
@@ -150,9 +168,10 @@ class StandingsView(BaseContestView):
         if self.service.are_standings_available(self.permissions, self.timing):
             # Do not show standings before the contest because they contain names of problems!
             frozen = (self.timing.is_freeze_applicable()) and (not self.permissions.always_unfrozen_standings)
-            contest_results = self.service.make_contest_results(contest, frozen=frozen)
+            contest_results = self.service.make_contest_results(contest, frozen=frozen, user_regex=user_regex)
 
-        context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url, autorefresh=autorefresh)
+        context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url,
+                                        autorefresh=autorefresh, filters=filters, cur_filter_id=cur_filter_id)
 
         template_name = self.get_template_name()
         return render(request, template_name, context)

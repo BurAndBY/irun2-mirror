@@ -26,7 +26,7 @@
     {% if autorefresh %}
         <script>
             function poll() {
-                $.get("{% url 'contests:standings_raw' contest.id %}", function(data) {
+                $.get("{% url 'contests:standings_raw' contest.id %}{% if cur_filter_id != None %}?filter={{ cur_filter_id }}{% endif %}", function(data) {
                     $("#ir_container").html(data);
                     setTimeout(poll, 30000);
                 }).fail(function() {

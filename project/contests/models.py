@@ -166,3 +166,9 @@ class ContestUserRoom(models.Model):
 
     class Meta:
         unique_together = ('contest', 'user')
+
+
+class UserFilter(models.Model):
+    contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
+    name = models.CharField(_('name'), blank=False, max_length=255)
+    regex = models.CharField(_('regular expression'), blank=False, max_length=255)

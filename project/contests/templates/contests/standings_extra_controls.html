@@ -1,6 +1,28 @@
 {% load bootstrap3 %}
 {% load i18n %}
 
+{% if filters %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            {% bootstrap_icon 'filter' %} <span class="ir-icon-label">{% trans 'Filters' %}</span>
+            <ul>
+                {% for filter in filters %}
+                    <li>
+                        {% if filter.id == cur_filter_id %}
+                            <strong>{{ filter.name }}</strong>
+                        {% else %}
+                            <a href="?filter={{ filter.id }}">{{ filter.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if cur_filter_id != None %}
+                {% bootstrap_icon 'remove' %} <span class="ir-icon-label"><a href=".">{% trans 'Reset' %}</a></span>
+            {% endif %}
+        </li>
+    </ul>
+{% endif %}
+
 <div class="list-group ir-list-group-success">
     <a href="{% url 'contests:standings' contest.id %}?autorefresh={% if autorefresh %}0{% else %}1{% endif %}" class="list-group-item" title="{% trans 'Refresh the page every 30 seconds' %}">
         {% if autorefresh %}
@@ -9,7 +31,7 @@
             {% bootstrap_icon 'unchecked' %} <span class="ir-icon-label">{% trans 'Autorefresh' %}</span>
         {% endif %}
     </a>
-    <a href="{% url 'contests:standings_wide' contest.id %}" class="list-group-item" target="_blank">
+    <a href="{% url 'contests:standings_wide' contest.id %}{% if cur_filter_id != None %}?filter={{ cur_filter_id }}{% endif %}" class="list-group-item" target="_blank">
         {% bootstrap_icon 'resize-horizontal' %} <span class="ir-icon-label">{% trans 'Widescreen version' %}</span>
     </a>
 </div>

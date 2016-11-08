@@ -3,6 +3,7 @@ from collections import namedtuple
 from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.db import transaction
+from django.forms import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -13,9 +14,9 @@ from proglangs.models import Compiler
 from storage.utils import store_with_metadata
 
 from .forms import PropertiesForm, AccessForm, LimitsForm, CompilersForm
-from .forms import ProblemsForm, StatementsForm, UsersForm, PrintingForm
+from .forms import ProblemsForm, StatementsForm, UsersForm, PrintingForm, UserFilterForm
 from .forms import TwoPanelProblemMultipleChoiceField, TwoPanelUserMultipleChoiceField
-from .models import Membership, ContestProblem
+from .models import Contest, Membership, ContestProblem, UserFilter
 from .views import BaseContestView
 
 
@@ -196,7 +197,7 @@ class StatementsView(ContestSettingsView):
 
 
 UserFormPair = namedtuple('UserFormPair', 'user form')
-RoleUsersViewModel = namedtuple('RoleUsersViewModel', 'name_plural tag users')
+RoleUsersViewModel = namedtuple('RoleUsersViewModel', 'name_plural tag users enable_filters')
 
 TAG_TO_NAME = {
     'contestants': _('Contestants'),
@@ -216,7 +217,8 @@ class UsersView(ContestSettingsView):
         role = TAG_TO_ROLE[tag]
         queryset = Membership.objects.filter(contest=self.contest, role=role).select_related('user')
         users = [membership.user for membership in queryset]
-        return RoleUsersViewModel(TAG_TO_NAME[tag], tag, users)
+        enable_filters = (role == Membership.CONTESTANT)
+        return RoleUsersViewModel(TAG_TO_NAME[tag], tag, users, enable_filters)
 
     def _make_view_models(self, data=None):
         return [
@@ -284,6 +286,30 @@ class UsersJsonListView(ContestSettingsView):
     def get(self, request, contest, folder_id):
         users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
         return TwoPanelUserMultipleChoiceField.ajax(users)
+
+
+class UsersFilterVew(ContestSettingsView):
+    subtab = 'users'
+    template_name = 'contests/settings_filter.html'
+
+    def _make_formset_class(self):
+        return inlineformset_factory(Contest, UserFilter, form=UserFilterForm, fields=('name', 'regex'), can_delete=True, extra=1)
+
+    def get(self, request, contest):
+        FilterFormSet = self._make_formset_class()
+        formset = FilterFormSet(instance=contest)
+        context = self.get_context_data(formset=formset)
+        return render(request, self.template_name, context)
+
+    def post(self, request, contest):
+        FilterFormSet = self._make_formset_class()
+        formset = FilterFormSet(request.POST, instance=contest)
+        if formset.is_valid():
+            with transaction.atomic():
+                formset.save()
+            return redirect('contests:settings_filters', contest.id)
+        context = self.get_context_data(formset=formset)
+        return render(request, self.template_name, context)
 
 
 class PrintingView(SingleFormView):

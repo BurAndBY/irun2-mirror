@@ -1,0 +1,20 @@
+{% extends 'contests/settings_base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block submain %}
+    <h3>{% trans 'User filters' %}</h3>
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% bootstrap_formset formset show_label=True layout='horizontal' %}
+        {% buttons layout='horizontal' %}
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Save' %}
+            </button>
+            <a href="{% url 'contests:settings_users' contest.id %}" class="btn btn-link">
+                {% trans 'Back' %}
+            </a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

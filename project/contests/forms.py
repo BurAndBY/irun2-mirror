@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 from collections import OrderedDict
 
 from django import forms
@@ -13,7 +15,7 @@ from solutions.forms import SolutionForm
 from users.models import UserFolder
 
 from contests.printing import check_size_limits
-from contests.models import Contest, Message, Printout
+from contests.models import Contest, Message, Printout, UserFilter
 
 
 class PropertiesForm(forms.ModelForm):
@@ -190,3 +192,17 @@ class EditPrintoutForm(forms.ModelForm):
     class Meta:
         model = Printout
         fields = ['room', 'status']
+
+
+class UserFilterForm(forms.ModelForm):
+    class Meta:
+        model = UserFilter
+        fields = ['name', 'regex']
+
+    def clean_regex(self):
+        data = self.cleaned_data['regex']
+        try:
+            re.compile(data)
+        except re.error:
+            raise forms.ValidationError('Invalid regular expression.')
+        return data
