@@ -662,26 +662,37 @@ class ProblemTestsBatchSetView(BaseProblemView):
     form_class = None
     url_pattern = None
 
-    def apply(self, queryset, valid_form):
+    def apply(self, problem, queryset, valid_form):
         raise NotImplementedError()
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
         ids = make_int_list_quiet(request.GET.getlist('id'))
-        context = self._make_context(problem, {
-            'form': self.form_class(initial=make_initial_limits(problem)),
+        context = {
             'ids': ids,
             'url_pattern': self.url_pattern,
-        })
+        }
+        if self.form_class is not None:
+            context['form'] = self.form_class(initial=make_initial_limits(problem))
+        context = self._make_context(problem, context)
         return render(request, self.template_name, context)
 
     def post(self, request, problem_id):
         problem = self._load(problem_id)
         ids = make_int_list_quiet(request.POST.getlist('id'))
-        form = self.form_class(request.POST, initial=make_initial_limits(problem))
-        if form.is_valid():
+
+        form = None
+        if self.form_class is not None:
+            form = self.form_class(request.POST, initial=make_initial_limits(problem))
+            ok = False
+            if form.is_valid():
+                ok = True
+        else:
+            ok = True
+
+        if ok:
             queryset = problem.testcase_set.filter(ordinal_number__in=ids)
-            self.apply(queryset, form)
+            self.apply(problem, queryset, form)
             return redirect_with_query_string(request, 'problems:tests', problem.id)
 
         context = self._make_context(problem, {
@@ -696,7 +707,7 @@ class ProblemTestsSetTimeLimitView(ProblemTestsBatchSetView):
     form_class = MassSetTimeLimitForm
     url_pattern = 'problems:tests_mass_time_limit'
 
-    def apply(self, queryset, valid_form):
+    def apply(self, problem, queryset, valid_form):
         queryset.update(time_limit=valid_form.cleaned_data['time_limit'])
 
 
@@ -704,7 +715,7 @@ class ProblemTestsSetMemoryLimitView(ProblemTestsBatchSetView):
     form_class = MassSetMemoryLimitForm
     url_pattern = 'problems:tests_mass_memory_limit'
 
-    def apply(self, queryset, valid_form):
+    def apply(self, problem, queryset, valid_form):
         queryset.update(memory_limit=valid_form.cleaned_data['memory_limit'])
 
 
@@ -712,8 +723,23 @@ class ProblemTestsSetPointsView(ProblemTestsBatchSetView):
     form_class = MassSetPointsForm
     url_pattern = 'problems:tests_mass_points'
 
-    def apply(self, queryset, valid_form):
+    def apply(self, problem, queryset, valid_form):
         queryset.update(points=valid_form.cleaned_data['points'])
+
+
+class ProblemTestsBatchDeleteView(ProblemTestsBatchSetView):
+    form_class = None
+    url_pattern = 'problems:tests_mass_delete'
+    template_name = 'problems/batch_delete_tests.html'
+
+    def apply(self, problem, queryset, valid_form):
+        with transaction.atomic():
+            queryset.delete()
+            test_ids = problem.testcase_set.all().order_by('ordinal_number').values_list('id', flat=True)
+            no = 0
+            for test_id in test_ids:
+                no += 1
+                TestCase.objects.filter(pk=test_id, problem=problem).update(ordinal_number=no)
 
 
 class ProblemTestsUploadArchiveView(BaseProblemView):

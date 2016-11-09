@@ -59,6 +59,7 @@
                 <li><a href="#" id="ir_set_time_limit">{% trans 'Set time limit' %}</a></li>
                 <li><a href="#" id="ir_set_memory_limit">{% trans 'Set memory limit' %}</a></li>
                 <li><a href="#" id="ir_set_points">{% trans 'Set points' %}</a></li>
+                <li><a href="#" id="ir_delete">{% trans 'Delete' %}</a></li>
             </ul>
         </div>
     </div>
@@ -153,6 +154,10 @@
         $("#ir_set_points").click(function(e) {
             e.preventDefault();
             irPerformActionOnSelected("{% url 'problems:tests_mass_points' problem.id %}{{ navigator.query_string }}");
+        });
+        $("#ir_delete").click(function(e) {
+            e.preventDefault();
+            irPerformActionOnSelected("{% url 'problems:tests_mass_delete' problem.id %}{{ navigator.query_string }}");
         });
     });
 </script>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-09 02:05+0300\n"
-"PO-Revision-Date: 2016-11-09 02:07+0300\n"
+"POT-Creation-Date: 2016-11-09 13:00+0300\n"
+"PO-Revision-Date: 2016-11-09 13:00+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -734,6 +734,7 @@ msgstr "Вопрос будет удалён."
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
 #: .\courses\templates\courses\messages.html:149
 #: .\courses\templates\courses\settings_component.html:17
+#: .\problems\templates\problems\batch_delete_tests.html:15
 #: .\problems\templates\problems\delete.html:20
 #: .\problems\templates\problems\delete_file.html:14
 #: .\problems\templates\problems\files.html:36
@@ -742,6 +743,7 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\list_folder_confirm_delete.html:32
 #: .\problems\templates\problems\show_test.html:39
 #: .\problems\templates\problems\show_test.html:132
+#: .\problems\templates\problems\tests.html:62
 #: .\solutions\templates\solutions\solution_list.html:75
 #: .\users\templates\users\folder.html:34
 #: .\users\templates\users\folder.html:66
@@ -768,6 +770,7 @@ msgstr "Удалить"
 #: .\courses\templates\courses\settings_component.html:21
 #: .\courses\templates\courses\settings_users_edit.html:20
 #: .\news\templates\news\new.html:14 .\news\templates\news\update.html:14
+#: .\problems\templates\problems\batch_delete_tests.html:18
 #: .\problems\templates\problems\batch_edit_tests.html:18
 #: .\problems\templates\problems\challenge_new.html:28
 #: .\problems\templates\problems\delete.html:23
@@ -980,7 +983,7 @@ msgstr "Последнее решение"
 #: .\courses\templates\courses\standings.html:107
 #: .\courses\templates\courses\standings_wide.html:18
 #: .\problems\templates\problems\challenge.html:43
-#: .\problems\templates\problems\tests.html:75
+#: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:14
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
@@ -1486,6 +1489,7 @@ msgid "Are you sure you want to permanently delete the course?"
 msgstr "Вы уверены, что хотите удалить этот курс?"
 
 #: .\courses\templates\courses\course_confirm_delete.html:8
+#: .\problems\templates\problems\batch_delete_tests.html:12
 #: .\problems\templates\problems\delete.html:17
 msgid "This action cannot be undone."
 msgstr "Это действие не может быть отменено."
@@ -1943,7 +1947,7 @@ msgstr "Папки с задачами"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\problems\templates\problems\show_test.html:52
-#: .\problems\templates\problems\tests.html:79
+#: .\problems\templates\problems\tests.html:80
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
@@ -1953,7 +1957,7 @@ msgstr "Ограничение по времени"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
 #: .\problems\templates\problems\show_test.html:56
-#: .\problems\templates\problems\tests.html:80
+#: .\problems\templates\problems\tests.html:81
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
@@ -1966,7 +1970,7 @@ msgstr ""
 #: .\problems\forms.py:130
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
 #: .\problems\templates\problems\show_test.html:48
-#: .\problems\templates\problems\tests.html:78
+#: .\problems\templates\problems\tests.html:79
 msgid "Points"
 msgstr "Баллы"
 
@@ -2181,10 +2185,11 @@ msgstr "Редактор TeX"
 msgid "Pictures"
 msgstr "Картинки"
 
-#: .\problems\templates\problems\batch_edit_tests.html:8
-msgid "Batch editing"
-msgstr "Массовое редактирование"
+#: .\problems\templates\problems\batch_delete_tests.html:8
+msgid "Batch deteting"
+msgstr "Массовое удаление"
 
+#: .\problems\templates\problems\batch_delete_tests.html:8
 #: .\problems\templates\problems\batch_edit_tests.html:8
 #: .\problems\templates\problems\overview.html:95
 msgid "test"
@@ -2193,14 +2198,22 @@ msgstr[0] "тест"
 msgstr[1] "теста"
 msgstr[2] "тестов"
 
+#: .\problems\templates\problems\batch_delete_tests.html:12
+msgid "The tests are going to be deleted."
+msgstr "Тесты будут удалены."
+
+#: .\problems\templates\problems\batch_edit_tests.html:8
+msgid "Batch editing"
+msgstr "Массовое редактирование"
+
 #: .\problems\templates\problems\challenge.html:27
 #: .\problems\templates\problems\challenge.html:41
 #: .\problems\templates\problems\files.html:33
 #: .\problems\templates\problems\files.html:75
 #: .\problems\templates\problems\show_test.html:98
 #: .\problems\templates\problems\show_test.html:107
-#: .\problems\templates\problems\tests.html:95
-#: .\problems\templates\problems\tests.html:104
+#: .\problems\templates\problems\tests.html:96
+#: .\problems\templates\problems\tests.html:105
 #: .\solutions\templates\solutions\solution_source.html:20
 msgid "Open"
 msgstr "Открыть"
@@ -2211,8 +2224,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:76
 #: .\problems\templates\problems\show_test.html:99
 #: .\problems\templates\problems\show_test.html:108
-#: .\problems\templates\problems\tests.html:96
-#: .\problems\templates\problems\tests.html:105
+#: .\problems\templates\problems\tests.html:97
+#: .\problems\templates\problems\tests.html:106
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
 #: .\solutions\templates\solutions\solution_source.html:23
 #: .\storage\templates\storage\show.html:14
@@ -2385,7 +2398,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1115
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1141
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2464,13 +2477,13 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:76
+#: .\problems\templates\problems\tests.html:77
 #: .\problems\templates\problems\tests_browse.html:15
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:77
+#: .\problems\templates\problems\tests.html:78
 #: .\problems\templates\problems\tests_browse.html:16
 msgid "Output"
 msgstr "Выход"
@@ -2518,7 +2531,7 @@ msgid "No rejudges"
 msgstr "Перетестирований нет"
 
 #: .\problems\templates\problems\show_test.html:22
-#: .\problems\templates\problems\tests.html:90
+#: .\problems\templates\problems\tests.html:91
 #: .\solutions\templates\solutions\testcaseresult.html:59
 #: .\storage\templates\storage\usage.html:29
 msgid "Test"
@@ -2624,12 +2637,12 @@ msgstr "Задать ограничение по памяти"
 msgid "Set points"
 msgstr "Задать баллы"
 
-#: .\problems\templates\problems\tests.html:68
+#: .\problems\templates\problems\tests.html:69
 #: .\problems\templates\problems\tests_browse.html:9
 msgid "No tests"
 msgstr "Нет тестов"
 
-#: .\problems\templates\problems\tests.html:89
+#: .\problems\templates\problems\tests.html:90
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:34
 msgid "Sample test"
 msgstr "Тест-пример"
@@ -2704,7 +2717,7 @@ msgstr "Тест %(number)s сохранён."
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:764
+#: .\problems\views.py:790
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -2712,11 +2725,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:1015 .\users\views.py:126
+#: .\problems\views.py:1041 .\users\views.py:126
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1033
+#: .\problems\views.py:1059
 msgid "Folder properties"
 msgstr "Свойства папки"
 

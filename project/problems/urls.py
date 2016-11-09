@@ -17,6 +17,7 @@ problem_urlpatterns = [
     url(r'^tests/batch/set/time-limit/$', views.ProblemTestsSetTimeLimitView.as_view(), name='tests_mass_time_limit'),
     url(r'^tests/batch/set/memory-limit/$', views.ProblemTestsSetMemoryLimitView.as_view(), name='tests_mass_memory_limit'),
     url(r'^tests/batch/set/points/$', views.ProblemTestsSetPointsView.as_view(), name='tests_mass_points'),
+    url(r'^tests/batch/delete/$', views.ProblemTestsBatchDeleteView.as_view(), name='tests_mass_delete'),
 
     url(r'^tests/open/input-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='input', download=False), name='test_input_open'),
     url(r'^tests/download/input-(?P<test_number>[0-9]+)\.txt$', views.ProblemTestsTestDataView.as_view(kind='input', download=True), name='test_input_download'),
