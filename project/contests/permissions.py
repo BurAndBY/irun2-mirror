@@ -26,17 +26,13 @@ class ContestPermissions(object):
 
     def set_juror(self):
         self.standings = True
-        self.standings_before = True
         self.always_unfrozen_standings = True
         self.problems = True
-        self.problems_before = True
         self.all_solutions = True
         self.submit = True
-        self.submit_always = True
         self.manage_messages = True
         self.answer_questions = True
         self.compilers = True
-        self.export = True
         self.printing = True
         self.manage_printing = True
 
@@ -52,7 +48,11 @@ class ContestPermissions(object):
 
     def set_admin(self):
         self.set_juror()
+        self.standings_before = True
+        self.problems_before = True
+        self.submit_always = True
         self.settings = True
+        self.export = True
 
     def disable_printing(self):
         self.printing = False
