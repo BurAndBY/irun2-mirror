@@ -229,9 +229,13 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
             # The problem has been excluded from the contest.
             continue
 
+        user_result.has_any_submissions = True
+
         kind = _get_kind(cs, freeze_time, contest.show_pending_runs)
         if kind is None:
             continue
+
+        user_result.has_valid_submissions = True
 
         score = None
         if (kind is SolutionKind.REJECTED) or (kind is SolutionKind.ACCEPTED):
@@ -384,6 +388,8 @@ class UserResultBase(object):
         self.members = user.userprofile.members
         self._place = None
         self._row_tag = None
+        self.has_any_submissions = False
+        self.has_valid_submissions = False
 
     def get_problem_result(self, problem_index):
         return self.problem_results[problem_index]
