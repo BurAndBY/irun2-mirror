@@ -56,7 +56,7 @@
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ first.solution.reception_time }}</dd>
 
-                    {% if first.solution.best_judgement %}
+                    {% if first.solution.best_judgement and first.environment.course %}
                         <dt>{% trans 'Score' %}</dt>
                         <dd>{{ first.solution.best_judgement.score }} {% trans 'of' %} {{ first.solution.best_judgement.max_score }}</dd>
                     {% endif %}
@@ -81,7 +81,7 @@
                     <dt>{% trans 'Submission time' %}</dt>
                     <dd>{{ second.solution.reception_time }}</dd>
 
-                    {% if second.solution.best_judgement %}
+                    {% if second.solution.best_judgement and second.environment.course %}
                         <dt>{% trans 'Score' %}</dt>
                         <dd>{{ second.solution.best_judgement.score }} {% trans 'of' %} {{ second.solution.best_judgement.max_score }}</dd>
                     {% endif %}
