@@ -30,7 +30,7 @@
             </td>
             <td class="ir-timeline ir-timeline-2"></td>
             <td class="text-right">{{ info.number }}</td>
-            <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ info.solution.id }}"></td>
+            <td>{% if enable_compare %}<input type="checkbox" class="ir-checkbox" name="id" value="{{ info.solution.id }}">{% endif %}</td>
             <td>
                 {{ info.solution.reception_time }}
             </td>
@@ -66,11 +66,11 @@
 </table>
 
 {% if enable_compare %}
-    <p>
+    {% buttons %}
         <button type="button" id="ir_compare_button" class="btn btn-default" title="{% trans 'Check two solutions to compare.' %}" disabled>
             {% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Compare solutions' %}</span>
         </button>
-    </p>
+    {% endbuttons %}
     <script>
         function setButtonState() {
             var checkboxes = $(".ir-checkbox");
