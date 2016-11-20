@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-09 13:00+0300\n"
-"PO-Revision-Date: 2016-11-09 13:00+0300\n"
+"POT-Creation-Date: 2016-11-20 17:47+0300\n"
+"PO-Revision-Date: 2016-11-20 17:47+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: .\api\models.py:14 .\contests\models.py:149 .\solutions\forms.py:105
+#: .\api\models.py:14 .\contests\models.py:150 .\solutions\forms.py:105
 #: .\solutions\models.py:50
 msgid "Waiting"
 msgstr "Ожидание"
@@ -28,7 +28,7 @@ msgstr "Ожидание"
 msgid "Executing"
 msgstr "Выполнение"
 
-#: .\api\models.py:16 .\contests\models.py:148 .\solutions\forms.py:110
+#: .\api\models.py:16 .\contests\models.py:149 .\solutions\forms.py:110
 #: .\solutions\models.py:49
 msgid "Done"
 msgstr "Готово"
@@ -510,7 +510,7 @@ msgstr "Пользователь"
 
 #: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
 #: .\contests\services.py:42
-#: .\contests\templates\contests\all_solutions.html:31
+#: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
 #: .\contests\templates\contests\problem.html:7 .\courses\forms.py:115
@@ -560,7 +560,7 @@ msgstr "Просмотр результатов"
 msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
 
-#: .\contests\models.py:45 .\contests\models.py:173 .\courses\models.py:21
+#: .\contests\models.py:45 .\contests\models.py:174 .\courses\models.py:21
 #: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:105
 #: .\courses\models.py:113
 #: .\courses\templates\courses\api_list_problems.html:11
@@ -640,52 +640,52 @@ msgstr "член жюри"
 msgid "role"
 msgstr "роль"
 
-#: .\contests\models.py:116
+#: .\contests\models.py:117
 #: .\contests\templates\contests\all_questions_delete.html:7
 #: .\contests\templates\contests\question_answers.html:9
 msgid "Question"
 msgstr "Вопрос"
 
-#: .\contests\models.py:117
+#: .\contests\models.py:118
 msgid "Answer"
 msgstr "Ответ"
 
-#: .\contests\models.py:118
+#: .\contests\models.py:119
 msgid "Message"
 msgstr "Сообщение"
 
-#: .\contests\models.py:126 .\courses\models.py:188 .\feedback\models.py:12
+#: .\contests\models.py:127 .\courses\models.py:188 .\feedback\models.py:12
 #: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
-#: .\contests\models.py:127 .\courses\models.py:199
+#: .\contests\models.py:128 .\courses\models.py:199
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:150 .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:151 .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
 
-#: .\contests\models.py:151
+#: .\contests\models.py:152
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: .\contests\models.py:156 .\contests\models.py:165
+#: .\contests\models.py:157 .\contests\models.py:166
 #: .\contests\templates\contests\printing.html:32
 msgid "room"
 msgstr "аудитория"
 
-#: .\contests\models.py:158
+#: .\contests\models.py:159
 msgid "text"
 msgstr "текст"
 
-#: .\contests\models.py:159
+#: .\contests\models.py:160
 msgid "status"
 msgstr "статус"
 
-#: .\contests\models.py:174
+#: .\contests\models.py:175
 msgid "regular expression"
 msgstr "регулярное выражение"
 
@@ -694,12 +694,12 @@ msgstr "регулярное выражение"
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:485
+#: .\contests\services.py:492
 #: .\contests\templates\contests\standings_raw.html:15
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:504
+#: .\contests\services.py:511
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
@@ -798,7 +798,7 @@ msgstr "Отмена"
 msgid "Apply"
 msgstr "Применить"
 
-#: .\contests\templates\contests\all_solutions.html:32
+#: .\contests\templates\contests\all_solutions.html:35
 #: .\contests\templates\contests\printing.html:24
 #: .\contests\templates\contests\printout_show.html:14
 #: .\courses\templates\courses\solutions.html:39
@@ -820,7 +820,7 @@ msgstr "Применить"
 msgid "Author"
 msgstr "Автор"
 
-#: .\contests\templates\contests\all_solutions.html:33
+#: .\contests\templates\contests\all_solutions.html:36
 #: .\contests\templates\contests\my_solutions.html:33
 #: .\contests\templates\contests\printing.html:25
 #: .\courses\templates\courses\solutions.html:42
@@ -831,7 +831,7 @@ msgstr "Автор"
 msgid "Time"
 msgstr "Время"
 
-#: .\contests\templates\contests\all_solutions.html:34
+#: .\contests\templates\contests\all_solutions.html:37
 #: .\contests\templates\contests\my_solutions.html:34
 #: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:153
 #: .\problems\forms.py:171 .\problems\forms.py:175 .\problems\forms.py:194
@@ -848,7 +848,7 @@ msgstr "Время"
 msgid "File"
 msgstr "Файл"
 
-#: .\contests\templates\contests\all_solutions.html:35
+#: .\contests\templates\contests\all_solutions.html:38
 #: .\contests\templates\contests\my_solutions.html:35
 #: .\contests\templates\contests\printing.html:26
 #: .\contests\templates\contests\printout_show.html:20
@@ -860,7 +860,7 @@ msgstr "Файл"
 msgid "Status"
 msgstr "Статус"
 
-#: .\contests\templates\contests\all_solutions.html:37
+#: .\contests\templates\contests\all_solutions.html:40
 #: .\contests\templates\contests\my_solutions.html:37
 #: .\solutions\templates\solutions\compare.html:60
 #: .\solutions\templates\solutions\compare.html:85
@@ -870,7 +870,15 @@ msgstr "Статус"
 msgid "Score"
 msgstr "Очки"
 
-#: .\contests\templates\contests\all_solutions.html:66
+#: .\contests\templates\contests\all_solutions.html:71
+msgid "Disqualify"
+msgstr "Дисквалифицировать"
+
+#: .\contests\templates\contests\all_solutions.html:74
+msgid "Cancel the disqualification"
+msgstr "Отменить дисквалификацию"
+
+#: .\contests\templates\contests\all_solutions.html:85
 #: .\contests\templates\contests\my_solutions.html:67
 #: .\courses\templates\courses\info.html:28
 #: .\courses\templates\courses\info.html:59
@@ -952,13 +960,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:466
+#: .\contests\views.py:481
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:688 .\courses\views.py:809
+#: .\contests\views.py:703 .\courses\views.py:809
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1254,11 +1262,11 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:718
+#: .\contests\views.py:733
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
-#: .\contests\views.py:872
+#: .\contests\views.py:887
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 

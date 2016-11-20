@@ -25,9 +25,12 @@
 
     {% if object_list %}
         {% irunner_pagination pagination_context %}
+        <form method="post">
+        {% csrf_token %}
         <table class="table table-condensed table-striped ir-compact-table">
             <thead>
                 <tr>
+                    <th><input type="checkbox" id="selectall"></th>
                     <th>{% trans 'Problem' %}</th>
                     <th>{% trans 'Author' %}</th>
                     <th>{% trans 'Time' %}</th>
@@ -40,7 +43,8 @@
             </thead>
             <tbody>
                 {% for solution in object_list %}
-                <tr>
+                <tr{% if solution.is_disqualified %} class="warning"{% endif %}>
+                    <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}"></td>
                     <td>
                         <a href="{% url 'contests:problem' contest.id solution.problem_id %}">{% irunner_contests_showproblem resolver solution.problem_id %}</a>
                     </td>
@@ -61,6 +65,21 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% buttons %}
+            <div class="btn-group">
+                <button type="submit" name="disqualify" class="btn btn-sm btn-default ir-checkbox-driven">
+                    {% bootstrap_icon 'thumbs-down' %} <span class="ir-icon-label">{% trans 'Disqualify' %}</span>
+                </button>
+                <button type="submit" name="qualify" class="btn btn-sm btn-default ir-checkbox-driven">
+                    {% bootstrap_icon 'thumbs-up' %} <span class="ir-icon-label">{% trans 'Cancel the disqualification' %}</span>
+                </button>
+            </div>
+        {% endbuttons %}
+        </form>
+
+        <script>
+            $(document).ready(irSetUpSelectAll);
+        </script>
     {% else %}
         <div class="ir-absence">
             {% trans 'No solutions' %}

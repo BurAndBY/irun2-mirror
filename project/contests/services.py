@@ -204,6 +204,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
     # fetch solutions
     queryset = ContestSolution.objects.\
         filter(contest=contest).\
+        filter(is_disqualified=False).\
         filter(solution__reception_time__gte=contest.start_time, solution__reception_time__lt=contest.start_time+contest.duration).\
         select_related('solution', 'solution__best_judgement').\
         order_by('solution__reception_time')

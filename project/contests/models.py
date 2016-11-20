@@ -105,6 +105,7 @@ class ContestSolution(models.Model):
     contest = models.ForeignKey(Contest, null=False, on_delete=models.CASCADE)
     solution = models.OneToOneField(Solution, null=False, on_delete=models.CASCADE)
     fixed_judgement = models.ForeignKey(Judgement, null=True, on_delete=models.SET_NULL)
+    is_disqualified = models.BooleanField(default=False)
 
 
 class Message(models.Model):
