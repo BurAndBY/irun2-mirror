@@ -44,7 +44,7 @@
             <tbody>
                 {% for solution in object_list %}
                 <tr{% if solution.is_disqualified %} class="warning"{% endif %}>
-                    <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}"></td>
+                    <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ solution.id }}" style="margin: 0"></td>
                     <td>
                         <a href="{% url 'contests:problem' contest.id solution.problem_id %}">{% irunner_contests_showproblem resolver solution.problem_id %}</a>
                     </td>

@@ -43,10 +43,6 @@ body {
     margin-right: 8px;
 }
 
-.ir-checkbox[type="checkbox"] {
-    margin: 0;
-}
-
 /**
  * Jumbotron
  */
