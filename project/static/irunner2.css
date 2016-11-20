@@ -1524,7 +1524,7 @@ Green menu
 }
 
 .ir-contest-message-unanswered, .ir-contest-message-unanswered-hoverable {
-    border-color: #f2dede;
+    border-color: #d9534f;
 }
 .ir-contest-message-unanswered-hoverable:hover {
     border-color: #e4b9b9;
