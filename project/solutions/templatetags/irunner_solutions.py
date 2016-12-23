@@ -135,6 +135,8 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
 
         if accepted:
             classes.append('ir-scorebox-accepted')
+        else:
+            classes.append('ir-scorebox-attempted')
 
         if accepted and hide_score_if_accepted:
             contents = '&nbsp;'
