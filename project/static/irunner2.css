@@ -79,6 +79,7 @@ body {
     border-right: 1px solid #ddd;
     font-size: 12px;
     text-align: center;
+    vertical-align: top;
 }
 .ir-course-standings .ir-slot .ir-row1 {
     font-size: 12px;
@@ -184,7 +185,6 @@ h3 { font-size: 20px; line-height: 32px; }
     padding-bottom: 1px;
     padding-left: 2px;
     padding-right: 2px;
-    vertical-align: middle;
 }
 
 .ir-compact-table {

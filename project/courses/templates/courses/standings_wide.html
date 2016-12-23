@@ -12,6 +12,8 @@
 <div class="container-fluid">
     <h2>{% trans 'Standings' context 'course' %}: {{ course }}</h2>
 
+    {% if course_descr.topic_descrs %}
+    <h4>{% trans 'Individual problems' %}</h4>
     <table class="table ir-table-more-condensed table-striped ir-course-standings">
         <thead>
             <tr>
@@ -38,14 +40,11 @@
                 </td>
 
                 <td class="text-nowrap">
-                    {% if permissions.assign %}<a href="{% url 'courses:course_assignment' course.id user_result.user.id %}">{% endif %}<!--
-                    --><b>{{ user_result.user.last_name }}</b> {{ user_result.user.first_name }}<!--
-                    -->{% if permissions.assign %}</a>{% endif %}
-
-                    {% if user_result.membership.subgroup %}
-                        <span class="ir-subgroup-label">
-                            ({{ user_result.membership.subgroup }})
-                        </span>
+                    {% if permissions.assign %}
+                        {% url 'courses:course_assignment' course.id user_result.user.id as assign_url %}
+                        {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
+                    {% else %}
+                        {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
                     {% endif %}
                 </td>
 
@@ -93,6 +92,64 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
+
+    {% if course_descr.topic_descrs and course_descr.common_problems %}
+        <hr>
+    {% endif %}
+
+    {% if course_descr.common_problems %}
+        <h4>{% trans 'Common problems' %}</h4>
+        <table class="ir-table-more-condensed table-striped ir-course-standings">
+            <thead>
+                <tr>
+                    <th class="ir-seq-no">{% trans '#' %}</th>
+                    <th>{% trans 'Student' %}</th>
+                    {% for problem in course_descr.common_problems %}
+                        <th>
+                            <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_short_name }}</a>
+                        </th>
+                    {% endfor %}
+                    <th>{% trans 'Problems' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_result in results %}
+                <tr{% if user_result.user == user %} class="ir-me"{% endif %}>
+                    <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }}">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="text-nowrap">
+                        {% if permissions.assign %}
+                            {% url 'courses:course_assignment' course.id user_result.user.id as assign_url %}
+                            {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
+                        {% else %}
+                            {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
+                        {% endif %}
+                    </td>
+                    {% for pr in user_result.common_problem_results %}
+                        <td class="text-nowrap ir-slot">
+                            {% spaceless %}
+                                <span class="ir-stripe">
+                                    {% if pr and pr.was_submitted %}
+                                        {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=True %}
+                                    {% else %}
+                                        {% irunner_solutions_scorebox %}
+                                    {% endif %}
+                                </span>
+                            {% endspaceless %}
+                        </td>
+                    {% endfor %}
+                    <td class="ir-problem-summary text-nowrap">
+                        {{ user_result.get_complete_common_problem_count }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
     <p>
         {#<a href="{% url 'courses:course_standings' course.id %}">{% trans 'Back' %}</a>#}
     </p>
