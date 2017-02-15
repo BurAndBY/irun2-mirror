@@ -1839,3 +1839,14 @@ Green menu
     padding: 4px;
     margin: 0;
 }
+
+/* KaTeX */
+.ir-katex-displayed {
+    white-space: pre;
+}
+.ir-katex-inline {
+    white-space: pre;
+}
+.ir-err {
+    color: #cc0000;
+}

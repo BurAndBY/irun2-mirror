@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <h2>{% block title %}{% trans 'Questions' %}{% endblock %}</h2>
+    <ul>
+        {% for factory in factories %}
+            <li><a href="{% url 'quizdemo:question' factory.slug seed %}">{{ factory.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

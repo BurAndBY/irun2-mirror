@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block head %}
+    <link href="{% static 'katex-0.7.1/katex.min.css' %}" rel="stylesheet">
+    <script src="{% static 'katex-0.7.1/katex.min.js' %}"></script> 
+{% endblock %}
+
+{% block content %}
+    <h3>{% block title %}{% trans 'Question' %}{% endblock %}</h3>
+
+    <div>
+        <p>{{ text }}</p>
+    </div>
+
+    {% if form %}
+        <form>
+            {% bootstrap_form form show_label=False %}
+        </form>
+    {% endif %}
+
+    <div class="pull-right">
+        <a class="btn btn-default" href="{% url 'quizdemo:index' %}">{% bootstrap_icon 'arrow-left' %} {% trans 'Back' %}</a>
+        <a class="btn btn-primary" href="{% url 'quizdemo:question' slug seed %}">{% bootstrap_icon 'repeat' %} Ещё!</a>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $(".ir-katex-displayed").katex({ displayMode: true });
+            $(".ir-katex-inline").katex({ displayMode: false });
+        });
+    </script>
+{% endblock %}

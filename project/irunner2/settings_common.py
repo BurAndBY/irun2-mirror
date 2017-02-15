@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'solutions',
     'storage',
     'users',
+    'quizdemo',
 )
 
 MIDDLEWARE_CLASSES = (
