@@ -6,6 +6,7 @@ from django.db import transaction
 
 from common.outcome import Outcome
 from problems.models import Validation, TestCaseValidation, ProblemRelatedSourceFile, TestCase, ProblemExtraInfo
+from proglangs.models import Compiler
 from solutions.models import Judgement, TestCaseResult, JudgementExtraInfo, JudgementLog, Challenge, ChallengedSolution
 
 from .models import DbObjectInQueue
@@ -173,7 +174,8 @@ class JudgementInQueue(IObjectInQueue):
 
         checker = problem.problemrelatedsourcefile_set.filter(file_type=ProblemRelatedSourceFile.CHECKER).first()
         if checker is not None:
-            wproblem.checker = WorkerChecker(checker)
+            kind = WorkerChecker.IRUNNER if (checker.compiler.language != Compiler.CPP) else WorkerChecker.TESTLIB_H
+            wproblem.checker = WorkerChecker(checker, kind)
 
         return wproblem
 

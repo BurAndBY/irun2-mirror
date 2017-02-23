@@ -54,11 +54,12 @@ class WorkerState(object):
 
 class WorkerChecker(object):
     IRUNNER = 'IRUNNER'
+    TESTLIB_H = 'TESTLIB_H'
     ACCEPT_ALL = 'ACCEPT_ALL'
 
-    def __init__(self, source=None):
+    def __init__(self, source=None, kind=IRUNNER):
         self.source = source
-        self.kind = self.IRUNNER
+        self.kind = kind
 
 
 class WorkerValidator(object):
