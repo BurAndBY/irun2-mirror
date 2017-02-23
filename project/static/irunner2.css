@@ -1850,3 +1850,39 @@ Green menu
 .ir-err {
     color: #cc0000;
 }
+
+.ir-badge-unresolved {
+    color: #faf2cc;
+    background-color: #8a6d3b;
+}
+
+.ir-course-list {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.ir-course-list td {
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: right;
+}
+.ir-course-list > tbody > tr > td:first-child {
+    width: 100%;
+    text-align: left;
+}
+
+.ir-course-list > thead > tr > th {
+    text-align: center;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #ddd;
+}
+
+.ir-course-list > thead > tr > th:first-child,
+.ir-course-list > tbody > tr > td:first-child {
+    padding-left: 15px;
+}
+.ir-course-list > thead > tr > th:last-child,
+.ir-course-list > tbody > tr > td:last-child {
+    padding-right: 15px;
+}

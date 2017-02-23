@@ -14,15 +14,33 @@
     {% if pairs %}
         <div class="row">
         {% for year, courses in pairs %}
-            <div class="col-md-4 col-sm-6">
-                {% if year != None %}
-                    <h3>{{ year }}</h3>
-                {% endif %}
-                <ul>
-                    {% for course in courses %}
-                        <li><a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a></li>
-                    {% endfor %}
-                </ul>
+            <div class="col-md-6 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {% if year != None %}{{ year }}{% else %}&nbsp;{% endif %}
+                    </div>
+                    <table class="ir-course-list">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><span title="{% trans 'Students' %}">{% bootstrap_icon 'user' %}</span></th>
+                                <th><span title="{% trans 'Solutions' %}">{% bootstrap_icon 'tasks' %}</span></th>
+                                <th colspan="2"><span title="{% trans 'Messages' %}">{% bootstrap_icon 'envelope' %}</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in courses %}
+                            <tr>
+                                <td><a href="{% url 'courses:show_course_info' item.id %}">{% if item.my %}<strong>{% endif %}{{ item.name }}{% if item.my %}</strong>{% endif %}</a></td>
+                                <td>{{ item.student_count }}</td>
+                                <td>{{ item.solution_count }}</td>
+                                <td>{% if item.unread_count %}<span class="badge">{{ item.unread_count }}</span>{% endif %}</td>
+                                <td>{% if item.unresolved_count %}<span class="badge ir-badge-unresolved">{{ item.unresolved_count }}</span>{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         {% endfor %}
         </div>
