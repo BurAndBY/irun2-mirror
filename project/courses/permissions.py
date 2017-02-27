@@ -13,6 +13,7 @@ class CoursePermissions(object):
         self.sheet_edit = False
         self.submit = False
         self.submit_all_problems = False
+        self.editorials = False
         self.settings = False
         self.assign = False
         self.my_solutions = False
@@ -47,6 +48,7 @@ class CoursePermissions(object):
 
         self.submit = True
         self.submit_all_problems = True
+        self.editorials = True
         self.sheet_edit = True
         self.assign = True
         self.my_solutions = True

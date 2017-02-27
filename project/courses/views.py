@@ -33,13 +33,16 @@ from common.pageutils import paginate
 from common.outcome import Outcome
 from common.statutils import build_proglangbars
 from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
-from problems.models import Problem, ProblemFolder
+from problems.models import Problem, ProblemFolder, ProblemRelatedFile
 from problems.views import ProblemStatementMixin
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
 from solutions.utils import new_solution, judge
 from storage.utils import serve_resource_metadata
+
+
+EditorialFile = namedtuple('EditorialFile', 'filename description')
 
 
 class BaseCourseView(generic.View):
@@ -343,6 +346,11 @@ class CourseStatementMixin(object):
             can_submit = any((x.user_id == me) for x in simple_assignments)
             if not can_submit:
                 can_submit |= self.course.common_problems.filter(pk=self.problem.id).exists()
+
+        if self.permissions.editorials:
+            context['editorial_files'] = [
+                EditorialFile(prf.filename, prf.description) for prf in self.problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.SOLUTION_DESCRIPTION)
+            ]
 
         if simple_assignments:
             context['simple_assignments'] = simple_assignments

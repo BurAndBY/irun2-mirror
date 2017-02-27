@@ -26,6 +26,22 @@
             {% endif %}
         </li>
 
+        {% if editorial_files %}
+            <li class="list-group-item">
+                {% bootstrap_icon 'education' %} <span class="ir-icon-label">{% trans 'Solution description' %}</span>
+                <ul>
+                    {% for ef in editorial_files %}
+                        <li>
+                            <a href="{{ ef.filename }}" class="ir-monospace">{{ ef.filename }}</a>
+                            {% if ef.description %}
+                                <br><small><em>{{ ef.description }}</em></small>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+
         {% if can_submit %}
             <a href="{% url 'courses:course_submit' course.id %}?problem={{ problem.id }}" class="list-group-item">
                 {% bootstrap_icon 'send' %} <span class="ir-icon-label">{% trans 'Submit solution' %}</span>
