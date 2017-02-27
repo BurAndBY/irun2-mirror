@@ -244,7 +244,7 @@ class MailThreadForm(forms.ModelForm):
         if problem_choices is not None:
             self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, required=False, coerce=int)
         if person_choices is not None:
-            self.fields['person'] = forms.TypedChoiceField(label=_('Student'), choices=person_choices, required=False, coerce=int)
+            self.fields['person'] = forms.TypedChoiceField(label=_('User'), choices=person_choices, required=False, coerce=int)
 
 
 class MailMessageForm(forms.ModelForm):

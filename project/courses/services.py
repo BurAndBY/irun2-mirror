@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from django.contrib import auth
 from django.db.models import F
-from django.utils.encoding import force_text
+from django.utils.encoding import force_text, smart_text
 from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 from django.utils import timezone
@@ -105,6 +105,9 @@ class UserCache(object):
     def list_students(self):
         return self._students
 
+    def list_teachers(self):
+        return self._teachers
+
     def get_user(self, user_id):
         '''
         Returns UserDescription instance.
@@ -186,6 +189,19 @@ def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
     data = [(None, empty_select)]
     for user_descr in user_cache.list_students():
         data.append((unicode(user_descr.id), unicode(user_descr)))
+    return tuple(data)
+
+
+def make_allusers_choices(user_cache, empty_select=EMPTY_SELECT):
+    data = [(None, empty_select)]
+    data.append((
+        _('Students'),
+        tuple((smart_text(user_descr.id), smart_text(user_descr)) for user_descr in user_cache.list_students())
+    ))
+    data.append((
+        _('Teachers'),
+        tuple((smart_text(user_descr.id), smart_text(user_descr)) for user_descr in user_cache.list_teachers())
+    ))
     return tuple(data)
 
 '''

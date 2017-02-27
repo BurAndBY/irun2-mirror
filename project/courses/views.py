@@ -21,7 +21,7 @@ from django.template import defaultfilters
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
 from forms import MailThreadForm, MailMessageForm, MailResolvedForm
 from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
-from services import UserCache, make_problem_choices, make_student_choices, make_course_results, make_course_single_result
+from services import UserCache, make_problem_choices, make_student_choices, make_allusers_choices, make_course_results, make_course_single_result
 from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
 from calcpermissions import calculate_course_permissions
 
@@ -826,7 +826,7 @@ class CourseMessagesNewView(BaseCourseView):
         else:
             problem_choices = make_problem_choices(self.course, user_id=self.request.user.id, empty_select=self.general_question)
 
-        person_choices = make_student_choices(self.get_user_cache(), empty_select=self.all_users) if self.permissions.messages_send_any else None
+        person_choices = make_allusers_choices(self.get_user_cache(), empty_select=self.all_users) if self.permissions.messages_send_any else None
         thread_form = MailThreadForm(data=data, files=files, problem_choices=problem_choices, person_choices=person_choices)
 
         message_form = MailMessageForm(data=data, files=files)
