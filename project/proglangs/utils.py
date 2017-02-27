@@ -27,14 +27,20 @@ FILENAME_EXTENSIONS = {
     Compiler.CSHARP: 'cs',
 }
 
-PUBLIC_CLASS_REGEX = re.compile(r'^\s*public\s+class\s+([a-zA-Z0-9_]{1,64})')
+PUBLIC_CLASS_REGEX = re.compile(r'^(?P<ws>\s*)public\s+class\s+(?P<name>[a-zA-Z0-9_]{1,64})')
 
 
 def _extract_java_public_class(text):
+    indent = None
+    name = None
     for line in text.splitlines():
         m = PUBLIC_CLASS_REGEX.match(line)
         if m is not None:
-            return m.group(1)
+            cur_indent = len(m.group('ws'))
+            if (indent is None) or (cur_indent < indent):
+                indent = cur_indent
+                name = m.group('name')
+    return name
 
 
 def guess_filename(lang, text):

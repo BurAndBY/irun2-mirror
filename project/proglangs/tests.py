@@ -38,3 +38,25 @@ class GuessFilenameTests(TestCase):
         public class BinaryTree<T extends Comparable <T>>  {
         '''
         self.assertEqual(guess_filename(Compiler.JAVA, code), 'BinaryTree.java')
+
+    def test_java_7(self):
+        code = '''\
+import java.io.File;
+
+class Parameter {
+}
+
+class Tree<T extends Comparable<T>> {
+    class Node<E extends Comparable<E>> {
+    }
+
+    public class PrintFile implements Method<T> {
+    }
+}
+
+public class Lab4 {
+    public static void main(String[] args) {
+    }
+}
+'''
+        self.assertEqual(guess_filename(Compiler.JAVA, code), 'Lab4.java')
