@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import re
 from collections import namedtuple
 
 from django.utils.html import escape, format_html, mark_safe
@@ -83,12 +84,17 @@ def parse_tex_math(s):
     return Parser(s).run()
 
 
+def _process_text(s):
+    tokens = re.split('\n{2,}', s)
+    return '<br>'.join(escape(t) for t in tokens)
+
+
 def tex2html(s):
     portions = parse_tex_math(s)
     tokens = []
     for portion in portions:
         if portion.mode == PortionMode.TEXT:
-            tokens.append(escape(portion.data))
+            tokens.append(_process_text(portion.data))
         elif portion.mode == PortionMode.INLINE_MATH:
             tokens.append(format_html('<span class="ir-katex-inline">{}</span>', portion.data))
         elif portion.mode == PortionMode.DISPLAYED_MATH:
