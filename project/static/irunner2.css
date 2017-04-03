@@ -1886,3 +1886,20 @@ Green menu
 .ir-course-list > tbody > tr > td:last-child {
     padding-right: 15px;
 }
+
+/**
+ * Quizzes
+ */
+
+.ir-quiz-mark {
+    display: inline-block;
+    min-width: 2em;
+    font-size: 100%;
+    font-weight: bold;
+    background-color: rgba(86, 61, 124, .15);
+    color: rgb(111, 84, 153);
+    text-align: center;
+    border-radius: 2px;
+    line-height: 100%;
+    padding: 2px;
+}

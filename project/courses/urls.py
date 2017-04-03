@@ -34,6 +34,10 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/my/attempts/$', views.CourseMyAttemptsView.as_view(), name='my_attempts'),
 
+    # Quizzes
+
+    url(r'^(?P<course_id>[0-9]+)/quizzes/$', views.CourseQuizzesView.as_view(), name='quizzes'),
+
     # Messages
 
     url(r'^(?P<course_id>[0-9]+)/mailbox/$', views.CourseMessagesEmptyView.as_view(), name='messages_empty'),

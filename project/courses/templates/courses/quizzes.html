@@ -1,0 +1,145 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block subtitle %}{% trans 'Quizzes' %}{% endblock %}
+
+{% block main %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Рекуррентные соотношения</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <ul>
+                    <li><span class="text-success">Тренировочный тест</span></li>
+                    <li>3 часа</li>
+                    <li>42 вопроса</li>
+                </ul>
+            </div>
+            <div class="col-md-9 small">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Начало</th>
+                            <th>Длительность</th>
+                            <th>Оценка</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>30 февраля 2017 г. 10:00</td>
+                            <td>02:48:49</td>
+                            <td><div class="ir-quiz-mark">5</div></td>
+                            <td><a>Ответы</a></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>30 февраля 2017 г. 14:00</td>
+                            <td>01:34:49</td>
+                            <td><div class="ir-quiz-mark">7</div></td>
+                            <td><a>Ответы</a></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>31 февраля 2017 г. 04:00</td>
+                            <td>00:42:42</td>
+                            <td><div class="ir-quiz-mark">9</div></td>
+                            <td><a>Ответы</a></td>
+                        </tr>
+
+                        <tr class="info">
+                            <td>4</td>
+                            <td>31 марта 2017 г. 20:00</td>
+                            <td>&hellip;</td>
+                            <td><div class="ir-quiz-mark">?</div></td>
+                            <td><a>Продолжить</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-default btn-sm">
+                    {% bootstrap_icon 'play' %} <span class="ir-icon-label">Пройти тест</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Кучи Фибоначчи</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <ul>
+                    <li><span class="text-warning">Зачётный тест</span></li>
+                    <li>30 минут</li>
+                    <li>10 вопросов</li>
+                </ul>
+            </div>
+            <div class="col-md-9 small">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Начало</th>
+                            <th>Длительность</th>
+                            <th>Оценка</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>30 февраля 2017 г. 10:00</td>
+                            <td>02:48:49</td>
+                            <td><div class="ir-quiz-mark">5</div></td>
+                            <td class="text-muted">Просмотр ответов запрещён</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-default btn-sm">
+                    {% bootstrap_icon 'sort-by-attributes-alt' %} <span class="ir-icon-label">Рейтинг</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Итоговый тест</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <ul>
+                    <li><span class="text-warning">Зачётный тест</span></li>
+                    <li>10 минут</li>
+                    <li>10 вопросов</li>
+                </ul>
+            </div>
+            <div class="col-md-9 small">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <strong>Внимание!</strong>
+                    Тест можно пройти только один раз.
+                </div>
+
+                <button type="submit" class="btn btn-default btn-sm">
+                    {% bootstrap_icon 'play' %} <span class="ir-icon-label">Пройти тест</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
