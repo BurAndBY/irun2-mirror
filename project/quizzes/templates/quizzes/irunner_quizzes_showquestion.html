@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="res-problem">{{ text|safe }}</div>
+        {% for text, is_true in choices %}
+            <div class="col-xs-12 res-answer{% if is_true %} bg-success res-answer-correct{% endif %}">{{ text|safe }}</div>
+        {% endfor %}
+    </div>
+</div>

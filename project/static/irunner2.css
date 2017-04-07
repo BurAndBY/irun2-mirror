@@ -1915,3 +1915,36 @@ Green menu
     color: #563d7c;
     background-color: #e5e1eb;
 }
+
+/**
+ * TODO: rename to ir-*
+ */
+
+.res-answer, .res-legend {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-bottom: 0!important;
+    margin-top: 0 !important;
+}
+
+.res-answer-correct,
+.res-answer-wrong,
+.res-answer-notchosen {
+    padding-left: 11px !important;
+}
+
+.res-answer-correct {
+    border-left: 4px solid #5cb85c;
+}
+
+.res-answer-wrong {
+    border-left: 4px solid #d9534f;
+}
+
+.res-answer-notchosen {
+    border-left: 4px solid #5bc0de;
+}
+
+.res-problem {
+    padding-bottom: 15px;
+}

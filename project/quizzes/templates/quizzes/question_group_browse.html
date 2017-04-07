@@ -1,0 +1,22 @@
+{% extends 'quizzes/base.html' %}
+
+{% load i18n %}
+{% load irunner_katex %}
+{% load irunner_pagination %}
+{% load irunner_quizzes %}
+
+{% block head %}
+    {% irunner_katex_head %}
+{% endblock %}
+
+{% block main %}
+    <h3>{{ object.name }}</h3>
+
+    {% irunner_pagination pagination_context %}
+
+    {% for question in object_list %}
+        {% irunner_quizzes_showquestion question %}
+    {% endfor %}
+
+    {% irunner_katex_body %}
+{% endblock %}

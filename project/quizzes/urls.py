@@ -4,6 +4,7 @@ from . import views
 
 group_urlpatterns = [
     url(r'^$', views.QuestionGroupListView.as_view(), name='list'),
+    url(r'^(?P<pk>[0-9]+)/browse/$', views.QuestionGroupBrowseView.as_view(), name='browse'),
 ]
 
 template_urlpatterns = [
