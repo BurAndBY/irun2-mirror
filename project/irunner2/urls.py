@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^contests/', include('contests.urls', namespace='contests')),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^quiz-demo/', include('quizdemo.urls', namespace='quizdemo')),
+    url(r'^quizzes/', include('quizzes.urls', namespace='quizzes')),
     url(r'^about/', common.views.about, name='about'),
     url('^', include('cauth.urls')),
     #url(r'^admin/', include(admin.site.urls)),

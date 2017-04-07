@@ -1903,3 +1903,15 @@ Green menu
     line-height: 100%;
     padding: 2px;
 }
+
+/**
+ * Violet menu
+ */
+.ir-list-group-quizzes .active, .ir-list-group-quizzes .active:hover, .ir-list-group-quizzes .active:focus {
+    background-color: #6f5499;
+    border-color: #6f5499;
+}
+.ir-list-group-quizzes li {
+    color: #563d7c;
+    background-color: #e5e1eb;
+}
