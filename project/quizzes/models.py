@@ -41,3 +41,23 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.text
+
+
+@python_2_unicode_compatible
+class QuizTemplate(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    shuffle_questions = models.BooleanField(default=True)
+    question_groups = models.ManyToManyField(QuestionGroup, through='GroupQuizRelation')
+
+    def __str__(self):
+        return self.name
+
+
+class GroupQuizRelation(models.Model):
+    group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
+    template = models.ForeignKey(QuizTemplate, on_delete=models.CASCADE)
+    order = models.IntegerField(null=False)
+    points = models.FloatField(default=1.)
+
+    class Meta:
+        ordering = ['order']

@@ -1,0 +1,39 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block main %}
+    <h3>{{ object.name }}</h3>
+
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Shuffle questions' %}</dt>
+        <dd>{{ object.shuffle_questions|yesno }}</dd>
+    </dl>
+
+    {% if relations %}
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>{% trans '#' %}</th>
+                    <th>{% trans 'Question group' %}</th>
+                    <th>{% trans 'Points' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for relation in relations %}
+                    <tr>
+                        <td>{{ relation.order }}</td>
+                        <td>{{ relation.group.name }}</td>
+                        <td>{{ relation.points }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <div class="form-group">
+        <a href="{% url 'quizzes:templates:update' object.id %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
+        <a href="{% url 'quizzes:templates:add_group' object.id %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add question group' %}</span></a>
+    </div>
+{% endblock %}
