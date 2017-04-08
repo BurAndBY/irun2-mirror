@@ -3,6 +3,7 @@ from collections import namedtuple
 from django.contrib import auth, messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
+from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
@@ -11,10 +12,12 @@ from common.cacheutils import AllObjectsCache
 from proglangs.models import Compiler
 from problems.models import Problem
 
-from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm, AccessForm
+from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm, AccessForm, \
+    QuizInstanceCreateForm, QuizInstanceUpdateForm
 from forms import TwoPanelUserMultipleChoiceField, TwoPanelProblemMultipleChoiceField
 from forms import create_member_subgroup_formset_class
 from models import Membership
+from quizzes.models import QuizInstance
 from views import BaseCourseView
 
 
@@ -525,3 +528,84 @@ class CourseSettingsDeleteView(CourseSettingsView):
     def post(self, request, course):
         course.delete()
         return redirect('courses:index')
+
+'''
+Quizzes
+'''
+
+
+class QuizMixin(object):
+    subtab = 'quizzes'
+    list_url_name = 'courses:course_settings_quizzes'
+
+    def get_context_data(self, **kwargs):
+        context = super(QuizMixin, self).get_context_data(**kwargs)
+        context['cancel_url'] = reverse(self.list_url_name, args=(self.course.id,))
+        return context
+
+
+class CourseSettingsQuizzesView(QuizMixin, CourseSettingsView):
+    template_name = 'courses/settings_quizzes.html'
+
+    def _make_view_model(self, data=None):
+        formset_class = modelformset_factory(QuizInstance, fields=('is_available',))
+        queryset = QuizInstance.objects.filter(course=self.course).select_related('quiz_template').order_by('id')
+        formset = formset_class(data, queryset=queryset)
+        pairs = zip(queryset, formset)
+        return formset, pairs
+
+    def get(self, request, course):
+        formset, pairs = self._make_view_model()
+        context = self.get_context_data(formset=formset, pairs=pairs)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        formset, pairs = self._make_view_model(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect(self.list_url_name, course.id)
+
+        context = self.get_context_data(formset=formset, pairs=pairs)
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsQuizzesCreateView(QuizMixin, CourseSettingsView):
+    template_name = 'courses/settings_component.html'
+
+    def get(self, request, course):
+        form = QuizInstanceCreateForm()
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        form = QuizInstanceCreateForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.course = course
+            instance.time_limit = instance.quiz_template.time_limit
+            instance.attempts = instance.quiz_template.attempts
+            instance.save()
+            return redirect(self.list_url_name, course.id)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class CourseSettingsQuizzesUpdateView(QuizMixin, CourseSettingsView):
+    form_class = QuizInstanceUpdateForm
+    template_name = 'courses/settings_component.html'
+
+    def get(self, request, course, instance_id):
+        instance = get_object_or_404(QuizInstance, pk=instance_id, course=course)
+        context = self.get_context_data(form=self.form_class(instance=instance))
+        return render(request, self.template_name, context)
+
+    def post(self, request, course, instance_id):
+        instance = get_object_or_404(QuizInstance, pk=instance_id, course=course)
+        form = self.form_class(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(self.list_url_name, course.id)
+
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)

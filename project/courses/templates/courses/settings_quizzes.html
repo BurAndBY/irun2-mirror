@@ -1,0 +1,51 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load i18n %}
+{% load irunner_users %}
+{% load bootstrap3 %}
+
+{% block submain %}
+    <a href="{% url 'courses:course_settings_quizzes_create' course.id %}">{% trans 'New' %}</a>
+    <form class="form-inline" method="post">
+        {% csrf_token %}
+
+        {{ formset.management_form }}
+        {% if pairs %}
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>{% trans '#' %}</th>
+                        <th>{% trans 'Quiz template' %}</th>
+                        <th>{% trans 'Tag' %}</th>
+                        <th>{% trans 'Available' %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for instance, form in pairs %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ instance.quiz_template.name }}</td>
+                            <td>{{ instance.tag }}</td>
+                            <td>{% bootstrap_form form layout='inline' show_label=False %}</td>
+                            <td>
+                                <a class="btn btn-sm btn-default" href="{% url 'courses:course_settings_quizzes_update' course.id instance.id %}">
+                                    {% bootstrap_icon 'pencil' %}
+                                    <span class="ir-icon-label">{% trans 'Edit' %}</span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="ir-absence">{% trans 'No quizzes' %}</div>
+        {% endif %}
+
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% trans 'Save' %}
+            </button>
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -29,6 +29,9 @@
         <li role="presentation"{% if active_subtab == 'sheet' %} class="active"{% endif %}>
             <a href="{% url 'courses:course_settings_sheet' course.id %}">{% trans 'Sheet' %}</a>
         </li>
+        <li role="presentation"{% if active_subtab == 'quizzes' %} class="active"{% endif %}>
+            <a href="{% url 'courses:course_settings_quizzes' course.id %}">{% trans 'Quizzes' %}</a>
+        </li>
     </ul>
 
     <div class="tab-content ir-tab-content">

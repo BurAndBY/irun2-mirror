@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Problem, ProblemFolder
+from quizzes.models import QuizInstance
 from users.models import UserFolder
 from common.constants import EMPTY_SELECT
 from common.fields import TwoPanelModelMultipleChoiceField
@@ -104,6 +105,18 @@ class SubgroupForm(forms.ModelForm):
         help_texts = {
             'name': _(u'Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’.')
         }
+
+
+class QuizInstanceCreateForm(forms.ModelForm):
+    class Meta:
+        model = QuizInstance
+        fields = ['quiz_template']
+
+
+class QuizInstanceUpdateForm(forms.ModelForm):
+    class Meta:
+        model = QuizInstance
+        fields = ['tag', 'attempts', 'time_limit', 'show_answers']
 
 
 class ProblemModelChoiceField(forms.ModelChoiceField):

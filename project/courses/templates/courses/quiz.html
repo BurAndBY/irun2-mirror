@@ -1,0 +1,117 @@
+{% extends 'courses/base.html' %}
+
+{% load i18n %}
+{% load irunner_katex %}
+
+{% block subtitle %}{% trans 'Quiz' %}{% endblock %}
+
+{% block head %}
+    {% load static %}
+    {% irunner_katex_head %}
+    <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <input id="quizData" type="hidden" value="{{ quizData }}" />
+    <input id="languageTags" type="hidden" value="{{ tags }}" />
+
+    {% verbatim %}
+	<div class="row" ng-app="quiz">
+
+        <div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="warnModalLabel">{{langTags.attention}}</h4>
+                    </div>
+                    <div class="modal-body">{{langTags.warning}}</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{langTags.quit}}</button>
+                        <button type="button" class="btn btn-primary" ng-click="finish()">{{langTags.ok}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="errorModalLabel">{{langTags.error}}</h4>
+                    </div>
+                    <div class="modal-body">{{error.message}}</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{langTags.quit}}</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="error.handle()">{{langTags.ok}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="col-sm-8 col-sm-offset-2">
+			<div class="text-center"><h1>{{quizData.name}}</h1></div>
+            <div class="row text-center">
+                <div class="btn-group">
+                    <button ng-class="{'btn': true, 'btn-default': !isQuestionAnswered(q), 'btn-info': isQuestionAnswered(q)}" ng-repeat="q in quizData.questions" ng-click="setChosen(q)" ng-disabled="isChosen(q)">{{$index + 1}}</button>
+                </div>
+			</div>
+			<div class="col-xs-12" ng-repeat="q in quizData.questions" ng-show="isChosen(q)">
+				<div class="row">
+					<div class="text-left"><h3>{{langTags.question}} {{$index + 1}}</h3></div>
+					<div class="text-left h5" ng-bind-html="q.text"></div>
+					<form ng-switch="q.type">
+						<div class="form-group" ng-switch-when="0">
+							<div class="radio" ng-repeat="c in q.choices">
+								<label for="{{getInputId(c.id)}}">
+									<input type="radio" id="{{getInputId(c.id)}}" name="{{getInputName(q.id)}}" ng-click="setRadioChoice(q, c)" ng-checked="c.chosen"/>
+									<span ng-bind-html="c.text"></span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group" ng-switch-when="1">
+							<div class="checkbox" ng-repeat="c in q.choices">
+								<label for="{{getInputId(c.id)}}">
+									<input type="checkbox" id="{{getInputId(c.id)}}" name="{{getInputName(q.id)}}" ng-model="c.chosen"/>
+									<span ng-bind-html="c.text"></span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group" ng-switch-when="2">
+							<div ng-repeat="c in q.choices">
+								<label class="sr-only" for="{{getInputId(c.id)}}"></label>
+								<input class="form-control" type="text" id="{{getInputId(c.id)}}" name="{{getInputName(q.id)}}" ng-model="c.userAnswer"/>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+            <div class="row form-group">
+                <div class="col-sm-6 text-left">
+                    <button ng-class="{'btn': true, 'btn-primary': !quizAnswered, 'btn-success': quizAnswered}" ng-click="saveChosen()">
+                        <span class="glyphicon glyphicon-stop"></span> {{langTags.finish}}
+                    </button>
+                    <span ng-show="quizData.timeLeft > 0" class="text-muted">{{quizData.timeLeft | secondsToDateTime | date:'HH:mm:ss'}}</span>
+                    <span ng-hide="quizData.timeLeft > 0" class="text-danger">{{langTags.noTimeLeft}}</span>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="btn-group">
+                        <button class="btn btn-default" ng-click="toNext(-1)">
+                            <span class="glyphicon glyphicon-step-backward"></span> {{langTags.previous}}
+                        </button>
+                        <button class="btn btn-default" ng-click="toNext(1)">
+                            {{langTags.next}} <span class="glyphicon glyphicon-step-forward"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	{% endverbatim %}
+
+    <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
+	<script src="{% static 'courses/ng-quiz.js' %}"></script>
+    {% irunner_katex_body %}
+{% endblock %}

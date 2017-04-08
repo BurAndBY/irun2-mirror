@@ -9,6 +9,12 @@
     <dl class="dl-horizontal">
         <dt>{% trans 'Shuffle questions' %}</dt>
         <dd>{{ object.shuffle_questions|yesno }}</dd>
+
+        <dt>{% trans 'Attempts' %}</dt>
+        <dd>{% if object.attempts == None %}{% trans 'Unlimited' %}{% else %}{{ object.attempts }}{% endif %}</dd>
+
+        <dt>{% trans 'Time limit' %}</dt>
+        <dd>{{ object.time_limit }}</dd>
     </dl>
 
     {% if relations %}

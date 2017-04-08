@@ -867,15 +867,3 @@ class CourseCompilersView(BaseCourseView):
         compilers = course.compilers.select_related('compilerdetails').order_by('description')
         context = self.get_context_data(compilers=compilers)
         return render(request, self.template_name, context)
-
-
-class CourseQuizzesView(BaseCourseView):
-    tab = 'quizzes'
-    template_name = 'courses/quizzes.html'
-
-    def is_allowed(self, permissions):
-        return permissions.info
-
-    def get(self, request, course):
-        context = self.get_context_data()
-        return render(request, self.template_name, context)

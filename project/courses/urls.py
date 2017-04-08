@@ -1,6 +1,15 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
-from . import views, globalviews, settingsviews, assignviews
+from . import views, globalviews, settingsviews, assignviews, quizviews
+
+quiz_urlpatterns = [
+    url(r'^$', quizviews.CourseQuizzesView.as_view(), name='list'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/$', quizviews.CourseQuizzesSessionView.as_view(), name='session'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/answers/$', quizviews.CourseQuizzesView.as_view(), name='answers'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/finish/$', quizviews.CourseQuizzesView.as_view(), name='finish'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/save-answer/$', quizviews.CourseQuizzesView.as_view(), name='save_answer'),
+    url(r'^start/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesStartView.as_view(), name='start'),
+]
 
 urlpatterns = [
     url(r'^$', globalviews.CourseListView.as_view(), name='index'),
@@ -33,10 +42,6 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
 
     url(r'^(?P<course_id>[0-9]+)/my/attempts/$', views.CourseMyAttemptsView.as_view(), name='my_attempts'),
-
-    # Quizzes
-
-    url(r'^(?P<course_id>[0-9]+)/quizzes/$', views.CourseQuizzesView.as_view(), name='quizzes'),
 
     # Messages
 
@@ -86,4 +91,10 @@ urlpatterns = [
 
     url(r'^(?P<course_id>[0-9]+)/settings/compilers/$', settingsviews.CourseSettingsCompilersView.as_view(), name='course_settings_compilers'),
     url(r'^(?P<course_id>[0-9]+)/settings/subgroups/$', settingsviews.CourseSettingsSubgroupsView.as_view(), name='course_settings_subgroups'),
+
+    url(r'^(?P<course_id>[0-9]+)/settings/quizzes/$', settingsviews.CourseSettingsQuizzesView.as_view(), name='course_settings_quizzes'),
+    url(r'^(?P<course_id>[0-9]+)/settings/quizzes/create/$', settingsviews.CourseSettingsQuizzesCreateView.as_view(), name='course_settings_quizzes_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/quizzes/(?P<instance_id>[0-9]+)/$', settingsviews.CourseSettingsQuizzesUpdateView.as_view(), name='course_settings_quizzes_update'),
+
+    url(r'^(?P<course_id>[0-9]+)/quizzes/', include(quiz_urlpatterns, namespace='quizzes')),
 ]
