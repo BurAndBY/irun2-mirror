@@ -51,27 +51,6 @@ def get_quiz_data(session):
     return quiz_data
 
 
-def proceed_answer(data, user):
-    try:
-        session = QuizSession.objects.get(pk=data['id'], user=user)
-    except QuizSession.DoesNotExist:
-        return _('Quiz does not exist'), 404
-    finish_overdue_session(session)
-    if session.is_finished:
-        return _('Quiz is finished or no time is left. Do you want to go to results page?'), 410
-    for c in data['question']['choices']:
-        try:
-            a = SessionQuestionAnswer.objects.get(pk=c['id'], session_question__quiz_session=session)
-            if a.session_question.question.kind == Question.TEXT_ANSWER:
-                a.user_answer = c['userAnswer']
-            else:
-                a.is_chosen = c['chosen']
-            a.save()
-        except SessionQuestionAnswer.DoesNotExist:
-            continue
-    return None, 200
-
-
 @transaction.atomic
 def check_quiz_answers(session):
     res = 0.
@@ -148,8 +127,6 @@ def get_quiz_page_language_tags():
         'ok': _('Ok'),
         'no': _('No'),
         'error': _('Error'),
-        'attention': _('Attention'),
-        'warning': _('Are you sure you want to finish this quiz?'),
         'quit': _('Quit'),
         'next': _('Next'),
         'previous': _('Previous'),

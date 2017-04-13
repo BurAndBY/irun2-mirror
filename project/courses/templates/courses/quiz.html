@@ -8,6 +8,7 @@
 {% block head %}
     {% load static %}
     {% irunner_katex_head %}
+    {% load i18n %}
     <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
 {% endblock %}
 
@@ -15,25 +16,29 @@
 
     <input id="quizData" type="hidden" value="{{ quizData }}" />
     <input id="languageTags" type="hidden" value="{{ tags }}" />
+    <input id="urls" type="hidden" value="{{ urls }}" />
 
-    {% verbatim %}
-	<div class="row" ng-app="quiz">
-
-        <div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="warnModalLabel">{{langTags.attention}}</h4>
-                    </div>
-                    <div class="modal-body">{{langTags.warning}}</div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{langTags.quit}}</button>
-                        <button type="button" class="btn btn-primary" ng-click="finish()">{{langTags.ok}}</button>
-                    </div>
+    <div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="warnModalLabel">{% trans 'Attention' %}</h4>
+                </div>
+                <div class="modal-body">{% trans 'Are you sure you want to finish this quiz?' %}</div>
+                <div class="modal-footer">
+                    <form method="post" action="{% url 'courses:quizzes:finish' course.id session.id %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Quit' %}</button>
+                        <button type="submit" class="btn btn-primary">{% trans 'Ok' %}</button>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+
+    {% verbatim %}
+	<div class="row" ng-app="quiz">
 
         <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
             <div class="modal-dialog">

@@ -6,8 +6,8 @@ quiz_urlpatterns = [
     url(r'^$', quizviews.CourseQuizzesView.as_view(), name='list'),
     url(r'^sessions/(?P<session_id>[0-9]+)/$', quizviews.CourseQuizzesSessionView.as_view(), name='session'),
     url(r'^sessions/(?P<session_id>[0-9]+)/answers/$', quizviews.CourseQuizzesView.as_view(), name='answers'),
-    url(r'^sessions/(?P<session_id>[0-9]+)/finish/$', quizviews.CourseQuizzesView.as_view(), name='finish'),
-    url(r'^sessions/(?P<session_id>[0-9]+)/save-answer/$', quizviews.CourseQuizzesView.as_view(), name='save_answer'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/finish/$', quizviews.CourseQuizzesFinishView.as_view(), name='finish'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/save-answer/$', quizviews.SaveAnswerAPIView.as_view(), name='save_answer'),
     url(r'^start/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesStartView.as_view(), name='start'),
 ]
 

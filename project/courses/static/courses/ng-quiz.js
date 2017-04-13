@@ -4,9 +4,14 @@ app.filter('secondsToDateTime', [function() {
         return new Date(1970, 0, 1).setSeconds(seconds);
     };
 }]);
+app.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}]);
 app.run(function($rootScope, $http, $window, $interval) {
 	$rootScope.quizData = angular.fromJson(document.getElementById('quizData').value);
 	$rootScope.langTags = angular.fromJson(document.getElementById('languageTags').value);
+	$rootScope.urls = angular.fromJson(document.getElementById('urls').value);
 	$rootScope.chosen = $rootScope.quizData.questions[0];
 	$rootScope.last = angular.copy($rootScope.chosen);
 	$rootScope.isChosen = function (q) {
@@ -33,8 +38,8 @@ app.run(function($rootScope, $http, $window, $interval) {
 			$rootScope.last = angular.copy($rootScope.chosen);
 			return;
 		}
-		var data = {id: $rootScope.quizData.id, question: $rootScope.chosen};
-		$http.post('/quizzes/quiz/save_answer', data).then(function (response) {
+		var data = $rootScope.getRequestData($rootScope.chosen);
+		$http.post($rootScope.urls.save_answer, data).then(function (response) {
 			$rootScope.chosen = q;
 			$rootScope.last = angular.copy($rootScope.chosen);
 		}, function(response) {
@@ -47,8 +52,8 @@ app.run(function($rootScope, $http, $window, $interval) {
 			$('#warnModal').modal('show');
 			return;
 		}
-		var data = {id: $rootScope.quizData.id, question: $rootScope.chosen};
-		$http.post('/quizzes/quiz/save_answer', data).then(function (response) {
+		var data = $rootScope.getRequestData($rootScope.chosen);
+		$http.post($rootScope.urls.save_answer, data).then(function (response) {
 			$rootScope.last = angular.copy($rootScope.chosen);
 			$('#warnModal').modal('show');
 		}, function(response) {
@@ -65,9 +70,13 @@ app.run(function($rootScope, $http, $window, $interval) {
 		}
 		return true;
 	};
-	$rootScope.finish = function() {
-		$window.location.href = '/quizzes/finish/' + $rootScope.quizData.id;
-	};
+	$rootScope.getRequestData = function (q) {
+        var answers = [];
+        angular.forEach(q.choices, function (c) {
+    		answers.push({id: c.id, chosen: c.chosen, userAnswer: c.userAnswer});
+		});
+        return {answers: answers};
+    };
 	$rootScope.getInputId = function (id) {
 		return 'c' + id;
 	};
@@ -118,7 +127,7 @@ app.run(function($rootScope, $http, $window, $interval) {
 		switch(status) {
 			case 404:
 				$rootScope.error.handle = function() {
-					$window.location.href = '/quizzes';
+					$window.location.href = $rootScope.urls.home;
 				}; break;
 			case 410:
 				$rootScope.error.handle = $rootScope.finish;
