@@ -72,43 +72,6 @@ def check_quiz_answers(session):
     session.save()
 
 
-def get_result_data(session):
-    res = {
-        'name': '{} ({})'.format(session.quiz_instance.quiz_template.name, session.quiz_instance.tag),
-        'student': '?',
-        'result': int(session.result),
-        'start_time': session.start_time,
-        'finish_time': session.finish_time
-    }
-    if session.finish_time:
-        res['duration'] = session.finish_time - session.start_time
-    questions = []
-    eps = 0.000001
-    for q in session.sessionquestion_set.order_by('order'):
-        question = {
-            'text': tex2html(q.question.text),
-            'points': round(q.points + eps, 1),
-            'result_points': round(q.result_points + eps, 1),
-            'kind': q.question.kind
-        }
-        answers = []
-        for a in q.sessionquestionanswer_set.all():
-            answer = {
-                'is_chosen': a.is_chosen,
-                'is_right': a.choice.is_right
-            }
-            if q.question.kind == Question.TEXT_ANSWER:
-                answer['user_answer'] = a.user_answer
-                answer['text'] = a.choice.text
-            else:
-                answer['text'] = tex2html(a.choice.text)
-            answers.append(answer)
-        question['answers'] = answers
-        questions.append(question)
-    res['questions'] = questions
-    return res
-
-
 def finish_overdue_sessions(sessions):
     for session in sessions:
         finish_overdue_session(session)

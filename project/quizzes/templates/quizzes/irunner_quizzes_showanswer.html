@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row h4 panel-title">
+            <div class="col-xs-8">{% trans 'Question' %} {{ counter }}</div>
+            <div class="col-xs-4 text-right">
+                <small><strong>{{ result_points }}</strong> {% trans 'from' %} {{ points }} {% trans 'points' %}</small>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="ir-res-problem">{{ text|safe }}</div>
+        {% for answer in answers %}
+            {% if answer.is_right %}
+                <div class="col-xs-12 ir-res-answer bg-success ir-res-answer-correct">{{ answer.text|safe }}</div>
+            {% elif answer.is_wrong %}
+                <div class="col-xs-12 ir-res-answer bg-danger ir-res-answer-wrong">{{ answer.text|safe }}</div>
+            {% elif answer.is_notchosen %}
+                <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text|safe }}</div>
+            {% else %}
+                <div class="col-xs-12 ir-res-answer">{{ answer.text|safe }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

@@ -1,10 +1,11 @@
 import json
 
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from rest_framework.views import APIView
 
-from courses.views import BaseCourseView
+from courses.views import BaseCourseView, UserCacheMixinMixin
 from quizzes.models import QuizInstance, QuizSession, SessionQuestionAnswer, Question
 from collections import namedtuple
 
@@ -21,12 +22,12 @@ QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_cou
 class QuizMixin(object):
     tab = 'quizzes'
 
-    def is_allowed(self, permissions):
-        return permissions.info
-
 
 class CourseQuizzesView(QuizMixin, BaseCourseView):
     template_name = 'courses/quizzes.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
 
     def make_quiz_info(self, instance):
         my_sessions = QuizSession.objects.filter(quiz_instance=instance, user=self.request.user)
@@ -45,6 +46,9 @@ class CourseQuizzesView(QuizMixin, BaseCourseView):
 
 class CourseQuizzesStartView(QuizMixin, BaseCourseView):
 
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
+
     def post(self, request, course, instance_id):
         instance = QuizInstance.objects.filter(pk=instance_id, course=course).first()
         if instance is None:
@@ -61,10 +65,14 @@ class CourseQuizzesStartView(QuizMixin, BaseCourseView):
 class CourseQuizzesSessionView(QuizMixin, BaseCourseView):
     template_name = 'courses/quiz.html'
 
-    def get_urls(self, course_id, session_id):
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
+
+    def get_urls(self, session_id):
         return {
-            'save_answer': '/courses/{}/quizzes/sessions/{}/save-answer/'.format(course_id, session_id),
-            'home': '/courses/{}/quizzes/'.format(course_id),
+            'save_answer': reverse('courses:quizzes:save_answer',
+                                   kwargs={'course_id': self.course.id, 'session_id': session_id}),
+            'home': reverse('courses:quizzes:list', kwargs={'course_id': self.course.id}),
         }
 
     def get(self, request, course, session_id):
@@ -77,13 +85,16 @@ class CourseQuizzesSessionView(QuizMixin, BaseCourseView):
         context = self.get_context_data()
         context['quizData'] = json.dumps(get_quiz_data(session))
         context['tags'] = json.dumps(get_quiz_page_language_tags())
-        context['urls'] = json.dumps(self.get_urls(course.id, session_id))
+        context['urls'] = json.dumps(self.get_urls(session_id))
         context['session'] = session
         return render(request, self.template_name, context)
 
 
 class CourseQuizzesFinishView(QuizMixin, BaseCourseView):
     template_name = 'courses/quiz.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
 
     def post(self, request, course, session_id):
         session = QuizSession.objects.filter(pk=session_id, user=request.user).first()
@@ -124,3 +135,32 @@ class SaveAnswerAPIView(APIView):
             except SessionQuestionAnswer.DoesNotExist:
                 continue
         return Response({}, status=200)
+
+
+class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
+    template_name = 'courses/quizzes_answers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
+
+    def get_session_info(self, session):
+        info = {
+            'name': session.quiz_instance.quiz_template.name,
+            'result': int(session.result),
+            'start_time': session.start_time,
+            'finish_time': session.finish_time,
+            'answers': session.sessionquestion_set.order_by('order'),
+            'user': session.user,
+        }
+        return info
+
+    def get(self, request, course, session_id):
+        session = QuizSession.objects.filter(pk=session_id).first()
+        if session is None or (session.user.id != request.user.id and not self.permissions.quizzes_admin):
+            return redirect('courses:quizzes:list', course.id)
+        finish_overdue_session(session)
+        if not session.is_finished or not session.quiz_instance.show_answers:
+            return redirect('courses:quizzes:list', course.id)
+        context = self.get_context_data()
+        context['quiz'] = self.get_session_info(session)
+        return render(request, self.template_name, context)

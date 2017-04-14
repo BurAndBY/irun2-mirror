@@ -1916,35 +1916,31 @@ Green menu
     background-color: #e5e1eb;
 }
 
-/**
- * TODO: rename to ir-*
- */
-
-.res-answer, .res-legend {
+.ir-res-answer, .ir-res-legend {
     padding-top: 4px;
     padding-bottom: 4px;
     margin-bottom: 0!important;
     margin-top: 0 !important;
 }
 
-.res-answer-correct,
-.res-answer-wrong,
-.res-answer-notchosen {
+.ir-res-answer-correct,
+.ir-res-answer-wrong,
+.ir-res-answer-notchosen {
     padding-left: 11px !important;
 }
 
-.res-answer-correct {
+.ir-res-answer-correct {
     border-left: 4px solid #5cb85c;
 }
 
-.res-answer-wrong {
+.ir-res-answer-wrong {
     border-left: 4px solid #d9534f;
 }
 
-.res-answer-notchosen {
+.ir-res-answer-notchosen {
     border-left: 4px solid #5bc0de;
 }
 
-.res-problem {
+.ir-res-problem, .ir-res-meta {
     padding-bottom: 15px;
 }

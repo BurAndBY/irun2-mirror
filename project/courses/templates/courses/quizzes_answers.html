@@ -1,0 +1,54 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+{% load irunner_quizzes %}
+{% load irunner_katex %}
+{% load irunner_courses %}
+
+{% block subtitle %}{% trans 'Quiz answers' %}{% endblock %}
+
+{% block head %}
+    {% irunner_katex_head %}
+{% endblock %}
+
+{% block main %}
+
+    <div class="col-xs-12 text-center ir-res-meta">
+        <div class="col-xs-12 h3">{{ quiz.name }}</div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-right text-muted">{% trans 'Student:' %}</div>
+            <div class="col-xs-6 text-left">{% irunner_courses_user_card quiz.user.id user_cache %}</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-right text-muted">{% trans 'Result:' %}</div>
+            <div class="col-xs-6 text-left">{{ quiz.result }}</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-right text-muted">{% trans 'Start time:' %}</div>
+            <div class="col-xs-6 text-left">{{ quiz.start_time }}</div>
+        </div>
+        {% if quiz.finish_time %}
+            <div class="col-xs-12">
+                <div class="col-xs-6 text-right text-muted">{% trans 'Finish time:' %}</div>
+                <div class="col-xs-6 text-left">{{ quiz.finish_time }}</div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-4 bg-success h5 ir-res-legend ir-res-answer-correct">{% trans 'Correct' %}</div>
+                <div class="col-sm-4 bg-danger h5 ir-res-legend ir-res-answer-wrong">{% trans 'Incorrect but chosen' %}</div>
+                <div class="col-sm-4 bg-info h5 ir-res-legend ir-res-answer-notchosen">{% trans 'Correct but not chosen' %}</div>
+            </div>
+        </div>
+        {% for answer in quiz.answers %}
+            {% irunner_quizzes_showanswer answer forloop.counter %}
+        {% endfor %}
+    </div>
+
+    {% irunner_katex_body %}
+
+{% endblock %}
