@@ -66,6 +66,12 @@
                         Тест можно пройти только один раз.
                     </div>
                 {% endif %}
+                {% if quiz.instance.attempts == 1 %}
+                    <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:rating' course.id quiz.instance.id %}">
+                        <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                        <span class="ir-icon-label">{% trans 'Rating' %}</span>
+                    </a>
+                {% endif %}
                 {% if quiz.can_start %}
                     <form method="post" action="{% url 'courses:quizzes:start' course.id quiz.instance.id %}">
                         {% csrf_token %}

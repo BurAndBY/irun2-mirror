@@ -17,6 +17,7 @@ from quizzes.utils import create_session, finish_overdue_session, get_quiz_data,
     finish_overdue_sessions, check_quiz_answers
 
 QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_count sessions')
+SessionInfo = namedtuple('SessionInfo', 'session is_own result')
 
 
 class QuizMixin(object):
@@ -163,4 +164,28 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             return redirect('courses:quizzes:list', course.id)
         context = self.get_context_data()
         context['quiz'] = self.get_session_info(session)
+        return render(request, self.template_name, context)
+
+
+class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
+    template_name = 'courses/quizzes_rating.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
+
+    def make_session_info(self, session, user):
+        is_own = session.user.id == user.id
+        result = int(session.result)
+        return SessionInfo(session, is_own, result)
+
+    def get(self, request, course, instance_id):
+        context = self.get_context_data()
+        # TODO filter teachers and admins
+        instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()
+        if instance is None or instance.attempts != 1:
+            return redirect('courses:quizzes:list', course.id)
+        sessions = QuizSession.objects.filter(quiz_instance=instance, is_finished=True).select_related('user').order_by('result').reverse()
+        context['sessions'] = [self.make_session_info(session, request.user) for session in sessions]
+        context['instance'] = instance
+        context['can_manage'] = self.permissions.quizzes_admin
         return render(request, self.template_name, context)

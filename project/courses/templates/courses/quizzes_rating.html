@@ -1,0 +1,60 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+{% load irunner_quizzes %}
+{% load irunner_katex %}
+{% load irunner_courses %}
+
+{% block subtitle %}{% trans 'Rating' %}{% endblock %}
+
+{% block main %}
+
+    <div class="col-xs-12 text-center ir-res-meta">
+        <div class="col-xs-12 h3">{% trans 'Rating' %}</div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-right text-muted">{% trans 'Quiz:' %}</div>
+            <div class="col-xs-6 text-left">{{ instance.quiz_template.name }}</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-right text-muted">{% trans 'Course:' %}</div>
+            <div class="col-xs-6 text-left">{{ course }}</div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>{% trans 'Student' %}</th>
+                            <th>{% trans 'Start time' %}</th>
+                            <th>{% trans 'Duration' %}</th>
+                            <th>{% trans 'Mark' %}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for info in sessions %}
+                            <tr {% if info.is_own %} class="info" {% endif %}>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
+                                <td>{{ info.session.start_time }}</td>
+                                <td>{{ info.session.finish_time|timeuntil:info.session.start_time }}</td>
+                                <td><div class="ir-quiz-mark">{{ info.result }}</div></td>
+                                <td>
+                                    {% if instance.show_answers and info.is_own or can_manage %}
+                                        <a href="{% url 'courses:quizzes:answers' course.id info.session.id %}">Ответы</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

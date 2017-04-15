@@ -1944,3 +1944,8 @@ Green menu
 .ir-res-problem, .ir-res-meta {
     padding-bottom: 15px;
 }
+
+.ir-quiz-inline-btn {
+    float: left;
+    margin-right: 10px;
+}
