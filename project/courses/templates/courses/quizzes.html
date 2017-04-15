@@ -12,7 +12,7 @@
         {% for quiz in quizzes %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="h3 panel-title">{{ quiz.instance.quiz_template.name }}</div>
+                    {{ quiz.instance.quiz_template.name }}
                 </div>
                 <div class="panel-body">
                     <div class="row">
