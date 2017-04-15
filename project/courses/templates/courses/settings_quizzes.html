@@ -27,7 +27,10 @@
                             <td>{{ forloop.counter }}</td>
                             <td>{{ instance.quiz_template.name }}</td>
                             <td>{{ instance.tag }}</td>
-                            <td>{% bootstrap_form form layout='inline' show_label=False %}</td>
+                            <td>
+                                {% bootstrap_form_errors form layout='inline' %}
+                                {% for field in form %}{{ field }}{% endfor %}
+                            </td>
                             <td>
                                 <a class="btn btn-sm btn-default" href="{% url 'courses:course_settings_quizzes_update' course.id instance.id %}">
                                     {% bootstrap_icon 'pencil' %}
