@@ -33,8 +33,9 @@ def irunner_quizzes_showanswer(session_question, counter):
             if answer.choice.text == answer.user_answer:
                 answers.append(SessionAnswerInfo(preparer(answer.user_answer), True, False, False))
             else:
-                answers.append(SessionAnswerInfo(preparer(answer.choice.text), True, False, False))
-                answers.append(SessionAnswerInfo(preparer(answer.user_answer), False, True, False))
+                answers.append(SessionAnswerInfo(preparer(answer.choice.text), False, False, True))
+                answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer),
+                                                 False, True, False))
         else:
             is_right = answer.is_chosen and answer.choice.is_right
             is_wrong = answer.is_chosen and not answer.choice.is_right

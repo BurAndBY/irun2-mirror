@@ -15,7 +15,13 @@
             {% if answer.is_right %}
                 <div class="col-xs-12 ir-res-answer bg-success ir-res-answer-correct">{{ answer.text|safe }}</div>
             {% elif answer.is_wrong %}
-                <div class="col-xs-12 ir-res-answer bg-danger ir-res-answer-wrong">{{ answer.text|safe }}</div>
+                <div class="col-xs-12 ir-res-answer bg-danger ir-res-answer-wrong">
+                    {% if not answer.text %}
+                        <em>{% trans 'No answer' %}</em>
+                    {% else %}
+                        {{ answer.text|safe }}
+                    {% endif %}
+                </div>
             {% elif answer.is_notchosen %}
                 <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text|safe }}</div>
             {% else %}

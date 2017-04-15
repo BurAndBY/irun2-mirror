@@ -20,7 +20,9 @@
                             <ul class="ir-quiz-info-list">
                                 <li>{{ quiz.instance.time_limit }}</li>
                                 <li>{{ quiz.question_count }} questions</li>
-                                <li>{% if quiz.attempts_left == None %}Unlimited attempts{% else %}{{ quiz.attempts_left }} attempts left{% endif %}</li>
+                                {% if quiz.instance.is_available %}
+                                    <li>{% if quiz.attempts_left == None %}Unlimited attempts{% else %}{{ quiz.attempts_left }} attempts left{% endif %}</li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="col-md-9 small">

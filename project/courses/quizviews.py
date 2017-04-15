@@ -120,7 +120,7 @@ class SaveAnswerAPIView(APIView):
         finish_overdue_session(session)
         if session.is_finished:
             return self.respond_with_message(
-                _('Quiz is finished or no time is left. Do you want to go to results page?'), 410)
+                _('Quiz is finished or no time is left. Do you want to go to home page?'), 410)
         serializer = QuizAnswersDataSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=False):
             return self.respond_with_message(_('Request is not valid'), 400)

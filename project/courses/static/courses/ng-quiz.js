@@ -124,16 +124,12 @@ app.run(function($rootScope, $http, $window, $interval) {
 	$rootScope.quizAnswered = $rootScope.isQuizAnswered();
 	$rootScope.showErrorMessage = function (data, status) {
 		$rootScope.error.message = data.message || $rootScope.langTags.networkError || 'Network error.';
-		switch(status) {
-			case 404:
-				$rootScope.error.handle = function() {
+		if (status === 404 || status === 410) {
+			$rootScope.error.handle = function() {
 					$window.location.href = $rootScope.urls.home;
-				}; break;
-			case 410:
-				$rootScope.error.handle = $rootScope.finish;
-				break;
-			default:
-				$rootScope.error.handle = function () {};
+				};
+		} else {
+			$rootScope.error.handle = function () {};
 		}
 		$('#errorModal').modal('show');
 	};
