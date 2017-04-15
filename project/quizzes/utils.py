@@ -87,10 +87,10 @@ def get_quiz_page_language_tags():
     return {
         'question': _('Question'),
         'finish': _('Finish'),
-        'ok': _('Ok'),
+        'ok': _('OK'),
         'no': _('No'),
         'error': _('Error'),
-        'quit': _('Quit'),
+        'cancel': _('Cancel'),
         'next': _('Next'),
         'previous': _('Previous'),
         'networkError': _('Network error'),

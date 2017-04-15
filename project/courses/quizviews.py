@@ -2,9 +2,11 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from rest_framework.views import APIView
 
+from common.networkutils import never_ever_cache
 from courses.views import BaseCourseView, UserCacheMixinMixin
 from quizzes.models import QuizInstance, QuizSession, SessionQuestionAnswer, Question
 from collections import namedtuple
@@ -76,6 +78,7 @@ class CourseQuizzesSessionView(QuizMixin, BaseCourseView):
             'home': reverse('courses:quizzes:list', kwargs={'course_id': self.course.id}),
         }
 
+    @method_decorator(never_ever_cache)
     def get(self, request, course, session_id):
         session = QuizSession.objects.filter(pk=session_id, user=request.user).first()
         if session is None:
@@ -145,13 +148,22 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         return permissions.quizzes or permissions.quizzes_admin
 
     def get_session_info(self, session):
+        answers = session.sessionquestion_set.order_by('order')
+        result_points = 0
+        points = 0
+        for answer in answers:
+            points += answer.points
+            result_points += answer.result_points
+        eps = 0.000001
         info = {
             'name': session.quiz_instance.quiz_template.name,
             'result': int(session.result),
             'start_time': session.start_time,
             'finish_time': session.finish_time,
-            'answers': session.sessionquestion_set.order_by('order'),
+            'answers': answers,
             'user': session.user,
+            'points': round(points + eps, 1),
+            'result_points': round(result_points + eps, 1),
         }
         return info
 
