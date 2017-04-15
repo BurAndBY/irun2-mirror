@@ -28,7 +28,7 @@ def irunner_quizzes_showanswer(session_question, counter):
     is_text = (session_question.question.kind == Question.TEXT_ANSWER)
     preparer = escape if is_text else tex2html
     answers = []
-    for answer in session_question.sessionquestionanswer_set.order_by('id'):
+    for answer in session_question.sessionquestionanswer_set.order_by('id').select_related('choice'):
         if is_text:
             if answer.choice.text == answer.user_answer:
                 answers.append(SessionAnswerInfo(preparer(answer.user_answer), True, False, False))

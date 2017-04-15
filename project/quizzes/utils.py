@@ -23,7 +23,8 @@ def create_session(instance, user):
         rel = GroupQuizRelation.objects.get(template=instance.quiz_template, group=group)
         questions.append(SessionQuestion(quiz_session=session, order=idx, points=rel.points, question=q))
     SessionQuestion.objects.bulk_create(questions)
-    questions = SessionQuestion.objects.filter(quiz_session=session)
+    questions = SessionQuestion.objects.filter(quiz_session=session)\
+        .select_related('question').prefetch_related('question__choice_set')
     answers = []
     for q in questions:
         for c in q.question.choice_set.all():
@@ -39,7 +40,8 @@ def get_quiz_data(session):
         'timeLeft': int((session.start_time + session.quiz_instance.time_limit - timezone.now()).total_seconds())
     }
     questions = []
-    for q in session.sessionquestion_set.order_by('order'):
+    for q in session.sessionquestion_set.order_by('order').\
+            select_related('question').prefetch_related('sessionquestionanswer_set', 'sessionquestionanswer_set__choice'):
         choices = []
         for a in q.sessionquestionanswer_set.all():
             if q.question.kind == Question.TEXT_ANSWER:
@@ -55,7 +57,7 @@ def get_quiz_data(session):
 def check_quiz_answers(session):
     res = 0.
     max_res = 0.
-    for question in session.sessionquestion_set.all():
+    for question in session.sessionquestion_set.select_related('question').all():
         max_res += question.points
         checker = next(c for c in CHECKERS if c.key == question.question.kind)
         q_result = checker.get_result_points(question)

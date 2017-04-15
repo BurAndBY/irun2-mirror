@@ -148,7 +148,7 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         return permissions.quizzes or permissions.quizzes_admin
 
     def get_session_info(self, session):
-        answers = session.sessionquestion_set.order_by('order')
+        answers = session.sessionquestion_set.order_by('order').select_related('question')
         result_points = 0
         points = 0
         for answer in answers:
@@ -168,7 +168,7 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         return info
 
     def get(self, request, course, session_id):
-        session = QuizSession.objects.filter(pk=session_id).first()
+        session = QuizSession.objects.filter(pk=session_id).select_related('user').first()
         if session is None or (session.user.id != request.user.id and not self.permissions.quizzes_admin):
             return redirect('courses:quizzes:list', course.id)
         finish_overdue_session(session)
@@ -198,7 +198,8 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()
         if instance is None or instance.attempts != 1:
             return redirect('courses:quizzes:list', course.id)
-        sessions = QuizSession.objects.filter(quiz_instance=instance, is_finished=True).select_related('user').order_by('result').reverse()
+        sessions = QuizSession.objects.filter(quiz_instance=instance, is_finished=True).\
+            select_related('user').order_by('result').reverse()
         context['sessions'] = [self.make_session_info(session, request.user) for session in sessions]
         context['instance'] = instance
         context['can_manage'] = self.permissions.quizzes_admin

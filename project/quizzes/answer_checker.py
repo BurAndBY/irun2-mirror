@@ -14,7 +14,7 @@ class SingleAnswerChecker(IAnswerChecker):
 
     def get_result_points(self, question, policy=STRICT_POLICY):
         is_right = False
-        for answer in question.sessionquestionanswer_set.all():
+        for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.is_chosen and answer.choice.is_right:
                 is_right = True
                 break
@@ -27,7 +27,7 @@ class TextAnswerChecker(IAnswerChecker):
     key = Question.TEXT_ANSWER
 
     def get_result_points(self, question, policy=STRICT_POLICY):
-        answer = question.sessionquestionanswer_set.all()[0]
+        answer = question.sessionquestionanswer_set.select_related('choice').all()[0]
         if answer.user_answer and answer.user_answer.strip() == answer.choice.text:
             return question.points
         return 0.
@@ -40,7 +40,7 @@ class MultipleAnswersChecker(IAnswerChecker):
         correct = 0  # chosen and right
         wrong = 0    # chosen but not right
         right = 0    # right choice
-        for answer in question.sessionquestionanswer_set.all():
+        for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.choice.is_right:
                 right += 1
             if answer.is_chosen and answer.choice.is_right:
