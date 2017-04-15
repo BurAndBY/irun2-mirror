@@ -1949,3 +1949,7 @@ Green menu
     float: left;
     margin-right: 10px;
 }
+
+.ir-quiz-info-list {
+    padding-left: 15px;
+}

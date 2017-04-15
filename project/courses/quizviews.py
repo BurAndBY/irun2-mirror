@@ -164,6 +164,8 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             return redirect('courses:quizzes:list', course.id)
         context = self.get_context_data()
         context['quiz'] = self.get_session_info(session)
+        context['session'] = session
+        context['can_delete'] = self.permissions.quizzes_admin
         return render(request, self.template_name, context)
 
 
@@ -189,3 +191,17 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         context['instance'] = instance
         context['can_manage'] = self.permissions.quizzes_admin
         return render(request, self.template_name, context)
+
+
+class CourseQuizzesDeleteSessionView(QuizMixin, BaseCourseView):
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes_admin
+
+    def post(self, request, course, session_id):
+        session = QuizSession.objects.filter(pk=session_id, quiz_instance__course=course).first()
+        if session is not None:
+            instance_id = session.quiz_instance.id
+            session.delete()
+            return redirect('courses:quizzes:rating', course.id, instance_id)
+        return redirect('courses:quizzes:list', course.id)

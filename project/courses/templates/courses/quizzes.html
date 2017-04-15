@@ -8,83 +8,87 @@
 
 {% block main %}
 
-{% for quiz in quizzes %}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ quiz.instance.quiz_template.name }}</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-3">
-                <ul>
-                    <li>{{ quiz.instance.time_limit }}</li>
-                    <li>{{ quiz.question_count }} questions</li>
-                    <li>{% if quiz.attempts_left == None %}Unlimited attempts{% else %}{{ quiz.attempts_left }} attempts left{% endif %}</li>
-                </ul>
-            </div>
-            <div class="col-md-9 small">
-                {% if quiz.sessions %}
-                    <table class="table table-condensed table-hover">
-                        <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Начало</th>
-                                <th>Длительность</th>
-                                <th>Оценка</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for session in quiz.sessions %}
-                                <tr {% if not session.is_finished %} class="info" {% endif %}>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ session.start_time }}</td>
-                                    {% if session.is_finished %}
-                                        <td>{{ session.finish_time|timeuntil:session.start_time }}</td>
-                                        <td><div class="ir-quiz-mark">{{ session.result|floatformat:"0" }}</div></td>
-                                        {% if quiz.instance.show_answers %}
-                                            <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">Ответы</a></td>
-                                        {% else %}
-                                            <td class="text-muted">Просмотр ответов запрещён</td>
-                                        {% endif %}
-                                    {% else %}
-                                        <td>&hellip;</td>
-                                        <td><div class="ir-quiz-mark">?</div></td>
-                                        <td>
-                                            <a href="{% url 'courses:quizzes:session' course.id session.id %}">Продолжить</a>
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-                {% if not quiz.sessions and quiz.attempts_left == 1 %}
-                    <div class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <strong>Внимание!</strong>
-                        Тест можно пройти только один раз.
+    {% if quizzes %}
+        {% for quiz in quizzes %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="h3 panel-title">{{ quiz.instance.quiz_template.name }}</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <ul class="ir-quiz-info-list">
+                                <li>{{ quiz.instance.time_limit }}</li>
+                                <li>{{ quiz.question_count }} questions</li>
+                                <li>{% if quiz.attempts_left == None %}Unlimited attempts{% else %}{{ quiz.attempts_left }} attempts left{% endif %}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 small">
+                            {% if quiz.sessions %}
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>{% trans 'Start time' %}</th>
+                                            <th>{% trans 'Duration' %}</th>
+                                            <th>{% trans 'Mark' %}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for session in quiz.sessions %}
+                                            <tr {% if not session.is_finished %} class="info" {% endif %}>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ session.start_time }}</td>
+                                                {% if session.is_finished %}
+                                                    <td>{{ session.finish_time|timeuntil:session.start_time }}</td>
+                                                    <td><div class="ir-quiz-mark">{{ session.result|floatformat:"0" }}</div></td>
+                                                    {% if quiz.instance.show_answers %}
+                                                        <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% trans 'Answers' %}</a></td>
+                                                    {% else %}
+                                                        <td class="text-muted">{% trans 'Not permitted to view answers' %}</td>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <td>&hellip;</td>
+                                                    <td><div class="ir-quiz-mark">?</div></td>
+                                                    <td>
+                                                        <a href="{% url 'courses:quizzes:session' course.id session.id %}">{% trans 'Continue' %}</a>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                            {% if not quiz.sessions and quiz.attempts_left == 1 %}
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <strong>{% trans 'Attention' %}!</strong>
+                                    {% trans 'You can pass this quiz only once.' %}
+                                </div>
+                            {% endif %}
+                            {% if quiz.instance.attempts == 1 %}
+                                <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:rating' course.id quiz.instance.id %}">
+                                    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                    <span class="ir-icon-label">{% trans 'Rating' %}</span>
+                                </a>
+                            {% endif %}
+                            {% if quiz.can_start %}
+                                <form method="post" action="{% url 'courses:quizzes:start' course.id quiz.instance.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-play"></span>
+                                        <span class="ir-icon-label">{% trans 'Start quiz' %}</span>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
                     </div>
-                {% endif %}
-                {% if quiz.instance.attempts == 1 %}
-                    <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:rating' course.id quiz.instance.id %}">
-                        <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-                        <span class="ir-icon-label">{% trans 'Rating' %}</span>
-                    </a>
-                {% endif %}
-                {% if quiz.can_start %}
-                    <form method="post" action="{% url 'courses:quizzes:start' course.id quiz.instance.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-play"></span>
-                            <span class="ir-icon-label">Пройти тест</span>
-                        </button>
-                    </form>
-                {% endif %}
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
+        {% endfor %}
+    {% else %}
+        <div class="ir-absence">{% trans 'No quizzes' %}</div>
+    {% endif %}
 
 {% endblock %}
