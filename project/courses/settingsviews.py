@@ -3,6 +3,7 @@ from collections import namedtuple
 from django.contrib import auth, messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
+from django.db.models import Count
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -593,19 +594,40 @@ class CourseSettingsQuizzesCreateView(QuizMixin, CourseSettingsView):
 
 class CourseSettingsQuizzesUpdateView(QuizMixin, CourseSettingsView):
     form_class = QuizInstanceUpdateForm
-    template_name = 'courses/settings_component.html'
+    template_name = 'courses/settings_quiz_edit.html'
+
+    def _load_instance(self, instance_id):
+        instance = QuizInstance.objects.filter(pk=instance_id, course=self.course).\
+            select_related('quiz_template').\
+            annotate(session_count=Count('quizsession')).\
+            first()
+        can_delete = (instance is not None) and (instance.session_count == 0)
+        return instance, can_delete
 
     def get(self, request, course, instance_id):
-        instance = get_object_or_404(QuizInstance, pk=instance_id, course=course)
-        context = self.get_context_data(form=self.form_class(instance=instance))
+        instance, can_delete = self._load_instance(instance_id)
+        if instance is None:
+            return redirect(self.list_url_name, course.id)
+
+        form = self.form_class(instance=instance)
+        context = self.get_context_data(instance=instance, can_delete=can_delete, form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, course, instance_id):
-        instance = get_object_or_404(QuizInstance, pk=instance_id, course=course)
-        form = self.form_class(request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
+        instance, can_delete = self._load_instance(instance_id)
+        if instance is None:
             return redirect(self.list_url_name, course.id)
 
-        context = self.get_context_data(form=form)
-        return render(request, self.template_name, context)
+        if 'save' in request.POST:
+            form = self.form_class(request.POST, instance=instance)
+            if form.is_valid():
+                form.save()
+            else:
+                context = self.get_context_data(instance=instance, can_delete=can_delete, form=form)
+                return render(request, self.template_name, context)
+
+        elif 'delete' in request.POST:
+            if can_delete:
+                instance.delete()
+
+        return redirect(self.list_url_name, course.id)

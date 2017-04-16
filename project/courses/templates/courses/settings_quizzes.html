@@ -5,9 +5,11 @@
 {% load bootstrap3 %}
 
 {% block submain %}
-    <a href="{% url 'courses:course_settings_quizzes_create' course.id %}" class="btn btn-default">
-        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New quiz' %}</span>
-    </a>
+    <div class="form-group">
+        <a href="{% url 'courses:course_settings_quizzes_create' course.id %}" class="btn btn-default">
+            {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New quiz' %}</span>
+        </a>
+    </div>
     <form class="form-inline" method="post">
         {% csrf_token %}
 
@@ -19,7 +21,7 @@
                         <th>{% trans '#' %}</th>
                         <th>{% trans 'Quiz template' %}</th>
                         <th>{% trans 'Tag' %}</th>
-                        <th>{% trans 'Available' %}</th>
+                        <th>{% trans 'Available' context 'quiz' %}</th>
                         <th></th>
                     </tr>
                 </thead>
