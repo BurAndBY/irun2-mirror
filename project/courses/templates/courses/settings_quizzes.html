@@ -5,7 +5,9 @@
 {% load bootstrap3 %}
 
 {% block submain %}
-    <a href="{% url 'courses:course_settings_quizzes_create' course.id %}">{% trans 'New' %}</a>
+    <a href="{% url 'courses:course_settings_quizzes_create' course.id %}" class="btn btn-default">
+        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New quiz' %}</span>
+    </a>
     <form class="form-inline" method="post">
         {% csrf_token %}
 
