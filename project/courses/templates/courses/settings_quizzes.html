@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     {% for instance, form in pairs %}
-                        <tr>
+                        <tr{% if instance.is_available %} class="info"{% endif %}>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ instance.quiz_template.name }}</td>
                             <td>{{ instance.tag }}</td>
@@ -32,7 +32,7 @@
                                 {% for field in form %}{{ field }}{% endfor %}
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-default" href="{% url 'courses:course_settings_quizzes_update' course.id instance.id %}">
+                                <a class="btn btn-xs btn-default" href="{% url 'courses:course_settings_quizzes_update' course.id instance.id %}">
                                     {% bootstrap_icon 'pencil' %}
                                     <span class="ir-icon-label">{% trans 'Edit' %}</span>
                                 </a>
