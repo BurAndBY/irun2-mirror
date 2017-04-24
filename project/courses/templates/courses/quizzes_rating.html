@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                         {% for info in sessions %}
-                            <tr {% if info.is_own %} class="info" {% endif %}>
+                            <tr{% if info.is_own %} class="ir-me"{% endif %}>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
                                 <td>{{ info.session.start_time }}</td>

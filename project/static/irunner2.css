@@ -115,7 +115,7 @@ body {
     border-left-width: 5px;
     border-left-color: #ddd;
 }
-.ir-me > td {
+.ir-me > td, .ir-me > th {
     background-color: #ffffcc !important;
 }
 .ir-course-standings .ir-scorebox {
