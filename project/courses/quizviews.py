@@ -157,7 +157,7 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         eps = 0.000001
         info = {
             'name': session.quiz_instance.quiz_template.name,
-            'result': int(session.result),
+            'result': session.result,
             'start_time': session.start_time,
             'finish_time': session.finish_time,
             'answers': answers,
@@ -189,7 +189,7 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
     def make_session_info(self, session, user):
         is_own = session.user.id == user.id
-        result = int(session.result)
+        result = session.result
         return SessionInfo(session, is_own, result)
 
     def get(self, request, course, instance_id):

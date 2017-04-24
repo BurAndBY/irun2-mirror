@@ -2,7 +2,6 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_proglangs %}
 {% load irunner_quizzes %}
 {% load irunner_katex %}
 {% load irunner_courses %}
@@ -35,7 +34,7 @@
                                 <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
                                 <td>{{ info.session.start_time }}</td>
                                 <td>{{ info.session.finish_time|timeuntil:info.session.start_time }}</td>
-                                <td><div class="ir-quiz-mark">{{ info.result }}</div></td>
+                                <td>{% irunner_quizzes_mark info.result %}</div></td>
                                 <td>
                                     {% if instance.show_answers and info.is_own or can_manage %}
                                         <a href="{% url 'courses:quizzes:answers' course.id info.session.id %}">{% trans 'Answers' %}</a>

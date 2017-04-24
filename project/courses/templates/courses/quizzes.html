@@ -2,7 +2,7 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_proglangs %}
+{% load irunner_quizzes %}
 
 {% block subtitle %}{% trans 'Quizzes' %}{% endblock %}
 
@@ -44,7 +44,7 @@
                                                 <td>{{ session.start_time }}</td>
                                                 {% if session.is_finished %}
                                                     <td>{{ session.finish_time|timeuntil:session.start_time }}</td>
-                                                    <td><div class="ir-quiz-mark">{{ session.result|floatformat:"0" }}</div></td>
+                                                    <td>{% irunner_quizzes_mark session.result %}</div></td>
                                                     {% if quiz.instance.show_answers %}
                                                         <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% trans 'Answers' %}</a></td>
                                                     {% else %}

@@ -1,5 +1,5 @@
 from django import template
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 
 from collections import namedtuple
 
@@ -49,3 +49,8 @@ def irunner_quizzes_showanswer(session_question, counter):
         'counter': counter,
         'answers': answers,
     }
+
+
+@register.simple_tag
+def irunner_quizzes_mark(result):
+    return format_html('<div class="ir-quiz-mark">{}</div>', int(result))
