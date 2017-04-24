@@ -20,9 +20,25 @@
                         <div class="col-md-3">
                             <ul class="ir-quiz-info-list">
                                 <li>{% irunner_timedelta_humanized quiz.instance.time_limit %}</li>
-                                <li>{{ quiz.question_count }} questions</li>
+                                <li>
+                                    {% blocktrans count counter=quiz.question_count trimmed %}
+                                        {{ counter }} question
+                                    {% plural %}
+                                        {{ counter }} questions
+                                    {% endblocktrans %}
+                                </li>
                                 {% if quiz.instance.is_available %}
-                                    <li>{% if quiz.attempts_left == None %}Unlimited attempts{% else %}{{ quiz.attempts_left }} attempts left{% endif %}</li>
+                                    <li>
+                                        {% if quiz.attempts_left == None %}
+                                            {% trans 'unlimited number of attempts' %}
+                                        {% else %}
+                                            {% blocktrans count counter=quiz.attempts_left trimmed %}
+                                                {{ counter }} attempt left
+                                            {% plural %}
+                                                {{ counter }} attempts left
+                                            {% endblocktrans %}
+                                        {% endif %}
+                                    </li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -31,7 +47,7 @@
                                 <table class="table table-condensed table-hover">
                                     <thead>
                                         <tr>
-                                            <th>№</th>
+                                            <th>{% trans '#' %}</th>
                                             <th>{% trans 'Start time' %}</th>
                                             <th>{% trans 'Duration' %}</th>
                                             <th>{% trans 'Mark' %}</th>

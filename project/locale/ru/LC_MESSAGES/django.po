@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-07 22:26+0300\n"
-"PO-Revision-Date: 2017-04-07 22:28+0300\n"
+"POT-Creation-Date: 2017-04-24 22:40+0300\n"
+"PO-Revision-Date: 2017-04-24 22:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -136,6 +136,8 @@ msgstr "Изменить язык интерфейса"
 #: .\courses\templates\courses\settings_compilers.html:42
 #: .\courses\templates\courses\settings_component.html:13
 #: .\courses\templates\courses\settings_properties.html:13
+#: .\courses\templates\courses\settings_quiz_edit.html:33
+#: .\courses\templates\courses\settings_quizzes.html:54
 #: .\courses\templates\courses\settings_users.html:49
 #: .\courses\templates\courses\settings_users_edit.html:17
 #: .\news\templates\news\update.html:13
@@ -148,6 +150,7 @@ msgstr "Изменить язык интерфейса"
 #: .\problems\templates\problems\name.html:15
 #: .\problems\templates\problems\properties.html:16
 #: .\proglangs\templates\proglangs\edit.html:20
+#: .\quizzes\templates\quizzes\quiz_template_update.html:11
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\profile_password.html:16
 #: .\users\templates\users\profile_photo.html:19
@@ -216,7 +219,7 @@ msgstr "стандартный ввод"
 msgid "standard output"
 msgstr "стандартный вывод"
 
-#: .\common\constants.py:12 .\courses\forms.py:205
+#: .\common\constants.py:12 .\courses\forms.py:218
 #: .\problems\templates\problems\overview.html:47
 #: .\problems\templatetags\irunner_problems.py:87
 #: .\users\templates\users\profile_show.html:86
@@ -392,8 +395,10 @@ msgstr "Страница"
 #: .\contests\templates\contests\irunner_contests_timing_tag.html:15
 #: .\contests\templates\contests\irunner_contests_timing_tag.html:20
 #: .\courses\templates\courses\problems_base.html:28
+#: .\courses\templates\courses\quizzes_answers.html:38
 #: .\problems\templates\problems\show_test.html:22
 #: .\problems\templates\problems\sidebar.html:13
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:8
 #: .\solutions\templates\solutions\compare.html:61
 #: .\solutions\templates\solutions\compare.html:86
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:43
@@ -419,6 +424,7 @@ msgstr "Загрузка"
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
 #: .\courses\templates\courses\assign.html:105
 #: .\news\templates\news\new.html:13
+#: .\quizzes\templates\quizzes\quiz_template_add_group.html:11
 msgid "Add"
 msgstr "Добавить"
 
@@ -434,14 +440,14 @@ msgstr "Удалить"
 msgid "Remove all"
 msgstr "Удалить всё"
 
-#: .\common\templatetags\irunner_time.py:12
+#: .\common\templatetags\irunner_time.py:15
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
 msgid "s"
 msgstr "с"
 
-#: .\common\templatetags\irunner_time.py:33
+#: .\common\templatetags\irunner_time.py:38
 #, python-format
 msgid "%(count)d day"
 msgid_plural "%(count)d days"
@@ -449,14 +455,51 @@ msgstr[0] "%(count)d день"
 msgstr[1] "%(count)d дня"
 msgstr[2] "%(count)d дней"
 
-#: .\contests\forms.py:32 .\courses\forms.py:59
+#: .\common\templatetags\irunner_time.py:43
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d день"
+msgstr[1] "%d дня"
+msgstr[2] "%d дней"
+
+#: .\common\templatetags\irunner_time.py:44
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d час"
+msgstr[1] "%d часа"
+msgstr[2] "%d часов"
+
+#: .\common\templatetags\irunner_time.py:45
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d минута"
+msgstr[1] "%d минуты"
+msgstr[2] "%d минут"
+
+#: .\common\templatetags\irunner_time.py:46
+#, python-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d секунда"
+msgstr[1] "%d секунды"
+msgstr[2] "%d секунд"
+
+#: .\common\templatetags\irunner_time.py:71
+msgctxt "time"
+msgid ", "
+msgstr " "
+
+#: .\contests\forms.py:32 .\courses\forms.py:60
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
 #: .\contests\forms.py:67 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:24
-#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:150
+#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:163
 #: .\courses\templates\courses\settings_base.html:18
 #: .\courses\templates\courses\standings.html:34
 #: .\courses\templates\courses\standings.html:114
@@ -492,7 +535,7 @@ msgstr ""
 "формате PDF)."
 
 #: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
-#: .\courses\forms.py:138 .\courses\templates\courses\settings_base.html:27
+#: .\courses\forms.py:151 .\courses\templates\courses\settings_base.html:27
 #: .\templates\navbar.html:22 .\users\templates\users\base.html:6
 #: .\users\templates\users\bulk_operation.html:8
 #: .\users\templates\users\create_form.html:8
@@ -505,7 +548,7 @@ msgstr ""
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\contests\forms.py:94 .\courses\forms.py:179 .\courses\forms.py:247
+#: .\contests\forms.py:94 .\courses\forms.py:192 .\courses\forms.py:260
 msgid "User"
 msgstr "Пользователь"
 
@@ -514,8 +557,8 @@ msgstr "Пользователь"
 #: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:115
-#: .\courses\forms.py:162 .\courses\forms.py:187 .\courses\forms.py:245
+#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:128
+#: .\courses\forms.py:175 .\courses\forms.py:200 .\courses\forms.py:258
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
@@ -565,7 +608,7 @@ msgstr "Просмотр результатов и условий задач"
 #: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:105
 #: .\courses\models.py:113
 #: .\courses\templates\courses\api_list_problems.html:11
-#: .\problems\models.py:19 .\users\models.py:14
+#: .\problems\models.py:19 .\quizzes\models.py:53 .\users\models.py:14
 msgid "name"
 msgstr "название"
 
@@ -645,6 +688,8 @@ msgstr "роль"
 #: .\contests\templates\contests\all_questions_delete.html:7
 #: .\contests\templates\contests\question_answers.html:9
 #: .\quizdemo\templates\quizdemo\question.html:13
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:6
+#: .\quizzes\utils.py:90
 msgid "Question"
 msgstr "Вопрос"
 
@@ -736,7 +781,10 @@ msgstr "Вопрос будет удалён."
 #: .\contests\templates\contests\question_answers.html:45
 #: .\courses\templates\courses\criterion_confirm_delete.html:24
 #: .\courses\templates\courses\messages.html:149
+#: .\courses\templates\courses\quizzes_answers.html:24
+#: .\courses\templates\courses\quizzes_answers.html:82
 #: .\courses\templates\courses\settings_component.html:17
+#: .\courses\templates\courses\settings_quiz_edit.html:37
 #: .\problems\templates\problems\batch_delete_tests.html:15
 #: .\problems\templates\problems\delete.html:20
 #: .\problems\templates\problems\delete_file.html:14
@@ -769,8 +817,11 @@ msgstr "Удалить"
 #: .\courses\templates\courses\course_form.html:13
 #: .\courses\templates\courses\messages.html:148
 #: .\courses\templates\courses\messages_new.html:27
+#: .\courses\templates\courses\quiz.html:32
+#: .\courses\templates\courses\quizzes_answers.html:81
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:21
+#: .\courses\templates\courses\settings_quiz_edit.html:41
 #: .\courses\templates\courses\settings_users_edit.html:20
 #: .\news\templates\news\new.html:14 .\news\templates\news\update.html:14
 #: .\problems\templates\problems\batch_delete_tests.html:18
@@ -787,7 +838,9 @@ msgstr "Удалить"
 #: .\problems\templates\problems\show_test.html:131
 #: .\problems\templates\problems\upload_archive.html:20
 #: .\proglangs\templates\proglangs\edit.html:21
-#: .\users\templates\users\bulk_operation.html:32
+#: .\quizzes\templates\quizzes\quiz_template_create.html:12
+#: .\quizzes\templates\quizzes\quiz_template_update.html:12
+#: .\quizzes\utils.py:95 .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\folder_confirm_delete.html:24
 msgid "Cancel"
@@ -931,6 +984,7 @@ msgstr "Новое соревнование"
 #: .\contests\templates\contests\contest_form.html:12
 #: .\courses\templates\courses\course_form.html:12
 #: .\problems\templates\problems\list_folder.html:31
+#: .\quizzes\templates\quizzes\quiz_template_create.html:11
 #: .\users\templates\users\folder.html:28
 msgid "Create"
 msgstr "Создать"
@@ -955,10 +1009,12 @@ msgstr "Система"
 #: .\contests\templates\contests\irunner_contests_message_tag.html:12
 #: .\contests\templates\contests\problem.html:13
 #: .\courses\templates\courses\problems_statement.html:53
+#: .\courses\templates\courses\settings_quizzes.html:41
 #: .\courses\templates\courses\sheet.html:120
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:34
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:42
 msgid "Edit"
 msgstr "Правка"
 
@@ -988,6 +1044,9 @@ msgstr "Последнее решение"
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:22
 #: .\contests\templates\contests\my_solutions.html:31
 #: .\courses\templates\courses\api_list_problems.html:10
+#: .\courses\templates\courses\quizzes.html:50
+#: .\courses\templates\courses\quizzes_sheet.html:26
+#: .\courses\templates\courses\settings_quizzes.html:21
 #: .\courses\templates\courses\settings_users.html:27
 #: .\courses\templates\courses\sheet.html:31
 #: .\courses\templates\courses\standings.html:25
@@ -997,6 +1056,7 @@ msgstr "Последнее решение"
 #: .\problems\templates\problems\challenge.html:43
 #: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:14
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:24
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
 #: .\solutions\templates\solutions\solution_attempts.html:16
@@ -1276,44 +1336,44 @@ msgstr "Вопрос был успешно отправлен."
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
-#: .\courses\forms.py:37 .\courses\forms.py:46 .\courses\models.py:44
+#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:44
 msgid "Year of study"
 msgstr "Год обучения"
 
-#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:46
+#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:46
 msgid "Academic year"
 msgstr "Учебный год"
 
-#: .\courses\forms.py:76
+#: .\courses\forms.py:77
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:77
+#: .\courses\forms.py:78
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:92
+#: .\courses\forms.py:93
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:105
+#: .\courses\forms.py:106
 msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
 msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
 
-#: .\courses\forms.py:128
+#: .\courses\forms.py:141
 msgid "Topic"
 msgstr "Тема"
 
-#: .\courses\forms.py:171
+#: .\courses\forms.py:184
 msgid "Attempt count limit is reached."
 msgstr "Достигнуто ограничение по числу попыток."
 
-#: .\courses\forms.py:252 .\courses\templates\courses\messages.html:91
+#: .\courses\forms.py:265 .\courses\templates\courses\messages.html:91
 #: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
 msgid "Attachment"
 msgstr "Вложение"
 
-#: .\courses\forms.py:253 .\feedback\forms.py:19
+#: .\courses\forms.py:266 .\feedback\forms.py:19
 msgid "You can attach an arbitrary file to your message"
 msgstr "Вы можете прикрепить к сообщению произвольный файл"
 
@@ -1416,6 +1476,24 @@ msgstr "отсутствие"
 msgid "attachment"
 msgstr "Вложение"
 
+#: .\courses\quizviews.py:119
+msgid "Permission denied"
+msgstr "Доступ запрещён"
+
+#: .\courses\quizviews.py:122
+msgid "Quiz does not exist"
+msgstr "Тест не существует либо был удалён"
+
+#: .\courses\quizviews.py:126
+msgid "Quiz is finished or no time is left. Do you want to go to home page?"
+msgstr ""
+"Тест был завершён, либо отведённое на него время вышло. Желаете перейти на "
+"страницу с результатами?"
+
+#: .\courses\quizviews.py:129
+msgid "Request is not valid"
+msgstr "Запрос некорректен"
+
 #: .\courses\services.py:157 .\courses\templates\courses\assign.html:121
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
@@ -1424,17 +1502,21 @@ msgstr "Вложение"
 msgid "Common problems"
 msgstr "Общие задачи"
 
-#: .\courses\services.py:198 .\courses\settingsviews.py:115
+#: .\courses\services.py:198 .\courses\settingsviews.py:119
 #: .\courses\templates\courses\assign.html:26
 #: .\courses\templates\courses\course_list.html:26
 msgid "Students"
 msgstr "Студенты"
 
-#: .\courses\services.py:202 .\courses\settingsviews.py:116
+#: .\courses\services.py:202 .\courses\settingsviews.py:120
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:115 .\courses\templates\courses\sheet.html:32
+#: .\courses\settingsviews.py:119
+#: .\courses\templates\courses\quizzes_answers.html:29
+#: .\courses\templates\courses\quizzes_rating.html:24
+#: .\courses\templates\courses\quizzes_sheet.html:27
+#: .\courses\templates\courses\sheet.html:32
 #: .\courses\templates\courses\standings.html:26
 #: .\courses\templates\courses\standings.html:108
 #: .\courses\templates\courses\standings_wide.html:21
@@ -1442,11 +1524,11 @@ msgstr "Преподаватели"
 msgid "Student"
 msgstr "Студент"
 
-#: .\courses\settingsviews.py:116
+#: .\courses\settingsviews.py:120
 msgid "Teacher"
 msgstr "Преподаватель"
 
-#: .\courses\settingsviews.py:157 .\users\views.py:179
+#: .\courses\settingsviews.py:161 .\users\views.py:179
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -1454,7 +1536,7 @@ msgstr[0] "Добавлен %(count)d пользователь."
 msgstr[1] "Добавлены %(count)d пользователя."
 msgstr[2] "Добавлено %(count)d пользователей."
 
-#: .\courses\settingsviews.py:165
+#: .\courses\settingsviews.py:169
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
@@ -1677,22 +1759,169 @@ msgstr "Задача не назначена"
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\courses\templates\courses\quizzes.html:7
+#: .\courses\templates\courses\quiz.html:6
+msgid "Quiz"
+msgstr "Тест"
+
+#: .\courses\templates\courses\quiz.html:26
+#: .\courses\templates\courses\quizzes.html:85
+msgid "Attention"
+msgstr "Внимание"
+
+#: .\courses\templates\courses\quiz.html:28
+msgid "Are you sure you want to finish this quiz?"
+msgstr "Вы уверены, что хотите завершить тест?"
+
+#: .\courses\templates\courses\quiz.html:33 .\quizzes\utils.py:92
+msgid "OK"
+msgstr "OK"
+
+#: .\courses\templates\courses\quizzes.html:8
+#: .\courses\templates\courses\settings_base.html:33
 #: .\courses\templates\courses\sidebar.html:86
 #: .\quizzes\templates\quizzes\base.html:5
 #: .\quizzes\templates\quizzes\sidebar.html:6 .\templates\navbar.html:42
 msgid "Quizzes"
 msgstr "Тесты"
 
-#: .\courses\templates\courses\settings_base.html:24
-msgid "Subgroups"
-msgstr "Подгруппы"
+#: .\courses\templates\courses\quizzes.html:24
+#, python-format
+msgid "%(counter)s question"
+msgid_plural "%(counter)s questions"
+msgstr[0] "%(counter)s вопрос"
+msgstr[1] "%(counter)s вопроса"
+msgstr[2] "%(counter)s вопросов"
 
+#: .\courses\templates\courses\quizzes.html:33
+msgid "unlimited number of attempts"
+msgstr "число попыток не ограничено"
+
+#: .\courses\templates\courses\quizzes.html:35
+#, python-format
+msgid "%(counter)s attempt left"
+msgid_plural "%(counter)s attempts left"
+msgstr[0] "осталась %(counter)s попытка"
+msgstr[1] "осталось %(counter)s попытки"
+msgstr[2] "осталось %(counter)s попыток"
+
+#: .\courses\templates\courses\quizzes.html:51
+#: .\courses\templates\courses\quizzes_answers.html:41
+#: .\courses\templates\courses\quizzes_rating.html:25
+msgid "Start time"
+msgstr "Время начала"
+
+#: .\courses\templates\courses\quizzes.html:52
+#: .\courses\templates\courses\quizzes_answers.html:46
+#: .\courses\templates\courses\quizzes_rating.html:26
+msgid "Duration"
+msgstr "Длительность"
+
+#: .\courses\templates\courses\quizzes.html:53
+#: .\courses\templates\courses\quizzes_answers.html:33
+#: .\courses\templates\courses\quizzes_rating.html:27
+msgid "Mark"
+msgstr "Оценка"
+
+#: .\courses\templates\courses\quizzes.html:66
+#: .\courses\templates\courses\quizzes_rating.html:41
+msgid "Answers"
+msgstr "Ответы"
+
+#: .\courses\templates\courses\quizzes.html:68
+msgid "Not permitted to view answers"
+msgstr "Просмотр ответов запрещён"
+
+#: .\courses\templates\courses\quizzes.html:74
+msgid "Continue"
+msgstr "Продолжить"
+
+#: .\courses\templates\courses\quizzes.html:86
+msgid "You can pass this quiz only once."
+msgstr "Тест можно пройти только один раз."
+
+#: .\courses\templates\courses\quizzes.html:93
+#: .\courses\templates\courses\quizzes_sheet.html:9
 #: .\courses\templates\courses\settings_base.html:30
 #: .\courses\templates\courses\sheet.html:15
 #: .\courses\templates\courses\sidebar.html:51
 msgid "Sheet"
 msgstr "Ведомость"
+
+#: .\courses\templates\courses\quizzes.html:99
+#: .\courses\templates\courses\quizzes_rating.html:10
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: .\courses\templates\courses\quizzes.html:107
+msgid "Start quiz"
+msgstr "Начать тест"
+
+#: .\courses\templates\courses\quizzes.html:117
+#: .\courses\templates\courses\settings_quizzes.html:49
+msgid "No quizzes"
+msgstr "Тестов нет"
+
+#: .\courses\templates\courses\quizzes_answers.html:10
+msgid "Quiz answers"
+msgstr "Ответы на тест"
+
+#: .\courses\templates\courses\quizzes_answers.html:37 .\problems\forms.py:130
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
+#: .\problems\templates\problems\show_test.html:48
+#: .\problems\templates\problems\tests.html:79
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:26
+msgid "Points"
+msgstr "Баллы"
+
+#: .\courses\templates\courses\quizzes_answers.html:54
+msgid "Correct"
+msgstr "Верно"
+
+#: .\courses\templates\courses\quizzes_answers.html:55
+msgid "Incorrect but chosen"
+msgstr "Неверно, но выбрано"
+
+#: .\courses\templates\courses\quizzes_answers.html:56
+msgid "Correct but not chosen"
+msgstr "Верно, но не выбрано"
+
+#: .\courses\templates\courses\quizzes_answers.html:72
+msgid "Delete session"
+msgstr "Удалить сессию"
+
+#: .\courses\templates\courses\quizzes_answers.html:75
+msgid "Quiz session will be deleted"
+msgstr "Сессия тестирования будет удалена"
+
+#: .\courses\templates\courses\quizzes_rating.html:49
+msgid "No finished sessions"
+msgstr "Нет завершённых сессий"
+
+#: .\courses\templates\courses\quizzes_sheet.html:16
+msgid "Average mark"
+msgstr "Средняя оценка"
+
+#: .\courses\templates\courses\quizzes_sheet.html:19
+#: .\courses\templates\courses\standings.html:35
+#: .\courses\templates\courses\standings_wide.html:30
+#: .\problems\templates\problems\challenge.html:21
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:9
+#: .\solutions\templates\solutions\rejudge.html:29
+#: .\solutions\templates\solutions\solution.html:11
+#: .\solutions\templates\solutions\solution.html:23
+msgid "Result"
+msgstr "Итог"
+
+#: .\courses\templates\courses\quizzes_sheet.html:28
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:13
+#: .\solutions\templates\solutions\solution.html:102
+#: .\solutions\templates\solutions\solution_attempts.html:9
+msgid "Attempts"
+msgstr "Попытки"
+
+#: .\courses\templates\courses\settings_base.html:24
+msgid "Subgroups"
+msgstr "Подгруппы"
 
 #: .\courses\templates\courses\settings_common_problems_edit.html:7
 msgid "Edit common problems list"
@@ -1739,6 +1968,37 @@ msgstr ""
 #: .\courses\templates\courses\settings_properties.html:17
 msgid "Delete the course"
 msgstr "Удалить курс"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:12
+#: .\courses\templates\courses\settings_quizzes.html:22
+msgid "Quiz template"
+msgstr "Шаблон теста"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:21
+msgctxt "quiz"
+msgid "Passed"
+msgstr "Пройден"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:24
+#, python-format
+msgid "%(counter)s time"
+msgid_plural "%(counter)s times"
+msgstr[0] "%(counter)s раз"
+msgstr[1] "%(counter)s раза"
+msgstr[2] "%(counter)s раз"
+
+#: .\courses\templates\courses\settings_quizzes.html:10
+msgid "New quiz"
+msgstr "Новый тест"
+
+#: .\courses\templates\courses\settings_quizzes.html:23
+msgid "Tag"
+msgstr "Метка"
+
+#: .\courses\templates\courses\settings_quizzes.html:24
+msgctxt "quiz"
+msgid "Available"
+msgstr "Доступен"
 
 #: .\courses\templates\courses\settings_sheet.html:9
 #, python-format
@@ -1816,16 +2076,6 @@ msgstr "Плагиат"
 #: .\courses\templates\courses\standings_wide.html:16
 msgid "Individual problems"
 msgstr "Индивидуальные задачи"
-
-#: .\courses\templates\courses\standings.html:35
-#: .\courses\templates\courses\standings_wide.html:30
-#: .\problems\templates\problems\challenge.html:21
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:9
-#: .\solutions\templates\solutions\rejudge.html:29
-#: .\solutions\templates\solutions\solution.html:11
-#: .\solutions\templates\solutions\solution.html:23
-msgid "Result"
-msgstr "Итог"
 
 #: .\courses\templates\courses\submit.html:43
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:83
@@ -1987,6 +2237,7 @@ msgstr "Папки с задачами"
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\problems\templates\problems\show_test.html:52
 #: .\problems\templates\problems\tests.html:80
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:16
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
@@ -2005,13 +2256,6 @@ msgstr "Ограничение по памяти"
 msgid "Full feedback will be available for the first <i>N</i> test cases."
 msgstr ""
 "Для первых <i>N</i> тестов будут открыты полные результаты тестирования."
-
-#: .\problems\forms.py:130
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
-#: .\problems\templates\problems\show_test.html:48
-#: .\problems\templates\problems\tests.html:79
-msgid "Points"
-msgstr "Баллы"
 
 #: .\problems\forms.py:147
 msgid "A file with this name already exists."
@@ -2175,6 +2419,7 @@ msgstr "компилятор"
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\problems\templates\problems\overview.html:27
 #: .\quizzes\templates\quizzes\question_group_list.html:11
+#: .\quizzes\templates\quizzes\quiz_template_list.html:16
 #: .\users\templates\users\profile_show.html:31
 msgid "Name"
 msgstr "Название"
@@ -2720,7 +2965,7 @@ msgstr "Добавлен тест %(no)d."
 msgid "points"
 msgstr "баллы"
 
-#: .\problems\views.py:537
+#: .\problems\views.py:537 .\quizzes\models.py:57 .\quizzes\models.py:78
 msgid "time limit"
 msgstr "ограничение по времени"
 
@@ -2819,17 +3064,45 @@ msgstr "Командная строка компиляции"
 msgid "Run command line"
 msgstr "Командная строка запуска"
 
-#: .\quizzes\models.py:22
+#: .\quizzes\models.py:27
 msgid "Single correct answer"
 msgstr "Один правильный ответ"
 
-#: .\quizzes\models.py:23
+#: .\quizzes\models.py:28
 msgid "Multiple correct answers"
 msgstr "Несколько правильных ответов"
 
-#: .\quizzes\models.py:24
+#: .\quizzes\models.py:29
 msgid "Text answer"
 msgstr "Текстовый ответ"
+
+#: .\quizzes\models.py:54
+msgid "shuffle questions"
+msgstr "перемешать вопросы"
+
+#: .\quizzes\models.py:56 .\quizzes\models.py:80
+msgid "attempts"
+msgstr "попытки"
+
+#: .\quizzes\models.py:75
+msgid "quiz template"
+msgstr "шаблон теста"
+
+#: .\quizzes\models.py:76
+msgid "course"
+msgstr "курс"
+
+#: .\quizzes\models.py:77
+msgid "is available"
+msgstr "доступен"
+
+#: .\quizzes\models.py:79
+msgid "tag"
+msgstr "метка"
+
+#: .\quizzes\models.py:81
+msgid "show answers"
+msgstr "показывать ответы"
 
 #: .\quizzes\tabs.py:9
 msgid "Question groups"
@@ -2839,6 +3112,10 @@ msgstr "Группы вопросов"
 msgid "Quiz templates"
 msgstr "Шаблоны тестов"
 
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:20
+msgid "No answer"
+msgstr "Ответа нет"
+
 #: .\quizzes\templates\quizzes\question_group_list.html:12
 msgid "Question count"
 msgstr "Число вопросов"
@@ -2846,6 +3123,58 @@ msgstr "Число вопросов"
 #: .\quizzes\templates\quizzes\question_group_list.html:26
 msgid "No question groups"
 msgstr "Групп вопросов нет"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:10
+msgid "Shuffle questions"
+msgstr "Перемешать вопросы"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:14
+msgid "Unlimited"
+msgstr "Без ограничений"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
+msgid "Question group"
+msgstr "Группа вопросов"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:43
+msgid "Add question group"
+msgstr "Добавить группу вопросов"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:8
+msgid "New template"
+msgstr "Новый шаблон"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:29
+msgid "No quiz templates"
+msgstr "Шаблонов тестов нет"
+
+#: .\quizzes\utils.py:91
+msgid "Finish"
+msgstr "Завершить"
+
+#: .\quizzes\utils.py:93
+msgid "No"
+msgstr "Нет"
+
+#: .\quizzes\utils.py:94
+msgid "Error"
+msgstr "Ошибка"
+
+#: .\quizzes\utils.py:96
+msgid "Next"
+msgstr "Далее"
+
+#: .\quizzes\utils.py:97
+msgid "Previous"
+msgstr "Назад"
+
+#: .\quizzes\utils.py:98
+msgid "Network error"
+msgstr "Ошибка сети"
+
+#: .\quizzes\utils.py:99
+msgid "No time left"
+msgstr "Время вышло"
 
 #: .\solutions\compare.py:26
 msgid "not found"
@@ -3183,11 +3512,6 @@ msgstr "Протестировано"
 #: .\solutions\templates\solutions\solution.html:82
 msgid "IP address"
 msgstr "IP-адрес"
-
-#: .\solutions\templates\solutions\solution.html:102
-#: .\solutions\templates\solutions\solution_attempts.html:9
-msgid "Attempts"
-msgstr "Попытки"
 
 #: .\solutions\templates\solutions\solution.html:108
 #: .\solutions\templates\solutions\solution_judgements.html:7
@@ -3869,9 +4193,6 @@ msgstr ""
 
 #~ msgid "Management"
 #~ msgstr "Управление"
-
-#~ msgid "Next"
-#~ msgstr "Далее"
 
 #~ msgid "Problems to solve"
 #~ msgstr "Задач для решения"
