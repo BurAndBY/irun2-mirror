@@ -161,18 +161,35 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             'start_time': session.start_time,
             'finish_time': session.finish_time,
             'answers': answers,
-            'user': session.user,
+            'user_id': session.user_id,
             'points': round(points + eps, 1),
             'result_points': round(result_points + eps, 1),
         }
         return info
 
-    def get(self, request, course, session_id):
-        session = QuizSession.objects.filter(pk=session_id).select_related('user').first()
-        if session is None or (session.user.id != request.user.id and not self.permissions.quizzes_admin):
-            return redirect('courses:quizzes:list', course.id)
+    def _fetch_session(self, session_id):
+        session = QuizSession.objects.\
+            filter(pk=session_id, quiz_instance__course=self.course).\
+            select_related('quiz_instance').first()
+
+        if session is None:
+            return None
+
+        if session.user_id != self.request.user.id and not self.permissions.quizzes_admin:
+            return None
+
+        if not session.quiz_instance.show_answers and not self.permissions.quizzes_admin:
+            return None
+
         finish_overdue_session(session)
-        if not session.is_finished or not session.quiz_instance.show_answers:
+        if not session.is_finished:
+            return None
+
+        return session
+
+    def get(self, request, course, session_id):
+        session = self._fetch_session(session_id)
+        if session is None:
             return redirect('courses:quizzes:list', course.id)
         context = self.get_context_data()
         context['quiz'] = self.get_session_info(session)
