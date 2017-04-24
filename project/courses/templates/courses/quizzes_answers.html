@@ -2,10 +2,10 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
-{% load irunner_proglangs %}
 {% load irunner_quizzes %}
 {% load irunner_katex %}
 {% load irunner_courses %}
+{% load irunner_time %}
 
 {% block subtitle %}{% trans 'Quiz answers' %}{% endblock %}
 
@@ -44,7 +44,7 @@
             {% if quiz.finish_time %}
                 <div class="col-xs-12">
                     <div class="col-xs-6 text-right text-muted">{% trans 'Duration' %}:</div>
-                    <div class="col-xs-6 text-left">{{ quiz.finish_time|timeuntil:quiz.start_time }}</div>
+                    <div class="col-xs-6 text-left">{% irunner_timediff_hms quiz.start_time quiz.finish_time %}</div>
                 </div>
             {% endif %}
         </div>

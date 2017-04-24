@@ -5,6 +5,7 @@
 {% load irunner_quizzes %}
 {% load irunner_katex %}
 {% load irunner_courses %}
+{% load irunner_time %}
 
 {% block subtitle %}{% trans 'Rating' %}{% endblock %}
 
@@ -33,7 +34,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
                                 <td>{{ info.session.start_time }}</td>
-                                <td>{{ info.session.finish_time|timeuntil:info.session.start_time }}</td>
+                                <td>{% irunner_timediff_hms info.session.start_time info.session.finish_time %}</td>
                                 <td>{% irunner_quizzes_mark info.result %}</div></td>
                                 <td>
                                     {% if instance.show_answers and info.is_own or can_manage %}
