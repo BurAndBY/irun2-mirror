@@ -12,6 +12,7 @@ quiz_urlpatterns = [
         name='delete_session'),
     url(r'^start/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesStartView.as_view(), name='start'),
     url(r'^rating/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesRatingView.as_view(), name='rating'),
+    url(r'^sheet/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesSheetView.as_view(), name='sheet'),
 ]
 
 urlpatterns = [

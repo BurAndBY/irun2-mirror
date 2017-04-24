@@ -218,3 +218,56 @@ class CourseQuizzesDeleteSessionView(QuizMixin, BaseCourseView):
             session.delete()
             return redirect('courses:quizzes:rating', course.id, instance_id)
         return redirect('courses:quizzes:list', course.id)
+
+
+QuizInstanceUserResult = namedtuple('QuizInstanceUserResult', 'user_id sessions')
+QuizInstanceResults = namedtuple('CourseResults', 'user_results stats average_mark')
+QuizStudentCount = namedtuple('QuizStudentCount', 'total passing passed')
+
+
+def make_quiz_instance_results(course, user_cache, instance):
+    user_results = []
+    user_id_to_sessions = {}
+    user_id_to_state = {}
+
+    marks = []
+
+    for user in user_cache.list_students():
+        sessions = user_id_to_sessions.setdefault(user.id, [])
+        user_results.append(QuizInstanceUserResult(user.id, sessions))
+
+    for session in QuizSession.objects.filter(quiz_instance=instance).order_by('start_time'):
+        finish_overdue_session(session)
+        sessions = user_id_to_sessions.get(session.user_id)
+        if sessions is not None:
+            sessions.append(session)
+            user_id_to_state[session.user_id] = user_id_to_state.get(session.user_id, False) or session.is_finished
+            if session.is_finished:
+                marks.append(session.result)
+
+    stats = QuizStudentCount(
+        total=len(user_results),
+        passing=user_id_to_state.values().count(False),
+        passed=user_id_to_state.values().count(True),
+    )
+
+    average_mark = 1. * sum(marks) / len(marks) if marks else 0.
+
+    return QuizInstanceResults(user_results, stats, average_mark)
+
+
+class CourseQuizzesSheetView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
+    template_name = 'courses/quizzes_sheet.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes_admin
+
+    def get(self, request, course, instance_id):
+        instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()
+        if instance is None:
+            return redirect('courses:quizzes:list', course.id)
+
+        data = make_quiz_instance_results(course, self.get_user_cache(), instance)
+
+        context = self.get_context_data(instance=instance, data=data)
+        return render(request, self.template_name, context)

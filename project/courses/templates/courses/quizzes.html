@@ -44,7 +44,7 @@
                                                 <td>{{ session.start_time }}</td>
                                                 {% if session.is_finished %}
                                                     <td>{{ session.finish_time|timeuntil:session.start_time }}</td>
-                                                    <td>{% irunner_quizzes_mark session.result %}</div></td>
+                                                    <td>{% irunner_quizzes_mark session.result %}</td>
                                                     {% if quiz.instance.show_answers %}
                                                         <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% trans 'Answers' %}</a></td>
                                                     {% else %}
@@ -52,7 +52,7 @@
                                                     {% endif %}
                                                 {% else %}
                                                     <td>&hellip;</td>
-                                                    <td><div class="ir-quiz-mark">?</div></td>
+                                                    <td>{% irunner_quizzes_mark None %}</td>
                                                     <td>
                                                         <a href="{% url 'courses:quizzes:session' course.id session.id %}">{% trans 'Continue' %}</a>
                                                     </td>
@@ -69,9 +69,16 @@
                                     {% trans 'You can pass this quiz only once.' %}
                                 </div>
                             {% endif %}
+
+                            {% if permissions.quizzes_admin %}
+                                <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:sheet' course.id quiz.instance.id %}">
+                                    {% bootstrap_icon 'list-alt' %}
+                                    <span class="ir-icon-label">{% trans 'Sheet' %}</span>
+                                </a>
+                            {% endif %}
                             {% if quiz.instance.attempts == 1 %}
                                 <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:rating' course.id quiz.instance.id %}">
-                                    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                                    {% bootstrap_icon 'sort-by-attributes-alt' %}
                                     <span class="ir-icon-label">{% trans 'Rating' %}</span>
                                 </a>
                             {% endif %}
