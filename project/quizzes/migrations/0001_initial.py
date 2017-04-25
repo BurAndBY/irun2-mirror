@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('text', models.CharField(max_length=65535)),
+                ('text', models.CharField(max_length=16383)),
                 ('is_deleted', models.BooleanField(default=False)),
                 ('kind', models.IntegerField(default=0, choices=[(0, 'Single correct answer'), (1, 'Multiple correct answers'), (2, 'Text answer')])),
             ],

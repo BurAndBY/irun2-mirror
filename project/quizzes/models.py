@@ -30,7 +30,7 @@ class Question(models.Model):
     )
 
     group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
-    text = models.CharField(max_length=65535)
+    text = models.CharField(max_length=16383)
     is_deleted = models.BooleanField(default=False)
     kind = models.IntegerField(choices=KIND_OF_CHOICES, default=SINGLE_ANSWER)
 
