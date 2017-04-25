@@ -1,0 +1,50 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_quizzes %}
+{% load irunner_courses %}
+{% load irunner_progress %}
+
+{% block subtitle %}{% trans 'Sheet' %}{% endblock %}
+
+{% block main %}
+
+<h3>{{ instance.quiz_template }}</h3>
+
+<dl class="dl-horizontal">
+    <dt>{% trans 'Average mark' %}</dt>
+    <dd>{{ data.average_mark }}</dd>
+
+    <dt>{% trans 'Result' %}</dt>
+    <dd>{% irunner_progress url=None value=data.stats.passing value_good=data.stats.passed total=data.stats.total active=False %}</dd>
+</dl>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th class="text-right">{% trans '#' %}</th>
+            <th>{% trans 'Student' %}</th>
+            <th>{% trans 'Attempts' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ur in data.user_results %}
+            <tr>
+                <td class="text-right">{{ forloop.counter }}</td>
+                <td class="text-nowrap">{% irunner_courses_user_card ur.user_id user_cache last_name_first=True %}</td>
+                <td>
+                {% for session in ur.sessions %}
+                    {% if permissions.quizzes_admin and session.is_finished %}
+                        <a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% irunner_quizzes_mark session.result session.is_finished %}</a>
+                    {% else %}
+                        {% irunner_quizzes_mark session.result session.is_finished %}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

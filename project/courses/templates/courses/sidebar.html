@@ -80,6 +80,13 @@
         </a>
     {% endif %}
 
+    {% if permissions.info %}
+        <a href="{% url 'courses:quizzes:list' course.id %}" class="list-group-item{% if active_tab == 'quizzes' %} active{% endif %}">
+            {% bootstrap_icon 'question-sign' %}
+            <span class="ir-icon-label">{% trans 'Quizzes' %}</span>
+        </a>
+    {% endif %}
+
     {% if permissions.settings %}
         <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
             {% bootstrap_icon 'cog' %}

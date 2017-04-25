@@ -26,6 +26,8 @@ class CoursePermissions(object):
         self.messages_delete_thread = False
         self.messages_resolve = False
         self.plagiarism = False
+        self.quizzes = False
+        self.quizzes_admin = False
 
     def set_common(self):
         self.info = True
@@ -42,6 +44,7 @@ class CoursePermissions(object):
         self.my_solutions |= (own_solutions_access != SolutionAccessLevel.NO_ACCESS)
         self.all_solutions |= (all_solutions_access != SolutionAccessLevel.NO_ACCESS)
         self.messages_send_own = True
+        self.quizzes = True
 
     def set_teacher(self):
         self.set_common()
@@ -59,6 +62,7 @@ class CoursePermissions(object):
         self.messages_delete_thread = True
         self.messages_resolve = True
         self.plagiarism = True
+        self.quizzes_admin = True
 
     def set_admin(self):
         self.set_common()
@@ -73,6 +77,7 @@ class CoursePermissions(object):
         self.messages_delete_thread = True
         self.messages_resolve = True
         self.plagiarism = True
+        self.quizzes_admin = True
 
     def disable_sheet(self):
         self.sheet = False

@@ -14,6 +14,7 @@ INSTALLED_APPS += (
 )
 
 TEMPLATES[0]['APP_DIRS'] = True
+STATIC_ROOT = '/opt/irunner2/static'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

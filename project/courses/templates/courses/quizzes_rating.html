@@ -1,0 +1,54 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_quizzes %}
+{% load irunner_katex %}
+{% load irunner_courses %}
+{% load irunner_time %}
+
+{% block subtitle %}{% trans 'Rating' %}{% endblock %}
+
+{% block main %}
+    <div class="row">
+
+        <div class="col-xs-12 text-center ir-res-meta">
+            <div class="col-xs-12 h3">{{ instance.quiz_template.name }}</div>
+        </div>
+        <div class="col-xs-12">
+            {% if sessions %}
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>{% trans 'Student' %}</th>
+                            <th>{% trans 'Start time' %}</th>
+                            <th>{% trans 'Duration' %}</th>
+                            <th>{% trans 'Mark' %}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for info in sessions %}
+                            <tr{% if info.is_own %} class="ir-me"{% endif %}>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
+                                <td>{{ info.session.start_time }}</td>
+                                <td>{% irunner_timediff_hms info.session.start_time info.session.finish_time %}</td>
+                                <td>{% irunner_quizzes_mark info.result %}</div></td>
+                                <td>
+                                    {% if instance.show_answers and info.is_own or can_manage %}
+                                        <a href="{% url 'courses:quizzes:answers' course.id info.session.id %}">{% trans 'Answers' %}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="ir-absence">{% trans 'No finished sessions' %}</div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

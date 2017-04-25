@@ -115,7 +115,7 @@ body {
     border-left-width: 5px;
     border-left-color: #ddd;
 }
-.ir-me > td {
+.ir-me > td, .ir-me > th {
     background-color: #ffffcc !important;
 }
 .ir-course-standings .ir-scorebox {
@@ -1885,4 +1885,71 @@ Green menu
 .ir-course-list > thead > tr > th:last-child,
 .ir-course-list > tbody > tr > td:last-child {
     padding-right: 15px;
+}
+
+/**
+ * Quizzes
+ */
+
+.ir-quiz-mark {
+    display: inline-block;
+    min-width: 2em;
+    font-size: 100%;
+    font-weight: bold;
+    background-color: rgba(86, 61, 124, .15);
+    color: rgb(111, 84, 153);
+    text-align: center;
+    border-radius: 2px;
+    line-height: 100%;
+    padding: 2px;
+}
+
+/**
+ * Violet menu
+ */
+.ir-list-group-quizzes .active, .ir-list-group-quizzes .active:hover, .ir-list-group-quizzes .active:focus {
+    background-color: #6f5499;
+    border-color: #6f5499;
+}
+.ir-list-group-quizzes li {
+    color: #563d7c;
+    background-color: #e5e1eb;
+}
+
+.ir-res-answer, .ir-res-legend {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-bottom: 0!important;
+    margin-top: 0 !important;
+}
+
+.ir-res-answer-correct,
+.ir-res-answer-wrong,
+.ir-res-answer-notchosen {
+    padding-left: 11px !important;
+}
+
+.ir-res-answer-correct {
+    border-left: 4px solid #5cb85c;
+}
+
+.ir-res-answer-wrong {
+    border-left: 4px solid #d9534f;
+}
+
+.ir-res-answer-notchosen {
+    border-left: 4px solid #5bc0de;
+}
+
+.ir-res-problem, .ir-res-meta {
+    padding-bottom: 15px;
+}
+
+.ir-quiz-inline-btn {
+    float: left;
+    margin-right: 10px;
+}
+
+.ir-quiz-info-list {
+    padding-left: 15px;
 }

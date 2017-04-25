@@ -1,0 +1,46 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block submain %}
+
+<form method="post" autocomplete="off" class="form-horizontal">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label class="col-md-3 control-label">{% trans 'Quiz template' %}</label>
+        <div class="col-md-9">
+            <p class="form-control-static">
+                <a href="{% url 'quizzes:templates:detail' instance.quiz_template.id %}">{{ instance.quiz_template.name }}</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label">{% trans 'Passed' context 'quiz' %}</label>
+        <div class="col-md-9">
+            <p class="form-control-static">
+                {% blocktrans count counter=instance.session_count %}{{ counter }} time{% plural %}{{ counter }} times{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    {% bootstrap_form form layout='horizontal' %}
+
+    {% buttons layout='horizontal' %}
+        <button type="submit" name="save" class="btn btn-primary">
+            <span class="ir-icon-label">{% trans 'Save' %}</span>
+        </button>
+        {% if can_delete %}
+            <button type="submit" name="delete" class="btn btn-danger">
+                <span class="ir-icon-label">{% trans 'Delete' %}</span>
+            </button>
+        {% endif %}
+        <a href="{{ cancel_url }}" role="button" class="btn btn-link">
+            <span class="ir-icon-label">{% trans 'Cancel' %}</span>
+        </a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

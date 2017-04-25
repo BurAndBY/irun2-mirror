@@ -6,7 +6,7 @@ register = template.Library()
 
 
 @register.inclusion_tag('common/irunner_progress_tag.html')
-def irunner_progress(url, value=0, value_good=0, value_bad=0, total=0):
+def irunner_progress(url, value=0, value_good=0, value_bad=0, total=0, active=None):
     context = {}
 
     def _set(x, suffix):
@@ -24,6 +24,6 @@ def irunner_progress(url, value=0, value_good=0, value_bad=0, total=0):
 
     context['url'] = url
     context['refresh'] = True
-    context['active'] = (value + value_good + value_bad < total)
+    context['active'] = active if active is not None else (value + value_good + value_bad < total)
     context['uid'] = unicode(uuid.uuid1().hex)
     return context

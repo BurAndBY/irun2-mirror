@@ -1,0 +1,14 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+<ul class="list-group ir-list-group-quizzes">
+    <li class="list-group-item">
+        {% trans 'Quizzes' %}
+    </li>
+    {% for tab in all_tabs %}
+        <a href="{% url tab.url_pattern %}" class="list-group-item{% if tab == active_tab %} active{% endif %}">
+            {% bootstrap_icon tab.icon %}
+            <span class="ir-icon-label">{{ tab.name }}</span>
+        </a>
+    {% endfor %}
+</ul>
