@@ -19,16 +19,14 @@
 {% block main %}
     <div class="row">
         <div class="col-lg-7">
-            <div class="panel panel-default">
-                <div class="panel-heading">{% trans 'Number of submitted solutions' %}</div>
-                <div class="panel-body">
-                    {% if show_activity_plot %}
+            {% if show_activity_plot %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">{% trans 'Number of submitted solutions' %}</div>
+                    <div class="panel-body">
                         <div class="ir-activity-plot"></div>
-                    {% else %}
-                        <div class="ir-absence">{% trans 'No solutions' %}</div>
-                    {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
 
             {% if language_bars %}
                 <div class="panel panel-default">
