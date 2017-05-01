@@ -1,18 +1,25 @@
 from .models import Question
 
-STRICT_POLICY = 0
-SOFT_POLICY = 1
+from collections import namedtuple
+
+
+AnswersInfo = namedtuple('AnswersInfo', 'chosen_correct chosen_incorrect total_correct')
+
+
+class Policy(object):
+    STRICT = 0
+    SOFT = 1
 
 
 class IAnswerChecker(object):
-    def get_result_points(self, question, policy=STRICT_POLICY):
+    def get_result_points(self, question, policy=Policy.STRICT):
         raise NotImplementedError()
 
 
 class SingleAnswerChecker(IAnswerChecker):
     key = Question.SINGLE_ANSWER
 
-    def get_result_points(self, question, policy=STRICT_POLICY):
+    def get_result_points(self, question, policy=Policy.STRICT):
         is_right = False
         for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.is_chosen and answer.choice.is_right:
@@ -26,9 +33,9 @@ class SingleAnswerChecker(IAnswerChecker):
 class TextAnswerChecker(IAnswerChecker):
     key = Question.TEXT_ANSWER
 
-    def get_result_points(self, question, policy=STRICT_POLICY):
-        answer = question.sessionquestionanswer_set.select_related('choice').all()[0]
-        if answer.user_answer and answer.user_answer.strip() == answer.choice.text:
+    def get_result_points(self, question, policy=Policy.STRICT):
+        answer = question.sessionquestionanswer_set.select_related('choice').first()
+        if answer and answer.user_answer and answer.user_answer.strip() == answer.choice.text:
             return question.points
         return 0.
 
@@ -36,41 +43,57 @@ class TextAnswerChecker(IAnswerChecker):
 class MultipleAnswersChecker(IAnswerChecker):
     key = Question.MULTIPLE_ANSWERS
 
-    def get_result_points(self, question, policy=STRICT_POLICY):
-        correct = 0  # chosen and right
-        wrong = 0    # chosen but not right
-        right = 0    # right choice
+    def get_result_points(self, question, policy=Policy.STRICT):
+        chosen_correct = 0    # chosen and right
+        chosen_incorrect = 0  # chosen but not right
+        total_correct = 0     # right choice
         for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.choice.is_right:
-                right += 1
+                total_correct += 1
             if answer.is_chosen and answer.choice.is_right:
-                correct += 1
+                chosen_correct += 1
             elif answer.is_chosen:
-                wrong += 1
-        return question.points * _get_points_with_policy({"right": right, "correct": correct, "wrong": wrong}, policy)
+                chosen_incorrect += 1
+        return question.points * _get_points_with_policy(AnswersInfo(chosen_correct, chosen_incorrect, total_correct),
+                                                         policy)
 
 
 def _get_points_with_policy(answers, policy):
-    if policy == STRICT_POLICY:
-        return _strict_policy_estimate(answers)
-    elif policy == SOFT_POLICY:
-        return _soft_policy_estimate(answers)
-    else:
+    handler = _POLICIES[policy]
+    if not handler:
+        raise NotImplementedError()
+    return handler.estimate(answers)
+
+
+class IPolicy(object):
+    def estimate(self, answers):
+        raise NotImplementedError()
+
+
+class StrictPolicy(IPolicy):
+    key = Policy.STRICT
+
+    def estimate(self, answers):
+        if answers.chosen_incorrect == 0 and answers.chosen_correct == answers.total_correct:
+            return 1.
         return 0.
 
 
-def _strict_policy_estimate(answers):
-    if answers["wrong"] == 0 and answers['correct'] == answers['right']:
-        return 1.
-    return 0.
+class SoftPolicy(IPolicy):
+    key = Policy.SOFT
+
+    def estimate(self, answers):
+        raise NotImplementedError()
 
 
-def _soft_policy_estimate(answers):
-    raise NotImplementedError()
+_POLICIES = {
+    Policy.STRICT: StrictPolicy(),
+    Policy.SOFT: SoftPolicy()
+}
 
 
-CHECKERS = [
-    SingleAnswerChecker(),
-    MultipleAnswersChecker(),
-    TextAnswerChecker()
-]
+CHECKERS = {
+    Question.SINGLE_ANSWER: SingleAnswerChecker(),
+    Question.MULTIPLE_ANSWERS: MultipleAnswersChecker(),
+    Question.TEXT_ANSWER: TextAnswerChecker()
+}

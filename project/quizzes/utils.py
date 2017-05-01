@@ -6,8 +6,8 @@ from django.utils.translation import ugettext as _
 import random
 
 from common.katex import tex2html
-from quizzes.models import *
 from quizzes.answer_checker import CHECKERS
+from quizzes.models import QuizSession, GroupQuizRelation, SessionQuestion, SessionQuestionAnswer, Question
 
 
 @transaction.atomic
@@ -59,19 +59,20 @@ def check_quiz_answers(session):
     max_res = 0.
     for question in session.sessionquestion_set.select_related('question').all():
         max_res += question.points
-        checker = next(c for c in CHECKERS if c.key == question.question.kind)
+        checker = CHECKERS[question.question.kind]
         q_result = checker.get_result_points(question)
         res += q_result
         question.result_points = q_result
         question.save()
-    eps = 0.000001
-    session.result = 0. if max_res == 0 else round(res / max_res * 10. + eps)
+    session.result = calc_ten_point_grade(res, max_res)
     session.is_finished = True
-    if timezone.now() - session.start_time > session.quiz_instance.time_limit:
-        session.finish_time = session.start_time + session.quiz_instance.time_limit
-    else:
-        session.finish_time = timezone.now()
+    session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
     session.save()
+
+
+def calc_ten_point_grade(res, max_res):
+    eps = 0.000001
+    return 0. if max_res == 0 else round(res / max_res * 10. + eps)
 
 
 def finish_overdue_sessions(sessions):
