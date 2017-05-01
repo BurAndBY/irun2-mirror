@@ -6,8 +6,8 @@ from django.utils.translation import ugettext as _
 import random
 
 from common.katex import tex2html
-from quizzes.models import *
 from quizzes.answer_checker import CHECKERS
+from quizzes.models import QuizSession, GroupQuizRelation, SessionQuestion, SessionQuestionAnswer, Question
 
 
 @transaction.atomic
