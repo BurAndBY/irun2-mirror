@@ -124,7 +124,7 @@ app.run(function ($rootScope, $http, $window, $interval) {
     };
     $rootScope.quizAnswered = $rootScope.isQuizAnswered();
     $rootScope.showErrorMessage = function (data, status) {
-        $rootScope.error.message = data.message || $rootScope.langTags.networkError || 'Network error.';
+        $rootScope.error.message = data.message || $rootScope.langTags.networkError;
         if (status === 404 || status === 410) {
             $rootScope.error.handle = function () {
                 $window.location.href = $rootScope.urls.home;
