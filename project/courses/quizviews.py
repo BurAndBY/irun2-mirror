@@ -207,7 +207,7 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         return permissions.quizzes or permissions.quizzes_admin
 
     def make_session_info(self, session, user):
-        is_own = session.user.id == user.id
+        is_own = session.user_id == user.id
         result = session.result
         return SessionInfo(session, is_own, result)
 
@@ -233,7 +233,7 @@ class CourseQuizzesDeleteSessionView(QuizMixin, BaseCourseView):
     def post(self, request, course, session_id):
         session = QuizSession.objects.filter(pk=session_id, quiz_instance__course=course).first()
         if session is not None:
-            instance_id = session.quiz_instance.id
+            instance_id = session.quiz_instance_id
             session.delete()
             return redirect('courses:quizzes:rating', course.id, instance_id)
         return redirect('courses:quizzes:list', course.id)
