@@ -1,5 +1,10 @@
 from .models import Question
 
+from collections import namedtuple
+
+
+AnswersInfo = namedtuple('AnswersInfo', 'chosen_correct chosen_incorrect total_correct')
+
 
 class Policy(object):
     STRICT = 0
@@ -49,9 +54,8 @@ class MultipleAnswersChecker(IAnswerChecker):
                 chosen_correct += 1
             elif answer.is_chosen:
                 chosen_incorrect += 1
-        return question.points * _get_points_with_policy(
-            {"total_correct": total_correct, "chosen_correct": chosen_correct, "chosen_incorrect": chosen_incorrect},
-            policy)
+        return question.points * _get_points_with_policy(AnswersInfo(chosen_correct, chosen_incorrect, total_correct),
+                                                         policy)
 
 
 def _get_points_with_policy(answers, policy):
@@ -64,7 +68,7 @@ def _get_points_with_policy(answers, policy):
 
 
 def _strict_policy_estimate(answers):
-    if answers['chosen_incorrect'] == 0 and answers['chosen_correct'] == answers['total_correct']:
+    if answers.chosen_incorrect == 0 and answers.chosen_correct == answers.total_correct:
         return 1.
     return 0.
 
