@@ -62,7 +62,7 @@
                                                 {% if session.is_finished %}
                                                     <td>{% irunner_timediff_hms session.start_time session.finish_time %}</td>
                                                     <td>{% irunner_quizzes_mark session.result %}</td>
-                                                    {% if quiz.instance.show_answers %}
+                                                    {% if quiz.instance.show_answers or permissions.quizzes_admin %}
                                                         <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% trans 'Answers' %}</a></td>
                                                     {% else %}
                                                         <td class="text-muted">{% trans 'Not permitted to view answers' %}</td>
