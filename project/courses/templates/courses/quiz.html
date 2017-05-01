@@ -63,8 +63,8 @@
                     <button ng-class="{'btn': true, 'btn-default': !isQuestionAnswered(q), 'btn-info': isQuestionAnswered(q)}" ng-repeat="q in quizData.questions" ng-click="setChosen(q)" ng-disabled="isChosen(q)">{{$index + 1}}</button>
                 </div>
 			</div>
-			<div class="col-xs-12" ng-repeat="q in quizData.questions" ng-show="isChosen(q)">
-				<div class="row">
+			<div class="row" ng-repeat="q in quizData.questions" ng-show="isChosen(q)">
+				<div class="col-xs-12">
 					<div class="text-left"><h3>{{langTags.question}} {{$index + 1}}</h3></div>
 					<div class="text-left h5" ng-bind-html="q.text"></div>
 					<form ng-switch="q.type">
