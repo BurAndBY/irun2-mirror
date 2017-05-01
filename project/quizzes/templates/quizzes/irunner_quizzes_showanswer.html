@@ -13,19 +13,19 @@
         <div class="ir-res-problem">{{ text|safe }}</div>
         {% for answer in answers %}
             {% if answer.is_right %}
-                <div class="col-xs-12 ir-res-answer bg-success ir-res-answer-correct">{{ answer.text|safe }}</div>
+                <div class="col-xs-12 ir-res-answer bg-success ir-res-answer-correct">{{ answer.text }}</div>
             {% elif answer.is_wrong %}
                 <div class="col-xs-12 ir-res-answer bg-danger ir-res-answer-wrong">
                     {% if not answer.text %}
                         <em>{% trans 'No answer' %}</em>
                     {% else %}
-                        {{ answer.text|safe }}
+                        {{ answer.text }}
                     {% endif %}
                 </div>
             {% elif answer.is_notchosen %}
-                <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text|safe }}</div>
+                <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text }}</div>
             {% else %}
-                <div class="col-xs-12 ir-res-answer">{{ answer.text|safe }}</div>
+                <div class="col-xs-12 ir-res-answer">{{ answer.text }}</div>
             {% endif %}
         {% endfor %}
     </div>
