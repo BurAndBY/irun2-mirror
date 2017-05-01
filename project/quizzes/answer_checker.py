@@ -59,22 +59,37 @@ class MultipleAnswersChecker(IAnswerChecker):
 
 
 def _get_points_with_policy(answers, policy):
-    if policy == Policy.STRICT:
-        return _strict_policy_estimate(answers)
-    elif policy == Policy.SOFT:
-        return _soft_policy_estimate(answers)
-    else:
+    handler = _POLICIES[policy]
+    if not handler:
+        raise NotImplementedError()
+    return handler.estimate(answers)
+
+
+class IPolicy(object):
+    def estimate(self, answers):
+        raise NotImplementedError()
+
+
+class StrictPolicy(IPolicy):
+    key = Policy.STRICT
+
+    def estimate(self, answers):
+        if answers.chosen_incorrect == 0 and answers.chosen_correct == answers.total_correct:
+            return 1.
         return 0.
 
 
-def _strict_policy_estimate(answers):
-    if answers.chosen_incorrect == 0 and answers.chosen_correct == answers.total_correct:
-        return 1.
-    return 0.
+class SoftPolicy(IPolicy):
+    key = Policy.SOFT
+
+    def estimate(self, answers):
+        raise NotImplementedError()
 
 
-def _soft_policy_estimate(answers):
-    raise NotImplementedError()
+_POLICIES = {
+    Policy.STRICT: StrictPolicy(),
+    Policy.SOFT: SoftPolicy()
+}
 
 
 CHECKERS = [
