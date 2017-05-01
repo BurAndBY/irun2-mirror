@@ -66,10 +66,7 @@ def check_quiz_answers(session):
         question.save()
     session.result = calc_ten_point_grade(res, max_res)
     session.is_finished = True
-    if timezone.now() - session.start_time > session.quiz_instance.time_limit:
-        session.finish_time = session.start_time + session.quiz_instance.time_limit
-    else:
-        session.finish_time = timezone.now()
+    session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
     session.save()
 
 
