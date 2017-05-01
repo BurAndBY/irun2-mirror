@@ -39,17 +39,19 @@ class MultipleAnswersChecker(IAnswerChecker):
     key = Question.MULTIPLE_ANSWERS
 
     def get_result_points(self, question, policy=Policy.STRICT):
-        correct = 0  # chosen and right
-        wrong = 0    # chosen but not right
-        right = 0    # right choice
+        chosen_correct = 0    # chosen and right
+        chosen_incorrect = 0  # chosen but not right
+        total_correct = 0     # right choice
         for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.choice.is_right:
-                right += 1
+                total_correct += 1
             if answer.is_chosen and answer.choice.is_right:
-                correct += 1
+                chosen_correct += 1
             elif answer.is_chosen:
-                wrong += 1
-        return question.points * _get_points_with_policy({"right": right, "correct": correct, "wrong": wrong}, policy)
+                chosen_incorrect += 1
+        return question.points * _get_points_with_policy(
+            {"total_correct": total_correct, "chosen_correct": chosen_correct, "chosen_incorrect": chosen_incorrect},
+            policy)
 
 
 def _get_points_with_policy(answers, policy):
@@ -62,7 +64,7 @@ def _get_points_with_policy(answers, policy):
 
 
 def _strict_policy_estimate(answers):
-    if answers["wrong"] == 0 and answers['correct'] == answers['right']:
+    if answers['chosen_incorrect'] == 0 and answers['chosen_correct'] == answers['total_correct']:
         return 1.
     return 0.
 
