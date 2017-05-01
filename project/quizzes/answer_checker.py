@@ -92,8 +92,8 @@ _POLICIES = {
 }
 
 
-CHECKERS = [
-    SingleAnswerChecker(),
-    MultipleAnswersChecker(),
-    TextAnswerChecker()
-]
+CHECKERS = {
+    Question.SINGLE_ANSWER: SingleAnswerChecker(),
+    Question.MULTIPLE_ANSWERS: MultipleAnswersChecker(),
+    Question.TEXT_ANSWER: TextAnswerChecker()
+}

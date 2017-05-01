@@ -59,7 +59,7 @@ def check_quiz_answers(session):
     max_res = 0.
     for question in session.sessionquestion_set.select_related('question').all():
         max_res += question.points
-        checker = next(c for c in CHECKERS if c.key == question.question.kind)
+        checker = CHECKERS[question.question.kind]
         q_result = checker.get_result_points(question)
         res += q_result
         question.result_points = q_result
