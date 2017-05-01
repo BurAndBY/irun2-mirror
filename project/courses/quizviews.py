@@ -1,9 +1,11 @@
 import json
 
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
+from rest_framework import status
 from rest_framework.views import APIView
 
 from common.networkutils import never_ever_cache
@@ -111,34 +113,34 @@ class CourseQuizzesFinishView(QuizMixin, BaseCourseView):
 
 class SaveAnswerAPIView(APIView):
 
-    def respond_with_message(self, message, status):
-        return Response(SaveAnswerMessageSerializer(SaveAnswerMessage(message)).data, status=status)
+    def respond_with_message(self, message, status_code):
+        return Response(SaveAnswerMessageSerializer(SaveAnswerMessage(message)).data, status=status_code)
 
     def post(self, request, course_id, session_id):
         if not request.user.is_authenticated:
-            return self.respond_with_message(_('Permission denied'), 403)
+            return self.respond_with_message(_('Permission denied'), status.HTTP_403_FORBIDDEN)
         session = QuizSession.objects.filter(pk=session_id, user=request.user).first()
         if session is None:
-            return self.respond_with_message(_('Quiz does not exist'), 404)
+            return self.respond_with_message(_('Quiz does not exist'), status.HTTP_404_NOT_FOUND)
         finish_overdue_session(session)
         if session.is_finished:
             return self.respond_with_message(
-                _('Quiz is finished or no time is left. Do you want to go to home page?'), 410)
+                _('Quiz is finished or no time is left. Do you want to go to home page?'), status.HTTP_410_GONE)
         serializer = QuizAnswersDataSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=False):
-            return self.respond_with_message(_('Request is not valid'), 400)
+            return self.respond_with_message(_('Request is not valid'), status.HTTP_400_BAD_REQUEST)
         answers_data = serializer.save()
-        for answer in answers_data.answers:
-            try:
-                a = SessionQuestionAnswer.objects.get(pk=answer.id, session_question__quiz_session=session)
-                if a.session_question.question.kind == Question.TEXT_ANSWER:
-                    a.user_answer = answer.user_answer
-                else:
-                    a.is_chosen = answer.chosen
-                a.save()
-            except SessionQuestionAnswer.DoesNotExist:
-                continue
-        return Response({}, status=200)
+        with transaction.atomic():
+            for answer in answers_data.answers:
+                kwargs = {}
+                if answer.chosen is not None:
+                    kwargs['is_chosen'] = answer.chosen
+                if answer.user_answer is not None:
+                    kwargs['user_answer'] = answer.user_answer
+
+                SessionQuestionAnswer.objects.filter(pk=answer.id, session_question__quiz_session=session).update(
+                    **kwargs)
+        return Response({}, status=status.HTTP_200_OK)
 
 
 class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
