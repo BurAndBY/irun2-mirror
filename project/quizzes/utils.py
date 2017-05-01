@@ -13,14 +13,13 @@ from quizzes.models import QuizSession, GroupQuizRelation, SessionQuestion, Sess
 @transaction.atomic
 def create_session(instance, user):
     session = QuizSession.objects.create(quiz_instance=instance, user=user, start_time=timezone.now())
-    groups = list(instance.quiz_template.question_groups.all())
+    relations = list(instance.quiz_template.groupquizrelation_set.all().select_related('group'))
     if instance.quiz_template.shuffle_questions:
-        random.shuffle(groups)
+        random.shuffle(relations)
     questions = []
-    for idx, group in enumerate(groups):
-        qs = group.question_set.order_by('pk')
+    for idx, rel in enumerate(relations):
+        qs = rel.group.question_set.order_by('pk')
         q = qs[random.randint(0, qs.count() - 1)]
-        rel = GroupQuizRelation.objects.get(template=instance.quiz_template, group=group)
         questions.append(SessionQuestion(quiz_session=session, order=idx, points=rel.points, question=q))
     SessionQuestion.objects.bulk_create(questions)
     questions = SessionQuestion.objects.filter(quiz_session=session)\
