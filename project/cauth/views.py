@@ -6,12 +6,17 @@ from mixins import LoginRequiredMixin
 import forms
 
 
+def _can_edit_profile(user):
+    return user.is_authenticated() and not user.userprofile.is_team()
+
+
 class ShowProfileView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'cauth/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ShowProfileView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
+        context['can_edit_profile'] = _can_edit_profile(self.request.user)
         return context
 
 

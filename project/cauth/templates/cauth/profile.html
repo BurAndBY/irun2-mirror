@@ -10,8 +10,10 @@
 {% block content %}
     <h1>{% irunner_users_show user %} <small>{{ user.username }}</small></h1>
     <div class="list-group">
-        <a href="{% url 'profile_edit' %}" class="list-group-item">{% trans 'Edit profile' %}</a>
-        <a href="{% url 'password_change' %}" class="list-group-item">{% trans 'Change password' %}</a>
+        {% if can_edit_profile %}
+            <a href="{% url 'profile_edit' %}" class="list-group-item">{% trans 'Edit profile' %}</a>
+            <a href="{% url 'password_change' %}" class="list-group-item">{% trans 'Change password' %}</a>
+        {% endif %}
         <a href="{% url 'language' %}?next={% irunner_next %}" class="list-group-item">{% trans 'Change interface language' %}</a>
     </div>
 {% endblock %}
