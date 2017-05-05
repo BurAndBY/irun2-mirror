@@ -14,7 +14,7 @@
 
 <dl class="dl-horizontal">
     <dt>{% trans 'Average mark' %}</dt>
-    <dd>{{ data.average_mark }}</dd>
+    <dd>{{ data.average_mark|floatformat:1 }}</dd>
 
     <dt>{% trans 'Result' %}</dt>
     <dd>{% irunner_progress url=None value=data.stats.passing value_good=data.stats.passed total=data.stats.total active=False %}</dd>
