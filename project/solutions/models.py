@@ -149,7 +149,7 @@ class Challenge(models.Model):
 
     problem = models.ForeignKey(Problem)
     time_limit = models.IntegerField()
-    memory_limit = models.IntegerField(default=0)
+    memory_limit = models.BigIntegerField(default=0)
 
     input_resource_id = ResourceIdField()
 
@@ -164,4 +164,4 @@ class ChallengedSolution(models.Model):
     stderr_resource_id = ResourceIdField(null=True)
     exit_code = models.IntegerField(null=True)
     time_used = models.IntegerField(null=True)
-    memory_used = models.IntegerField(null=True)
+    memory_used = models.BigIntegerField(null=True)
