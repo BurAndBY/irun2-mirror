@@ -1,0 +1,42 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_users %}
+{% load irunner_time %}
+{% load irunner_quizzes %}
+{% load irunner_pagination %}
+
+{% block main %}
+    <h3>{{ template.name }}. {% trans 'Sessions' %}</h3>
+
+    {% irunner_pagination pagination_context %}
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>{% trans 'Name' %}</th>
+                <th>{% trans 'Course' %}</th>
+                <th>{% trans 'Start time' %}</th>
+                <th>{% trans 'Duration' %}</th>
+                <th>{% trans 'Mark' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in object_list %}
+            <tr>
+                <td>{% irunner_users_card session.user %}</td>
+                <td>{{ session.quiz_instance.course }}</td>
+                <td>{{ session.start_time}}</td>
+                <td>{% irunner_timediff_hms session.start_time session.finish_time %}</td>
+                <td>
+                {% if session.is_finished %}
+                    <a href="{% url 'courses:quizzes:answers' session.quiz_instance.course_id session.id %}">{% irunner_quizzes_mark session.result session.is_finished %}</a>
+                {% else %}
+                    {% irunner_quizzes_mark session.result session.is_finished %}
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

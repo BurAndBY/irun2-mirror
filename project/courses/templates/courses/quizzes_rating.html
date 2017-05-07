@@ -6,8 +6,14 @@
 {% load irunner_katex %}
 {% load irunner_courses %}
 {% load irunner_time %}
+{% load static %}
 
 {% block subtitle %}{% trans 'Rating' %}{% endblock %}
+
+{% block head %}
+    <link href="{% static 'bootstrap-sortable/bootstrap-sortable.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap-sortable/bootstrap-sortable.js' %}"></script>
+{% endblock %}
 
 {% block main %}
     <div class="row">
@@ -17,15 +23,15 @@
         </div>
         <div class="col-xs-12">
             {% if sessions %}
-                <table class="table table-condensed table-hover">
+                <table class="table table-condensed table-hover sortable">
                     <thead>
                         <tr>
-                            <th>{% trans '#' %}</th>
+                            <th data-defaultsort="disabled">{% trans '#' %}</th>
                             <th>{% trans 'Student' %}</th>
                             <th>{% trans 'Start time' %}</th>
                             <th>{% trans 'Duration' %}</th>
                             <th>{% trans 'Mark' %}</th>
-                            <th></th>
+                            <th data-defaultsort="disabled"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,9 +39,9 @@
                             <tr{% if info.is_own %} class="ir-me"{% endif %}>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
-                                <td>{{ info.session.start_time }}</td>
+                                <td data-value="{{ info.session.start_time|date:'U' }}">{{ info.session.start_time }}</td>
                                 <td>{% irunner_timediff_hms info.session.start_time info.session.finish_time %}</td>
-                                <td>{% irunner_quizzes_mark info.result %}</div></td>
+                                <td data-defaultsort="desc">{% irunner_quizzes_mark info.result %}</div></td>
                                 <td>
                                     {% if instance.show_answers and info.is_own or can_manage %}
                                         <a href="{% url 'courses:quizzes:answers' course.id info.session.id %}">{% trans 'Answers' %}</a>
