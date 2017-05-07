@@ -7,7 +7,7 @@ from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
 
 from .forms import AddQuestionGroupForm
-from .models import QuestionGroup, QuizTemplate, GroupQuizRelation
+from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession
 from .tabs import Tabs
 
 
@@ -61,6 +61,9 @@ class QuizTemplateListView(QuizAdminMixin, generic.ListView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_list.html'
     model = QuizTemplate
+
+    def get_queryset(self):
+        return QuizTemplate.objects.annotate(num_sessions=models.Count('quizinstance__quizsession'))
 
 
 class QuizTemplateCreateView(QuizAdminMixin, generic.CreateView):
@@ -120,4 +123,28 @@ class QuizTemplateAddGroupView(QuizAdminMixin, generic.base.ContextMixin, generi
                 relation.save()
             return redirect('quizzes:templates:detail', pk)
         context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class QuizSessionListView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.TEMPLATES
+    paginate_by = 25
+    template_name = 'quizzes/quiz_template_sessions.html'
+
+    def get(self, request, pk):
+        context = self.get_context_data()
+        template = QuizTemplate.objects.filter(pk=pk).first()
+        if template is None:
+            return redirect('quizzes:templates:list')
+
+        queryset = QuizSession.objects.\
+            filter(quiz_instance__quiz_template=template).\
+            select_related('quiz_instance__course').\
+            select_related('quiz_instance').\
+            select_related('user').\
+            order_by('-start_time')
+
+        page_context = paginate(request, queryset, self.paginate_by, allow_all=False)
+        context.update(page_context)
+        context['template'] = template
         return render(request, self.template_name, context)

@@ -13,6 +13,7 @@ template_urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/$', views.QuizTemplateDetailView.as_view(), name='detail'),
     url(r'^(?P<pk>[0-9]+)/edit/$', views.QuizTemplateUpdateView.as_view(), name='update'),
     url(r'^(?P<pk>[0-9]+)/groups/add/$', views.QuizTemplateAddGroupView.as_view(), name='add_group'),
+    url(r'^(?P<pk>[0-9]+)/sessions/$', views.QuizSessionListView.as_view(), name='sessions'),
 ]
 
 urlpatterns = [
