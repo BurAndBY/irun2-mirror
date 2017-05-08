@@ -23,7 +23,7 @@
         </thead>
         <tbody>
             {% for session in object_list %}
-            <tr>
+            <tr{% if not session.is_finished %} class="active"{% endif %}>
                 <td>{% irunner_users_card session.user %}</td>
                 <td>{{ session.quiz_instance.course }}</td>
                 <td>{{ session.start_time}}</td>
