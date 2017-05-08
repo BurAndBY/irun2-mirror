@@ -18,28 +18,31 @@
     <input id="languageTags" type="hidden" value="{{ tags }}" />
     <input id="urls" type="hidden" value="{{ urls }}" />
 
-    <div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="warnModalLabel">{% trans 'Attention' %}</h4>
-                </div>
-                <div class="modal-body">{% trans 'Are you sure you want to finish this quiz?' %}</div>
-                <div class="modal-footer">
-                    <form method="post" action="{% url 'courses:quizzes:finish' course.id session.id %}">
-                        {% csrf_token %}
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
-                        <button type="submit" class="btn btn-primary">{% trans 'OK' %}</button>
-                    </form>
+
+    <div class="row" ng-app="quiz">
+        <div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="warnModalLabel">{% trans 'Attention' %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{% trans 'Are you sure you want to finish this quiz?' %}</p>
+                        <p ng-if="!quizAnswered" class="text-danger"><strong>{% trans 'Warning' %}!</strong> {% trans 'Some questions left unanswered.' %}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post" action="{% url 'courses:quizzes:finish' course.id session.id %}">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                            <button type="submit" class="btn btn-primary">{% trans 'OK' %}</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {% verbatim %}
-	<div class="row" ng-app="quiz">
-
+        {% verbatim %}
         <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

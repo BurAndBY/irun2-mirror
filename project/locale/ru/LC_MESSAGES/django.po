@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-24 22:40+0300\n"
-"PO-Revision-Date: 2017-04-24 22:59+0300\n"
+"POT-Creation-Date: 2017-05-08 20:18+0300\n"
+"PO-Revision-Date: 2017-05-08 20:21+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -817,7 +817,7 @@ msgstr "Удалить"
 #: .\courses\templates\courses\course_form.html:13
 #: .\courses\templates\courses\messages.html:148
 #: .\courses\templates\courses\messages_new.html:27
-#: .\courses\templates\courses\quiz.html:32
+#: .\courses\templates\courses\quiz.html:37
 #: .\courses\templates\courses\quizzes_answers.html:81
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
 #: .\courses\templates\courses\settings_component.html:21
@@ -936,8 +936,7 @@ msgstr "Отменить дисквалификацию"
 
 #: .\contests\templates\contests\all_solutions.html:85
 #: .\contests\templates\contests\my_solutions.html:67
-#: .\courses\templates\courses\info.html:28
-#: .\courses\templates\courses\info.html:59
+#: .\courses\templates\courses\info.html:57
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
 #: .\courses\templates\courses\solutions.html:91
 #: .\solutions\templates\solutions\rejudge.html:93
@@ -1045,6 +1044,7 @@ msgstr "Последнее решение"
 #: .\contests\templates\contests\my_solutions.html:31
 #: .\courses\templates\courses\api_list_problems.html:10
 #: .\courses\templates\courses\quizzes.html:50
+#: .\courses\templates\courses\quizzes_rating.html:29
 #: .\courses\templates\courses\quizzes_sheet.html:26
 #: .\courses\templates\courses\settings_quizzes.html:21
 #: .\courses\templates\courses\settings_users.html:27
@@ -1172,6 +1172,7 @@ msgid "No problems"
 msgstr "Задач нет"
 
 #: .\contests\templates\contests\question_answers.html:14
+#: .\courses\templates\courses\quiz.html:32
 msgid "Warning"
 msgstr "Внимание"
 
@@ -1476,21 +1477,21 @@ msgstr "отсутствие"
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\quizviews.py:119
+#: .\courses\quizviews.py:121
 msgid "Permission denied"
 msgstr "Доступ запрещён"
 
-#: .\courses\quizviews.py:122
+#: .\courses\quizviews.py:124
 msgid "Quiz does not exist"
 msgstr "Тест не существует либо был удалён"
 
-#: .\courses\quizviews.py:126
+#: .\courses\quizviews.py:128
 msgid "Quiz is finished or no time is left. Do you want to go to home page?"
 msgstr ""
 "Тест был завершён, либо отведённое на него время вышло. Желаете перейти на "
 "страницу с результатами?"
 
-#: .\courses\quizviews.py:129
+#: .\courses\quizviews.py:131
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
@@ -1514,7 +1515,7 @@ msgstr "Преподаватели"
 
 #: .\courses\settingsviews.py:119
 #: .\courses\templates\courses\quizzes_answers.html:29
-#: .\courses\templates\courses\quizzes_rating.html:24
+#: .\courses\templates\courses\quizzes_rating.html:30
 #: .\courses\templates\courses\quizzes_sheet.html:27
 #: .\courses\templates\courses\sheet.html:32
 #: .\courses\templates\courses\standings.html:26
@@ -1652,27 +1653,27 @@ msgstr "Критерии не определены"
 msgid "New criterion"
 msgstr "Новый критерий"
 
-#: .\courses\templates\courses\info.html:23
+#: .\courses\templates\courses\info.html:24
 msgid "Number of submitted solutions"
 msgstr "Количество отправленных решений"
 
-#: .\courses\templates\courses\info.html:35
+#: .\courses\templates\courses\info.html:33
 msgid "Programming language popularity"
 msgstr "Популярность языков программирования"
 
-#: .\courses\templates\courses\info.html:44
+#: .\courses\templates\courses\info.html:42
 msgid "Latest accepted solutions"
 msgstr "Последние принятые решения"
 
-#: .\courses\templates\courses\info.html:49
+#: .\courses\templates\courses\info.html:47
 msgid "ago"
 msgstr "назад"
 
-#: .\courses\templates\courses\info.html:70
+#: .\courses\templates\courses\info.html:68
 msgid "all"
 msgstr "все"
 
-#: .\courses\templates\courses\info.html:75
+#: .\courses\templates\courses\info.html:73
 msgid "accepted"
 msgstr "принятые"
 
@@ -1763,16 +1764,20 @@ msgstr "Описание решения"
 msgid "Quiz"
 msgstr "Тест"
 
-#: .\courses\templates\courses\quiz.html:26
+#: .\courses\templates\courses\quiz.html:28
 #: .\courses\templates\courses\quizzes.html:85
 msgid "Attention"
 msgstr "Внимание"
 
-#: .\courses\templates\courses\quiz.html:28
+#: .\courses\templates\courses\quiz.html:31
 msgid "Are you sure you want to finish this quiz?"
 msgstr "Вы уверены, что хотите завершить тест?"
 
-#: .\courses\templates\courses\quiz.html:33 .\quizzes\utils.py:92
+#: .\courses\templates\courses\quiz.html:32
+msgid "Some questions left unanswered."
+msgstr "Некоторые вопросы остались без ответа."
+
+#: .\courses\templates\courses\quiz.html:38 .\quizzes\utils.py:92
 msgid "OK"
 msgstr "OK"
 
@@ -1806,24 +1811,27 @@ msgstr[2] "осталось %(counter)s попыток"
 
 #: .\courses\templates\courses\quizzes.html:51
 #: .\courses\templates\courses\quizzes_answers.html:41
-#: .\courses\templates\courses\quizzes_rating.html:25
+#: .\courses\templates\courses\quizzes_rating.html:31
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:19
 msgid "Start time"
 msgstr "Время начала"
 
 #: .\courses\templates\courses\quizzes.html:52
 #: .\courses\templates\courses\quizzes_answers.html:46
-#: .\courses\templates\courses\quizzes_rating.html:26
+#: .\courses\templates\courses\quizzes_rating.html:32
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
 msgid "Duration"
 msgstr "Длительность"
 
 #: .\courses\templates\courses\quizzes.html:53
 #: .\courses\templates\courses\quizzes_answers.html:33
-#: .\courses\templates\courses\quizzes_rating.html:27
+#: .\courses\templates\courses\quizzes_rating.html:33
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:21
 msgid "Mark"
 msgstr "Оценка"
 
 #: .\courses\templates\courses\quizzes.html:66
-#: .\courses\templates\courses\quizzes_rating.html:41
+#: .\courses\templates\courses\quizzes_rating.html:47
 msgid "Answers"
 msgstr "Ответы"
 
@@ -1848,7 +1856,7 @@ msgid "Sheet"
 msgstr "Ведомость"
 
 #: .\courses\templates\courses\quizzes.html:99
-#: .\courses\templates\courses\quizzes_rating.html:10
+#: .\courses\templates\courses\quizzes_rating.html:11
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -1893,7 +1901,7 @@ msgstr "Удалить сессию"
 msgid "Quiz session will be deleted"
 msgstr "Сессия тестирования будет удалена"
 
-#: .\courses\templates\courses\quizzes_rating.html:49
+#: .\courses\templates\courses\quizzes_rating.html:55
 msgid "No finished sessions"
 msgstr "Нет завершённых сессий"
 
@@ -2420,6 +2428,7 @@ msgstr "компилятор"
 #: .\problems\templates\problems\overview.html:27
 #: .\quizzes\templates\quizzes\question_group_list.html:11
 #: .\quizzes\templates\quizzes\quiz_template_list.html:16
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
 #: .\users\templates\users\profile_show.html:31
 msgid "Name"
 msgstr "Название"
@@ -3144,9 +3153,21 @@ msgstr "Добавить группу вопросов"
 msgid "New template"
 msgstr "Новый шаблон"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:29
+#: .\quizzes\templates\quizzes\quiz_template_list.html:17
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
+msgid "Sessions"
+msgstr "Сессии"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:31
 msgid "No quiz templates"
 msgstr "Шаблонов тестов нет"
+
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:18
+#: .\solutions\templates\solutions\compare.html:51
+#: .\solutions\templates\solutions\compare.html:76
+#: .\solutions\templates\solutions\solution.html:56
+msgid "Course"
+msgstr "Курс"
 
 #: .\quizzes\utils.py:91
 msgid "Finish"
@@ -3353,12 +3374,6 @@ msgstr "Не удаётся сравнить решения."
 #: .\solutions\templates\solutions\solution_attempts.html:29
 msgid "Solution"
 msgstr "Решение"
-
-#: .\solutions\templates\solutions\compare.html:51
-#: .\solutions\templates\solutions\compare.html:76
-#: .\solutions\templates\solutions\solution.html:56
-msgid "Course"
-msgstr "Курс"
 
 #: .\solutions\templates\solutions\compare.html:93
 msgid "The files are identical."
