@@ -9,6 +9,7 @@ from common.pageutils import paginate
 from .forms import AddQuestionGroupForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession
 from .tabs import Tabs
+from .utils import finish_overdue_sessions
 
 
 class QuizAdminMixin(StaffMemberRequiredMixin):
@@ -132,6 +133,9 @@ class QuizSessionListView(QuizAdminMixin, generic.base.ContextMixin, generic.Vie
     template_name = 'quizzes/quiz_template_sessions.html'
 
     def get(self, request, pk):
+        active_sessions = QuizSession.objects.filter(quiz_instance__quiz_template_id=pk, is_finished=False)
+        finish_overdue_sessions(active_sessions)
+
         context = self.get_context_data()
         template = QuizTemplate.objects.filter(pk=pk).first()
         if template is None:
