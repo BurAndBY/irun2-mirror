@@ -10,6 +10,13 @@
 {% block main %}
 
     {% if quizzes %}
+        <!--[if lte IE 8]>
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <strong>{% trans 'Your browser is out-of-date.' %}</strong>
+                {% trans 'You will not be able to pass a quiz using this browser.' %}
+        </div>
+        <![endif]-->
         {% for quiz in quizzes %}
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -80,7 +87,7 @@
                                 </table>
                             {% endif %}
                             {% if not quiz.sessions and quiz.attempts_left == 1 %}
-                                <div class="alert alert-danger" role="alert">
+                                <div class="alert alert-warning" role="alert">
                                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                     <strong>{% trans 'Attention' %}!</strong>
                                     {% trans 'You can pass this quiz only once.' %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-08 20:18+0300\n"
-"PO-Revision-Date: 2017-05-08 20:21+0300\n"
+"POT-Creation-Date: 2017-05-10 23:02+0300\n"
+"PO-Revision-Date: 2017-05-10 23:03+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -104,19 +104,19 @@ msgstr "Последние завершённые задания"
 msgid "Remember me"
 msgstr "Запомнить меня"
 
-#: .\cauth\templates\cauth\profile.html:13
+#: .\cauth\templates\cauth\profile.html:14
 #: .\cauth\templates\cauth\profile_edit.html:6
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:14
+#: .\cauth\templates\cauth\profile.html:15
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:31
 #: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:400
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: .\cauth\templates\cauth\profile.html:15
+#: .\cauth\templates\cauth\profile.html:17
 msgid "Change interface language"
 msgstr "Изменить язык интерфейса"
 
@@ -440,14 +440,14 @@ msgstr "Удалить"
 msgid "Remove all"
 msgstr "Удалить всё"
 
-#: .\common\templatetags\irunner_time.py:15
+#: .\common\templatetags\irunner_time.py:16
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
 msgid "s"
 msgstr "с"
 
-#: .\common\templatetags\irunner_time.py:38
+#: .\common\templatetags\irunner_time.py:39
 #, python-format
 msgid "%(count)d day"
 msgid_plural "%(count)d days"
@@ -455,7 +455,7 @@ msgstr[0] "%(count)d день"
 msgstr[1] "%(count)d дня"
 msgstr[2] "%(count)d дней"
 
-#: .\common\templatetags\irunner_time.py:43
+#: .\common\templatetags\irunner_time.py:44
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
@@ -463,7 +463,7 @@ msgstr[0] "%d день"
 msgstr[1] "%d дня"
 msgstr[2] "%d дней"
 
-#: .\common\templatetags\irunner_time.py:44
+#: .\common\templatetags\irunner_time.py:45
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -471,7 +471,7 @@ msgstr[0] "%d час"
 msgstr[1] "%d часа"
 msgstr[2] "%d часов"
 
-#: .\common\templatetags\irunner_time.py:45
+#: .\common\templatetags\irunner_time.py:46
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -479,7 +479,7 @@ msgstr[0] "%d минута"
 msgstr[1] "%d минуты"
 msgstr[2] "%d минут"
 
-#: .\common\templatetags\irunner_time.py:46
+#: .\common\templatetags\irunner_time.py:47
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -487,7 +487,7 @@ msgstr[0] "%d секунда"
 msgstr[1] "%d секунды"
 msgstr[2] "%d секунд"
 
-#: .\common\templatetags\irunner_time.py:71
+#: .\common\templatetags\irunner_time.py:72
 msgctxt "time"
 msgid ", "
 msgstr " "
@@ -1043,7 +1043,7 @@ msgstr "Последнее решение"
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:22
 #: .\contests\templates\contests\my_solutions.html:31
 #: .\courses\templates\courses\api_list_problems.html:10
-#: .\courses\templates\courses\quizzes.html:50
+#: .\courses\templates\courses\quizzes.html:57
 #: .\courses\templates\courses\quizzes_rating.html:29
 #: .\courses\templates\courses\quizzes_sheet.html:26
 #: .\courses\templates\courses\settings_quizzes.html:21
@@ -1765,7 +1765,7 @@ msgid "Quiz"
 msgstr "Тест"
 
 #: .\courses\templates\courses\quiz.html:28
-#: .\courses\templates\courses\quizzes.html:85
+#: .\courses\templates\courses\quizzes.html:92
 msgid "Attention"
 msgstr "Внимание"
 
@@ -1789,7 +1789,15 @@ msgstr "OK"
 msgid "Quizzes"
 msgstr "Тесты"
 
-#: .\courses\templates\courses\quizzes.html:24
+#: .\courses\templates\courses\quizzes.html:16
+msgid "Your browser is out-of-date."
+msgstr "Вы используете устаревший браузер."
+
+#: .\courses\templates\courses\quizzes.html:17
+msgid "You will not be able to pass a quiz using this browser."
+msgstr "Пройти тестирование в этом браузере не получится."
+
+#: .\courses\templates\courses\quizzes.html:31
 #, python-format
 msgid "%(counter)s question"
 msgid_plural "%(counter)s questions"
@@ -1797,11 +1805,11 @@ msgstr[0] "%(counter)s вопрос"
 msgstr[1] "%(counter)s вопроса"
 msgstr[2] "%(counter)s вопросов"
 
-#: .\courses\templates\courses\quizzes.html:33
+#: .\courses\templates\courses\quizzes.html:40
 msgid "unlimited number of attempts"
 msgstr "число попыток не ограничено"
 
-#: .\courses\templates\courses\quizzes.html:35
+#: .\courses\templates\courses\quizzes.html:42
 #, python-format
 msgid "%(counter)s attempt left"
 msgid_plural "%(counter)s attempts left"
@@ -1809,45 +1817,45 @@ msgstr[0] "осталась %(counter)s попытка"
 msgstr[1] "осталось %(counter)s попытки"
 msgstr[2] "осталось %(counter)s попыток"
 
-#: .\courses\templates\courses\quizzes.html:51
+#: .\courses\templates\courses\quizzes.html:58
 #: .\courses\templates\courses\quizzes_answers.html:41
 #: .\courses\templates\courses\quizzes_rating.html:31
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:19
 msgid "Start time"
 msgstr "Время начала"
 
-#: .\courses\templates\courses\quizzes.html:52
+#: .\courses\templates\courses\quizzes.html:59
 #: .\courses\templates\courses\quizzes_answers.html:46
 #: .\courses\templates\courses\quizzes_rating.html:32
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
 msgid "Duration"
 msgstr "Длительность"
 
-#: .\courses\templates\courses\quizzes.html:53
+#: .\courses\templates\courses\quizzes.html:60
 #: .\courses\templates\courses\quizzes_answers.html:33
 #: .\courses\templates\courses\quizzes_rating.html:33
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:21
 msgid "Mark"
 msgstr "Оценка"
 
-#: .\courses\templates\courses\quizzes.html:66
+#: .\courses\templates\courses\quizzes.html:73
 #: .\courses\templates\courses\quizzes_rating.html:47
 msgid "Answers"
 msgstr "Ответы"
 
-#: .\courses\templates\courses\quizzes.html:68
+#: .\courses\templates\courses\quizzes.html:75
 msgid "Not permitted to view answers"
 msgstr "Просмотр ответов запрещён"
 
-#: .\courses\templates\courses\quizzes.html:74
+#: .\courses\templates\courses\quizzes.html:81
 msgid "Continue"
 msgstr "Продолжить"
 
-#: .\courses\templates\courses\quizzes.html:86
+#: .\courses\templates\courses\quizzes.html:93
 msgid "You can pass this quiz only once."
 msgstr "Тест можно пройти только один раз."
 
-#: .\courses\templates\courses\quizzes.html:93
+#: .\courses\templates\courses\quizzes.html:100
 #: .\courses\templates\courses\quizzes_sheet.html:9
 #: .\courses\templates\courses\settings_base.html:30
 #: .\courses\templates\courses\sheet.html:15
@@ -1855,16 +1863,16 @@ msgstr "Тест можно пройти только один раз."
 msgid "Sheet"
 msgstr "Ведомость"
 
-#: .\courses\templates\courses\quizzes.html:99
+#: .\courses\templates\courses\quizzes.html:106
 #: .\courses\templates\courses\quizzes_rating.html:11
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: .\courses\templates\courses\quizzes.html:107
+#: .\courses\templates\courses\quizzes.html:114
 msgid "Start quiz"
 msgstr "Начать тест"
 
-#: .\courses\templates\courses\quizzes.html:117
+#: .\courses\templates\courses\quizzes.html:124
 #: .\courses\templates\courses\settings_quizzes.html:49
 msgid "No quizzes"
 msgstr "Тестов нет"
