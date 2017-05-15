@@ -22,16 +22,15 @@ app.run(function ($rootScope, $http, $window, $interval) {
         handle: function () {
         }
     };
-    var updateTimeLeft = function (newTime, set) {
-        if (set) {
-            $rootScope.quizData.timeLeft = newTime;
-        } else {
-            $rootScope.quizData.timeLeft -= 1;
-        }
+    var updateTimeLeft = function () {
+        var secondsPassed = (Date.now() - $rootScope.initialTimestamp) * 0.001;
+        $rootScope.quizData.timeLeft = $rootScope.initialTimeLeft - secondsPassed;
         if ($rootScope.quizData.timeLeft <= 0) {
             $interval.cancel(stopTimeLeft);
         }
     };
+    $rootScope.initialTimeLeft = $rootScope.quizData.timeLeft;
+    $rootScope.initialTimestamp = Date.now();
     var stopTimeLeft = $interval(updateTimeLeft, 1000);
     $rootScope.setChosen = function (q) {
         if ($rootScope.compareAnswers($rootScope.chosen, $rootScope.last)) {
