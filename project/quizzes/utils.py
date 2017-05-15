@@ -36,7 +36,7 @@ def get_quiz_data(session):
     quiz_data = {
         'id': session.id,
         'name': session.quiz_instance.quiz_template.name,
-        'timeLeft': int((session.start_time + session.quiz_instance.time_limit - timezone.now()).total_seconds())
+        'timeLeft': (session.start_time + session.quiz_instance.time_limit - timezone.now()).total_seconds()
     }
     questions = []
     for q in session.sessionquestion_set.order_by('order').\
