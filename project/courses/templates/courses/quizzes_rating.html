@@ -38,7 +38,7 @@
                         {% for info in sessions %}
                             <tr{% if info.is_own %} class="ir-me"{% endif %}>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{% irunner_courses_user_card info.session.user.id user_cache %}</td>
+                                <td>{% irunner_courses_user_card info.session.user_id user_cache %}</td>
                                 <td data-value="{{ info.session.start_time|date:'U' }}">{{ info.session.start_time }}</td>
                                 <td>{% irunner_timediff_hms info.session.start_time info.session.finish_time %}</td>
                                 <td data-defaultsort="desc">{% irunner_quizzes_mark info.result %}</div></td>
