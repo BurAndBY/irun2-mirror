@@ -287,12 +287,12 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
         return context
 
     def get(self, request, course):
-        form = self.form_class()
+        form = self.form_class(**self._extra_form_kwargs())
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, course):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, **self._extra_form_kwargs())
         if form.is_valid():
             with transaction.atomic():
                 obj = form.save(commit=False)
@@ -308,6 +308,9 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
     def _do_save(self, course, form, obj):
         # you can do something after object has been saved (in the same transaction)
         pass
+
+    def _extra_form_kwargs(self):
+        return {}
 
 
 class CourseSettingsBaseUpdateView(CourseSettingsView):
@@ -331,7 +334,7 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
 
     def get(self, request, course, pk):
         obj = self._get_object(course.id, pk)
-        form = self.form_class(instance=obj)
+        form = self.form_class(instance=obj, **self._extra_form_kwargs())
         self._do_load(course, form, obj)
 
         context = self.get_context_data(form=form)
@@ -339,7 +342,7 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
 
     def post(self, request, course, pk):
         obj = self._get_object(course, pk)
-        form = self.form_class(request.POST, instance=obj)
+        form = self.form_class(request.POST, instance=obj, **self._extra_form_kwargs())
 
         if 'save' in request.POST:
             if form.is_valid():
@@ -361,6 +364,8 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
     def _do_save(self, course, form, obj):
         pass
 
+    def _extra_form_kwargs(self):
+        return {}
 '''
 Topics
 '''
@@ -446,6 +451,9 @@ class SheetMixin(object):
     subtab = 'sheet'
     form_class = ActivityForm
     list_url_name = 'courses:course_settings_sheet'
+
+    def _extra_form_kwargs(self):
+        return {'course_id': self.course.id}
 
 
 class CourseSettingsSheetActivityListView(SheetMixin, CourseSettingsBaseListView):

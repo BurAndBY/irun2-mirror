@@ -97,6 +97,12 @@ class ActivityForm(forms.ModelForm):
         model = Activity
         fields = ['name', 'description', 'kind', 'quiz_instance', 'weight']
 
+    def __init__(self, *args, **kwargs):
+        course_id = kwargs.pop('course_id', None)
+        super(ActivityForm, self).__init__(*args, **kwargs)
+        if course_id:
+            self.fields['quiz_instance'].queryset = QuizInstance.objects.filter(course_id=course_id)
+
 
 class SubgroupForm(forms.ModelForm):
     class Meta:
