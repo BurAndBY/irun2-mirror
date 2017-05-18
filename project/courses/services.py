@@ -16,9 +16,10 @@ from common.constants import EMPTY_SELECT
 from common.outcome import Outcome
 from problems.models import Problem
 from solutions.models import Solution, Judgement
+from quizzes.models import QuizSession
 
-
-from models import Assignment, Membership, Activity, ActivityRecord, AssignmentCriteriaIntermediate, Subgroup
+from .activities import make_activity_result
+from .models import Assignment, Membership, ActivityRecord, AssignmentCriteriaIntermediate, Subgroup
 
 '''
 Cache of Course Users
@@ -329,6 +330,20 @@ def make_course_results(course):
         if user_result is not None:
             user_result.register_solution(solution)
 
+    # quizzes
+    quiz_instance_ids = []
+    for activity in course_descr.activities:
+        if activity.quiz_instance_id is not None:
+            quiz_instance_ids.append(activity.quiz_instance_id)
+
+    for user_id, quiz_instance_id, result in QuizSession.objects.\
+            filter(quiz_instance_id__in=quiz_instance_ids,).\
+            filter(is_finished=True).\
+            values_list('user_id', 'quiz_instance_id', 'result'):
+        user_result = user_id_result.get(user_id)
+        if user_result is not None:
+            user_result.register_quiz_result(quiz_instance_id, result)
+
     return CourseResults(course_descr, results)
 
 
@@ -554,59 +569,6 @@ class TopicResult(object):
             slot_result.register_solution(solution)
 
 
-class ActivityResult(object):
-    def __init__(self, activity, problem_solving_mark):
-        self.activity = activity
-        self.problem_solving_mark = problem_solving_mark
-        self.record = None
-
-    def register_activity_record(self, record):
-        assert self.record is None, 'two activity records'
-        self.record = record
-
-    def get_html_class(self):
-        classes = []
-
-        if self.activity.kind == Activity.MARK:
-            classes = ['ir-sheet-editable', 'ir-score', 'ir-sheet-editable-mark']
-            if self.record is not None and self.record.mark in (1, 2, 3):
-                classes.append('ir-sheet-bad')
-
-        elif self.activity.kind == Activity.PASSED_OR_NOT:
-            classes = ['ir-sheet-editable', 'ir-sheet-editable-enum']
-            if self.record is not None and self.record.enum in (ActivityRecord.NO_PASS, ActivityRecord.ABSENCE):
-                classes.append('ir-sheet-bad')
-        else:
-            classes = ['ir-score']
-
-        return ' '.join(classes)
-
-    def get_html_contents(self):
-        if self.activity.kind == Activity.PROBLEM_SOLVING:
-            return unicode(self.problem_solving_mark.get_mark())
-
-        if self.record is not None:
-            if self.activity.kind == Activity.MARK:
-                if self.record.mark > 0:
-                    return unicode(self.record.mark)
-            elif self.activity.kind == Activity.PASSED_OR_NOT:
-                return self.record.get_enum_display()
-
-        return u''
-
-    def get_mark(self):
-        if self.activity.kind == Activity.PROBLEM_SOLVING:
-            return self.problem_solving_mark.get_mark()
-
-        if self.record is not None:
-            if self.activity.kind == Activity.MARK:
-                return self.record.mark
-            elif self.activity.kind == Activity.PASSED_OR_NOT:
-                return 10 if self.record.enum == ActivityRecord.PASS else 0
-
-        return 0
-
-
 class ProblemSolvingMark(object):
     def __init__(self, topic_results):
         self.topic_results = topic_results
@@ -636,7 +598,8 @@ class UserResult(object):
         self.topic_results = [TopicResult(topic_descr) for topic_descr in course_descr.topic_descrs]
         self.common_problem_results = [ProblemResult(problem) for problem in course_descr.common_problems]
         self.problem_solving_mark = ProblemSolvingMark(self.topic_results)
-        self.activity_results = [ActivityResult(activity, self.problem_solving_mark) for activity in course_descr.activities]
+        self.quiz_results = {}
+        self.activity_results = [make_activity_result(activity, self.problem_solving_mark, self.quiz_results) for activity in course_descr.activities]
 
     def get_slot_results(self):
         for topic_result in self.topic_results:
@@ -680,6 +643,9 @@ class UserResult(object):
     def register_activity_record(self, record):
         idx = self.course_descr.get_activity_index(record.activity_id)
         self.activity_results[idx].register_activity_record(record)
+
+    def register_quiz_result(self, quiz_instance_id, result):
+        self.quiz_results[quiz_instance_id] = result
 
     def get_slot_result(self, assignment):
         for topic_result in self.topic_results:
