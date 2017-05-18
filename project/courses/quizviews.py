@@ -2,6 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.db import transaction
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
@@ -217,8 +218,10 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()
         if instance is None or instance.attempts != 1:
             return redirect('courses:quizzes:list', course.id)
-        sessions = QuizSession.objects.filter(quiz_instance=instance, is_finished=True).\
-            select_related('user').order_by('-result', 'start_time')
+        sessions = QuizSession.objects.\
+            filter(quiz_instance=instance, is_finished=True).\
+            select_related('user').\
+            order_by('-result', F('finish_time')-F('start_time'))
         context['sessions'] = [self.make_session_info(session, request.user) for session in sessions]
         context['instance'] = instance
         context['can_manage'] = self.permissions.quizzes_admin
