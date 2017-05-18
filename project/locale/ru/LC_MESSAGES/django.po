@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-10 23:02+0300\n"
-"PO-Revision-Date: 2017-05-10 23:03+0300\n"
+"POT-Creation-Date: 2017-05-18 22:13+0300\n"
+"PO-Revision-Date: 2017-05-18 22:15+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -219,7 +219,7 @@ msgstr "стандартный ввод"
 msgid "standard output"
 msgstr "стандартный вывод"
 
-#: .\common\constants.py:12 .\courses\forms.py:218
+#: .\common\constants.py:12 .\courses\forms.py:224
 #: .\problems\templates\problems\overview.html:47
 #: .\problems\templatetags\irunner_problems.py:87
 #: .\users\templates\users\profile_show.html:86
@@ -499,7 +499,7 @@ msgstr "Каждый уровень доступа включает все пр�
 #: .\contests\forms.py:67 .\contests\templates\contests\problems_later.html:5
 #: .\contests\templates\contests\problems_list.html:8
 #: .\contests\templates\contests\settings_base.html:24
-#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:163
+#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:169
 #: .\courses\templates\courses\settings_base.html:18
 #: .\courses\templates\courses\standings.html:34
 #: .\courses\templates\courses\standings.html:114
@@ -535,7 +535,7 @@ msgstr ""
 "формате PDF)."
 
 #: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
-#: .\courses\forms.py:151 .\courses\templates\courses\settings_base.html:27
+#: .\courses\forms.py:157 .\courses\templates\courses\settings_base.html:27
 #: .\templates\navbar.html:22 .\users\templates\users\base.html:6
 #: .\users\templates\users\bulk_operation.html:8
 #: .\users\templates\users\create_form.html:8
@@ -548,7 +548,8 @@ msgstr ""
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\contests\forms.py:94 .\courses\forms.py:192 .\courses\forms.py:260
+#: .\contests\forms.py:94 .\courses\forms.py:198 .\courses\forms.py:266
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
 msgid "User"
 msgstr "Пользователь"
 
@@ -557,8 +558,8 @@ msgstr "Пользователь"
 #: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
-#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:128
-#: .\courses\forms.py:175 .\courses\forms.py:200 .\courses\forms.py:258
+#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:134
+#: .\courses\forms.py:181 .\courses\forms.py:206 .\courses\forms.py:264
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
@@ -605,10 +606,10 @@ msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
 
 #: .\contests\models.py:45 .\contests\models.py:174 .\courses\models.py:21
-#: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:105
-#: .\courses\models.py:113
+#: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:107
+#: .\courses\models.py:116
 #: .\courses\templates\courses\api_list_problems.html:11
-#: .\problems\models.py:19 .\quizzes\models.py:53 .\users\models.py:14
+#: .\problems\models.py:19 .\quizzes\models.py:55 .\users\models.py:14
 msgid "name"
 msgstr "название"
 
@@ -680,7 +681,7 @@ msgstr "участник"
 msgid "juror"
 msgstr "член жюри"
 
-#: .\contests\models.py:92 .\courses\models.py:130
+#: .\contests\models.py:92 .\courses\models.py:133
 msgid "role"
 msgstr "роль"
 
@@ -701,12 +702,12 @@ msgstr "Ответ"
 msgid "Message"
 msgstr "Сообщение"
 
-#: .\contests\models.py:127 .\courses\models.py:188 .\feedback\models.py:12
+#: .\contests\models.py:127 .\courses\models.py:191 .\feedback\models.py:12
 #: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
-#: .\contests\models.py:128 .\courses\models.py:199
+#: .\contests\models.py:128 .\courses\models.py:202
 msgid "message"
 msgstr "сообщение"
 
@@ -1357,24 +1358,24 @@ msgstr "Число задач для назначения студенту в к
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:106
+#: .\courses\forms.py:112
 msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
 msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
 
-#: .\courses\forms.py:141
+#: .\courses\forms.py:147
 msgid "Topic"
 msgstr "Тема"
 
-#: .\courses\forms.py:184
+#: .\courses\forms.py:190
 msgid "Attempt count limit is reached."
 msgstr "Достигнуто ограничение по числу попыток."
 
-#: .\courses\forms.py:265 .\courses\templates\courses\messages.html:91
+#: .\courses\forms.py:271 .\courses\templates\courses\messages.html:91
 #: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
 msgid "Attachment"
 msgstr "Вложение"
 
-#: .\courses\forms.py:266 .\feedback\forms.py:19
+#: .\courses\forms.py:272 .\feedback\forms.py:19
 msgid "You can attach an arbitrary file to your message"
 msgstr "Вы можете прикрепить к сообщению произвольный файл"
 
@@ -1415,65 +1416,73 @@ msgstr "%(group)d группа"
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:77 .\courses\models.py:139
+#: .\courses\models.py:77 .\courses\models.py:142
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:99
+#: .\courses\models.py:100
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:100
+#: .\courses\models.py:101
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:101
+#: .\courses\models.py:102
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:106 .\problems\models.py:102 .\problems\models.py:140
+#: .\courses\models.py:103
+msgid "quiz result"
+msgstr "результат теста"
+
+#: .\courses\models.py:108 .\problems\models.py:102 .\problems\models.py:140
 #: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:539
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:107 .\users\models.py:41
+#: .\courses\models.py:109 .\users\models.py:41
 msgid "kind"
 msgstr "вид"
 
-#: .\courses\models.py:108 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:110 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:124
+#: .\courses\models.py:111
+msgid "quiz"
+msgstr "тест"
+
+#: .\courses\models.py:127
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:125
+#: .\courses\models.py:128
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:131 .\users\templates\users\user_card.html:38
+#: .\courses\models.py:134 .\users\templates\users\user_card.html:38
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:137
+#: .\courses\models.py:140
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:170
+#: .\courses\models.py:173
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:171
+#: .\courses\models.py:174
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:172
+#: .\courses\models.py:175
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\models.py:200 .\feedback\models.py:14
+#: .\courses\models.py:203 .\feedback\models.py:14
 msgid "attachment"
 msgstr "Вложение"
 
@@ -1495,7 +1504,7 @@ msgstr ""
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
-#: .\courses\services.py:157 .\courses\templates\courses\assign.html:121
+#: .\courses\services.py:158 .\courses\templates\courses\assign.html:121
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
 #: .\courses\templates\courses\standings.html:103
@@ -1503,13 +1512,13 @@ msgstr "Запрос некорректен"
 msgid "Common problems"
 msgstr "Общие задачи"
 
-#: .\courses\services.py:198 .\courses\settingsviews.py:119
+#: .\courses\services.py:199 .\courses\settingsviews.py:119
 #: .\courses\templates\courses\assign.html:26
 #: .\courses\templates\courses\course_list.html:26
 msgid "Students"
 msgstr "Студенты"
 
-#: .\courses\services.py:202 .\courses\settingsviews.py:120
+#: .\courses\services.py:203 .\courses\settingsviews.py:120
 msgid "Teachers"
 msgstr "Преподаватели"
 
@@ -1855,7 +1864,15 @@ msgstr "Продолжить"
 msgid "You can pass this quiz only once."
 msgstr "Тест можно пройти только один раз."
 
-#: .\courses\templates\courses\quizzes.html:100
+#: .\courses\templates\courses\quizzes.html:103
+msgid "Turn off"
+msgstr "Выключить"
+
+#: .\courses\templates\courses\quizzes.html:111
+msgid "Turn on"
+msgstr "Включить"
+
+#: .\courses\templates\courses\quizzes.html:118
 #: .\courses\templates\courses\quizzes_sheet.html:9
 #: .\courses\templates\courses\settings_base.html:30
 #: .\courses\templates\courses\sheet.html:15
@@ -1863,16 +1880,16 @@ msgstr "Тест можно пройти только один раз."
 msgid "Sheet"
 msgstr "Ведомость"
 
-#: .\courses\templates\courses\quizzes.html:106
+#: .\courses\templates\courses\quizzes.html:124
 #: .\courses\templates\courses\quizzes_rating.html:11
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: .\courses\templates\courses\quizzes.html:114
+#: .\courses\templates\courses\quizzes.html:132
 msgid "Start quiz"
 msgstr "Начать тест"
 
-#: .\courses\templates\courses\quizzes.html:124
+#: .\courses\templates\courses\quizzes.html:142
 #: .\courses\templates\courses\settings_quizzes.html:49
 msgid "No quizzes"
 msgstr "Тестов нет"
@@ -2436,7 +2453,6 @@ msgstr "компилятор"
 #: .\problems\templates\problems\overview.html:27
 #: .\quizzes\templates\quizzes\question_group_list.html:11
 #: .\quizzes\templates\quizzes\quiz_template_list.html:16
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
 #: .\users\templates\users\profile_show.html:31
 msgid "Name"
 msgstr "Название"
@@ -2978,11 +2994,11 @@ msgstr "%(megabytes)s МБ"
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:536
+#: .\problems\views.py:536 .\quizzes\models.py:69
 msgid "points"
 msgstr "баллы"
 
-#: .\problems\views.py:537 .\quizzes\models.py:57 .\quizzes\models.py:78
+#: .\problems\views.py:537 .\quizzes\models.py:59 .\quizzes\models.py:80
 msgid "time limit"
 msgstr "ограничение по времени"
 
@@ -3081,43 +3097,47 @@ msgstr "Командная строка компиляции"
 msgid "Run command line"
 msgstr "Командная строка запуска"
 
-#: .\quizzes\models.py:27
+#: .\quizzes\models.py:29
 msgid "Single correct answer"
 msgstr "Один правильный ответ"
 
-#: .\quizzes\models.py:28
+#: .\quizzes\models.py:30
 msgid "Multiple correct answers"
 msgstr "Несколько правильных ответов"
 
-#: .\quizzes\models.py:29
+#: .\quizzes\models.py:31
 msgid "Text answer"
 msgstr "Текстовый ответ"
 
-#: .\quizzes\models.py:54
+#: .\quizzes\models.py:56
 msgid "shuffle questions"
 msgstr "перемешать вопросы"
 
-#: .\quizzes\models.py:56 .\quizzes\models.py:80
+#: .\quizzes\models.py:58 .\quizzes\models.py:82
 msgid "attempts"
 msgstr "попытки"
 
-#: .\quizzes\models.py:75
+#: .\quizzes\models.py:66
+msgid "group"
+msgstr "группа"
+
+#: .\quizzes\models.py:77
 msgid "quiz template"
 msgstr "шаблон теста"
 
-#: .\quizzes\models.py:76
+#: .\quizzes\models.py:78
 msgid "course"
 msgstr "курс"
 
-#: .\quizzes\models.py:77
+#: .\quizzes\models.py:79
 msgid "is available"
 msgstr "доступен"
 
-#: .\quizzes\models.py:79
+#: .\quizzes\models.py:81
 msgid "tag"
 msgstr "метка"
 
-#: .\quizzes\models.py:81
+#: .\quizzes\models.py:83
 msgid "show answers"
 msgstr "показывать ответы"
 

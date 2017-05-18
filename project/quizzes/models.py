@@ -63,10 +63,10 @@ class QuizTemplate(models.Model):
 
 
 class GroupQuizRelation(models.Model):
-    group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
+    group = models.ForeignKey(QuestionGroup, verbose_name=_('group'), on_delete=models.CASCADE)
     template = models.ForeignKey(QuizTemplate, on_delete=models.CASCADE)
     order = models.IntegerField(null=False)
-    points = models.FloatField(default=1.)
+    points = models.FloatField(_('points'), default=1.)
 
     class Meta:
         ordering = ['order']
