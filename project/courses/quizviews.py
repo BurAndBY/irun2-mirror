@@ -290,3 +290,21 @@ class CourseQuizzesSheetView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
         context = self.get_context_data(instance=instance, data=data)
         return render(request, self.template_name, context)
+
+
+class CourseQuizzesTurnOnView(BaseCourseView):
+    def is_allowed(self, permissions):
+        return permissions.quizzes_admin
+
+    def post(self, request, course, instance_id):
+        QuizInstance.objects.filter(pk=instance_id, course=course).update(is_available=True)
+        return redirect('courses:quizzes:list', course.id)
+
+
+class CourseQuizzesTurnOffView(BaseCourseView):
+    def is_allowed(self, permissions):
+        return permissions.quizzes_admin
+
+    def post(self, request, course, instance_id):
+        QuizInstance.objects.filter(pk=instance_id, course=course).update(is_available=False)
+        return redirect('courses:quizzes:list', course.id)

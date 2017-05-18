@@ -13,6 +13,8 @@ quiz_urlpatterns = [
     url(r'^start/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesStartView.as_view(), name='start'),
     url(r'^rating/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesRatingView.as_view(), name='rating'),
     url(r'^sheet/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesSheetView.as_view(), name='sheet'),
+    url(r'^turn-on/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOnView.as_view(), name='turn_on'),
+    url(r'^turn-off/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOffView.as_view(), name='turn_off'),
 ]
 
 urlpatterns = [

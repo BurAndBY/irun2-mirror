@@ -95,6 +95,24 @@
                             {% endif %}
 
                             {% if permissions.quizzes_admin %}
+                                {% if quiz.instance.is_available %}
+                                    <form method="post" action="{% url 'courses:quizzes:turn_off' course.id quiz.instance.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default btn-sm ir-quiz-inline-btn">
+                                            {% bootstrap_icon 'volume-off' %}
+                                            <span class="ir-icon-label">{% trans 'Turn off' %}</span>
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="post" action="{% url 'courses:quizzes:turn_on' course.id quiz.instance.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default btn-sm ir-quiz-inline-btn">
+                                            {% bootstrap_icon 'volume-up' %}
+                                            <span class="ir-icon-label">{% trans 'Turn on' %}</span>
+                                        </button>
+                                    </form>
+                                {% endif %}
+
                                 <a class="btn btn-default btn-sm ir-quiz-inline-btn" href="{% url 'courses:quizzes:sheet' course.id quiz.instance.id %}">
                                     {% bootstrap_icon 'list-alt' %}
                                     <span class="ir-icon-label">{% trans 'Sheet' %}</span>
@@ -109,8 +127,8 @@
                             {% if quiz.can_start %}
                                 <form method="post" action="{% url 'courses:quizzes:start' course.id quiz.instance.id %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-default btn-sm">
-                                        <span class="glyphicon glyphicon-play"></span>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        {% bootstrap_icon 'play' %}
                                         <span class="ir-icon-label">{% trans 'Start quiz' %}</span>
                                     </button>
                                 </form>
