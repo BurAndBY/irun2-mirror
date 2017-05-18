@@ -94,11 +94,13 @@ class Activity(models.Model):
     PROBLEM_SOLVING = 0
     MARK = 1
     PASSED_OR_NOT = 2
+    QUIZ_RESULT = 3
 
     KIND_CHOICES = (
         (PROBLEM_SOLVING, _('solving problems within the course')),
         (MARK, _('mark')),
         (PASSED_OR_NOT, _('passed or not passed')),
+        (QUIZ_RESULT, _('quiz result')),
     )
 
     course = models.ForeignKey(Course)
@@ -106,6 +108,7 @@ class Activity(models.Model):
     description = models.TextField(_('description'), blank=True, max_length=255)
     kind = models.IntegerField(_('kind'), choices=KIND_CHOICES)
     weight = models.FloatField(_('weight'), default=0.0)
+    quiz_instance = models.ForeignKey('quizzes.QuizInstance', verbose_name=_('quiz'), null=True, blank=True, on_delete=models.SET_NULL)
 
 
 class Subgroup(models.Model):

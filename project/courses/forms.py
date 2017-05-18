@@ -95,7 +95,7 @@ class ActivityForm(forms.ModelForm):
 
     class Meta:
         model = Activity
-        fields = ['name', 'description', 'kind', 'weight']
+        fields = ['name', 'description', 'kind', 'quiz_instance', 'weight']
 
 
 class SubgroupForm(forms.ModelForm):

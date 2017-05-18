@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from datetime import timedelta
 
 from django.conf import settings
@@ -81,7 +83,10 @@ class QuizInstance(models.Model):
     show_answers = models.BooleanField(_('show answers'), default=True)
 
     def __str__(self):
-        return '{} ({})'.format(self.quiz_template, self.tag)
+        if self.tag:
+            return '{} ({})'.format(self.quiz_template, self.tag)
+        else:
+            return smart_text(self.quiz_template)
 
 
 @python_2_unicode_compatible
