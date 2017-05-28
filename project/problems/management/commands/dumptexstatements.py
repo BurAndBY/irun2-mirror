@@ -73,7 +73,7 @@ class Command(BaseCommand):
         if tex_data.complete_text is None:
             logger.error('Problem %d: TeX statement could not be decoded', problem_id)
 
-        tex_text = tex_data.complete_text
+        tex_text = self._normalize_newlines(tex_data.complete_text)
         zf.writestr('{}/{}'.format(problem_id, TEX_FILE_NAME), tex_text.encode('utf-8'))
 
         self._save_tex2html(zf, problem_id, tex_text)
@@ -102,3 +102,6 @@ class Command(BaseCommand):
         for suffix in ('.png', '.jpg', '.gif', '.bmp'):
             if fn.endswith(suffix):
                 return True
+
+    def _normalize_newlines(self, s):
+        return ''.join((line + '\n') for line in s.splitlines())
