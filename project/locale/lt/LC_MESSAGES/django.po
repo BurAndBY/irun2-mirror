@@ -1,0 +1,4032 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 21:10+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: .\api\models.py:14 .\contests\models.py:150 .\solutions\forms.py:105
+#: .\solutions\models.py:50
+msgid "Waiting"
+msgstr "Laukiama"
+
+#: .\api\models.py:15
+msgid "Executing"
+msgstr "Vykdymas"
+
+#: .\api\models.py:16 .\contests\models.py:149 .\solutions\forms.py:110
+#: .\solutions\models.py:49
+msgid "Done"
+msgstr "Baigta"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:12
+#: .\problems\templates\problems\rejudges.html:16
+#: .\solutions\templates\solutions\judgement.html:27
+#: .\solutions\templates\solutions\rejudge.html:26
+#: .\solutions\templates\solutions\rejudge_list.html:21
+msgid "State"
+msgstr "Būsena"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:13
+#: .\contests\templates\contests\printout_show.html:11
+#: .\problems\templates\problems\challenge.html:15
+#: .\solutions\templates\solutions\judgement.html:18
+#: .\solutions\templates\solutions\judgement_list.html:20
+#: .\solutions\templates\solutions\rejudge.html:15
+msgid "Created"
+msgstr "Sukūrta"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:14
+msgid "Last updated"
+msgstr "Paskutinį kartą atnaujinta"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:15
+msgid "Priority"
+msgstr "Prioritetas"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:16
+#: .\problems\templates\problems\files.html:21
+#: .\problems\templates\problems\files.html:59
+#: .\problems\templates\problems\overview.html:70
+#: .\problems\templates\problems\show_test.html:73
+#: .\proglangs\templates\proglangs\index.html:20
+#: .\users\templates\users\profile_show.html:50
+msgid "Description"
+msgstr "Aprašymas"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:33
+msgid "Validation"
+msgstr "Patvirtinimas"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:37
+#: .\storage\templates\storage\usage.html:34
+msgid "Challenge"
+msgstr "Iššūkis"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:41
+#: .\storage\templates\storage\usage.html:19
+#: .\storage\templates\storage\usage.html:24
+msgid "Run"
+msgstr "Paleidìmas"
+
+#: .\api\templates\api\irunner_api_queue_tag.html:49
+msgid "Queue is empty."
+msgstr "Eilutė tuščia."
+
+#: .\api\templates\api\queue.html:8 .\templates\navbar.html:31
+msgid "Queue"
+msgstr "Eilė"
+
+#: .\api\templates\api\queue.html:15
+msgctxt "verb"
+msgid "Restart"
+msgstr "Perkrauti"
+
+#: .\api\templates\api\queue.html:22
+msgid "Last completed jobs"
+msgstr "Paskutiniai užpildyti darbai"
+
+#: .\cauth\forms.py:10
+msgid "Remember me"
+msgstr "Prisiminti mane"
+
+#: .\cauth\templates\cauth\profile.html:14
+#: .\cauth\templates\cauth\profile_edit.html:6
+msgid "Edit profile"
+msgstr "Redaguoti profilįf"
+
+#: .\cauth\templates\cauth\profile.html:15
+#: .\cauth\templates\registration\password_change_form.html:6
+#: .\common\templates\common\home.html:31
+#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:400
+msgid "Change password"
+msgstr "Pakeisti slaptažodį"
+
+#: .\cauth\templates\cauth\profile.html:17
+msgid "Change interface language"
+msgstr "Keisti sąsajos kalbą"
+
+#: .\cauth\templates\cauth\profile_edit.html:17
+#: .\common\templates\common\language.html:26
+#: .\contests\templates\contests\messages_form.html:16
+#: .\contests\templates\contests\messages_new.html:16
+#: .\contests\templates\contests\printout_edit.html:15
+#: .\contests\templates\contests\settings_compilers.html:40
+#: .\contests\templates\contests\settings_filter.html:13
+#: .\contests\templates\contests\settings_problems.html:12
+#: .\contests\templates\contests\settings_properties.html:13
+#: .\contests\templates\contests\settings_statements.html:12
+#: .\contests\templates\contests\settings_users_edit.html:13
+#: .\courses\templates\courses\criterion_form.html:12
+#: .\courses\templates\courses\settings_common_problems_edit.html:13
+#: .\courses\templates\courses\settings_compilers.html:42
+#: .\courses\templates\courses\settings_component.html:13
+#: .\courses\templates\courses\settings_properties.html:13
+#: .\courses\templates\courses\settings_quiz_edit.html:33
+#: .\courses\templates\courses\settings_quizzes.html:54
+#: .\courses\templates\courses\settings_users.html:49
+#: .\courses\templates\courses\settings_users_edit.html:17
+#: .\news\templates\news\update.html:13
+#: .\problems\templates\problems\batch_edit_tests.html:15
+#: .\problems\templates\problems\edit_file.html:11
+#: .\problems\templates\problems\edit_test.html:44
+#: .\problems\templates\problems\edit_tex.html:18
+#: .\problems\templates\problems\folders.html:20
+#: .\problems\templates\problems\list_folder_form.html:35
+#: .\problems\templates\problems\name.html:15
+#: .\problems\templates\problems\properties.html:16
+#: .\proglangs\templates\proglangs\edit.html:20
+#: .\quizzes\templates\quizzes\quiz_template_update.html:11
+#: .\users\templates\users\create_form.html:33
+#: .\users\templates\users\profile_password.html:16
+#: .\users\templates\users\profile_photo.html:19
+#: .\users\templates\users\profile_update.html:15
+msgid "Save"
+msgstr "Saugoti"
+
+#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:53
+msgid "Logout"
+msgstr "Atsijungti"
+
+#: .\cauth\templates\registration\logged_out.html:10
+msgid "You are now logged out. Any automatic login has also been stopped."
+msgstr "Jūs dabar atsijungėte. Bet kuris automatinis prisijungimas taip pat buvo sustabdytas."
+
+#: .\cauth\templates\registration\logged_out.html:11
+msgid "Didn't mean to log out?"
+msgstr "Ar nenorėjote atsijungti?"
+
+#: .\cauth\templates\registration\logged_out.html:11
+msgid "Log in again."
+msgstr "Prisijunkite dar kartą."
+
+#: .\cauth\templates\registration\login.html:6
+#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:55
+msgid "Login"
+msgstr "Prisijungti"
+
+#: .\cauth\templates\registration\login.html:16
+msgid ""
+"Your account doesn't have access to this page. To proceed, please log in "
+"with an account that has access."
+msgstr "Jūsų paskyra neturi prieigos prie šio puslapio. Norėdami tęsti, prašome prisijungti naudodami paskyrą, kuri turi prieigą."
+
+#: .\cauth\templates\registration\login.html:18
+msgid "Please log in to see this page."
+msgstr "Prašome prisijungti, jei norite pamatyti šį puslapį."
+
+#: .\cauth\templates\registration\password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Jūsų slaptažodis buvo pakeistas."
+
+#: .\cauth\templates\registration\password_change_done.html:9
+msgid "Go to the main page."
+msgstr "Eikite į pagrindinį puslapį."
+
+#: .\cauth\templates\registration\password_change_form.html:14
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr "Prašome įvesti savo seną slaptažodį saugumui, o tada du kartus įveskite naują slaptažodį, kad galėtume patvirtinti, kad įvedėte jį teisingai."
+
+#: .\cauth\templates\registration\password_change_form.html:21
+msgid "Change my password"
+msgstr "Pakeisk mano slaptažodį"
+
+#: .\common\constants.py:10
+msgid "standard input"
+msgstr "Standartinis įėjimas"
+
+#: .\common\constants.py:11
+msgid "standard output"
+msgstr "Standartinė išvestis"
+
+#: .\common\constants.py:12 .\courses\forms.py:224
+#: .\problems\templates\problems\overview.html:47
+#: .\problems\templatetags\irunner_problems.py:87
+#: .\users\templates\users\profile_show.html:86
+msgid "no"
+msgstr "nėra"
+
+#: .\common\constants.py:13
+msgid "Your changes have been saved."
+msgstr "tavo pakeitimai buvo išsaugoti."
+
+#: .\common\constants.py:14
+msgid "Accepted for testing"
+msgstr "Priimta bandymams"
+
+#: .\common\outcome.py:18
+msgid "N/A"
+msgstr "Nepasiekiamas"
+
+#: .\common\outcome.py:19 .\solutions\forms.py:93
+msgid "Accepted"
+msgstr "Priimta"
+
+#: .\common\outcome.py:20 .\solutions\forms.py:94
+msgid "Compilation Error"
+msgstr "Kompiliavimo klaida"
+
+#: .\common\outcome.py:21 .\solutions\forms.py:95
+msgid "Wrong Answer"
+msgstr "Atsakymas neteisingas"
+
+#: .\common\outcome.py:22 .\solutions\forms.py:96
+msgid "Time Limit Exceeded"
+msgstr "Laiko riba viršyta"
+
+#: .\common\outcome.py:23 .\solutions\forms.py:97
+msgid "Memory Limit Exceeded"
+msgstr "Atminties riba viršyta"
+
+#: .\common\outcome.py:24 .\solutions\forms.py:98
+msgid "Idleness Limit Exceeded"
+msgstr "Idleness Limit viršytas"
+
+#: .\common\outcome.py:25 .\solutions\forms.py:99
+msgid "Run-time Error"
+msgstr "Klaida"
+
+#: .\common\outcome.py:26 .\solutions\forms.py:100
+msgid "Presentation Error"
+msgstr "Pristatymo klaida"
+
+#: .\common\outcome.py:27 .\solutions\forms.py:101
+msgid "Security Violation"
+msgstr "Saugumo pažeidimas"
+
+#: .\common\outcome.py:28 .\solutions\forms.py:102
+msgid "Check Failed"
+msgstr "Patikrinti nepavyko"
+
+#: .\common\templates\common\about.html:5
+#: .\common\templates\common\about.html:8 .\templates\base.html:55
+msgctxt "about the system"
+msgid "About"
+msgstr "Apie"
+
+#: .\common\templates\common\about.html:11
+#, python-format
+msgid ""
+"\n"
+"%(system_full_name)s is a software designed to serve programming contests of "
+"algorithm nature and help teachers in practicals labs on algorithm basics "
+"and related courses.\n"
+msgstr "\n%(system_full_name)s yra programinė įranga, sukurta organizuoti algoritmų pobūdžio programavimo konkursus ir padėti mokytojams praktika laboratorijose apie algoritmų pagrindus ir susijusius kursus.\n"
+
+#: .\common\templates\common\about.html:29
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:8
+#: .\solutions\templates\solutions\solution.html:114
+#: .\solutions\templates\solutions\solution_source.html:9
+msgid "Source code"
+msgstr "Pirminis kodas"
+
+#: .\common\templates\common\activity.html:11 .\templates\navbar.html:41
+msgid "Activity"
+msgstr "Veikla"
+
+#: .\common\templates\common\activity.html:13
+msgid "Submission count during the year"
+msgstr "Paraiškų skaičius per metus"
+
+#: .\common\templates\common\activity.html:29
+msgid "Statistics of courses during the current term"
+msgstr "Kursų statistika šiuo metu"
+
+#: .\common\templates\common\activity.html:29
+msgid "starting from"
+msgstr "pradėti nuo"
+
+#: .\common\templates\common\activity.html:32
+msgid "Submission count"
+msgstr "Paraiškų skaičius"
+
+#: .\common\templates\common\activity.html:50
+#: .\contests\templates\contests\all_solutions.html:11
+#: .\contests\templates\contests\my_solutions.html:11
+#: .\contests\templates\contests\sidebar.html:52
+#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:596
+msgid "All solutions"
+msgstr "Visi sprendimai"
+
+#: .\common\templates\common\activity.html:59
+msgid "Accepted solutions"
+msgstr "Priimtini sprendimai"
+
+#: .\common\templates\common\activity.html:68
+msgid "Outcomes"
+msgstr "Rezultatai"
+
+#: .\common\templates\common\error403.html:6
+#: .\common\templates\common\error403.html:10
+msgid "Access denied"
+msgstr "Prieiga uždrausta"
+
+#: .\common\templates\common\hall_of_fame.html:9 .\templates\navbar.html:38
+msgid "Hall of fame"
+msgstr "Šlovės salė"
+
+#: .\common\templates\common\hall_of_fame.html:11
+msgid "Leaders in number of attempts"
+msgstr "Bandymų skaičiaus lyderiai"
+
+#: .\common\templates\common\hall_of_fame.html:17
+msgid "on problem"
+msgstr "apie problemą"
+
+#: .\common\templates\common\home.html:8
+msgctxt "main page"
+msgid "Main"
+msgstr "Pagrindinis"
+
+#: .\common\templates\common\home.html:15
+msgid "Automatic testing system"
+msgstr "Automatinė testavimo sistema"
+
+#: .\common\templates\common\home.html:31
+msgid "Please set up a new password instead of default one."
+msgstr "Nustatykite naują slaptažodį, o ne numatytąjį."
+
+#: .\common\templates\common\home.html:40
+msgid "My courses"
+msgstr "Mano kursai"
+
+#: .\common\templates\common\home.html:54
+msgid "My contests"
+msgstr "Mano konkursai"
+
+#: .\common\templates\common\home.html:68
+msgid "Contest results"
+msgstr "Konkurso rezultatai"
+
+#: .\common\templates\common\home.html:81 .\news\templates\news\index.html:9
+#: .\news\templates\news\show.html:6 .\templates\navbar.html:40
+msgid "News"
+msgstr "Naujienos"
+
+#: .\common\templates\common\irunner_pagination_tag.html:34
+msgid "Page"
+msgstr "Puslapis"
+
+#: .\common\templates\common\irunner_pagination_tag.html:34
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:15
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:20
+#: .\courses\templates\courses\problems_base.html:28
+#: .\courses\templates\courses\quizzes_answers.html:38
+#: .\problems\templates\problems\show_test.html:22
+#: .\problems\templates\problems\sidebar.html:13
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:8
+#: .\solutions\templates\solutions\compare.html:61
+#: .\solutions\templates\solutions\compare.html:86
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:43
+#: .\solutions\templates\solutions\judgement.html:31
+#: .\solutions\templates\solutions\solution.html:28
+msgid "of"
+msgstr "apie"
+
+#: .\common\templates\common\irunner_pagination_tag.html:79
+#: .\common\templates\common\irunner_pagination_tag.html:81
+#: .\courses\views.py:818
+msgid "All"
+msgstr "Visi"
+
+#: .\common\templates\common\language.html:7
+msgid "Interface language"
+msgstr "Sąsajos kalba"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:11
+msgid "Loading"
+msgstr "Ruošiama"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:22
+#: .\courses\templates\courses\assign.html:105
+#: .\news\templates\news\new.html:13
+#: .\quizzes\templates\quizzes\quiz_template_add_group.html:11
+msgid "Add"
+msgstr "Papildyti"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:23
+msgid "Add all"
+msgstr "Pridėti visus"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:24
+msgid "Remove"
+msgstr "Pašalinti"
+
+#: .\common\templates\common\twopanelselectmultiple_widget.html:25
+msgid "Remove all"
+msgstr "Pašalinti visus"
+
+#: .\common\templatetags\irunner_time.py:16
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
+msgid "s"
+msgstr "s"
+
+#: .\common\templatetags\irunner_time.py:39
+#, python-format
+msgid "%(count)d day"
+msgid_plural "%(count)d days"
+msgstr[0] "%(count)d diena"
+msgstr[1] "%(count)d dienos"
+
+#: .\common\templatetags\irunner_time.py:44
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d diena"
+msgstr[1] "%d dienos"
+
+#: .\common\templatetags\irunner_time.py:45
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d valanda"
+msgstr[1] "%d valandos"
+
+#: .\common\templatetags\irunner_time.py:46
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minutę"
+msgstr[1] "%d minutės"
+
+#: .\common\templatetags\irunner_time.py:47
+#, python-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekundė"
+msgstr[1] "%d sekundes"
+
+#: .\common\templatetags\irunner_time.py:72
+msgctxt "time"
+msgid ", "
+msgstr ", "
+
+#: .\contests\forms.py:32 .\courses\forms.py:60
+msgid "Each access level includes all the previous onces."
+msgstr "Kiekvienas prieigos lygis apima visas ankstesnes versijas."
+
+#: .\contests\forms.py:67 .\contests\templates\contests\problems_later.html:5
+#: .\contests\templates\contests\problems_list.html:8
+#: .\contests\templates\contests\settings_base.html:24
+#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:169
+#: .\courses\templates\courses\settings_base.html:18
+#: .\courses\templates\courses\standings.html:34
+#: .\courses\templates\courses\standings.html:114
+#: .\courses\templates\courses\standings_wide.html:29
+#: .\courses\templates\courses\standings_wide.html:113
+#: .\problems\navigator.py:32 .\problems\templates\problems\list_base.html:6
+#: .\problems\templates\problems\list_folder.html:11
+#: .\problems\templates\problems\list_folder.html:17
+#: .\problems\templates\problems\list_folder_confirm_delete.html:8
+#: .\problems\templates\problems\list_folder_confirm_delete.html:13
+#: .\problems\templates\problems\list_folder_form.html:8
+#: .\problems\templates\problems\list_folder_form.html:13
+#: .\problems\templates\problems\list_import_from_polygon.html:9
+#: .\problems\templates\problems\list_import_from_polygon.html:14
+#: .\problems\templates\problems\tree.html:6 .\templates\navbar.html:23
+msgid "Problems"
+msgstr "Problemos"
+
+#: .\contests\forms.py:68
+msgid "Order of problem addition is significant."
+msgstr "Problemos pridėjimo tvarka yra didelė."
+
+#: .\contests\forms.py:74
+msgid "Statements file"
+msgstr "Pareiškimų byla"
+
+#: .\contests\forms.py:75
+msgid ""
+"You can upload a single file containing statements of all problems (usually "
+"in PDF format)."
+msgstr "Galite įkelti vieną failą, kuriame yra visų problemų aprašymai (dažniausiai PDF formatu)."
+
+#: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
+#: .\courses\forms.py:157 .\courses\templates\courses\settings_base.html:27
+#: .\templates\navbar.html:22 .\users\templates\users\base.html:6
+#: .\users\templates\users\bulk_operation.html:8
+#: .\users\templates\users\create_form.html:8
+#: .\users\templates\users\create_form.html:13
+#: .\users\templates\users\folder.html:10
+#: .\users\templates\users\folder.html:15
+#: .\users\templates\users\folder_confirm_delete.html:8
+#: .\users\templates\users\folder_confirm_delete.html:13
+#: .\users\templates\users\irunner_users_list_tag.html:40
+msgid "Users"
+msgstr "Vartotojai"
+
+#: .\contests\forms.py:94 .\courses\forms.py:198 .\courses\forms.py:266
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
+msgid "User"
+msgstr "Vartotojas"
+
+#: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
+#: .\contests\services.py:42
+#: .\contests\templates\contests\all_solutions.html:34
+#: .\contests\templates\contests\irunner_contests_question_tag.html:13
+#: .\contests\templates\contests\my_solutions.html:32
+#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:134
+#: .\courses\forms.py:181 .\courses\forms.py:206 .\courses\forms.py:264
+#: .\courses\templates\courses\problems_statement.html:8
+#: .\courses\templates\courses\problems_statement.html:13
+#: .\courses\templates\courses\solutions.html:41
+#: .\courses\templates\courses\standings.html:60 .\courses\views.py:557
+#: .\courses\views.py:618 .\problems\templates\problems\base.html:5
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:5
+#: .\problems\templates\problems\sidebar.html:26
+#: .\problems\templates\problems\statement_print.html:7
+#: .\solutions\templates\solutions\challenge_list.html:20
+#: .\solutions\templates\solutions\rejudge.html:22
+#: .\solutions\templates\solutions\solution.html:35
+#: .\solutions\templates\solutions\solution_list.html:35
+#: .\storage\templates\storage\usage.html:29
+#: .\storage\templates\storage\usage.html:45
+#: .\storage\templates\storage\usage.html:51
+msgid "Problem"
+msgstr "Problema"
+
+#: .\contests\forms.py:125
+#: .\contests\templates\contests\irunner_contests_message_tag.html:18
+msgid "To"
+msgstr "Iki"
+
+#: .\contests\forms.py:174
+msgid "Choose the room where you are to use the closest printer."
+msgstr "Pasirinkite kambarį, kuriame norite naudoti artimiausią spausdintuvą."
+
+#: .\contests\forms.py:186
+msgid "Text is too long."
+msgstr "Tekstas per ilgas."
+
+#: .\contests\models.py:24
+msgid "No access"
+msgstr "Nėra leidimo"
+
+#: .\contests\models.py:25
+msgid "View standings"
+msgstr "Rodyti stadijas"
+
+#: .\contests\models.py:26
+msgid "View standings and problem statements"
+msgstr "Peržiūrėti įrašus ir problemų teiginius"
+
+#: .\contests\models.py:45 .\contests\models.py:174 .\courses\models.py:21
+#: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:107
+#: .\courses\models.py:116
+#: .\courses\templates\courses\api_list_problems.html:11
+#: .\problems\models.py:19 .\quizzes\models.py:55 .\users\models.py:14
+msgid "name"
+msgstr "vardas"
+
+#: .\contests\models.py:46
+msgid "rules"
+msgstr "taisyklės"
+
+#: .\contests\models.py:51
+msgid "access for unauthorized users"
+msgstr "prieiga neleistinam vartotojui"
+
+#: .\contests\models.py:53
+msgid "contestant’s access to his own solutions"
+msgstr "dalyvio prieiga prie savo sprendimų"
+
+#: .\contests\models.py:55
+msgid "maximum number of attempts per problem"
+msgstr "didžiausias bandymų skaičius vienai problemai"
+
+#: .\contests\models.py:56
+msgid "maximum solution file size (bytes)"
+msgstr "maksimalus sprendimo failo dydis (baitai)"
+
+#: .\contests\models.py:57
+msgid "start time"
+msgstr "pradžios laikass"
+
+#: .\contests\models.py:58
+msgid "duration"
+msgstr "trukmė"
+
+#: .\contests\models.py:59
+msgid "standings freeze time"
+msgstr "stalo įšaldymo laikas"
+
+#: .\contests\models.py:59
+msgid "If not set, there will be no freezing."
+msgstr "Jei nenustatyta, nebus užšaldymo."
+
+#: .\contests\models.py:60
+msgid "show pending runs during the freeze time"
+msgstr "parodykite laukiančius veiksmus per užšalimo laiką"
+
+#: .\contests\models.py:61
+msgid "unfreeze standings after the end of the contest"
+msgstr "atskleisti varžybas po varžybų pabaigos"
+
+#: .\contests\models.py:62
+msgid "enable upsolving after the end of the contest"
+msgstr "pasibaigus varžyboms leisti susitvarkyti"
+
+#: .\contests\models.py:63
+msgid "enable printing"
+msgstr "įgalinti spausdinimą"
+
+#: .\contests\models.py:64
+msgid "rooms (comma-separated)"
+msgstr "kambariai (atskirti kableliais)"
+
+#: .\contests\models.py:75
+msgid "Freeze time must not exceed the contest duration."
+msgstr "Įšaldymo laikas neturi viršyti konkurso trukmės."
+
+#: .\contests\models.py:86
+msgid "contestant"
+msgstr "dalyvis"
+
+#: .\contests\models.py:87
+msgid "juror"
+msgstr "žiuri narys"
+
+#: .\contests\models.py:92 .\courses\models.py:133
+msgid "role"
+msgstr "vaidmuo"
+
+#: .\contests\models.py:117
+#: .\contests\templates\contests\all_questions_delete.html:7
+#: .\contests\templates\contests\question_answers.html:9
+#: .\quizdemo\templates\quizdemo\question.html:13
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:6
+#: .\quizzes\utils.py:90
+msgid "Question"
+msgstr "Klausimas"
+
+#: .\contests\models.py:118
+msgid "Answer"
+msgstr "Atsakymas"
+
+#: .\contests\models.py:119
+msgid "Message"
+msgstr "Žinutė"
+
+#: .\contests\models.py:127 .\courses\models.py:191 .\feedback\models.py:12
+#: .\news\models.py:9
+msgid "subject"
+msgstr "temag"
+
+#: .\contests\models.py:128 .\courses\models.py:202
+msgid "message"
+msgstr "pranešimas"
+
+#: .\contests\models.py:151
+#: .\contests\templates\contests\settings_base.html:33
+#: .\contests\templates\contests\sidebar.html:94
+msgid "Printing"
+msgstr "spausdinimas"
+
+#: .\contests\models.py:152
+msgid "Cancelled"
+msgstr "atšauktas"
+
+#: .\contests\models.py:157 .\contests\models.py:166
+#: .\contests\templates\contests\printing.html:32
+msgid "room"
+msgstr "patalpa"
+
+#: .\contests\models.py:159
+msgid "text"
+msgstr "tekstas"
+
+#: .\contests\models.py:160
+msgid "status"
+msgstr "statusas"
+
+#: .\contests\models.py:175
+msgid "regular expression"
+msgstr "įprasta išraiška"
+
+#: .\contests\services.py:54
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:23
+msgid "Contestant"
+msgstr "Dalyvis"
+
+#: .\contests\services.py:492
+#: .\contests\templates\contests\standings_raw.html:15
+msgid "The scoreboard will be available after the start of the contest"
+msgstr "Rezultatų suvestinė bus prieinama po varžybų pradžios"
+
+#: .\contests\services.py:511
+msgid "The scoreboard is hidden"
+msgstr "Rezultatų suvestinė yra paslėpta"
+
+#: .\contests\settingsviews.py:203
+msgid "Contestants"
+msgstr "Konkurso dalyviai"
+
+#: .\contests\settingsviews.py:204
+msgid "Jury"
+msgstr "Vertinimo komisija"
+
+#: .\contests\templates\contests\all_questions.html:9
+#: .\contests\templates\contests\my_questions.html:7
+#: .\contests\templates\contests\sidebar.html:36
+#: .\contests\templates\contests\sidebar.html:44
+#: .\quizdemo\templates\quizdemo\index.html:6
+msgid "Questions"
+msgstr "Klausimai"
+
+#: .\contests\templates\contests\all_questions.html:13
+#: .\contests\templates\contests\my_questions.html:19
+msgid "No questions"
+msgstr "Jokių klausimų"
+
+#: .\contests\templates\contests\all_questions_delete.html:10
+msgid "The question is going to be deleted."
+msgstr "Klausimas bus ištrintas."
+
+#: .\contests\templates\contests\all_questions_delete.html:18
+#: .\contests\templates\contests\irunner_contests_message_tag.html:13
+#: .\contests\templates\contests\messages_delete.html:18
+#: .\contests\templates\contests\question_answers.html:45
+#: .\courses\templates\courses\criterion_confirm_delete.html:24
+#: .\courses\templates\courses\messages.html:149
+#: .\courses\templates\courses\quizzes_answers.html:24
+#: .\courses\templates\courses\quizzes_answers.html:82
+#: .\courses\templates\courses\settings_component.html:17
+#: .\courses\templates\courses\settings_quiz_edit.html:37
+#: .\problems\templates\problems\batch_delete_tests.html:15
+#: .\problems\templates\problems\delete.html:20
+#: .\problems\templates\problems\delete_file.html:14
+#: .\problems\templates\problems\files.html:36
+#: .\problems\templates\problems\files.html:78
+#: .\problems\templates\problems\list_folder.html:42
+#: .\problems\templates\problems\list_folder_confirm_delete.html:32
+#: .\problems\templates\problems\show_test.html:39
+#: .\problems\templates\problems\show_test.html:132
+#: .\problems\templates\problems\tests.html:62
+#: .\solutions\templates\solutions\solution_list.html:75
+#: .\users\templates\users\folder.html:34
+#: .\users\templates\users\folder.html:66
+#: .\users\templates\users\folder_confirm_delete.html:21
+msgid "Delete"
+msgstr "Ištrinti"
+
+#: .\contests\templates\contests\all_questions_delete.html:21
+#: .\contests\templates\contests\contest_confirm_delete.html:14
+#: .\contests\templates\contests\contest_form.html:13
+#: .\contests\templates\contests\messages_delete.html:21
+#: .\contests\templates\contests\messages_form.html:19
+#: .\contests\templates\contests\messages_new.html:19
+#: .\contests\templates\contests\my_questions_form.html:19
+#: .\contests\templates\contests\printout_edit.html:18
+#: .\contests\templates\contests\printout_new.html:20
+#: .\contests\templates\contests\question_answers.html:46
+#: .\contests\templates\contests\settings_users_edit.html:16
+#: .\courses\templates\courses\assign.html:69
+#: .\courses\templates\courses\course_form.html:13
+#: .\courses\templates\courses\messages.html:148
+#: .\courses\templates\courses\messages_new.html:27
+#: .\courses\templates\courses\quiz.html:37
+#: .\courses\templates\courses\quizzes_answers.html:81
+#: .\courses\templates\courses\settings_common_problems_edit.html:16
+#: .\courses\templates\courses\settings_component.html:21
+#: .\courses\templates\courses\settings_quiz_edit.html:41
+#: .\courses\templates\courses\settings_users_edit.html:20
+#: .\news\templates\news\new.html:14 .\news\templates\news\update.html:14
+#: .\problems\templates\problems\batch_delete_tests.html:18
+#: .\problems\templates\problems\batch_edit_tests.html:18
+#: .\problems\templates\problems\challenge_new.html:28
+#: .\problems\templates\problems\delete.html:23
+#: .\problems\templates\problems\delete_file.html:15
+#: .\problems\templates\problems\edit_file.html:12
+#: .\problems\templates\problems\edit_test.html:51
+#: .\problems\templates\problems\edit_tex.html:19
+#: .\problems\templates\problems\list_folder_confirm_delete.html:35
+#: .\problems\templates\problems\list_folder_form.html:38
+#: .\problems\templates\problems\list_import_from_polygon.html:38
+#: .\problems\templates\problems\show_test.html:131
+#: .\problems\templates\problems\upload_archive.html:20
+#: .\proglangs\templates\proglangs\edit.html:21
+#: .\quizzes\templates\quizzes\quiz_template_create.html:12
+#: .\quizzes\templates\quizzes\quiz_template_update.html:12
+#: .\quizzes\utils.py:95 .\users\templates\users\bulk_operation.html:32
+#: .\users\templates\users\create_form.html:36
+#: .\users\templates\users\folder_confirm_delete.html:24
+msgid "Cancel"
+msgstr "Atšaukti"
+
+#: .\contests\templates\contests\all_solutions.html:20
+#: .\contests\templates\contests\my_solutions.html:20
+#: .\courses\templates\courses\solutions.html:26
+#: .\problems\templates\problems\solutions.html:29
+#: .\solutions\templates\solutions\solution_list.html:24
+msgid "Apply"
+msgstr "Taikyti"
+
+#: .\contests\templates\contests\all_solutions.html:35
+#: .\contests\templates\contests\printing.html:24
+#: .\contests\templates\contests\printout_show.html:14
+#: .\courses\templates\courses\solutions.html:39
+#: .\news\templates\news\index.html:19
+#: .\problems\templates\problems\challenge.html:18
+#: .\problems\templates\problems\challenges.html:21
+#: .\problems\templates\problems\rejudges.html:14
+#: .\problems\templates\problems\show_test.html:61
+#: .\problems\templates\problems\solutions.html:56
+#: .\solutions\templates\solutions\challenge_list.html:18
+#: .\solutions\templates\solutions\compare.html:47
+#: .\solutions\templates\solutions\compare.html:72
+#: .\solutions\templates\solutions\rejudge.html:18
+#: .\solutions\templates\solutions\rejudge.html:41
+#: .\solutions\templates\solutions\rejudge_list.html:18
+#: .\solutions\templates\solutions\solution.html:31
+#: .\solutions\templates\solutions\solution_list.html:36
+#: .\solutions\templates\solutions\solution_plagiarism.html:20
+msgid "Author"
+msgstr "Autorius"
+
+#: .\contests\templates\contests\all_solutions.html:36
+#: .\contests\templates\contests\my_solutions.html:33
+#: .\contests\templates\contests\printing.html:25
+#: .\courses\templates\courses\solutions.html:42
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
+#: .\solutions\templates\solutions\solution_attempts.html:18
+#: .\solutions\templates\solutions\solution_list.html:37
+#: .\solutions\templates\solutions\solution_plagiarism.html:19
+msgid "Time"
+msgstr "Laikas"
+
+#: .\contests\templates\contests\all_solutions.html:37
+#: .\contests\templates\contests\my_solutions.html:34
+#: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:153
+#: .\problems\forms.py:171 .\problems\forms.py:175 .\problems\forms.py:194
+#: .\problems\templates\problems\files.html:19
+#: .\problems\templates\problems\files.html:57
+#: .\problems\templates\problems\solutions.html:58
+#: .\problems\templates\problems\texs.html:11
+#: .\solutions\templates\solutions\solution.html:86
+#: .\solutions\templates\solutions\solution_attempts.html:19
+#: .\solutions\templates\solutions\solution_list.html:38
+#: .\storage\templates\storage\usage.html:39
+#: .\storage\templates\storage\usage.html:44
+#: .\storage\templates\storage\usage.html:50
+msgid "File"
+msgstr "Failas"
+
+#: .\contests\templates\contests\all_solutions.html:38
+#: .\contests\templates\contests\my_solutions.html:35
+#: .\contests\templates\contests\printing.html:26
+#: .\contests\templates\contests\printout_show.html:20
+#: .\courses\templates\courses\solutions.html:44
+#: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:91
+#: .\solutions\templates\solutions\judgement_list.html:19
+#: .\solutions\templates\solutions\solution_attempts.html:20
+#: .\solutions\templates\solutions\solution_list.html:39
+msgid "Status"
+msgstr "Statusas"
+
+#: .\contests\templates\contests\all_solutions.html:40
+#: .\contests\templates\contests\my_solutions.html:37
+#: .\solutions\templates\solutions\compare.html:60
+#: .\solutions\templates\solutions\compare.html:85
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:18
+#: .\solutions\templates\solutions\judgement.html:30
+#: .\solutions\templates\solutions\solution.html:27
+msgid "Score"
+msgstr "Įvertinimas"
+
+#: .\contests\templates\contests\all_solutions.html:71
+msgid "Disqualify"
+msgstr "Diskvalifikuoti"
+
+#: .\contests\templates\contests\all_solutions.html:74
+msgid "Cancel the disqualification"
+msgstr "Atšaukti diskvalifikaciją"
+
+#: .\contests\templates\contests\all_solutions.html:85
+#: .\contests\templates\contests\my_solutions.html:67
+#: .\courses\templates\courses\info.html:57
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
+#: .\courses\templates\courses\solutions.html:91
+#: .\solutions\templates\solutions\rejudge.html:93
+msgid "No solutions"
+msgstr "Nėra sprendimų"
+
+#: .\contests\templates\contests\compilers.html:7
+#: .\contests\templates\contests\settings_base.html:21
+#: .\contests\templates\contests\sidebar.html:73
+#: .\courses\templates\courses\compilers.html:6
+#: .\courses\templates\courses\settings_base.html:21
+#: .\courses\templates\courses\sidebar.html:79
+#: .\proglangs\templates\proglangs\index.html:10 .\templates\navbar.html:33
+msgid "Compilers"
+msgstr "Kompiliatoriai"
+
+#: .\contests\templates\contests\contest_confirm_delete.html:7
+#: .\contests\templates\contests\settings_properties.html:17
+msgid "Delete the contest"
+msgstr "Ištrinti konkursą"
+
+#: .\contests\templates\contests\contest_confirm_delete.html:8
+msgid ""
+"Are you sure you want to permanently delete the contest? This action cannot "
+"be undone."
+msgstr "Ar tikrai norite visam laikui ištrinti konkursą? Šis veiksmas negali būti panaikintas."
+
+#: .\contests\templates\contests\contest_confirm_delete.html:12
+#: .\courses\templates\courses\course_confirm_delete.html:12
+#: .\feedback\templates\feedback\confirm.html:12
+#: .\problems\templates\problems\show_test.html:122
+#: .\solutions\templates\solutions\confirm_multiple.html:28
+#: .\users\templates\users\bulk_operation.html:28
+msgid "Confirm"
+msgstr "Patvirtinti"
+
+#: .\contests\templates\contests\contest_form.html:7
+#: .\contests\templates\contests\contest_list.html:20
+msgid "New contest"
+msgstr "Naujas konkursas"
+
+#: .\contests\templates\contests\contest_form.html:12
+#: .\courses\templates\courses\course_form.html:12
+#: .\problems\templates\problems\list_folder.html:31
+#: .\quizzes\templates\quizzes\quiz_template_create.html:11
+#: .\users\templates\users\folder.html:28
+msgid "Create"
+msgstr "Sukurti"
+
+#: .\contests\templates\contests\contest_list.html:7
+#: .\templates\navbar.html:39
+msgid "Contests"
+msgstr "Konkursai"
+
+#: .\contests\templates\contests\contest_list.html:18
+msgid "There are no contests available."
+msgstr "Konkursų nėra."
+
+#: .\contests\templates\contests\export.html:7
+#: .\contests\templates\contests\sidebar.html:87
+msgid "Export"
+msgstr "Eksportas"
+
+#: .\contests\templates\contests\export.html:13
+msgid "System"
+msgstr "Sistema"
+
+#: .\contests\templates\contests\irunner_contests_message_tag.html:12
+#: .\contests\templates\contests\problem.html:13
+#: .\courses\templates\courses\problems_statement.html:53
+#: .\courses\templates\courses\settings_quizzes.html:41
+#: .\courses\templates\courses\sheet.html:120
+#: .\problems\templates\problems\files.html:35
+#: .\problems\templates\problems\files.html:77
+#: .\problems\templates\problems\show_test.html:34
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:42
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: .\contests\templates\contests\irunner_contests_message_tag.html:18
+#: .\contests\views.py:481
+msgctxt "to"
+msgid "all"
+msgstr "visos"
+
+#: .\contests\templates\contests\irunner_contests_question_tag.html:13
+#: .\contests\views.py:703 .\courses\views.py:817
+msgid "General question"
+msgstr "Bendras klausimas"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:9
+msgid "The scoreboard was frozen at"
+msgstr "Rezultatų suvestinė buvo sušaldyta ne"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:12
+msgid "Last success"
+msgstr "Paskutinė sėkmė"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:15
+msgid "Last run"
+msgstr "Paskutinis važiavimas"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:22
+#: .\contests\templates\contests\my_solutions.html:31
+#: .\courses\templates\courses\api_list_problems.html:10
+#: .\courses\templates\courses\quizzes.html:57
+#: .\courses\templates\courses\quizzes_rating.html:29
+#: .\courses\templates\courses\quizzes_sheet.html:26
+#: .\courses\templates\courses\settings_quizzes.html:21
+#: .\courses\templates\courses\settings_users.html:27
+#: .\courses\templates\courses\sheet.html:31
+#: .\courses\templates\courses\standings.html:25
+#: .\courses\templates\courses\standings.html:107
+#: .\courses\templates\courses\standings_wide.html:20
+#: .\courses\templates\courses\standings_wide.html:106
+#: .\problems\templates\problems\challenge.html:43
+#: .\problems\templates\problems\tests.html:76
+#: .\problems\templates\problems\tests_browse.html:14
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:24
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
+#: .\solutions\templates\solutions\rejudge.html:37
+#: .\solutions\templates\solutions\solution_attempts.html:16
+#: .\solutions\templates\solutions\solution_plagiarism.html:18
+msgid "#"
+msgstr "#"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:39
+msgid "Penalty"
+msgstr "Bausmė"
+
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:42
+msgid "Sum"
+msgstr "Suma"
+
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:9
+msgid "The contest has not started"
+msgstr "Konkursas dar nepradėtas"
+
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:10
+msgid "Time left to start"
+msgstr "Laikas liko pradėti"
+
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:14
+msgid "The contest is running"
+msgstr "Konkursas vyksta"
+
+#: .\contests\templates\contests\irunner_contests_timing_tag.html:19
+#: .\contests\templates\contests\submit.html:14
+#: .\contests\templates\contests\submit.html:18
+msgid "The contest is over"
+msgstr "Konkursas baigėsi"
+
+#: .\contests\templates\contests\messages.html:8
+#: .\contests\templates\contests\messages_delete.html:7
+#: .\contests\templates\contests\messages_form.html:7
+#: .\contests\templates\contests\messages_new.html:7
+#: .\contests\templates\contests\my_questions_form.html:7
+#: .\contests\templates\contests\printing.html:9
+#: .\contests\templates\contests\sidebar.html:28
+#: .\courses\templates\courses\course_list.html:28
+#: .\courses\templates\courses\messages.html:8
+#: .\courses\templates\courses\messages_new.html:6
+#: .\courses\templates\courses\sidebar.html:29
+msgid "Messages"
+msgstr "Žinutės"
+
+#: .\contests\templates\contests\messages.html:14
+msgid "New message"
+msgstr "Nauja žinutė"
+
+#: .\contests\templates\contests\messages.html:19
+msgid "No messages"
+msgstr "Nėra pranešimų"
+
+#: .\contests\templates\contests\messages_delete.html:10
+msgid "The message is going to be deleted."
+msgstr "Pranešimas bus ištrintas."
+
+#: .\contests\templates\contests\messages_form.html:16
+#: .\contests\templates\contests\messages_new.html:16
+#: .\contests\templates\contests\my_questions_form.html:16
+#: .\contests\templates\contests\printout_new.html:17
+#: .\contests\templates\contests\submit.html:37
+#: .\courses\templates\courses\messages_new.html:25
+#: .\courses\templates\courses\submit.html:29
+#: .\feedback\templates\feedback\new.html:12
+#: .\problems\templates\problems\submit.html:11
+msgid "Send"
+msgstr "Siųsti"
+
+#: .\contests\templates\contests\my_questions.html:12
+msgid "Ask a question"
+msgstr "Užduok klausimą"
+
+#: .\contests\templates\contests\printing.html:14
+#: .\contests\templates\contests\printout_new.html:7
+msgid "New printout"
+msgstr "Naujas spaudinys"
+
+#: .\contests\templates\contests\printing.html:19
+msgid "No printouts"
+msgstr "Nr atspaudų"
+
+#: .\contests\templates\contests\printing.html:27
+msgid "Text"
+msgstr "Tekstas"
+
+#: .\contests\templates\contests\printout_edit.html:6
+#: .\contests\templates\contests\printout_show.html:7
+msgid "Printout"
+msgstr "Atspausdinti"
+
+#: .\contests\templates\contests\printout_new.html:25
+msgid "Printing is only available during the contest"
+msgstr "Spausdinimas yra prieinamas tik varžybų metu"
+
+#: .\contests\templates\contests\printout_show.html:17
+msgid "Room"
+msgstr "Patalpa"
+
+#: .\contests\templates\contests\problems_later.html:8
+msgid "Problems will be available after the start of the contest"
+msgstr "Problemos bus pateiktos po varžybų pradžios"
+
+#: .\contests\templates\contests\problems_list.html:15
+msgid "Problem statements"
+msgstr "Problemos teiginiai"
+
+#: .\contests\templates\contests\problems_list.html:33
+#: .\problems\templates\problems\irunner_problems_list_tag.html:44
+msgid "No problems"
+msgstr "Jokių problemų"
+
+#: .\contests\templates\contests\question_answers.html:14
+#: .\courses\templates\courses\quiz.html:32
+msgid "Warning"
+msgstr "Įspėjimas"
+
+#: .\contests\templates\contests\question_answers.html:14
+msgid "Someone has already answered the question."
+msgstr "Kažkas jau atsakė į klausimą."
+
+#: .\contests\templates\contests\question_answers.html:15
+msgid "Please read the answers and submit your answer again if needed."
+msgstr "Prašome perskaityti atsakymus ir pateikti atsakymą, jei reikia."
+
+#: .\contests\templates\contests\question_answers.html:36
+msgid "There are no answers to this question"
+msgstr "Nėra atsakymų į šį klausimą"
+
+#: .\contests\templates\contests\question_answers.html:44
+msgctxt "verb"
+msgid "Answer"
+msgstr "Atsakymas"
+
+#: .\contests\templates\contests\question_answers.html:51
+#: .\contests\templates\contests\settings_filter.html:16
+#: .\courses\templates\courses\criterion_confirm_delete.html:18
+#: .\news\templates\news\show.html:15
+#: .\quizdemo\templates\quizdemo\question.html:26
+msgid "Back"
+msgstr "Pabaiga"
+
+#: .\contests\templates\contests\settings_base.html:5
+#: .\contests\templates\contests\sidebar.html:80
+#: .\courses\templates\courses\settings_base.html:5
+#: .\courses\templates\courses\sidebar.html:93
+#: .\problems\templates\problems\challenge_new.html:19
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: .\contests\templates\contests\settings_base.html:12
+#: .\courses\templates\courses\settings_base.html:12 .\problems\tabs.py:27
+#: .\problems\templates\problems\list_folder.html:37
+msgid "Properties"
+msgstr "Savybės"
+
+#: .\contests\templates\contests\settings_base.html:15
+#: .\courses\templates\courses\settings_base.html:15
+msgid "Access"
+msgstr "Priėjimas"
+
+#: .\contests\templates\contests\settings_base.html:18
+msgid "Limits"
+msgstr "Ribos"
+
+#: .\contests\templates\contests\settings_base.html:27
+msgid "Statements"
+msgstr "Teiginiai"
+
+#: .\contests\templates\contests\settings_compilers.html:15
+#: .\courses\templates\courses\settings_compilers.html:16
+msgid "Check all"
+msgstr "Viską Patikrink"
+
+#: .\contests\templates\contests\settings_compilers.html:18
+#: .\courses\templates\courses\settings_compilers.html:19
+msgid "Uncheck all"
+msgstr "Išvalyti visus rūbus"
+
+#: .\contests\templates\contests\settings_filter.html:7
+msgid "User filters"
+msgstr "Naudotojo filtrai"
+
+#: .\contests\templates\contests\settings_users.html:14
+#: .\courses\templates\courses\settings_problems.html:59
+#: .\courses\templates\courses\settings_users.html:17
+msgid "Edit the list"
+msgstr "Redaguokite sąrašą"
+
+#: .\contests\templates\contests\settings_users.html:18
+#: .\contests\templates\contests\standings_extra_controls.html:7
+msgid "Filters"
+msgstr "Filtrai"
+
+#: .\contests\templates\contests\settings_users.html:30
+msgid "No users are set"
+msgstr "Nė vienas vartotojas nenustatytas"
+
+#: .\contests\templates\contests\sidebar.html:14
+#: .\contests\templates\contests\standings.html:9
+#: .\contests\templates\contests\standings_wide.html:7
+msgctxt "contest"
+msgid "Standings"
+msgstr "Lentelės"
+
+#: .\contests\templates\contests\sidebar.html:59
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:637
+msgid "My solutions"
+msgstr "Mano sprendimai"
+
+#: .\contests\templates\contests\sidebar.html:66
+#: .\contests\templates\contests\submission.html:9
+#: .\contests\templates\contests\submit.html:7
+#: .\courses\templates\courses\problems_statement.html:47
+#: .\courses\templates\courses\sidebar.html:72
+#: .\courses\templates\courses\submission.html:6
+#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:38
+msgid "Submit solution"
+msgstr "Pateikite sprendimą"
+
+#: .\contests\templates\contests\standings_extra_controls.html:20
+#: .\courses\templates\courses\assign.html:68
+msgid "Reset"
+msgstr "Atstatyti"
+
+#: .\contests\templates\contests\standings_extra_controls.html:27
+msgid "Refresh the page every 30 seconds"
+msgstr "Atnaujinkite puslapį kas 30 sekundžių"
+
+#: .\contests\templates\contests\standings_extra_controls.html:29
+#: .\contests\templates\contests\standings_extra_controls.html:31
+msgid "Autorefresh"
+msgstr "Autorefresh"
+
+#: .\contests\templates\contests\standings_extra_controls.html:35
+#: .\courses\templates\courses\standings.html:14
+msgid "Widescreen version"
+msgstr "Plataus ekrano versija"
+
+#: .\contests\templates\contests\standings_wide.html:7
+#: .\courses\templates\courses\standings_wide.html:9
+msgid "widescreen"
+msgstr "Plačiaekranis"
+
+#: .\contests\templates\contests\submission.html:13
+msgid "Your solution has been submitted successfully."
+msgstr "Jūsų sprendimas buvo sėkmingai pateiktas."
+
+#: .\contests\templates\contests\submission.html:14
+msgid ""
+"You are not required to wait for the judgement result: you may continue "
+"using the system and check the status of your submissions on ‘My solutions’ "
+"page anytime."
+msgstr "Jums nereikia laukti sprendimo rezultatų: galite bet kada toliau naudotis sistema ir patikrinti savo pateiktų būsenų puslapį „Mano sprendimai“."
+
+#: .\contests\templates\contests\submit.html:11
+msgid "Submission form will be available after the start of the contest"
+msgstr "Paraiškos forma bus prieinama po konkurso pradžios"
+
+#: .\contests\templates\contests\submit.html:18
+msgid ""
+"Upsolving mode is on: your submission will not affect the final standings."
+msgstr "Pakilimo į aukštį režimas: jūsų pateikimas neturės įtakos galutinei pozicijai."
+
+#: .\contests\views.py:733
+msgid "The question has been successfully submitted."
+msgstr "Klausimas buvo sėkmingai pateiktas."
+
+#: .\contests\views.py:887
+msgid "Your printout has been successfully added to printing queue."
+msgstr "Jūsų spaudinys sėkmingai pridėtas prie spausdinimo eilės."
+
+#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:44
+msgid "Year of study"
+msgstr "Studijų metai"
+
+#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:46
+msgid "Academic year"
+msgstr "Mokslo metai"
+
+#: .\courses\forms.py:77
+msgid "Problem folder"
+msgstr "Problemų aplankas"
+
+#: .\courses\forms.py:78
+msgid "Problems to assign per student in the course"
+msgstr "Problemos, skirtos vienam studentui priskirti kursui"
+
+#: .\courses\forms.py:93
+msgid "Weight coefficient"
+msgstr "Svorio koeficientas"
+
+#: .\courses\forms.py:112
+msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
+msgstr "Naudokite trumpus pogrupio pavadinimus, pvz., „1“, „2 s.“, „EPS“."
+
+#: .\courses\forms.py:147
+msgid "Topic"
+msgstr "Tema"
+
+#: .\courses\forms.py:190
+msgid "Attempt count limit is reached."
+msgstr "Bandymo limitų skaičius pasiekiamas."
+
+#: .\courses\forms.py:271 .\courses\templates\courses\messages.html:91
+#: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
+msgid "Attachment"
+msgstr "Priedas"
+
+#: .\courses\forms.py:272 .\feedback\forms.py:19
+msgid "You can attach an arbitrary file to your message"
+msgstr "Savo pranešimą galite pridėti savavališkai"
+
+#: .\courses\models.py:20
+msgid "criterion label"
+msgstr "kriterijų etiketė"
+
+#: .\courses\models.py:32
+msgid "student’s access to his own solutions"
+msgstr "studento prieiga prie savo sprendimų"
+
+#: .\courses\models.py:35
+msgid "student’s access to all solutions of the course"
+msgstr "studento prieiga prie visų kurso sprendimų"
+
+#: .\courses\models.py:38
+msgid "enable mark sheet"
+msgstr "įjungti ženklų lapą"
+
+#: .\courses\models.py:42
+msgid "Number of attempts a day per problem"
+msgstr "Bandymų skaičius per dieną kiekvienai problemai"
+
+#: .\courses\models.py:45
+msgid "Group number"
+msgstr "Grupės numeris"
+
+#: .\courses\models.py:53
+msgid "No information is given to identify the course."
+msgstr "Kursui nustatyti nėra jokios informacijos."
+
+#: .\courses\models.py:60
+#, python-format
+msgid "%(group)d group"
+msgstr "%(group)d grupė"
+
+#: .\courses\models.py:76
+msgid "problem folder"
+msgstr "probleminis aplankas"
+
+#: .\courses\models.py:77 .\courses\models.py:142
+msgid "criteria"
+msgstr "kriterijai"
+
+#: .\courses\models.py:100
+msgid "solving problems within the course"
+msgstr "problemų sprendimo būdai"
+
+#: .\courses\models.py:101
+msgid "mark"
+msgstr "ženklas"
+
+#: .\courses\models.py:102
+msgid "passed or not passed"
+msgstr "praėjo ar ne praėjo"
+
+#: .\courses\models.py:103
+msgid "quiz result"
+msgstr "viktorinos rezultatas"
+
+#: .\courses\models.py:108 .\problems\models.py:102 .\problems\models.py:140
+#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:539
+#: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
+msgid "description"
+msgstr "aprašymas"
+
+#: .\courses\models.py:109 .\users\models.py:41
+msgid "kind"
+msgstr "malonus"
+
+#: .\courses\models.py:110 .\courses\templates\courses\settings_sheet.html:18
+msgid "weight"
+msgstr "svoris"
+
+#: .\courses\models.py:111
+msgid "quiz"
+msgstr "viktorina"
+
+#: .\courses\models.py:127
+msgid "student"
+msgstr "studentas"
+
+#: .\courses\models.py:128
+msgid "teacher"
+msgstr "mokytojas"
+
+#: .\courses\models.py:134 .\users\templates\users\user_card.html:38
+msgid "subgroup"
+msgstr "pogrupis"
+
+#: .\courses\models.py:140
+msgid "problem"
+msgstr "problema"
+
+#: .\courses\models.py:173
+msgid "pass"
+msgstr "praeiti"
+
+#: .\courses\models.py:174
+msgid "no pass"
+msgstr "ne praeiti"
+
+#: .\courses\models.py:175
+msgid "absence"
+msgstr "nebuvimas"
+
+#: .\courses\models.py:203 .\feedback\models.py:14
+msgid "attachment"
+msgstr "tvirtinimas"
+
+#: .\courses\quizviews.py:122
+msgid "Permission denied"
+msgstr "Leidimas nesuteiktas"
+
+#: .\courses\quizviews.py:125
+msgid "Quiz does not exist"
+msgstr "Viktorina nėra"
+
+#: .\courses\quizviews.py:129
+msgid "Quiz is finished or no time is left. Do you want to go to home page?"
+msgstr "Viktorina baigta arba liko ne laikas. Ar norite eiti į pradinį puslapį?"
+
+#: .\courses\quizviews.py:132
+msgid "Request is not valid"
+msgstr "Prašymas negalioja"
+
+#: .\courses\services.py:158 .\courses\templates\courses\assign.html:121
+#: .\courses\templates\courses\my_problems.html:45
+#: .\courses\templates\courses\settings_problems.html:45
+#: .\courses\templates\courses\standings.html:103
+#: .\courses\templates\courses\standings_wide.html:102
+msgid "Common problems"
+msgstr "Dažniausios problemos"
+
+#: .\courses\services.py:199 .\courses\settingsviews.py:119
+#: .\courses\templates\courses\assign.html:26
+#: .\courses\templates\courses\course_list.html:26
+msgid "Students"
+msgstr "Studentai"
+
+#: .\courses\services.py:203 .\courses\settingsviews.py:120
+msgid "Teachers"
+msgstr "Mokytojai"
+
+#: .\courses\settingsviews.py:119
+#: .\courses\templates\courses\quizzes_answers.html:29
+#: .\courses\templates\courses\quizzes_rating.html:30
+#: .\courses\templates\courses\quizzes_sheet.html:27
+#: .\courses\templates\courses\sheet.html:32
+#: .\courses\templates\courses\standings.html:26
+#: .\courses\templates\courses\standings.html:108
+#: .\courses\templates\courses\standings_wide.html:21
+#: .\courses\templates\courses\standings_wide.html:107 .\courses\views.py:549
+msgid "Student"
+msgstr "Studentas"
+
+#: .\courses\settingsviews.py:120
+msgid "Teacher"
+msgstr "Mokytojas"
+
+#: .\courses\settingsviews.py:161 .\users\views.py:179
+#, python-format
+msgid "%(count)d user was added."
+msgid_plural "%(count)d users were added."
+msgstr[0] "%(count)d vartotojas buvo pridėtas."
+msgstr[1] "%(count)d vartotojas buvo pridėtas."
+
+#: .\courses\settingsviews.py:169
+#, python-format
+msgid "%(count)d user was removed."
+msgid_plural "%(count)d users were removed."
+msgstr[0] "%(count)d vartotojas buvo pašalintas."
+msgstr[1] "%(count)d vartotojas buvo pašalintas."
+
+#: .\courses\templates\courses\api_list_problems.html:8
+msgid "level"
+msgstr "lygis"
+
+#: .\courses\templates\courses\api_list_problems.html:15
+#: .\courses\templates\courses\api_list_problems.html:24
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:28
+msgid "Assign"
+msgstr "Priskirti"
+
+#: .\courses\templates\courses\api_list_problems.html:16
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:23
+#: .\problems\tabs.py:29
+msgid "Statement"
+msgstr "Pareiškimas"
+
+#: .\courses\templates\courses\assign.html:16
+#: .\courses\templates\courses\sidebar.html:37
+msgid "Assignment of problems"
+msgstr "Problemų priskyrimas"
+
+#: .\courses\templates\courses\assign.html:64
+msgid "Select a problem to assign"
+msgstr "Pasirinkite priskirtą problemą"
+
+#: .\courses\templates\courses\assign.html:75
+msgid "Remove extra problem"
+msgstr "Pašalinti papildomą problemą"
+
+#: .\courses\templates\courses\assign.html:93
+#: .\courses\templates\courses\standings.html:84
+#: .\courses\templates\courses\standings_wide.html:83
+msgid "Extra problems"
+msgstr "Papildomos problemos"
+
+#: .\courses\templates\courses\course_confirm_delete.html:7
+msgid "Delete course"
+msgstr "Ištrinti kursą"
+
+#: .\courses\templates\courses\course_confirm_delete.html:8
+msgid "Are you sure you want to permanently delete the course?"
+msgstr "Ar tikrai norite ištrinti kursą visam laikui?"
+
+#: .\courses\templates\courses\course_confirm_delete.html:8
+#: .\problems\templates\problems\batch_delete_tests.html:12
+#: .\problems\templates\problems\delete.html:17
+msgid "This action cannot be undone."
+msgstr "Šis veiksmas negali būti panaikintas."
+
+#: .\courses\templates\courses\course_form.html:7
+#: .\courses\templates\courses\course_list.html:9
+msgid "New course"
+msgstr "Naujas kursas"
+
+#: .\courses\templates\courses\course_list.html:13 .\templates\navbar.html:21
+msgid "Courses"
+msgstr "Kursai"
+
+#: .\courses\templates\courses\course_list.html:27 .\problems\tabs.py:32
+#: .\problems\templates\problems\challenges.html:22
+#: .\problems\templates\problems\irunner_problems_list_tag.html:22
+#: .\problems\templates\problems\rejudges.html:15
+#: .\solutions\templates\solutions\solution_list.html:13
+#: .\templates\navbar.html:24 .\users\templates\users\profile_show.html:82
+msgid "Solutions"
+msgstr "Sprendimai"
+
+#: .\courses\templates\courses\course_list.html:48
+msgid "There are no courses available."
+msgstr "Kursų nėra."
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:8
+msgid "Delete criterion"
+msgstr "Ištrinti kriterijų"
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:10
+msgid ""
+"Criterion is currently used in the following courses and cannot be deleted."
+msgstr "Kriterijus šiuo metu naudojamas šiuose kursuose ir negali būti ištrintas."
+
+#: .\courses\templates\courses\criterion_confirm_delete.html:20
+msgid "Criterion is not used in courses."
+msgstr "Kriterijus kursuose nenaudojamas."
+
+#: .\courses\templates\courses\criterion_list.html:8
+#: .\courses\templates\courses\settings_problems.html:28
+#: .\templates\navbar.html:34
+msgid "Criteria"
+msgstr "Kriterijai"
+
+#: .\courses\templates\courses\criterion_list.html:16
+msgid "edit"
+msgstr "redaguoti"
+
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:313
+msgid "delete"
+msgstr "ištrinti"
+
+#: .\courses\templates\courses\criterion_list.html:22
+msgid "There are no criteria defined"
+msgstr "Nėra nustatytų kriterijų"
+
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:488
+msgid "New criterion"
+msgstr "Naujas kriterijus"
+
+#: .\courses\templates\courses\info.html:24
+msgid "Number of submitted solutions"
+msgstr "Pateiktų sprendimų skaičius"
+
+#: .\courses\templates\courses\info.html:33
+msgid "Programming language popularity"
+msgstr "Programavimo kalbos populiarumas"
+
+#: .\courses\templates\courses\info.html:42
+msgid "Latest accepted solutions"
+msgstr "Naujausi priimami sprendimai"
+
+#: .\courses\templates\courses\info.html:47
+msgid "ago"
+msgstr "priešf"
+
+#: .\courses\templates\courses\info.html:68
+msgid "all"
+msgstr "visos"
+
+#: .\courses\templates\courses\info.html:73
+msgid "accepted"
+msgstr "priimtas"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:25
+msgid "No problem is assigned"
+msgstr "Problema nėra priskirta"
+
+#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:57
+#: .\problems\templates\problems\overview.html:112
+#: .\users\templates\users\profile_show.html:84
+msgid "solution"
+msgid_plural "solutions"
+msgstr[0] "sprendimas"
+msgstr[1] "sprendimai"
+
+#: .\courses\templates\courses\messages.html:15
+#: .\courses\templates\courses\messages_new.html:13
+msgid "Compose"
+msgstr "Rašyti"
+
+#: .\courses\templates\courses\messages.html:24
+msgid "No subject"
+msgstr "Nėra temos"
+
+#: .\courses\templates\courses\messages.html:34
+#: .\courses\templates\courses\messages.html:61
+msgid "Public conversation"
+msgstr "Viešas pokalbis"
+
+#: .\courses\templates\courses\messages.html:75
+msgid "Consider the issue resolved"
+msgstr "Apsvarstykite, ar problema išspręsta"
+
+#: .\courses\templates\courses\messages.html:104
+msgid "Reply to thread"
+msgstr "Atsakyti į temą"
+
+#: .\courses\templates\courses\messages.html:115
+msgid "Reply"
+msgstr "Atsakyti"
+
+#: .\courses\templates\courses\messages.html:119
+#: .\courses\templates\courses\messages.html:139
+msgid "Delete thread"
+msgstr "Ištrinti giją"
+
+#: .\courses\templates\courses\messages.html:142
+msgid "Conversation will be deleted"
+msgstr "Pokalbis bus ištrintas"
+
+#: .\courses\templates\courses\messages.html:142
+#, python-format
+msgid "%(counter)s message"
+msgid_plural "%(counter)s messages"
+msgstr[0] "%(counter)s pranešimas"
+msgstr[1] "%(counter)s pranešimi"
+
+#: .\courses\templates\courses\my_problems.html:9
+#: .\courses\templates\courses\sidebar.html:22
+msgid "My problems"
+msgstr "Mano problemos"
+
+#: .\courses\templates\courses\problems_base.html:5
+#: .\courses\templates\courses\sidebar.html:15
+msgid "Course problems"
+msgstr "Kursų problemos"
+
+#: .\courses\templates\courses\problems_base.html:43
+msgid "Select a topic to view problems."
+msgstr "Pasirinkite temą, kad galėtumėte peržiūrėti problemas."
+
+#: .\courses\templates\courses\problems_statement.html:18
+msgid "Problem is assigned"
+msgstr "Problema priskiriama"
+
+#: .\courses\templates\courses\problems_statement.html:25
+msgid "Problem is not assigned"
+msgstr "Problema nėra priskirta"
+
+#: .\courses\templates\courses\problems_statement.html:31
+#: .\problems\models.py:122
+msgid "Solution description"
+msgstr "Sprendimo aprašymas"
+
+#: .\courses\templates\courses\quiz.html:6
+msgid "Quiz"
+msgstr "Viktorina"
+
+#: .\courses\templates\courses\quiz.html:28
+#: .\courses\templates\courses\quizzes.html:92
+msgid "Attention"
+msgstr "Dėmesio"
+
+#: .\courses\templates\courses\quiz.html:31
+msgid "Are you sure you want to finish this quiz?"
+msgstr "Ar tikrai norite baigti šią viktoriną?"
+
+#: .\courses\templates\courses\quiz.html:32
+msgid "Some questions left unanswered."
+msgstr "Kai kurie klausimai liko neatsakomi."
+
+#: .\courses\templates\courses\quiz.html:38 .\quizzes\utils.py:92
+msgid "OK"
+msgstr "OK"
+
+#: .\courses\templates\courses\quizzes.html:8
+#: .\courses\templates\courses\settings_base.html:33
+#: .\courses\templates\courses\sidebar.html:86
+#: .\quizzes\templates\quizzes\base.html:5
+#: .\quizzes\templates\quizzes\sidebar.html:6 .\templates\navbar.html:42
+msgid "Quizzes"
+msgstr "Viktorinos"
+
+#: .\courses\templates\courses\quizzes.html:16
+msgid "Your browser is out-of-date."
+msgstr "Jūsų naršyklė yra pasenusi."
+
+#: .\courses\templates\courses\quizzes.html:17
+msgid "You will not be able to pass a quiz using this browser."
+msgstr "Jūs negalėsite perduoti viktorinos naudodami šią naršyklę."
+
+#: .\courses\templates\courses\quizzes.html:31
+#, python-format
+msgid "%(counter)s question"
+msgid_plural "%(counter)s questions"
+msgstr[0] "%(counter)s klausimas"
+msgstr[1] "%(counter)s klausimai"
+
+#: .\courses\templates\courses\quizzes.html:40
+msgid "unlimited number of attempts"
+msgstr "neribotas bandymų skaičius"
+
+#: .\courses\templates\courses\quizzes.html:42
+#, python-format
+msgid "%(counter)s attempt left"
+msgid_plural "%(counter)s attempts left"
+msgstr[0] "%(counter)s bandymas paliko"
+msgstr[1] "%(counter)s bandymas paliko"
+
+#: .\courses\templates\courses\quizzes.html:58
+#: .\courses\templates\courses\quizzes_answers.html:41
+#: .\courses\templates\courses\quizzes_rating.html:31
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:19
+msgid "Start time"
+msgstr "Pradžios laikas"
+
+#: .\courses\templates\courses\quizzes.html:59
+#: .\courses\templates\courses\quizzes_answers.html:46
+#: .\courses\templates\courses\quizzes_rating.html:32
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
+msgid "Duration"
+msgstr "Trukmė"
+
+#: .\courses\templates\courses\quizzes.html:60
+#: .\courses\templates\courses\quizzes_answers.html:33
+#: .\courses\templates\courses\quizzes_rating.html:33
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:21
+msgid "Mark"
+msgstr "Pažymėti"
+
+#: .\courses\templates\courses\quizzes.html:73
+#: .\courses\templates\courses\quizzes_rating.html:47
+msgid "Answers"
+msgstr "Atsakymai"
+
+#: .\courses\templates\courses\quizzes.html:75
+msgid "Not permitted to view answers"
+msgstr "Negalima peržiūrėti atsakymų"
+
+#: .\courses\templates\courses\quizzes.html:81
+msgid "Continue"
+msgstr "Tęsti"
+
+#: .\courses\templates\courses\quizzes.html:93
+msgid "You can pass this quiz only once."
+msgstr "Šią viktimą galite perduoti tik vieną kartą."
+
+#: .\courses\templates\courses\quizzes.html:103
+msgid "Turn off"
+msgstr "Išjunk"
+
+#: .\courses\templates\courses\quizzes.html:111
+msgid "Turn on"
+msgstr "Įjungti"
+
+#: .\courses\templates\courses\quizzes.html:118
+#: .\courses\templates\courses\quizzes_sheet.html:9
+#: .\courses\templates\courses\settings_base.html:30
+#: .\courses\templates\courses\sheet.html:15
+#: .\courses\templates\courses\sidebar.html:51
+msgid "Sheet"
+msgstr "Lakštas"
+
+#: .\courses\templates\courses\quizzes.html:124
+#: .\courses\templates\courses\quizzes_rating.html:11
+msgid "Rating"
+msgstr "Reitingas"
+
+#: .\courses\templates\courses\quizzes.html:132
+msgid "Start quiz"
+msgstr "Pradėti viktoriną"
+
+#: .\courses\templates\courses\quizzes.html:142
+#: .\courses\templates\courses\settings_quizzes.html:49
+msgid "No quizzes"
+msgstr "Ne viktorinos"
+
+#: .\courses\templates\courses\quizzes_answers.html:10
+msgid "Quiz answers"
+msgstr "Viktorina atsakymai"
+
+#: .\courses\templates\courses\quizzes_answers.html:37 .\problems\forms.py:130
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
+#: .\problems\templates\problems\show_test.html:48
+#: .\problems\templates\problems\tests.html:79
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:26
+msgid "Points"
+msgstr "Taškai"
+
+#: .\courses\templates\courses\quizzes_answers.html:54
+msgid "Correct"
+msgstr "Teisingas"
+
+#: .\courses\templates\courses\quizzes_answers.html:55
+msgid "Incorrect but chosen"
+msgstr "Neteisingas, bet pasirinktas"
+
+#: .\courses\templates\courses\quizzes_answers.html:56
+msgid "Correct but not chosen"
+msgstr "Teisingas, bet nepasirinktas"
+
+#: .\courses\templates\courses\quizzes_answers.html:72
+msgid "Delete session"
+msgstr "Ištrinti sesiją"
+
+#: .\courses\templates\courses\quizzes_answers.html:75
+msgid "Quiz session will be deleted"
+msgstr "Viktorina sesija bus ištrinta"
+
+#: .\courses\templates\courses\quizzes_rating.html:55
+msgid "No finished sessions"
+msgstr "Nėra baigtų seansų"
+
+#: .\courses\templates\courses\quizzes_sheet.html:16
+msgid "Average mark"
+msgstr "Vidutinis ženklas"
+
+#: .\courses\templates\courses\quizzes_sheet.html:19
+#: .\courses\templates\courses\standings.html:35
+#: .\courses\templates\courses\standings_wide.html:30
+#: .\problems\templates\problems\challenge.html:21
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:9
+#: .\solutions\templates\solutions\rejudge.html:29
+#: .\solutions\templates\solutions\solution.html:11
+#: .\solutions\templates\solutions\solution.html:23
+msgid "Result"
+msgstr "Rezultatas"
+
+#: .\courses\templates\courses\quizzes_sheet.html:28
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:13
+#: .\solutions\templates\solutions\solution.html:102
+#: .\solutions\templates\solutions\solution_attempts.html:9
+msgid "Attempts"
+msgstr "Mėginimai"
+
+#: .\courses\templates\courses\settings_base.html:24
+msgid "Subgroups"
+msgstr "Pogrupiai"
+
+#: .\courses\templates\courses\settings_common_problems_edit.html:7
+msgid "Edit common problems list"
+msgstr "Redaguokite bendrų problemų sąrašą"
+
+#: .\courses\templates\courses\settings_problems.html:8
+msgid "Topics"
+msgstr "Temos"
+
+#: .\courses\templates\courses\settings_problems.html:15
+#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:236
+#: .\users\templates\users\folder.html:22
+#: .\users\templates\users\irunner_users_list_tag.html:20
+msgid "Folder"
+msgstr "Aplankas"
+
+#: .\courses\templates\courses\settings_problems.html:19
+#: .\courses\templates\courses\settings_problems.html:26
+#, python-format
+msgid "%(counter)s problem"
+msgid_plural "%(counter)s problems"
+msgstr[0] "%(counter)s problema"
+msgstr[1] "%(counter)s problemos"
+
+#: .\courses\templates\courses\settings_problems.html:25
+msgid "To assign"
+msgstr "Paskirti"
+
+#: .\courses\templates\courses\settings_problems.html:39
+msgid "No topics"
+msgstr "Nėra temų"
+
+#: .\courses\templates\courses\settings_problems.html:42
+msgid "New topic"
+msgstr "Nauja tema"
+
+#: .\courses\templates\courses\settings_problems.html:47
+msgid ""
+"These problems are not assigned individually. Every student can solve them."
+msgstr "Šios problemos nėra skiriamos atskirai. Kiekvienas studentas gali juos išspręsti."
+
+#: .\courses\templates\courses\settings_properties.html:17
+msgid "Delete the course"
+msgstr "Ištrinti kursą"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:12
+#: .\courses\templates\courses\settings_quizzes.html:22
+msgid "Quiz template"
+msgstr "Viktorina šabloną"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:21
+msgctxt "quiz"
+msgid "Passed"
+msgstr "Išlaikė"
+
+#: .\courses\templates\courses\settings_quiz_edit.html:24
+#, python-format
+msgid "%(counter)s time"
+msgid_plural "%(counter)s times"
+msgstr[0] "%(counter)s kartą"
+msgstr[1] "%(counter)s kartus"
+
+#: .\courses\templates\courses\settings_quizzes.html:10
+msgid "New quiz"
+msgstr "Nauja viktorina"
+
+#: .\courses\templates\courses\settings_quizzes.html:23
+msgid "Tag"
+msgstr "Žyma"
+
+#: .\courses\templates\courses\settings_quizzes.html:24
+msgctxt "quiz"
+msgid "Available"
+msgstr "Galima"
+
+#: .\courses\templates\courses\settings_sheet.html:9
+#, python-format
+msgid ""
+"<strong>Warning!</strong> Sum of weights is %(sum_actual)s, but "
+"%(sum_expected)s is required."
+msgstr "<strong>Įspėjimas!</strong> Svorių suma yra %(sum_actual)s, bet %(sum_expected)s yra privalomi."
+
+#: .\courses\templates\courses\settings_sheet.html:14
+msgid "Main kinds of activity"
+msgstr "Pagrindinės veiklos rūšys"
+
+#: .\courses\templates\courses\settings_sheet.html:25
+msgid "Extra kinds of activity"
+msgstr "Papildomos veiklos rūšys"
+
+#: .\courses\templates\courses\settings_sheet.html:36
+msgid "New kind of activity"
+msgstr "Naujos rūšies veikla"
+
+#: .\courses\templates\courses\settings_subgroups.html:15
+msgid "No subgroups"
+msgstr "Nėra pogrupių"
+
+#: .\courses\templates\courses\settings_subgroups.html:18
+msgid "New subgroup"
+msgstr "Naujas pogrupis"
+
+#: .\courses\templates\courses\settings_users.html:29
+msgid "Subgroup"
+msgstr "Pogrupis"
+
+#: .\courses\templates\courses\settings_users.html:43
+msgid "No users are set."
+msgstr "Nė vienas vartotojas nenustatytas."
+
+#: .\courses\templates\courses\settings_users_edit.html:8
+msgid "Edit students list"
+msgstr "Redaguoti studentų sąrašą"
+
+#: .\courses\templates\courses\settings_users_edit.html:10
+msgid "Edit teachers list"
+msgstr "Redaguoti mokytojų sąrašą"
+
+#: .\courses\templates\courses\sheet.html:21
+msgid "Edit mode is on."
+msgstr "Redagavimo režimas įjungtas."
+
+#: .\courses\templates\courses\sheet.html:21
+msgid "All changes are saved automatically."
+msgstr "Visi pakeitimai išsaugomi automatiškai."
+
+#: .\courses\templates\courses\sheet.html:22
+msgid "Return to view mode (read-only)."
+msgstr "Grįžti į peržiūros režimą (tik skaitymui)."
+
+#: .\courses\templates\courses\sidebar.html:44
+#: .\courses\templates\courses\standings.html:9
+#: .\courses\templates\courses\standings_wide.html:9
+#: .\courses\templates\courses\standings_wide.html:13
+msgctxt "course"
+msgid "Standings"
+msgstr "Lentelės"
+
+#: .\courses\templates\courses\solutions.html:46
+#: .\solutions\templates\solutions\solution.html:132
+#: .\solutions\templates\solutions\solution_list.html:40
+#: .\solutions\templates\solutions\solution_plagiarism.html:10
+msgid "Plagiarism"
+msgstr "Plagiatas"
+
+#: .\courses\templates\courses\standings.html:21
+#: .\courses\templates\courses\standings_wide.html:16
+msgid "Individual problems"
+msgstr "Individualios problemos"
+
+#: .\courses\templates\courses\submit.html:43
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:83
+#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:46
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:117
+msgid "Error while getting data from server."
+msgstr "Klaida gaunant duomenis iš serverio."
+
+#: .\courses\templates\courses\submit.html:46
+msgid "Please select a problem."
+msgstr "Pasirinkite problemą."
+
+#: .\courses\utils.py:7
+#, python-format
+msgid "%(year)d year"
+msgstr "%(year)d metai"
+
+#: .\courses\views.py:501
+msgid "Edit criterion"
+msgstr "Redaguoti kriterijų"
+
+#: .\courses\views.py:685
+#, python-format
+msgid "You have %(count)d attempt remaining for the problem during the day."
+msgid_plural ""
+"You have %(count)d attempts remaining for the problem during the day."
+msgstr[0] "Jūs turite %(count)d bandymo likti problemai per dieną."
+msgstr[1] "Jūs turite %(count)d bandymo likti problemai per dieną."
+
+#: .\courses\views.py:689
+msgid "You have no attempts remaining for the problem."
+msgstr "Jūs neturite bandymų likti problemos."
+
+#: .\courses\views.py:695
+#, python-format
+msgid "Please try again after %(ts)s."
+msgstr "Pabandykite dar kartą po %(ts) s."
+
+#: .\courses\views.py:697
+msgid "The number of attempts is not limited."
+msgstr "Bandymų skaičius neribojamas."
+
+#: .\feedback\models.py:13 .\news\models.py:10
+msgid "message body"
+msgstr "laiško kūnas"
+
+#: .\feedback\templates\feedback\confirm.html:6
+#: .\solutions\templates\solutions\confirm_multiple.html:8
+#: .\solutions\templates\solutions\confirm_multiple.html:12
+msgid "Confirmation required"
+msgstr "Patvirtinimas reikalingas"
+
+#: .\feedback\templates\feedback\confirm.html:10
+msgid "Are you sure you want to delete the feedback message?"
+msgstr "Ar tikrai norite ištrinti atsiliepimo pranešimą?"
+
+#: .\feedback\templates\feedback\list.html:8
+msgid "Feedback Messages"
+msgstr "Atsiliepimų žinutės"
+
+#: .\feedback\templates\feedback\list.html:17
+msgid "Anonymous user"
+msgstr "Anonimas vartotojas"
+
+#: .\feedback\templates\feedback\new.html:7
+msgid "Feedback Form"
+msgstr "Atsiliepimo forma"
+
+#: .\feedback\templates\feedback\thanks.html:7
+msgid "Thanks!"
+msgstr "Dėkojame!"
+
+#: .\feedback\templates\feedback\thanks.html:9
+msgid "Your message has been saved."
+msgstr "Jūsų žinutė išsaugota."
+
+#: .\irunner2\settings_prod.py:43
+msgid "Wiki"
+msgstr "Wiki"
+
+#: .\news\models.py:11
+msgid "show on the main page"
+msgstr "rodyti pagrindiniame puslapyje"
+
+#: .\news\templates\news\index.html:12 .\news\templates\news\new.html:7
+msgid "Add news"
+msgstr "Pridėti naujienų"
+
+#: .\news\templates\news\index.html:18
+msgid "Date"
+msgstr "Data"
+
+#: .\news\templates\news\index.html:20
+msgid "Subject"
+msgstr "Temag"
+
+#: .\news\templates\news\index.html:21
+msgid "Visibility"
+msgstr "Matomumas"
+
+#: .\news\templates\news\update.html:7
+msgid "Update news"
+msgstr "Atnaujinti naujienas"
+
+#: .\problems\fields.py:54
+msgid "Time limit cannot be negative."
+msgstr "Terminas negali būti neigiamas."
+
+#: .\problems\fields.py:55
+#, python-format
+msgid "Time limit is too big (exceeds %(limit)s s)."
+msgstr "Laikas per didelis (viršija %(limit)s s)."
+
+#: .\problems\fields.py:56
+msgid "Time limit is too small."
+msgstr "Laikas per mažas."
+
+#: .\problems\fields.py:58
+msgid "Time limit per test measured in seconds (i.e. 0.5 or 2)."
+msgstr "Bandymo trukmė, išmatuojama sekundėmis (ty 0,5 arba 2)."
+
+#: .\problems\fields.py:65
+msgid "Memory limit cannot be negative."
+msgstr "Atminties riba negali būti neigiama."
+
+#: .\problems\fields.py:66
+#, python-format
+msgid "Memory limit is too big (exceeds %(limit)s MB)."
+msgstr "Atminties riba yra per didelė (viršija %(limit)s MB)."
+
+#: .\problems\fields.py:67
+msgid "Memory limit is too small."
+msgstr "Atminties riba per maža."
+
+#: .\problems\fields.py:69
+msgid "Memory limit per test measured in mebibytes (i.e. 64 or 256)."
+msgstr "Mėginio atminties riba, išmatuojama mebibituose (ty 64 arba 256)."
+
+#: .\problems\forms.py:31
+msgid "Difficulty level on the ten-point scale (for courses)."
+msgstr "Sunkumo lygis dešimties balų skalėje (kursams)."
+
+#: .\problems\forms.py:32
+msgid "Leave empty to use standard input."
+msgstr "Palikite tuščią naudoti standartinį įvestį."
+
+#: .\problems\forms.py:33
+msgid "Leave empty to use standard output."
+msgstr "Palikite tuščią naudoti standartinę išvestį."
+
+#: .\problems\forms.py:45
+msgid "Problem folders"
+msgstr "Problemų aplankai"
+
+#: .\problems\forms.py:59 .\problems\forms.py:74 .\problems\forms.py:122
+#: .\problems\forms.py:279
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:10
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
+#: .\problems\templates\problems\show_test.html:52
+#: .\problems\templates\problems\tests.html:80
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:16
+#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
+msgid "Time limit"
+msgstr "Terminas"
+
+#: .\problems\forms.py:60 .\problems\forms.py:75 .\problems\forms.py:126
+#: .\problems\forms.py:280
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:13
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
+#: .\problems\templates\problems\show_test.html:56
+#: .\problems\templates\problems\tests.html:81
+#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
+msgid "Memory limit"
+msgstr "Atminties riba"
+
+#: .\problems\forms.py:69
+msgid "Full feedback will be available for the first <i>N</i> test cases."
+msgstr "Visiems atsiliepimams bus pateikti pirmieji <i>N</i> testavimo atvejai."
+
+#: .\problems\forms.py:147
+msgid "A file with this name already exists."
+msgstr "Failas su šiuo pavadinimu jau egzistuoja."
+
+#: .\problems\forms.py:203 .\users\forms.py:164
+msgid "ZIP-archive"
+msgstr "ZIP-archyvas"
+
+#: .\problems\forms.py:204
+msgid ""
+"The archive should not contain any other files except test inputs and "
+"outputs."
+msgstr "Archyve neturėtų būti jokių kitų failų, išskyrus bandymo įėjimus ir išvestį."
+
+#: .\problems\forms.py:205
+msgid "File naming scheme"
+msgstr "Failų pavadinimų schema"
+
+#: .\problems\forms.py:219 .\users\forms.py:202
+msgid "Archive format is not supported."
+msgstr "Archyvo formatas nepalaikomas."
+
+#: .\problems\forms.py:230
+msgid "No test files found in the archive."
+msgstr "Archyvuose nerasta bandomųjų failų."
+
+#: .\problems\forms.py:265 .\problems\models.py:160 .\problems\tabs.py:31
+msgid "Validator"
+msgstr "Validator"
+
+#: .\problems\forms.py:301
+msgid "Russian"
+msgstr "Rusų kalba"
+
+#: .\problems\forms.py:302
+msgid "English"
+msgstr "Anglų kalba"
+
+#: .\problems\forms.py:305
+msgid "Full package (Windows) as a ZIP-archive"
+msgstr "Visas paketas (Windows) kaip ZIP-archyvas"
+
+#: .\problems\forms.py:306
+msgid "Problem statement language"
+msgstr "Problematikos kalba"
+
+#: .\problems\forms.py:307
+msgid "Compiler for checker and validator"
+msgstr "Kompiliatorius tikrintojui ir validatoriui"
+
+#: .\problems\importing.py:64
+#, python-format
+msgid "Unknown file found in the archive: %(name)s"
+msgstr "Nežinomas archyvo failas: %(name)s"
+
+#: .\problems\importing.py:76
+#, python-format
+msgid "File not found in the archive: %(name)s"
+msgstr "Failas nerastas archyve: %(name)s"
+
+#: .\problems\models.py:27 .\problems\models.py:175
+msgid "number"
+msgstr "numeris"
+
+#: .\problems\models.py:28
+msgid "subnumber"
+msgstr "ponumeris"
+
+#: .\problems\models.py:29
+msgid "full name"
+msgstr "pilnas vardas"
+
+#: .\problems\models.py:30
+msgid "short name"
+msgstr "trumpas vardas"
+
+#: .\problems\models.py:31
+msgid "difficulty"
+msgstr "sunku"
+
+#: .\problems\models.py:33
+msgid "input file name"
+msgstr "įvesties failo vardas"
+
+#: .\problems\models.py:34
+msgid "output file name"
+msgstr "išvesties failo vardas"
+
+#: .\problems\models.py:36
+msgid "folders"
+msgstr "aplankai"
+
+#: .\problems\models.py:97
+msgid "A problem must have a number or a non-empty name."
+msgstr "Problema turi turėti numerį arba ne tuščią pavadinimą."
+
+#: .\problems\models.py:103
+msgid "hint"
+msgstr "užuomina"
+
+#: .\problems\models.py:106
+msgid "number of sample tests"
+msgstr "pavyzdžių bandymų skaičius"
+
+#: .\problems\models.py:119
+msgid "TeX statement"
+msgstr "TeX pareiškimas"
+
+#: .\problems\models.py:120
+msgid "HTML statement"
+msgstr "HTML teiginys"
+
+#: .\problems\models.py:121
+msgid "Additional statement file"
+msgstr "Papildomos ataskaitos failas"
+
+#: .\problems\models.py:123
+msgid "Sample input file"
+msgstr "Pavyzdinis įvesties failas"
+
+#: .\problems\models.py:124
+msgid "Sample output file"
+msgstr "Pavyzdžio išvesties failas"
+
+#: .\problems\models.py:125
+msgid "User file"
+msgstr "Vartotojo failas"
+
+#: .\problems\models.py:139 .\problems\models.py:165
+msgid "file type"
+msgstr "failo tipas"
+
+#: .\problems\models.py:155
+msgid "Author's solution"
+msgstr "Autoriaus sprendimas"
+
+#: .\problems\models.py:156
+msgid "Checker"
+msgstr "Tikrintojas"
+
+#: .\problems\models.py:157
+msgid "Contestant solution"
+msgstr "Dalyvio sprendimas"
+
+#: .\problems\models.py:158
+msgid "Generator"
+msgstr "Generatorius"
+
+#: .\problems\models.py:159
+msgid "Library"
+msgstr "Biblioteka"
+
+#: .\problems\models.py:167 .\solutions\forms.py:128
+msgid "compiler"
+msgstr "Kompiliatorius"
+
+#: .\problems\tabs.py:26
+#: .\problems\templates\problems\irunner_problems_list_tag.html:19
+#: .\problems\templates\problems\overview.html:27
+#: .\quizzes\templates\quizzes\question_group_list.html:11
+#: .\quizzes\templates\quizzes\quiz_template_list.html:16
+#: .\users\templates\users\profile_show.html:31
+msgid "Name"
+msgstr "Vardas"
+
+#: .\problems\tabs.py:28 .\problems\templates\problems\list_base.html:14
+#: .\problems\templates\problems\overview.html:38
+#: .\users\templates\users\base.html:13
+msgid "Folders"
+msgstr "Aplankai"
+
+#: .\problems\tabs.py:30
+#: .\problems\templates\problems\irunner_problems_list_tag.html:21
+msgid "Tests"
+msgstr "Testai"
+
+#: .\problems\tabs.py:33
+#: .\solutions\templates\solutions\challenge_list.html:10
+#: .\templates\navbar.html:28
+msgid "Challenges"
+msgstr "Iššūkiai"
+
+#: .\problems\tabs.py:34 .\solutions\templates\solutions\rejudge_list.html:10
+#: .\templates\navbar.html:29
+msgid "Rejudges"
+msgstr "Perduoda"
+
+#: .\problems\tabs.py:35
+msgid "Files"
+msgstr "Failai"
+
+#: .\problems\tabs.py:36 .\problems\templates\problems\tex_playground.html:7
+#: .\templates\navbar.html:36
+msgid "TeX editor"
+msgstr "TeX redaktorius"
+
+#: .\problems\tabs.py:37
+msgid "Pictures"
+msgstr "Nuotraukos"
+
+#: .\problems\templates\problems\batch_delete_tests.html:8
+msgid "Batch deteting"
+msgstr "Baterijos nustatymas"
+
+#: .\problems\templates\problems\batch_delete_tests.html:8
+#: .\problems\templates\problems\batch_edit_tests.html:8
+#: .\problems\templates\problems\overview.html:95
+msgid "test"
+msgid_plural "tests"
+msgstr[0] "testas"
+msgstr[1] "testai"
+
+#: .\problems\templates\problems\batch_delete_tests.html:12
+msgid "The tests are going to be deleted."
+msgstr "Bandymai bus ištrinti."
+
+#: .\problems\templates\problems\batch_edit_tests.html:8
+msgid "Batch editing"
+msgstr "Serijinis redagavimas"
+
+#: .\problems\templates\problems\challenge.html:27
+#: .\problems\templates\problems\challenge.html:41
+#: .\problems\templates\problems\files.html:33
+#: .\problems\templates\problems\files.html:75
+#: .\problems\templates\problems\show_test.html:98
+#: .\problems\templates\problems\show_test.html:107
+#: .\problems\templates\problems\tests.html:96
+#: .\problems\templates\problems\tests.html:105
+#: .\solutions\templates\solutions\solution_source.html:20
+msgid "Open"
+msgstr "Atidaryta"
+
+#: .\problems\templates\problems\challenge.html:28
+#: .\problems\templates\problems\challenge.html:42
+#: .\problems\templates\problems\files.html:34
+#: .\problems\templates\problems\files.html:76
+#: .\problems\templates\problems\show_test.html:99
+#: .\problems\templates\problems\show_test.html:108
+#: .\problems\templates\problems\tests.html:97
+#: .\problems\templates\problems\tests.html:106
+#: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
+#: .\solutions\templates\solutions\solution_source.html:23
+#: .\storage\templates\storage\show.html:14
+msgid "Download"
+msgstr "Parsisiųsti"
+
+#: .\problems\templates\problems\challenge.html:29
+#: .\problems\templates\problems\challenge_new.html:15
+#: .\problems\templates\problems\edit_test.html:27
+#: .\solutions\templates\solutions\testcaseresult.html:12
+msgid "Input file"
+msgstr "Įvesties failas"
+
+#: .\problems\templates\problems\challenge.html:43
+#: .\solutions\templates\solutions\testcaseresult.html:18
+msgid "Output file"
+msgstr "Išvesties failas"
+
+#: .\problems\templates\problems\challenge.html:46
+msgid "No result got"
+msgstr "Rezultatas nebuvo"
+
+#: .\problems\templates\problems\challenge.html:65
+msgid "Add to test cases"
+msgstr "Įtraukti į testavimo atvejus"
+
+#: .\problems\templates\problems\challenge_new.html:11
+#: .\problems\templates\problems\challenges.html:12
+msgid "New challenge"
+msgstr "Naujas iššūkis"
+
+#: .\problems\templates\problems\challenge_new.html:26
+msgid "Start"
+msgstr "Pradėti"
+
+#: .\problems\templates\problems\challenges.html:20
+#: .\solutions\templates\solutions\challenge_list.html:19
+msgctxt "challenge"
+msgid "Created"
+msgstr "Sukūrta"
+
+#: .\problems\templates\problems\challenges.html:36
+msgid "No challenges"
+msgstr "Jokių iššūkių"
+
+#: .\problems\templates\problems\delete.html:10
+msgid "Unable to delete the problem because it is currently in use."
+msgstr "Nepavyko ištrinti problemos, nes ji šiuo metu naudojama."
+
+#: .\problems\templates\problems\delete.html:13
+#: .\problems\templates\problems\name.html:18
+msgid "Delete the problem"
+msgstr "Ištrinkite problemą"
+
+#: .\problems\templates\problems\delete.html:16
+msgid ""
+"You should probably do not do this. Consider moving the problem to a special "
+"folder instead of permanently deleting it."
+msgstr "Tikriausiai neturėtumėte tai daryti. Apsvarstykite galimybę perkelti problemą į specialų aplanką, o ne visam laikui ją ištrinti."
+
+#: .\problems\templates\problems\delete_file.html:8
+msgid "Are you sure you want to delete the file"
+msgstr "Ar tikrai norite ištrinti failą"
+
+#: .\problems\templates\problems\edit_test.html:16
+msgid "Edit the test case"
+msgstr "Redaguokite testo pavyzdį"
+
+#: .\problems\templates\problems\edit_test.html:18
+#: .\problems\templates\problems\tests.html:40
+msgid "New test case"
+msgstr "Naujas testas"
+
+#: .\problems\templates\problems\edit_test.html:34
+#: .\solutions\templates\solutions\testcaseresult.html:24
+msgid "Answer file"
+msgstr "Atsakymo failas"
+
+#: .\problems\templates\problems\files.html:14
+msgid "Data files"
+msgstr "Duomenų failai"
+
+#: .\problems\templates\problems\files.html:14
+msgid "(statements, editorials, pictures)"
+msgstr "(pareiškimai, redakciniai straipsniai, nuotraukos)"
+
+#: .\problems\templates\problems\files.html:20
+#: .\problems\templates\problems\files.html:58
+#: .\problems\templates\problems\texs.html:12
+msgid "Type"
+msgstr "Tipas"
+
+#: .\problems\templates\problems\files.html:46
+#: .\problems\templates\problems\files.html:88
+msgid "New file"
+msgstr "Naujas failas"
+
+#: .\problems\templates\problems\files.html:52
+msgid "Source files"
+msgstr "Šaltinio failai"
+
+#: .\problems\templates\problems\files.html:52
+msgid "(checkers, validators)"
+msgstr "(tikrintuvai, validatoriai)"
+
+#: .\problems\templates\problems\files.html:60 .\proglangs\views.py:42
+#: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:92
+msgid "Compiler"
+msgstr "Kompiliatorius"
+
+#: .\problems\templates\problems\folders.html:11
+msgid ""
+"A problem may be put into several folders. Use <kbd>Ctrl</kbd> key to select "
+"multiple options."
+msgstr "Problema gali būti pateikta keliuose aplankuose. Naudokite klavišą <kbd>Ctrl</kbd>, norėdami pasirinkti keletą parinkčių."
+
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:7
+msgid "Input file name"
+msgstr "Įvesties failo vardas"
+
+#: .\problems\templates\problems\irunner_problems_heading_tag.html:8
+msgid "Output file name"
+msgstr "Išvesties failo pavadinimas"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:18
+msgid "Level"
+msgstr "Lygis"
+
+#: .\problems\templates\problems\irunner_problems_list_tag.html:20
+#: .\problems\templates\problems\overview.html:24
+msgid "Short name"
+msgstr "Trumpas vardas"
+
+#: .\problems\templates\problems\irunner_problems_statement_tag.html:23
+msgid "There is no statement for this problem"
+msgstr "Nėra šios problemos teiginio"
+
+#: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
+msgid "MB"
+msgstr "MB"
+
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:7
+msgid "Use F2 key to switch view"
+msgstr "Norėdami perjungti rodinį, naudokite F2 klavišą"
+
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:22
+msgid "one example"
+msgstr "vienas pavyzdys"
+
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:23
+msgid "two examples"
+msgstr "du pavyzdžiai"
+
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:24
+msgid "three examples"
+msgstr "trys pavyzdžiai"
+
+#: .\problems\templates\problems\irunner_problems_tex_tag.html:69
+#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:112
+msgid "Loading..."
+msgstr "Kraunasi..."
+
+#: .\problems\templates\problems\list_base.html:17
+#: .\users\templates\users\base.html:16
+msgid "Search"
+msgstr "Leškoti"
+
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1141
+msgid "New problem"
+msgstr "Nauja problema"
+
+#: .\problems\templates\problems\list_folder.html:54
+msgid "Import from Polygon"
+msgstr "Importuoti iš Polygon"
+
+#: .\problems\templates\problems\list_folder_confirm_delete.html:16
+#: .\users\templates\users\folder_confirm_delete.html:16
+msgid "Delete folder"
+msgstr "Ištrinti aplanką"
+
+#: .\problems\templates\problems\list_folder_confirm_delete.html:19
+msgid ""
+"The folder or its subfolders are currently used in the following courses and "
+"cannot be deleted."
+msgstr "Aplankas ar jo poaplankiai šiuo metu naudojami šiuose kursuose ir jų negalima ištrinti."
+
+#: .\problems\templates\problems\list_folder_confirm_delete.html:28
+msgid ""
+"The folder is going to be deleted together with its subfolders. The problems "
+"they contain will not be deleted."
+msgstr "Šis aplankas bus ištrintas kartu su jo poaplankiais. Jų problemos nebus ištrintos."
+
+#: .\problems\templates\problems\list_folder_form.html:22
+#: .\users\templates\users\create_form.html:21
+#, python-format
+msgid "inside ‘%(nn)s’"
+msgstr "viduje „%(nn)s“"
+
+#: .\problems\templates\problems\list_folder_form.html:24
+#: .\users\templates\users\create_form.html:23
+msgid "in the root folder"
+msgstr "Šakniniame aplanke"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:19
+msgid "Import error"
+msgstr "Importuoti klaidą"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:32
+msgid "Import a problem from Polygon"
+msgstr "Importuokite problemą iš Polygon"
+
+#: .\problems\templates\problems\list_import_from_polygon.html:37
+msgid "Import"
+msgstr "Importas"
+
+#: .\problems\templates\problems\list_search.html:10
+msgid "Problem search"
+msgstr "Problemų paieška"
+
+#: .\problems\templates\problems\list_search.html:16
+#: .\users\templates\users\index.html:16
+msgid "Search for..."
+msgstr "Leškoti..."
+
+#: .\problems\templates\problems\overview.html:11
+#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:386
+msgid "Main properties"
+msgstr "Pagrindinės savybės"
+
+#: .\problems\templates\problems\overview.html:16
+msgid "Number"
+msgstr "Skaičius"
+
+#: .\problems\templates\problems\overview.html:21
+msgid "Full name"
+msgstr "Pilnas vardas"
+
+#: .\problems\templates\problems\overview.html:32
+msgid "Difficulty level"
+msgstr "Sunkumo lygis"
+
+#: .\problems\templates\problems\overview.html:53
+#: .\problems\templates\problems\tests.html:77
+#: .\problems\templates\problems\tests_browse.html:15
+msgid "Input"
+msgstr "Sąnaudos"
+
+#: .\problems\templates\problems\overview.html:56
+#: .\problems\templates\problems\tests.html:78
+#: .\problems\templates\problems\tests_browse.html:16
+msgid "Output"
+msgstr "Išvestis"
+
+#: .\problems\templates\problems\overview.html:59
+msgid "Default time limit"
+msgstr "Numatytasis terminas"
+
+#: .\problems\templates\problems\overview.html:62
+msgid "Default memory limit"
+msgstr "Numatytoji atminties riba"
+
+#: .\problems\templates\problems\overview.html:74
+msgid "Hint"
+msgstr "Patarimas"
+
+#: .\problems\templates\problems\overview.html:129
+msgid "file"
+msgid_plural "files"
+msgstr[0] "failas"
+msgstr[1] "failai"
+
+#: .\problems\templates\problems\pictures.html:24
+msgid "No pictures"
+msgstr "Nėra nuotraukų"
+
+#: .\problems\templates\problems\pictures.html:33
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:80
+msgid "Image"
+msgstr "Vaizdas"
+
+#: .\problems\templates\problems\pictures.html:39
+msgid "Open in new tab"
+msgstr "Atidaryti naujame skirtuke"
+
+#: .\problems\templates\problems\rejudges.html:13
+#: .\solutions\templates\solutions\rejudge_list.html:19
+msgctxt "rejudge"
+msgid "Created"
+msgstr "Sukūrta"
+
+#: .\problems\templates\problems\rejudges.html:31
+msgid "No rejudges"
+msgstr "Nieko nėra teisėjų"
+
+#: .\problems\templates\problems\show_test.html:22
+#: .\problems\templates\problems\tests.html:91
+#: .\solutions\templates\solutions\testcaseresult.html:59
+#: .\storage\templates\storage\usage.html:29
+msgid "Test"
+msgstr "Testas"
+
+#: .\problems\templates\problems\show_test.html:67
+msgctxt "test"
+msgid "Created"
+msgstr "Sukūrta"
+
+#: .\problems\templates\problems\show_test.html:125
+msgid "Test case is going to be deleted."
+msgstr "Testavimo atvejis bus ištrintas."
+
+#: .\problems\templates\problems\solutions.html:17
+#: .\users\templates\users\folder.html:49
+msgid "Bulk operations"
+msgstr "Masinės operacijos"
+
+#: .\problems\templates\problems\solutions.html:42
+msgid "Rejudge all solutions"
+msgstr "Pataisykite visus sprendimus"
+
+#: .\problems\templates\problems\solutions.html:45
+msgid "Rejudge accepted solutions"
+msgstr "Pataisykite priimtus sprendimus"
+
+#: .\problems\templates\problems\solutions.html:57
+#: .\solutions\templates\solutions\compare.html:56
+#: .\solutions\templates\solutions\compare.html:81
+#: .\solutions\templates\solutions\rejudge.html:39
+msgid "Submission time"
+msgstr "Paraiškos pateikimo laikas"
+
+#: .\problems\templates\problems\solutions.html:80
+#: .\solutions\templates\solutions\solution_judgements.html:15
+#: .\solutions\templates\solutions\solution_list.html:74
+msgctxt "verb"
+msgid "Rejudge"
+msgstr "Pakartokite"
+
+#: .\problems\templates\problems\solutions.html:83
+msgid "Download archive"
+msgstr "Atsisiųsti archyvą"
+
+#: .\problems\templates\problems\solutions.html:85
+#: .\solutions\templates\solutions\solution_attempts.html:70
+msgid "Check two solutions to compare."
+msgstr "Patikrinkite du lyginamuosius sprendimus."
+
+#: .\problems\templates\problems\solutions.html:86
+#: .\solutions\templates\solutions\solution_attempts.html:71
+msgid "Compare solutions"
+msgstr "Palyginkite sprendimus"
+
+#: .\problems\templates\problems\statement.html:10
+msgid "Print version"
+msgstr "Spausdinti"
+
+#: .\problems\templates\problems\tests.html:15
+msgid "An error occurred while running validator"
+msgstr "Paleidus validatorį įvyko klaida"
+
+#: .\problems\templates\problems\tests.html:20
+msgid "All test input files have passed the validation."
+msgstr "Visi bandymo įvesties failai išlaikė patvirtinimą."
+
+#: .\problems\templates\problems\tests.html:25
+msgid "Some test input files have not passed the validation."
+msgstr "Kai kurie bandymo įvesties failai nepatvirtino patvirtinimo."
+
+#: .\problems\templates\problems\tests.html:30
+msgid ""
+"Validation is running&hellip; Refresh the page after a while to see results."
+msgstr "Patvirtinimas vyksta & hellip; Po kurio laiko atnaujinkite puslapį, kad pamatytumėte rezultatus."
+
+#: .\problems\templates\problems\tests.html:43
+#: .\problems\templates\problems\upload_archive.html:8
+msgid "New tests from archive"
+msgstr "Nauji bandymai iš archyvo"
+
+#: .\problems\templates\problems\tests.html:49
+msgid "Browse"
+msgstr "Naršyti"
+
+#: .\problems\templates\problems\tests.html:55
+#: .\solutions\templates\solutions\solution_list.html:70
+#: .\users\templates\users\folder.html:61
+msgid "Actions"
+msgstr "Papildomi veiksmai"
+
+#: .\problems\templates\problems\tests.html:59
+msgid "Set time limit"
+msgstr "Nustatykite laiko ribą"
+
+#: .\problems\templates\problems\tests.html:60
+msgid "Set memory limit"
+msgstr "Nustatykite atminties ribą"
+
+#: .\problems\templates\problems\tests.html:61
+msgid "Set points"
+msgstr "Nustatyti taškai"
+
+#: .\problems\templates\problems\tests.html:69
+#: .\problems\templates\problems\tests_browse.html:9
+msgid "No tests"
+msgstr "Ne bandymų"
+
+#: .\problems\templates\problems\tests.html:90
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:34
+msgid "Sample test"
+msgstr "Bandinio pavyzdys"
+
+#: .\problems\templates\problems\texs.html:28
+msgid "New statement"
+msgstr "Naujas pareiškimas"
+
+#: .\problems\templates\problems\texs.html:29
+msgid "New editorial"
+msgstr "Naujas redakcinis straipsnis"
+
+#: .\problems\templates\problems\upload_archive.html:12
+msgid "The same settings will be used for each uploaded test case."
+msgstr "Tie patys nustatymai bus naudojami kiekvienai įkeltai bandymo bylai."
+
+#: .\problems\templates\problems\upload_archive.html:17
+msgid "Upload"
+msgstr "Įkelti"
+
+#: .\problems\templates\problems\validator.html:17
+msgid "Revalidate testset"
+msgstr "Patikrinkite bandymų rinkinį"
+
+#: .\problems\templatetags\irunner_problems.py:92
+#, python-format
+msgid "from %(from)s to %(to)s"
+msgstr "nuo %(from)s iki %(to)s"
+
+#: .\problems\templatetags\irunner_problems.py:113
+#, python-format
+msgid "%(seconds)s s"
+msgstr "%(seconds)s s"
+
+#: .\problems\templatetags\irunner_problems.py:123
+#, python-format
+msgid "%(megabytes)s MB"
+msgstr "%(megabytes)s MB"
+
+#: .\problems\utils.py:66
+#, python-format
+msgid "Test %(no)d has been added."
+msgstr "Testas %(no)d buvo pridėtas."
+
+#: .\problems\views.py:536 .\quizzes\models.py:69
+msgid "points"
+msgstr "taškai"
+
+#: .\problems\views.py:537 .\quizzes\models.py:59 .\quizzes\models.py:80
+msgid "time limit"
+msgstr "laiko riba"
+
+#: .\problems\views.py:538
+msgid "memory limit"
+msgstr "atminties riba"
+
+#: .\problems\views.py:540
+msgid "input file"
+msgstr "įvesties failas"
+
+#: .\problems\views.py:541
+msgid "answer file"
+msgstr "atsakymas failas"
+
+#: .\problems\views.py:545
+#, python-format
+msgid "Test %(number)s has been saved."
+msgstr "Testas%(number)s išsaugotas."
+
+#: .\problems\views.py:554
+msgid "Changes:"
+msgstr "Pakeitimai:"
+
+#: .\problems\views.py:790
+#, python-format
+msgid "%(count)d test has been added."
+msgid_plural "%(count)d tests have been added."
+msgstr[0] "%(count)d testas buvo pridėtas."
+msgstr[1] "%(count)d testas buvo pridėtas."
+
+#: .\problems\views.py:1041 .\users\views.py:126
+msgid "Create folder"
+msgstr "Sukurti aplanką"
+
+#: .\problems\views.py:1059
+msgid "Folder properties"
+msgstr "Aplanko savybės"
+
+#: .\proglangs\models.py:17
+msgid "Unknown"
+msgstr "Nežinoma"
+
+#: .\proglangs\models.py:27
+msgid "string identifier"
+msgstr "eilutės identifikatorius"
+
+#: .\proglangs\models.py:28 .\solutions\forms.py:118
+msgid "language"
+msgstr "kalba"
+
+#: .\proglangs\models.py:30
+msgid "compiler is enabled by default in new courses"
+msgstr "kompiuteris yra įjungtas pagal numatytuosius nustatymus naujuose kursuose"
+
+#: .\proglangs\models.py:31
+msgid "compiler is enabled by default in new contests"
+msgstr "kompiuteris yra įjungtas pagal nutylėjimą naujose varžybose"
+
+#: .\proglangs\models.py:48
+msgid "compile command"
+msgstr "sudaryti komandą"
+
+#: .\proglangs\models.py:49
+msgid "run command"
+msgstr "paleisti komandą"
+
+#: .\proglangs\templates\proglangs\index.html:13 .\proglangs\views.py:28
+msgid "New compiler"
+msgstr "Naujas kompiliatorius"
+
+#: .\proglangs\templates\proglangs\index.html:19
+msgid "String identifier"
+msgstr "Styginių identifikatorius"
+
+#: .\proglangs\templates\proglangs\index.html:21
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:19
+#: .\solutions\forms.py:117
+msgid "Language"
+msgstr "Kalba"
+
+#: .\proglangs\templates\proglangs\index.html:22
+msgid "For courses?"
+msgstr "Kursams?"
+
+#: .\proglangs\templates\proglangs\index.html:23
+msgid "For contests?"
+msgstr "Konkursams?"
+
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:22
+msgid "Compile command line"
+msgstr "Kompiliavimo komandų eilutė"
+
+#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:25
+msgid "Run command line"
+msgstr "Paleisti komandinę eilutę"
+
+#: .\quizzes\models.py:29
+msgid "Single correct answer"
+msgstr "Vienintelis teisingas atsakymas"
+
+#: .\quizzes\models.py:30
+msgid "Multiple correct answers"
+msgstr "Keletas teisingų atsakymų"
+
+#: .\quizzes\models.py:31
+msgid "Text answer"
+msgstr "Teksto atsakymas"
+
+#: .\quizzes\models.py:56
+msgid "shuffle questions"
+msgstr "maišyti klausimus"
+
+#: .\quizzes\models.py:58 .\quizzes\models.py:82
+msgid "attempts"
+msgstr "bandymai"
+
+#: .\quizzes\models.py:66
+msgid "group"
+msgstr "grupė"
+
+#: .\quizzes\models.py:77
+msgid "quiz template"
+msgstr "viktorinos šablonas"
+
+#: .\quizzes\models.py:78
+msgid "course"
+msgstr "kursas"
+
+#: .\quizzes\models.py:79
+msgid "is available"
+msgstr "yra prieinama"
+
+#: .\quizzes\models.py:81
+msgid "tag"
+msgstr "žymelė"
+
+#: .\quizzes\models.py:83
+msgid "show answers"
+msgstr "parodyti atsakymus"
+
+#: .\quizzes\tabs.py:9
+msgid "Question groups"
+msgstr "klausimų grupės"
+
+#: .\quizzes\tabs.py:10
+msgid "Quiz templates"
+msgstr "viktorinos šablonai"
+
+#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:20
+msgid "No answer"
+msgstr "Nėra atsakymo"
+
+#: .\quizzes\templates\quizzes\question_group_list.html:12
+msgid "Question count"
+msgstr "Klausimų skaičius"
+
+#: .\quizzes\templates\quizzes\question_group_list.html:26
+msgid "No question groups"
+msgstr "Nėra klausimų grupių"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:10
+msgid "Shuffle questions"
+msgstr "Maišyti klausimus"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:14
+msgid "Unlimited"
+msgstr "Neribotas"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
+msgid "Question group"
+msgstr "Klausimų grupė"
+
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:43
+msgid "Add question group"
+msgstr "Pridėti klausimų grupę"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:8
+msgid "New template"
+msgstr "Naujas šablonas"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:17
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
+msgid "Sessions"
+msgstr "Sesijos"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:31
+msgid "No quiz templates"
+msgstr "Ne viktorinos šablonai"
+
+#: .\quizzes\templates\quizzes\quiz_template_sessions.html:18
+#: .\solutions\templates\solutions\compare.html:51
+#: .\solutions\templates\solutions\compare.html:76
+#: .\solutions\templates\solutions\solution.html:56
+msgid "Course"
+msgstr "Kursas"
+
+#: .\quizzes\utils.py:91
+msgid "Finish"
+msgstr "Baigti"
+
+#: .\quizzes\utils.py:93
+msgid "No"
+msgstr "Neh"
+
+#: .\quizzes\utils.py:94
+msgid "Error"
+msgstr "Klaida"
+
+#: .\quizzes\utils.py:96
+msgid "Next"
+msgstr "Kitas"
+
+#: .\quizzes\utils.py:97
+msgid "Previous"
+msgstr "Ankstesnis"
+
+#: .\quizzes\utils.py:98
+msgid "Network error"
+msgstr "Tinklo klaida"
+
+#: .\quizzes\utils.py:99
+msgid "No time left"
+msgstr "Nebuvo laiko"
+
+#: .\solutions\compare.py:26
+msgid "not found"
+msgstr "nerastas"
+
+#: .\solutions\compare.py:32
+msgid "access denied"
+msgstr "prieiga atmesta"
+
+#: .\solutions\compare.py:38 .\users\templates\users\profile_show.html:70
+#: .\users\templates\users\profile_show.html:73
+msgid "no data"
+msgstr "nėra duomenų"
+
+#: .\solutions\compare.py:42
+msgid "the file is binary"
+msgstr "failas yra dvejetainis"
+
+#: .\solutions\compare.py:46
+msgid "the file is too big"
+msgstr "failas yra per didelis"
+
+#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:219
+msgid "unknown error"
+msgstr "nežinoma klaida"
+
+#: .\solutions\forms.py:30
+msgid "Enter source code"
+msgstr "Įveskite šaltinio kodą"
+
+#: .\solutions\forms.py:36 .\storage\forms.py:15
+msgid "…or upload a file"
+msgstr "...arba įkelkite failą"
+
+#: .\solutions\forms.py:40 .\storage\forms.py:19
+msgid "If you select a file, text field content is ignored."
+msgstr "Jei pasirinksite failą, teksto lauko turinys bus ignoruojamas."
+
+#: .\solutions\forms.py:55
+#, python-format
+msgid ""
+"The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B)."
+msgstr "Šaltinio failo dydis (%(actual)d B) viršija ribą (%(limit)d B)."
+
+#: .\solutions\forms.py:67
+msgid "Unable to submit an empty solution."
+msgstr "Nepavyksta pateikti tuščio sprendimo."
+
+#: .\solutions\forms.py:78
+msgid ""
+"Unable to determine the name of the source file. For Java code, make sure "
+"you have a single public class defined. You can also try to upload a file "
+"instead of using direct input of code."
+msgstr "Negalima nustatyti šaltinio failo pavadinimo. Java kodui įsitikinkite, kad turite apibrėžtą vieną viešą klasę. Taip pat galite pabandyti įkelti failą vietoj tiesioginio kodo įvedimo."
+
+#: .\solutions\forms.py:92
+msgid "outcome"
+msgstr "rezultatas"
+
+#: .\solutions\forms.py:104
+msgid "state"
+msgstr "būklė"
+
+#: .\solutions\forms.py:106 .\solutions\models.py:51
+msgid "Preparing"
+msgstr "Rengia"
+
+#: .\solutions\forms.py:107 .\solutions\models.py:52
+msgid "Compiling"
+msgstr "Kompiliavimas"
+
+#: .\solutions\forms.py:108 .\solutions\models.py:53
+#: .\solutions\templates\solutions\judgement_list.html:22
+msgid "Testing"
+msgstr "Testavimas"
+
+#: .\solutions\forms.py:109 .\solutions\models.py:54
+msgid "Finishing"
+msgstr "Užbaigimas"
+
+#: .\solutions\forms.py:111
+msgid "Not Done"
+msgstr "Nebaigta"
+
+#: .\solutions\forms.py:122
+msgid "Problem ID"
+msgstr "Problemos ID"
+
+#: .\solutions\forms.py:123
+msgid "User ID"
+msgstr "Vartotojo ID"
+
+#: .\solutions\forms.py:137
+msgid "First solution"
+msgstr "Pirmasis sprendimas"
+
+#: .\solutions\forms.py:138
+msgid "Second solution"
+msgstr "Antrasis sprendimas"
+
+#: .\solutions\forms.py:139
+msgid "Show only contextual differences, else show full files"
+msgstr "Rodyti tik konteksto skirtumus, kitaip rodyti visus failus"
+
+#: .\solutions\models.py:109
+msgid "Solution compilation log"
+msgstr "Sprendimų rinkimo žurnalas"
+
+#: .\solutions\permissions.py:24
+msgid "no access"
+msgstr "nėra leidimo"
+
+#: .\solutions\permissions.py:25
+msgid "view current solution state"
+msgstr "peržiūrėkite dabartinį sprendimo būseną"
+
+#: .\solutions\permissions.py:26
+msgid "view compilation log"
+msgstr "peržiūrėkite kompiliavimo žurnalą"
+
+#: .\solutions\permissions.py:27
+msgid "view source code"
+msgstr "peržiūrėti šaltinio kodą"
+
+#: .\solutions\permissions.py:28
+msgid "view testing details on sample tests"
+msgstr "peržiūrėkite testavimo duomenis apie bandinių bandymus"
+
+#: .\solutions\permissions.py:29
+msgid "view testing details"
+msgstr "peržiūrėkite testavimo duomenis"
+
+#: .\solutions\permissions.py:30
+msgid "view testing details with checker messages"
+msgstr "peržiūrėkite testavimo duomenis su tikrinimo pranešimais"
+
+#: .\solutions\permissions.py:31
+msgid "view testing details and test data"
+msgstr "peržiūrėkite testavimo duomenis ir bandymų duomenis"
+
+#: .\solutions\templates\solutions\challenge_list.html:21
+#: .\solutions\templates\solutions\rejudge_list.html:20
+msgid "Number of solutions"
+msgstr "Sprendimų skaičius"
+
+#: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:37
+msgid "Comparison of solutions"
+msgstr "Sprendimų palyginimas"
+
+#: .\solutions\templates\solutions\compare.html:12
+msgid "and"
+msgstr "ir"
+
+#: .\solutions\templates\solutions\compare.html:20
+#: .\solutions\templates\solutions\solution_plagiarism.html:36
+msgid "Compare"
+msgstr "Palyginkite"
+
+#: .\solutions\templates\solutions\compare.html:27
+msgid "Unable to compare solutions."
+msgstr "Nepavyko palyginti sprendimų."
+
+#: .\solutions\templates\solutions\compare.html:30
+#: .\solutions\templates\solutions\compare.html:34
+#: .\solutions\templates\solutions\compare.html:43
+#: .\solutions\templates\solutions\compare.html:68
+#: .\solutions\templates\solutions\judgement_list.html:17
+#: .\solutions\templates\solutions\rejudge.html:40
+#: .\solutions\templates\solutions\solution.html:11
+#: .\solutions\templates\solutions\solution.html:18
+#: .\solutions\templates\solutions\solution_attempts.html:29
+msgid "Solution"
+msgstr "Sprendimas"
+
+#: .\solutions\templates\solutions\compare.html:93
+msgid "The files are identical."
+msgstr "Failai yra identiški."
+
+#: .\solutions\templates\solutions\compare.html:106
+msgid "Full files"
+msgstr "Pilni failai"
+
+#: .\solutions\templates\solutions\compare.html:109
+msgid "Differences only"
+msgstr "Tik skirtumų"
+
+#: .\solutions\templates\solutions\confirm_multiple.html:15
+#, python-format
+msgid "Are you sure you want to %(action)s these solutions?"
+msgstr "Ar tikrai norite %(action)s šiuos sprendimus?"
+
+#: .\solutions\templates\solutions\confirm_multiple.html:33
+msgid "There are no solutions selected."
+msgstr "Nėra pasirinktų sprendimų."
+
+#: .\solutions\templates\solutions\irunner_solutions_checkfailed_tag.html:7
+msgid "Check failed"
+msgstr "Patikrinti nepavyko"
+
+#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
+#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:6
+msgid "KB"
+msgstr "KB"
+
+#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:4
+#: .\solutions\templates\solutions\rejudge_list.html:34
+msgid "committed"
+msgstr "padaryta"
+
+#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:6
+#: .\solutions\templates\solutions\rejudge_list.html:36
+msgid "rolled back"
+msgstr "grąžintas atgal"
+
+#: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:7
+msgid "View source code"
+msgstr "Peržiūrėti šaltinio kodą"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:13
+msgid "Outcome"
+msgstr "Rezultatas"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:20
+msgid "Memory"
+msgstr "Atmintis"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:22
+msgid "Exit Code"
+msgstr "Išeiti iš kodo"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:26
+#: .\solutions\templates\solutions\testcaseresult.html:48
+msgid "Checker message"
+msgstr "Tikrintuvo pranešimas"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:65
+msgid "Hide"
+msgstr "Slėpti"
+
+#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:148
+msgid "No test results"
+msgstr "Nr bandymo rezultatus"
+
+#: .\solutions\templates\solutions\judgement.html:7
+#: .\solutions\templates\solutions\judgement.html:12
+msgid "Judgement"
+msgstr "Teismo sprendimas"
+
+#: .\solutions\templates\solutions\judgement.html:13
+msgid "of solution"
+msgstr "tirpalo"
+
+#: .\solutions\templates\solutions\judgement.html:23
+#: .\solutions\templates\solutions\judgement_list.html:18
+#: .\solutions\templates\solutions\rejudge.html:12
+msgid "Rejudge"
+msgstr "Pakartokite"
+
+#: .\solutions\templates\solutions\judgement.html:37
+#: .\solutions\templates\solutions\solution.html:126
+#: .\solutions\templates\solutions\solution_tests.html:6
+msgid "Test results"
+msgstr "Testo rezultatai"
+
+#: .\solutions\templates\solutions\judgement.html:42
+#: .\solutions\templates\solutions\solution.html:120
+#: .\solutions\templates\solutions\solution_log.html:6
+msgid "Compilation log"
+msgstr "Kompiliavimo žurnalas"
+
+#: .\solutions\templates\solutions\judgement_list.html:9
+#: .\templates\navbar.html:30
+msgid "Runs"
+msgstr "Veikia"
+
+#: .\solutions\templates\solutions\judgement_list.html:21
+msgid "In queue"
+msgstr "Eilėje"
+
+#: .\solutions\templates\solutions\rejudge.html:42
+msgid "Before"
+msgstr "Anksčiau"
+
+#: .\solutions\templates\solutions\rejudge.html:43
+msgid "After"
+msgstr "Po"
+
+#: .\solutions\templates\solutions\rejudge.html:44
+msgid "Current"
+msgstr "Dabartinis"
+
+#: .\solutions\templates\solutions\rejudge.html:100
+msgid "Commit"
+msgstr "Įsipareigoti"
+
+#: .\solutions\templates\solutions\rejudge.html:101
+msgid "Rollback"
+msgstr "Atmesti"
+
+#: .\solutions\templates\solutions\rejudge.html:103
+msgid "Clone"
+msgstr "Klonas"
+
+#: .\solutions\templates\solutions\rejudge.html:108
+msgid "To the list of rejudges"
+msgstr "Į teisėjų sąrašą"
+
+#: .\solutions\templates\solutions\solution.html:51
+msgid "Input&thinsp;/&thinsp;output"
+msgstr "Įvesties / išvesties"
+
+#: .\solutions\templates\solutions\solution.html:65
+msgid "Contest"
+msgstr "Konkursas"
+
+#: .\solutions\templates\solutions\solution.html:73
+msgid "Submitted"
+msgstr "Pateikta"
+
+#: .\solutions\templates\solutions\solution.html:77
+msgid "Judged"
+msgstr "Vertinta"
+
+#: .\solutions\templates\solutions\solution.html:82
+msgid "IP address"
+msgstr "IP adresas"
+
+#: .\solutions\templates\solutions\solution.html:108
+#: .\solutions\templates\solutions\solution_judgements.html:7
+msgid "Judgements"
+msgstr "Sprendimai"
+
+#: .\solutions\templates\solutions\solution_attempts.html:21
+msgid "Changes"
+msgstr "Pokyčiai"
+
+#: .\solutions\templates\solutions\solution_attempts.html:51
+msgid "Compare the soluton with the previous one"
+msgstr "Palyginkite soluton su ankstesniu"
+
+#: .\solutions\templates\solutions\solution_log.html:13
+msgid "Compilation log is not available"
+msgstr "Kompiliavimo žurnalas nėra prieinamas"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:21
+msgid "Algo"
+msgstr "Algo"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:22
+msgid "Similarity"
+msgstr "Panašumas"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:23
+msgid "Verdict"
+msgstr "Nuosprendis"
+
+#: .\solutions\templates\solutions\solution_plagiarism.html:42
+#: .\solutions\templates\solutions\testcaseresult.html:43
+#: .\storage\templates\storage\irunner_storage_show_tag.html:24
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:23
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:21
+msgid "No data"
+msgstr "Nėra duomenų"
+
+#: .\solutions\templates\solutions\solution_source.html:29
+msgid "Select all"
+msgstr "Pasirinkti visus"
+
+#: .\solutions\templates\solutions\solution_source.html:35
+msgid "Style"
+msgstr "Stilius"
+
+#: .\solutions\templates\solutions\testcaseresult.html:30
+msgid "Standard output (stdout)"
+msgstr "Standartinė išvestis (stdout)"
+
+#: .\solutions\templates\solutions\testcaseresult.html:36
+msgid "Standard error (stderr)"
+msgstr "Standartinė klaida (stderr)"
+
+#: .\solutions\templates\solutions\testcaseresult.html:89
+msgid "Test case is not available in the current problem version."
+msgstr "Tyrimo atvejis nėra prieinamas dabartinėje problemos versijoje."
+
+#: .\solutions\templatetags\irunner_solutions.py:220
+msgid "error while compiling checker"
+msgstr "klaida renkant tikrintoją"
+
+#: .\solutions\templatetags\irunner_solutions.py:221
+msgid "error while compiling validator"
+msgstr "klaida rengiant validator"
+
+#: .\solutions\templatetags\irunner_solutions.py:222
+msgid "compiler is not available for the testing module"
+msgstr "kompiliatorius nėra prieinamas bandymo moduliui"
+
+#: .\solutions\views.py:206
+msgctxt "verb"
+msgid "rejudge"
+msgstr "pakartokite"
+
+#: .\storage\forms.py:9
+msgid "Enter text here"
+msgstr "Įveskite tekstą čia"
+
+#: .\storage\models.py:9
+msgid "Filename"
+msgstr "Failo pavadinimas"
+
+#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:35
+msgid "File storage"
+msgstr "Failų saugykla"
+
+#: .\storage\templates\storage\index.html:9
+msgid "This is internal debug page."
+msgstr "Tai yra vidinis derinimo puslapis."
+
+#: .\storage\templates\storage\index.html:11
+msgid "You can get access to any resource by its id:"
+msgstr "Jūs galite gauti prieigą prie bet kurio šaltinio pagal jo id:"
+
+#: .\storage\templates\storage\index.html:16
+msgid "Upload new resource"
+msgstr "Įkelkite naują šaltinį"
+
+#: .\storage\templates\storage\index.html:18
+#: .\storage\templates\storage\statistics.html:8
+msgid "Storage statistics"
+msgstr "Sandėliavimo statistika"
+
+#: .\storage\templates\storage\irunner_storage_show_tag.html:6
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:8
+msgid ""
+"The file is <strong>binary</strong> and its content can not be displayed."
+msgstr "Failas yra <strong>dvejetainis</strong>, jo turinys negali būti rodomas."
+
+#: .\storage\templates\storage\irunner_storage_show_tag.html:12
+#: .\storage\templates\storage\irunner_storage_showcode_tag.html:14
+msgid ""
+"The file is <strong>too big</strong>, so it is displayed truncated. You can "
+"download the full version."
+msgstr "Failas yra <strong>per didelis</strong>, todėl jis rodomas sutrumpintas. Galite atsisiųsti visą versiją."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:7
+msgid "The file is binary."
+msgstr "Failas yra dvejetainis."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:11
+msgid "The file is too big."
+msgstr "Failas per didelis."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:15
+msgid "The encoding of the file is not UTF-8."
+msgstr "Failo kodavimas nėra UTF-8."
+
+#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:19
+msgid "The file has Byte Order Mark (BOM)."
+msgstr "Failas turi Byte Order Mark (BOM)."
+
+#: .\storage\templates\storage\new.html:7
+msgid "New resource"
+msgstr "Naujas šaltinis"
+
+#: .\storage\templates\storage\new.html:13
+msgid "Submit"
+msgstr "Patvirtinti"
+
+#: .\storage\templates\storage\show.html:7
+#: .\storage\templates\storage\show.html:10
+#: .\storage\templates\storage\usage.html:8
+msgid "View resource"
+msgstr "Žiūrėti šaltinį"
+
+#: .\storage\templates\storage\show.html:17
+#: .\storage\templates\storage\usage.html:11
+msgid "Resource usage"
+msgstr "Išteklių naudojimas"
+
+#: .\storage\templates\storage\show.html:24
+msgid "Size"
+msgstr "Dydis"
+
+#: .\storage\templates\storage\show.html:27
+msgid "Is binary"
+msgstr "Yra dvejetainis"
+
+#: .\storage\templates\storage\show.html:30
+msgid "Is UTF-8"
+msgstr "Ar UTF-8"
+
+#: .\storage\templates\storage\show.html:33
+msgid "Has BOM"
+msgstr "Turi BOM"
+
+#: .\storage\templates\storage\show.html:39
+msgid "Resource not found in the file storage."
+msgstr "Išteklių nerasta failų saugykloje."
+
+#: .\storage\templates\storage\statistics.html:11
+msgid "Resource count"
+msgstr "Išteklių skaičius"
+
+#: .\storage\templates\storage\statistics.html:13
+msgid "Total size"
+msgstr "Bendras dydis"
+
+#: .\storage\templates\storage\statistics.html:17
+msgid "The largest resources"
+msgstr "Didžiausi ištekliai"
+
+#: .\storage\templates\storage\usage.html:24
+msgid "log"
+msgstr "prisijungti"
+
+#: .\storage\templates\storage\usage.html:58
+msgid "Cleanup stdout/stderr"
+msgstr "Valymas stdout/stderr"
+
+#: .\storage\validators.py:15
+msgid "Filename must be a string"
+msgstr "Failo pavadinimas turi būti eilutė"
+
+#: .\storage\validators.py:18
+msgid "Filename cannot be empty"
+msgstr "Failo vardas negali būti tuščias"
+
+#: .\storage\validators.py:22
+msgid "The use of characters in range 0–31 in filenames is forbidden"
+msgstr "Draudžiama naudoti simbolius nuo 0 iki 31 failų pavadinimuose"
+
+#: .\storage\validators.py:26
+#, python-format
+msgid "Characters %(forbidden)s are reserved and cannot be used in filenames"
+msgstr "Simboliai %(forbidden)s yra rezervuoti ir negali būti naudojami failų pavadinimuose"
+
+#: .\storage\validators.py:31
+msgid ""
+"For compatibility with Windows, words CON, PRN, AUX, NUL, COM1…9, LPT1…9 are "
+"reserved and cannot be used as filenames"
+msgstr "Suderinamumui su Windows žodžiai CON, PRN, AUX, NUL, COM1...9, LPT1...9 yra rezervuoti ir negali būti naudojami kaip failų pavadinimai"
+
+#: .\storage\validators.py:34
+msgid "Filename must not end with a space or a period"
+msgstr "Failo pavadinimas neturi baigtis erdve ar laikotarpiu"
+
+#: .\storage\views.py:106
+#, python-format
+msgid "%(rows)s DB row updated"
+msgid_plural "%(rows)s DB rows updated"
+msgstr[0] "%(rows)s DB eilutė atnaujinta"
+msgstr[1] "%(rows)s DB eilutė atnaujinta"
+
+#: .\templates\base.html:53
+msgid "DMA department of FAMCS BSU"
+msgstr "DMA FAMCS BSU skyrius"
+
+#: .\templates\base.html:57
+msgid "Feedback"
+msgstr "Atsiliepimai"
+
+#: .\templates\navbar.html:26
+msgid "Administration"
+msgstr "Administravimas"
+
+#: .\templates\navbar.html:32
+msgid "View Feedback"
+msgstr "Peržiūrėti atsiliepimą"
+
+#: .\users\forms.py:36
+msgid "Folder name"
+msgstr "Aplanko pavadinimas"
+
+#: .\users\forms.py:45
+msgid ""
+"Students: “[username] [last name] [first name]” or “[username] [last name] "
+"[first name] [patronymic]”"
+msgstr "Studentai: „[vartotojo vardas] [pavardė] [vardas]“ arba „[vartotojo vardas] [pavardė] [vardas] [tėvo vardas]“"
+
+#: .\users\forms.py:46
+msgid "Teams: “[username] [team name]”"
+msgstr "Komandos: „[username] [team name]“"
+
+#: .\users\forms.py:49
+msgid "Mode"
+msgstr "Būsena"
+
+#: .\users\forms.py:51 .\users\forms.py:128
+msgid "Data about users"
+msgstr "Duomenys apie naudotojus"
+
+#: .\users\forms.py:52
+msgid "Enter lines in the given format."
+msgstr "Įveskite eilučių nurodytu formatu."
+
+#: .\users\forms.py:53 .\users\forms.py:120
+msgid "Password"
+msgstr "Slaptažodis"
+
+#: .\users\forms.py:67 .\users\forms.py:146
+#, python-format
+msgid "Line %(number)s does not match the template."
+msgstr "Eilutė %(number)s neatitinka šablono."
+
+#: .\users\forms.py:97
+#, python-format
+msgid "User “%(username)s” is listed more than once."
+msgstr "Naudotojas „%(username)s“ yra išvardytas daugiau nei vieną kartą."
+
+#: .\users\forms.py:121
+msgid "Team name"
+msgstr "Komandos pavadinimas"
+
+#: .\users\forms.py:122
+msgid "Team members"
+msgstr "Komandos nariai"
+
+#: .\users\forms.py:123
+msgid "Last name, first name, patronymic"
+msgstr "Pavardė, vardas, tėvavardis"
+
+#: .\users\forms.py:126
+msgid "Field to update"
+msgstr "Laukas atnaujinti"
+
+#: .\users\forms.py:129
+msgid "Enter lines in the format of “[username] [value]”."
+msgstr "Įveskite eilutes „[username] [value]“ formatu."
+
+#: .\users\forms.py:156
+#, python-format
+msgid "User “%(username)s” does not exist."
+msgstr "Naudotojas „%(username)s“ neegzistuoja."
+
+#: .\users\forms.py:185
+msgid "Archive should not contain subdirectories."
+msgstr "Archyvas neturėtų turėti pakatalogių."
+
+#: .\users\forms.py:188
+#, python-format
+msgid "File extension %(ext)s is not supported."
+msgstr "Failo plėtinys %(ext)s nepalaikomas."
+
+#: .\users\forms.py:190
+#, python-format
+msgid "User %(username)s is not found."
+msgstr "Vartotojas %(username)s nerasta."
+
+#: .\users\forms.py:208
+msgid "Destination folder"
+msgstr "Paskirties aplanką"
+
+#: .\users\forms.py:221
+msgid "Staff only"
+msgstr "Tik personalui"
+
+#: .\users\forms.py:264
+msgid ""
+"User will see a warning message until he sets a new password. This prevents "
+"usage of insecure default passwords."
+msgstr "Vartotojas pamatys įspėjimo pranešimą, kol jis nustatys naują slaptažodį. Tai neleidžia naudoti nesaugių numatytųjų slaptažodžių."
+
+#: .\users\forms.py:288
+msgid "For service accounts used by the testing module."
+msgstr "Paslaugų paskyroms, naudojamoms bandymo modulyje."
+
+#: .\users\forms.py:298 .\users\templates\users\irunner_users_photo_tag.html:7
+#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:425
+#: .\users\views.py:430
+msgid "Photo"
+msgstr "Nuotrauka"
+
+#: .\users\forms.py:298
+msgid "Select JPEG image."
+msgstr "Pasirinkite JPEG vaizdą."
+
+#: .\users\models.py:28
+msgid "Person"
+msgstr "Asmuo"
+
+#: .\users\models.py:29 .\users\templates\users\profile_show.html:19
+msgid "Team"
+msgstr "Komanda"
+
+#: .\users\models.py:33
+msgid "folder"
+msgstr "aplanke"
+
+#: .\users\models.py:34
+msgid "patronymic"
+msgstr "tėvo vardas"
+
+#: .\users\models.py:35
+msgid "password needs to be changed by user"
+msgstr "slaptažodis turi būti pakeistas vartotojo"
+
+#: .\users\models.py:37
+msgid "last used compiler"
+msgstr "paskutinis naudojamas kompiliatorius"
+
+#: .\users\models.py:38
+msgid "API access"
+msgstr "API prieiga"
+
+#: .\users\models.py:42
+msgid "members"
+msgstr "nariai"
+
+#: .\users\photo.py:15
+msgid "The image cannot be opened and identified."
+msgstr "Vaizdas negali būti atidarytas ir identifikuotas."
+
+#: .\users\photo.py:18
+#, python-format
+msgid "The image format %(format)s is not supported."
+msgstr "Vaizdo formatas %(format) s nepalaikomas."
+
+#: .\users\templates\users\bulk_operation.html:38
+msgid "No users selected"
+msgstr "Nerasta jokių naudotojų"
+
+#: .\users\templates\users\folder.html:43
+msgid "New user"
+msgstr "Naujas vartotojas"
+
+#: .\users\templates\users\folder.html:53
+msgid "Sign-up"
+msgstr "Užsiregistruoti"
+
+#: .\users\templates\users\folder.html:54
+msgctxt "noun"
+msgid "Update profiles"
+msgstr "Atnaujinkite profilius"
+
+#: .\users\templates\users\folder.html:55
+msgid "Upload photo"
+msgstr "Įkelti nuotrauką"
+
+#: .\users\templates\users\folder.html:65
+msgid "Move"
+msgstr "Perkelti"
+
+#: .\users\templates\users\folder.html:67
+msgid "Swap first and last name"
+msgstr "Pakeiskite vardą ir pavardę"
+
+#: .\users\templates\users\folder.html:68
+msgid "Export as JSON"
+msgstr "Eksportuoti kaip JSON"
+
+#: .\users\templates\users\folder.html:84
+msgid "There are no users in the folder"
+msgstr "Šiame aplanke nėra naudotojų"
+
+#: .\users\templates\users\index.html:10
+msgid "User search"
+msgstr "Vartotojų paieška"
+
+#: .\users\templates\users\index.html:36
+msgid "No users found."
+msgstr "Nerasta jokių naudotojų."
+
+#: .\users\templates\users\irunner_users_list_tag.html:16
+#: .\users\templates\users\profile_show.html:59
+msgid "Username"
+msgstr "Vartotojo vardas"
+
+#: .\users\templates\users\irunner_users_list_tag.html:17
+msgctxt "human"
+msgid "Full name"
+msgstr "Pilnas vardas"
+
+#: .\users\templates\users\irunner_users_list_tag.html:18
+#: .\users\templates\users\profile_show.html:69
+msgid "Last login"
+msgstr "Paskutinis prisijungimas"
+
+#: .\users\templates\users\irunner_users_list_tag.html:45
+#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:394
+msgid "Update profile"
+msgstr "Atnaujinti aprašymą"
+
+#: .\users\templates\users\profile_password.html:7
+msgid ""
+"Raw passwords are not stored, so there is no way to see this user's "
+"password, but you can set a new password."
+msgstr "Neapdoroti slaptažodžiai nėra saugomi, todėl nėra galimybės matyti šio vartotojo slaptažodžio, tačiau galite nustatyti naują slaptažodį."
+
+#: .\users\templates\users\profile_show.html:24
+msgid "The user belongs to staff and has extended access permissions."
+msgstr "Vartotojas priklauso darbuotojams ir turi išplėstas prieigos teises."
+
+#: .\users\templates\users\profile_show.html:37
+msgid "First name"
+msgstr "Vardas"
+
+#: .\users\templates\users\profile_show.html:40
+msgid "Patronymic"
+msgstr "Tėvo vardas"
+
+#: .\users\templates\users\profile_show.html:43
+msgid "Last name"
+msgstr "Pavardė"
+
+#: .\users\templates\users\profile_show.html:64
+msgid "Email address"
+msgstr "Elektroninio pašto adresas"
+
+#: .\users\templates\users\profile_show.html:72
+msgid "Date joined"
+msgstr "Data prisijungta"
+
+#: .\users\templates\users\profile_show.html:77
+msgid "Prompt to change password"
+msgstr "Prašau pakeisti slaptažodį"
+
+#: .\users\templates\users\profile_sidebar.html:25 .\users\views.py:419
+msgid "Permissions"
+msgstr "Leidimai"
+
+#: .\users\views.py:142
+msgid "Create user"
+msgstr "Sukurti vartotoją"
+
+#: .\users\views.py:163
+msgid "Bulk sign-up"
+msgstr "Masinis prisiregistravimas"
+
+#: .\users\views.py:190
+msgid "Bulk profile update"
+msgstr "Didžioji profilio atnaujinimas"
+
+#: .\users\views.py:231
+#, python-format
+msgid "%(count)d profile has been updated."
+msgid_plural "%(count)d profiles have been updated."
+msgstr[0] "%(count)d profilis atnaujintas."
+msgstr[1] "%(count)d profilis atnaujintas."
+
+#: .\users\views.py:242
+msgid "Bulk photo upload"
+msgstr "Masinis nuotraukų įkėlimas"
+
+#: .\users\views.py:265
+#, python-format
+msgid "%(count)d photo has been uploaded."
+msgid_plural "%(count)d photos have been uploaded."
+msgstr[0] "%(count)d nuotrauka buvo įkelta."
+msgstr[1] "%(count)d nuotrauka buvo įkelta."
+
+#: .\users\views.py:272
+msgid "Are you sure you want to delete the users?"
+msgstr "Ar tikrai norite ištrinti naudotojus?"
+
+#: .\users\views.py:283
+msgid "Are you sure you want to move the users to another folder?"
+msgstr "Ar tikrai norite perkelti naudotojus į kitą aplanką?"
+
+#: .\users\views.py:316
+msgid "Are you sure you want to swap first and last name of these users?"
+msgstr "Ar tikrai norite pakeisti šių vartotojų vardą ir pavardę?"
+
