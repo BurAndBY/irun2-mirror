@@ -108,7 +108,7 @@ USE_TZ = True
 LANGUAGES = (
     ('ru', 'Russian'),
     ('en', 'English'),
-    ('lt', 'Lithuanian'),
+    # ('lt', 'Lithuanian'),
 )
 
 LOCALE_PATHS = (
