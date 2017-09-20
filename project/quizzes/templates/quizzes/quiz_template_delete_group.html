@@ -1,0 +1,24 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block main %}
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+
+        <dl class="dl-horizontal">
+            <dt>{% trans '#' %}</dt>
+            <dd>{{ relation.order }}</dd>
+
+            <dt>{% trans 'Quiz template' %}</dt>
+            <dd>{{ relation.template }}</dd>
+
+            <dt>{% trans 'Question group' %}</dt>
+            <dd>{{ relation.group }}</dd>
+        </dl>
+
+            <button type="submit" class="btn btn-primary">{% trans 'Delete' %}</button>
+            <a href="{% url 'quizzes:templates:detail' relation.template_id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+    </form>
+{% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
+from django.db.models import F
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
@@ -125,6 +126,34 @@ class QuizTemplateAddGroupView(QuizAdminMixin, generic.base.ContextMixin, generi
             return redirect('quizzes:templates:detail', pk)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
+
+
+class QuizTemplateDeleteGroupView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.TEMPLATES
+    template_name = 'quizzes/quiz_template_delete_group.html'
+
+    def _filter_relation(self, template_id, relation_id):
+        return GroupQuizRelation.objects.filter(pk=relation_id, template_id=template_id)
+
+    def get_success_url(self):
+        return reverse('quizzes:templates:detail', kwargs={'pk': self.object.id})
+
+    def get(self, request, pk, relation_id):
+        relation = self._filter_relation(pk, relation_id).select_related('template', 'group').first()
+        if relation is None:
+            return redirect('quizzes:templates:list')
+
+        context = self.get_context_data(relation=relation)
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk, relation_id):
+        relation = self._filter_relation(pk, relation_id).first()
+        if relation is not None:
+            cur_order = relation.order
+            with transaction.atomic():
+                relation.delete()
+                GroupQuizRelation.objects.filter(template_id=pk, order__gt=cur_order).update(order=F('order') - 1)
+        return redirect('quizzes:templates:detail', pk)
 
 
 class QuizSessionListView(QuizAdminMixin, generic.base.ContextMixin, generic.View):

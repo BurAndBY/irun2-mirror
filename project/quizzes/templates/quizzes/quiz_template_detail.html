@@ -24,6 +24,7 @@
                     <th>{% trans '#' %}</th>
                     <th>{% trans 'Question group' %}</th>
                     <th>{% trans 'Points' %}</th>
+                    <th>{% trans 'Actions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,7 @@
                         <td>{{ relation.order }}</td>
                         <td>{{ relation.group.name }}</td>
                         <td>{{ relation.points }}</td>
+                        <td><a href="{% url 'quizzes:templates:delete_group' object.id relation.id %}">{% trans 'Delete' %}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
