@@ -23,11 +23,7 @@
             <th class="ir-column-contestant">{% trans 'Contestant' %}</th>
             {% for lp in results.contest_descr.labeled_problems %}
                 <th>
-                    <span title="{{ lp.problem.short_name }}">{{ lp.letter }}</span>
-                    {#{% if lp.problem.short_name %}#}
-                    {#<br>#}
-                    {#<span class="ir-problem-name">{{ lp.problem.short_name }}</span>#}
-                    {#{% endif %}#}
+                    <span{% if show_problem_names %} title="{{ lp.problem.short_name }}"{% endif %}>{{ lp.letter }}</span><br><small>{{ lp.stats.as_html }}</small>
                 </th>
             {% endfor %}
 

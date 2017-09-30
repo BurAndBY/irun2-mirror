@@ -13,8 +13,10 @@ from problems.models import Problem
 from solutions.models import Judgement
 
 from .models import Contest, ContestSolution, Membership
+from .utils.problemstats import ProblemStats
+from .utils.types import SolutionKind
 
-LabeledProblem = namedtuple('LabeledProblem', 'letter problem')
+LabeledProblem = namedtuple('LabeledProblem', 'letter problem stats')
 
 LETTERS = u'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 RECENT_CHANGES_WINDOW = timezone.timedelta(minutes=30)
@@ -150,7 +152,10 @@ class ContestTiming(object):
 
 ColumnPresence = namedtuple('ColumnPresence', 'solved_problem_count penalty_time total_score')
 RunDescription = namedtuple('RunDescription', 'user labeled_problem when kind solution_id')
-ContestResults = namedtuple('ContestResults', 'contest contest_descr frozen user_results all_runs last_success last_run column_presence')
+ContestResults = namedtuple('ContestResults', [
+    'contest', 'contest_descr', 'frozen', 'user_results', 'all_runs',
+    'last_success', 'last_run', 'column_presence'
+])
 
 # cs here means 'ContestSolution'
 
@@ -243,6 +248,9 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
             # no score for pending runs
             score = _get_score(cs)
 
+        labeled_problem = contest_descr.labeled_problems[problem_index]
+        labeled_problem.stats.register_solution(kind)
+
         received = cs.solution.reception_time
         when = received - contest.start_time
         penalty_time = total_minutes(when)
@@ -252,7 +260,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
         if received + RECENT_CHANGES_WINDOW >= ts_now:
             problem_result.notify_recently_updated()
 
-        run = RunDescription(user_result.user, contest_descr.labeled_problems[problem_index], when, kind, cs.solution_id)
+        run = RunDescription(user_result.user, labeled_problem, when, kind, cs.solution_id)
         all_runs.append(run)
         last_run = run
         if kind == SolutionKind.ACCEPTED:
@@ -277,7 +285,8 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
         user_result.set_place(place + 1)
         user_result.set_row_tag(tag)
 
-    return ContestResults(contest, contest_descr, frozen, user_results, all_runs, last_success, last_run, column_presence)
+    return ContestResults(contest, contest_descr, frozen, user_results, all_runs,
+                          last_success, last_run, column_presence)
 
 
 class ContestDescr(object):
@@ -286,17 +295,12 @@ class ContestDescr(object):
         self._problem_id_to_index = {}
 
         for i, problem in enumerate(contest.get_problems()):
-            self.labeled_problems.append(LabeledProblem(make_letter(i), problem))
+            self.labeled_problems.append(LabeledProblem(make_letter(i), problem, ProblemStats()))
             self._problem_id_to_index[problem.id] = i
 
     def get_problem_index(self, problem_id):
         return self._problem_id_to_index.get(problem_id)
 
-
-class SolutionKind(object):
-    PENDING = 1
-    ACCEPTED = 2
-    REJECTED = 3
 
 REJECTED_SUBMISSION_PENALTY = 20
 

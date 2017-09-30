@@ -13,13 +13,7 @@
 {% endblock %}
 
 {% block main %}
-    {% irunner_contests_timing timing %}
-
-    {% if results %}
-        {% irunner_contests_standings results my_id=my_id user_url=user_url %}
-    {% else %}
-        <div class="ir-absence">{{ no_standings_yet_message }}</div>
-    {% endif %}
+    {% include 'contests/standings_body.html' %}
 {% endblock %}
 
 {% block foot %}

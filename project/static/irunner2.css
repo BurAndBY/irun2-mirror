@@ -1421,6 +1421,12 @@ Green menu
 .ir-contest-standings th {
     padding-top: 8px;
     padding-bottom: 8px;
+    vertical-align: top;
+}
+.ir-contest-standings th > small {
+    color: #777;
+    font-weight: normal;
+    font-size: 10px;
 }
 .ir-contest-standings th {
     border-bottom: 3px solid #ddd;
@@ -1463,10 +1469,6 @@ Green menu
 }
 .ir-contest-standings .ir-column-contestant {
     text-align: left;
-}
-.ir-contest-standings .ir-problem-name {
-    font-weight: normal;
-    font-size: 11px;
 }
 .ir-contest-standings .ir-members {
     color: #777;

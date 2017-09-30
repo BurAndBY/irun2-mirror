@@ -9,11 +9,12 @@ register = template.Library()
 
 
 @register.inclusion_tag('contests/irunner_contests_standings_tag.html')
-def irunner_contests_standings(contest_results, my_id=None, user_url=None):
+def irunner_contests_standings(contest_results, my_id=None, user_url=None, show_problem_names=True):
     return {
         'results': contest_results,
         'my_id': my_id,
         'user_url': user_url,
+        'show_problem_names': show_problem_names,
     }
 
 

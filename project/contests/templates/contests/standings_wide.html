@@ -10,13 +10,7 @@
 <div class="container-fluid">
     <h2 class="text-center">{{ contest }}</h2>
 
-    {% irunner_contests_timing timing %}
-
-    {% if results %}
-        {% irunner_contests_standings results my_id=my_id %}
-    {% else %}
-        <div class="ir-absence">{{ no_standings_yet_message }}</div>
-    {% endif %}
+    {% include 'contests/standings_body.html' %}
 </div>
 {% endblock %}
 
