@@ -83,22 +83,31 @@ def parse_archive(myzip, language, compiler, user):
     tl_ml_set = False
     total_tests = 0
 
+    extra_info = ProblemExtraInfo(problem=problem)
+
     for testset in judging.findall('testset'):
         time_limit = get_int(testset, 'time-limit')
         memory_limit = get_int(testset, 'memory-limit')
 
         if not tl_ml_set:
-            ProblemExtraInfo.objects.create(problem=problem, default_time_limit=time_limit, default_memory_limit=memory_limit)
+            extra_info.default_time_limit = time_limit
+            extra_info.default_memory_limit = memory_limit
             tl_ml_set = True
 
         test_count = get_int(testset, 'test-count')
 
         input_pattern = testset.find('input-path-pattern').text
         answer_pattern = testset.find('answer-path-pattern').text
+        number = 0
 
-        for i in xrange(test_count):
+        for i, test in enumerate(testset.findall('tests/test')):
             number = i + 1
             total_tests += 1
+
+            if test.get('sample') == 'true':
+                if extra_info.sample_test_count + 1 == total_tests:
+                    extra_info.sample_test_count += 1
+
             tc = TestCase(problem=problem, ordinal_number=total_tests, time_limit=time_limit, memory_limit=memory_limit)
             tc.set_input(storage, ContentFile(myzip.read(input_pattern % (number,))))
             tc.set_answer(storage, ContentFile(myzip.read(answer_pattern % (number,))))
@@ -106,6 +115,11 @@ def parse_archive(myzip, language, compiler, user):
             tc.creation_time = ts
             tc.full_clean()
             tests.append(tc)
+
+        if number != test_count:
+            raise ValueError('"test-count" is {}, number of <test> tags is {}'.format(test_count, number))
+
+    extra_info.save()
 
     TestCase.objects.bulk_create(tests)
 
