@@ -7,10 +7,13 @@ from django.db.models import F
 from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
 
+import json
+
 from .forms import AddQuestionGroupForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession
 from .tabs import Tabs
 from .utils import finish_overdue_sessions
+from .statistics import get_statistics
 
 
 class QuizAdminMixin(StaffMemberRequiredMixin):
@@ -180,4 +183,16 @@ class QuizSessionListView(QuizAdminMixin, generic.base.ContextMixin, generic.Vie
         page_context = paginate(request, queryset, self.paginate_by, allow_all=False)
         context.update(page_context)
         context['template'] = template
+        return render(request, self.template_name, context)
+
+
+class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'quizzes/quiz_template_statistics.html'
+
+    def get(self, request, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+
+        context = self.get_context_data()
+        context['object'] = quiz_template
+        context['statistics'] = json.dumps(get_statistics(pk))
         return render(request, self.template_name, context)
