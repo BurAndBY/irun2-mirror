@@ -8,7 +8,9 @@ from courses.models import Course
 def get_statistics(template_pk):
     max_grade = QuizSession.objects \
         .filter(quiz_instance__quiz_template_id=template_pk).aggregate(Max('result'))['result__max']
-    max_grade = int(max_grade) if max_grade else 0
+    if max_grade is None:
+        return None
+    max_grade = int(max_grade)
     stats = {}
     stats['by-year'] = get_statistics_by_year(template_pk, max_grade)
     stats['by-stud-group'] = get_statistics_by_students_group(template_pk, max_grade)
@@ -35,13 +37,16 @@ def get_statistics_by_year(template_pk, max_grade):
 
 
 def get_statistics_by_students_group(template_pk, max_grade):
-    courses = Course.objects.filter(quizinstance__quiz_template=template_pk)
+    max_year = QuizSession.objects.filter(quiz_instance__quiz_template_id=template_pk) \
+        .aggregate(Max('quiz_instance__course__academic_year'))['quiz_instance__course__academic_year__max']
+    courses = Course.objects.filter(quizinstance__quiz_template=template_pk, academic_year=max_year)
     id_courses = {course.id: str(course) for course in courses}
     stats = {'categories': [id_courses[id_course] for id_course in id_courses]}
     stats['series'] = [{'name': str(mark),
                         'data': [0 for course in stats['categories']]}
                        for mark in range(max_grade + 1)]
-    marks_by_st = QuizSession.objects.filter(quiz_instance__quiz_template_id=template_pk) \
+    marks_by_st = QuizSession.objects \
+        .filter(quiz_instance__quiz_template_id=template_pk, quiz_instance__course__academic_year=max_year) \
         .values('result', 'quiz_instance__course').annotate(total=Count('result')).order_by('result')
     for mark in marks_by_st:
         idx = stats['categories'].index(id_courses[mark['quiz_instance__course']])

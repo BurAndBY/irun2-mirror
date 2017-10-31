@@ -194,5 +194,8 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
 
         context = self.get_context_data()
         context['object'] = quiz_template
-        context['statistics'] = json.dumps(get_statistics(pk))
+
+        statistics = get_statistics(pk)
+        context['statistics'] = json.dumps(statistics)
+        context['has_data'] = statistics is not None
         return render(request, self.template_name, context)

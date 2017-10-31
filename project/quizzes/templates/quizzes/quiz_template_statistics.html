@@ -10,17 +10,24 @@
 
 {% block main %}
     <h3>{{ object.name }}</h3>
-    <div id="ir-stats-by-year" class="ir-statistics-block"></div>
-    <div id="ir-stats-by-stud-group" class="ir-statistics-block"></div>
-    <div id="ir-marks-stats" class="ir-statistics-block"></div>
-    <div id="ir-stats-by-question-group" class="ir-statistics-block"></div>
-    <div id="ir-stats-time" class="ir-statistics-block"></div>
+
+    {% if has_data %}
+        <div id="ir-stats-by-year" class="ir-statistics-block"></div>
+        <div id="ir-stats-by-stud-group" class="ir-statistics-block"></div>
+        <div id="ir-marks-stats" class="ir-statistics-block"></div>
+        <div id="ir-stats-by-question-group" class="ir-statistics-block"></div>
+        <div id="ir-stats-time" class="ir-statistics-block"></div>
+    {% else %}
+        <div class="ir-absence">{% trans 'No data for statistics' %}</div>
+    {% endif %}
 
     <script>
         var stats = {{ statistics|safe }};
         var redGreenGradient = ['#FF0000', '#FF4600', '#FF6900', '#FF8C00', '#FFAF00', '#FFD300', '#FFF600', '#E5FF00', '#C2FF00', '#9FFF00', '#58FF00'];
 
         $(document).ready(function() {
+            if (!stats) return;
+
             Highcharts.chart('ir-stats-by-year', {
                 chart: {
                     type: 'area'
@@ -67,7 +74,7 @@
                     type: 'bar'
                 },
                 title: {
-                    text: '{% trans 'Quiz marks by courses in the current year' %}'
+                    text: '{% trans 'Quiz marks by courses in the last year' %}'
                 },
                 colors: redGreenGradient,
                 xAxis: {
