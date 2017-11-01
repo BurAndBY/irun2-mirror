@@ -7,6 +7,7 @@
 {% load irunner_pagination %}
 {% load irunner_users %}
 {% load bootstrap3 %}
+{% load widget_tweaks %}
 
 {% block subtitle %}{% trans 'All solutions' %}{% endblock %}
 
@@ -16,6 +17,9 @@
             <div class="pull-right">
                 {{ problem_form.problem }}
                 {{ user_form.user }}
+                {% if filter_form %}
+                    {% render_field filter_form.state class='form-control' %}
+                {% endif %}
                 <button type="submit" class="btn btn-default">
                     {% trans 'Apply' %}
                 </button>

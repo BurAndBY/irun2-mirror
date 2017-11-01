@@ -18,6 +18,8 @@ from common.networkutils import make_json_response, redirect_with_query_string
 from common.pageutils import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
+from solutions.filters import apply_state_filter
+from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
 from solutions.utils import new_solution, judge
 from storage.utils import serve_resource_metadata
@@ -283,10 +285,18 @@ class AllSolutionsView(ProblemResolverMixin, BaseContestView):
         if problem_form.is_valid():
             solutions = solutions.filter(problem_id=problem_form.cleaned_data['problem'])
 
+        # State filter
+        filter_form = AllSolutionsFilterForm(request.GET)
+        if filter_form.is_valid():
+            state = filter_form.cleaned_data['state']
+            if state is not None:
+                solutions = apply_state_filter(solutions, state)
+
         context = paginate(request, solutions, self.paginate_by)
 
         context['user_form'] = user_form
         context['problem_form'] = problem_form
+        context['filter_form'] = filter_form
         context['show_scores'] = not self.service.should_stop_on_fail()
 
         context = self.get_context_data(**context)
