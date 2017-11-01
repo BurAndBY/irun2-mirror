@@ -249,14 +249,16 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
             score = _get_score(cs)
 
         labeled_problem = contest_descr.labeled_problems[problem_index]
-        labeled_problem.stats.register_solution(kind)
 
         received = cs.solution.reception_time
         when = received - contest.start_time
         penalty_time = total_minutes(when)
 
         problem_result = user_result.get_problem_result(problem_index)
-        problem_result.register_solution(kind, penalty_time, score)
+        registered = problem_result.register_solution(kind, penalty_time, score)
+        if registered:
+            labeled_problem.stats.register_solution(kind)
+
         if received + RECENT_CHANGES_WINDOW >= ts_now:
             problem_result.notify_recently_updated()
 
@@ -338,11 +340,14 @@ class ACMProblemResult(ProblemResultBase):
     def register_solution(self, kind, penalty_time, score):
         if self._kind == SolutionKind.PENDING:
             self._num_submissions += 1
-        elif self._kind == SolutionKind.REJECTED:
+            return True
+        if self._kind == SolutionKind.REJECTED:
             self._kind = kind
             self._num_submissions += 1
             if kind == SolutionKind.ACCEPTED:
                 self._acceptance_time = penalty_time
+            return True
+        return False
 
     def as_html(self):
         result = u''
@@ -372,6 +377,8 @@ class IOIProblemResult(ProblemResultBase):
     def register_solution(self, kind, penalty_time, score):
         if score is not None:
             self._score, self._max_score = score
+            return True
+        return False
 
     def as_html(self):
         if self._score is None:
