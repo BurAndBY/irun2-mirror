@@ -223,12 +223,13 @@ Printing API
 class PrintingView(WorkerAPIView):
     def get(self, request):
         result = []
-        printouts = Printout.objects.filter(status=Printout.WAITING).order_by('timestamp')
+        printouts = Printout.objects.filter(status=Printout.WAITING).select_related('user').order_by('timestamp')
         for printout in printouts:
             data = {
                 'id': printout.id,
                 'text': printout.text,
                 'room': printout.room,
+                'username': printout.user.username,
                 'user': printout.user.get_full_name(),
                 'timestamp': timezone.localtime(printout.timestamp).strftime('%d.%m.%Y %H:%M:%S')
             }
