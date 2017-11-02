@@ -164,7 +164,10 @@ class StandingsView(BaseContestView):
         cur_filter_id, user_regex = self._parse_filter(request, filters)
 
         # privileged users may click on contestants to see their solutions
-        user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id}) if self.permissions.all_solutions else None
+        user_url = None
+        if not self.wide and self.permissions.all_solutions:
+            user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id})
+
         my_id = request.user.id if request.user.is_authenticated() else None
         contest_results = None
 
