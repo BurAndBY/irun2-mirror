@@ -4,6 +4,8 @@ from django.utils.translation import ugettext as _
 from .models import QuestionGroup, QuizSession, SessionQuestion
 from courses.models import Course
 
+from collections import Counter
+
 
 def get_statistics(template_pk):
     max_grade = QuizSession.objects \
@@ -38,7 +40,7 @@ def get_statistics_by_year(template_pk, max_grade):
 
 def get_statistics_by_students_group(template_pk, max_grade):
     max_year = QuizSession.objects.filter(quiz_instance__quiz_template_id=template_pk) \
-        .aggregate(Max('quiz_instance__course__academic_year'))['quiz_instance__course__academic_year__max']
+        .aggregate(max_year=Max('quiz_instance__course__academic_year'))['max_year']
     courses = Course.objects.filter(quizinstance__quiz_template=template_pk, academic_year=max_year)
     id_courses = {course.id: str(course) for course in courses}
     stats = {'categories': [id_courses[id_course] for id_course in id_courses]}
@@ -64,36 +66,43 @@ def get_statistics_by_mark(template_pk, max_grade):
 
 
 def get_statistics_by_question_group(template_pk):
-    groups = QuestionGroup.objects.filter(quiztemplate=template_pk)
-    id_groups = {group.id: group.name for group in groups}
-    stats = {'categories': [id_groups[id_group] for id_group in id_groups]}
-    stats['series'] = [{'name': _('Correct'), 'data': [0] * len(stats['categories'])},
-                       {'name': _('Incorrect'), 'data': [0] * len(stats['categories'])}]
-    points = SessionQuestion.objects.filter(quiz_session__quiz_instance__quiz_template_id=template_pk)\
-        .values('result_points', 'question__group__name').annotate(total=Count('result_points')).order_by()
-    for point in points:
-        idx = 0 if point['result_points'] > 0 else 1
-        group_idx = stats['categories'].index(point['question__group__name'])
-        stats['series'][idx]['data'][group_idx] += point['total']
+    def make_query(**kwargs):
+        data = SessionQuestion.objects\
+            .filter(quiz_session__quiz_instance__quiz_template_id=template_pk)\
+            .filter(**kwargs)\
+            .values('question__group__name').annotate(total=Count('id'))
+        return {item['question__group__name']: item['total'] for item in data}
+
+    correct_cnt = make_query(result_points__gt=.0)
+    incorrect_cnt = make_query(result_points=.0)
+
+    names = sorted(set(correct_cnt) | set(incorrect_cnt))
+    stats = {
+        'categories': names,
+        'series': [{
+            'name': _('Correct'),
+            'data': [correct_cnt[name] for name in names]
+        }, {
+            'name': _('Incorrect'),
+            'data': [incorrect_cnt[name] for name in names]
+        }]
+    }
+
     return stats
 
 
 def get_statistics_by_time(template_pk):
-    times = QuizSession.objects.filter(quiz_instance__quiz_template_id=template_pk)\
+    times = QuizSession.objects\
+        .filter(quiz_instance__quiz_template_id=template_pk, is_finished=True)\
         .values_list('start_time', 'finish_time')
 
-    minutes_dict = {0: 0}
+    minutes_cnt = Counter({0: 0})
     for start_time, finish_time in times:
         minutes = int((finish_time - start_time).seconds / 60) + 1
-        if minutes in minutes_dict:
-            minutes_dict[minutes] += 1
-        else:
-            minutes_dict[minutes] = 1
+        minutes_cnt[minutes] += 1
     data = []
-    for key in sorted(minutes_dict):
-        data.append([key, minutes_dict[key]])
-    for i in range(len(data)):
-        if i == 0:
-            continue
+    for key in sorted(minutes_cnt):
+        data.append([key, minutes_cnt[key]])
+    for i in range(1, len(data)):
         data[i][1] += data[i - 1][1]
     return {'data': data}
