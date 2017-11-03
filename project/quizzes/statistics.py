@@ -1,5 +1,6 @@
 from django.db.models import Max, Count
 from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_text
 
 from .models import QuestionGroup, QuizSession, SessionQuestion
 from courses.models import Course
@@ -47,17 +48,21 @@ def get_statistics_by_year(template_pk, max_grade):
 
 
 def get_statistics_by_students_group(template_pk, max_grade, year):
-    courses = Course.objects.filter(quizinstance__quiz_template=template_pk, academic_year=year)
-    id_courses = {course.id: str(course) for course in courses}
-    stats = {'categories': [id_courses[id_course] for id_course in id_courses]}
+    names = []
+    id_courses = {}
+    for course in Course.objects.filter(quizinstance__quiz_template=template_pk, academic_year=year).distinct():
+        name = smart_text(course)
+        names.append(name)
+        id_courses[course.id] = name
+    stats = {'categories': names}
     stats['series'] = [{'name': str(mark),
-                        'data': [0 for course in stats['categories']]}
+                        'data': [0 for _ in names]}
                        for mark in range(max_grade + 1)]
     marks_by_st = QuizSession.objects \
         .filter(quiz_instance__quiz_template_id=template_pk, quiz_instance__course__academic_year=year) \
         .values('result', 'quiz_instance__course').annotate(total=Count('result')).order_by('result')
     for mark in marks_by_st:
-        idx = stats['categories'].index(id_courses[mark['quiz_instance__course']])
+        idx = names.index(id_courses[mark['quiz_instance__course']])
         stats['series'][int(mark['result'])]['data'][idx] = mark['total']
     return stats
 
