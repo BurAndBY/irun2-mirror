@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-03 19:22+0300\n"
+"POT-Creation-Date: 2017-11-03 20:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -327,7 +327,7 @@ msgid "Submission count"
 msgstr "Paraiškų skaičius"
 
 #: .\common\templates\common\activity.html:50
-#: .\contests\templates\contests\all_solutions.html:11
+#: .\contests\templates\contests\all_solutions.html:12
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
 #: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:596
@@ -552,7 +552,7 @@ msgstr "Vartotojas"
 
 #: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
 #: .\contests\services.py:44
-#: .\contests\templates\contests\all_solutions.html:34
+#: .\contests\templates\contests\all_solutions.html:38
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
 #: .\contests\templates\contests\problem.html:7 .\courses\forms.py:134
@@ -738,11 +738,11 @@ msgstr "įprasta išraiška"
 msgid "Contestant"
 msgstr "Dalyvis"
 
-#: .\contests\services.py:496
+#: .\contests\services.py:503
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Rezultatų suvestinė bus prieinama po varžybų pradžios"
 
-#: .\contests\services.py:515
+#: .\contests\services.py:522
 msgid "The scoreboard is hidden"
 msgstr "Rezultatų suvestinė yra paslėpta"
 
@@ -845,7 +845,7 @@ msgstr "Ištrinti"
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: .\contests\templates\contests\all_solutions.html:20
+#: .\contests\templates\contests\all_solutions.html:24
 #: .\contests\templates\contests\my_solutions.html:20
 #: .\courses\templates\courses\solutions.html:26
 #: .\problems\templates\problems\solutions.html:29
@@ -853,7 +853,7 @@ msgstr "Atšaukti"
 msgid "Apply"
 msgstr "Taikyti"
 
-#: .\contests\templates\contests\all_solutions.html:35
+#: .\contests\templates\contests\all_solutions.html:39
 #: .\contests\templates\contests\printing.html:24
 #: .\contests\templates\contests\printout_show.html:14
 #: .\courses\templates\courses\solutions.html:39
@@ -875,7 +875,7 @@ msgstr "Taikyti"
 msgid "Author"
 msgstr "Autorius"
 
-#: .\contests\templates\contests\all_solutions.html:36
+#: .\contests\templates\contests\all_solutions.html:40
 #: .\contests\templates\contests\my_solutions.html:33
 #: .\contests\templates\contests\printing.html:25
 #: .\courses\templates\courses\solutions.html:42
@@ -886,7 +886,7 @@ msgstr "Autorius"
 msgid "Time"
 msgstr "Laikas"
 
-#: .\contests\templates\contests\all_solutions.html:37
+#: .\contests\templates\contests\all_solutions.html:41
 #: .\contests\templates\contests\my_solutions.html:34
 #: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:153
 #: .\problems\forms.py:171 .\problems\forms.py:175 .\problems\forms.py:194
@@ -903,7 +903,7 @@ msgstr "Laikas"
 msgid "File"
 msgstr "Failas"
 
-#: .\contests\templates\contests\all_solutions.html:38
+#: .\contests\templates\contests\all_solutions.html:42
 #: .\contests\templates\contests\my_solutions.html:35
 #: .\contests\templates\contests\printing.html:26
 #: .\contests\templates\contests\printout_show.html:20
@@ -915,7 +915,7 @@ msgstr "Failas"
 msgid "Status"
 msgstr "Statusas"
 
-#: .\contests\templates\contests\all_solutions.html:40
+#: .\contests\templates\contests\all_solutions.html:44
 #: .\contests\templates\contests\my_solutions.html:37
 #: .\solutions\templates\solutions\compare.html:60
 #: .\solutions\templates\solutions\compare.html:85
@@ -925,15 +925,15 @@ msgstr "Statusas"
 msgid "Score"
 msgstr "Įvertinimas"
 
-#: .\contests\templates\contests\all_solutions.html:71
+#: .\contests\templates\contests\all_solutions.html:75
 msgid "Disqualify"
 msgstr "Diskvalifikuoti"
 
-#: .\contests\templates\contests\all_solutions.html:74
+#: .\contests\templates\contests\all_solutions.html:78
 msgid "Cancel the disqualification"
 msgstr "Atšaukti diskvalifikaciją"
 
-#: .\contests\templates\contests\all_solutions.html:85
+#: .\contests\templates\contests\all_solutions.html:89
 #: .\contests\templates\contests\my_solutions.html:67
 #: .\courses\templates\courses\info.html:57
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
@@ -1018,13 +1018,13 @@ msgid "Edit"
 msgstr "Redaguoti"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:481
+#: .\contests\views.py:494
 msgctxt "to"
 msgid "all"
 msgstr "visos"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:703 .\courses\views.py:817
+#: .\contests\views.py:716 .\courses\views.py:817
 msgid "General question"
 msgstr "Bendras klausimas"
 
@@ -1328,11 +1328,11 @@ msgstr ""
 "Pakilimo į aukštį režimas: jūsų pateikimas neturės įtakos galutinei "
 "pozicijai."
 
-#: .\contests\views.py:733
+#: .\contests\views.py:746
 msgid "The question has been successfully submitted."
 msgstr "Klausimas buvo sėkmingai pateiktas."
 
-#: .\contests\views.py:887
+#: .\contests\views.py:900
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Jūsų spaudinys sėkmingai pridėtas prie spausdinimo eilės."
 
@@ -1827,7 +1827,7 @@ msgstr "Pradžios laikas"
 #: .\courses\templates\courses\quizzes_answers.html:46
 #: .\courses\templates\courses\quizzes_rating.html:32
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:178
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:216
 msgid "Duration"
 msgstr "Trukmė"
 
@@ -1898,7 +1898,7 @@ msgid "Points"
 msgstr "Taškai"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
-#: .\quizzes\statistics.py:70
+#: .\quizzes\statistics.py:89
 msgid "Correct"
 msgstr "Teisingas"
 
@@ -3130,14 +3130,14 @@ msgstr "žymelė"
 msgid "show answers"
 msgstr "parodyti atsakymus"
 
-#: .\quizzes\statistics.py:71
+#: .\quizzes\statistics.py:92
 #, fuzzy
 #| msgid "Correct"
 msgid "Incorrect"
 msgstr "Teisingas"
 
 #: .\quizzes\tabs.py:9
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:145
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
 msgid "Question groups"
 msgstr "klausimų grupės"
 
@@ -3180,13 +3180,14 @@ msgstr "Naujas šablonas"
 
 #: .\quizzes\templates\quizzes\quiz_template_list.html:17
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:49
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:91
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:119
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:154
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:193
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:52
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:94
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:129
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:157
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:172
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:192
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:221
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:231
 msgid "Sessions"
 msgstr "Sesijos"
 
@@ -3207,40 +3208,45 @@ msgstr "Ne viktorinos šablonai"
 msgid "Course"
 msgstr "Kursas"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:21
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:24
 #, fuzzy
 #| msgid "Storage statistics"
 msgid "No data for statistics"
 msgstr "Sandėliavimo statistika"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:36
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:39
 #, fuzzy
 #| msgid "Quiz answers"
 msgid "Quiz marks by years"
 msgstr "Viktorina atsakymai"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:55
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:96
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:58
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:99
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
 #, fuzzy
 #| msgid "Sessions"
 msgid "sessions"
 msgstr "Sesijos"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:77
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:80
 msgid "Quiz marks by courses in the last year"
 msgstr ""
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:112
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:115
+msgid "Quiz marks by courses in the year before last"
+msgstr ""
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:150
 msgid "Quiz marks distribution"
 msgstr ""
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:171
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:209
 #, fuzzy
 #| msgid "duration"
 msgid "Sessions duration"
 msgstr "trukmė"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:175
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:213
 msgid "min"
 msgstr ""
 

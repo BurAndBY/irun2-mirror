@@ -14,6 +14,9 @@
     {% if has_data %}
         <div id="ir-stats-by-year" class="ir-statistics-block"></div>
         <div id="ir-stats-by-stud-group" class="ir-statistics-block"></div>
+        {% if has_previous_year %}
+            <div id="ir-stats-by-stud-group-prev" class="ir-statistics-block"></div>
+        {% endif %}
         <div id="ir-marks-stats" class="ir-statistics-block"></div>
         <div id="ir-stats-by-question-group" class="ir-statistics-block"></div>
         <div id="ir-stats-time" class="ir-statistics-block"></div>
@@ -103,6 +106,41 @@
                 series: stats['by-stud-group'].series
             });
 
+            {% if has_previous_year %}
+                Highcharts.chart('ir-stats-by-stud-group-prev', {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: '{% trans 'Quiz marks by courses in the year before last' %}'
+                    },
+                    colors: redGreenGradient,
+                    xAxis: {
+                        categories: stats['by-stud-group-prev'].categories,
+                        tickmarkPlacement: 'on',
+                        title: {
+                            enabled: false
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        reversedStacks: false,
+                        title: {
+                            text: '{% trans 'Sessions' %}'
+                        }
+                    },
+                    tooltip: {
+                        split: true,
+                        valueSuffix: ' {% trans 'sessions' %}'
+                    },
+                    plotOptions: {
+                        series: {
+                            stacking: 'normal'
+                        }
+                    },
+                    series: stats['by-stud-group-prev'].series
+                });
+            {% endif %}
 
             Highcharts.chart('ir-marks-stats', {
                 chart: {

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-03 19:22+0300\n"
-"PO-Revision-Date: 2017-11-03 19:25+0300\n"
+"POT-Creation-Date: 2017-11-03 20:48+0300\n"
+"PO-Revision-Date: 2017-11-03 20:49+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -325,7 +325,7 @@ msgid "Submission count"
 msgstr "Число посылок"
 
 #: .\common\templates\common\activity.html:50
-#: .\contests\templates\contests\all_solutions.html:11
+#: .\contests\templates\contests\all_solutions.html:12
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
 #: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:596
@@ -555,7 +555,7 @@ msgstr "Пользователь"
 
 #: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
 #: .\contests\services.py:44
-#: .\contests\templates\contests\all_solutions.html:34
+#: .\contests\templates\contests\all_solutions.html:38
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
 #: .\contests\templates\contests\problem.html:7 .\courses\forms.py:134
@@ -742,11 +742,11 @@ msgstr "регулярное выражение"
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:496
+#: .\contests\services.py:503
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:515
+#: .\contests\services.py:522
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
@@ -849,7 +849,7 @@ msgstr "Удалить"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: .\contests\templates\contests\all_solutions.html:20
+#: .\contests\templates\contests\all_solutions.html:24
 #: .\contests\templates\contests\my_solutions.html:20
 #: .\courses\templates\courses\solutions.html:26
 #: .\problems\templates\problems\solutions.html:29
@@ -857,7 +857,7 @@ msgstr "Отмена"
 msgid "Apply"
 msgstr "Применить"
 
-#: .\contests\templates\contests\all_solutions.html:35
+#: .\contests\templates\contests\all_solutions.html:39
 #: .\contests\templates\contests\printing.html:24
 #: .\contests\templates\contests\printout_show.html:14
 #: .\courses\templates\courses\solutions.html:39
@@ -879,7 +879,7 @@ msgstr "Применить"
 msgid "Author"
 msgstr "Автор"
 
-#: .\contests\templates\contests\all_solutions.html:36
+#: .\contests\templates\contests\all_solutions.html:40
 #: .\contests\templates\contests\my_solutions.html:33
 #: .\contests\templates\contests\printing.html:25
 #: .\courses\templates\courses\solutions.html:42
@@ -890,7 +890,7 @@ msgstr "Автор"
 msgid "Time"
 msgstr "Время"
 
-#: .\contests\templates\contests\all_solutions.html:37
+#: .\contests\templates\contests\all_solutions.html:41
 #: .\contests\templates\contests\my_solutions.html:34
 #: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:153
 #: .\problems\forms.py:171 .\problems\forms.py:175 .\problems\forms.py:194
@@ -907,7 +907,7 @@ msgstr "Время"
 msgid "File"
 msgstr "Файл"
 
-#: .\contests\templates\contests\all_solutions.html:38
+#: .\contests\templates\contests\all_solutions.html:42
 #: .\contests\templates\contests\my_solutions.html:35
 #: .\contests\templates\contests\printing.html:26
 #: .\contests\templates\contests\printout_show.html:20
@@ -919,7 +919,7 @@ msgstr "Файл"
 msgid "Status"
 msgstr "Статус"
 
-#: .\contests\templates\contests\all_solutions.html:40
+#: .\contests\templates\contests\all_solutions.html:44
 #: .\contests\templates\contests\my_solutions.html:37
 #: .\solutions\templates\solutions\compare.html:60
 #: .\solutions\templates\solutions\compare.html:85
@@ -929,15 +929,15 @@ msgstr "Статус"
 msgid "Score"
 msgstr "Очки"
 
-#: .\contests\templates\contests\all_solutions.html:71
+#: .\contests\templates\contests\all_solutions.html:75
 msgid "Disqualify"
 msgstr "Дисквалифицировать"
 
-#: .\contests\templates\contests\all_solutions.html:74
+#: .\contests\templates\contests\all_solutions.html:78
 msgid "Cancel the disqualification"
 msgstr "Отменить дисквалификацию"
 
-#: .\contests\templates\contests\all_solutions.html:85
+#: .\contests\templates\contests\all_solutions.html:89
 #: .\contests\templates\contests\my_solutions.html:67
 #: .\courses\templates\courses\info.html:57
 #: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
@@ -1021,13 +1021,13 @@ msgid "Edit"
 msgstr "Правка"
 
 #: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:481
+#: .\contests\views.py:494
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:703 .\courses\views.py:817
+#: .\contests\views.py:716 .\courses\views.py:817
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1333,11 +1333,11 @@ msgid ""
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\views.py:733
+#: .\contests\views.py:746
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
-#: .\contests\views.py:887
+#: .\contests\views.py:900
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
@@ -1840,7 +1840,7 @@ msgstr "Время начала"
 #: .\courses\templates\courses\quizzes_answers.html:46
 #: .\courses\templates\courses\quizzes_rating.html:32
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:178
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:216
 msgid "Duration"
 msgstr "Длительность"
 
@@ -1911,7 +1911,7 @@ msgid "Points"
 msgstr "Баллы"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
-#: .\quizzes\statistics.py:70
+#: .\quizzes\statistics.py:89
 msgid "Correct"
 msgstr "Верно"
 
@@ -3148,12 +3148,12 @@ msgstr "метка"
 msgid "show answers"
 msgstr "показывать ответы"
 
-#: .\quizzes\statistics.py:71
+#: .\quizzes\statistics.py:92
 msgid "Incorrect"
 msgstr "Неверно"
 
 #: .\quizzes\tabs.py:9
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:145
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
 msgid "Question groups"
 msgstr "Группы вопросов"
 
@@ -3196,13 +3196,14 @@ msgstr "Новый шаблон"
 
 #: .\quizzes\templates\quizzes\quiz_template_list.html:17
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:49
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:91
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:119
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:154
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:193
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:52
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:94
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:129
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:157
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:172
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:192
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:221
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:231
 msgid "Sessions"
 msgstr "Сессии"
 
@@ -3221,32 +3222,37 @@ msgstr "Шаблонов тестов нет"
 msgid "Course"
 msgstr "Курс"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:21
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:24
 msgid "No data for statistics"
 msgstr "Нет данных для статистики"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:36
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:39
 msgid "Quiz marks by years"
 msgstr "Оценки за тест по годам"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:55
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:96
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:58
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:99
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
 msgid "sessions"
 msgstr "сессии"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:77
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:80
 msgid "Quiz marks by courses in the last year"
 msgstr "Оценки за тест по курсам за последний год"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:112
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:115
+msgid "Quiz marks by courses in the year before last"
+msgstr "Оценки за тест по курсам за предпоследний год"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:150
 msgid "Quiz marks distribution"
 msgstr "Распределение оценок за тест"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:171
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:209
 msgid "Sessions duration"
 msgstr "Длительность сессий"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:175
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:213
 msgid "min"
 msgstr "мин"
 
