@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-03 20:48+0300\n"
+"POT-Creation-Date: 2017-11-03 21:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1898,7 +1898,7 @@ msgid "Points"
 msgstr "Taškai"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
-#: .\quizzes\statistics.py:89
+#: .\quizzes\statistics.py:94
 msgid "Correct"
 msgstr "Teisingas"
 
@@ -3130,7 +3130,7 @@ msgstr "žymelė"
 msgid "show answers"
 msgstr "parodyti atsakymus"
 
-#: .\quizzes\statistics.py:92
+#: .\quizzes\statistics.py:97
 #, fuzzy
 #| msgid "Correct"
 msgid "Incorrect"
@@ -3225,7 +3225,7 @@ msgstr "Viktorina atsakymai"
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
 #, fuzzy
 #| msgid "Sessions"
-msgid "sessions"
+msgid "sess."
 msgstr "Sesijos"
 
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:80

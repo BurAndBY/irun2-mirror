@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-03 20:48+0300\n"
-"PO-Revision-Date: 2017-11-03 20:49+0300\n"
+"POT-Creation-Date: 2017-11-03 21:06+0300\n"
+"PO-Revision-Date: 2017-11-03 21:07+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1911,7 +1911,7 @@ msgid "Points"
 msgstr "Баллы"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
-#: .\quizzes\statistics.py:89
+#: .\quizzes\statistics.py:94
 msgid "Correct"
 msgstr "Верно"
 
@@ -3148,7 +3148,7 @@ msgstr "метка"
 msgid "show answers"
 msgstr "показывать ответы"
 
-#: .\quizzes\statistics.py:92
+#: .\quizzes\statistics.py:97
 msgid "Incorrect"
 msgstr "Неверно"
 
@@ -3233,8 +3233,8 @@ msgstr "Оценки за тест по годам"
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:58
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:99
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
-msgid "sessions"
-msgstr "сессии"
+msgid "sess."
+msgstr "сесс."
 
 #: .\quizzes\templates\quizzes\quiz_template_statistics.html:80
 msgid "Quiz marks by courses in the last year"
