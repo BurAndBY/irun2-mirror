@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-18 22:13+0300\n"
-"PO-Revision-Date: 2017-05-18 22:15+0300\n"
+"POT-Creation-Date: 2017-11-03 19:22+0300\n"
+"PO-Revision-Date: 2017-11-03 19:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -554,7 +554,7 @@ msgid "User"
 msgstr "Пользователь"
 
 #: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
-#: .\contests\services.py:42
+#: .\contests\services.py:44
 #: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
@@ -737,17 +737,16 @@ msgstr "статус"
 msgid "regular expression"
 msgstr "регулярное выражение"
 
-#: .\contests\services.py:54
+#: .\contests\services.py:56
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:492
-#: .\contests\templates\contests\standings_raw.html:15
+#: .\contests\services.py:496
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:511
+#: .\contests\services.py:515
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
@@ -796,6 +795,8 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\show_test.html:39
 #: .\problems\templates\problems\show_test.html:132
 #: .\problems\templates\problems\tests.html:62
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:36
 #: .\solutions\templates\solutions\solution_list.html:75
 #: .\users\templates\users\folder.html:34
 #: .\users\templates\users\folder.html:66
@@ -840,6 +841,7 @@ msgstr "Удалить"
 #: .\problems\templates\problems\upload_archive.html:20
 #: .\proglangs\templates\proglangs\edit.html:21
 #: .\quizzes\templates\quizzes\quiz_template_create.html:12
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:22
 #: .\quizzes\templates\quizzes\quiz_template_update.html:12
 #: .\quizzes\utils.py:95 .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
@@ -1014,7 +1016,7 @@ msgstr "Система"
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:34
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:42
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:44
 msgid "Edit"
 msgstr "Правка"
 
@@ -1057,6 +1059,7 @@ msgstr "Последнее решение"
 #: .\problems\templates\problems\challenge.html:43
 #: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:14
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:11
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:24
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
@@ -1065,11 +1068,11 @@ msgstr "Последнее решение"
 msgid "#"
 msgstr "№"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:39
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:35
 msgid "Penalty"
 msgstr "Штраф"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:42
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:38
 msgid "Sum"
 msgstr "Сумма"
 
@@ -1486,21 +1489,21 @@ msgstr "отсутствие"
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\quizviews.py:121
+#: .\courses\quizviews.py:122
 msgid "Permission denied"
 msgstr "Доступ запрещён"
 
-#: .\courses\quizviews.py:124
+#: .\courses\quizviews.py:125
 msgid "Quiz does not exist"
 msgstr "Тест не существует либо был удалён"
 
-#: .\courses\quizviews.py:128
+#: .\courses\quizviews.py:129
 msgid "Quiz is finished or no time is left. Do you want to go to home page?"
 msgstr ""
 "Тест был завершён, либо отведённое на него время вышло. Желаете перейти на "
 "страницу с результатами?"
 
-#: .\courses\quizviews.py:131
+#: .\courses\quizviews.py:132
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
@@ -1837,6 +1840,7 @@ msgstr "Время начала"
 #: .\courses\templates\courses\quizzes_answers.html:46
 #: .\courses\templates\courses\quizzes_rating.html:32
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:178
 msgid "Duration"
 msgstr "Длительность"
 
@@ -1907,6 +1911,7 @@ msgid "Points"
 msgstr "Баллы"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
+#: .\quizzes\statistics.py:70
 msgid "Correct"
 msgstr "Верно"
 
@@ -2004,6 +2009,7 @@ msgstr "Удалить курс"
 
 #: .\courses\templates\courses\settings_quiz_edit.html:12
 #: .\courses\templates\courses\settings_quizzes.html:22
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:14
 msgid "Quiz template"
 msgstr "Шаблон теста"
 
@@ -2926,6 +2932,7 @@ msgid "Browse"
 msgstr "Обзор"
 
 #: .\problems\templates\problems\tests.html:55
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:27
 #: .\solutions\templates\solutions\solution_list.html:70
 #: .\users\templates\users\folder.html:61
 msgid "Actions"
@@ -3141,7 +3148,12 @@ msgstr "метка"
 msgid "show answers"
 msgstr "показывать ответы"
 
+#: .\quizzes\statistics.py:71
+msgid "Incorrect"
+msgstr "Неверно"
+
 #: .\quizzes\tabs.py:9
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:145
 msgid "Question groups"
 msgstr "Группы вопросов"
 
@@ -3161,6 +3173,11 @@ msgstr "Число вопросов"
 msgid "No question groups"
 msgstr "Групп вопросов нет"
 
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:17
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
+msgid "Question group"
+msgstr "Группа вопросов"
+
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:10
 msgid "Shuffle questions"
 msgstr "Перемешать вопросы"
@@ -3169,11 +3186,7 @@ msgstr "Перемешать вопросы"
 msgid "Unlimited"
 msgstr "Без ограничений"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
-msgid "Question group"
-msgstr "Группа вопросов"
-
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:43
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:45
 msgid "Add question group"
 msgstr "Добавить группу вопросов"
 
@@ -3183,10 +3196,21 @@ msgstr "Новый шаблон"
 
 #: .\quizzes\templates\quizzes\quiz_template_list.html:17
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:49
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:91
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:119
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:154
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:193
 msgid "Sessions"
 msgstr "Сессии"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:31
+#: .\quizzes\templates\quizzes\quiz_template_list.html:27
+msgid "Statistics"
+msgstr "Статистика"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:33
 msgid "No quiz templates"
 msgstr "Шаблонов тестов нет"
 
@@ -3196,6 +3220,35 @@ msgstr "Шаблонов тестов нет"
 #: .\solutions\templates\solutions\solution.html:56
 msgid "Course"
 msgstr "Курс"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:21
+msgid "No data for statistics"
+msgstr "Нет данных для статистики"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:36
+msgid "Quiz marks by years"
+msgstr "Оценки за тест по годам"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:55
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:96
+msgid "sessions"
+msgstr "сессии"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:77
+msgid "Quiz marks by courses in the last year"
+msgstr "Оценки за тест по курсам за последний год"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:112
+msgid "Quiz marks distribution"
+msgstr "Распределение оценок за тест"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:171
+msgid "Sessions duration"
+msgstr "Длительность сессий"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:175
+msgid "min"
+msgstr "мин"
 
 #: .\quizzes\utils.py:91
 msgid "Finish"

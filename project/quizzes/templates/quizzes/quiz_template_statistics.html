@@ -1,0 +1,203 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block head %}
+    {% load static %}
+    <script src="{% static 'highcharts-6.0.2/highcharts.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <h3>{{ object.name }}</h3>
+
+    {% if has_data %}
+        <div id="ir-stats-by-year" class="ir-statistics-block"></div>
+        <div id="ir-stats-by-stud-group" class="ir-statistics-block"></div>
+        <div id="ir-marks-stats" class="ir-statistics-block"></div>
+        <div id="ir-stats-by-question-group" class="ir-statistics-block"></div>
+        <div id="ir-stats-time" class="ir-statistics-block"></div>
+    {% else %}
+        <div class="ir-absence">{% trans 'No data for statistics' %}</div>
+    {% endif %}
+
+    <script>
+        var stats = {{ statistics|safe }};
+        var redGreenGradient = ['#FF0000', '#FF4600', '#FF6900', '#FF8C00', '#FFAF00', '#FFD300', '#FFF600', '#E5FF00', '#C2FF00', '#9FFF00', '#58FF00'];
+
+        $(document).ready(function() {
+            if (!stats) return;
+
+            Highcharts.chart('ir-stats-by-year', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: '{% trans 'Quiz marks by years' %}'
+                },
+                colors: redGreenGradient,
+                xAxis: {
+                    categories: stats['by-year'].categories,
+                    tickmarkPlacement: 'on',
+                    title: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    reversedStacks: false,
+                    title: {
+                        text: '{% trans 'Sessions' %}'
+                    },
+                    min: 0
+                },
+                tooltip: {
+                    split: true,
+                    valueSuffix: ' {% trans 'sessions' %}'
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'normal',
+                        lineColor: '#666666',
+                        lineWidth: 1,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: '#666666'
+                        }
+                    }
+                },
+                series: stats['by-year'].series
+            });
+
+
+            Highcharts.chart('ir-stats-by-stud-group', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '{% trans 'Quiz marks by courses in the last year' %}'
+                },
+                colors: redGreenGradient,
+                xAxis: {
+                    categories: stats['by-stud-group'].categories,
+                    tickmarkPlacement: 'on',
+                    title: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    reversedStacks: false,
+                    title: {
+                        text: '{% trans 'Sessions' %}'
+                    }
+                },
+                tooltip: {
+                    split: true,
+                    valueSuffix: ' {% trans 'sessions' %}'
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: stats['by-stud-group'].series
+            });
+
+
+            Highcharts.chart('ir-marks-stats', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '{% trans 'Quiz marks distribution' %}'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '{% trans 'Sessions' %}'
+                    },
+                    min: 0
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [{
+                    name: '{% trans 'Sessions' %}',
+                    data: stats['by-marks'].data
+                }]
+            });
+
+
+            Highcharts.chart('ir-stats-by-question-group', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '{% trans 'Question groups' %}'
+                },
+                colors:['#5cb85c', '#d9534f'],
+                xAxis: {
+                    categories: stats['by-quest-group'].categories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '{% trans 'Sessions' %}'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: stats['by-quest-group'].series
+            });
+
+
+            Highcharts.chart('ir-stats-time', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: '{% trans 'Sessions duration' %}'
+                },
+                xAxis: {
+                    labels: {
+                        format: '{value} {% trans 'min' %}'
+                    },
+                    title: {
+                        text: '{% trans 'Duration' %}'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: '{% trans 'Sessions' %}'
+                    },
+                    min: 0
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    data: stats['by-time'].data,
+                    fillOpacity: 0.5,
+                    name: '{% trans 'Sessions' %}',
+                    marker: {
+                        enabled: false
+                    },
+                    threshold: null
+                }]
+
+            });
+        });
+    </script>
+{% endblock %}

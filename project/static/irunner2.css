@@ -1955,3 +1955,9 @@ Green menu
 .ir-quiz-info-list {
     padding-left: 15px;
 }
+
+.ir-statistics-block {
+    min-width: 310px;
+    height: 500px;
+    margin: 0 auto;
+}

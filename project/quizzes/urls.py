@@ -15,6 +15,7 @@ template_urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/groups/add/$', views.QuizTemplateAddGroupView.as_view(), name='add_group'),
     url(r'^(?P<pk>[0-9]+)/groups/(?P<relation_id>[0-9]+)/delete/$', views.QuizTemplateDeleteGroupView.as_view(), name='delete_group'),
     url(r'^(?P<pk>[0-9]+)/sessions/$', views.QuizSessionListView.as_view(), name='sessions'),
+    url(r'^(?P<pk>[0-9]+)/statistics/$', views.QuizStatisticsView.as_view(), name='statistics'),
 ]
 
 urlpatterns = [

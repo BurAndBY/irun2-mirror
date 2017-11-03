@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-31 21:10+0300\n"
+"POT-Creation-Date: 2017-11-03 19:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,7 +164,9 @@ msgstr "Atsijungti"
 
 #: .\cauth\templates\registration\logged_out.html:10
 msgid "You are now logged out. Any automatic login has also been stopped."
-msgstr "Jūs dabar atsijungėte. Bet kuris automatinis prisijungimas taip pat buvo sustabdytas."
+msgstr ""
+"Jūs dabar atsijungėte. Bet kuris automatinis prisijungimas taip pat buvo "
+"sustabdytas."
 
 #: .\cauth\templates\registration\logged_out.html:11
 msgid "Didn't mean to log out?"
@@ -183,7 +185,9 @@ msgstr "Prisijungti"
 msgid ""
 "Your account doesn't have access to this page. To proceed, please log in "
 "with an account that has access."
-msgstr "Jūsų paskyra neturi prieigos prie šio puslapio. Norėdami tęsti, prašome prisijungti naudodami paskyrą, kuri turi prieigą."
+msgstr ""
+"Jūsų paskyra neturi prieigos prie šio puslapio. Norėdami tęsti, prašome "
+"prisijungti naudodami paskyrą, kuri turi prieigą."
 
 #: .\cauth\templates\registration\login.html:18
 msgid "Please log in to see this page."
@@ -201,7 +205,9 @@ msgstr "Eikite į pagrindinį puslapį."
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
-msgstr "Prašome įvesti savo seną slaptažodį saugumui, o tada du kartus įveskite naują slaptažodį, kad galėtume patvirtinti, kad įvedėte jį teisingai."
+msgstr ""
+"Prašome įvesti savo seną slaptažodį saugumui, o tada du kartus įveskite "
+"naują slaptažodį, kad galėtume patvirtinti, kad įvedėte jį teisingai."
 
 #: .\cauth\templates\registration\password_change_form.html:21
 msgid "Change my password"
@@ -287,7 +293,11 @@ msgid ""
 "%(system_full_name)s is a software designed to serve programming contests of "
 "algorithm nature and help teachers in practicals labs on algorithm basics "
 "and related courses.\n"
-msgstr "\n%(system_full_name)s yra programinė įranga, sukurta organizuoti algoritmų pobūdžio programavimo konkursus ir padėti mokytojams praktika laboratorijose apie algoritmų pagrindus ir susijusius kursus.\n"
+msgstr ""
+"\n"
+"%(system_full_name)s yra programinė įranga, sukurta organizuoti algoritmų "
+"pobūdžio programavimo konkursus ir padėti mokytojams praktika laboratorijose "
+"apie algoritmų pagrindus ir susijusius kursus.\n"
 
 #: .\common\templates\common\about.html:29
 #: .\problems\templates\problems\irunner_problems_tex_tag.html:8
@@ -517,7 +527,9 @@ msgstr "Pareiškimų byla"
 msgid ""
 "You can upload a single file containing statements of all problems (usually "
 "in PDF format)."
-msgstr "Galite įkelti vieną failą, kuriame yra visų problemų aprašymai (dažniausiai PDF formatu)."
+msgstr ""
+"Galite įkelti vieną failą, kuriame yra visų problemų aprašymai (dažniausiai "
+"PDF formatu)."
 
 #: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
 #: .\courses\forms.py:157 .\courses\templates\courses\settings_base.html:27
@@ -539,7 +551,7 @@ msgid "User"
 msgstr "Vartotojas"
 
 #: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
-#: .\contests\services.py:42
+#: .\contests\services.py:44
 #: .\contests\templates\contests\all_solutions.html:34
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
 #: .\contests\templates\contests\my_solutions.html:32
@@ -721,17 +733,16 @@ msgstr "statusas"
 msgid "regular expression"
 msgstr "įprasta išraiška"
 
-#: .\contests\services.py:54
+#: .\contests\services.py:56
 #: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Dalyvis"
 
-#: .\contests\services.py:492
-#: .\contests\templates\contests\standings_raw.html:15
+#: .\contests\services.py:496
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Rezultatų suvestinė bus prieinama po varžybų pradžios"
 
-#: .\contests\services.py:511
+#: .\contests\services.py:515
 msgid "The scoreboard is hidden"
 msgstr "Rezultatų suvestinė yra paslėpta"
 
@@ -780,6 +791,8 @@ msgstr "Klausimas bus ištrintas."
 #: .\problems\templates\problems\show_test.html:39
 #: .\problems\templates\problems\show_test.html:132
 #: .\problems\templates\problems\tests.html:62
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:36
 #: .\solutions\templates\solutions\solution_list.html:75
 #: .\users\templates\users\folder.html:34
 #: .\users\templates\users\folder.html:66
@@ -824,6 +837,7 @@ msgstr "Ištrinti"
 #: .\problems\templates\problems\upload_archive.html:20
 #: .\proglangs\templates\proglangs\edit.html:21
 #: .\quizzes\templates\quizzes\quiz_template_create.html:12
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:22
 #: .\quizzes\templates\quizzes\quiz_template_update.html:12
 #: .\quizzes\utils.py:95 .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
@@ -947,7 +961,9 @@ msgstr "Ištrinti konkursą"
 msgid ""
 "Are you sure you want to permanently delete the contest? This action cannot "
 "be undone."
-msgstr "Ar tikrai norite visam laikui ištrinti konkursą? Šis veiksmas negali būti panaikintas."
+msgstr ""
+"Ar tikrai norite visam laikui ištrinti konkursą? Šis veiksmas negali būti "
+"panaikintas."
 
 #: .\contests\templates\contests\contest_confirm_delete.html:12
 #: .\courses\templates\courses\course_confirm_delete.html:12
@@ -997,7 +1013,7 @@ msgstr "Sistema"
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:34
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:42
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:44
 msgid "Edit"
 msgstr "Redaguoti"
 
@@ -1040,6 +1056,7 @@ msgstr "Paskutinis važiavimas"
 #: .\problems\templates\problems\challenge.html:43
 #: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:14
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:11
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:24
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
@@ -1048,11 +1065,11 @@ msgstr "Paskutinis važiavimas"
 msgid "#"
 msgstr "#"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:39
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:35
 msgid "Penalty"
 msgstr "Bausmė"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:42
+#: .\contests\templates\contests\irunner_contests_standings_tag.html:38
 msgid "Sum"
 msgstr "Suma"
 
@@ -1296,7 +1313,9 @@ msgid ""
 "You are not required to wait for the judgement result: you may continue "
 "using the system and check the status of your submissions on ‘My solutions’ "
 "page anytime."
-msgstr "Jums nereikia laukti sprendimo rezultatų: galite bet kada toliau naudotis sistema ir patikrinti savo pateiktų būsenų puslapį „Mano sprendimai“."
+msgstr ""
+"Jums nereikia laukti sprendimo rezultatų: galite bet kada toliau naudotis "
+"sistema ir patikrinti savo pateiktų būsenų puslapį „Mano sprendimai“."
 
 #: .\contests\templates\contests\submit.html:11
 msgid "Submission form will be available after the start of the contest"
@@ -1305,7 +1324,9 @@ msgstr "Paraiškos forma bus prieinama po konkurso pradžios"
 #: .\contests\templates\contests\submit.html:18
 msgid ""
 "Upsolving mode is on: your submission will not affect the final standings."
-msgstr "Pakilimo į aukštį režimas: jūsų pateikimas neturės įtakos galutinei pozicijai."
+msgstr ""
+"Pakilimo į aukštį režimas: jūsų pateikimas neturės įtakos galutinei "
+"pozicijai."
 
 #: .\contests\views.py:733
 msgid "The question has been successfully submitted."
@@ -1473,7 +1494,8 @@ msgstr "Viktorina nėra"
 
 #: .\courses\quizviews.py:129
 msgid "Quiz is finished or no time is left. Do you want to go to home page?"
-msgstr "Viktorina baigta arba liko ne laikas. Ar norite eiti į pradinį puslapį?"
+msgstr ""
+"Viktorina baigta arba liko ne laikas. Ar norite eiti į pradinį puslapį?"
 
 #: .\courses\quizviews.py:132
 msgid "Request is not valid"
@@ -1605,7 +1627,8 @@ msgstr "Ištrinti kriterijų"
 #: .\courses\templates\courses\criterion_confirm_delete.html:10
 msgid ""
 "Criterion is currently used in the following courses and cannot be deleted."
-msgstr "Kriterijus šiuo metu naudojamas šiuose kursuose ir negali būti ištrintas."
+msgstr ""
+"Kriterijus šiuo metu naudojamas šiuose kursuose ir negali būti ištrintas."
 
 #: .\courses\templates\courses\criterion_confirm_delete.html:20
 msgid "Criterion is not used in courses."
@@ -1804,6 +1827,7 @@ msgstr "Pradžios laikas"
 #: .\courses\templates\courses\quizzes_answers.html:46
 #: .\courses\templates\courses\quizzes_rating.html:32
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:178
 msgid "Duration"
 msgstr "Trukmė"
 
@@ -1874,6 +1898,7 @@ msgid "Points"
 msgstr "Taškai"
 
 #: .\courses\templates\courses\quizzes_answers.html:54
+#: .\quizzes\statistics.py:70
 msgid "Correct"
 msgstr "Teisingas"
 
@@ -1961,7 +1986,9 @@ msgstr "Nauja tema"
 #: .\courses\templates\courses\settings_problems.html:47
 msgid ""
 "These problems are not assigned individually. Every student can solve them."
-msgstr "Šios problemos nėra skiriamos atskirai. Kiekvienas studentas gali juos išspręsti."
+msgstr ""
+"Šios problemos nėra skiriamos atskirai. Kiekvienas studentas gali juos "
+"išspręsti."
 
 #: .\courses\templates\courses\settings_properties.html:17
 msgid "Delete the course"
@@ -1969,6 +1996,7 @@ msgstr "Ištrinti kursą"
 
 #: .\courses\templates\courses\settings_quiz_edit.html:12
 #: .\courses\templates\courses\settings_quizzes.html:22
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:14
 msgid "Quiz template"
 msgstr "Viktorina šabloną"
 
@@ -2002,7 +2030,9 @@ msgstr "Galima"
 msgid ""
 "<strong>Warning!</strong> Sum of weights is %(sum_actual)s, but "
 "%(sum_expected)s is required."
-msgstr "<strong>Įspėjimas!</strong> Svorių suma yra %(sum_actual)s, bet %(sum_expected)s yra privalomi."
+msgstr ""
+"<strong>Įspėjimas!</strong> Svorių suma yra %(sum_actual)s, bet "
+"%(sum_expected)s yra privalomi."
 
 #: .\courses\templates\courses\settings_sheet.html:14
 msgid "Main kinds of activity"
@@ -2248,7 +2278,8 @@ msgstr "Atminties riba"
 
 #: .\problems\forms.py:69
 msgid "Full feedback will be available for the first <i>N</i> test cases."
-msgstr "Visiems atsiliepimams bus pateikti pirmieji <i>N</i> testavimo atvejai."
+msgstr ""
+"Visiems atsiliepimams bus pateikti pirmieji <i>N</i> testavimo atvejai."
 
 #: .\problems\forms.py:147
 msgid "A file with this name already exists."
@@ -2262,7 +2293,8 @@ msgstr "ZIP-archyvas"
 msgid ""
 "The archive should not contain any other files except test inputs and "
 "outputs."
-msgstr "Archyve neturėtų būti jokių kitų failų, išskyrus bandymo įėjimus ir išvestį."
+msgstr ""
+"Archyve neturėtų būti jokių kitų failų, išskyrus bandymo įėjimus ir išvestį."
 
 #: .\problems\forms.py:205
 msgid "File naming scheme"
@@ -2548,7 +2580,9 @@ msgstr "Ištrinkite problemą"
 msgid ""
 "You should probably do not do this. Consider moving the problem to a special "
 "folder instead of permanently deleting it."
-msgstr "Tikriausiai neturėtumėte tai daryti. Apsvarstykite galimybę perkelti problemą į specialų aplanką, o ne visam laikui ją ištrinti."
+msgstr ""
+"Tikriausiai neturėtumėte tai daryti. Apsvarstykite galimybę perkelti "
+"problemą į specialų aplanką, o ne visam laikui ją ištrinti."
 
 #: .\problems\templates\problems\delete_file.html:8
 msgid "Are you sure you want to delete the file"
@@ -2604,7 +2638,9 @@ msgstr "Kompiliatorius"
 msgid ""
 "A problem may be put into several folders. Use <kbd>Ctrl</kbd> key to select "
 "multiple options."
-msgstr "Problema gali būti pateikta keliuose aplankuose. Naudokite klavišą <kbd>Ctrl</kbd>, norėdami pasirinkti keletą parinkčių."
+msgstr ""
+"Problema gali būti pateikta keliuose aplankuose. Naudokite klavišą "
+"<kbd>Ctrl</kbd>, norėdami pasirinkti keletą parinkčių."
 
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:7
 msgid "Input file name"
@@ -2675,13 +2711,17 @@ msgstr "Ištrinti aplanką"
 msgid ""
 "The folder or its subfolders are currently used in the following courses and "
 "cannot be deleted."
-msgstr "Aplankas ar jo poaplankiai šiuo metu naudojami šiuose kursuose ir jų negalima ištrinti."
+msgstr ""
+"Aplankas ar jo poaplankiai šiuo metu naudojami šiuose kursuose ir jų "
+"negalima ištrinti."
 
 #: .\problems\templates\problems\list_folder_confirm_delete.html:28
 msgid ""
 "The folder is going to be deleted together with its subfolders. The problems "
 "they contain will not be deleted."
-msgstr "Šis aplankas bus ištrintas kartu su jo poaplankiais. Jų problemos nebus ištrintos."
+msgstr ""
+"Šis aplankas bus ištrintas kartu su jo poaplankiais. Jų problemos nebus "
+"ištrintos."
 
 #: .\problems\templates\problems\list_folder_form.html:22
 #: .\users\templates\users\create_form.html:21
@@ -2861,7 +2901,9 @@ msgstr "Kai kurie bandymo įvesties failai nepatvirtino patvirtinimo."
 #: .\problems\templates\problems\tests.html:30
 msgid ""
 "Validation is running&hellip; Refresh the page after a while to see results."
-msgstr "Patvirtinimas vyksta & hellip; Po kurio laiko atnaujinkite puslapį, kad pamatytumėte rezultatus."
+msgstr ""
+"Patvirtinimas vyksta & hellip; Po kurio laiko atnaujinkite puslapį, kad "
+"pamatytumėte rezultatus."
 
 #: .\problems\templates\problems\tests.html:43
 #: .\problems\templates\problems\upload_archive.html:8
@@ -2873,6 +2915,7 @@ msgid "Browse"
 msgstr "Naršyti"
 
 #: .\problems\templates\problems\tests.html:55
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:27
 #: .\solutions\templates\solutions\solution_list.html:70
 #: .\users\templates\users\folder.html:61
 msgid "Actions"
@@ -2998,7 +3041,8 @@ msgstr "kalba"
 
 #: .\proglangs\models.py:30
 msgid "compiler is enabled by default in new courses"
-msgstr "kompiuteris yra įjungtas pagal numatytuosius nustatymus naujuose kursuose"
+msgstr ""
+"kompiuteris yra įjungtas pagal numatytuosius nustatymus naujuose kursuose"
 
 #: .\proglangs\models.py:31
 msgid "compiler is enabled by default in new contests"
@@ -3086,7 +3130,14 @@ msgstr "žymelė"
 msgid "show answers"
 msgstr "parodyti atsakymus"
 
+#: .\quizzes\statistics.py:71
+#, fuzzy
+#| msgid "Correct"
+msgid "Incorrect"
+msgstr "Teisingas"
+
 #: .\quizzes\tabs.py:9
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:145
 msgid "Question groups"
 msgstr "klausimų grupės"
 
@@ -3106,6 +3157,11 @@ msgstr "Klausimų skaičius"
 msgid "No question groups"
 msgstr "Nėra klausimų grupių"
 
+#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:17
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
+msgid "Question group"
+msgstr "Klausimų grupė"
+
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:10
 msgid "Shuffle questions"
 msgstr "Maišyti klausimus"
@@ -3114,11 +3170,7 @@ msgstr "Maišyti klausimus"
 msgid "Unlimited"
 msgstr "Neribotas"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
-msgid "Question group"
-msgstr "Klausimų grupė"
-
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:43
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:45
 msgid "Add question group"
 msgstr "Pridėti klausimų grupę"
 
@@ -3128,10 +3180,23 @@ msgstr "Naujas šablonas"
 
 #: .\quizzes\templates\quizzes\quiz_template_list.html:17
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:49
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:91
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:119
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:154
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:193
 msgid "Sessions"
 msgstr "Sesijos"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:31
+#: .\quizzes\templates\quizzes\quiz_template_list.html:27
+#, fuzzy
+#| msgid "Storage statistics"
+msgid "Statistics"
+msgstr "Sandėliavimo statistika"
+
+#: .\quizzes\templates\quizzes\quiz_template_list.html:33
 msgid "No quiz templates"
 msgstr "Ne viktorinos šablonai"
 
@@ -3141,6 +3206,43 @@ msgstr "Ne viktorinos šablonai"
 #: .\solutions\templates\solutions\solution.html:56
 msgid "Course"
 msgstr "Kursas"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:21
+#, fuzzy
+#| msgid "Storage statistics"
+msgid "No data for statistics"
+msgstr "Sandėliavimo statistika"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:36
+#, fuzzy
+#| msgid "Quiz answers"
+msgid "Quiz marks by years"
+msgstr "Viktorina atsakymai"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:55
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:96
+#, fuzzy
+#| msgid "Sessions"
+msgid "sessions"
+msgstr "Sesijos"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:77
+msgid "Quiz marks by courses in the last year"
+msgstr ""
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:112
+msgid "Quiz marks distribution"
+msgstr ""
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:171
+#, fuzzy
+#| msgid "duration"
+msgid "Sessions duration"
+msgstr "trukmė"
+
+#: .\quizzes\templates\quizzes\quiz_template_statistics.html:175
+msgid "min"
+msgstr ""
 
 #: .\quizzes\utils.py:91
 msgid "Finish"
@@ -3222,7 +3324,10 @@ msgid ""
 "Unable to determine the name of the source file. For Java code, make sure "
 "you have a single public class defined. You can also try to upload a file "
 "instead of using direct input of code."
-msgstr "Negalima nustatyti šaltinio failo pavadinimo. Java kodui įsitikinkite, kad turite apibrėžtą vieną viešą klasę. Taip pat galite pabandyti įkelti failą vietoj tiesioginio kodo įvedimo."
+msgstr ""
+"Negalima nustatyti šaltinio failo pavadinimo. Java kodui įsitikinkite, kad "
+"turite apibrėžtą vieną viešą klasę. Taip pat galite pabandyti įkelti failą "
+"vietoj tiesioginio kodo įvedimo."
 
 #: .\solutions\forms.py:92
 msgid "outcome"
@@ -3603,14 +3708,17 @@ msgstr "Sandėliavimo statistika"
 #: .\storage\templates\storage\irunner_storage_showcode_tag.html:8
 msgid ""
 "The file is <strong>binary</strong> and its content can not be displayed."
-msgstr "Failas yra <strong>dvejetainis</strong>, jo turinys negali būti rodomas."
+msgstr ""
+"Failas yra <strong>dvejetainis</strong>, jo turinys negali būti rodomas."
 
 #: .\storage\templates\storage\irunner_storage_show_tag.html:12
 #: .\storage\templates\storage\irunner_storage_showcode_tag.html:14
 msgid ""
 "The file is <strong>too big</strong>, so it is displayed truncated. You can "
 "download the full version."
-msgstr "Failas yra <strong>per didelis</strong>, todėl jis rodomas sutrumpintas. Galite atsisiųsti visą versiją."
+msgstr ""
+"Failas yra <strong>per didelis</strong>, todėl jis rodomas sutrumpintas. "
+"Galite atsisiųsti visą versiją."
 
 #: .\storage\templates\storage\irunner_storage_showbrief_tag.html:7
 msgid "The file is binary."
@@ -3702,13 +3810,17 @@ msgstr "Draudžiama naudoti simbolius nuo 0 iki 31 failų pavadinimuose"
 #: .\storage\validators.py:26
 #, python-format
 msgid "Characters %(forbidden)s are reserved and cannot be used in filenames"
-msgstr "Simboliai %(forbidden)s yra rezervuoti ir negali būti naudojami failų pavadinimuose"
+msgstr ""
+"Simboliai %(forbidden)s yra rezervuoti ir negali būti naudojami failų "
+"pavadinimuose"
 
 #: .\storage\validators.py:31
 msgid ""
 "For compatibility with Windows, words CON, PRN, AUX, NUL, COM1…9, LPT1…9 are "
 "reserved and cannot be used as filenames"
-msgstr "Suderinamumui su Windows žodžiai CON, PRN, AUX, NUL, COM1...9, LPT1...9 yra rezervuoti ir negali būti naudojami kaip failų pavadinimai"
+msgstr ""
+"Suderinamumui su Windows žodžiai CON, PRN, AUX, NUL, COM1...9, LPT1...9 yra "
+"rezervuoti ir negali būti naudojami kaip failų pavadinimai"
 
 #: .\storage\validators.py:34
 msgid "Filename must not end with a space or a period"
@@ -3745,7 +3857,9 @@ msgstr "Aplanko pavadinimas"
 msgid ""
 "Students: “[username] [last name] [first name]” or “[username] [last name] "
 "[first name] [patronymic]”"
-msgstr "Studentai: „[vartotojo vardas] [pavardė] [vardas]“ arba „[vartotojo vardas] [pavardė] [vardas] [tėvo vardas]“"
+msgstr ""
+"Studentai: „[vartotojo vardas] [pavardė] [vardas]“ arba „[vartotojo vardas] "
+"[pavardė] [vardas] [tėvo vardas]“"
 
 #: .\users\forms.py:46
 msgid "Teams: “[username] [team name]”"
@@ -3828,7 +3942,9 @@ msgstr "Tik personalui"
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
-msgstr "Vartotojas pamatys įspėjimo pranešimą, kol jis nustatys naują slaptažodį. Tai neleidžia naudoti nesaugių numatytųjų slaptažodžių."
+msgstr ""
+"Vartotojas pamatys įspėjimo pranešimą, kol jis nustatys naują slaptažodį. "
+"Tai neleidžia naudoti nesaugių numatytųjų slaptažodžių."
 
 #: .\users\forms.py:288
 msgid "For service accounts used by the testing module."
@@ -3954,7 +4070,9 @@ msgstr "Atnaujinti aprašymą"
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user's "
 "password, but you can set a new password."
-msgstr "Neapdoroti slaptažodžiai nėra saugomi, todėl nėra galimybės matyti šio vartotojo slaptažodžio, tačiau galite nustatyti naują slaptažodį."
+msgstr ""
+"Neapdoroti slaptažodžiai nėra saugomi, todėl nėra galimybės matyti šio "
+"vartotojo slaptažodžio, tačiau galite nustatyti naują slaptažodį."
 
 #: .\users\templates\users\profile_show.html:24
 msgid "The user belongs to staff and has extended access permissions."
@@ -4029,4 +4147,3 @@ msgstr "Ar tikrai norite perkelti naudotojus į kitą aplanką?"
 #: .\users\views.py:316
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr "Ar tikrai norite pakeisti šių vartotojų vardą ir pavardę?"
-
