@@ -1,0 +1,16 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block main %}
+    <h2>{% trans 'Question editor' %}</h2>
+    <div>{{ object|safe }}</div>
+    <form method="post" action="{% url 'quizzes:groups:save_question' group_id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon 'play' %}
+            <span class="ir-icon-label">{% trans 'Save' %}</span>
+        </button>
+    </form>
+{% endblock %}

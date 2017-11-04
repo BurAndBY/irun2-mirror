@@ -1,6 +1,16 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="ir-res-problem">{{ text|safe }}</div>
+        <div class="row">
+            <div class="ir-res-problem col-sm-11">{{ text|safe }}</div>
+            <div class="form-group col-sm-1">
+                <a class="btn btn-default" href="{% url 'quizzes:groups:edit_question' group_id id %}">
+                    {% bootstrap_icon 'pencil' %}
+                </a>
+            </div>
+        </div>
         {% for text, is_true in choices %}
             <div class="col-xs-12 ir-res-answer{% if is_true %} bg-success ir-res-answer-correct{% endif %}">{{ text|safe }}</div>
         {% endfor %}

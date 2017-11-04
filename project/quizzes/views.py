@@ -10,7 +10,7 @@ from common.pageutils import paginate
 import json
 
 from .forms import AddQuestionGroupForm
-from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession
+from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question
 from .tabs import Tabs
 from .utils import finish_overdue_sessions
 from .statistics import get_statistics
@@ -55,7 +55,7 @@ class QuestionGroupBrowseView(QuizAdminMixin, generic.DetailView):
         context = super(QuestionGroupBrowseView, self).get_context_data(**kwargs)
 
         # fetch related non-deleted questions
-        qs = self.object.question_set.filter(is_deleted=False).order_by('id')
+        qs = self.object.question_set.filter(is_deleted=False).order_by('id').select_related('group')
 
         page_context = paginate(self.request, qs, default_page_size=self.paginate_by, allow_all=False)
         context.update(page_context)
@@ -200,3 +200,40 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
         context['has_data'] = statistics is not None
         context['has_previous_year'] = 'by-stud-group-prev' in statistics
         return render(request, self.template_name, context)
+
+
+class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'quizzes/question_edit.html'
+
+    def _get_question_data(self, question_id):
+        question = get_object_or_404(Question, pk=question_id)
+        choices = []
+        for c in question.choice_set.all():
+            choices.append({'id': c.id, 'text': c.text, 'is_right': c.is_right})
+        return {'id': question.id, 'text': question.text, 'type': question.kind, 'choices': choices}
+
+    def get(self, request, pk, question_id):
+        context = self.get_context_data()
+        context['object'] = self._get_question_data(question_id)
+        context['group_id'] = int(pk)
+        return render(request, self.template_name, context)
+
+
+class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'quizzes/question_edit.html'
+
+    def _get_question_data(self):
+        return {'id': None, 'text': '', 'type': Question.SINGLE_ANSWER, 'choices': []}
+
+    def get(self, request, pk):
+        context = self.get_context_data()
+        context['object'] = self._get_question_data()
+        context['group_id'] = int(pk)
+        return render(request, self.template_name, context)
+
+
+class QuestionSaveView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'quizzes/question_edit.html'
+
+    def post(self, request, pk):
+        return redirect('quizzes:groups:browse', pk)

@@ -18,7 +18,7 @@ def create_session(instance, user):
         random.shuffle(relations)
     questions = []
     for idx, rel in enumerate(relations):
-        qs = rel.group.question_set.order_by('pk')
+        qs = rel.group.question_set.filter(is_deleted=False).order_by('pk')
         q = qs[random.randint(0, qs.count() - 1)]
         questions.append(SessionQuestion(quiz_session=session, order=idx, points=rel.points, question=q))
     SessionQuestion.objects.bulk_create(questions)

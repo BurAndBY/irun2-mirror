@@ -16,6 +16,8 @@ SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'text is_right is_wrong is_n
 def irunner_quizzes_showquestion(question):
     preparer = escape if (question.kind == Question.TEXT_ANSWER) else tex2html
     return {
+        'id': question.id,
+        'group_id': question.group_id,
         'text': tex2html(question.text),
         'choices': [
             (preparer(ch.text), ch.is_right) for ch in question.choice_set.order_by('id')
