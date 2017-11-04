@@ -3,14 +3,16 @@ from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.db.models import F
+from django.http import HttpResponseBadRequest
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
 
 import json
 
+from quizzes.serializers import QuestionDataSerializer
 from .forms import AddQuestionGroupForm
-from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question
+from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
 from .utils import finish_overdue_sessions
 from .statistics import get_statistics
@@ -214,7 +216,7 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
 
     def get(self, request, pk, question_id):
         context = self.get_context_data()
-        context['object'] = self._get_question_data(question_id)
+        context['object'] = json.dumps(self._get_question_data(question_id))
         context['group_id'] = int(pk)
         return render(request, self.template_name, context)
 
@@ -227,7 +229,7 @@ class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View
 
     def get(self, request, pk):
         context = self.get_context_data()
-        context['object'] = self._get_question_data()
+        context['object'] = json.dumps(self._get_question_data())
         context['group_id'] = int(pk)
         return render(request, self.template_name, context)
 
@@ -236,4 +238,22 @@ class QuestionSaveView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     template_name = 'quizzes/question_edit.html'
 
     def post(self, request, pk):
+        group = get_object_or_404(QuestionGroup, pk=pk)
+        if 'question' not in request.POST:
+            return HttpResponseBadRequest()
+        serializer = QuestionDataSerializer(data=json.loads(request.POST['question']))
+        if not serializer.is_valid(raise_exception=True):
+            return HttpResponseBadRequest()
+        question_data = serializer.save()
+        with transaction.atomic():
+            if question_data.id is not None:
+                question = get_object_or_404(Question, pk=question_data.id)
+                question.is_deleted = True
+                question.save()
+            question = Question.objects.create(kind=question_data.type, text=question_data.text, group=group)
+            choices = []
+            for c in question_data.choices:
+                choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
+            Choice.objects.bulk_create(choices)
+
         return redirect('quizzes:groups:browse', pk)

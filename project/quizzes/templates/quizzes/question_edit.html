@@ -1,16 +1,99 @@
 {% extends 'quizzes/base.html' %}
 
+{% load irunner_katex %}
 {% load bootstrap3 %}
 {% load i18n %}
 
+{% block head %}
+    {% load static %}
+    {% irunner_katex_head %}
+    <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
+{% endblock %}
+
 {% block main %}
     <h2>{% trans 'Question editor' %}</h2>
-    <div>{{ object|safe }}</div>
+
+    <input id="questionData" type="hidden" value="{{ object }}" />
+
+    {% verbatim %}
+        <div class="row" ng-app="editor">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="questionText">Question text:</label>
+                    <textarea class="form-control" rows="5" id="questionText" ng-model="question.text"></textarea>
+                </div>
+                <div class="panel panel-default" ng-repeat="c in question.choices">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <form>
+                                    <div class="form-group" ng-switch="question.type">
+                                        <div class="radio" ng-switch-when="0">
+                                            <label for="{{getInputId(c.id)}}" class="ir-label-without-padding">
+                                                <input type="radio" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-click="setRadioChoice(c)" ng-checked="c.is_right"/>
+                                                <span>Is right</span>
+                                            </label>
+                                        </div>
+                                        <div class="radio" ng-switch-when="1">
+                                            <label for="{{getInputId(c.id)}}" class="ir-label-without-padding">
+                                                <input type="checkbox" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-model="c.is_right"/>
+                                                <span>Is right</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{getInputId(c.id)}}">Choice text:</label>
+                                        <input class="form-control" type="text" id="{{getInputId(c.id)}}" ng-model="c.text"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-default ir-btn-without-border" ng-click="removeChoice($index)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endverbatim %}
+
+
     <form method="post" action="{% url 'quizzes:groups:save_question' group_id %}">
         {% csrf_token %}
+        <input type="hidden" id="resultQuestionData" name="question"/>
         <button type="submit" class="btn btn-primary">
-            {% bootstrap_icon 'play' %}
             <span class="ir-icon-label">{% trans 'Save' %}</span>
         </button>
     </form>
+
+    <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
+    <script>
+var app = angular.module('editor', ["ngSanitize"]);
+app.run(function ($rootScope, $window, $interval) {
+    $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
+    $rootScope.nextId = 1;
+    angular.forEach($rootScope.question.choices, function (c) {
+        c.id = $rootScope.nextId++;
+    });
+
+    $rootScope.getInputId = function (id) {
+        return 'c' + id;
+    };
+    $rootScope.setRadioChoice = function (c) {
+        angular.forEach($rootScope.question.choices, function (c) {
+            c.is_right = false;
+        });
+        c.is_right = true;
+    };
+    $rootScope.removeChoice = function (idx) {
+        $rootScope.question.choices.splice(idx, 1);
+    };
+
+    $rootScope.$watch('question', function () {
+        document.getElementById("resultQuestionData").value = JSON.stringify($rootScope.question);
+    }, true);
+});
+    </script>
 {% endblock %}

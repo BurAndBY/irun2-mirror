@@ -1961,3 +1961,12 @@ Green menu
     height: 500px;
     margin: 0 auto;
 }
+
+.ir-btn-without-border {
+    background-color: transparent;
+    border: none !important;
+}
+
+.ir-label-without-padding {
+    padding-left: 0 !important;
+}

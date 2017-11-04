@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from quizzes.quizstructs import QuizAnswer, QuizAnswersData, SaveAnswerMessage
+from quizzes.quizstructs import QuizAnswer, QuizAnswersData, SaveAnswerMessage, QuestionChoice, QuestionData
 
 
 class QuizAnswerSerializer(serializers.Serializer):
@@ -23,3 +23,21 @@ class SaveAnswerMessageSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return SaveAnswerMessage(**validated_data)
+
+
+class QuestionChoiceSerializer(serializers.Serializer):
+    id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
+    is_right = serializers.BooleanField(required=True)
+    text = serializers.CharField(required=True)
+
+
+class QuestionDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
+    text = serializers.CharField(required=True)
+    type = serializers.IntegerField(min_value=0, required=True)
+    choices = serializers.ListField(child=QuestionChoiceSerializer())
+
+    def create(self, validated_data):
+        choices_data = validated_data.pop('choices')
+        choices = [QuestionChoice(**choice_data) for choice_data in choices_data]
+        return QuestionData(validated_data.pop('id'), validated_data.pop('text'), validated_data.pop('type'), choices)
