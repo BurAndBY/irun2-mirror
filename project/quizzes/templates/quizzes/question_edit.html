@@ -16,6 +16,25 @@
     <input id="questionData" type="hidden" value="{{ object }}" />
     <input id="languageTags" type="hidden" value="{{ languageTags }}"/>
 
+    {% if has_error %}
+        <div class="modal fade" id="errModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true" data-show="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="warnModalLabel">{% trans 'Error' %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-danger">{% trans 'Error' %}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">{% trans 'OK' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     {% verbatim %}
         <div class="row" ng-app="editor">
             <div class="col-xs-12">
@@ -93,7 +112,7 @@
     {% endverbatim %}
 
 
-    <form method="post" action="{% url 'quizzes:groups:save_question' group_id %}">
+    <form method="post">
         {% csrf_token %}
         <input type="hidden" id="resultQuestionData" name="question"/>
         <button type="submit" class="btn btn-primary">
@@ -102,6 +121,13 @@
     </form>
 
     <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
+    {% if has_error %}
+        <script>
+        $(window).on('load',function(){
+            $('#errModal').modal('show');
+        });
+        </script>
+    {% endif %}
     <script>
 var app = angular.module('editor', ["ngSanitize"]);
 app.run(function ($rootScope, $window, $interval) {

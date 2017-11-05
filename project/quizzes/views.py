@@ -204,7 +204,39 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
         return render(request, self.template_name, context)
 
 
-class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class SaveQuestionMixin(object):
+    def _do_post(self, request, pk):
+        group = get_object_or_404(QuestionGroup, pk=pk)
+        try:
+            json_data = json.loads(request.POST['question'])
+        except:
+            return redirect('quizzes:groups:browse', pk)
+
+        serializer = QuestionDataSerializer(data=json_data)
+        if not serializer.is_valid(raise_exception=False):
+            context = self.get_context_data()
+            context['has_error'] = True
+            context['object'] = json.dumps(json_data)
+            context['group_id'] = pk
+            context['languageTags'] = json.dumps(get_question_editor_language_tags())
+            return render(request, self.template_name, context)
+
+        question_data = serializer.save()
+        with transaction.atomic():
+            if question_data.id is not None:
+                question = get_object_or_404(Question, pk=question_data.id)
+                question.is_deleted = True
+                question.save()
+            question = Question.objects.create(kind=question_data.type, text=question_data.text, group=group)
+            choices = []
+            for c in question_data.choices:
+                choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
+            Choice.objects.bulk_create(choices)
+
+        return redirect('quizzes:groups:browse', pk)
+
+
+class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
     template_name = 'quizzes/question_edit.html'
 
     def _get_question_data(self, question_id):
@@ -221,8 +253,11 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
+    def post(self, request, pk, question_id):
+        return self._do_post(request, pk)
 
-class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+
+class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
     template_name = 'quizzes/question_edit.html'
 
     def get(self, request, pk):
@@ -232,27 +267,5 @@ class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
-
-class QuestionSaveView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
-    template_name = 'quizzes/question_edit.html'
-
     def post(self, request, pk):
-        group = get_object_or_404(QuestionGroup, pk=pk)
-        if 'question' not in request.POST:
-            return HttpResponseBadRequest()
-        serializer = QuestionDataSerializer(data=json.loads(request.POST['question']))
-        if not serializer.is_valid(raise_exception=True):
-            return HttpResponseBadRequest()
-        question_data = serializer.save()
-        with transaction.atomic():
-            if question_data.id is not None:
-                question = get_object_or_404(Question, pk=question_data.id)
-                question.is_deleted = True
-                question.save()
-            question = Question.objects.create(kind=question_data.type, text=question_data.text, group=group)
-            choices = []
-            for c in question_data.choices:
-                choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
-            Choice.objects.bulk_create(choices)
-
-        return redirect('quizzes:groups:browse', pk)
+        return self._do_post(request, pk)
