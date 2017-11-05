@@ -28,13 +28,13 @@ class SaveAnswerMessageSerializer(serializers.Serializer):
 class QuestionChoiceSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
     is_right = serializers.BooleanField(required=True)
-    text = serializers.CharField(required=True)
+    text = serializers.CharField(required=True, max_length=200)
 
 
 class QuestionDataSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
-    text = serializers.CharField(required=True)
-    type = serializers.IntegerField(min_value=0, required=True)
+    text = serializers.CharField(required=True, max_length=16383)
+    type = serializers.IntegerField(min_value=0, max_value=2, required=True)
     choices = serializers.ListField(child=QuestionChoiceSerializer())
 
     def create(self, validated_data):
