@@ -269,3 +269,13 @@ class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestion
 
     def post(self, request, pk):
         return self._do_post(request, pk)
+
+
+class QuestionGroupCreateView(QuizAdminMixin, generic.CreateView):
+    tab = Tabs.GROUPS
+    template_name = 'quizzes/question_group_create.html'
+    model = QuestionGroup
+    fields = ['name']
+
+    def get_success_url(self):
+        return reverse('quizzes:groups:browse', kwargs={'pk': self.object.id})
