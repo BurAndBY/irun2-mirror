@@ -115,9 +115,11 @@
     <form method="post">
         {% csrf_token %}
         <input type="hidden" id="resultQuestionData" name="question"/>
+        {% buttons %}
         <button type="submit" class="btn btn-primary">
             <span class="ir-icon-label">{% trans 'Save' %}</span>
         </button>
+        {% endbuttons %}
     </form>
 
     <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
