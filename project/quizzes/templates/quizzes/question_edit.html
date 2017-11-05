@@ -29,7 +29,7 @@
                                 <form>
                                     <div class="form-group" ng-switch="question.type">
                                         <div class="radio" ng-switch-when="0">
-                                            <label for="{{getInputId(c.id)}}" class="ir-label-without-padding">
+                                            <label for="{{getInputId(c.id)}}">
                                                 <input type="radio" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-click="setRadioChoice(c)" ng-checked="c.is_right"/>
                                                 <span>Is right</span>
                                             </label>
@@ -48,12 +48,21 @@
                                 </form>
                             </div>
                             <div class="col-sm-1">
-                                <button type="button" class="btn btn-default ir-btn-without-border" ng-click="removeChoice($index)">
+                                <button type="button"
+                                        class="btn btn-sm btn-default ir-btn-without-border"
+                                        ng-click="removeChoice($index)"
+                                        ng-disabled="!canRemoveChoice($index)">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" type="button" ng-click="addChoice()" ng-disabled="question.type === 2">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="ir-icon-label">Add choice</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -89,6 +98,25 @@ app.run(function ($rootScope, $window, $interval) {
     };
     $rootScope.removeChoice = function (idx) {
         $rootScope.question.choices.splice(idx, 1);
+    };
+    $rootScope.addChoice = function () {
+        $rootScope.question.choices.push({id: $rootScope.nextId++, text: '', is_right: false});
+    };
+    $rootScope.canRemoveChoice = function (idx) {
+        if ($rootScope.question.type === 0) {
+            return !$rootScope.question.choices[idx].is_right;
+        }
+        if ($rootScope.question.type === 1) {
+            var right = 0;
+            angular.forEach($rootScope.question.choices, function (c) {
+                right += c.is_right ? 1 : 0;
+            });
+            return !$rootScope.question.choices[idx].is_right || right > 1;
+        }
+        if ($rootScope.question.type === 2) {
+            return false;
+        }
+        return true;
     };
 
     $rootScope.$watch('question', function () {

@@ -225,7 +225,7 @@ class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View
     template_name = 'quizzes/question_edit.html'
 
     def _get_question_data(self):
-        return {'id': None, 'text': '', 'type': Question.SINGLE_ANSWER, 'choices': []}
+        return {'id': None, 'text': '', 'type': Question.SINGLE_ANSWER, 'choices': [{'text': '', 'is_right': True}]}
 
     def get(self, request, pk):
         context = self.get_context_data()
