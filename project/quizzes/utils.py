@@ -124,4 +124,5 @@ def get_question_editor_language_tags():
         'addChoice': _('Add choice'),
         'defaultQuestionText': _('Type the question text here...'),
         'defaultChoiceText': _('Type the choice text here...'),
+        'refreshPreview': _('Refresh preview'),
     }

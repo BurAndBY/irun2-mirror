@@ -68,10 +68,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-default" type="button" ng-click="addChoice()" ng-disabled="question.type === 2">
+                    <button class="btn btn-default ir-inline-block" type="button" ng-click="addChoice()" ng-disabled="question.type === 2">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="ir-icon-label">{{languageTags.addChoice}}</span>
                     </button>
+                    <button class="btn btn-default ir-inline-block" type="button" ng-click="updatePreview()">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                        <span class="ir-icon-label">{{languageTags.refreshPreview}}</span>
+                    </button>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 ir-res-problem" ng-bind-html="preview.text"></div>
+                        </div>
+                        <div ng-repeat="c in preview.choices"
+                             ng-bind-html="c.text"
+                             ng-class="{'col-xs-12': true, 'ir-res-answer': true, 'bg-success': c.is_right, 'ir-res-answer-correct': c.is_right}">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,6 +106,7 @@
 var app = angular.module('editor', ["ngSanitize"]);
 app.run(function ($rootScope, $window, $interval) {
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
+    $rootScope.preview = angular.copy($rootScope.question);
     $rootScope.languageTags = angular.fromJson(document.getElementById('languageTags').value);
     $rootScope.nextId = 1;
     angular.forEach($rootScope.question.choices, function (c) {
@@ -132,6 +148,34 @@ app.run(function ($rootScope, $window, $interval) {
         }
         return true;
     };
+    $rootScope.updatePreview = function () {
+        $rootScope.preview = angular.copy($rootScope.question);
+        $rootScope.preview.text = $rootScope.processKatex($rootScope.preview.text);
+        angular.forEach($rootScope.preview.choices, function (c) {
+            c.text = $rootScope.processKatex(c.text);
+        });
+        setTimeout(function () {
+            $(".ir-katex-displayed:not(.processed)").katex({ displayMode: true });
+            $(".ir-katex-inline:not(.processed)").katex({ displayMode: false });
+            $(".ir-katex-displayed:not(.processed)").addClass("processed");
+            $(".ir-katex-inline:not(.processed)").addClass("processed");
+        }, 0);
+    };
+    $rootScope.processKatex = function (original) {
+        var replacerInline = function (match, p1, p2, p3, offset, original) {
+            return '<span class="ir-katex-inline">' + p2 + '</span>';
+        };
+        var replacerDisplayed = function (match, p1, p2, p3, offset, original) {
+            return '<div class="ir-katex-displayed">' + p2 + '</div>';
+        };
+        var regDisplayed = /(\$\$)([^$]+)(\$\$)/g;
+        var res = original.replace(regDisplayed, replacerDisplayed);
+        var regInline = /(\$)([^$]+)(\$)/g;
+        res = res.replace(regInline, replacerInline);
+        res = res.replace(/\n\n/g, '<br />');
+        return res;
+    };
+    $rootScope.updatePreview();
 
     $rootScope.$watch('question', function () {
         document.getElementById("resultQuestionData").value = JSON.stringify($rootScope.question);
