@@ -100,11 +100,11 @@ def get_quiz_page_language_tags():
     }
 
 
-def get_empty_question_data():
+def get_empty_question_data(kind):
     return {
         'id': None,
         'text': _('Type the question text here...'),
-        'type': Question.SINGLE_ANSWER,
+        'type': kind,
         'choices': [{
             'text': _('Type the choice text here...'),
             'is_right': True

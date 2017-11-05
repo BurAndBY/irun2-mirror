@@ -261,8 +261,11 @@ class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestion
     template_name = 'quizzes/question_edit.html'
 
     def get(self, request, pk):
+        any_question = Question.objects.filter(group_id=pk, is_deleted=False).first()
+        kind = Question.SINGLE_ANSWER if any_question is None else any_question.kind
+
         context = self.get_context_data()
-        context['object'] = json.dumps(get_empty_question_data())
+        context['object'] = json.dumps(get_empty_question_data(kind))
         context['group_id'] = int(pk)
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
