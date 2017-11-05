@@ -14,20 +14,21 @@
     <h2>{% trans 'Question editor' %}</h2>
 
     <input id="questionData" type="hidden" value="{{ object }}" />
+    <input id="languageTags" type="hidden" value="{{ languageTags }}"/>
 
     {% verbatim %}
         <div class="row" ng-app="editor">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label for="questionText">Question text:</label>
+                    <label for="questionText">{{languageTags.questionText}}:</label>
                     <textarea class="form-control" rows="5" id="questionText" ng-model="question.text"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="questionType">Question type:</label>
+                    <label for="questionType">{{languageTags.questionType}}:</label>
                     <select class="form-control" id="questionType" ng-model="question.type">
-                        <option value="0">Single answer</option>
-                        <option value="1">Multiple answer</option>
-                        <option value="2">Text answer</option>
+                        <option value="0">{{languageTags.singleAnswer}}</option>
+                        <option value="1">{{languageTags.multipleAnswers}}</option>
+                        <option value="2">{{languageTags.textAnswer}}</option>
                     </select>
                 </div>
                 <div class="panel panel-default" ng-repeat="c in question.choices">
@@ -39,18 +40,18 @@
                                         <div class="radio" ng-switch-when="0">
                                             <label for="{{getInputId(c.id)}}">
                                                 <input type="radio" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-click="setRadioChoice(c)" ng-checked="c.is_right"/>
-                                                <span>Is right</span>
+                                                <span>{{languageTags.isRight}}</span>
                                             </label>
                                         </div>
                                         <div class="radio" ng-switch-when="1">
                                             <label for="{{getInputId(c.id)}}" class="ir-label-without-padding">
                                                 <input type="checkbox" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-model="c.is_right"/>
-                                                <span>Is right</span>
+                                                <span>{{languageTags.isRight}}</span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="{{getInputId(c.id)}}">Choice text:</label>
+                                        <label for="{{getInputId(c.id)}}">{{languageTags.choiceText}}:</label>
                                         <input class="form-control" type="text" id="{{getInputId(c.id)}}" ng-model="c.text"/>
                                     </div>
                                 </form>
@@ -69,7 +70,7 @@
                 <div class="form-group">
                     <button class="btn btn-default" type="button" ng-click="addChoice()" ng-disabled="question.type === 2">
                         <span class="glyphicon glyphicon-plus"></span>
-                        <span class="ir-icon-label">Add choice</span>
+                        <span class="ir-icon-label">{{languageTags.addChoice}}</span>
                     </button>
                 </div>
             </div>
@@ -90,6 +91,7 @@
 var app = angular.module('editor', ["ngSanitize"]);
 app.run(function ($rootScope, $window, $interval) {
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
+    $rootScope.languageTags = angular.fromJson(document.getElementById('languageTags').value);
     $rootScope.nextId = 1;
     angular.forEach($rootScope.question.choices, function (c) {
         c.id = $rootScope.nextId++;
@@ -108,7 +110,11 @@ app.run(function ($rootScope, $window, $interval) {
         $rootScope.question.choices.splice(idx, 1);
     };
     $rootScope.addChoice = function () {
-        $rootScope.question.choices.push({id: $rootScope.nextId++, text: '', is_right: false});
+        $rootScope.question.choices.push({
+            id: $rootScope.nextId++,
+            text: $rootScope.languageTags.defaultChoiceText,
+            is_right: false
+        });
     };
     $rootScope.canRemoveChoice = function (idx) {
         if ($rootScope.question.type === 0) {
@@ -136,7 +142,11 @@ app.run(function ($rootScope, $window, $interval) {
         if ((oldValue === 0 || oldValue === 1) && newValue === 2) {
             var rightIdx = $rootScope.question.choices.findIndex(function (c) {return c.is_right;});
             if (rightIdx < 0) {
-                $rootScope.question.choices = [{id: $rootScope.nextId++, text: '', is_right: true}];
+                $rootScope.question.choices = [{
+                    id: $rootScope.nextId++,
+                    text: $rootScope.languageTags.defaultChoiceText,
+                    is_right: true
+                }];
             } else {
                 $rootScope.question.choices = [$rootScope.question.choices[rightIdx]];
             }

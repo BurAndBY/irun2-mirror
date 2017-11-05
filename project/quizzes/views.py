@@ -14,7 +14,7 @@ from quizzes.serializers import QuestionDataSerializer
 from .forms import AddQuestionGroupForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
-from .utils import finish_overdue_sessions
+from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data
 from .statistics import get_statistics
 
 
@@ -218,19 +218,18 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
         context = self.get_context_data()
         context['object'] = json.dumps(self._get_question_data(question_id))
         context['group_id'] = int(pk)
+        context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
 
 class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     template_name = 'quizzes/question_edit.html'
 
-    def _get_question_data(self):
-        return {'id': None, 'text': '', 'type': Question.SINGLE_ANSWER, 'choices': [{'text': '', 'is_right': True}]}
-
     def get(self, request, pk):
         context = self.get_context_data()
-        context['object'] = json.dumps(self._get_question_data())
+        context['object'] = json.dumps(get_empty_question_data())
         context['group_id'] = int(pk)
+        context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
 

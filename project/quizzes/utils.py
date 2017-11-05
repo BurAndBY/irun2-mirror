@@ -98,3 +98,30 @@ def get_quiz_page_language_tags():
         'networkError': _('Network error'),
         'noTimeLeft': _('No time left')
     }
+
+
+def get_empty_question_data():
+    return {
+        'id': None,
+        'text': _('Type the question text here...'),
+        'type': Question.SINGLE_ANSWER,
+        'choices': [{
+            'text': _('Type the choice text here...'),
+            'is_right': True
+        }]
+    }
+
+
+def get_question_editor_language_tags():
+    return {
+        'questionText': _('Question text'),
+        'questionType': _('Question type'),
+        'choiceText': _('Choice text'),
+        'isRight': _('Is correct'),
+        'singleAnswer': _('Single answer'),
+        'multipleAnswers': _('Multiple answers'),
+        'textAnswer': _('Text answer'),
+        'addChoice': _('Add choice'),
+        'defaultQuestionText': _('Type the question text here...'),
+        'defaultChoiceText': _('Type the choice text here...'),
+    }
