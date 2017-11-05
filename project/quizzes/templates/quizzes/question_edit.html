@@ -22,6 +22,14 @@
                     <label for="questionText">Question text:</label>
                     <textarea class="form-control" rows="5" id="questionText" ng-model="question.text"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="questionType">Question type:</label>
+                    <select class="form-control" id="questionType" ng-model="question.type">
+                        <option value="0">Single answer</option>
+                        <option value="1">Multiple answer</option>
+                        <option value="2">Text answer</option>
+                    </select>
+                </div>
                 <div class="panel panel-default" ng-repeat="c in question.choices">
                     <div class="panel-body">
                         <div class="row">
@@ -122,6 +130,26 @@ app.run(function ($rootScope, $window, $interval) {
     $rootScope.$watch('question', function () {
         document.getElementById("resultQuestionData").value = JSON.stringify($rootScope.question);
     }, true);
+    $rootScope.$watch('question.type', function (newValue, oldValue) {
+        newValue = parseInt(newValue);
+        $rootScope.question.type = newValue;
+        if ((oldValue === 0 || oldValue === 1) && newValue === 2) {
+            var rightIdx = $rootScope.question.choices.findIndex(function (c) {return c.is_right;});
+            if (rightIdx < 0) {
+                $rootScope.question.choices = [{id: $rootScope.nextId++, text: '', is_right: true}];
+            } else {
+                $rootScope.question.choices = [$rootScope.question.choices[rightIdx]];
+            }
+        }
+        if (oldValue === 1 && newValue === 0) {
+            var rightIdx = $rootScope.question.choices.findIndex(function (c) {return c.is_right;});
+            if (rightIdx >= 0) {
+                angular.forEach($rootScope.question.choices, function (c, $index) {
+                    c.is_right = $index === rightIdx;
+                });
+            }
+        }
+    });
 });
     </script>
 {% endblock %}
