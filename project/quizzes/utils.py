@@ -116,7 +116,6 @@ def get_question_editor_language_tags():
     return {
         'questionText': _('Question text'),
         'questionType': _('Question type'),
-        'choiceText': _('Choice text'),
         'isRight': _('Is correct'),
         'singleAnswer': _('Single correct answer'),
         'multipleAnswers': _('Multiple correct answers'),
