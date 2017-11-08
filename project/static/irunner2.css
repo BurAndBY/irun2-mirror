@@ -1970,3 +1970,12 @@ Green menu
 .ir-label-without-padding {
     padding-left: 0 !important;
 }
+
+.ir-question-choice {
+    padding-bottom: 10px;
+}
+
+.ir-question-choice .radio {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
