@@ -3,7 +3,6 @@ from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.db.models import F
-from django.http import HttpResponseBadRequest
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
@@ -14,7 +13,8 @@ from quizzes.serializers import QuestionDataSerializer
 from .forms import AddQuestionGroupForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
-from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data
+from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
+    is_question_valid
 from .statistics import get_statistics
 
 
@@ -205,6 +205,14 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
 
 
 class SaveQuestionMixin(object):
+    def _process_error(self, request, pk, json_data):
+        context = self.get_context_data()
+        context['has_error'] = True
+        context['object'] = json.dumps(json_data)
+        context['group_id'] = pk
+        context['languageTags'] = json.dumps(get_question_editor_language_tags())
+        return render(request, self.template_name, context)
+
     def _do_post(self, request, pk):
         group = get_object_or_404(QuestionGroup, pk=pk)
         try:
@@ -214,14 +222,12 @@ class SaveQuestionMixin(object):
 
         serializer = QuestionDataSerializer(data=json_data)
         if not serializer.is_valid(raise_exception=False):
-            context = self.get_context_data()
-            context['has_error'] = True
-            context['object'] = json.dumps(json_data)
-            context['group_id'] = pk
-            context['languageTags'] = json.dumps(get_question_editor_language_tags())
-            return render(request, self.template_name, context)
+            return self._process_error(request, pk, json_data)
 
         question_data = serializer.save()
+        if not is_question_valid(question_data):
+            return self._process_error(request, pk, json_data)
+
         with transaction.atomic():
             if question_data.id is not None:
                 question = get_object_or_404(Question, pk=question_data.id)

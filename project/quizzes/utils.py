@@ -85,6 +85,19 @@ def finish_overdue_session(session):
         check_quiz_answers(session)
 
 
+def is_question_valid(question):
+    num_choices = len(question.choices)
+    correct_choices = sum(c.is_right for c in question.choices)
+    if question.type == Question.SINGLE_ANSWER:
+        return num_choices >= 0 and correct_choices == 1
+    elif question.type == Question.MULTIPLE_ANSWERS:
+        return num_choices >= 0 and correct_choices >= 1
+    elif question.type == Question.TEXT_ANSWER:
+        return num_choices == 1 and correct_choices == 1
+    else:
+        return False
+
+
 def get_quiz_page_language_tags():
     return {
         'question': _('Question'),
