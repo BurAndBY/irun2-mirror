@@ -36,7 +36,7 @@
     {% endif %}
 
     {% verbatim %}
-        <div class="row" ng-app="editor">
+        <div class="row" ng-app="editor" ng-cloak>
             <div class="col-sm-7 form-group">
                 <label for="questionText">{{languageTags.questionText}}:</label>
                 <textarea class="form-control" rows="5" id="questionText" ng-model="question.text"></textarea>
