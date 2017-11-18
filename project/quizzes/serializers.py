@@ -34,7 +34,7 @@ class QuestionChoiceSerializer(serializers.Serializer):
 class QuestionDataSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
     text = serializers.CharField(required=True, max_length=16383)
-    type = serializers.IntegerField(min_value=0, max_value=2, required=True)
+    type = serializers.CharField(required=True)
     choices = serializers.ListField(child=QuestionChoiceSerializer())
 
     def create(self, validated_data):

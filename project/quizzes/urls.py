@@ -8,6 +8,7 @@ group_urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/browse/$', views.QuestionGroupBrowseView.as_view(), name='browse'),
     url(r'^(?P<pk>[0-9]+)/questions/(?P<question_id>[0-9]+)/edit/$', views.QuestionEditView.as_view(), name='edit_question'),
     url(r'^(?P<pk>[0-9]+)/questions/new/$', views.QuestionCreateView.as_view(), name='create_question'),
+    url(r'^(?P<pk>[0-9]+)/questions/upload/$', views.QuestionGroupUploadFromFileView.as_view(), name='upload'),
 ]
 
 template_urlpatterns = [

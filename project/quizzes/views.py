@@ -10,11 +10,11 @@ from common.pageutils import paginate
 import json
 
 from quizzes.serializers import QuestionDataSerializer
-from .forms import AddQuestionGroupForm
+from .forms import AddQuestionGroupForm, UploadFileForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
 from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
-    is_question_valid
+    is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID
 from .statistics import get_statistics
 
 
@@ -233,7 +233,8 @@ class SaveQuestionMixin(object):
                 question = get_object_or_404(Question, pk=question_data.id)
                 question.is_deleted = True
                 question.save()
-            question = Question.objects.create(kind=question_data.type, text=question_data.text, group=group)
+            question = Question.objects.create(kind=QUESTION_KINDS[question_data.type],
+                                               text=question_data.text, group=group)
             choices = []
             for c in question_data.choices:
                 choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
@@ -243,6 +244,7 @@ class SaveQuestionMixin(object):
 
 
 class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
+    tab = Tabs.GROUPS
     template_name = 'quizzes/question_edit.html'
 
     def _get_question_data(self, question_id):
@@ -250,7 +252,8 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMi
         choices = []
         for c in question.choice_set.all():
             choices.append({'id': c.id, 'text': c.text, 'is_right': c.is_right})
-        return {'id': question.id, 'text': question.text, 'type': question.kind, 'choices': choices}
+        return {'id': question.id, 'text': question.text,
+                'type': QUESTION_KINDS_BY_ID[question.kind], 'choices': choices}
 
     def get(self, request, pk, question_id):
         context = self.get_context_data()
@@ -264,6 +267,7 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMi
 
 
 class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
+    tab = Tabs.GROUPS
     template_name = 'quizzes/question_edit.html'
 
     def get(self, request, pk):
@@ -288,3 +292,42 @@ class QuestionGroupCreateView(QuizAdminMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse('quizzes:groups:browse', kwargs={'pk': self.object.id})
+
+
+class QuestionGroupUploadFromFileView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.GROUPS
+    template_name = 'quizzes/question_group_upload.html'
+
+    def _process_error(self, request, pk):
+        context = self.get_context_data(error='ERROR', form=UploadFileForm(), pk=pk)
+        return render(request, self.template_name, context)
+
+    def get(self, request, pk):
+        get_object_or_404(QuestionGroup, pk=pk)
+        form = UploadFileForm()
+        context = self.get_context_data(form=form, pk=pk)
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        group = get_object_or_404(QuestionGroup, pk=pk)
+        form = UploadFileForm(request.POST, request.FILES)
+        questions_data = []
+        if form.is_valid():
+            json_data = request.FILES['file'].read()
+            try:
+                json_questions = json.loads(json_data)
+            except:
+                return self._process_error(request, pk)
+            for q in json_questions:
+                serializer = QuestionDataSerializer(data=q)
+                if not serializer.is_valid(raise_exception=False):
+                    return self._process_error(request, pk)
+                question_data = serializer.save()
+                if not is_question_valid(question_data):
+                    return self._process_error(request, pk)
+                questions_data.append(question_data)
+        else:
+            return self._process_error(request, pk)
+
+        add_questions_to_question_group(group, questions_data)
+        return redirect('quizzes:groups:browse', pk)
