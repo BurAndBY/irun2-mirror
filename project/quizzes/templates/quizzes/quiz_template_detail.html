@@ -43,5 +43,6 @@
     <div class="form-group">
         <a href="{% url 'quizzes:templates:update' object.id %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
         <a href="{% url 'quizzes:templates:add_group' object.id %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add question group' %}</span></a>
+        <a href="{% url 'quizzes:templates:edit_groups' object.id %}" class="btn btn-default">{% bootstrap_icon 'align-justify' %} <span class="ir-icon-label">{% trans 'Edit groups' %}</span></a>
     </div>
 {% endblock %}

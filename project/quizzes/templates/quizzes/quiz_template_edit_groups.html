@@ -1,0 +1,114 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+
+{% block head %}
+    {% load static %}
+    <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
+    <script src="{% static 'angular-drag-and-drop-lists-2.1.0/angular-drag-and-drop-lists-2.1.0.min.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <h3>{{ object.name }}</h3>
+
+    <input id="relsData" type="hidden" value="{{ relations }}" />
+    <input id="groupsData" type="hidden" value="{{ groups }}" />
+
+
+    <div ng-app="editor" ng-cloak class="ir-dnd-template-editor">
+        <div class="row">
+            <div class="col-xs-1"><strong>{% trans '#' %}</strong></div>
+            <div class="col-xs-8"><strong>{% trans 'Name' %}</strong></div>
+            <div class="col-xs-2"><strong>{% trans 'Points' %}</strong></div>
+            <div class="col-xs-1"></div>
+        </div>
+
+        {% verbatim %}
+        <ul dnd-list="rels">
+            <li ng-repeat="rel in rels"
+                dnd-draggable="rel"
+                dnd-moved="rels.splice($index, 1)"
+                dnd-effect-allowed="move"
+                >
+                <div class="row">
+                    <div class="col-xs-1">
+                        <strong>{{$index + 1}}</strong>
+                    </div>
+                    <div class="col-xs-8">
+                        {{rel.name}}
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control input-sm" ng-model="rel.points">
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button"
+                                class="btn btn-default btn-sm ir-btn-without-border"
+                                ng-click="removeGroup($index)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+        {% endverbatim %}
+
+        <div class="row form-group">
+            <div class="col-xs-8">
+                <select class="form-control" ng-model="newRel.group" ng-options="g as g.name for g in groups">
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <input type="number" ng-model="newRel.points" class="form-control" placeholder="Points">
+            </div>
+            <div class="col-xs-2 text-right">
+                <button class="btn btn-primary" ng-click="addGroup()">{% trans 'Add' %}</button>
+            </div>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" id="resultRelData" name="relations"/>
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            <span class="ir-icon-label">{% trans 'Save' %}</span>
+        </button>
+        <a href="{% url 'quizzes:templates:detail' object.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+
+    <script>
+var app = angular.module('editor', ["dndLists"]);
+app.run(function ($rootScope) {
+    $rootScope.rels = angular.fromJson(document.getElementById('relsData').value);
+    $rootScope.groups = angular.fromJson(document.getElementById('groupsData').value);
+    $rootScope.newRel = {group: null, points: 1};
+
+    $rootScope.removeGroup = function (idx) {
+        $rootScope.rels.splice(idx, 1);
+    };
+
+    $rootScope.addGroup = function () {
+        if (!$rootScope.newRel.group) {
+            return;
+        }
+        $rootScope.rels.push({
+            id: $rootScope.newRel.group.id,
+            name: $rootScope.newRel.group.name,
+            points: $rootScope.newRel.points
+        });
+    };
+
+    $rootScope.$watch('rels', function () {
+        var result = [];
+        for (var i = 0; i < $rootScope.rels.length; i++) {
+            result.push({id: $rootScope.rels[i].id, points: $rootScope.rels[i].points});
+        }
+        document.getElementById("resultRelData").value = JSON.stringify(result);
+    }, true);
+});
+    </script>
+{% endblock %}

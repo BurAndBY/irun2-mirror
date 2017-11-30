@@ -104,6 +104,27 @@ class QuizTemplateDetailView(QuizAdminMixin, generic.DetailView):
         return context
 
 
+class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.TEMPLATES
+    template_name = 'quizzes/quiz_template_edit_groups.html'
+    model = QuizTemplate
+
+    def get_data(self, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        context = self.get_context_data()
+        context['object'] = quiz_template
+        relations = GroupQuizRelation.objects.filter(template=quiz_template).select_related('group')
+        json_relations = [{'id': rel.group_id, 'name': rel.group.name, 'points': rel.points} for rel in relations]
+        groups = QuestionGroup.objects.all()
+        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
+        context['relations'] = json.dumps(json_relations)
+        context['groups'] = json.dumps(json_groups)
+        return context
+
+    def get(self, request, pk):
+        return render(request, self.template_name, self.get_data(pk))
+
+
 class QuizTemplateAddGroupView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_add_group.html'
