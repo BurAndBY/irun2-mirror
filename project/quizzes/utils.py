@@ -111,6 +111,10 @@ def is_question_valid(question):
         return False
 
 
+def is_relation_valid(relation):
+    return relation.points >= 0
+
+
 @transaction.atomic
 def add_questions_to_question_group(group, questions_data):
 

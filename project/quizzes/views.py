@@ -9,12 +9,12 @@ from common.pageutils import paginate
 
 import json
 
-from quizzes.serializers import QuestionDataSerializer
+from quizzes.serializers import QuestionDataSerializer, RelationsDataSerializer
 from .forms import AddQuestionGroupForm, UploadFileForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
 from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
-    is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID
+    is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID, is_relation_valid
 from .statistics import get_statistics
 
 
@@ -109,7 +109,17 @@ class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, gene
     template_name = 'quizzes/quiz_template_edit_groups.html'
     model = QuizTemplate
 
-    def get_data(self, pk):
+    def _process_error(self, request, quiz_template, json_data):
+        context = self.get_context_data()
+        context['has_error'] = True
+        context['relations'] = json.dumps(json_data)
+        groups = QuestionGroup.objects.all()
+        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
+        context['groups'] = json.dumps(json_groups)
+        context['object'] = quiz_template
+        return render(request, self.template_name, context)
+
+    def _get_data(self, pk):
         quiz_template = get_object_or_404(QuizTemplate, pk=pk)
         context = self.get_context_data()
         context['object'] = quiz_template
@@ -122,7 +132,32 @@ class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, gene
         return context
 
     def get(self, request, pk):
-        return render(request, self.template_name, self.get_data(pk))
+        return render(request, self.template_name, self._get_data(pk))
+
+    def post(self, request, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        try:
+            json_data = json.loads(request.POST['relations'])
+        except:
+            return redirect('quizzes:templates:detail', pk)
+
+        serializer = RelationsDataSerializer(data={'rels': json_data})
+        if not serializer.is_valid(raise_exception=False):
+            return self._process_error(request, quiz_template, json_data)
+
+        rels_data = serializer.save().rels
+        for rel in rels_data:
+            if not is_relation_valid(rel):
+                return self._process_error(request, quiz_template, json_data)
+
+        with transaction.atomic():
+            GroupQuizRelation.objects.filter(template_id=pk).delete()
+            rels = []
+            for i, r in enumerate(rels_data):
+                rels.append(GroupQuizRelation(template=quiz_template, group_id=r.id, points=r.points, order=i + 1))
+            GroupQuizRelation.objects.bulk_create(rels)
+
+        return redirect('quizzes:templates:detail', pk)
 
 
 class QuizTemplateAddGroupView(QuizAdminMixin, generic.base.ContextMixin, generic.View):

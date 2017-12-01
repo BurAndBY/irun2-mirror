@@ -16,6 +16,24 @@
     <input id="relsData" type="hidden" value="{{ relations }}" />
     <input id="groupsData" type="hidden" value="{{ groups }}" />
 
+    {% if has_error %}
+        <div class="modal fade" id="errModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true" data-show="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="warnModalLabel">{% trans 'Error' %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-danger">{% trans 'Ensure that you provided correct points values for all group relations.' %}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">{% trans 'OK' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <div ng-app="editor" ng-cloak class="ir-dnd-template-editor">
         <div class="row">
@@ -80,6 +98,14 @@
         {% endbuttons %}
     </form>
 
+    {% if has_error %}
+        <script>
+        $(window).on('load',function(){
+            $('#errModal').modal('show');
+        });
+        </script>
+    {% endif %}
+
     <script>
 var app = angular.module('editor', ["dndLists"]);
 app.run(function ($rootScope) {
@@ -105,7 +131,11 @@ app.run(function ($rootScope) {
     $rootScope.$watch('rels', function () {
         var result = [];
         for (var i = 0; i < $rootScope.rels.length; i++) {
-            result.push({id: $rootScope.rels[i].id, points: $rootScope.rels[i].points});
+            result.push({
+                id: $rootScope.rels[i].id,
+                points: $rootScope.rels[i].points,
+                name: $rootScope.rels[i].name
+            });
         }
         document.getElementById("resultRelData").value = JSON.stringify(result);
     }, true);
