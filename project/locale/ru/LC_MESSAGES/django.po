@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-05 20:07+0300\n"
-"PO-Revision-Date: 2017-11-05 20:12+0300\n"
+"POT-Creation-Date: 2017-12-05 19:21+0300\n"
+"PO-Revision-Date: 2017-12-05 19:26+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -150,7 +150,8 @@ msgstr "Изменить язык интерфейса"
 #: .\problems\templates\problems\name.html:15
 #: .\problems\templates\problems\properties.html:16
 #: .\proglangs\templates\proglangs\edit.html:20
-#: .\quizzes\templates\quizzes\question_edit.html:120
+#: .\quizzes\templates\quizzes\question_edit.html:115
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:95
 #: .\quizzes\templates\quizzes\quiz_template_update.html:11
 #: .\users\templates\users\create_form.html:33
 #: .\users\templates\users\profile_password.html:16
@@ -426,6 +427,7 @@ msgstr "Загрузка"
 #: .\courses\templates\courses\assign.html:105
 #: .\news\templates\news\new.html:13
 #: .\quizzes\templates\quizzes\quiz_template_add_group.html:11
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:85
 msgid "Add"
 msgstr "Добавить"
 
@@ -692,7 +694,7 @@ msgstr "роль"
 #: .\contests\templates\contests\question_answers.html:9
 #: .\quizdemo\templates\quizdemo\question.html:13
 #: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:6
-#: .\quizzes\utils.py:90
+#: .\quizzes\utils.py:131
 msgid "Question"
 msgstr "Вопрос"
 
@@ -798,7 +800,6 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\show_test.html:132
 #: .\problems\templates\problems\tests.html:62
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:36
 #: .\solutions\templates\solutions\solution_list.html:75
 #: .\users\templates\users\folder.html:34
 #: .\users\templates\users\folder.html:66
@@ -843,10 +844,12 @@ msgstr "Удалить"
 #: .\problems\templates\problems\upload_archive.html:20
 #: .\proglangs\templates\proglangs\edit.html:21
 #: .\quizzes\templates\quizzes\question_group_create.html:12
+#: .\quizzes\templates\quizzes\question_group_upload.html:34
 #: .\quizzes\templates\quizzes\quiz_template_create.html:12
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:22
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:97
 #: .\quizzes\templates\quizzes\quiz_template_update.html:12
-#: .\quizzes\utils.py:95 .\users\templates\users\bulk_operation.html:32
+#: .\quizzes\utils.py:136 .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\folder_confirm_delete.html:24
 msgid "Cancel"
@@ -1020,7 +1023,7 @@ msgstr "Система"
 #: .\problems\templates\problems\files.html:35
 #: .\problems\templates\problems\files.html:77
 #: .\problems\templates\problems\show_test.html:34
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:44
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:21
 msgid "Edit"
 msgstr "Правка"
 
@@ -1064,7 +1067,8 @@ msgstr "Последнее решение"
 #: .\problems\templates\problems\tests.html:76
 #: .\problems\templates\problems\tests_browse.html:14
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:11
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:24
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:28
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:40
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
 #: .\solutions\templates\solutions\rejudge.html:37
 #: .\solutions\templates\solutions\solution_attempts.html:16
@@ -1794,7 +1798,10 @@ msgid "Some questions left unanswered."
 msgstr "Некоторые вопросы остались без ответа."
 
 #: .\courses\templates\courses\quiz.html:38
-#: .\quizzes\templates\quizzes\question_edit.html:31 .\quizzes\utils.py:92
+#: .\quizzes\templates\quizzes\question_edit.html:31
+#: .\quizzes\templates\quizzes\question_group_upload.html:20
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:31
+#: .\quizzes\utils.py:133
 msgid "OK"
 msgstr "OK"
 
@@ -1911,7 +1918,8 @@ msgstr "Ответы на тест"
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
 #: .\problems\templates\problems\show_test.html:48
 #: .\problems\templates\problems\tests.html:79
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:26
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:30
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:42
 msgid "Points"
 msgstr "Баллы"
 
@@ -2463,6 +2471,7 @@ msgstr "компилятор"
 #: .\problems\templates\problems\irunner_problems_list_tag.html:19
 #: .\problems\templates\problems\overview.html:27
 #: .\quizzes\templates\quizzes\question_group_list.html:16
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
 #: .\quizzes\templates\quizzes\quiz_template_list.html:16
 #: .\users\templates\users\profile_show.html:31
 msgid "Name"
@@ -2937,7 +2946,6 @@ msgid "Browse"
 msgstr "Обзор"
 
 #: .\problems\templates\problems\tests.html:55
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:27
 #: .\solutions\templates\solutions\solution_list.html:70
 #: .\users\templates\users\folder.html:61
 msgid "Actions"
@@ -2979,6 +2987,7 @@ msgstr ""
 "Для каждого загруженного теста будут использованы одинаковые настройки."
 
 #: .\problems\templates\problems\upload_archive.html:17
+#: .\quizzes\templates\quizzes\question_group_upload.html:33
 msgid "Upload"
 msgstr "Загрузить"
 
@@ -3111,19 +3120,19 @@ msgstr "Командная строка запуска"
 
 #: .\quizzes\models.py:22
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:17
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:25
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:29
 msgid "Question group"
 msgstr "Группа вопросов"
 
-#: .\quizzes\models.py:32
+#: .\quizzes\models.py:32 .\quizzes\utils.py:161
 msgid "Single correct answer"
 msgstr "Один правильный ответ"
 
-#: .\quizzes\models.py:33
+#: .\quizzes\models.py:33 .\quizzes\utils.py:162
 msgid "Multiple correct answers"
 msgstr "Несколько правильных ответов"
 
-#: .\quizzes\models.py:34 .\quizzes\utils.py:123
+#: .\quizzes\models.py:34 .\quizzes\utils.py:163
 msgid "Text answer"
 msgstr "Текстовый ответ"
 
@@ -3181,13 +3190,20 @@ msgid "Question editor"
 msgstr "Редактор вопроса"
 
 #: .\quizzes\templates\quizzes\question_edit.html:25
-#: .\quizzes\templates\quizzes\question_edit.html:28 .\quizzes\utils.py:94
+#: .\quizzes\templates\quizzes\question_edit.html:28
+#: .\quizzes\templates\quizzes\question_group_upload.html:14
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:25
+#: .\quizzes\utils.py:135
 msgid "Error"
 msgstr "Ошибка"
 
 #: .\quizzes\templates\quizzes\question_group_browse.html:19
 msgid "New question"
 msgstr "Новый вопрос"
+
+#: .\quizzes\templates\quizzes\question_group_browse.html:23
+msgid "Upload from file"
+msgstr "Загрузить из файла"
 
 #: .\quizzes\templates\quizzes\question_group_list.html:8
 msgid "New question group"
@@ -3201,6 +3217,14 @@ msgstr "Число вопросов"
 msgid "No question groups"
 msgstr "Групп вопросов нет"
 
+#: .\quizzes\templates\quizzes\question_group_upload.html:17
+msgid "Make sure that you selected a file and it has the correct format."
+msgstr "Убедитесь, что выбран файл верного формата."
+
+#: .\quizzes\templates\quizzes\question_group_upload.html:27
+msgid "Upload questions from file"
+msgstr "Загрузить вопросы из файла"
+
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:10
 msgid "Shuffle questions"
 msgstr "Перемешать вопросы"
@@ -3209,9 +3233,13 @@ msgstr "Перемешать вопросы"
 msgid "Unlimited"
 msgstr "Без ограничений"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:45
-msgid "Add question group"
-msgstr "Добавить группу вопросов"
+#: .\quizzes\templates\quizzes\quiz_template_detail.html:46
+msgid "Edit groups"
+msgstr "Редактировать группы"
+
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:28
+msgid "Ensure that you provided correct points values for all group relations."
+msgstr "Убедитесь, что баллы указаны верно для всех групп вопросов."
 
 #: .\quizzes\templates\quizzes\quiz_template_list.html:8
 msgid "New template"
@@ -3279,67 +3307,55 @@ msgstr "Длительность сессий"
 msgid "min"
 msgstr "мин"
 
-#: .\quizzes\utils.py:91
+#: .\quizzes\utils.py:132
 msgid "Finish"
 msgstr "Завершить"
 
-#: .\quizzes\utils.py:93
+#: .\quizzes\utils.py:134
 msgid "No"
 msgstr "Нет"
 
-#: .\quizzes\utils.py:96
+#: .\quizzes\utils.py:137
 msgid "Next"
 msgstr "Далее"
 
-#: .\quizzes\utils.py:97
+#: .\quizzes\utils.py:138
 msgid "Previous"
 msgstr "Назад"
 
-#: .\quizzes\utils.py:98
+#: .\quizzes\utils.py:139
 msgid "Network error"
 msgstr "Ошибка сети"
 
-#: .\quizzes\utils.py:99
+#: .\quizzes\utils.py:140
 msgid "No time left"
 msgstr "Время вышло"
 
-#: .\quizzes\utils.py:106 .\quizzes\utils.py:125
+#: .\quizzes\utils.py:147 .\quizzes\utils.py:165
 msgid "Type the question text here..."
 msgstr "Введите текст вопроса..."
 
-#: .\quizzes\utils.py:109 .\quizzes\utils.py:126
+#: .\quizzes\utils.py:150 .\quizzes\utils.py:166
 msgid "Type the choice text here..."
 msgstr "Введите текст ответа..."
 
-#: .\quizzes\utils.py:117
+#: .\quizzes\utils.py:158
 msgid "Question text"
 msgstr "Текст вопроса"
 
-#: .\quizzes\utils.py:118
+#: .\quizzes\utils.py:159
 msgid "Question type"
 msgstr "Тип вопроса"
 
-#: .\quizzes\utils.py:119
-msgid "Choice text"
-msgstr "Текст ответа"
-
-#: .\quizzes\utils.py:120
+#: .\quizzes\utils.py:160
 msgid "Is correct"
 msgstr "Верно"
 
-#: .\quizzes\utils.py:121
-msgid "Single answer"
-msgstr "С одним правильным ответом"
-
-#: .\quizzes\utils.py:122
-msgid "Multiple answers"
-msgstr "С несколькими правильными ответами"
-
-#: .\quizzes\utils.py:124
+#: .\quizzes\utils.py:164
 msgid "Add choice"
 msgstr "Добавить вариант ответа"
 
-#: .\quizzes\utils.py:127
+#: .\quizzes\utils.py:167
 msgid "Refresh preview"
 msgstr "Обновить превью"
 
@@ -4227,6 +4243,18 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Add question group"
+#~ msgstr "Добавить группу вопросов"
+
+#~ msgid "Choice text"
+#~ msgstr "Текст ответа"
+
+#~ msgid "Single answer"
+#~ msgstr "С одним правильным ответом"
+
+#~ msgid "Multiple answers"
+#~ msgstr "С несколькими правильными ответами"
 
 #~ msgid "Create new folder"
 #~ msgstr "Создать новую папку"
