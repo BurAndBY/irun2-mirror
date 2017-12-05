@@ -36,7 +36,7 @@
     {% endif %}
 
     {% verbatim %}
-        <div class="row" ng-app="editor">
+        <div class="row" ng-app="editor" ng-cloak>
             <div class="col-sm-7 form-group">
                 <label for="questionText">{{languageTags.questionText}}:</label>
                 <textarea class="form-control" rows="5" id="questionText" ng-model="question.text"></textarea>
@@ -44,30 +44,30 @@
             <div class="col-sm-5 form-group">
                 <label for="questionType">{{languageTags.questionType}}:</label>
                 <select class="form-control" id="questionType" ng-model="question.type">
-                    <option value="0">{{languageTags.singleAnswer}}</option>
-                    <option value="1">{{languageTags.multipleAnswers}}</option>
-                    <option value="2">{{languageTags.textAnswer}}</option>
+                    <option value="single">{{languageTags.singleAnswer}}</option>
+                    <option value="multiple">{{languageTags.multipleAnswers}}</option>
+                    <option value="text">{{languageTags.textAnswer}}</option>
                 </select>
             </div>
             <div class="col-xs-12">
                 <div class="row ir-question-choice" ng-repeat="c in question.choices">
                     <div class="col-xs-11">
                         <div class="row" class="col-xs-12">
-                            <div class="col-sm-2" ng-hide="question.type === 2" ng-switch="question.type">
-                                <div class="radio" ng-switch-when="0">
+                            <div class="col-sm-2" ng-hide="question.type === 'text'" ng-switch="question.type">
+                                <div class="radio" ng-switch-when="single">
                                     <label for="{{getInputId(c.id)}}">
                                         <input type="radio" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-click="setRadioChoice(c)" ng-checked="c.is_right"/>
                                         <span>{{languageTags.isRight}}</span>
                                     </label>
                                 </div>
-                                <div class="radio" ng-switch-when="1">
+                                <div class="radio" ng-switch-when="multiple">
                                     <label for="{{getInputId(c.id)}}" class="ir-label-without-padding">
                                         <input type="checkbox" id="{{getInputId(c.id)}}" name="isChoiceRight" ng-model="c.is_right"/>
                                         <span>{{languageTags.isRight}}</span>
                                     </label>
                                 </div>
                             </div>
-                            <div ng-class="{'col-sm-10': question.type != 2, 'col-xs-12': question.type === 2}">
+                            <div ng-class="{'col-sm-10': question.type != 'text', 'col-xs-12': question.type === 'text'}">
                                 <input class="form-control" type="text" id="{{getInputId(c.id)}}" ng-model="c.text"/>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-default ir-inline-block" type="button" ng-click="addChoice()" ng-disabled="question.type === 2">
+                    <button class="btn btn-default ir-inline-block" type="button" ng-click="addChoice()" ng-disabled="question.type === 'text'">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="ir-icon-label">{{languageTags.addChoice}}</span>
                     </button>
@@ -128,6 +128,7 @@
     <script>
 var app = angular.module('editor', ["ngSanitize"]);
 app.run(function ($rootScope, $window, $interval) {
+    var types = ['single', 'multiple', 'text'];
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
     $rootScope.preview = angular.copy($rootScope.question);
     $rootScope.languageTags = angular.fromJson(document.getElementById('languageTags').value);
@@ -156,17 +157,17 @@ app.run(function ($rootScope, $window, $interval) {
         });
     };
     $rootScope.canRemoveChoice = function (idx) {
-        if ($rootScope.question.type === 0) {
+        if ($rootScope.question.type === types[0]) {
             return !$rootScope.question.choices[idx].is_right;
         }
-        if ($rootScope.question.type === 1) {
+        if ($rootScope.question.type === types[1]) {
             var right = 0;
             angular.forEach($rootScope.question.choices, function (c) {
                 right += c.is_right ? 1 : 0;
             });
             return !$rootScope.question.choices[idx].is_right || right > 1;
         }
-        if ($rootScope.question.type === 2) {
+        if ($rootScope.question.type === types[2]) {
             return false;
         }
         return true;
@@ -204,9 +205,8 @@ app.run(function ($rootScope, $window, $interval) {
         document.getElementById("resultQuestionData").value = JSON.stringify($rootScope.question);
     }, true);
     $rootScope.$watch('question.type', function (newValue, oldValue) {
-        newValue = parseInt(newValue);
         $rootScope.question.type = newValue;
-        if ((oldValue === 0 || oldValue === 1) && newValue === 2) {
+        if ((oldValue === types[0] || oldValue === types[1]) && newValue === types[2]) {
             var rightIdx = $rootScope.question.choices.findIndex(function (c) {return c.is_right;});
             if (rightIdx < 0) {
                 $rootScope.question.choices = [{
@@ -218,7 +218,7 @@ app.run(function ($rootScope, $window, $interval) {
                 $rootScope.question.choices = [$rootScope.question.choices[rightIdx]];
             }
         }
-        if (oldValue === 1 && newValue === 0) {
+        if (oldValue === types[1] && newValue === types[0]) {
             var rightIdx = $rootScope.question.choices.findIndex(function (c) {return c.is_right;});
             if (rightIdx >= 0) {
                 angular.forEach($rootScope.question.choices, function (c, $index) {

@@ -7,7 +7,20 @@ import random
 
 from common.katex import tex2html
 from quizzes.answer_checker import CHECKERS
-from quizzes.models import QuizSession, SessionQuestion, SessionQuestionAnswer, Question
+from quizzes.models import QuizSession, SessionQuestion, SessionQuestionAnswer, Question, QuestionGroup, Choice
+
+
+QUESTION_KINDS = {
+    'single': Question.SINGLE_ANSWER,
+    'multiple': Question.MULTIPLE_ANSWERS,
+    'text': Question.TEXT_ANSWER
+}
+
+QUESTION_KINDS_BY_ID = {
+    Question.SINGLE_ANSWER: 'single',
+    Question.MULTIPLE_ANSWERS: 'multiple',
+    Question.TEXT_ANSWER: 'text'
+}
 
 
 @transaction.atomic
@@ -85,6 +98,34 @@ def finish_overdue_session(session):
         check_quiz_answers(session)
 
 
+def is_question_valid(question):
+    num_choices = len(question.choices)
+    correct_choices = sum(c.is_right for c in question.choices)
+    if question.type == QUESTION_KINDS_BY_ID[Question.SINGLE_ANSWER]:
+        return num_choices >= 0 and correct_choices == 1
+    elif question.type == QUESTION_KINDS_BY_ID[Question.MULTIPLE_ANSWERS]:
+        return num_choices >= 0 and correct_choices >= 1
+    elif question.type == QUESTION_KINDS_BY_ID[Question.TEXT_ANSWER]:
+        return num_choices == 1 and correct_choices == 1
+    else:
+        return False
+
+
+def is_relation_valid(relation):
+    return relation.points >= 0
+
+
+@transaction.atomic
+def add_questions_to_question_group(group, questions_data):
+
+    for question_data in questions_data:
+        q = Question.objects.create(group=group, text=question_data.text, kind=QUESTION_KINDS[question_data.type])
+        choices = []
+        for c in question_data.choices:
+            choices.append(Choice(question=q, text=c.text, is_right=c.is_right))
+        Choice.objects.bulk_create(choices)
+
+
 def get_quiz_page_language_tags():
     return {
         'question': _('Question'),
@@ -104,7 +145,7 @@ def get_empty_question_data(kind):
     return {
         'id': None,
         'text': _('Type the question text here...'),
-        'type': kind,
+        'type': QUESTION_KINDS_BY_ID[kind],
         'choices': [{
             'text': _('Type the choice text here...'),
             'is_right': True

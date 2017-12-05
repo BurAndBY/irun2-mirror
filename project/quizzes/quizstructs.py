@@ -28,3 +28,15 @@ class QuestionData(object):
         self.text = text
         self.type = type
         self.choices = choices
+
+
+class RelationData(object):
+    def __init__(self, id, points, name):
+        self.id = id
+        self.points = points
+        self.name = name
+
+
+class RelationsData(object):
+    def __init__(self, rels):
+        self.rels = rels

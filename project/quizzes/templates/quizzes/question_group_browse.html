@@ -14,9 +14,13 @@
     <h3>{{ object.name }}</h3>
 
     <div class="form-group">
-        <a class="btn btn-default" href="{% url 'quizzes:groups:create_question' object.id %}">
+        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:groups:create_question' object.id %}">
             {% bootstrap_icon 'plus' %}
             <span class="ir-icon-label">{% trans 'New question' %}</span>
+        </a>
+        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:groups:upload' object.id %}">
+            {% bootstrap_icon 'open' %}
+            <span class="ir-icon-label">{% trans 'Upload from file' %}</span>
         </a>
     </div>
 

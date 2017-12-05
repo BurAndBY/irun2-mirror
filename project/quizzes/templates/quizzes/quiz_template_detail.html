@@ -17,6 +17,10 @@
         <dd>{{ object.time_limit }}</dd>
     </dl>
 
+    <div class="form-group">
+        <a href="{% url 'quizzes:templates:update' object.id %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
+    </div>
+
     {% if relations %}
         <table class="table table-condensed">
             <thead>
@@ -24,7 +28,6 @@
                     <th>{% trans '#' %}</th>
                     <th>{% trans 'Question group' %}</th>
                     <th>{% trans 'Points' %}</th>
-                    <th>{% trans 'Actions' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +36,6 @@
                         <td>{{ relation.order }}</td>
                         <td>{{ relation.group.name }}</td>
                         <td>{{ relation.points }}</td>
-                        <td><a href="{% url 'quizzes:templates:delete_group' object.id relation.id %}">{% trans 'Delete' %}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -41,7 +43,6 @@
     {% endif %}
 
     <div class="form-group">
-        <a href="{% url 'quizzes:templates:update' object.id %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
-        <a href="{% url 'quizzes:templates:add_group' object.id %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add question group' %}</span></a>
+        <a href="{% url 'quizzes:templates:edit_groups' object.id %}" class="btn btn-default">{% bootstrap_icon 'align-justify' %} <span class="ir-icon-label">{% trans 'Edit groups' %}</span></a>
     </div>
 {% endblock %}

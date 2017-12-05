@@ -1979,3 +1979,32 @@ Green menu
     margin-top: 5px;
     margin-bottom: 0;
 }
+
+/* drag-and-drop quiz template editor */
+
+.ir-dnd-template-editor ul[dnd-list] {
+    min-height: 42px;
+    padding-left: 0;
+}
+
+.ir-dnd-template-editor ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+
+.ir-dnd-template-editor ul[dnd-list] .dndPlaceholder {
+    background-color: #ddd;
+    display: block;
+    min-height: 42px;
+}
+
+.ir-dnd-template-editor ul[dnd-list] li {
+    display: block;
+    padding: 3px 0 3px;
+    margin-bottom: -1px;
+    line-height: 30px;
+    border-top: 1px solid #ddd;
+}
+
+.ir-dnd-template-editor ul[dnd-list] li:first-child {
+    border-top: 2px solid #ddd;
+}

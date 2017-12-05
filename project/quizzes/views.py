@@ -3,18 +3,18 @@ from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.db.models import F
-from django.http import HttpResponseBadRequest
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.pageutils import paginate
 
 import json
 
-from quizzes.serializers import QuestionDataSerializer
-from .forms import AddQuestionGroupForm
+from quizzes.serializers import QuestionDataSerializer, RelationsDataSerializer
+from .forms import AddQuestionGroupForm, UploadFileForm
 from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
 from .tabs import Tabs
-from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data
+from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
+    is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID, is_relation_valid
 from .statistics import get_statistics
 
 
@@ -104,60 +104,59 @@ class QuizTemplateDetailView(QuizAdminMixin, generic.DetailView):
         return context
 
 
-class QuizTemplateAddGroupView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     tab = Tabs.TEMPLATES
-    template_name = 'quizzes/quiz_template_add_group.html'
-    model = GroupQuizRelation
-    fields = ['group', 'points']
+    template_name = 'quizzes/quiz_template_edit_groups.html'
+    model = QuizTemplate
 
-    def get_success_url(self):
-        return reverse('quizzes:templates:detail', kwargs={'pk': self.object.id})
+    def _process_error(self, request, quiz_template, json_data):
+        context = self.get_context_data()
+        context['has_error'] = True
+        context['relations'] = json.dumps(json_data)
+        groups = QuestionGroup.objects.all()
+        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
+        context['groups'] = json.dumps(json_groups)
+        context['object'] = quiz_template
+        return render(request, self.template_name, context)
+
+    def _get_data(self, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        context = self.get_context_data()
+        context['object'] = quiz_template
+        relations = GroupQuizRelation.objects.filter(template=quiz_template).select_related('group')
+        json_relations = [{'id': rel.group_id, 'name': rel.group.name, 'points': rel.points} for rel in relations]
+        groups = QuestionGroup.objects.all()
+        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
+        context['relations'] = json.dumps(json_relations)
+        context['groups'] = json.dumps(json_groups)
+        return context
 
     def get(self, request, pk):
-        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
-        form = AddQuestionGroupForm(instance=GroupQuizRelation(template=quiz_template))
-        context = self.get_context_data(form=form)
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, self._get_data(pk))
 
     def post(self, request, pk):
         quiz_template = get_object_or_404(QuizTemplate, pk=pk)
-        form = AddQuestionGroupForm(request.POST, instance=GroupQuizRelation(template=quiz_template))
-        if form.is_valid():
-            with transaction.atomic():
-                relation = form.save(commit=False)
-                count = GroupQuizRelation.objects.filter(template=quiz_template).count()
-                relation.order = count + 1
-                relation.save()
+        try:
+            json_data = json.loads(request.POST['relations'])
+        except:
             return redirect('quizzes:templates:detail', pk)
-        context = self.get_context_data(form=form)
-        return render(request, self.template_name, context)
 
+        serializer = RelationsDataSerializer(data={'rels': json_data})
+        if not serializer.is_valid(raise_exception=False):
+            return self._process_error(request, quiz_template, json_data)
 
-class QuizTemplateDeleteGroupView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
-    tab = Tabs.TEMPLATES
-    template_name = 'quizzes/quiz_template_delete_group.html'
+        rels_data = serializer.save().rels
+        for rel in rels_data:
+            if not is_relation_valid(rel):
+                return self._process_error(request, quiz_template, json_data)
 
-    def _filter_relation(self, template_id, relation_id):
-        return GroupQuizRelation.objects.filter(pk=relation_id, template_id=template_id)
+        with transaction.atomic():
+            GroupQuizRelation.objects.filter(template_id=pk).delete()
+            rels = []
+            for i, r in enumerate(rels_data):
+                rels.append(GroupQuizRelation(template=quiz_template, group_id=r.id, points=r.points, order=i + 1))
+            GroupQuizRelation.objects.bulk_create(rels)
 
-    def get_success_url(self):
-        return reverse('quizzes:templates:detail', kwargs={'pk': self.object.id})
-
-    def get(self, request, pk, relation_id):
-        relation = self._filter_relation(pk, relation_id).select_related('template', 'group').first()
-        if relation is None:
-            return redirect('quizzes:templates:list')
-
-        context = self.get_context_data(relation=relation)
-        return render(request, self.template_name, context)
-
-    def post(self, request, pk, relation_id):
-        relation = self._filter_relation(pk, relation_id).first()
-        if relation is not None:
-            cur_order = relation.order
-            with transaction.atomic():
-                relation.delete()
-                GroupQuizRelation.objects.filter(template_id=pk, order__gt=cur_order).update(order=F('order') - 1)
         return redirect('quizzes:templates:detail', pk)
 
 
@@ -205,6 +204,14 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
 
 
 class SaveQuestionMixin(object):
+    def _process_error(self, request, pk, json_data):
+        context = self.get_context_data()
+        context['has_error'] = True
+        context['object'] = json.dumps(json_data)
+        context['group_id'] = pk
+        context['languageTags'] = json.dumps(get_question_editor_language_tags())
+        return render(request, self.template_name, context)
+
     def _do_post(self, request, pk):
         group = get_object_or_404(QuestionGroup, pk=pk)
         try:
@@ -214,20 +221,19 @@ class SaveQuestionMixin(object):
 
         serializer = QuestionDataSerializer(data=json_data)
         if not serializer.is_valid(raise_exception=False):
-            context = self.get_context_data()
-            context['has_error'] = True
-            context['object'] = json.dumps(json_data)
-            context['group_id'] = pk
-            context['languageTags'] = json.dumps(get_question_editor_language_tags())
-            return render(request, self.template_name, context)
+            return self._process_error(request, pk, json_data)
 
         question_data = serializer.save()
+        if not is_question_valid(question_data):
+            return self._process_error(request, pk, json_data)
+
         with transaction.atomic():
             if question_data.id is not None:
                 question = get_object_or_404(Question, pk=question_data.id)
                 question.is_deleted = True
                 question.save()
-            question = Question.objects.create(kind=question_data.type, text=question_data.text, group=group)
+            question = Question.objects.create(kind=QUESTION_KINDS[question_data.type],
+                                               text=question_data.text, group=group)
             choices = []
             for c in question_data.choices:
                 choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
@@ -237,6 +243,7 @@ class SaveQuestionMixin(object):
 
 
 class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
+    tab = Tabs.GROUPS
     template_name = 'quizzes/question_edit.html'
 
     def _get_question_data(self, question_id):
@@ -244,7 +251,8 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMi
         choices = []
         for c in question.choice_set.all():
             choices.append({'id': c.id, 'text': c.text, 'is_right': c.is_right})
-        return {'id': question.id, 'text': question.text, 'type': question.kind, 'choices': choices}
+        return {'id': question.id, 'text': question.text,
+                'type': QUESTION_KINDS_BY_ID[question.kind], 'choices': choices}
 
     def get(self, request, pk, question_id):
         context = self.get_context_data()
@@ -258,6 +266,7 @@ class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMi
 
 
 class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
+    tab = Tabs.GROUPS
     template_name = 'quizzes/question_edit.html'
 
     def get(self, request, pk):
@@ -282,3 +291,42 @@ class QuestionGroupCreateView(QuizAdminMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse('quizzes:groups:browse', kwargs={'pk': self.object.id})
+
+
+class QuestionGroupUploadFromFileView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.GROUPS
+    template_name = 'quizzes/question_group_upload.html'
+
+    def _process_error(self, request, pk):
+        context = self.get_context_data(error='ERROR', form=UploadFileForm(), pk=pk)
+        return render(request, self.template_name, context)
+
+    def get(self, request, pk):
+        get_object_or_404(QuestionGroup, pk=pk)
+        form = UploadFileForm()
+        context = self.get_context_data(form=form, pk=pk)
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        group = get_object_or_404(QuestionGroup, pk=pk)
+        form = UploadFileForm(request.POST, request.FILES)
+        questions_data = []
+        if form.is_valid():
+            json_data = request.FILES['file'].read()
+            try:
+                json_questions = json.loads(json_data)
+            except:
+                return self._process_error(request, pk)
+            for q in json_questions:
+                serializer = QuestionDataSerializer(data=q)
+                if not serializer.is_valid(raise_exception=False):
+                    return self._process_error(request, pk)
+                question_data = serializer.save()
+                if not is_question_valid(question_data):
+                    return self._process_error(request, pk)
+                questions_data.append(question_data)
+        else:
+            return self._process_error(request, pk)
+
+        add_questions_to_question_group(group, questions_data)
+        return redirect('quizzes:groups:browse', pk)
