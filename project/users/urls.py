@@ -10,6 +10,7 @@ folders_urlpatterns = [
     url(r'^bulk/sign-up/$', views.CreateUsersMassView.as_view(), name='create_users_mass'),
     url(r'^bulk/update-profile/$', views.UpdateProfileMassView.as_view(), name='update_profile_mass'),
     url(r'^bulk/upload-photo/$', views.UploadPhotoMassView.as_view(), name='upload_photo_mass'),
+    url(r'^bulk/obtain-photos-from-intranet-bsu/$', views.ObtainPhotosFromIntranetBsuView.as_view(), name='obtain_intranet_bsu_photos'),
 ]
 
 urlpatterns = [

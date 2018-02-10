@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.encoding import smart_text
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
@@ -28,6 +29,9 @@ from storage.utils import create_storage, parse_resource_id, serve_resource
 import forms
 from models import UserFolder, UserProfile
 from users.forms import PhotoForm
+import users.intranetbsu as intranetbsu
+import users.photo as photo
+from collections import namedtuple
 
 
 class IndexView(StaffMemberRequiredMixin, generic.View):
@@ -265,6 +269,99 @@ class UploadPhotoMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.For
         msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}
         messages.add_message(self.request, messages.INFO, msg)
         return redirect('users:show_folder', folder_id_or_root)
+
+
+class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
+    template_name = 'users/create_form.html'
+    form_class = forms.IntranetBsuForm
+
+    UserError = namedtuple('UserError', 'user type message')
+    PhotoIds = namedtuple('PhotoIds', 'photo photo_thumbnail')
+
+    def get_context_data(self, **kwargs):
+        context = super(ObtainPhotosFromIntranetBsuView, self).get_context_data(**kwargs)
+        context['form_name'] = _('Photos from intranet.bsu')
+        return context
+
+    def _get_initial_group(self):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        if folder_id_or_root is None:
+            return
+        folder = UserFolder.objects.filter(pk=folder_id_or_root).first()
+        if folder is None:
+            return
+        return intranetbsu.extract_group(folder.name)
+
+    def get_initial(self):
+        initial = {}
+        group = self._get_initial_group()
+        if group is not None:
+            initial['group'] = group
+        return initial
+
+    def form_valid(self, form):
+        folder_id_or_root = self.kwargs['folder_id_or_root']
+        folder_id = cast_id(folder_id_or_root)
+
+        counter = 0
+        photo_ids = {}
+        storage = create_storage()
+
+        errors = []
+        skip_errors = form.cleaned_data['skip_errors']
+
+        for user in auth.get_user_model().objects.filter(userprofile__folder_id=folder_id).select_related('userprofile'):
+            if user.userprofile.photo is not None:
+                continue
+
+            request = intranetbsu.photos.Request(
+                form.cleaned_data['faculty'],
+                user.first_name,
+                user.last_name,
+                user.userprofile.patronymic
+            )
+            request.admission_year = form.cleaned_data['admission_year']
+            request.include_archive = form.cleaned_data['include_archive']
+            request.group = form.cleaned_data['group']
+
+            photo_blob = None
+            photo_thumbnail_blob = None
+
+            try:
+                # photo.generate_thumbnail_blob(None)
+                photo_blob = intranetbsu.photos.download_photo(request)
+                if photo_blob is not None:
+                    photo_thumbnail_blob = photo.generate_thumbnail_blob(photo_blob)
+            except Exception as e:
+                message = e.message
+                if not message:
+                    message = smart_text(e)
+                errors.append(self.UserError(user, type(e).__name__, message))
+                if not skip_errors:
+                    return self.error_page(errors)
+
+            if photo_blob is not None and photo_thumbnail_blob is not None:
+                photo_ids[user.id] = self.PhotoIds(
+                    storage.save(ContentFile(photo_blob)),
+                    storage.save(ContentFile(photo_thumbnail_blob))
+                )
+
+        with transaction.atomic():
+            for user_id, ids in photo_ids.iteritems():
+                counter += UserProfile.objects.filter(pk=user_id).update(photo=ids.photo, photo_thumbnail=ids.photo_thumbnail)
+
+        msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}
+        messages.add_message(self.request, messages.INFO, msg)
+
+        if errors:
+            return self.error_page(errors)
+        else:
+            return redirect('users:show_folder', folder_id_or_root)
+
+    def error_page(self, errors):
+        template_name = 'users/intranetbsu_errors.html'
+        context = self.get_context_data(errors=errors)
+        return render(self.request, template_name, context)
 
 
 class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):

@@ -1,0 +1,29 @@
+{% extends "users/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+{% load irunner_users %}
+
+{% block sidebar %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+{% endblock %}
+
+{% block main %}
+    {% trans "Users" as root_name %}
+    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+
+    {% bootstrap_messages %}
+
+    <p>{% trans "Unable to obtain some photos from" %} <a href="http://intranet.bsu/">intranet.bsu</a>.</p>
+
+    <ul>
+    {% for user_error in errors %}
+        <li>
+            <p>{% irunner_users_card user_error.user %}: <code>{{ user_error.type }}</code></p>
+            <pre>{{ user_error.message }}</pre>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

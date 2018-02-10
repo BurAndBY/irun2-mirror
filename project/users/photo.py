@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 THUMBNAIL_SIZE = (96, 128)
 
 
-def generate_thumbnail(f):
+def generate_thumbnail_file(f):
     try:
         im = Image.open(f)
     except IOError:
@@ -23,3 +23,10 @@ def generate_thumbnail(f):
     im.save(output, 'JPEG', quality=92)
 
     return output.getvalue()
+
+
+def generate_thumbnail_blob(s):
+    buff = StringIO.StringIO()
+    buff.write(s)
+    buff.seek(0)
+    return generate_thumbnail_file(buff)

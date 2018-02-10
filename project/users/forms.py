@@ -2,7 +2,6 @@
 
 import os
 import zipfile
-import StringIO
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -15,7 +14,7 @@ from common.fakefile import FakeFile
 from common.mptt_fields import OrderedTreeNodeChoiceField
 
 from users.models import UserFolder, UserProfile
-from users.photo import generate_thumbnail
+from users.photo import generate_thumbnail_file, generate_thumbnail_blob
 
 
 class MassUserInitForm(forms.Form):
@@ -190,11 +189,7 @@ class UploadPhotoMassForm(forms.Form):
                         raise forms.ValidationError(_('User %(username)s is not found.'), params={'username': name})
 
                     photo = myzip.read(filename)
-
-                    buff = StringIO.StringIO()
-                    buff.write(photo)
-                    buff.seek(0)
-                    photo_thumbnail = generate_thumbnail(buff)
+                    photo_thumbnail = generate_thumbnail_blob(photo)
 
                     result[usernames[name]] = (photo, photo_thumbnail)
 
@@ -202,6 +197,18 @@ class UploadPhotoMassForm(forms.Form):
             raise forms.ValidationError(_('Archive format is not supported.'))
 
         return result
+
+
+class IntranetBsuForm(forms.Form):
+    FACULTY_CHOICES = (
+        (3, _('Faculty of Applied Mathematics and Computer Science')),
+        (2, _('Faculty of Radiophysics and Computer Technologies (RFE)')),
+    )
+    faculty = forms.TypedChoiceField(label=_('Faculty'), choices=FACULTY_CHOICES, required=True)
+    include_archive = forms.BooleanField(label=_('Include archive'), required=False)
+    group = forms.CharField(label=_('Group'), max_length=8, required=False)
+    admission_year = forms.IntegerField(label=_('Admission year'), min_value=1990, required=False)
+    skip_errors = forms.BooleanField(label=_('Skip errors'), help_text='On error, continue fetching photos for next users.', required=False)
 
 
 class MoveUsersForm(forms.Form):
@@ -303,7 +310,7 @@ class PhotoForm(forms.Form):
         if (upload) and (type(upload) is not FakeFile):
             thumb = None
             try:
-                thumb = generate_thumbnail(upload)
+                thumb = generate_thumbnail_file(upload)
             except forms.ValidationError as e:
                 self.add_error('upload', e)
             cleaned_data['thumbnail'] = ContentFile(thumb, name='thumb.jpg')
