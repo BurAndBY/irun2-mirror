@@ -14,7 +14,7 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
@@ -604,3 +604,4 @@ class PhotoView(generic.View):
         valid_ids = UserProfile.objects.filter(user_id=user_id).values_list('photo', 'photo_thumbnail').first()
         if (valid_ids is not None) and (resource_id in valid_ids):
             return serve_resource(request, resource_id, content_type='image/jpeg', cache_forever=True)
+        raise Http404('User or photo was not found.')
