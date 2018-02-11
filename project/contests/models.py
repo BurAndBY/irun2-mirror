@@ -27,6 +27,23 @@ class UnauthorizedAccessLevel(object):
     )
 
 
+class ContestKind(object):
+    UNKNOWN = 0
+    OFFICIAL = 1
+    TRIAL = 2
+    QUALIFYING = 3
+    TRAINING = 4
+
+    CHOICES = (
+        (UNKNOWN, _('Not set')),
+        (OFFICIAL, _('Official contest')),
+        (TRIAL, _('Trial tour')),
+        (QUALIFYING, _('Qualifying tour')),
+        (TRAINING, _('Training')),
+    )
+    VALUE_TO_STRING = {k: v for k, v in CHOICES}
+
+
 def _default_contest_start_time():
     ts = datetime.now() + timedelta(days=3)
     ts = ts.replace(hour=10, minute=0, second=0, microsecond=0)
@@ -62,6 +79,7 @@ class Contest(models.Model):
     enable_upsolving = models.BooleanField(_('enable upsolving after the end of the contest'), blank=True, default=False)
     enable_printing = models.BooleanField(_('enable printing'), blank=True, default=False)
     rooms = models.CharField(_('rooms (comma-separated)'), blank=True, max_length=255)
+    kind = models.IntegerField(_('kind'), choices=ContestKind.CHOICES, default=ContestKind.UNKNOWN)
 
     def get_absolute_url(self):
         return reverse('contests:standings', kwargs={'contest_id': self.pk})

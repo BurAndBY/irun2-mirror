@@ -1,8 +1,11 @@
 from django import template
 from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from common.stringutils import cut_text_block
 
+from contests.models import ContestKind
 from contests.services import ContestTiming
 
 register = template.Library()
@@ -62,3 +65,29 @@ def irunner_contests_question(question, problem_resolver, contest_id=None, url_p
 def irunner_contests_printoutsnippet(text):
     _, text = cut_text_block(text, 10, 80)
     return escape(text)
+
+
+KINDS = {
+    ContestKind.OFFICIAL: (_('Off.'), 'label-success'),
+    ContestKind.TRIAL: (_('Trial'), 'label-warning'),
+    ContestKind.QUALIFYING: (_('Qual.'), 'label-info'),
+    ContestKind.TRAINING: (_('Train.'), 'label-default'),
+}
+
+
+@register.simple_tag
+def irunner_contests_kind(kind):
+    pair = KINDS.get(kind)
+    if pair is None:
+        return ''
+
+    short_text, cls = pair
+    text = ContestKind.VALUE_TO_STRING.get(kind, '')
+    return mark_safe('<span class="label {}" title="{}">{}</span>'.format(cls, text, short_text))
+
+
+@register.inclusion_tag('contests/irunner_contests_minilist_tag.html')
+def irunner_contests_minilist(contests):
+    return {
+        'contests': contests
+    }

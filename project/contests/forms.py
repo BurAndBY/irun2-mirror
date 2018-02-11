@@ -21,7 +21,7 @@ from contests.models import Contest, Message, Printout, UserFilter
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Contest
-        fields = ['name', 'rules', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
+        fields = ['name', 'rules', 'kind', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
 
 
 class AccessForm(forms.ModelForm):

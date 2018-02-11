@@ -2,20 +2,30 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_contests %}
 
 {% block content %}
-    <h1>{% block title %}{% trans 'Contests' %}{% endblock %}</h1>
+    <h1>{% block title %}{{ page_title }}{% endblock %}</h1>
     {% if pairs %}
+        <table class="table table-condensed">
         {% for year, contests in pairs %}
-            <h4>{{ year }}</h4>
-            <ul>
-                {% for contest in contests %}
-                    <li><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a> &mdash; {{ contest.start_time }}</li>
-                {% endfor %}
-            </ul>
+            <tr class="active">
+                <th colspan="4">{{ year }}</td>
+            </tr>
+            {% for c in contests %}
+                <tr>
+                    <td>{% irunner_contests_kind c.contest.kind %}</td>
+                    <td>{{ c.contest.start_time }}</td>
+                    <td><a href="{% url 'contests:standings' c.contest.id %}">{{ c.contest }}</a></td>
+                    <td>{% if c.is_private %}{% bootstrap_icon 'lock' %}{% endif %}</td>
+                </tr>
+            {% endfor %}
         {% endfor %}
+        </table>
     {% else %}
         <p>{% trans 'There are no contests available.' %}</p>
     {% endif %}
-    <p><a href="{% url 'contests:new' %}">{% trans 'New contest' %}</a></p>
+    {% if may_create_contests %}
+        <p><a href="{% url 'contests:new' %}">{% trans 'New contest' %}</a></p>
+    {% endif %}
 {% endblock %}

@@ -3,6 +3,7 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_messagebox %}
+{% load irunner_contests %}
 {% load staticfiles %}
 
 {% block title %}{% trans 'Main' context 'main page' %}{% endblock %}
@@ -52,13 +53,8 @@
 
         {% if my_contests %}
             <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'My contests' %}</span></h2>
-            <ul>
-            {% for contest in my_contests %}
-                <li>
-                    <a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a>
-                </li>
-            {% endfor %}
-            </ul>
+            {% irunner_contests_minilist my_contests %}
+            <p class="small"><a href="{% url 'contests:my' %}">{% trans 'View all' %}...</a></p>
         {% endif %}
     </div>
 {% endif %}
@@ -66,13 +62,8 @@
 {% if public_contests %}
     <div class="col-sm-4">
         <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'Contest results' %}</span></h2>
-        <ul>
-        {% for contest in public_contests %}
-            <li>
-                <a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a>
-            </li>
-        {% endfor %}
-        </ul>
+        {% irunner_contests_minilist public_contests %}
+        <p class="small"><a href="{% url 'contests:index' %}">{% trans 'View all' %}...</a></p>
     </div>
 {% endif %}
 
@@ -82,8 +73,8 @@
         <ul class="list-unstyled">
         {% for obj in news %}
             <li>
-                <strong>{{ obj.when|date:"DATE_FORMAT" }}</strong>
-                <p><a href="{% url 'news:show' obj.id %}">{{ obj.subject }}</a></p>
+                {{ obj.when|date:"DATE_FORMAT" }}
+                <p><strong><a href="{% url 'news:show' obj.id %}">{{ obj.subject }}</a></strong></p>
             </li>
         {% endfor %}
         </ul>

@@ -52,6 +52,7 @@ contestsettings_urlpatterns = [
 
 urlpatterns = [
     url(r'^$', globalviews.ContestListView.as_view(), name='index'),
+    url(r'^my/$', globalviews.MyContestListView.as_view(), name='my'),
     url(r'^new/$', globalviews.ContestCreateView.as_view(), name='new'),
 
     url(r'^(?P<contest_id>[0-9]+)/', include(contest_urlpatterns)),

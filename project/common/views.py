@@ -20,6 +20,8 @@ from .outcome import Outcome
 from .pageutils import IRunnerPaginator
 from .statutils import build_proglangbars, build_outcomebars
 
+NUM_CONTESTS = 5
+
 
 def home(request):
     context = {}
@@ -42,11 +44,11 @@ def home(request):
 
         context['courses_with_unread'] = courses_with_unread
 
-        contests = Contest.objects.filter(membership__user=request.user).order_by('-start_time').distinct()
-        context['my_contests'] = contests
+        contests = Contest.objects.filter(membership__user=request.user).distinct().order_by('-start_time')
+        context['my_contests'] = contests[:NUM_CONTESTS]
 
     public_contests = Contest.objects.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS).order_by('-start_time')
-    context['public_contests'] = public_contests
+    context['public_contests'] = public_contests[:NUM_CONTESTS]
 
     news = NewsMessage.objects.filter(is_public=True).order_by('-when')
     context['news'] = news

@@ -208,7 +208,7 @@ class IntranetBsuForm(forms.Form):
     include_archive = forms.BooleanField(label=_('Include archive'), required=False)
     group = forms.CharField(label=_('Group'), max_length=8, required=False)
     admission_year = forms.IntegerField(label=_('Admission year'), min_value=1990, required=False)
-    skip_errors = forms.BooleanField(label=_('Skip errors'), help_text='On error, continue fetching photos for next users.', required=False)
+    skip_errors = forms.BooleanField(label=_('Skip errors'), help_text=_('On error, continue fetching photos for next users.'), required=False)
 
 
 class MoveUsersForm(forms.Form):
