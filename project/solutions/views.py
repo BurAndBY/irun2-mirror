@@ -29,7 +29,7 @@ from .forms import AllSolutionsFilterForm, CompareSolutionsForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Challenge
 from .permissions import SolutionPermissions
 from .utils import judge, bulk_rejudge
-from .filters import apply_state_filter, apply_compiler_filter
+from .filters import apply_state_filter, apply_compiler_filter, apply_difficulty_filter
 
 
 class DescriptionImageLoader(IDescriptionImageLoader):
@@ -128,6 +128,10 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             problem_id = form.cleaned_data.get('problem')
             if problem_id is not None:
                 queryset = queryset.filter(problem_id=problem_id)
+
+            difficulty = form.cleaned_data.get('difficulty')
+            if difficulty is not None:
+                queryset = apply_difficulty_filter(queryset, difficulty)
 
         context = paginate(request, queryset, self.paginate_by, allow_all=False)
         context['form'] = form

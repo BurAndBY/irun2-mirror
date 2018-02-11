@@ -16,6 +16,7 @@
     <form method="get" class="form-inline">
         <div class="ir-solution-filter">
             <div class="pull-right">
+                {% render_field form.difficulty class='form-control' placeholder=form.difficulty.label %}
                 {% render_field form.problem class='form-control' placeholder=form.problem.label %}
                 {% render_field form.user class='form-control' placeholder=form.user.label %}
                 {% render_field form.compiler class='form-control' %}

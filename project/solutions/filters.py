@@ -23,6 +23,15 @@ STATE_FILTERS = {
     'cf': lambda q: q.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.CHECK_FAILED),
 }
 
+DIFFICULTY_FILTERS = {
+    'no': lambda q: q.filter(problem__difficulty=None),
+    '1-10': lambda q: q.filter(problem__difficulty__gte=1, problem__difficulty__lte=10),
+    '4': lambda q: q.filter(problem__difficulty=4),
+    '5-6': lambda q: q.filter(problem__difficulty__gte=5, problem__difficulty__lte=6),
+    '7-8': lambda q: q.filter(problem__difficulty__gte=7, problem__difficulty__lte=8),
+    '9-10': lambda q: q.filter(problem__difficulty__gte=9, problem__difficulty__lte=10),
+}
+
 
 def apply_state_filter(solution_queryset, value):
     state_filter = STATE_FILTERS.get(value)
@@ -41,4 +50,11 @@ def apply_compiler_filter(solution_queryset, value):
                 break
         if not ok:
             solution_queryset = solution_queryset.filter(compiler_id=value)
+    return solution_queryset
+
+
+def apply_difficulty_filter(solution_queryset, value):
+    difficulty_filter = DIFFICULTY_FILTERS.get(value)
+    if difficulty_filter is not None:
+        solution_queryset = difficulty_filter(solution_queryset)
     return solution_queryset

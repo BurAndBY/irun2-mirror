@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -121,6 +122,17 @@ class AllSolutionsFilterForm(forms.Form):
 
     problem = forms.IntegerField(label=_('Problem ID'), required=False, widget=forms.TextInput)
     user = forms.IntegerField(label=_('User ID'), required=False, widget=forms.TextInput)
+
+    DIFFICULTY_CHOICES = (
+        ('', make_empty_select(_('Level'))),
+        ('no', _('No')),
+        ('1-10', '1–10'),
+        ('4', '4'),
+        ('5-6', '5–6'),
+        ('7-8', '7–8'),
+        ('9-10', '9–10'),
+    )
+    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, required=False)
 
     def __init__(self, *args, **kwargs):
         super(AllSolutionsFilterForm, self).__init__(*args, **kwargs)
