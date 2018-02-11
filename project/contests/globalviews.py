@@ -31,13 +31,13 @@ def _fetch_contests(cs, user):
     if cs == ContestSet.ALL:
         return contests
 
-    my_contests = contests.filter(membership__user=user)
-    public_contests = contests.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS)
     if cs == ContestSet.MY:
-        return my_contests
+        return contests.filter(membership__user=user)
     if cs == ContestSet.PUBLIC:
-        return public_contests
+        return contests.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS)
     if cs == ContestSet.MY_AND_PUBLIC:
+        my_contests = contests.filter(membership__user=user)
+        public_contests = contests.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS)
         return (my_contests | public_contests).distinct()
 
 
