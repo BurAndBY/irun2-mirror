@@ -73,8 +73,8 @@
         <ul class="list-unstyled">
         {% for obj in news %}
             <li>
-                {{ obj.when|date:"DATE_FORMAT" }}
-                <p><strong><a href="{% url 'news:show' obj.id %}">{{ obj.subject }}</a></strong></p>
+                <strong>{{ obj.when|date:"DATE_FORMAT" }}</strong>
+                <p><a href="{% url 'news:show' obj.id %}">{{ obj.subject }}</a></p>
             </li>
         {% endfor %}
         </ul>

@@ -6,8 +6,8 @@
 <ul class="list-unstyled">
 {% for contest in contests %}
     <li>
-        {% irunner_contests_kind contest.kind %} {{ contest.start_time|date:"DATE_FORMAT" }}
-        <p><strong><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a></strong></p>
+        {% irunner_contests_kind contest.kind %} <strong>{{ contest.start_time|date:"DATE_FORMAT" }}</strong>
+        <p><a href="{% url 'contests:standings' contest.id %}">{{ contest }}</a></p>
     </li>
 {% endfor %}
 </ul>

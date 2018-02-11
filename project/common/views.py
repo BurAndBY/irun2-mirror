@@ -20,7 +20,7 @@ from .outcome import Outcome
 from .pageutils import IRunnerPaginator
 from .statutils import build_proglangbars, build_outcomebars
 
-NUM_CONTESTS = 5
+NUM_CONTESTS = 3
 
 
 def home(request):
