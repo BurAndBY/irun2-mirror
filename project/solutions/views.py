@@ -113,7 +113,8 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             prefetch_related('author').\
             select_related('best_judgement').\
             select_related('source_code').\
-            select_related('aggregatedresult').\
+            prefetch_related('aggregatedresult').\
+            defer('ip_address', 'source_code__resource_id').\
             order_by('-id')
 
         if form.is_valid():
