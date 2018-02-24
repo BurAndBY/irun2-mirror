@@ -28,6 +28,8 @@ class CoursePermissions(object):
         self.plagiarism = False
         self.quizzes = False
         self.quizzes_admin = False
+        self.queue = False
+        self.queue_admin = False
 
     def set_common(self):
         self.info = True
@@ -35,6 +37,7 @@ class CoursePermissions(object):
         self.standings = True
         self.sheet = True
         self.messages = True
+        self.queue = True
 
     def set_student(self, own_solutions_access, all_solutions_access):
         self.set_common()
@@ -63,6 +66,7 @@ class CoursePermissions(object):
         self.messages_resolve = True
         self.plagiarism = True
         self.quizzes_admin = True
+        self.queue_admin = True
 
     def set_admin(self):
         self.set_common()
@@ -78,6 +82,7 @@ class CoursePermissions(object):
         self.messages_resolve = True
         self.plagiarism = True
         self.quizzes_admin = True
+        self.queue_admin = True
 
     def disable_sheet(self):
         self.sheet = False

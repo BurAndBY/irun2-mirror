@@ -26,24 +26,19 @@ Cache of Course Users
 '''
 
 
-class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup_number subgroup_name')):
-    '''
-    Fields:
-        subgroup_number: 1-based number of subgroup, 0 means no subgroup.
-    '''
-
+class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup')):
     def __unicode__(self):
         '''
         Returns a string in the form of 'name surname (subgroup)'.
         '''
-        if self.subgroup_name:
-            return u'{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup_name)
+        if self.subgroup:
+            return u'{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup.name)
         else:
             return u'{0} {1}'.format(self.first_name, self.last_name)
 
     def as_html(self):
-        if self.subgroup_name:
-            return format_html(u'{0} <span class="ir-last-name">{1}</span> ({2})', self.first_name, self.last_name, self.subgroup_name)
+        if self.subgroup:
+            return format_html(u'{0} <span class="ir-last-name">{1}</span> ({2})', self.first_name, self.last_name, self.subgroup.name)
         else:
             return format_html(u'{0} <span class="ir-last-name">{1}</span>', self.first_name, self.last_name)
 
@@ -55,34 +50,35 @@ class UserDescription(namedtuple('UserDescription', 'id first_name last_name sub
         return u' '.join(tokens).strip()
 
 
+# 1-based number
+SubgroupDescription = namedtuple('SubgroupDescription', 'id number name')
+
+
 class UserCache(object):
     def __init__(self, course_id):
         self._user_descriptions = {}
         self._teachers = []
         self._students = []
+        self._subgroups = {}
 
         count = 0
-        subgroup_numbers = {}
-        subgroup_names = {}
 
         for subgroup in Subgroup.objects.filter(course_id=course_id).order_by('id'):
             count += 1
-            subgroup_numbers[subgroup.pk] = count
-            subgroup_names[subgroup.pk] = subgroup.name
+            self._subgroups[subgroup.pk] = SubgroupDescription(subgroup.id, count, subgroup.name)
 
         for membership in Membership.objects.\
                 filter(course_id=course_id).\
                 select_related('user').\
                 order_by('user__last_name', 'user__first_name', 'user__id'):
             user = membership.user
-            subgroup_id = membership.subgroup_id
+            subgroup = self._subgroups.get(membership.subgroup_id)
 
             descr = UserDescription(
                 user.id,
                 user.first_name,
                 user.last_name,
-                subgroup_numbers.get(subgroup_id, 0),
-                subgroup_names.get(subgroup_id)
+                subgroup,
             )
             self._put(user.id, descr)
 
@@ -119,6 +115,8 @@ class UserCache(object):
             self._put(user_id, descr)
         return descr
 
+    def get_subgroup(self, subgroup_id):
+        return self._subgroups.get(subgroup_id)
 
 '''
 Helpers to build <select> field with a list of problems.

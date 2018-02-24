@@ -1,0 +1,75 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses %}
+
+{% block subtitle %}{% trans 'Electronic queue' %}{% endblock %}
+
+{% block main %}
+    {% bootstrap_messages %}
+    {% if queues %}
+        <div class="row">
+            {% for queue_info in queues %}
+                <div class="col-md-6 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {% irunner_courses_showsubgroup queue_info.queue.subgroup_id user_cache %} {{ queue_info.queue }}
+                    </div>
+                    <div class="panel-body"> 
+                        {% if queue_info.entries %}
+                        <table class="table table-condensed">
+                            {% for entry_info in queue_info.entries %}
+                                <tr{% if entry_info.is_active %} class="success"{% elif entry_info.is_me %} class="ir-me"{% endif %}>
+                                    <td>{{ forloop.counter }}</td>
+                                    {% if entry_info.can_start %}
+                                    <td>
+                                        <form method="post" action="{% url 'courses:queues:start' course.id queue_info.queue.id entry_info.item.id %}">
+                                            {% csrf_token %}<button class="btn btn-default btn-xs">{% bootstrap_icon 'play' %}</button>
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                    {% if entry_info.can_finish %}
+                                    <td>
+                                        <form method="post" action="{% url 'courses:queues:finish' course.id queue_info.queue.id entry_info.item.id %}">
+                                            {% csrf_token %}<button class="btn btn-default btn-xs">{% bootstrap_icon 'stop' %}</button>
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                    <td>
+                                        {% if permissions.assign %}
+                                            {% url 'courses:course_assignment' course.id entry_info.item.user_id as assign_url %}
+                                            {% irunner_courses_user_card entry_info.item.user_id user_cache url=assign_url %}
+                                        {% else %}
+                                            {% irunner_courses_user_card entry_info.item.user_id user_cache %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-right" title="{{ entry_info.item.enqueue_time }}">{{ entry_info.item.enqueue_time|date:"SHORT_DATE_FORMAT" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+
+                        {% buttons %}
+                            {% if queue_info.can_join %}
+                            <form method="post" action="{% url 'courses:queues:join' course.id queue_info.queue.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-primary"{% if queue_info.can_join_disabled %} disabled{% endif %}>
+                                    {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Sign up' %}</span>
+                                </button>
+                            </form>
+                            {% endif %}
+                            {% if queue_info.can_manage %}
+                            <a href="{% url 'courses:queues:add' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Add a student' %}</span></a>
+                            {% endif %}
+                        {% endbuttons %}
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="ir-absence">{% trans 'No queues' %}</div>
+    {% endif %}
+
+{% endblock %}

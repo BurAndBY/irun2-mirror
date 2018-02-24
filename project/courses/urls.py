@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 
-from . import views, globalviews, settingsviews, assignviews, quizviews
+from . import views, globalviews, settingsviews, assignviews, quizviews, queueviews
 
 quiz_urlpatterns = [
     url(r'^$', quizviews.CourseQuizzesView.as_view(), name='list'),
@@ -15,6 +15,14 @@ quiz_urlpatterns = [
     url(r'^sheet/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesSheetView.as_view(), name='sheet'),
     url(r'^turn-on/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOnView.as_view(), name='turn_on'),
     url(r'^turn-off/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOffView.as_view(), name='turn_off'),
+]
+
+queue_urlpatterns = [
+    url(r'^$', queueviews.ListView.as_view(), name='list'),
+    url(r'^(?P<queue_id>[0-9]+)/add/$', queueviews.AddView.as_view(), name='add'),
+    url(r'^(?P<queue_id>[0-9]+)/join/$', queueviews.JoinView.as_view(), name='join'),
+    url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/start/$', queueviews.StartView.as_view(), name='start'),
+    url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/finish/$', queueviews.FinishView.as_view(), name='finish'),
 ]
 
 urlpatterns = [
@@ -102,5 +110,10 @@ urlpatterns = [
     url(r'^(?P<course_id>[0-9]+)/settings/quizzes/create/$', settingsviews.CourseSettingsQuizzesCreateView.as_view(), name='course_settings_quizzes_create'),
     url(r'^(?P<course_id>[0-9]+)/settings/quizzes/(?P<instance_id>[0-9]+)/$', settingsviews.CourseSettingsQuizzesUpdateView.as_view(), name='course_settings_quizzes_update'),
 
+    url(r'^(?P<course_id>[0-9]+)/settings/queues/$', settingsviews.CourseSettingsQueuesView.as_view(), name='course_settings_queues'),
+    url(r'^(?P<course_id>[0-9]+)/settings/queues/create/$', settingsviews.CourseSettingsQueueCreateView.as_view(), name='course_settings_queue_create'),
+    url(r'^(?P<course_id>[0-9]+)/settings/queues/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsQueueUpdateView.as_view(), name='course_settings_queue_update'),
+
     url(r'^(?P<course_id>[0-9]+)/quizzes/', include(quiz_urlpatterns, namespace='quizzes')),
+    url(r'^(?P<course_id>[0-9]+)/queues/', include(queue_urlpatterns, namespace='queues')),
 ]

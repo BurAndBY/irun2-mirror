@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
@@ -36,6 +37,7 @@ class Course(models.Model):
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.STATE)
 
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
+    enable_queues = models.BooleanField(_('enable electronic queues'), default=False, blank=True)
 
     common_problems = models.ManyToManyField(Problem, blank=True)
 
@@ -210,3 +212,43 @@ class MailUserThreadVisit(models.Model):
 
     class Meta:
         unique_together = ('user', 'thread')
+
+
+'''
+Electronic Queues
+'''
+
+
+@python_2_unicode_compatible
+class Queue(models.Model):
+    course = models.ForeignKey(Course)
+    is_active = models.BooleanField(_('queue is active'), blank=True, default=True)
+    name = models.CharField(_('name'), blank=True, max_length=255)
+    subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        return ugettext('Queue')
+
+
+class QueueEntryStatus(object):
+    WAITING = 0
+    IN_PROGRESS = 1
+    DONE = 2
+
+    CHOICES = (
+        (WAITING, _('Waiting')),
+        (IN_PROGRESS, _('In progress')),
+        (DONE, _('Done')),
+    )
+
+
+class QueueEntry(models.Model):
+    queue = models.ForeignKey(Queue)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    status = models.IntegerField(_('status'), choices=QueueEntryStatus.CHOICES, default=QueueEntryStatus.WAITING)
+
+    enqueue_time = models.DateTimeField(_('enqueue time'), null=False)
+    start_time = models.DateTimeField(null=True)
+    finish_time = models.DateTimeField(null=True)

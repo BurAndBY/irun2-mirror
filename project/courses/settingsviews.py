@@ -14,7 +14,7 @@ from proglangs.models import Compiler
 from problems.models import Problem
 
 from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm, AccessForm, \
-    QuizInstanceCreateForm, QuizInstanceUpdateForm
+    QuizInstanceCreateForm, QuizInstanceUpdateForm, QueueForm
 from forms import TwoPanelUserMultipleChoiceField, TwoPanelProblemMultipleChoiceField
 from forms import create_member_subgroup_formset_class
 from models import Membership
@@ -639,3 +639,35 @@ class CourseSettingsQuizzesUpdateView(QuizMixin, CourseSettingsView):
                 instance.delete()
 
         return redirect(self.list_url_name, course.id)
+
+
+'''
+Electronic queue
+'''
+
+
+class QueueMixin(object):
+    subtab = 'queues'
+    form_class = QueueForm
+    list_url_name = 'courses:course_settings_queues'
+
+
+class CourseSettingsQueuesView(QueueMixin, CourseSettingsBaseListView):
+    template_name = 'courses/settings_queues.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSettingsQueuesView, self).get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self, course):
+        return course.queue_set.annotate(num_entries=Count('queueentry'))
+
+
+class CourseSettingsQueueCreateView(QueueMixin, CourseSettingsBaseCreateView):
+    def _extra_form_kwargs(self):
+        return {'course': self.course}
+
+
+class CourseSettingsQueueUpdateView(QueueMixin, CourseSettingsBaseUpdateView):
+    def _extra_form_kwargs(self):
+        return {'course': self.course}

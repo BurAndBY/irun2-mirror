@@ -87,6 +87,13 @@
         </a>
     {% endif %}
 
+    {% if permissions.queue %}
+        <a href="{% url 'courses:queues:list' course.id %}" class="list-group-item{% if active_tab == 'queue' %} active{% endif %}">
+            {% bootstrap_icon 'retweet' %}
+            <span class="ir-icon-label">{% trans 'Electronic queue' %}</span>
+        </a>
+    {% endif %}
+
     {% if permissions.settings %}
         <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
             {% bootstrap_icon 'cog' %}

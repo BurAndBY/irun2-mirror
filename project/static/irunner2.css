@@ -43,6 +43,10 @@ body {
     margin-right: 8px;
 }
 
+.ir-nav-tabs-narrow > li > a {
+    padding: 10px 8px;
+}
+
 /**
  * Jumbotron
  */

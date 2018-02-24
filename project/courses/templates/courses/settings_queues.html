@@ -1,0 +1,34 @@
+{% extends 'courses/settings_base.html' %}
+
+{% load i18n %}
+{% load irunner_yesno %}
+
+{% block submain %}
+    {% if object_list %}
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>{% trans 'Is active?' context 'queue' %}</th>
+                    <th>{% trans 'Subgroup' %}</th>
+                    <th>{% trans 'Name' %}</th>
+                    <th>{% trans 'Entries' %}</th>
+                </tr>
+            </thead>
+        {% for queue in object_list %}
+            <tr>
+                <td>{% irunner_yesno queue.is_active %}</td>
+                <td>{% if queue.subgroup != None %}{{ queue.subgroup }}{% else %}&mdash;{% endif %}</td>
+                <td><a href="{% url 'courses:course_settings_queue_update' course.id queue.id %}">{{ queue }}</a></td>
+                <td>{{ queue.num_entries }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <div class="ir-absence">
+            {% trans 'No queues' %}
+        </div>
+    {% endif %}
+    <p>
+        <a href="{% url 'courses:course_settings_queue_create' course.id %}">{% trans 'New queue' %}</a>
+    </p>
+{% endblock %}

@@ -14,7 +14,7 @@ from common.mptt_fields import OrderedTreeNodeChoiceField
 import common.widgets
 import solutions.forms
 
-from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership, MailThread, MailMessage
+from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership, MailThread, MailMessage, Queue, QueueEntry
 from courses.utils import make_year_of_study_string, make_academic_year_string
 
 
@@ -284,3 +284,32 @@ class MailMessageForm(forms.ModelForm):
 
 class MailResolvedForm(forms.Form):
     resolved = forms.BooleanField(required=False)
+
+'''
+Queues
+'''
+
+
+class QueueForm(forms.ModelForm):
+    class Meta:
+        model = Queue
+        fields = ['is_active', 'name', 'subgroup']
+        help_texts = {
+            'is_active': _('Students may join the queue.')
+        }
+
+    def __init__(self, *args, **kwargs):
+        course = kwargs.pop('course')
+        super(QueueForm, self).__init__(*args, **kwargs)
+        self.fields['subgroup'] = forms.ModelChoiceField(label=_('Subgroup'), queryset=Subgroup.objects.filter(course=course), empty_label=EMPTY_SELECT, required=False)
+
+
+class QueueEntryForm(forms.ModelForm):
+    class Meta:
+        model = QueueEntry
+        fields = ['enqueue_time']
+
+    def __init__(self, *args, **kwargs):
+        user_choices = kwargs.pop('user_choices')
+        super(QueueEntryForm, self).__init__(*args, **kwargs)
+        self.fields['user_id'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=True)

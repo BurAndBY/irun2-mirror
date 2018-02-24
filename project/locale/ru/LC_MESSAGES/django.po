@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 03:17+0300\n"
-"PO-Revision-Date: 2018-02-11 03:19+0300\n"
+"POT-Creation-Date: 2018-02-24 12:24+0300\n"
+"PO-Revision-Date: 2018-02-24 12:26+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -19,8 +19,8 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: .\api\models.py:14 .\contests\models.py:167 .\solutions\forms.py:105
-#: .\solutions\models.py:50
+#: .\api\models.py:14 .\contests\models.py:168 .\courses\models.py:241
+#: .\solutions\forms.py:106 .\solutions\models.py:50
 msgid "Waiting"
 msgstr "Ожидание"
 
@@ -28,8 +28,8 @@ msgstr "Ожидание"
 msgid "Executing"
 msgstr "Выполнение"
 
-#: .\api\models.py:16 .\contests\models.py:166 .\solutions\forms.py:110
-#: .\solutions\models.py:49
+#: .\api\models.py:16 .\contests\models.py:167 .\courses\models.py:243
+#: .\solutions\forms.py:111 .\solutions\models.py:49
 msgid "Done"
 msgstr "Готово"
 
@@ -87,7 +87,8 @@ msgstr "Запуск"
 msgid "Queue is empty."
 msgstr "Очередь пуста."
 
-#: .\api\templates\api\queue.html:8 .\templates\navbar.html:31
+#: .\api\templates\api\queue.html:8 .\courses\models.py:232
+#: .\templates\navbar.html:31
 msgid "Queue"
 msgstr "Очередь"
 
@@ -240,43 +241,43 @@ msgstr "Принято на тестирование"
 msgid "N/A"
 msgstr "N/A"
 
-#: .\common\outcome.py:19 .\solutions\forms.py:93
+#: .\common\outcome.py:19 .\solutions\forms.py:94
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\common\outcome.py:20 .\solutions\forms.py:94
+#: .\common\outcome.py:20 .\solutions\forms.py:95
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\common\outcome.py:21 .\solutions\forms.py:95
+#: .\common\outcome.py:21 .\solutions\forms.py:96
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\common\outcome.py:22 .\solutions\forms.py:96
+#: .\common\outcome.py:22 .\solutions\forms.py:97
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\common\outcome.py:23 .\solutions\forms.py:97
+#: .\common\outcome.py:23 .\solutions\forms.py:98
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\common\outcome.py:24 .\solutions\forms.py:98
+#: .\common\outcome.py:24 .\solutions\forms.py:99
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\common\outcome.py:25 .\solutions\forms.py:99
+#: .\common\outcome.py:25 .\solutions\forms.py:100
 msgid "Run-time Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\common\outcome.py:26 .\solutions\forms.py:100
+#: .\common\outcome.py:26 .\solutions\forms.py:101
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\common\outcome.py:27 .\solutions\forms.py:101
+#: .\common\outcome.py:27 .\solutions\forms.py:102
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\common\outcome.py:28 .\solutions\forms.py:102
+#: .\common\outcome.py:28 .\solutions\forms.py:103
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
@@ -430,6 +431,7 @@ msgstr "Загрузка"
 
 #: .\common\templates\common\twopanelselectmultiple_widget.html:22
 #: .\courses\templates\courses\assign.html:105
+#: .\courses\templates\courses\queue_add.html:14
 #: .\news\templates\news\new.html:13
 #: .\quizzes\templates\quizzes\quiz_template_add_group.html:11
 #: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:85
@@ -559,6 +561,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: .\contests\forms.py:94 .\courses\forms.py:198 .\courses\forms.py:266
+#: .\courses\forms.py:315
 #: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
 msgid "User"
 msgstr "Пользователь"
@@ -581,7 +584,7 @@ msgstr "Пользователь"
 #: .\solutions\templates\solutions\challenge_list.html:20
 #: .\solutions\templates\solutions\rejudge.html:22
 #: .\solutions\templates\solutions\solution.html:35
-#: .\solutions\templates\solutions\solution_list.html:35
+#: .\solutions\templates\solutions\solution_list.html:36
 #: .\storage\templates\storage\usage.html:29
 #: .\storage\templates\storage\usage.html:45
 #: .\storage\templates\storage\usage.html:51
@@ -643,9 +646,9 @@ msgstr "Отборочный тур"
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\contests\models.py:62 .\contests\models.py:191 .\courses\models.py:21
-#: .\courses\models.py:28 .\courses\models.py:74 .\courses\models.py:107
-#: .\courses\models.py:116
+#: .\contests\models.py:62 .\contests\models.py:192 .\courses\models.py:22
+#: .\courses\models.py:29 .\courses\models.py:76 .\courses\models.py:109
+#: .\courses\models.py:118 .\courses\models.py:226
 #: .\courses\templates\courses\api_list_problems.html:11
 #: .\problems\models.py:19 .\quizzes\models.py:16 .\quizzes\models.py:58
 #: .\users\models.py:14
@@ -708,23 +711,27 @@ msgstr "включить печать"
 msgid "rooms (comma-separated)"
 msgstr "аудитории (через запятую)"
 
-#: .\contests\models.py:92
+#: .\contests\models.py:82 .\courses\models.py:111 .\users\models.py:41
+msgid "kind"
+msgstr "вид"
+
+#: .\contests\models.py:93
 msgid "Freeze time must not exceed the contest duration."
 msgstr "Время заморозки не должно быть больше длительности соревнования."
 
-#: .\contests\models.py:103
+#: .\contests\models.py:104
 msgid "contestant"
 msgstr "участник"
 
-#: .\contests\models.py:104
+#: .\contests\models.py:105
 msgid "juror"
 msgstr "член жюри"
 
-#: .\contests\models.py:109 .\courses\models.py:133
+#: .\contests\models.py:110 .\courses\models.py:135
 msgid "role"
 msgstr "роль"
 
-#: .\contests\models.py:134
+#: .\contests\models.py:135
 #: .\contests\templates\contests\all_questions_delete.html:7
 #: .\contests\templates\contests\question_answers.html:9
 #: .\quizdemo\templates\quizdemo\question.html:13
@@ -733,46 +740,46 @@ msgstr "роль"
 msgid "Question"
 msgstr "Вопрос"
 
-#: .\contests\models.py:135
+#: .\contests\models.py:136
 msgid "Answer"
 msgstr "Ответ"
 
-#: .\contests\models.py:136
+#: .\contests\models.py:137
 msgid "Message"
 msgstr "Сообщение"
 
-#: .\contests\models.py:144 .\courses\models.py:191 .\feedback\models.py:12
+#: .\contests\models.py:145 .\courses\models.py:193 .\feedback\models.py:12
 #: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
-#: .\contests\models.py:145 .\courses\models.py:202
+#: .\contests\models.py:146 .\courses\models.py:204
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:168 .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:169 .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
 
-#: .\contests\models.py:169
+#: .\contests\models.py:170
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: .\contests\models.py:174 .\contests\models.py:183
+#: .\contests\models.py:175 .\contests\models.py:184
 #: .\contests\templates\contests\printing.html:32
 msgid "room"
 msgstr "аудитория"
 
-#: .\contests\models.py:176
+#: .\contests\models.py:177
 msgid "text"
 msgstr "текст"
 
-#: .\contests\models.py:177
+#: .\contests\models.py:178 .\courses\models.py:250
 msgid "status"
 msgstr "статус"
 
-#: .\contests\models.py:192
+#: .\contests\models.py:193
 msgid "regular expression"
 msgstr "регулярное выражение"
 
@@ -835,7 +842,7 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\show_test.html:132
 #: .\problems\templates\problems\tests.html:62
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
-#: .\solutions\templates\solutions\solution_list.html:75
+#: .\solutions\templates\solutions\solution_list.html:76
 #: .\users\templates\users\folder.html:34
 #: .\users\templates\users\folder.html:67
 #: .\users\templates\users\folder_confirm_delete.html:21
@@ -857,6 +864,7 @@ msgstr "Удалить"
 #: .\courses\templates\courses\course_form.html:13
 #: .\courses\templates\courses\messages.html:148
 #: .\courses\templates\courses\messages_new.html:27
+#: .\courses\templates\courses\queue_add.html:16
 #: .\courses\templates\courses\quiz.html:37
 #: .\courses\templates\courses\quizzes_answers.html:81
 #: .\courses\templates\courses\settings_common_problems_edit.html:16
@@ -894,7 +902,7 @@ msgstr "Отмена"
 #: .\contests\templates\contests\my_solutions.html:20
 #: .\courses\templates\courses\solutions.html:26
 #: .\problems\templates\problems\solutions.html:29
-#: .\solutions\templates\solutions\solution_list.html:24
+#: .\solutions\templates\solutions\solution_list.html:25
 msgid "Apply"
 msgstr "Применить"
 
@@ -915,7 +923,7 @@ msgstr "Применить"
 #: .\solutions\templates\solutions\rejudge.html:41
 #: .\solutions\templates\solutions\rejudge_list.html:18
 #: .\solutions\templates\solutions\solution.html:31
-#: .\solutions\templates\solutions\solution_list.html:36
+#: .\solutions\templates\solutions\solution_list.html:37
 #: .\solutions\templates\solutions\solution_plagiarism.html:20
 msgid "Author"
 msgstr "Автор"
@@ -926,7 +934,7 @@ msgstr "Автор"
 #: .\courses\templates\courses\solutions.html:42
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:18
-#: .\solutions\templates\solutions\solution_list.html:37
+#: .\solutions\templates\solutions\solution_list.html:38
 #: .\solutions\templates\solutions\solution_plagiarism.html:19
 msgid "Time"
 msgstr "Время"
@@ -941,7 +949,7 @@ msgstr "Время"
 #: .\problems\templates\problems\texs.html:11
 #: .\solutions\templates\solutions\solution.html:86
 #: .\solutions\templates\solutions\solution_attempts.html:19
-#: .\solutions\templates\solutions\solution_list.html:38
+#: .\solutions\templates\solutions\solution_list.html:39
 #: .\storage\templates\storage\usage.html:39
 #: .\storage\templates\storage\usage.html:44
 #: .\storage\templates\storage\usage.html:50
@@ -953,10 +961,10 @@ msgstr "Файл"
 #: .\contests\templates\contests\printing.html:26
 #: .\contests\templates\contests\printout_show.html:20
 #: .\courses\templates\courses\solutions.html:44
-#: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:91
+#: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:92
 #: .\solutions\templates\solutions\judgement_list.html:19
 #: .\solutions\templates\solutions\solution_attempts.html:20
-#: .\solutions\templates\solutions\solution_list.html:39
+#: .\solutions\templates\solutions\solution_list.html:40
 msgid "Status"
 msgstr "Статус"
 
@@ -1143,6 +1151,7 @@ msgstr "Соревнование окончено"
 #: .\courses\templates\courses\course_list.html:28
 #: .\courses\templates\courses\messages.html:8
 #: .\courses\templates\courses\messages_new.html:6
+#: .\courses\templates\courses\queue_add.html:6
 #: .\courses\templates\courses\sidebar.html:29
 msgid "Messages"
 msgstr "Сообщения"
@@ -1249,7 +1258,7 @@ msgstr "Назад"
 #: .\contests\templates\contests\settings_base.html:5
 #: .\contests\templates\contests\sidebar.html:80
 #: .\courses\templates\courses\settings_base.html:5
-#: .\courses\templates\courses\sidebar.html:93
+#: .\courses\templates\courses\sidebar.html:100
 #: .\problems\templates\problems\challenge_new.html:19
 msgid "Settings"
 msgstr "Настройки"
@@ -1396,11 +1405,11 @@ msgstr "Вопрос был успешно отправлен."
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
-#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:44
+#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:46
 msgid "Year of study"
 msgstr "Год обучения"
 
-#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:46
+#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:48
 msgid "Academic year"
 msgstr "Учебный год"
 
@@ -1437,112 +1446,138 @@ msgstr "Вложение"
 msgid "You can attach an arbitrary file to your message"
 msgstr "Вы можете прикрепить к сообщению произвольный файл"
 
-#: .\courses\models.py:20
+#: .\courses\forms.py:298
+msgid "Students may join the queue."
+msgstr "Студенты могут записываться в очередь."
+
+#: .\courses\forms.py:304 .\courses\templates\courses\settings_queues.html:12
+#: .\courses\templates\courses\settings_users.html:29
+msgid "Subgroup"
+msgstr "Подгруппа"
+
+#: .\courses\models.py:21
 msgid "criterion label"
 msgstr "обозначение критерия"
 
-#: .\courses\models.py:32
+#: .\courses\models.py:33
 msgid "student’s access to his own solutions"
 msgstr "доступ студента к его собственным решениям"
 
-#: .\courses\models.py:35
+#: .\courses\models.py:36
 msgid "student’s access to all solutions of the course"
 msgstr "доступ студента ко всем решениям курса"
 
-#: .\courses\models.py:38
+#: .\courses\models.py:39
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
-#: .\courses\models.py:42
+#: .\courses\models.py:40
+msgid "enable electronic queues"
+msgstr "включить электронные очереди"
+
+#: .\courses\models.py:44
 msgid "Number of attempts a day per problem"
 msgstr "Число попыток по задаче в день"
 
-#: .\courses\models.py:45
+#: .\courses\models.py:47
 msgid "Group number"
 msgstr "Номер группы"
 
-#: .\courses\models.py:53
+#: .\courses\models.py:55
 msgid "No information is given to identify the course."
 msgstr "Нет данных, чтобы идентифицировать курс."
 
-#: .\courses\models.py:60
+#: .\courses\models.py:62
 #, python-format
 msgid "%(group)d group"
 msgstr "%(group)d группа"
 
-#: .\courses\models.py:76
+#: .\courses\models.py:78
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:77 .\courses\models.py:142
+#: .\courses\models.py:79 .\courses\models.py:144
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:100
+#: .\courses\models.py:102
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:101
+#: .\courses\models.py:103
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:102
+#: .\courses\models.py:104
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:103
+#: .\courses\models.py:105
 msgid "quiz result"
 msgstr "результат теста"
 
-#: .\courses\models.py:108 .\problems\models.py:102 .\problems\models.py:140
+#: .\courses\models.py:110 .\problems\models.py:102 .\problems\models.py:140
 #: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:539
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:109 .\users\models.py:41
-msgid "kind"
-msgstr "вид"
-
-#: .\courses\models.py:110 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:112 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:111
+#: .\courses\models.py:113
 msgid "quiz"
 msgstr "тест"
 
-#: .\courses\models.py:127
+#: .\courses\models.py:129
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:128
+#: .\courses\models.py:130
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:134 .\users\templates\users\user_card.html:38
+#: .\courses\models.py:136 .\courses\models.py:227
+#: .\users\templates\users\user_card.html:38
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:140
+#: .\courses\models.py:142
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:173
+#: .\courses\models.py:175
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:174
+#: .\courses\models.py:176
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:175
+#: .\courses\models.py:177
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\models.py:203 .\feedback\models.py:14
+#: .\courses\models.py:205 .\feedback\models.py:14
 msgid "attachment"
 msgstr "Вложение"
+
+#: .\courses\models.py:225
+msgid "queue is active"
+msgstr "очередь активна"
+
+#: .\courses\models.py:242
+msgid "In progress"
+msgstr "В процессе"
+
+#: .\courses\models.py:252
+msgid "enqueue time"
+msgstr "время добавления в очередь"
+
+#: .\courses\queueviews.py:135
+msgid "You have successfully joined the queue."
+msgstr "Вы успешно записались в очередь."
 
 #: .\courses\quizviews.py:122
 msgid "Permission denied"
@@ -1562,7 +1597,7 @@ msgstr ""
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
-#: .\courses\services.py:158 .\courses\templates\courses\assign.html:121
+#: .\courses\services.py:156 .\courses\templates\courses\assign.html:121
 #: .\courses\templates\courses\my_problems.html:45
 #: .\courses\templates\courses\settings_problems.html:45
 #: .\courses\templates\courses\standings.html:103
@@ -1570,13 +1605,13 @@ msgstr "Запрос некорректен"
 msgid "Common problems"
 msgstr "Общие задачи"
 
-#: .\courses\services.py:199 .\courses\settingsviews.py:119
+#: .\courses\services.py:197 .\courses\settingsviews.py:119
 #: .\courses\templates\courses\assign.html:26
 #: .\courses\templates\courses\course_list.html:26
 msgid "Students"
 msgstr "Студенты"
 
-#: .\courses\services.py:203 .\courses\settingsviews.py:120
+#: .\courses\services.py:201 .\courses\settingsviews.py:120
 msgid "Teachers"
 msgstr "Преподаватели"
 
@@ -1708,7 +1743,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:313
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:318
 msgid "delete"
 msgstr "удалить"
 
@@ -1826,6 +1861,24 @@ msgstr "Задача не назначена"
 #: .\problems\models.py:122
 msgid "Solution description"
 msgstr "Описание решения"
+
+#: .\courses\templates\courses\queue.html:7
+#: .\courses\templates\courses\sidebar.html:93
+msgid "Electronic queue"
+msgstr "Электронная очередь"
+
+#: .\courses\templates\courses\queue.html:58
+msgid "Sign up"
+msgstr "Записаться"
+
+#: .\courses\templates\courses\queue.html:63
+msgid "Add a student"
+msgstr "Добавить студента"
+
+#: .\courses\templates\courses\queue.html:72
+#: .\courses\templates\courses\settings_queues.html:28
+msgid "No queues"
+msgstr "Очередей нет"
 
 #: .\courses\templates\courses\quiz.html:6
 msgid "Quiz"
@@ -2021,6 +2074,10 @@ msgstr "Попытки"
 msgid "Subgroups"
 msgstr "Подгруппы"
 
+#: .\courses\templates\courses\settings_base.html:36
+msgid "Queues"
+msgstr "Очереди"
+
 #: .\courses\templates\courses\settings_common_problems_edit.html:7
 msgid "Edit common problems list"
 msgstr "Редактирование списка общих задач"
@@ -2066,6 +2123,29 @@ msgstr ""
 #: .\courses\templates\courses\settings_properties.html:17
 msgid "Delete the course"
 msgstr "Удалить курс"
+
+#: .\courses\templates\courses\settings_queues.html:11
+msgctxt "queue"
+msgid "Is active?"
+msgstr "Активна?"
+
+#: .\courses\templates\courses\settings_queues.html:13 .\problems\tabs.py:26
+#: .\problems\templates\problems\irunner_problems_list_tag.html:19
+#: .\problems\templates\problems\overview.html:27
+#: .\quizzes\templates\quizzes\question_group_list.html:16
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
+#: .\quizzes\templates\quizzes\quiz_template_list.html:16
+#: .\users\templates\users\profile_show.html:31
+msgid "Name"
+msgstr "Название"
+
+#: .\courses\templates\courses\settings_queues.html:14
+msgid "Entries"
+msgstr "Записи"
+
+#: .\courses\templates\courses\settings_queues.html:32
+msgid "New queue"
+msgstr "Новая очередь"
 
 #: .\courses\templates\courses\settings_quiz_edit.html:12
 #: .\courses\templates\courses\settings_quizzes.html:22 .\quizzes\models.py:68
@@ -2128,10 +2208,6 @@ msgstr "Подгрупп нет"
 msgid "New subgroup"
 msgstr "Новая подгруппа"
 
-#: .\courses\templates\courses\settings_users.html:29
-msgid "Subgroup"
-msgstr "Подгруппа"
-
 #: .\courses\templates\courses\settings_users.html:43
 msgid "No users are set."
 msgstr "Пользователи не заданы."
@@ -2166,7 +2242,7 @@ msgstr "Журнал"
 
 #: .\courses\templates\courses\solutions.html:46
 #: .\solutions\templates\solutions\solution.html:132
-#: .\solutions\templates\solutions\solution_list.html:40
+#: .\solutions\templates\solutions\solution_list.html:41
 #: .\solutions\templates\solutions\solution_plagiarism.html:10
 msgid "Plagiarism"
 msgstr "Плагиат"
@@ -2510,19 +2586,9 @@ msgstr "Генератор"
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:167 .\solutions\forms.py:128
+#: .\problems\models.py:167 .\solutions\forms.py:140
 msgid "compiler"
 msgstr "компилятор"
-
-#: .\problems\tabs.py:26
-#: .\problems\templates\problems\irunner_problems_list_tag.html:19
-#: .\problems\templates\problems\overview.html:27
-#: .\quizzes\templates\quizzes\question_group_list.html:16
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
-#: .\quizzes\templates\quizzes\quiz_template_list.html:16
-#: .\users\templates\users\profile_show.html:31
-msgid "Name"
-msgstr "Название"
 
 #: .\problems\tabs.py:28 .\problems\templates\problems\list_base.html:14
 #: .\problems\templates\problems\overview.html:38
@@ -2707,7 +2773,7 @@ msgid "(checkers, validators)"
 msgstr "(программы проверки, контролёры тестов)"
 
 #: .\problems\templates\problems\files.html:60 .\proglangs\views.py:42
-#: .\solutions\forms.py:24 .\solutions\templates\solutions\solution.html:92
+#: .\solutions\forms.py:25 .\solutions\templates\solutions\solution.html:92
 msgid "Compiler"
 msgstr "Компилятор"
 
@@ -2728,6 +2794,7 @@ msgid "Output file name"
 msgstr "Имя выходного файла"
 
 #: .\problems\templates\problems\irunner_problems_list_tag.html:18
+#: .\solutions\forms.py:127
 msgid "Level"
 msgstr "Уровень"
 
@@ -2941,7 +3008,7 @@ msgstr "Время отправления"
 
 #: .\problems\templates\problems\solutions.html:80
 #: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:74
+#: .\solutions\templates\solutions\solution_list.html:75
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
@@ -2993,7 +3060,7 @@ msgid "Browse"
 msgstr "Обзор"
 
 #: .\problems\templates\problems\tests.html:55
-#: .\solutions\templates\solutions\solution_list.html:70
+#: .\solutions\templates\solutions\solution_list.html:71
 #: .\users\templates\users\folder.html:62
 msgid "Actions"
 msgstr "Действия"
@@ -3115,7 +3182,7 @@ msgstr "Неизвестно"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:28 .\solutions\forms.py:118
+#: .\proglangs\models.py:28 .\solutions\forms.py:119
 msgid "language"
 msgstr "язык"
 
@@ -3145,7 +3212,7 @@ msgstr "Строковый идентификатор"
 
 #: .\proglangs\templates\proglangs\index.html:21
 #: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:19
-#: .\solutions\forms.py:117
+#: .\solutions\forms.py:118
 msgid "Language"
 msgstr "Язык"
 
@@ -3358,7 +3425,7 @@ msgstr "мин"
 msgid "Finish"
 msgstr "Завершить"
 
-#: .\quizzes\utils.py:134
+#: .\quizzes\utils.py:134 .\solutions\forms.py:128
 msgid "No"
 msgstr "Нет"
 
@@ -3431,19 +3498,19 @@ msgstr "файл слишком большой"
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
-#: .\solutions\forms.py:30
+#: .\solutions\forms.py:31
 msgid "Enter source code"
 msgstr "Введите исходный код"
 
-#: .\solutions\forms.py:36 .\storage\forms.py:15
+#: .\solutions\forms.py:37 .\storage\forms.py:15
 msgid "…or upload a file"
 msgstr "…или загрузите файл"
 
-#: .\solutions\forms.py:40 .\storage\forms.py:19
+#: .\solutions\forms.py:41 .\storage\forms.py:19
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
-#: .\solutions\forms.py:55
+#: .\solutions\forms.py:56
 #, python-format
 msgid ""
 "The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B)."
@@ -3451,11 +3518,11 @@ msgstr ""
 "Размер исходного файла (%(actual)d Б) превышает установленное ограничение "
 "(%(limit)d Б)."
 
-#: .\solutions\forms.py:67
+#: .\solutions\forms.py:68
 msgid "Unable to submit an empty solution."
 msgstr "Нельзя отправить пустое решение."
 
-#: .\solutions\forms.py:78
+#: .\solutions\forms.py:79
 msgid ""
 "Unable to determine the name of the source file. For Java code, make sure "
 "you have a single public class defined. You can also try to upload a file "
@@ -3465,52 +3532,52 @@ msgstr ""
 "убедитесь, что объявлен ровно один public-класс. Вы также можете попробовать "
 "загрузить файл вместо того, чтобы непосредственно вводить код."
 
-#: .\solutions\forms.py:92
+#: .\solutions\forms.py:93
 msgid "outcome"
 msgstr "вердикт"
 
-#: .\solutions\forms.py:104
+#: .\solutions\forms.py:105
 msgid "state"
 msgstr "состояние"
 
-#: .\solutions\forms.py:106 .\solutions\models.py:51
+#: .\solutions\forms.py:107 .\solutions\models.py:51
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\forms.py:107 .\solutions\models.py:52
+#: .\solutions\forms.py:108 .\solutions\models.py:52
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\forms.py:108 .\solutions\models.py:53
+#: .\solutions\forms.py:109 .\solutions\models.py:53
 #: .\solutions\templates\solutions\judgement_list.html:22
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\forms.py:109 .\solutions\models.py:54
+#: .\solutions\forms.py:110 .\solutions\models.py:54
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\forms.py:111
+#: .\solutions\forms.py:112
 msgid "Not Done"
 msgstr "Не готово"
 
-#: .\solutions\forms.py:122
+#: .\solutions\forms.py:123
 msgid "Problem ID"
 msgstr "ID задачи"
 
-#: .\solutions\forms.py:123
+#: .\solutions\forms.py:124
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: .\solutions\forms.py:137
+#: .\solutions\forms.py:149
 msgid "First solution"
 msgstr "Первое решение"
 
-#: .\solutions\forms.py:138
+#: .\solutions\forms.py:150
 msgid "Second solution"
 msgstr "Второе решение"
 
-#: .\solutions\forms.py:139
+#: .\solutions\forms.py:151
 msgid "Show only contextual differences, else show full files"
 msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
@@ -3806,7 +3873,7 @@ msgstr "ошибка компиляции контролёра тестов"
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:206
+#: .\solutions\views.py:211
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -4334,6 +4401,9 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "enabled"
+#~ msgstr "включено"
 
 #~ msgid "Add question group"
 #~ msgstr "Добавить группу вопросов"
