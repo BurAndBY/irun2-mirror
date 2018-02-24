@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-24 12:24+0300\n"
+"POT-Creation-Date: 2018-02-24 14:55+0300\n"
 "PO-Revision-Date: 2018-02-24 12:26+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -648,10 +648,8 @@ msgstr "Тренировка"
 
 #: .\contests\models.py:62 .\contests\models.py:192 .\courses\models.py:22
 #: .\courses\models.py:29 .\courses\models.py:76 .\courses\models.py:109
-#: .\courses\models.py:118 .\courses\models.py:226
-#: .\courses\templates\courses\api_list_problems.html:11
-#: .\problems\models.py:19 .\quizzes\models.py:16 .\quizzes\models.py:58
-#: .\users\models.py:14
+#: .\courses\models.py:118 .\courses\models.py:226 .\problems\models.py:19
+#: .\quizzes\models.py:16 .\quizzes\models.py:58 .\users\models.py:14
 msgid "name"
 msgstr "название"
 
@@ -757,7 +755,8 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:169 .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:169
+#: .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
@@ -1487,10 +1486,11 @@ msgstr "Номер группы"
 msgid "No information is given to identify the course."
 msgstr "Нет данных, чтобы идентифицировать курс."
 
+# There should be some way to write here 1st, 2nd etc.
 #: .\courses\models.py:62
 #, python-format
 msgid "%(group)d group"
-msgstr "%(group)d группа"
+msgstr "%(group)d-я группа"
 
 #: .\courses\models.py:78
 msgid "problem folder"
@@ -1648,8 +1648,21 @@ msgstr[1] "Удалены %(count)d пользователя."
 msgstr[2] "Удалено %(count)d пользователей."
 
 #: .\courses\templates\courses\api_list_problems.html:8
-msgid "level"
-msgstr "уровень"
+#: .\problems\templates\problems\irunner_problems_list_tag.html:18
+#: .\solutions\forms.py:127
+msgid "Level"
+msgstr "Уровень"
+
+#: .\courses\templates\courses\api_list_problems.html:11
+#: .\courses\templates\courses\settings_queues.html:13 .\problems\tabs.py:26
+#: .\problems\templates\problems\irunner_problems_list_tag.html:19
+#: .\problems\templates\problems\overview.html:27
+#: .\quizzes\templates\quizzes\question_group_list.html:16
+#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
+#: .\quizzes\templates\quizzes\quiz_template_list.html:16
+#: .\users\templates\users\profile_show.html:31
+msgid "Name"
+msgstr "Название"
 
 #: .\courses\templates\courses\api_list_problems.html:15
 #: .\courses\templates\courses\api_list_problems.html:24
@@ -1757,7 +1770,7 @@ msgstr "Новый критерий"
 
 #: .\courses\templates\courses\info.html:24
 msgid "Number of submitted solutions"
-msgstr "Количество отправленных решений"
+msgstr "Число отправленных решений"
 
 #: .\courses\templates\courses\info.html:33
 msgid "Programming language popularity"
@@ -2129,16 +2142,6 @@ msgctxt "queue"
 msgid "Is active?"
 msgstr "Активна?"
 
-#: .\courses\templates\courses\settings_queues.html:13 .\problems\tabs.py:26
-#: .\problems\templates\problems\irunner_problems_list_tag.html:19
-#: .\problems\templates\problems\overview.html:27
-#: .\quizzes\templates\quizzes\question_group_list.html:16
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
-#: .\quizzes\templates\quizzes\quiz_template_list.html:16
-#: .\users\templates\users\profile_show.html:31
-msgid "Name"
-msgstr "Название"
-
 #: .\courses\templates\courses\settings_queues.html:14
 msgid "Entries"
 msgstr "Записи"
@@ -2263,10 +2266,11 @@ msgstr "Ошибка получения данных с сервера."
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
+# There should be some way to write here 1st, 2nd etc.
 #: .\courses\utils.py:7
 #, python-format
 msgid "%(year)d year"
-msgstr "%(year)d курс"
+msgstr "%(year)d-й курс"
 
 #: .\courses\views.py:501
 msgid "Edit criterion"
@@ -2370,7 +2374,7 @@ msgid "Time limit is too small."
 msgstr "Ограничение по времени слишком маленькое."
 
 #: .\problems\fields.py:58
-msgid "Time limit per test measured in seconds (i.e. 0.5 or 2)."
+msgid "Time limit per test measured in seconds (i. e. 0.5 or 2)."
 msgstr "Ограничение по времени на тест в секундах (например 0,5 или 2)."
 
 #: .\problems\fields.py:65
@@ -2387,7 +2391,7 @@ msgid "Memory limit is too small."
 msgstr "Ограничение по памяти слишком маленькое."
 
 #: .\problems\fields.py:69
-msgid "Memory limit per test measured in mebibytes (i.e. 64 or 256)."
+msgid "Memory limit per test measured in mebibytes (i. e. 64 or 256)."
 msgstr "Ограничение по памяти на тест в мебибайтах (например 64 или 256)."
 
 #: .\problems\forms.py:31
@@ -2536,7 +2540,7 @@ msgstr "подсказка"
 
 #: .\problems\models.py:106
 msgid "number of sample tests"
-msgstr "количество тестов-примеров"
+msgstr "число тестов-примеров"
 
 #: .\problems\models.py:119
 msgid "TeX statement"
@@ -2601,7 +2605,8 @@ msgstr "Папки"
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
+#: .\problems\tabs.py:33
+#: .\solutions\templates\solutions\challenge_list.html:10
 #: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"
@@ -2792,11 +2797,6 @@ msgstr "Имя входного файла"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:8
 msgid "Output file name"
 msgstr "Имя выходного файла"
-
-#: .\problems\templates\problems\irunner_problems_list_tag.html:18
-#: .\solutions\forms.py:127
-msgid "Level"
-msgstr "Уровень"
 
 #: .\problems\templates\problems\irunner_problems_list_tag.html:20
 #: .\problems\templates\problems\overview.html:24
@@ -3620,7 +3620,7 @@ msgstr "просмотр деталей тестирования и данных
 #: .\solutions\templates\solutions\challenge_list.html:21
 #: .\solutions\templates\solutions\rejudge_list.html:20
 msgid "Number of solutions"
-msgstr "Количество решений"
+msgstr "Число решений"
 
 #: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:37
 msgid "Comparison of solutions"
