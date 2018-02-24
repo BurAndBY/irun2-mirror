@@ -60,7 +60,7 @@
                             </form>
                             {% endif %}
                             {% if queue_info.can_manage %}
-                            <a href="{% url 'courses:queues:add' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Add a student' %}</span></a>
+                            <a href="{% url 'courses:queues:add' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add a student' %}</span></a>
                             {% endif %}
                         {% endbuttons %}
                     </div>
