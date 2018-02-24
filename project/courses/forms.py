@@ -49,7 +49,7 @@ class PropertiesForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ['name', 'year_of_study', 'group', 'academic_year', 'enable_sheet', 'attempts_a_day']
+        fields = ['name', 'year_of_study', 'group', 'academic_year', 'enable_sheet', 'enable_queues', 'attempts_a_day']
 
 
 class AccessForm(forms.ModelForm):

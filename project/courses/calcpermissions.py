@@ -25,6 +25,10 @@ def calculate_course_permissions(course, user, memberships):
     if not course.enable_sheet:
         permissions.sheet = False
 
+    if not course.enable_queues:
+        permissions.queue = False
+        permissions.queue_admin = False
+
     return permissions
 
 

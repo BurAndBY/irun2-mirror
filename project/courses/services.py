@@ -97,7 +97,7 @@ class UserCache(object):
         '''
         User = auth.get_user_model()
         user = User.objects.get(pk=user_id)
-        return UserDescription(user.id, user.first_name, user.last_name, 0, None)
+        return UserDescription(user.id, user.first_name, user.last_name, None)
 
     def list_students(self):
         return self._students
