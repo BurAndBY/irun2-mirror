@@ -30,10 +30,10 @@
                 if (typeof data["color"] !== "undefined") {
                     pbar.removeClass("progress-bar-info");
                     if (data["color"] === "red") {
-                        pbar.addClass("progress-bar-danger");
+                        pbar.addClass("progress-bar-{{ red_style }}");
                     }
                     if (data["color"] === "green") {
-                        pbar.addClass("progress-bar-success");
+                        pbar.addClass("progress-bar-{{ green_style }}");
                     }
                     if (data["color"] === "yellow") {
                         pbar.addClass("progress-bar-warning");

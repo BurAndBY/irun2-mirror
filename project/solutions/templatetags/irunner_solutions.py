@@ -4,6 +4,7 @@ import uuid
 
 from django import template
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from common.constants import ACCEPTED_FOR_TESTING
 from common.outcome import Outcome
@@ -36,9 +37,9 @@ ELLIPSIS = u'…'
 
 def _get_style(outcome, code):
     if outcome == Outcome.ACCEPTED:
-        return 'ok'
+        return 'ok' if not settings.APRIL_FOOLS_DAY_MODE else 'fail'
     elif code not in (None, ELLIPSIS):
-        return 'fail'
+        return 'fail' if not settings.APRIL_FOOLS_DAY_MODE else 'ok'
     else:
         return ''
 
@@ -207,6 +208,8 @@ def irunner_solutions_livesubmission(solution_id):
     return {
         'solution_id': solution_id,
         'uid': uuid.uuid1().hex,
+        'red_style': 'danger' if not settings.APRIL_FOOLS_DAY_MODE else 'success',
+        'green_style': 'success' if not settings.APRIL_FOOLS_DAY_MODE else 'danger',
     }
 
 
