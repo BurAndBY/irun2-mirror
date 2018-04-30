@@ -172,6 +172,38 @@ class JudgementView(StaffMemberRequiredMixin, generic.View):
         })
 
 
+class JudgementStorageView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'solutions/judgement_storage.html'
+
+    StorageInfo = namedtuple('StorageInfo', 'output stdout stderr')
+
+    @staticmethod
+    def aggregate_storage(storage, test_results):
+        return JudgementStorageView.StorageInfo(
+            sum((storage.get_size_on_disk(tr.output_resource_id) or 0) for tr in test_results),
+            sum((storage.get_size_on_disk(tr.stdout_resource_id) or 0) for tr in test_results),
+            sum((storage.get_size_on_disk(tr.stderr_resource_id) or 0) for tr in test_results),
+        )
+
+    def get(self, request, judgement_id):
+        judgement = get_object_or_404(Judgement, pk=judgement_id)
+        test_results = judgement.testcaseresult_set.all()
+
+        storage = create_storage()
+        return render(request, self.template_name, {
+            'judgement': judgement,
+            'storage': self.aggregate_storage(storage, test_results),
+        })
+
+    def post(self, request, judgement_id):
+        TestCaseResult.objects.filter(judgement_id=judgement_id).update(
+            output_resource_id=None,
+            stdout_resource_id=None,
+            stderr_resource_id=None,
+        )
+        return redirect('solutions:show_judgement', judgement_id)
+
+
 class JudgementTestCaseResultView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
     template_name = 'solutions/testcaseresult.html'
 

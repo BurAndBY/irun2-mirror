@@ -213,6 +213,12 @@ class IDataStorage(object):
     def represent(self, resource_id, limit=DEFAULT_REPRESENTATION_LIMIT):
         raise NotImplementedError()
 
+    def get_size_on_disk(self, resource_id):
+        '''
+        Returns file size (incl. storage overhead) or None if the file is not available.
+        '''
+        raise NotImplementedError()
+
     def serve(self, resource_id):
         raise NotImplementedError()
 
@@ -317,6 +323,22 @@ class FileSystemStorage(IDataStorage):
             fd.seek(0, os.SEEK_SET)
             blob = fd.read(part)
             return _represent(blob, size, max_lines, max_line_length)
+
+    def get_size_on_disk(self, resource_id):
+        if resource_id is None:
+            return None
+        blob = _get_data_directly(resource_id)
+        if blob is not None:
+            return 0
+
+        target_name = self._get_path(resource_id)
+        if not os.path.exists(target_name):
+            return None
+
+        # TODO
+        BLOCK = 4096
+        res = os.path.getsize(target_name)
+        return (res + BLOCK - 1) // BLOCK * BLOCK
 
     def _is_exist(self, resource_id):
         blob = _get_data_directly(resource_id)

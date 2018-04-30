@@ -36,6 +36,8 @@
     {% if test_results %}
         <h3>{% trans 'Test results' %}</h3>
         {% irunner_solutions_testresults test_results solution_permissions 'solutions:judgement_testcaseresult' judgement.id %}
+
+        <p><a href="{% url 'solutions:show_judgement_storage' judgement.id %}">{% trans 'File storage' %}&hellip;</a></p>
     {% endif %}
 
     {% if logs %}

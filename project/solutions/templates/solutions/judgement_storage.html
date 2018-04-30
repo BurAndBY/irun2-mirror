@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+{% load irunner_solutions %}
+{% load irunner_storage %}
+
+{% block title %}{% trans 'Judgement' %} {{ judgement.id }}{% endblock %}
+
+{% block content %}
+    <h2>
+        {% irunner_solutions_judgementbox judgement %}
+        {% trans 'Judgement' %} {{ judgement.id }}
+        {% trans 'of solution' %} <a href="{% url 'solutions:main' judgement.solution_id %}">{{ judgement.solution_id }}</a>
+    </h2>
+
+    <h3>{% trans 'File storage' %}</h3>
+    <ul>
+        <li>{% trans 'Output file' %}: {{ storage.output|filesizeformat }}</li>
+        <li>{% trans 'Standard output (stdout)' %}: {{ storage.stdout|filesizeformat }}</li>
+        <li>{% trans 'Standard error (stderr)' %}: {{ storage.stderr|filesizeformat }}</li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger">{% trans 'Clear' %}</button>
+            <a href="{% url 'solutions:show_judgement' judgement.id %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

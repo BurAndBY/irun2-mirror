@@ -29,6 +29,7 @@ solutions_urlpatterns = [
 judgements_urlpatterns = [
     url(r'^$', views.JudgementListView.as_view(), name='judgement_list'),
     url(r'^(?P<judgement_id>[0-9]+)/$', views.JudgementView.as_view(), name='show_judgement'),
+    url(r'^(?P<judgement_id>[0-9]+)/storage/$', views.JudgementStorageView.as_view(), name='show_judgement_storage'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/$', views.JudgementTestCaseResultView.as_view(), name='judgement_testcaseresult'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/(?P<mode>input|output|answer|stdout|stderr)\.txt$', views.JudgementTestCaseResultDataView.as_view(), name='judgement_testdata'),
     url(r'^(?P<judgement_id>[0-9]+)/tests/(?P<testcaseresult_id>[0-9]+)/images/(?P<filename>.*)$', views.JudgementTestCaseResultImageView.as_view(), name='judgement_testimage'),
