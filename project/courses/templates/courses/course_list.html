@@ -34,8 +34,8 @@
                                 <td><a href="{% url 'courses:show_course_info' item.id %}">{% if item.my %}<strong>{% endif %}{{ item.name }}{% if item.my %}</strong>{% endif %}</a></td>
                                 <td>{{ item.student_count }}</td>
                                 <td>{{ item.solution_count }}</td>
-                                <td>{% if item.unread_count %}<span class="badge">{{ item.unread_count }}</span>{% endif %}</td>
-                                <td>{% if item.unresolved_count %}<span class="badge ir-badge-unresolved">{{ item.unresolved_count }}</span>{% endif %}</td>
+                                <td>{% if item.unread_count %}<a href="{% url 'courses:messages_empty' item.id %}"><span class="badge">{{ item.unread_count }}</span></a>{% endif %}</td>
+                                <td>{% if item.unresolved_count %}<a href="{% url 'courses:messages_empty' item.id %}"><span class="badge ir-badge-unresolved">{{ item.unresolved_count }}</span></a>{% endif %}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
