@@ -19,6 +19,7 @@ from proglangs.models import Compiler, CompilerDetails
 from storage.storage import create_storage
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
+from common.dbutils import retry_deadlock
 from contests.models import Printout
 
 import plagiarism.plagiarism_api
@@ -121,10 +122,14 @@ class JobPutResultView(WorkerAPIView):
         serializer.is_valid(raise_exception=True)
         report = serializer.save()
 
-        with transaction.atomic():
+        @retry_deadlock
+        @transaction.atomic
+        def run_transaction():
             obj = finalize(job_id)
             if obj is not None:
                 obj.put_report(report)
+
+        run_transaction()
 
         return Response(['ok'])
 
