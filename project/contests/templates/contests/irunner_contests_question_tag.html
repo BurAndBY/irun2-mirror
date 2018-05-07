@@ -11,7 +11,7 @@
     </div>
     <div class="col-sm-9">
         <p class="ir-recipient">{% if question.problem %}{% trans 'Problem' %} {% irunner_contests_showproblem resolver question.problem_id %}{% else %}{% trans 'General question' %}{% endif %}</p>
-        <p class="ir-subject">{{ question.subject }}</p>
+        {% if question.subject %}<p class="ir-subject">{{ question.subject }}</p>{% endif %}
         {{ question.text|linebreaks }}
     </div>
     {% if url_pattern %}
