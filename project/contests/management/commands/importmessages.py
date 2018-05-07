@@ -29,6 +29,8 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             for row in cur:
+                if row[0] == 0:  # sender: Guest
+                    continue
                 flag = row[4]
                 msg = Message(sender_id=row[0],
                               subject=row[1],
