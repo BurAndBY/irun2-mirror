@@ -16,7 +16,7 @@
     </div>
     <div class="col-sm-9">
         <p class="ir-recipient">{% trans 'To' %}: {% if message.recipient %}{% irunner_users_show message.recipient %}{% else %}{% trans 'all' context 'to' %}{% endif %}</p>
-        <p class="ir-subject">{{ message.subject }}</p>
+        {% if message.subject %}<p class="ir-subject">{{ message.subject }}</p>{% endif %}
         {{ message.text|linebreaks }}
     </div>
 </div>
