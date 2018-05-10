@@ -1,0 +1,14 @@
+{
+	"endpoint": "http://localhost:8000/api/printing",
+	"token": "abacaba",
+	"printers": {
+		"245": "CutePDF Writer",
+		"314": "",
+		"505": "",
+		"506": "",
+		"507": "",
+		"508": "",
+		"604": "",
+		"608": ""
+	}
+}
