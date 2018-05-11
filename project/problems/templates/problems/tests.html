@@ -48,6 +48,9 @@
             <a href="{% url 'problems:browse_tests' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
                 {% bootstrap_icon 'globe' %} <span class="ir-icon-label">{% trans 'Browse' %}</span>
             </a>
+            <a href="{% url 'problems:reorder_tests' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
+                {% bootstrap_icon 'sort-by-order' %} <span class="ir-icon-label">{% trans 'Reorder' %}</span>
+            </a>
         </div>
 
         <div class="btn-group" role="group">

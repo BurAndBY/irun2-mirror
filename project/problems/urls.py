@@ -8,6 +8,7 @@ problem_urlpatterns = [
 
     url(r'^tests/$', views.ProblemTestsView.as_view(), name='tests'),
     url(r'^tests/browse/$', views.ProblemBrowseTestsView.as_view(), name='browse_tests'),
+    url(r'^tests/reorder/$', views.ProblemReorderTestsView.as_view(), name='reorder_tests'),
     url(r'^tests/(?P<test_number>[0-9]+)/$', views.ProblemTestsTestView.as_view(), name='show_test'),
     url(r'^tests/upload/$', views.ProblemTestsUploadArchiveView.as_view(), name='upload_archive'),
     url(r'^tests/new/$', views.ProblemTestsNewView.as_view(), name='new_test'),

@@ -2012,3 +2012,8 @@ Green menu
 .ir-dnd-template-editor ul[dnd-list] li:first-child {
     border-top: 2px solid #ddd;
 }
+
+/* Test case reordering */
+.ir-test-reorder .dndDraggingSource {
+    display: none;
+}

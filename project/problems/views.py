@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.db.models import F, Q, Count, ProtectedError
+from django.db.models import F, Q, Count, ProtectedError, Case, When
 from django.http import Http404, JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
@@ -422,6 +422,80 @@ class ProblemBrowseTestsView(BaseProblemView):
 
         context = self._make_context(problem, {'fetched_test_cases': fetched_test_cases})
         return render(request, self.template_name, context)
+
+
+class ProblemReorderTestsView(BaseProblemView):
+    tab = 'tests'
+    template_name = 'problems/tests_reorder.html'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        tests_json = []
+        for test_case in problem.testcase_set.all().order_by('ordinal_number'):
+            tests_json.append({
+                'id': test_case.id,
+                'number': test_case.ordinal_number,
+            })
+
+        context = self._make_context(problem, {'tests_json': json.dumps(tests_json)})
+        return render(request, self.template_name, context)
+
+    @staticmethod
+    def _parse_new_numbering(json_str):
+        test_id_to_number = {}
+        data = json.loads(json_str)
+        number = 0
+        for test in data:
+            test_id = int(test['id'])
+            number += 1
+            test_id_to_number[test_id] = number
+        return test_id_to_number
+
+    @staticmethod
+    def _fetch_old_numbering(problem_id):
+        test_id_to_number = {}
+        for test_id, number in TestCase.objects.filter(problem_id=problem_id).values_list('id', 'ordinal_number'):
+            test_id_to_number[test_id] = number
+        return test_id_to_number
+
+    def _reorder(self, problem_id, new_numbering):
+        old_numbering = self._fetch_old_numbering(problem_id)
+        if old_numbering == new_numbering:  # no changes
+            return False
+        if sorted(old_numbering.keys()) != sorted(new_numbering.keys()):
+            return False
+        if sorted(old_numbering.values()) != sorted(new_numbering.values()):
+            return False
+
+        # Prevent unique constraint violation with two-step update.
+        # TODO: More efficient way? Drop constraint?
+        offset = len(old_numbering)
+        stmt1 = []
+        stmt2 = []
+        for test_id, new_number in new_numbering.items():
+            if old_numbering[test_id] != new_number:
+                stmt1.append(When(pk=test_id, then=new_number + offset))
+                stmt2.append(When(pk=test_id, then=new_number))
+
+        with transaction.atomic():
+            TestCase.objects.filter(problem_id=problem_id).update(ordinal_number=Case(*stmt1, default=F('ordinal_number')))
+            TestCase.objects.filter(problem_id=problem_id).update(ordinal_number=Case(*stmt2, default=F('ordinal_number')))
+        return True
+
+    def post(self, request, problem_id):
+        problem = self._load(problem_id)
+        new_numbering = None
+        try:
+            new_numbering = self._parse_new_numbering(request.POST.get('tests'))
+        except:
+            pass
+            # TODO: better error handling
+        if new_numbering is not None:
+            if self._reorder(problem.id, new_numbering):
+                messages.add_message(request, messages.INFO, _('Tests have been reordered.'))
+
+        return redirect_with_query_string(request, 'problems:tests', problem.id)
 
 
 class DescriptionImageLoader(IDescriptionImageLoader):

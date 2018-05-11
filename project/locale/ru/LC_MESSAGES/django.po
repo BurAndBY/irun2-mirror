@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-24 14:55+0300\n"
-"PO-Revision-Date: 2018-02-24 12:26+0300\n"
+"POT-Creation-Date: 2018-05-11 21:07+0300\n"
+"PO-Revision-Date: 2018-05-11 21:09+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -150,6 +150,7 @@ msgstr "Изменить язык интерфейса"
 #: .\problems\templates\problems\list_folder_form.html:35
 #: .\problems\templates\problems\name.html:15
 #: .\problems\templates\problems\properties.html:16
+#: .\problems\templates\problems\tests_reorder.html:27
 #: .\proglangs\templates\proglangs\edit.html:20
 #: .\quizzes\templates\quizzes\question_edit.html:115
 #: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:95
@@ -755,8 +756,7 @@ msgstr "тема"
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:169
-#: .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:169 .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
@@ -839,7 +839,7 @@ msgstr "Вопрос будет удалён."
 #: .\problems\templates\problems\list_folder_confirm_delete.html:32
 #: .\problems\templates\problems\show_test.html:39
 #: .\problems\templates\problems\show_test.html:132
-#: .\problems\templates\problems\tests.html:62
+#: .\problems\templates\problems\tests.html:65
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
 #: .\solutions\templates\solutions\solution_list.html:76
 #: .\users\templates\users\folder.html:34
@@ -883,6 +883,7 @@ msgstr "Удалить"
 #: .\problems\templates\problems\list_folder_form.html:38
 #: .\problems\templates\problems\list_import_from_polygon.html:38
 #: .\problems\templates\problems\show_test.html:131
+#: .\problems\templates\problems\tests_reorder.html:28
 #: .\problems\templates\problems\upload_archive.html:20
 #: .\proglangs\templates\proglangs\edit.html:21
 #: .\quizzes\templates\quizzes\question_group_create.html:12
@@ -891,7 +892,9 @@ msgstr "Удалить"
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:22
 #: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:97
 #: .\quizzes\templates\quizzes\quiz_template_update.html:12
-#: .\quizzes\utils.py:136 .\users\templates\users\bulk_operation.html:32
+#: .\quizzes\utils.py:136
+#: .\solutions\templates\solutions\judgement_storage.html:28
+#: .\users\templates\users\bulk_operation.html:32
 #: .\users\templates\users\create_form.html:36
 #: .\users\templates\users\folder_confirm_delete.html:24
 msgid "Cancel"
@@ -1102,7 +1105,7 @@ msgstr "Последнее решение"
 #: .\courses\templates\courses\standings_wide.html:20
 #: .\courses\templates\courses\standings_wide.html:106
 #: .\problems\templates\problems\challenge.html:43
-#: .\problems\templates\problems\tests.html:76
+#: .\problems\templates\problems\tests.html:79
 #: .\problems\templates\problems\tests_browse.html:14
 #: .\quizzes\templates\quizzes\quiz_template_delete_group.html:11
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:28
@@ -1517,7 +1520,7 @@ msgid "quiz result"
 msgstr "результат теста"
 
 #: .\courses\models.py:110 .\problems\models.py:102 .\problems\models.py:140
-#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:539
+#: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:613
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
@@ -1756,7 +1759,7 @@ msgstr "Критерии"
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:318
+#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:350
 msgid "delete"
 msgstr "удалить"
 
@@ -2030,7 +2033,7 @@ msgstr "Ответы на тест"
 #: .\courses\templates\courses\quizzes_answers.html:37 .\problems\forms.py:130
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
 #: .\problems\templates\problems\show_test.html:48
-#: .\problems\templates\problems\tests.html:79
+#: .\problems\templates\problems\tests.html:82
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:30
 #: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:42
 msgid "Points"
@@ -2415,7 +2418,7 @@ msgstr "Папки с задачами"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:10
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
 #: .\problems\templates\problems\show_test.html:52
-#: .\problems\templates\problems\tests.html:80
+#: .\problems\templates\problems\tests.html:83
 #: .\quizzes\templates\quizzes\quiz_template_detail.html:16
 #: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
@@ -2426,7 +2429,7 @@ msgstr "Ограничение по времени"
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:13
 #: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
 #: .\problems\templates\problems\show_test.html:56
-#: .\problems\templates\problems\tests.html:81
+#: .\problems\templates\problems\tests.html:84
 #: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
@@ -2605,8 +2608,7 @@ msgstr "Папки"
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\problems\tabs.py:33
-#: .\solutions\templates\solutions\challenge_list.html:10
+#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
 #: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"
@@ -2656,8 +2658,8 @@ msgstr "Массовое редактирование"
 #: .\problems\templates\problems\files.html:75
 #: .\problems\templates\problems\show_test.html:98
 #: .\problems\templates\problems\show_test.html:107
-#: .\problems\templates\problems\tests.html:96
-#: .\problems\templates\problems\tests.html:105
+#: .\problems\templates\problems\tests.html:99
+#: .\problems\templates\problems\tests.html:108
 #: .\solutions\templates\solutions\solution_source.html:20
 msgid "Open"
 msgstr "Открыть"
@@ -2668,8 +2670,8 @@ msgstr "Открыть"
 #: .\problems\templates\problems\files.html:76
 #: .\problems\templates\problems\show_test.html:99
 #: .\problems\templates\problems\show_test.html:108
-#: .\problems\templates\problems\tests.html:97
-#: .\problems\templates\problems\tests.html:106
+#: .\problems\templates\problems\tests.html:100
+#: .\problems\templates\problems\tests.html:109
 #: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
 #: .\solutions\templates\solutions\solution_source.html:23
 #: .\storage\templates\storage\show.html:14
@@ -2684,6 +2686,7 @@ msgid "Input file"
 msgstr "Входной файл"
 
 #: .\problems\templates\problems\challenge.html:43
+#: .\solutions\templates\solutions\judgement_storage.html:19
 #: .\solutions\templates\solutions\testcaseresult.html:18
 msgid "Output file"
 msgstr "Выходной файл"
@@ -2838,7 +2841,7 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1141
+#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1215
 msgid "New problem"
 msgstr "Новая задача"
 
@@ -2917,13 +2920,13 @@ msgid "Difficulty level"
 msgstr "Уровень сложности"
 
 #: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:77
+#: .\problems\templates\problems\tests.html:80
 #: .\problems\templates\problems\tests_browse.html:15
 msgid "Input"
 msgstr "Вход"
 
 #: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:78
+#: .\problems\templates\problems\tests.html:81
 #: .\problems\templates\problems\tests_browse.html:16
 msgid "Output"
 msgstr "Выход"
@@ -2971,7 +2974,8 @@ msgid "No rejudges"
 msgstr "Перетестирований нет"
 
 #: .\problems\templates\problems\show_test.html:22
-#: .\problems\templates\problems\tests.html:91
+#: .\problems\templates\problems\tests.html:94
+#: .\problems\templates\problems\tests_reorder.html:19
 #: .\solutions\templates\solutions\testcaseresult.html:59
 #: .\storage\templates\storage\usage.html:29
 msgid "Test"
@@ -3059,30 +3063,34 @@ msgstr "Новые тесты из архива"
 msgid "Browse"
 msgstr "Обзор"
 
-#: .\problems\templates\problems\tests.html:55
+#: .\problems\templates\problems\tests.html:52
+msgid "Reorder"
+msgstr "Порядок"
+
+#: .\problems\templates\problems\tests.html:58
 #: .\solutions\templates\solutions\solution_list.html:71
 #: .\users\templates\users\folder.html:62
 msgid "Actions"
 msgstr "Действия"
 
-#: .\problems\templates\problems\tests.html:59
+#: .\problems\templates\problems\tests.html:62
 msgid "Set time limit"
 msgstr "Задать ограничение по времени"
 
-#: .\problems\templates\problems\tests.html:60
+#: .\problems\templates\problems\tests.html:63
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
 
-#: .\problems\templates\problems\tests.html:61
+#: .\problems\templates\problems\tests.html:64
 msgid "Set points"
 msgstr "Задать баллы"
 
-#: .\problems\templates\problems\tests.html:69
+#: .\problems\templates\problems\tests.html:72
 #: .\problems\templates\problems\tests_browse.html:9
 msgid "No tests"
 msgstr "Нет тестов"
 
-#: .\problems\templates\problems\tests.html:90
+#: .\problems\templates\problems\tests.html:93
 #: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:34
 msgid "Sample test"
 msgstr "Тест-пример"
@@ -3129,36 +3137,40 @@ msgstr "%(megabytes)s МБ"
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:536 .\quizzes\models.py:75
+#: .\problems\views.py:496
+msgid "Tests have been reordered."
+msgstr "Тесты были переупорядочены."
+
+#: .\problems\views.py:610 .\quizzes\models.py:75
 msgid "points"
 msgstr "баллы"
 
-#: .\problems\views.py:537 .\quizzes\models.py:62 .\quizzes\models.py:86
+#: .\problems\views.py:611 .\quizzes\models.py:62 .\quizzes\models.py:86
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:538
+#: .\problems\views.py:612
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:540
+#: .\problems\views.py:614
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:541
+#: .\problems\views.py:615
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:545
+#: .\problems\views.py:619
 #, python-format
 msgid "Test %(number)s has been saved."
 msgstr "Тест %(number)s сохранён."
 
-#: .\problems\views.py:554
+#: .\problems\views.py:628
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:790
+#: .\problems\views.py:864
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -3166,11 +3178,11 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:1041 .\users\views.py:130
+#: .\problems\views.py:1115 .\users\views.py:130
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1059
+#: .\problems\views.py:1133
 msgid "Folder properties"
 msgstr "Свойства папки"
 
@@ -3494,7 +3506,7 @@ msgstr "файл бинарный"
 msgid "the file is too big"
 msgstr "файл слишком большой"
 
-#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:219
+#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:222
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
@@ -3722,10 +3734,13 @@ msgstr "Нет результатов по тестам"
 
 #: .\solutions\templates\solutions\judgement.html:7
 #: .\solutions\templates\solutions\judgement.html:12
+#: .\solutions\templates\solutions\judgement_storage.html:8
+#: .\solutions\templates\solutions\judgement_storage.html:13
 msgid "Judgement"
 msgstr "Запуск"
 
 #: .\solutions\templates\solutions\judgement.html:13
+#: .\solutions\templates\solutions\judgement_storage.html:14
 msgid "of solution"
 msgstr "решения"
 
@@ -3741,7 +3756,13 @@ msgstr "Перетестирование"
 msgid "Test results"
 msgstr "Результаты тестов"
 
-#: .\solutions\templates\solutions\judgement.html:42
+#: .\solutions\templates\solutions\judgement.html:40
+#: .\solutions\templates\solutions\judgement_storage.html:17
+#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:35
+msgid "File storage"
+msgstr "Хранилище файлов"
+
+#: .\solutions\templates\solutions\judgement.html:44
 #: .\solutions\templates\solutions\solution.html:120
 #: .\solutions\templates\solutions\solution_log.html:6
 msgid "Compilation log"
@@ -3755,6 +3776,20 @@ msgstr "Запуски"
 #: .\solutions\templates\solutions\judgement_list.html:21
 msgid "In queue"
 msgstr "В очереди"
+
+#: .\solutions\templates\solutions\judgement_storage.html:20
+#: .\solutions\templates\solutions\testcaseresult.html:30
+msgid "Standard output (stdout)"
+msgstr "Стандартный вывод (stdout)"
+
+#: .\solutions\templates\solutions\judgement_storage.html:21
+#: .\solutions\templates\solutions\testcaseresult.html:36
+msgid "Standard error (stderr)"
+msgstr "Стандартный вывод ошибок (stderr)"
+
+#: .\solutions\templates\solutions\judgement_storage.html:27
+msgid "Clear"
+msgstr "Очистить"
 
 #: .\solutions\templates\solutions\rejudge.html:42
 msgid "Before"
@@ -3849,31 +3884,23 @@ msgstr "Выделить всё"
 msgid "Style"
 msgstr "Стиль"
 
-#: .\solutions\templates\solutions\testcaseresult.html:30
-msgid "Standard output (stdout)"
-msgstr "Стандартный вывод (stdout)"
-
-#: .\solutions\templates\solutions\testcaseresult.html:36
-msgid "Standard error (stderr)"
-msgstr "Стандартный вывод ошибок (stderr)"
-
 #: .\solutions\templates\solutions\testcaseresult.html:89
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\templatetags\irunner_solutions.py:220
+#: .\solutions\templatetags\irunner_solutions.py:223
 msgid "error while compiling checker"
 msgstr "ошибка компиляции программы проверки"
 
-#: .\solutions\templatetags\irunner_solutions.py:221
+#: .\solutions\templatetags\irunner_solutions.py:224
 msgid "error while compiling validator"
 msgstr "ошибка компиляции контролёра тестов"
 
-#: .\solutions\templatetags\irunner_solutions.py:222
+#: .\solutions\templatetags\irunner_solutions.py:225
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:211
+#: .\solutions\views.py:243
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
@@ -3885,10 +3912,6 @@ msgstr "Введите текст здесь"
 #: .\storage\models.py:9
 msgid "Filename"
 msgstr "Имя файла"
-
-#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:35
-msgid "File storage"
-msgstr "Хранилище файлов"
 
 #: .\storage\templates\storage\index.html:9
 msgid "This is internal debug page."

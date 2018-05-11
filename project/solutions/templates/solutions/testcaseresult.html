@@ -56,7 +56,7 @@
                     {% if user.is_staff %}
                         <a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">
                     {% endif %}
-                        {% trans 'Test' %}
+                        {% trans 'Test' %}&nbsp;{{ test_case.ordinal_number }}
                     {% if user.is_staff %}
                         </a>
                     {% endif %}

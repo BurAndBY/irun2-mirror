@@ -1,0 +1,41 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block head %}
+    {% load static %}
+    <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
+    <script src="{% static 'angular-drag-and-drop-lists-2.1.0/angular-drag-and-drop-lists-2.1.0.min.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <div ng-app="editor" ng-cloak class="ir-test-reorder">
+        <ul dnd-list="tests">
+            <li ng-repeat="test in tests"
+                dnd-draggable="test"
+                dnd-moved="tests.splice($index, 1)"
+                dnd-effect-allowed="move">
+                    {% trans 'Test' %}&nbsp;{% verbatim %}{{ test.number }}{% endverbatim %}
+            </li>
+        </ul>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" id="resultTestData" name="tests"/>
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+            <a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+
+    <script>
+    var app = angular.module('editor', ["dndLists"]);
+    app.run(function ($rootScope) {
+        $rootScope.tests = {{ tests_json|safe }};
+        $rootScope.$watch('tests', function () {
+            document.getElementById("resultTestData").value = angular.toJson($rootScope.tests);
+        }, true);
+    });
+    </script>
+{% endblock %}
