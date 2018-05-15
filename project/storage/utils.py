@@ -1,4 +1,6 @@
-import mimetypes
+# -*- coding: utf-8 -*-
+
+import mime
 
 from django.http import Http404
 from django.http import StreamingHttpResponse
@@ -79,7 +81,8 @@ def serve_resource_metadata(request, metadata, content_type=None, force_download
 
     if content_type is None:
         # guess MIME type from file extension
-        mime_type, _ = mimetypes.guess_type(metadata.filename)
-        content_type = mime_type
+        types = mime.Types.of(metadata.filename)
+        if types:
+            content_type = types[0].content_type
 
     return serve_resource(request, metadata.resource_id, content_type=content_type, force_download=force_download)
