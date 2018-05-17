@@ -1,3 +1,74 @@
+var DEBOUNCE_DELAY = 1000;
+
+function State($http, $timeout, dataUrl, getDataFunc, setErrorFunc) {
+    var timer = null;
+    var requestIsRunning = false;
+
+    var objToSend = null;
+    var objSending = null;
+    var finalizeHandler = null;
+
+    var doSend = function () {
+        if (objToSend === null || objSending !== null) {
+            // console.log("Not sending");
+            return;
+        }
+        objSending = angular.copy(objToSend);
+        objToSend = null;
+        // console.log("Sending...");
+        var data = getDataFunc(objSending);
+        var self = this;
+        $http.post(dataUrl, data).then(function(response) {
+            // success
+            // console.log("Sent successfully");
+            objSending = null;
+            if (objToSend !== null) {
+                doSend(); // if any new data is ready
+            } else {
+                if (finalizeHandler) {
+                    finalizeHandler();
+                    finalizeHandler = null;
+                }
+            }
+        }, function(response) {
+            // error
+            // console.log("Sent unsuccessfully");
+            if (objToSend === null) {
+                objToSend = objSending;
+            }
+            objSending = null;
+            if (finalizeHandler) {
+                setErrorFunc(response);
+                finalizeHandler = null;
+            }
+        });
+    };
+
+    this.update = function (obj) {
+        // console.log("Update request");
+        objToSend = obj;
+        if (this.timer) {
+            $timeout.cancel(this.timer);
+        }
+        this.timer = $timeout(doSend, DEBOUNCE_DELAY);
+    };
+
+    /**
+     * Ensure that last update has been successfully sent to the server and call the handler.
+     * In case of error, handler is not executed, instead setErrorFunc is called.
+     */
+    this.finalize = function (handler) {
+        if (objToSend === null && objSending === null) {
+            handler();
+            return;
+        }
+        finalizeHandler = handler;
+        if (objSending === null) {
+            doSend();
+        }
+    };
+}
+
 var app = angular.module('quiz', ["ngSanitize"]);
 app.filter('secondsToDateTime', [function () {
     return function (seconds) {
@@ -8,12 +79,37 @@ app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
-app.run(function ($rootScope, $http, $window, $interval) {
+app.run(function ($rootScope, $http, $window, $interval, $timeout) {
     $rootScope.quizData = angular.fromJson(document.getElementById('quizData').value);
     $rootScope.langTags = angular.fromJson(document.getElementById('languageTags').value);
     $rootScope.urls = angular.fromJson(document.getElementById('urls').value);
-    $rootScope.chosen = $rootScope.quizData.questions[0];
-    $rootScope.last = angular.copy($rootScope.chosen);
+
+    $rootScope.chosen = null;
+    $rootScope.unsetChosenWatchFunc = null;
+    $rootScope.state = null;
+
+    $rootScope.formModifyHandler = function (newValue, oldValue) {
+        if (oldValue !== newValue) {
+            $rootScope.state.update(newValue);
+        }
+    };
+
+    $rootScope.doSetChosen = function (q) {
+        if ($rootScope.unsetChosenWatchFunc) {
+            $rootScope.unsetChosenWatchFunc();
+        }
+
+        $rootScope.chosen = q;
+        $rootScope.state = new State($http, $timeout, $rootScope.urls.save_answer, function (obj) {
+                return $rootScope.getRequestData(obj);
+            }, function (response) {
+                $rootScope.showErrorMessage(response.data, response.status);
+        });
+
+        $rootScope.unsetChosenWatchFunc = $rootScope.$watch('chosen', $rootScope.formModifyHandler, true);
+    };
+    $rootScope.doSetChosen($rootScope.quizData.questions[0]);
+
     $rootScope.isChosen = function (q) {
         return q.id === $rootScope.chosen.id;
     };
@@ -33,31 +129,13 @@ app.run(function ($rootScope, $http, $window, $interval) {
     $rootScope.initialTimestamp = Date.now();
     var stopTimeLeft = $interval(updateTimeLeft, 1000);
     $rootScope.setChosen = function (q) {
-        if ($rootScope.compareAnswers($rootScope.chosen, $rootScope.last)) {
-            $rootScope.chosen = q;
-            $rootScope.last = angular.copy($rootScope.chosen);
-            return;
-        }
-        var data = $rootScope.getRequestData($rootScope.chosen);
-        $http.post($rootScope.urls.save_answer, data).then(function (response) {
-            $rootScope.chosen = q;
-            $rootScope.last = angular.copy($rootScope.chosen);
-        }, function (response) {
-            $rootScope.showErrorMessage(response.data, response.status);
+        $rootScope.state.finalize(function() {
+            $rootScope.doSetChosen(q);
         });
     };
     $rootScope.saveChosen = function () {
-        if ($rootScope.compareAnswers($rootScope.chosen, $rootScope.last)) {
-            $rootScope.last = angular.copy($rootScope.chosen);
+        $rootScope.state.finalize(function() {
             $('#warnModal').modal('show');
-            return;
-        }
-        var data = $rootScope.getRequestData($rootScope.chosen);
-        $http.post($rootScope.urls.save_answer, data).then(function (response) {
-            $rootScope.last = angular.copy($rootScope.chosen);
-            $('#warnModal').modal('show');
-        }, function (response) {
-            $rootScope.showErrorMessage(response.data, response.status);
         });
     };
     $rootScope.compareAnswers = function (q1, q2) {
