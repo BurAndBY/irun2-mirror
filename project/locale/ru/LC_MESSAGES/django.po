@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-11 21:07+0300\n"
-"PO-Revision-Date: 2018-05-11 21:09+0300\n"
+"POT-Creation-Date: 2018-05-19 02:42+0300\n"
+"PO-Revision-Date: 2018-05-19 02:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1591,10 +1591,12 @@ msgid "Quiz does not exist"
 msgstr "Тест не существует либо был удалён"
 
 #: .\courses\quizviews.py:129
-msgid "Quiz is finished or no time is left. Do you want to go to home page?"
+msgid ""
+"Quiz is finished or no time is left. You will be redirected to the results "
+"page."
 msgstr ""
-"Тест был завершён, либо отведённое на него время вышло. Желаете перейти на "
-"страницу с результатами?"
+"Тест был завершён, либо отведённое на него время вышло. Вы будете "
+"перенаправлены на страницу с результатами."
 
 #: .\courses\quizviews.py:132
 msgid "Request is not valid"
@@ -3250,15 +3252,15 @@ msgstr "Командная строка запуска"
 msgid "Question group"
 msgstr "Группа вопросов"
 
-#: .\quizzes\models.py:32 .\quizzes\utils.py:161
+#: .\quizzes\models.py:32 .\quizzes\utils.py:162
 msgid "Single correct answer"
 msgstr "Один правильный ответ"
 
-#: .\quizzes\models.py:33 .\quizzes\utils.py:162
+#: .\quizzes\models.py:33 .\quizzes\utils.py:163
 msgid "Multiple correct answers"
 msgstr "Несколько правильных ответов"
 
-#: .\quizzes\models.py:34 .\quizzes\utils.py:163
+#: .\quizzes\models.py:34 .\quizzes\utils.py:164
 msgid "Text answer"
 msgstr "Текстовый ответ"
 
@@ -3457,31 +3459,35 @@ msgstr "Ошибка сети"
 msgid "No time left"
 msgstr "Время вышло"
 
-#: .\quizzes\utils.py:147 .\quizzes\utils.py:165
+#: .\quizzes\utils.py:141
+msgid "Quiz is over"
+msgstr "Тестирование окончено"
+
+#: .\quizzes\utils.py:148 .\quizzes\utils.py:166
 msgid "Type the question text here..."
 msgstr "Введите текст вопроса..."
 
-#: .\quizzes\utils.py:150 .\quizzes\utils.py:166
+#: .\quizzes\utils.py:151 .\quizzes\utils.py:167
 msgid "Type the choice text here..."
 msgstr "Введите текст ответа..."
 
-#: .\quizzes\utils.py:158
+#: .\quizzes\utils.py:159
 msgid "Question text"
 msgstr "Текст вопроса"
 
-#: .\quizzes\utils.py:159
+#: .\quizzes\utils.py:160
 msgid "Question type"
 msgstr "Тип вопроса"
 
-#: .\quizzes\utils.py:160
+#: .\quizzes\utils.py:161
 msgid "Is correct"
 msgstr "Верно"
 
-#: .\quizzes\utils.py:164
+#: .\quizzes\utils.py:165
 msgid "Add choice"
 msgstr "Добавить вариант ответа"
 
-#: .\quizzes\utils.py:167
+#: .\quizzes\utils.py:168
 msgid "Refresh preview"
 msgstr "Обновить превью"
 

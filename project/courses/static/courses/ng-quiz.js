@@ -1,6 +1,6 @@
 var DEBOUNCE_DELAY = 1000;
 
-function State($http, $timeout, dataUrl, getDataFunc, setErrorFunc) {
+function State($http, $timeout, dataUrl, getDataFunc, errorFunc) {
     var timer = null;
     var requestIsRunning = false;
 
@@ -38,8 +38,10 @@ function State($http, $timeout, dataUrl, getDataFunc, setErrorFunc) {
             }
             objSending = null;
             if (finalizeHandler) {
-                setErrorFunc(response);
+                errorFunc(response, true);
                 finalizeHandler = null;
+            } else {
+                errorFunc(response, false);
             }
         });
     };
@@ -55,7 +57,7 @@ function State($http, $timeout, dataUrl, getDataFunc, setErrorFunc) {
 
     /**
      * Ensure that last update has been successfully sent to the server and call the handler.
-     * In case of error, handler is not executed, instead setErrorFunc is called.
+     * In case of error, handler is not executed, instead errorFunc is called.
      */
     this.finalize = function (handler) {
         if (objToSend === null && objSending === null) {
@@ -100,11 +102,14 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         }
 
         $rootScope.chosen = q;
-        $rootScope.state = new State($http, $timeout, $rootScope.urls.save_answer, function (obj) {
+        $rootScope.state = new State($http, $timeout, $rootScope.urls.save_answer,
+            function (obj) {
                 return $rootScope.getRequestData(obj);
-            }, function (response) {
-                $rootScope.showErrorMessage(response.data, response.status);
-        });
+            },
+            function (response, explicitCall) {
+                $rootScope.showErrorMessage(response.data, response.status, !explicitCall);
+            }
+        );
 
         $rootScope.unsetChosenWatchFunc = $rootScope.$watch('chosen', $rootScope.formModifyHandler, true);
     };
@@ -200,9 +205,11 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         }
     };
     $rootScope.quizAnswered = $rootScope.isQuizAnswered();
-    $rootScope.showErrorMessage = function (data, status) {
+    $rootScope.showErrorMessage = function (data, status, showEndOfQuizOnly) {
         $rootScope.error.message = data.message || $rootScope.langTags.networkError;
+        var endOfQuiz = false;
         if (status === 404 || status === 410) {
+            endOfQuiz = true;
             $rootScope.error.handle = function () {
                 $window.location.href = $rootScope.urls.home;
             };
@@ -210,7 +217,12 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
             $rootScope.error.handle = function () {
             };
         }
-        $('#errorModal').modal('show');
+        if (!showEndOfQuizOnly || endOfQuiz) {
+            $('#errorModal').find("#errorModalLabel").text(
+                endOfQuiz ? $rootScope.langTags.quizIsOver : $rootScope.langTags.error
+            );
+            $('#errorModal').modal('show');
+        }
     };
 
     $rootScope.$watch(function () {

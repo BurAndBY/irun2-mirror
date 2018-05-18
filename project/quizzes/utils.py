@@ -137,7 +137,8 @@ def get_quiz_page_language_tags():
         'next': _('Next'),
         'previous': _('Previous'),
         'networkError': _('Network error'),
-        'noTimeLeft': _('No time left')
+        'noTimeLeft': _('No time left'),
+        'quizIsOver': _('Quiz is over'),
     }
 
 
