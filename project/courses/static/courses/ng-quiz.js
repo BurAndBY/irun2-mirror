@@ -211,7 +211,7 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         if (status === 404 || status === 410) {
             endOfQuiz = true;
             $rootScope.error.handle = function () {
-                $window.location.href = $rootScope.urls.home;
+                $window.location.href = $rootScope.urls.answers;
             };
         } else {
             $rootScope.error.handle = function () {
