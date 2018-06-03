@@ -40,6 +40,8 @@ class UserProfile(models.Model):
     photo_thumbnail = ResourceIdField(null=True)
     kind = models.IntegerField(_('kind'), choices=KIND_CHOICES, default=PERSON)
     members = models.CharField(_('members'), max_length=255, blank=True)
+    can_change_name = models.BooleanField(_('user is allowed to change name'), null=False, default=False)
+    can_change_password = models.BooleanField(_('user is allowed to change password'), null=False, default=True)
 
     def is_team(self):
         return self.kind == UserProfile.TEAM

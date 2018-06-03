@@ -20,3 +20,20 @@ class StaffMemberRequiredMixin(object):
     @method_decorator(user_passes_test(_is_staff))
     def dispatch(self, request, *args, **kwargs):
         return super(StaffMemberRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class UserPassesTestMixin(object):
+    """
+    Deny a request with a permission error if the test_func() method returns False.
+    """
+
+    def test_func(self):
+        raise NotImplementedError(
+            '{0} is missing the implementation of the test_func() method.'.format(self.__class__.__name__)
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        user_test_result = self.test_func()
+        if not user_test_result:
+            raise PermissionDenied
+        return super(UserPassesTestMixin, self).dispatch(request, *args, **kwargs)

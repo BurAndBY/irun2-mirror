@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-19 02:42+0300\n"
-"PO-Revision-Date: 2018-05-19 02:44+0300\n"
+"POT-Creation-Date: 2018-06-03 13:12+0300\n"
+"PO-Revision-Date: 2018-06-03 13:24+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -105,23 +105,27 @@ msgstr "Последние завершённые задания"
 msgid "Remember me"
 msgstr "Запомнить меня"
 
-#: .\cauth\templates\cauth\profile.html:14
+#: .\cauth\templates\cauth\profile.html:19
 #: .\cauth\templates\cauth\profile_edit.html:6
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:15
+#: .\cauth\templates\cauth\profile.html:21
+msgid "Change name"
+msgstr "Изменить имя"
+
+#: .\cauth\templates\cauth\profile.html:24
 #: .\cauth\templates\registration\password_change_form.html:6
 #: .\common\templates\common\home.html:32
 #: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:497
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: .\cauth\templates\cauth\profile.html:17
+#: .\cauth\templates\cauth\profile.html:26
 msgid "Change interface language"
 msgstr "Изменить язык интерфейса"
 
-#: .\cauth\templates\cauth\profile_edit.html:17
+#: .\cauth\templates\cauth\profile_edit.html:21
 #: .\common\templates\common\language.html:26
 #: .\contests\templates\contests\messages_form.html:16
 #: .\contests\templates\contests\messages_new.html:16
@@ -1582,15 +1586,15 @@ msgstr "время добавления в очередь"
 msgid "You have successfully joined the queue."
 msgstr "Вы успешно записались в очередь."
 
-#: .\courses\quizviews.py:122
+#: .\courses\quizviews.py:124
 msgid "Permission denied"
 msgstr "Доступ запрещён"
 
-#: .\courses\quizviews.py:125
+#: .\courses\quizviews.py:127
 msgid "Quiz does not exist"
 msgstr "Тест не существует либо был удалён"
 
-#: .\courses\quizviews.py:129
+#: .\courses\quizviews.py:131
 msgid ""
 "Quiz is finished or no time is left. You will be redirected to the results "
 "page."
@@ -1598,7 +1602,7 @@ msgstr ""
 "Тест был завершён, либо отведённое на него время вышло. Вы будете "
 "перенаправлены на страницу с результатами."
 
-#: .\courses\quizviews.py:132
+#: .\courses\quizviews.py:134
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
@@ -4212,18 +4216,13 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:295
-msgid "For service accounts used by the testing module."
-msgstr ""
-"Для служебных учётных записей, которые используются модулем тестирования."
-
-#: .\users\forms.py:305 .\users\templates\users\irunner_users_photo_tag.html:7
+#: .\users\forms.py:301 .\users\templates\users\irunner_users_photo_tag.html:7
 #: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:522
 #: .\users\views.py:527
 msgid "Photo"
 msgstr "Фотография"
 
-#: .\users\forms.py:305
+#: .\users\forms.py:301
 msgid "Select JPEG image."
 msgstr "Выберите изображение в формате JPEG."
 
@@ -4258,6 +4257,14 @@ msgstr "Доступ к API"
 #: .\users\models.py:42
 msgid "members"
 msgstr "состав"
+
+#: .\users\models.py:43
+msgid "user is allowed to change name"
+msgstr "пользователь может изменить имя"
+
+#: .\users\models.py:44
+msgid "user is allowed to change password"
+msgstr "пользователь может изменить пароль"
 
 #: .\users\photo.py:15
 msgid "The image cannot be opened and identified."
@@ -4430,6 +4437,10 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "For service accounts used by the testing module."
+#~ msgstr ""
+#~ "Для служебных учётных записей, которые используются модулем тестирования."
 
 #~ msgid "enabled"
 #~ msgstr "включено"

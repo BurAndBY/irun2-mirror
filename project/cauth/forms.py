@@ -25,13 +25,19 @@ class PasswordChangeForm(auth.forms.PasswordChangeForm):
 PasswordChangeForm.base_fields = auth.forms.PasswordChangeForm.base_fields
 
 
-class UserForm(forms.ModelForm):
+class UserNameForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['email', 'last_name', 'first_name']
+        fields = ['last_name', 'first_name']
 
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileNameForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['patronymic']
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = auth.get_user_model()
+        fields = ['email']

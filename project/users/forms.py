@@ -289,11 +289,7 @@ class UserPermissionsForm(forms.ModelForm):
 class UserProfilePermissionsForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['has_api_access']
-
-        help_texts = {
-            'has_api_access': _('For service accounts used by the testing module.')
-        }
+        fields = ['can_change_name', 'can_change_password']
 
 
 '''

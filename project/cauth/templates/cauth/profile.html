@@ -8,10 +8,19 @@
 {% block title %}{{ user.get_full_name }} ({{ user.username }}){% endblock %}
 
 {% block content %}
-    <h1>{% irunner_users_show user %} <small>{{ user.username }}</small></h1>
+    <div class="clearfix form-group">
+        {% if show_photo %}
+            <div class="pull-right">{% irunner_users_photo user.userprofile %}</div>
+        {% endif %}
+        <h1>{% irunner_users_show user %} <small>{{ user.username }}</small></h1>
+    </div>
+
     <div class="list-group">
-        {% if can_edit_profile %}
-            <a href="{% url 'profile_edit' %}" class="list-group-item">{% trans 'Edit profile' %}</a>
+        <a href="{% url 'profile_edit' %}" class="list-group-item">{% trans 'Edit profile' %}</a>
+        {% if can_change_name %}
+            <a href="{% url 'name_change' %}" class="list-group-item">{% trans 'Change name' %}</a>
+        {% endif %}
+        {% if can_change_password %}
             <a href="{% url 'password_change' %}" class="list-group-item">{% trans 'Change password' %}</a>
         {% endif %}
         <a href="{% url 'language' %}?next={% irunner_next %}" class="list-group-item">{% trans 'Change interface language' %}</a>
