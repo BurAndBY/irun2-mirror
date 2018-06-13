@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from cauth.mixins import StaffMemberRequiredMixin
 from contests.models import Contest, UnauthorizedAccessLevel
-from courses.models import Course, Membership
+from courses.models import Course, CourseStatus, Membership
 from courses.messaging import get_unread_thread_count
 from courses.calcpermissions import calculate_course_permissions
 from news.models import NewsMessage
@@ -29,11 +29,10 @@ def home(request):
     if request.user.is_authenticated():
         memberships_per_course = {}
 
-        # TODO: filter active courses
         for membership in Membership.objects.filter(user=request.user):
             memberships_per_course.setdefault(membership.course_id, []).append(membership)
 
-        courses = Course.objects.filter(pk__in=memberships_per_course)  # default ordering
+        courses = Course.objects.filter(pk__in=memberships_per_course, status=CourseStatus.RUNNING)  # default ordering
 
         courses_with_unread = []
         for course in courses:

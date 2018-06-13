@@ -10,7 +10,10 @@
         </a>
     </div>
 
-    <h1>{% block title %}{% trans 'Courses' %}{% endblock %}</h1>
+    <h1>
+        {% block title %}{{ title }}{% endblock %}
+        {% if link_to_all %}<small><a href="{% url 'courses:index_all' %}">{% trans 'Show all' %}</a></small>{% endif %}
+    </h1>
     {% if pairs %}
         <div class="row">
         {% for year, courses in pairs %}
@@ -31,7 +34,7 @@
                         <tbody>
                         {% for item in courses %}
                             <tr>
-                                <td><a href="{% url 'courses:show_course_info' item.id %}">{% if item.my %}<strong>{% endif %}{{ item.name }}{% if item.my %}</strong>{% endif %}</a></td>
+                                <td><a href="{% url 'courses:show_course_info' item.id %}">{% if item.archived %}<span class="text-muted">{% endif %}{% if item.my %}<strong>{% endif %}{{ item.name }}{% if item.my %}</strong>{% endif %}{% if item.archived %}</span>{% endif %}</a></td>
                                 <td>{{ item.student_count }}</td>
                                 <td>{{ item.solution_count }}</td>
                                 <td>{% if item.unread_count %}<a href="{% url 'courses:messages_empty' item.id %}"><span class="badge">{{ item.unread_count }}</span></a>{% endif %}</td>

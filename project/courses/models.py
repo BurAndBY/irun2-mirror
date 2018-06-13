@@ -25,6 +25,16 @@ class Criterion(models.Model):
         return self.name
 
 
+class CourseStatus(object):
+    RUNNING = 0
+    ARCHIVED = 1
+
+    CHOICES = (
+        (RUNNING, _('Running')),
+        (ARCHIVED, _('Archived')),
+    )
+
+
 class Course(models.Model):
     name = models.CharField(_('name'), max_length=64, blank=True)
     compilers = models.ManyToManyField(Compiler, blank=True)
@@ -46,6 +56,8 @@ class Course(models.Model):
     year_of_study = models.PositiveIntegerField(_('Year of study'), null=True, blank=True)
     group = models.PositiveIntegerField(_('Group number'), null=True, blank=True)
     academic_year = models.PositiveIntegerField(_('Academic year'), null=True, blank=True)
+
+    status = models.IntegerField(_('status'), choices=CourseStatus.CHOICES, default=CourseStatus.RUNNING)
 
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-03 13:12+0300\n"
-"PO-Revision-Date: 2018-06-03 13:24+0300\n"
+"POT-Creation-Date: 2018-06-13 04:29+0300\n"
+"PO-Revision-Date: 2018-06-13 04:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: .\api\models.py:14 .\contests\models.py:168 .\courses\models.py:241
+#: .\api\models.py:14 .\contests\models.py:168 .\courses\models.py:253
 #: .\solutions\forms.py:106 .\solutions\models.py:50
 msgid "Waiting"
 msgstr "Ожидание"
@@ -28,7 +28,7 @@ msgstr "Ожидание"
 msgid "Executing"
 msgstr "Выполнение"
 
-#: .\api\models.py:16 .\contests\models.py:167 .\courses\models.py:243
+#: .\api\models.py:16 .\contests\models.py:167 .\courses\models.py:255
 #: .\solutions\forms.py:111 .\solutions\models.py:49
 msgid "Done"
 msgstr "Готово"
@@ -87,7 +87,7 @@ msgstr "Запуск"
 msgid "Queue is empty."
 msgstr "Очередь пуста."
 
-#: .\api\templates\api\queue.html:8 .\courses\models.py:232
+#: .\api\templates\api\queue.html:8 .\courses\models.py:244
 #: .\templates\navbar.html:31
 msgid "Queue"
 msgstr "Очередь"
@@ -652,8 +652,8 @@ msgid "Training"
 msgstr "Тренировка"
 
 #: .\contests\models.py:62 .\contests\models.py:192 .\courses\models.py:22
-#: .\courses\models.py:29 .\courses\models.py:76 .\courses\models.py:109
-#: .\courses\models.py:118 .\courses\models.py:226 .\problems\models.py:19
+#: .\courses\models.py:39 .\courses\models.py:88 .\courses\models.py:121
+#: .\courses\models.py:130 .\courses\models.py:238 .\problems\models.py:19
 #: .\quizzes\models.py:16 .\quizzes\models.py:58 .\users\models.py:14
 msgid "name"
 msgstr "название"
@@ -714,7 +714,7 @@ msgstr "включить печать"
 msgid "rooms (comma-separated)"
 msgstr "аудитории (через запятую)"
 
-#: .\contests\models.py:82 .\courses\models.py:111 .\users\models.py:41
+#: .\contests\models.py:82 .\courses\models.py:123 .\users\models.py:41
 msgid "kind"
 msgstr "вид"
 
@@ -730,7 +730,7 @@ msgstr "участник"
 msgid "juror"
 msgstr "член жюри"
 
-#: .\contests\models.py:110 .\courses\models.py:135
+#: .\contests\models.py:110 .\courses\models.py:147
 msgid "role"
 msgstr "роль"
 
@@ -751,12 +751,12 @@ msgstr "Ответ"
 msgid "Message"
 msgstr "Сообщение"
 
-#: .\contests\models.py:145 .\courses\models.py:193 .\feedback\models.py:12
+#: .\contests\models.py:145 .\courses\models.py:205 .\feedback\models.py:12
 #: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
-#: .\contests\models.py:146 .\courses\models.py:204
+#: .\contests\models.py:146 .\courses\models.py:216
 msgid "message"
 msgstr "сообщение"
 
@@ -778,7 +778,7 @@ msgstr "аудитория"
 msgid "text"
 msgstr "текст"
 
-#: .\contests\models.py:178 .\courses\models.py:250
+#: .\contests\models.py:178 .\courses\models.py:60 .\courses\models.py:262
 msgid "status"
 msgstr "статус"
 
@@ -1154,7 +1154,7 @@ msgstr "Соревнование окончено"
 #: .\contests\templates\contests\my_questions_form.html:7
 #: .\contests\templates\contests\printing.html:9
 #: .\contests\templates\contests\sidebar.html:28
-#: .\courses\templates\courses\course_list.html:28
+#: .\courses\templates\courses\course_list.html:31
 #: .\courses\templates\courses\messages.html:8
 #: .\courses\templates\courses\messages_new.html:6
 #: .\courses\templates\courses\queue_add.html:6
@@ -1411,11 +1411,11 @@ msgstr "Вопрос был успешно отправлен."
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
-#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:46
+#: .\courses\forms.py:38 .\courses\forms.py:47 .\courses\models.py:56
 msgid "Year of study"
 msgstr "Год обучения"
 
-#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:48
+#: .\courses\forms.py:39 .\courses\forms.py:48 .\courses\models.py:58
 msgid "Academic year"
 msgstr "Учебный год"
 
@@ -1461,124 +1461,140 @@ msgstr "Студенты могут записываться в очередь."
 msgid "Subgroup"
 msgstr "Подгруппа"
 
+#: .\courses\globalviews.py:83
+msgid "Active courses"
+msgstr "Активные курсы"
+
+#: .\courses\globalviews.py:94
+msgid "All courses"
+msgstr "Все курсы"
+
 #: .\courses\models.py:21
 msgid "criterion label"
 msgstr "обозначение критерия"
 
 #: .\courses\models.py:33
+msgid "Running"
+msgstr "В процессе"
+
+#: .\courses\models.py:34
+msgid "Archived"
+msgstr "В архиве"
+
+#: .\courses\models.py:43
 msgid "student’s access to his own solutions"
 msgstr "доступ студента к его собственным решениям"
 
-#: .\courses\models.py:36
+#: .\courses\models.py:46
 msgid "student’s access to all solutions of the course"
 msgstr "доступ студента ко всем решениям курса"
 
-#: .\courses\models.py:39
+#: .\courses\models.py:49
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
-#: .\courses\models.py:40
+#: .\courses\models.py:50
 msgid "enable electronic queues"
 msgstr "включить электронные очереди"
 
-#: .\courses\models.py:44
+#: .\courses\models.py:54
 msgid "Number of attempts a day per problem"
 msgstr "Число попыток по задаче в день"
 
-#: .\courses\models.py:47
+#: .\courses\models.py:57
 msgid "Group number"
 msgstr "Номер группы"
 
-#: .\courses\models.py:55
+#: .\courses\models.py:67
 msgid "No information is given to identify the course."
 msgstr "Нет данных, чтобы идентифицировать курс."
 
 # There should be some way to write here 1st, 2nd etc.
-#: .\courses\models.py:62
+#: .\courses\models.py:74
 #, python-format
 msgid "%(group)d group"
 msgstr "%(group)d-я группа"
 
-#: .\courses\models.py:78
+#: .\courses\models.py:90
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:79 .\courses\models.py:144
+#: .\courses\models.py:91 .\courses\models.py:156
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:102
+#: .\courses\models.py:114
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:103
+#: .\courses\models.py:115
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:104
+#: .\courses\models.py:116
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:105
+#: .\courses\models.py:117
 msgid "quiz result"
 msgstr "результат теста"
 
-#: .\courses\models.py:110 .\problems\models.py:102 .\problems\models.py:140
+#: .\courses\models.py:122 .\problems\models.py:102 .\problems\models.py:140
 #: .\problems\models.py:166 .\problems\models.py:176 .\problems\views.py:613
 #: .\proglangs\models.py:29 .\users\models.py:17 .\users\models.py:36
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:112 .\courses\templates\courses\settings_sheet.html:18
+#: .\courses\models.py:124 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:113
+#: .\courses\models.py:125
 msgid "quiz"
 msgstr "тест"
 
-#: .\courses\models.py:129
+#: .\courses\models.py:141
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:130
+#: .\courses\models.py:142
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:136 .\courses\models.py:227
+#: .\courses\models.py:148 .\courses\models.py:239
 #: .\users\templates\users\user_card.html:38
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:142
+#: .\courses\models.py:154
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:175
+#: .\courses\models.py:187
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:176
+#: .\courses\models.py:188
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:177
+#: .\courses\models.py:189
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\models.py:205 .\feedback\models.py:14
+#: .\courses\models.py:217 .\feedback\models.py:14
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\models.py:225
+#: .\courses\models.py:237
 msgid "queue is active"
 msgstr "очередь активна"
 
-#: .\courses\models.py:242
+#: .\courses\models.py:254
 msgid "In progress"
 msgstr "В процессе"
 
-#: .\courses\models.py:252
+#: .\courses\models.py:264
 msgid "enqueue time"
 msgstr "время добавления в очередь"
 
@@ -1616,7 +1632,7 @@ msgstr "Общие задачи"
 
 #: .\courses\services.py:197 .\courses\settingsviews.py:119
 #: .\courses\templates\courses\assign.html:26
-#: .\courses\templates\courses\course_list.html:26
+#: .\courses\templates\courses\course_list.html:29
 msgid "Students"
 msgstr "Студенты"
 
@@ -1723,11 +1739,11 @@ msgstr "Это действие не может быть отменено."
 msgid "New course"
 msgstr "Новый курс"
 
-#: .\courses\templates\courses\course_list.html:13 .\templates\navbar.html:21
-msgid "Courses"
-msgstr "Курсы"
+#: .\courses\templates\courses\course_list.html:15
+msgid "Show all"
+msgstr "Показать все"
 
-#: .\courses\templates\courses\course_list.html:27 .\problems\tabs.py:32
+#: .\courses\templates\courses\course_list.html:30 .\problems\tabs.py:32
 #: .\problems\templates\problems\challenges.html:22
 #: .\problems\templates\problems\irunner_problems_list_tag.html:22
 #: .\problems\templates\problems\rejudges.html:15
@@ -1736,7 +1752,7 @@ msgstr "Курсы"
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\courses\templates\courses\course_list.html:48
+#: .\courses\templates\courses\course_list.html:51
 msgid "There are no courses available."
 msgstr "Нет доступных курсов."
 
@@ -4077,6 +4093,10 @@ msgstr "Кафедра ДМА ФПМИ БГУ"
 #: .\templates\base.html:57
 msgid "Feedback"
 msgstr "Обратная связь"
+
+#: .\templates\navbar.html:21
+msgid "Courses"
+msgstr "Курсы"
 
 #: .\templates\navbar.html:26
 msgid "Administration"

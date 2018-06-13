@@ -2,15 +2,15 @@ from collections import namedtuple
 
 from django.db import transaction
 from django.db.models import Count, F
-from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
 from django.utils.encoding import smart_text
+from django.utils.translation import ugettext_lazy as _
 
 from cauth.mixins import StaffMemberRequiredMixin
 from proglangs.models import Compiler
 
-from courses.models import Course, Membership, MailThread, CourseSolution
+from courses.models import Course, CourseStatus, Membership, MailThread, CourseSolution
 from courses.forms import NewCourseForm
 from courses.utils import make_academic_year_string
 
@@ -19,10 +19,10 @@ from courses.utils import make_academic_year_string
 List of courses
 '''
 
-CourseListItem = namedtuple('CourseListItem', 'id name my student_count solution_count unread_count unresolved_count')
+CourseListItem = namedtuple('CourseListItem', 'id name my student_count solution_count unread_count unresolved_count archived')
 
 
-class CourseListView(StaffMemberRequiredMixin, generic.View):
+class BaseCourseListView(StaffMemberRequiredMixin, generic.TemplateView):
     template_name = 'courses/course_list.html'
 
     def _count_for_courses(self, qs):
@@ -46,7 +46,7 @@ class CourseListView(StaffMemberRequiredMixin, generic.View):
         solutions_per_course = self._count_for_courses(CourseSolution.objects.all())
 
         year_to_courses = {}
-        for course in Course.objects.all():
+        for course in self.get_queryset():
             pk = course.id
             item = CourseListItem(
                 pk,
@@ -56,6 +56,7 @@ class CourseListView(StaffMemberRequiredMixin, generic.View):
                 solutions_per_course.get(pk, 0),
                 mail_threads_all_per_course.get(pk, 0) - mail_threads_read_per_course.get(pk, 0),
                 mail_threads_unresolved_per_course.get(pk, 0),
+                course.status == CourseStatus.ARCHIVED
             )
             year_to_courses.setdefault(course.academic_year, []).append(item)
 
@@ -66,7 +67,32 @@ class CourseListView(StaffMemberRequiredMixin, generic.View):
             else:
                 pairs.append((make_academic_year_string(academic_year), courses))
 
-        return render(request, self.template_name, {'pairs': pairs})
+        context = self.get_context_data(pairs=pairs)
+        return self.render_to_response(context)
+
+    def get_queryset(self):
+        raise NotImplementedError()
+
+
+class ActiveCourseListView(BaseCourseListView):
+    def get_queryset(self):
+        return Course.objects.filter(status=CourseStatus.RUNNING)
+
+    def get_context_data(self, **kwargs):
+        context = super(ActiveCourseListView, self).get_context_data(**kwargs)
+        context['title'] = _('Active courses')
+        context['link_to_all'] = True
+        return context
+
+
+class AllCourseListView(BaseCourseListView):
+    def get_queryset(self):
+        return Course.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(AllCourseListView, self).get_context_data(**kwargs)
+        context['title'] = _('All courses')
+        return context
 
 
 class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):

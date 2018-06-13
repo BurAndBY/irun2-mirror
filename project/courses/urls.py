@@ -26,7 +26,8 @@ queue_urlpatterns = [
 ]
 
 urlpatterns = [
-    url(r'^$', globalviews.CourseListView.as_view(), name='index'),
+    url(r'^$', globalviews.ActiveCourseListView.as_view(), name='index'),
+    url(r'^all/$', globalviews.AllCourseListView.as_view(), name='index_all'),
     url(r'^new/$', globalviews.CourseCreateView.as_view(), name='new'),
 
     url(r'^criteria/$', views.CriterionListView.as_view(), name='criterion_index'),
