@@ -9,9 +9,8 @@ from django.utils import timezone
 
 from cauth.mixins import StaffMemberRequiredMixin
 from contests.models import Contest, UnauthorizedAccessLevel
-from courses.models import Course, CourseStatus, Membership
-from courses.messaging import get_unread_thread_count
-from courses.calcpermissions import calculate_course_permissions
+from courses.models import Course, CourseStatus
+from courses.messaging import MessageCountManager
 from news.models import NewsMessage
 from solutions.models import Solution, Judgement
 from problems.models import Problem
@@ -27,27 +26,24 @@ def home(request):
     context = {}
 
     if request.user.is_authenticated():
-        memberships_per_course = {}
+        my_courses = Course.objects.filter(membership__user=request.user).distinct()
+        my_course_count = my_courses.count()
+        context['my_course_count'] = my_course_count
 
-        for membership in Membership.objects.filter(user=request.user):
-            memberships_per_course.setdefault(membership.course_id, []).append(membership)
+        if my_course_count > 0:
+            active_courses_with_unread = []
+            manager = MessageCountManager(request.user)
+            for course in my_courses.filter(status=CourseStatus.RUNNING):  # default ordering
+                active_courses_with_unread.append((course, manager.get(course.id).unread))
+            context['my_active_courses'] = active_courses_with_unread
 
-        courses = Course.objects.filter(pk__in=memberships_per_course, status=CourseStatus.RUNNING)  # default ordering
+        my_contests = Contest.objects.filter(membership__user=request.user).distinct()
+        my_contest_count = my_contests.count()
+        context['my_contest_count'] = my_contest_count
+        context['my_contests'] = my_contests.order_by('-start_time')[:NUM_CONTESTS]
 
-        courses_with_unread = []
-        for course in courses:
-            memberships = memberships_per_course[course.id]
-            permissions = calculate_course_permissions(course, request.user, memberships)
-            unread = get_unread_thread_count(course, request.user, permissions)
-            courses_with_unread.append((course, unread))
-
-        context['courses_with_unread'] = courses_with_unread
-
-        contests = Contest.objects.filter(membership__user=request.user).distinct().order_by('-start_time')
-        context['my_contests'] = contests[:NUM_CONTESTS]
-
-    public_contests = Contest.objects.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS).order_by('-start_time')
-    context['public_contests'] = public_contests[:NUM_CONTESTS]
+    public_contests = Contest.objects.exclude(unauthorized_access=UnauthorizedAccessLevel.NO_ACCESS)
+    context['public_contests'] = public_contests.order_by('-start_time')[:NUM_CONTESTS]
 
     news = NewsMessage.objects.filter(is_public=True).order_by('-when')
     context['news'] = news

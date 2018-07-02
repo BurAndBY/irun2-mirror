@@ -1,6 +1,6 @@
 from solutions.permissions import SolutionAccessLevel
 
-from .models import Membership, Course
+from .models import Membership, Course, CourseStatus
 from .permissions import CoursePermissions, InCourseAccessLevel
 
 
@@ -29,6 +29,10 @@ def calculate_course_permissions(course, user, memberships):
         permissions.queue = False
         permissions.queue_admin = False
 
+    if course.status == CourseStatus.ARCHIVED:
+        permissions.submit = False
+        permissions.submit_all_problems = False
+
     return permissions
 
 
@@ -53,5 +57,8 @@ def calculate_course_solution_access_level(solution, user):
             level = max(level, SolutionAccessLevel.FULL)
 
     # level remains NO_ACCESS if user is not a member of the course
+
+    if course.status == CourseStatus.ARCHIVED:
+        level = min(level, SolutionAccessLevel.STATE)
 
     return InCourseAccessLevel(course, level)

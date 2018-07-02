@@ -20,7 +20,7 @@ from django.template import defaultfilters
 
 from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
 from forms import MailThreadForm, MailMessageForm, MailResolvedForm
-from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage
+from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage, CourseStatus
 from services import UserCache, make_problem_choices, make_student_choices, make_allusers_choices, make_course_results, make_course_single_result
 from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
 from calcpermissions import calculate_course_permissions
@@ -56,6 +56,7 @@ class BaseCourseView(generic.View):
     def get_context_data(self, **kwargs):
         context = {
             'course': self.course,
+            'course_is_archived': self.course.status == CourseStatus.ARCHIVED,
             'permissions': self.permissions,
             'active_tab': self.tab,
             'active_subtab': self.subtab,

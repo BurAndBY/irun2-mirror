@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-13 04:29+0300\n"
-"PO-Revision-Date: 2018-06-13 04:30+0300\n"
+"POT-Creation-Date: 2018-07-02 17:33+0300\n"
+"PO-Revision-Date: 2018-07-02 17:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -336,7 +336,7 @@ msgstr "Число посылок"
 #: .\contests\templates\contests\all_solutions.html:12
 #: .\contests\templates\contests\my_solutions.html:11
 #: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:58 .\courses\views.py:596
+#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:597
 msgid "All solutions"
 msgstr "Все решения"
 
@@ -378,24 +378,29 @@ msgstr "Система автоматического тестирования"
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\common\templates\common\home.html:41
+#: .\common\templates\common\home.html:41 .\courses\globalviews.py:102
 msgid "My courses"
 msgstr "Мои курсы"
 
-#: .\common\templates\common\home.html:55 .\contests\globalviews.py:25
-msgid "My contests"
-msgstr "Мои соревнования"
+#: .\common\templates\common\home.html:54
+msgid "No active courses"
+msgstr "Нет активных курсов"
 
-#: .\common\templates\common\home.html:57
-#: .\common\templates\common\home.html:66
+#: .\common\templates\common\home.html:56
+#: .\common\templates\common\home.html:62
+#: .\common\templates\common\home.html:71
 msgid "View all"
 msgstr "Все"
 
-#: .\common\templates\common\home.html:64
+#: .\common\templates\common\home.html:60 .\contests\globalviews.py:25
+msgid "My contests"
+msgstr "Мои соревнования"
+
+#: .\common\templates\common\home.html:69
 msgid "Contest results"
 msgstr "Результаты соревнований"
 
-#: .\common\templates\common\home.html:72 .\news\templates\news\index.html:9
+#: .\common\templates\common\home.html:77 .\news\templates\news\index.html:9
 #: .\news\templates\news\show.html:6 .\templates\navbar.html:40
 msgid "News"
 msgstr "Новости"
@@ -422,7 +427,7 @@ msgstr "из"
 
 #: .\common\templates\common\irunner_pagination_tag.html:79
 #: .\common\templates\common\irunner_pagination_tag.html:81
-#: .\courses\views.py:818
+#: .\courses\views.py:819
 msgid "All"
 msgstr "Все"
 
@@ -581,8 +586,8 @@ msgstr "Пользователь"
 #: .\courses\templates\courses\problems_statement.html:8
 #: .\courses\templates\courses\problems_statement.html:13
 #: .\courses\templates\courses\solutions.html:41
-#: .\courses\templates\courses\standings.html:60 .\courses\views.py:557
-#: .\courses\views.py:618 .\problems\templates\problems\base.html:5
+#: .\courses\templates\courses\standings.html:60 .\courses\views.py:558
+#: .\courses\views.py:619 .\problems\templates\problems\base.html:5
 #: .\problems\templates\problems\irunner_problems_heading_tag.html:5
 #: .\problems\templates\problems\sidebar.html:26
 #: .\problems\templates\problems\statement_print.html:7
@@ -1006,7 +1011,7 @@ msgstr "Решений нет"
 #: .\contests\templates\contests\sidebar.html:73
 #: .\courses\templates\courses\compilers.html:6
 #: .\courses\templates\courses\settings_base.html:21
-#: .\courses\templates\courses\sidebar.html:79
+#: .\courses\templates\courses\sidebar.html:86
 #: .\proglangs\templates\proglangs\index.html:10 .\templates\navbar.html:33
 msgid "Compilers"
 msgstr "Компиляторы"
@@ -1079,7 +1084,7 @@ msgid "all"
 msgstr "всем"
 
 #: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:716 .\courses\views.py:817
+#: .\contests\views.py:716 .\courses\views.py:818
 msgid "General question"
 msgstr "Общий вопрос"
 
@@ -1158,7 +1163,7 @@ msgstr "Соревнование окончено"
 #: .\courses\templates\courses\messages.html:8
 #: .\courses\templates\courses\messages_new.html:6
 #: .\courses\templates\courses\queue_add.html:6
-#: .\courses\templates\courses\sidebar.html:29
+#: .\courses\templates\courses\sidebar.html:36
 msgid "Messages"
 msgstr "Сообщения"
 
@@ -1264,7 +1269,7 @@ msgstr "Назад"
 #: .\contests\templates\contests\settings_base.html:5
 #: .\contests\templates\contests\sidebar.html:80
 #: .\courses\templates\courses\settings_base.html:5
-#: .\courses\templates\courses\sidebar.html:100
+#: .\courses\templates\courses\sidebar.html:107
 #: .\problems\templates\problems\challenge_new.html:19
 msgid "Settings"
 msgstr "Настройки"
@@ -1325,7 +1330,7 @@ msgid "Standings"
 msgstr "Результаты"
 
 #: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:637
+#: .\courses\templates\courses\sidebar.html:72 .\courses\views.py:638
 msgid "My solutions"
 msgstr "Мои решения"
 
@@ -1333,7 +1338,7 @@ msgstr "Мои решения"
 #: .\contests\templates\contests\submission.html:9
 #: .\contests\templates\contests\submit.html:7
 #: .\courses\templates\courses\problems_statement.html:47
-#: .\courses\templates\courses\sidebar.html:72
+#: .\courses\templates\courses\sidebar.html:79
 #: .\courses\templates\courses\submission.html:6
 #: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:38
 msgid "Submit solution"
@@ -1461,11 +1466,11 @@ msgstr "Студенты могут записываться в очередь."
 msgid "Subgroup"
 msgstr "Подгруппа"
 
-#: .\courses\globalviews.py:83
+#: .\courses\globalviews.py:81
 msgid "Active courses"
 msgstr "Активные курсы"
 
-#: .\courses\globalviews.py:94
+#: .\courses\globalviews.py:92
 msgid "All courses"
 msgstr "Все курсы"
 
@@ -1477,7 +1482,7 @@ msgstr "обозначение критерия"
 msgid "Running"
 msgstr "В процессе"
 
-#: .\courses\models.py:34
+#: .\courses\models.py:34 .\courses\templates\courses\sidebar.html:15
 msgid "Archived"
 msgstr "В архиве"
 
@@ -1648,7 +1653,7 @@ msgstr "Преподаватели"
 #: .\courses\templates\courses\standings.html:26
 #: .\courses\templates\courses\standings.html:108
 #: .\courses\templates\courses\standings_wide.html:21
-#: .\courses\templates\courses\standings_wide.html:107 .\courses\views.py:549
+#: .\courses\templates\courses\standings_wide.html:107 .\courses\views.py:550
 msgid "Student"
 msgstr "Студент"
 
@@ -1702,7 +1707,7 @@ msgid "Statement"
 msgstr "Условие"
 
 #: .\courses\templates\courses\assign.html:16
-#: .\courses\templates\courses\sidebar.html:37
+#: .\courses\templates\courses\sidebar.html:44
 msgid "Assignment of problems"
 msgstr "Назначение задач"
 
@@ -1789,7 +1794,7 @@ msgstr "удалить"
 msgid "There are no criteria defined"
 msgstr "Критерии не определены"
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:488
+#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:489
 msgid "New criterion"
 msgstr "Новый критерий"
 
@@ -1874,12 +1879,12 @@ msgstr[1] "%(counter)s сообщения"
 msgstr[2] "%(counter)s сообщений"
 
 #: .\courses\templates\courses\my_problems.html:9
-#: .\courses\templates\courses\sidebar.html:22
+#: .\courses\templates\courses\sidebar.html:29
 msgid "My problems"
 msgstr "Мои задачи"
 
 #: .\courses\templates\courses\problems_base.html:5
-#: .\courses\templates\courses\sidebar.html:15
+#: .\courses\templates\courses\sidebar.html:22
 msgid "Course problems"
 msgstr "Задачи по курсу"
 
@@ -1901,7 +1906,7 @@ msgid "Solution description"
 msgstr "Описание решения"
 
 #: .\courses\templates\courses\queue.html:7
-#: .\courses\templates\courses\sidebar.html:93
+#: .\courses\templates\courses\sidebar.html:100
 msgid "Electronic queue"
 msgstr "Электронная очередь"
 
@@ -1945,7 +1950,7 @@ msgstr "OK"
 
 #: .\courses\templates\courses\quizzes.html:8
 #: .\courses\templates\courses\settings_base.html:33
-#: .\courses\templates\courses\sidebar.html:86
+#: .\courses\templates\courses\sidebar.html:93
 #: .\quizzes\templates\quizzes\base.html:5
 #: .\quizzes\templates\quizzes\sidebar.html:6 .\templates\navbar.html:42
 msgid "Quizzes"
@@ -2030,7 +2035,7 @@ msgstr "Включить"
 #: .\courses\templates\courses\quizzes_sheet.html:9
 #: .\courses\templates\courses\settings_base.html:30
 #: .\courses\templates\courses\sheet.html:15
-#: .\courses\templates\courses\sidebar.html:51
+#: .\courses\templates\courses\sidebar.html:58
 msgid "Sheet"
 msgstr "Ведомость"
 
@@ -2260,7 +2265,7 @@ msgstr "Все изменения автоматически сохраняют�
 msgid "Return to view mode (read-only)."
 msgstr "Вернуться в режим просмотра (только чтение)."
 
-#: .\courses\templates\courses\sidebar.html:44
+#: .\courses\templates\courses\sidebar.html:51
 #: .\courses\templates\courses\standings.html:9
 #: .\courses\templates\courses\standings_wide.html:9
 #: .\courses\templates\courses\standings_wide.html:13
@@ -2297,11 +2302,11 @@ msgstr "Пожалуйста, выберите задачу."
 msgid "%(year)d year"
 msgstr "%(year)d-й курс"
 
-#: .\courses\views.py:501
+#: .\courses\views.py:502
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:685
+#: .\courses\views.py:686
 #, python-format
 msgid "You have %(count)d attempt remaining for the problem during the day."
 msgid_plural ""
@@ -2310,16 +2315,16 @@ msgstr[0] "Осталась %(count)d попытка по задаче в теч
 msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
 msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
 
-#: .\courses\views.py:689
+#: .\courses\views.py:690
 msgid "You have no attempts remaining for the problem."
 msgstr "Доступные попытки по задаче закончились."
 
-#: .\courses\views.py:695
+#: .\courses\views.py:696
 #, python-format
 msgid "Please try again after %(ts)s."
 msgstr "Попробуйте отправить решение после %(ts)s."
 
-#: .\courses\views.py:697
+#: .\courses\views.py:698
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
 

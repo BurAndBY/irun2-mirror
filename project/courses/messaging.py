@@ -1,9 +1,15 @@
+from collections import namedtuple
+
 from django.db import transaction
-from django.db.models import F, Q
+from django.db.models import F, Q, Count
 from django.utils import timezone
 
 from storage.utils import store_with_metadata
-from models import MailThread, MailUserThreadVisit
+from courses.models import (
+    Membership,
+    MailThread,
+    MailUserThreadVisit,
+)
 
 
 def is_unread(last_viewed_timestamp, last_message_timestamp):
@@ -85,3 +91,73 @@ def post_message(user, thread, message_form, is_message_admin):
         message.thread = thread
         message.save()
         update_last_viewed_timestamp(user, thread, ts)
+
+
+MessageCounts = namedtuple('MessageCounts', 'is_my_course unread unresolved')
+
+
+class MessageCountManager(object):
+    '''
+    The class is used to display unread message counts on the lists of courses.
+    '''
+
+    def __init__(self, user):
+        self._user_is_staff = user.is_staff
+        self._my_courses = self._fetch_my_courses(user)
+
+        mail_threads = MailThread.objects.all()
+        if not self._user_is_staff:  # optimization
+            mail_threads = mail_threads.filter(course_id__in=self._my_courses.keys())
+
+        self._all_threads, self._all_read_threads = self._count_threads(mail_threads, user)
+
+        if not self._user_is_staff:  # optimization
+            qs = mail_threads.filter(Q(person=user) | Q(person__isnull=True))
+            self._my_threads, self._my_read_threads = self._count_threads(qs, user)
+
+        self._mail_threads_unresolved_per_course = self._count_per_course(MailThread.objects.filter(
+            resolved=False
+        ))
+
+    def _count_threads(self, qs, user):
+        return (
+            self._count_per_course(qs),
+            self._count_per_course(qs.filter(
+                mailuserthreadvisit__user=user,
+                mailuserthreadvisit__timestamp__gte=F('last_message_timestamp')
+            ))
+        )
+
+    def _count_per_course(self, qs):
+        # {course_id -> count}
+        result = {}
+        for course_id, count in qs.values_list('course_id').annotate(total=Count('course_id')):
+            result[course_id] = count
+        return result
+
+    def _fetch_my_courses(self, user):
+        # {course_id -> flag 'user can manage all messages'}
+        result = {}
+        for course_id, role in Membership.objects.filter(user=user).values_list('course_id', 'role'):
+            if role == Membership.TEACHER:
+                result[course_id] = True
+            else:
+                result.setdefault(course_id, False)
+        return result
+
+    def get(self, course_id):
+        is_my_course = self._my_courses.get(course_id)  # False, True or None
+        can_manage_messages = self._user_is_staff or is_my_course
+
+        if can_manage_messages:
+            return MessageCounts(
+                is_my_course is not None,
+                self._all_threads.get(course_id, 0) - self._all_read_threads.get(course_id, 0),
+                self._mail_threads_unresolved_per_course.get(course_id, 0),
+            )
+        else:
+            return MessageCounts(
+                is_my_course is not None,
+                self._my_threads.get(course_id, 0) - self._my_read_threads.get(course_id, 0),
+                None,
+            )

@@ -7,12 +7,16 @@ from django.views import generic
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext_lazy as _
 
-from cauth.mixins import StaffMemberRequiredMixin
+from cauth.mixins import (
+    LoginRequiredMixin,
+    StaffMemberRequiredMixin,
+)
 from proglangs.models import Compiler
 
 from courses.models import Course, CourseStatus, Membership, MailThread, CourseSolution
 from courses.forms import NewCourseForm
 from courses.utils import make_academic_year_string
+from courses.messaging import MessageCountManager
 
 
 '''
@@ -22,7 +26,7 @@ List of courses
 CourseListItem = namedtuple('CourseListItem', 'id name my student_count solution_count unread_count unresolved_count archived')
 
 
-class BaseCourseListView(StaffMemberRequiredMixin, generic.TemplateView):
+class BaseCourseListView(generic.TemplateView):
     template_name = 'courses/course_list.html'
 
     def _count_for_courses(self, qs):
@@ -34,28 +38,22 @@ class BaseCourseListView(StaffMemberRequiredMixin, generic.TemplateView):
 
     def get(self, request):
         my_courses = set(Membership.objects.filter(user=request.user).values_list('course_id', flat=True))
+        message_count_manager = MessageCountManager(user=request.user)
         students_per_course = self._count_for_courses(Membership.objects.filter(role=Membership.STUDENT))
-        mail_threads_all_per_course = self._count_for_courses(MailThread.objects.all())
-        mail_threads_read_per_course = self._count_for_courses(MailThread.objects.filter(
-            mailuserthreadvisit__user=request.user,
-            mailuserthreadvisit__timestamp__gte=F('last_message_timestamp')
-        ))
-        mail_threads_unresolved_per_course = self._count_for_courses(MailThread.objects.filter(
-            resolved=False
-        ))
         solutions_per_course = self._count_for_courses(CourseSolution.objects.all())
 
         year_to_courses = {}
         for course in self.get_queryset():
             pk = course.id
+            message_counts = message_count_manager.get(pk)
             item = CourseListItem(
                 pk,
                 smart_text(course),
                 pk in my_courses,
                 students_per_course.get(pk, 0),
                 solutions_per_course.get(pk, 0),
-                mail_threads_all_per_course.get(pk, 0) - mail_threads_read_per_course.get(pk, 0),
-                mail_threads_unresolved_per_course.get(pk, 0),
+                message_counts.unread,
+                message_counts.unresolved,
                 course.status == CourseStatus.ARCHIVED
             )
             year_to_courses.setdefault(course.academic_year, []).append(item)
@@ -74,7 +72,7 @@ class BaseCourseListView(StaffMemberRequiredMixin, generic.TemplateView):
         raise NotImplementedError()
 
 
-class ActiveCourseListView(BaseCourseListView):
+class ActiveCourseListView(StaffMemberRequiredMixin, BaseCourseListView):
     def get_queryset(self):
         return Course.objects.filter(status=CourseStatus.RUNNING)
 
@@ -85,13 +83,23 @@ class ActiveCourseListView(BaseCourseListView):
         return context
 
 
-class AllCourseListView(BaseCourseListView):
+class AllCourseListView(StaffMemberRequiredMixin, BaseCourseListView):
     def get_queryset(self):
         return Course.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(AllCourseListView, self).get_context_data(**kwargs)
         context['title'] = _('All courses')
+        return context
+
+
+class MyCourseListView(LoginRequiredMixin, BaseCourseListView):
+    def get_queryset(self):
+        return Course.objects.filter(membership__user=self.request.user).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super(MyCourseListView, self).get_context_data(**kwargs)
+        context['title'] = _('My courses')
         return context
 
 

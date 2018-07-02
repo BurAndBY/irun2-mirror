@@ -35,24 +35,29 @@
 {% endif %}
 
 <div class="row">
-{% if courses_with_unread or my_contests %}
+{% if my_course_count or my_contest_count %}
     <div class="col-sm-4">
-        {% if courses_with_unread %}
-            <h2>{% bootstrap_icon 'education' %} <span class="ir-icon-label">{% trans 'My courses' %}</span></h2>
-            <ul>
-            {% for course, unread in courses_with_unread %}
-                <li>
-                    <a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a>
-                    {% if unread %}
-                        <span class="badge">{{ unread }}</span>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
+        {% if my_course_count %}
+            <h2>{% bootstrap_icon 'education' %} <span class="ir-icon-label">{% trans 'My courses' %}</span> <small>({{ my_course_count }})</small></h2>
+            {% if my_active_courses %}
+                <ul class="list-unstyled">
+                {% for course, unread in my_active_courses %}
+                    <li>
+                        <a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a>
+                        {% if unread %}
+                            <span class="badge">{{ unread }}</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p><em>{% trans 'No active courses' %}</em></p>
+            {% endif %}
+            <p class="small"><a href="{% url 'courses:my' %}">{% trans 'View all' %}...</a></p>
         {% endif %}
 
-        {% if my_contests %}
-            <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'My contests' %}</span></h2>
+        {% if my_contest_count %}
+            <h2>{% bootstrap_icon 'stats' %} <span class="ir-icon-label">{% trans 'My contests' %}</span> <small>({{ my_contest_count }})</small></h2>
             {% irunner_contests_minilist my_contests %}
             <p class="small"><a href="{% url 'contests:my' %}">{% trans 'View all' %}...</a></p>
         {% endif %}
