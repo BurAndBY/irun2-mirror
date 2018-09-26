@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
-# Create your models here.
+@python_2_unicode_compatible
 class Compiler(models.Model):
     UNKNOWN = ''
     C = 'c'
@@ -30,7 +31,7 @@ class Compiler(models.Model):
     default_for_courses = models.BooleanField(_('compiler is enabled by default in new courses'), default=False)
     default_for_contests = models.BooleanField(_('compiler is enabled by default in new contests'), default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.description
 
     class Meta:

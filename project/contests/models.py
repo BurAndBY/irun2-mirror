@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Problem
@@ -50,6 +51,7 @@ def _default_contest_start_time():
     return ts
 
 
+@python_2_unicode_compatible
 class Contest(models.Model):
     ACM = 1
     IOI = 2
@@ -84,7 +86,7 @@ class Contest(models.Model):
     def get_absolute_url(self):
         return reverse('contests:standings', kwargs={'contest_id': self.pk})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def clean(self):

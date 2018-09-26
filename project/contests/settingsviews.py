@@ -6,6 +6,7 @@ from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from common.cacheutils import AllObjectsCache
@@ -149,12 +150,13 @@ class ProblemsJsonListView(ContestSettingsView):
         return TwoPanelProblemMultipleChoiceField.ajax(problems)
 
 
+@python_2_unicode_compatible
 class FakeFile(object):
     def __init__(self, contest_id, filename):
         self.url = reverse('contests:statements', kwargs={'contest_id': contest_id, 'filename': filename})
         self.name = filename
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
