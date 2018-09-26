@@ -13,7 +13,7 @@
             {% trans 'Save' %}
         </button>
         {% if can_delete %}
-            <a href="{% url 'courses:course_settings_delete' course.id %}" class="btn btn-link">
+            <a href="{% url 'courses:settings:delete' course.id %}" class="btn btn-link">
                 {% trans 'Delete the course' %}
             </a>
         {% endif %}

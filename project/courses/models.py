@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
@@ -17,11 +19,12 @@ from storage.models import FileMetadata
 from courses.utils import make_year_of_study_string, make_academic_year_string
 
 
+@python_2_unicode_compatible
 class Criterion(models.Model):
     label = models.CharField(_('criterion label'), max_length=8, unique=True)
     name = models.CharField(_('name'), max_length=64)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -35,15 +38,16 @@ class CourseStatus(object):
     )
 
 
+@python_2_unicode_compatible
 class Course(models.Model):
     name = models.CharField(_('name'), max_length=64, blank=True)
     compilers = models.ManyToManyField(Compiler, blank=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
 
-    student_own_solutions_access = models.IntegerField(_(u'student’s access to his own solutions'),
+    student_own_solutions_access = models.IntegerField(_('student’s access to his own solutions'),
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS)
 
-    student_all_solutions_access = models.IntegerField(_(u'student’s access to all solutions of the course'),
+    student_all_solutions_access = models.IntegerField(_('student’s access to all solutions of the course'),
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.STATE)
 
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
@@ -66,31 +70,32 @@ class Course(models.Model):
         if (len(self.name) == 0) and (self.year_of_study is None) and (self.group is None) and (self.academic_year is None):
             raise ValidationError(_('No information is given to identify the course.'))
 
-    def __unicode__(self):
+    def __str__(self):
         tokens = []
         if self.year_of_study is not None:
             tokens.append(make_year_of_study_string(self.year_of_study))
         if self.group is not None:
-            tokens.append(ugettext(u'%(group)d group') % {'group': self.group})
+            tokens.append(ugettext('%(group)d group') % {'group': self.group})
         if len(self.name) > 0:
             tokens.append(self.name)
         if self.academic_year is not None:
             tokens.append(make_academic_year_string(self.academic_year))
         if len(tokens) == 0:
             tokens.append('<...>')
-        return u' '.join(tokens)
+        return ' '.join(tokens)
 
     class Meta:
         ordering = ['academic_year', 'year_of_study', 'group', 'name']
 
 
+@python_2_unicode_compatible
 class Topic(models.Model):
     name = models.CharField(_('name'), max_length=64)
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
     problem_folder = models.ForeignKey(ProblemFolder, null=True, on_delete=models.SET_NULL, verbose_name=_('problem folder'))
     criteria = models.ManyToManyField(Criterion, blank=True, verbose_name=_('criteria'))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def list_problems(self):
@@ -125,11 +130,12 @@ class Activity(models.Model):
     quiz_instance = models.ForeignKey('quizzes.QuizInstance', verbose_name=_('quiz'), null=True, blank=True, on_delete=models.SET_NULL)
 
 
+@python_2_unicode_compatible
 class Subgroup(models.Model):
     course = models.ForeignKey(Course)
     name = models.CharField(_('name'), max_length=16, blank=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 

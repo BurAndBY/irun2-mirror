@@ -7,7 +7,7 @@
         <ul>
         {% for subgroup in object_list %}
             <li>
-                <a href="{% url 'courses:course_settings_subgroup_update' course.id subgroup.id %}">{{ subgroup.name }}</a>
+                <a href="{% url 'courses:settings:subgroup_update' course.id subgroup.id %}">{{ subgroup.name }}</a>
             </li>
         {% endfor %}
         </ul>
@@ -15,6 +15,6 @@
         {% trans 'No subgroups' %}
     {% endif %}
     <p>
-        <a href="{% url 'courses:course_settings_subgroup_create' course.id %}">{% trans 'New subgroup' %}</a>
+        <a href="{% url 'courses:settings:subgroup_create' course.id %}">{% trans 'New subgroup' %}</a>
     </p>
 {% endblock %}

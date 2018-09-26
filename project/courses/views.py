@@ -18,13 +18,6 @@ from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
 from django.template import defaultfilters
 
-from forms import SolutionForm, SolutionListUserForm, SolutionListProblemForm, ActivityRecordFakeForm
-from forms import MailThreadForm, MailMessageForm, MailResolvedForm
-from models import Course, Topic, Membership, Assignment, Criterion, CourseSolution, Activity, ActivityRecord, MailMessage, CourseStatus
-from services import UserCache, make_problem_choices, make_student_choices, make_allusers_choices, make_course_results, make_course_single_result
-from services import get_assigned_problem_set, get_simple_assignments, get_attempt_quota
-from calcpermissions import calculate_course_permissions
-
 from api.queue import notify_enqueued
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
@@ -32,15 +25,65 @@ from common.constants import make_empty_select
 from common.pageutils import paginate
 from common.outcome import Outcome
 from common.statutils import build_proglangbars
-from messaging import list_mail_threads, get_unread_thread_count, is_unread, update_last_viewed_timestamp, post_message
-from problems.models import Problem, ProblemFolder, ProblemRelatedFile
+from problems.models import (
+    Problem,
+    ProblemFolder,
+    ProblemRelatedFile,
+)
 from problems.views import ProblemStatementMixin
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
-from solutions.utils import new_solution, judge
+from solutions.utils import (
+    judge,
+    new_solution,
+)
 from storage.utils import serve_resource_metadata
 
+from courses.forms import (
+    ActivityRecordFakeForm,
+    SolutionForm,
+    SolutionListProblemForm,
+    SolutionListUserForm,
+)
+from courses.forms import (
+    MailMessageForm,
+    MailResolvedForm,
+    MailThreadForm,
+)
+from courses.models import (
+    Activity,
+    ActivityRecord,
+    Assignment,
+    Course,
+    CourseSolution,
+    CourseStatus,
+    Criterion,
+    MailMessage,
+    Membership,
+    Topic,
+)
+from courses.services import (
+    UserCache,
+    make_problem_choices,
+    make_student_choices,
+    make_allusers_choices,
+    make_course_results,
+    make_course_single_result,
+)
+from courses.services import (
+    get_assigned_problem_set,
+    get_simple_assignments,
+    get_attempt_quota,
+)
+from courses.calcpermissions import calculate_course_permissions
+from courses.messaging import (
+    list_mail_threads,
+    get_unread_thread_count,
+    is_unread,
+    update_last_viewed_timestamp,
+    post_message,
+)
 
 EditorialFile = namedtuple('EditorialFile', 'filename description')
 
@@ -77,7 +120,9 @@ class BaseCourseView(generic.View):
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         self.course = get_object_or_404(Course, pk=course_id)
-        self.permissions = calculate_course_permissions(self.course, request.user, Membership.objects.filter(course_id=course_id, user=request.user))
+        self.permissions = calculate_course_permissions(
+            self.course, request.user, Membership.objects.filter(course_id=course_id, user=request.user)
+        )
 
         if not self.is_allowed(self.permissions):
             raise PermissionDenied()
@@ -277,6 +322,7 @@ class CourseSubmissionView(BaseCourseView):
         context = self.get_context_data(solution_id=solution_id)
         return render(request, self.template_name, context)
 
+
 '''
 Problems
 '''
@@ -350,7 +396,8 @@ class CourseStatementMixin(object):
 
         if self.permissions.editorials:
             context['editorial_files'] = [
-                EditorialFile(prf.filename, prf.description) for prf in self.problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.SOLUTION_DESCRIPTION)
+                EditorialFile(prf.filename, prf.description)
+                for prf in self.problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.SOLUTION_DESCRIPTION)
             ]
 
         if simple_assignments:
@@ -524,6 +571,7 @@ class CriterionDeleteView(StaffMemberRequiredMixin, generic.View):
         if not course_list:
             criterion.delete()
         return redirect('courses:criterion_index')
+
 
 '''
 Solutions list
@@ -699,6 +747,7 @@ class CourseMyAttemptsView(BaseCourseView):
 
         return JsonResponse({'message': message})
 
+
 '''
 Messages
 '''
@@ -824,10 +873,11 @@ class CourseMessagesNewView(BaseCourseView):
     def _make_forms(self, data=None, files=None):
         if self.permissions.messages_send_any:
             problem_choices = make_problem_choices(self.course, full=True, empty_select=self.general_question)
+            person_choices = make_allusers_choices(self.get_user_cache(), empty_select=self.all_users)
         else:
             problem_choices = make_problem_choices(self.course, user_id=self.request.user.id, empty_select=self.general_question)
+            person_choices = None
 
-        person_choices = make_allusers_choices(self.get_user_cache(), empty_select=self.all_users) if self.permissions.messages_send_any else None
         thread_form = MailThreadForm(data=data, files=files, problem_choices=problem_choices, person_choices=person_choices)
 
         message_form = MailMessageForm(data=data, files=files)

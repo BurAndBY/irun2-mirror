@@ -10,16 +10,30 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
 from common.cacheutils import AllObjectsCache
-from proglangs.models import Compiler
 from problems.models import Problem
-
-from forms import TopicForm, ActivityForm, PropertiesForm, CompilersForm, CourseUsersForm, CourseCommonProblemsForm, SubgroupForm, AccessForm, \
-    QuizInstanceCreateForm, QuizInstanceUpdateForm, QueueForm
-from forms import TwoPanelUserMultipleChoiceField, TwoPanelProblemMultipleChoiceField
-from forms import create_member_subgroup_formset_class
-from models import Membership
+from proglangs.models import Compiler
 from quizzes.models import QuizInstance
-from views import BaseCourseView
+
+from courses.forms import (
+    AccessForm,
+    ActivityForm,
+    CompilersForm,
+    CourseCommonProblemsForm,
+    CourseUsersForm,
+    PropertiesForm,
+    QueueForm,
+    QuizInstanceCreateForm,
+    QuizInstanceUpdateForm,
+    SubgroupForm,
+    TopicForm,
+)
+from courses.forms import (
+    TwoPanelProblemMultipleChoiceField,
+    TwoPanelUserMultipleChoiceField,
+)
+from courses.forms import create_member_subgroup_formset_class
+from courses.models import Membership
+from courses.views import BaseCourseView
 
 
 class CourseSettingsView(BaseCourseView):
@@ -43,7 +57,7 @@ class CourseSettingsPropertiesView(CourseSettingsView):
         form = PropertiesForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses:course_settings_properties', course_id=course.id)
+            return redirect('courses:settings:properties', course_id=course.id)
 
         context = self.get_context_data(form=form, can_delete=True)
         return render(request, self.template_name, context)
@@ -63,7 +77,7 @@ class CourseSettingsAccessView(CourseSettingsView):
         form = AccessForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses:course_settings_access', course_id=course.id)
+            return redirect('courses:settings:access', course_id=course.id)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
@@ -88,10 +102,11 @@ class CourseSettingsCompilersView(CourseSettingsView):
         form = CompilersForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses:course_settings_compilers', course_id=course.id)
+            return redirect('courses:settings:compilers', course_id=course.id)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
+
 
 '''
 Users
@@ -106,7 +121,8 @@ class CourseSettingsUsersView(CourseSettingsView):
     template_name = 'courses/settings_users.html'
 
     def _make_view_model(self, role, name_singular, name_plural, url_pattern, data, subgroups):
-        queryset = Membership.objects.filter(course=self.course, role=role).select_related('user').order_by('user__last_name')
+        queryset = Membership.objects.filter(course=self.course, role=role).\
+            select_related('user').order_by('user__last_name')
         formset_class = create_member_subgroup_formset_class(subgroups)
         formset = formset_class(queryset=queryset, data=data, prefix=str(role))
         pairs = [UserFormPair(membership.user, form) for membership, form in zip(queryset, formset)]
@@ -116,8 +132,10 @@ class CourseSettingsUsersView(CourseSettingsView):
     def _make_view_models(self, data=None):
         subgroups = self.course.subgroup_set.all().order_by('id')
         return [
-            self._make_view_model(Membership.STUDENT, _('Student'), _('Students'), 'courses:course_settings_users_students', data, subgroups),
-            self._make_view_model(Membership.TEACHER, _('Teacher'), _('Teachers'), 'courses:course_settings_users_teachers', data, subgroups),
+            self._make_view_model(Membership.STUDENT, _('Student'), _('Students'),
+                                  'courses:settings:users_students', data, subgroups),
+            self._make_view_model(Membership.TEACHER, _('Teacher'), _('Teachers'),
+                                  'courses:settings:users_teachers', data, subgroups),
         ]
 
     def get(self, request, course):
@@ -131,7 +149,7 @@ class CourseSettingsUsersView(CourseSettingsView):
             with transaction.atomic():
                 for view_model in view_models:
                     view_model.formset.save()
-            return redirect('courses:course_settings_users', course.id)
+            return redirect('courses:settings:users', course.id)
 
         context = self.get_context_data(view_models=view_models)
         return render(request, self.template_name, context)
@@ -200,7 +218,7 @@ class CourseSettingsUsersCommonView(CourseSettingsView):
                         users_added += 1
 
             self._put_message(request, users_added, users_removed)
-            return redirect('courses:course_settings_users', course.id)
+            return redirect('courses:settings:users', course.id)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
@@ -230,19 +248,6 @@ class CourseSettingsUsersJsonListView(CourseSettingsView):
     def get(self, request, course, folder_id):
         users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
         return TwoPanelUserMultipleChoiceField.ajax(users)
-
-'''
-Subgroups
-'''
-
-
-class CourseSettingsSubgroupsView(CourseSettingsView):
-    subtab = 'subgroups'
-    template_name = 'courses/settings_subgroups.html'
-
-    def get(self, request, course):
-        context = self.get_context_data()
-        return render(request, self.template_name, context)
 
 
 '''
@@ -366,6 +371,8 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
 
     def _extra_form_kwargs(self):
         return {}
+
+
 '''
 Topics
 '''
@@ -374,7 +381,7 @@ Topics
 class TopicMixin(object):
     subtab = 'problems'
     form_class = TopicForm
-    list_url_name = 'courses:course_settings_problems'
+    list_url_name = 'courses:settings:problems'
 
     def _do_save(self, course, form, obj):
         target_num_problems = form.cleaned_data['num_problems']
@@ -432,7 +439,7 @@ class CourseSettingsCommonProblemsView(CourseSettingsView):
         if form.is_valid():
             with transaction.atomic():
                 form.save()
-            return redirect('courses:course_settings_problems', course_id=course.id)
+            return redirect('courses:settings:problems', course_id=course.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
@@ -442,6 +449,7 @@ class CourseSettingsProblemsJsonListView(CourseSettingsView):
         problems = Problem.objects.filter(folders__id=folder_id)
         return TwoPanelProblemMultipleChoiceField.ajax(problems)
 
+
 '''
 Sheet
 '''
@@ -450,7 +458,7 @@ Sheet
 class SheetMixin(object):
     subtab = 'sheet'
     form_class = ActivityForm
-    list_url_name = 'courses:course_settings_sheet'
+    list_url_name = 'courses:settings:sheet'
 
     def _extra_form_kwargs(self):
         return {'course_id': self.course.id}
@@ -503,7 +511,7 @@ Subgroups
 class SubroupMixin(object):
     subtab = 'subgroups'
     form_class = SubgroupForm
-    list_url_name = 'courses:course_settings_subgroups'
+    list_url_name = 'courses:settings:subgroups'
 
 
 class CourseSettingsSubgroupListView(SubroupMixin, CourseSettingsBaseListView):
@@ -538,6 +546,7 @@ class CourseSettingsDeleteView(CourseSettingsView):
         course.delete()
         return redirect('courses:index')
 
+
 '''
 Quizzes
 '''
@@ -545,7 +554,7 @@ Quizzes
 
 class QuizMixin(object):
     subtab = 'quizzes'
-    list_url_name = 'courses:course_settings_quizzes'
+    list_url_name = 'courses:settings:quizzes'
 
     def get_context_data(self, **kwargs):
         context = super(QuizMixin, self).get_context_data(**kwargs)
@@ -649,7 +658,7 @@ Electronic queue
 class QueueMixin(object):
     subtab = 'queues'
     form_class = QueueForm
-    list_url_name = 'courses:course_settings_queues'
+    list_url_name = 'courses:settings:queues'
 
 
 class CourseSettingsQueuesView(QueueMixin, CourseSettingsBaseListView):

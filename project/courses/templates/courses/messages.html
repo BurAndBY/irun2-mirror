@@ -52,7 +52,7 @@
                             {% if thread.person_id != None %}
                                 {% bootstrap_icon 'user' %}
                                 {% if permissions.assign %}
-                                    {% url 'courses:course_assignment' course.id thread.person_id as assign_url %}
+                                    {% url 'courses:assignment:index' course.id thread.person_id as assign_url %}
                                     {% irunner_courses_user_card thread.person_id user_cache url=assign_url %}
                                 {% else %}
                                     {% irunner_courses_user_card thread.person_id user_cache %}

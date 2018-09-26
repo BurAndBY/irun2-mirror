@@ -10,7 +10,7 @@
         <ul>
         {% for topic in object_list %}
             <li>
-                <a href="{% url 'courses:course_settings_topics_update' course.id topic.id %}">{{ topic.name }}</a>
+                <a href="{% url 'courses:settings:topics_update' course.id topic.id %}">{{ topic.name }}</a>
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Folder' %}</dt>
                     <dd>
@@ -39,7 +39,7 @@
         {% trans 'No topics' %}
     {% endif %}
     <p>
-        <a href="{% url 'courses:course_settings_topics_create' course.id %}">{% trans 'New topic' %}</a>
+        <a href="{% url 'courses:settings:topics_create' course.id %}">{% trans 'New topic' %}</a>
     </p>
 
     <h3>{% trans 'Common problems' %}</h3>
@@ -56,5 +56,5 @@
         {% endfor %}
     </ul>
 
-    <p><a href="{% url 'courses:course_settings_common_problems' course.id %}">{% trans 'Edit the list' %}</a></p>
+    <p><a href="{% url 'courses:settings:common_problems' course.id %}">{% trans 'Edit the list' %}</a></p>
 {% endblock %}

@@ -15,7 +15,7 @@
     <ul>
     {% for activity in main_activities %}
         <li>
-            <a href="{% url 'courses:course_settings_sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {% trans 'weight' %} <strong>{{ activity.weight }}</strong>: {{ activity.get_kind_display }}
+            <a href="{% url 'courses:settings:sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {% trans 'weight' %} <strong>{{ activity.weight }}</strong>: {{ activity.get_kind_display }}
         </li>
     {% endfor %}
     </ul>
@@ -26,13 +26,13 @@
     <ul>
     {% for activity in extra_activities %}
         <li>
-            <a href="{% url 'courses:course_settings_sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {{ activity.get_kind_display }}
+            <a href="{% url 'courses:settings:sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {{ activity.get_kind_display }}
         </li>
     {% endfor %}
     </ul>
 {% endif %}
 
 <p>
-    <a href="{% url 'courses:course_settings_sheet_activity_create' course.id %}">{% trans 'New kind of activity' %}</a>
+    <a href="{% url 'courses:settings:sheet_activity_create' course.id %}">{% trans 'New kind of activity' %}</a>
 </p>
 {% endblock %}

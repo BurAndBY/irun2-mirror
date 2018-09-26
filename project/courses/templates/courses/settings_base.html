@@ -9,31 +9,31 @@
 <div>
     <ul class="nav nav-tabs ir-nav-tabs-narrow">
         <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_properties' course.id %}">{% trans 'Properties' %}</a>
+            <a href="{% url 'courses:settings:properties' course.id %}">{% trans 'Properties' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'access' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_access' course.id %}">{% trans 'Access' %}</a>
+            <a href="{% url 'courses:settings:access' course.id %}">{% trans 'Access' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'problems' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_problems' course.id %}">{% trans 'Problems' %}</a>
+            <a href="{% url 'courses:settings:problems' course.id %}">{% trans 'Problems' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'compilers' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_compilers' course.id %}">{% trans 'Compilers' %}</a>
+            <a href="{% url 'courses:settings:compilers' course.id %}">{% trans 'Compilers' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'subgroups' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_subgroups' course.id %}">{% trans 'Subgroups' %}</a>
+            <a href="{% url 'courses:settings:subgroups' course.id %}">{% trans 'Subgroups' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'users' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_users' course.id %}">{% trans 'Users' %}</a>
+            <a href="{% url 'courses:settings:users' course.id %}">{% trans 'Users' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'sheet' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_sheet' course.id %}">{% trans 'Sheet' %}</a>
+            <a href="{% url 'courses:settings:sheet' course.id %}">{% trans 'Sheet' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'quizzes' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_quizzes' course.id %}">{% trans 'Quizzes' %}</a>
+            <a href="{% url 'courses:settings:quizzes' course.id %}">{% trans 'Quizzes' %}</a>
         </li>
         <li role="presentation"{% if active_subtab == 'queues' %} class="active"{% endif %}>
-            <a href="{% url 'courses:course_settings_queues' course.id %}">{% trans 'Queues' %}</a>
+            <a href="{% url 'courses:settings:queues' course.id %}">{% trans 'Queues' %}</a>
         </li>
     </ul>
 

@@ -39,7 +39,7 @@
     {% endif %}
 
     {% if permissions.assign %}
-        <a href="{% url 'courses:course_assignment_empty' course.id %}" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
+        <a href="{% url 'courses:assignment:empty' course.id %}" class="list-group-item{% if active_tab == 'assign' %} active{% endif %}">
             {% bootstrap_icon 'link' %}
             <span class="ir-icon-label">{% trans 'Assignment of problems' %}</span>
         </a>
@@ -102,7 +102,7 @@
     {% endif %}
 
     {% if permissions.settings %}
-        <a href="{% url 'courses:course_settings_properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
+        <a href="{% url 'courses:settings:properties' course.id %}" class="list-group-item{% if active_tab == 'settings' %} active{% endif %}">
             {% bootstrap_icon 'cog' %}
             <span class="ir-icon-label">{% trans 'Settings' %}</span>
         </a>

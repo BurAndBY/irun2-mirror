@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from datetime import timedelta
 
 from django.contrib import auth
 from django.db.models import F
-from django.utils.encoding import force_text, smart_text
+from django.utils.encoding import (
+    force_text,
+    python_2_unicode_compatible,
+    smart_text,
+)
 from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 from django.utils import timezone
@@ -15,39 +21,46 @@ from collections import namedtuple
 from common.constants import EMPTY_SELECT
 from common.outcome import Outcome
 from problems.models import Problem
-from solutions.models import Solution, Judgement
 from quizzes.models import QuizSession
+from solutions.models import Solution, Judgement
 
-from .activities import make_activity_result
-from .models import Assignment, Membership, ActivityRecord, AssignmentCriteriaIntermediate, Subgroup
+from courses.activities import make_activity_result
+from courses.models import (
+    ActivityRecord,
+    Assignment,
+    AssignmentCriteriaIntermediate,
+    Membership,
+    Subgroup,
+)
 
 '''
 Cache of Course Users
 '''
 
 
+@python_2_unicode_compatible
 class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup')):
-    def __unicode__(self):
+    def __str__(self):
         '''
         Returns a string in the form of 'name surname (subgroup)'.
         '''
         if self.subgroup:
-            return u'{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup.name)
+            return '{0} {1} ({2})'.format(self.first_name, self.last_name, self.subgroup.name)
         else:
-            return u'{0} {1}'.format(self.first_name, self.last_name)
+            return '{0} {1}'.format(self.first_name, self.last_name)
 
     def as_html(self):
         if self.subgroup:
-            return format_html(u'{0} <span class="ir-last-name">{1}</span> ({2})', self.first_name, self.last_name, self.subgroup.name)
+            return format_html('{0} <span class="ir-last-name">{1}</span> ({2})', self.first_name, self.last_name, self.subgroup.name)
         else:
-            return format_html(u'{0} <span class="ir-last-name">{1}</span>', self.first_name, self.last_name)
+            return format_html('{0} <span class="ir-last-name">{1}</span>', self.first_name, self.last_name)
 
     def get_full_name(self, last_name_first=False):
         if last_name_first:
             tokens = (self.last_name, self.first_name)
         else:
             tokens = (self.first_name, self.last_name)
-        return u' '.join(tokens).strip()
+        return ' '.join(tokens).strip()
 
 
 # 1-based number
@@ -118,6 +131,7 @@ class UserCache(object):
     def get_subgroup(self, subgroup_id):
         return self._subgroups.get(subgroup_id)
 
+
 '''
 Helpers to build <select> field with a list of problems.
 '''
@@ -175,7 +189,8 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
             builder.add(problem.folder_id, problem)
 
     if membership_id is not None:
-        for problem in Problem.objects.filter(assignment__membership_id=membership_id).annotate(folder_id=F('assignment__topic__problem_folder_id')):
+        for problem in Problem.objects.filter(assignment__membership_id=membership_id).\
+                annotate(folder_id=F('assignment__topic__problem_folder_id')):
             builder.add(problem.folder_id, problem)
 
     for problem in course.common_problems.all():
@@ -187,7 +202,7 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
 def make_student_choices(user_cache, empty_select=EMPTY_SELECT):
     data = [(None, empty_select)]
     for user_descr in user_cache.list_students():
-        data.append((unicode(user_descr.id), unicode(user_descr)))
+        data.append((force_text(user_descr.id), force_text(user_descr)))
     return tuple(data)
 
 
@@ -202,6 +217,7 @@ def make_allusers_choices(user_cache, empty_select=EMPTY_SELECT):
         tuple((smart_text(user_descr.id), smart_text(user_descr)) for user_descr in user_cache.list_teachers())
     ))
     return tuple(data)
+
 
 '''
 Attempt quota
@@ -234,6 +250,7 @@ def get_attempt_quota(course, user, problem_id):
         return AttemptQuotaInfo(0, times[-1] + timedelta(days=1))
     else:
         return AttemptQuotaInfo(course.attempts_a_day - len(times), None)
+
 
 '''
 Assigned problems
@@ -597,7 +614,10 @@ class UserResult(object):
         self.common_problem_results = [ProblemResult(problem) for problem in course_descr.common_problems]
         self.problem_solving_mark = ProblemSolvingMark(self.topic_results)
         self.quiz_results = {}
-        self.activity_results = [make_activity_result(activity, self.problem_solving_mark, self.quiz_results) for activity in course_descr.activities]
+        self.activity_results = [
+            make_activity_result(activity, self.problem_solving_mark, self.quiz_results)
+            for activity in course_descr.activities
+        ]
 
     def get_slot_results(self):
         for topic_result in self.topic_results:
@@ -619,9 +639,9 @@ class UserResult(object):
         try:
             idx = self.course_descr.subgroups.index(subgroup)
         except ValueError:
-            return u''
+            return ''
 
-        return unicode(idx + 1)
+        return force_text(idx + 1)
 
     def register_assignment(self, assignment, criterion_ids):
         if assignment.topic_id is not None:
@@ -654,13 +674,21 @@ class UserResult(object):
         raise ValueError('no slot result was found for assignment')
 
     def get_complete_main_problem_count(self):
-        return sum(sum(int(slot_result.is_complete()) for slot_result in topic_result.slot_results) for topic_result in self.topic_results)
+        return sum(
+            sum(int(slot_result.is_complete())
+                for slot_result in topic_result.slot_results)
+            for topic_result in self.topic_results
+        )
 
     def get_total_extra_problem_count(self):
         return sum(len(topic_result.penalty_problem_results) for topic_result in self.topic_results)
 
     def get_complete_extra_problem_count(self):
-        return sum(sum(int(slot_result.is_complete()) for slot_result in topic_result.penalty_problem_results) for topic_result in self.topic_results)
+        return sum(
+            sum(int(slot_result.is_complete())
+                for slot_result in topic_result.penalty_problem_results)
+            for topic_result in self.topic_results
+        )
 
     def get_problem_solving_mark(self):
         return self.problem_solving_mark.get_mark()

@@ -1,4 +1,5 @@
 import json
+from collections import namedtuple
 
 from django.core.urlresolvers import reverse
 from django.db import transaction
@@ -8,18 +9,29 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from rest_framework import status
 from rest_framework.views import APIView
-
-from common.networkutils import never_ever_cache
-from courses.views import BaseCourseView, UserCacheMixinMixin
-from quizzes.models import QuizInstance, QuizSession, SessionQuestionAnswer, Question
-from collections import namedtuple
-
 from rest_framework.response import Response
 
+from common.networkutils import never_ever_cache
+from quizzes.models import (
+    QuizInstance,
+    QuizSession,
+    SessionQuestionAnswer,
+)
 from quizzes.quizstructs import SaveAnswerMessage
-from quizzes.serializers import QuizAnswersDataSerializer, SaveAnswerMessageSerializer
-from quizzes.utils import create_session, finish_overdue_session, get_quiz_data, get_quiz_page_language_tags, \
-    finish_overdue_sessions, check_quiz_answers
+from quizzes.serializers import (
+    QuizAnswersDataSerializer,
+    SaveAnswerMessageSerializer,
+)
+from quizzes.utils import (
+    create_session,
+    finish_overdue_session,
+    get_quiz_data,
+    get_quiz_page_language_tags,
+    finish_overdue_sessions,
+    check_quiz_answers,
+)
+
+from courses.views import BaseCourseView, UserCacheMixinMixin
 
 QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_count sessions')
 SessionInfo = namedtuple('SessionInfo', 'session is_own result')

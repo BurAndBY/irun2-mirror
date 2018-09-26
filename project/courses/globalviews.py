@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from django.db import transaction
-from django.db.models import Count, F
+from django.db.models import Count
 from django.utils import timezone
 from django.views import generic
 from django.utils.encoding import smart_text
@@ -13,7 +13,12 @@ from cauth.mixins import (
 )
 from proglangs.models import Compiler
 
-from courses.models import Course, CourseStatus, Membership, MailThread, CourseSolution
+from courses.models import (
+    Course,
+    CourseSolution,
+    CourseStatus,
+    Membership,
+)
 from courses.forms import NewCourseForm
 from courses.utils import make_academic_year_string
 from courses.messaging import MessageCountManager

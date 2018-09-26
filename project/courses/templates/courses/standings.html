@@ -44,7 +44,7 @@
 
             <td class="text-nowrap">
                 {% if permissions.assign %}
-                    {% url 'courses:course_assignment' course.id user_result.user.id as assign_url %}
+                    {% url 'courses:assignment:index' course.id user_result.user.id as assign_url %}
                     {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
                 {% else %}
                     {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
@@ -122,7 +122,7 @@
                 </td>
                 <td class="text-nowrap">
                     {% if permissions.assign %}
-                        {% url 'courses:course_assignment' course.id user_result.user.id as assign_url %}
+                        {% url 'courses:assignment:index' course.id user_result.user.id as assign_url %}
                         {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
                     {% else %}
                         {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}

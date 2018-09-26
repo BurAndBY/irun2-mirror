@@ -18,7 +18,7 @@
             <tr>
                 <td>{% irunner_yesno queue.is_active %}</td>
                 <td>{% if queue.subgroup != None %}{{ queue.subgroup }}{% else %}&mdash;{% endif %}</td>
-                <td><a href="{% url 'courses:course_settings_queue_update' course.id queue.id %}">{{ queue }}</a></td>
+                <td><a href="{% url 'courses:settings:queue_update' course.id queue.id %}">{{ queue }}</a></td>
                 <td>{{ queue.num_entries }}</td>
             </tr>
         {% endfor %}
@@ -29,6 +29,6 @@
         </div>
     {% endif %}
     <p>
-        <a href="{% url 'courses:course_settings_queue_create' course.id %}">{% trans 'New queue' %}</a>
+        <a href="{% url 'courses:settings:queue_create' course.id %}">{% trans 'New queue' %}</a>
     </p>
 {% endblock %}

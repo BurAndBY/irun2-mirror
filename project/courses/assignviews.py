@@ -1,19 +1,24 @@
 from collections import namedtuple
 
-from django.db.models import F
 from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 
-from forms import AddExtraProblemSlotForm
-from models import Topic, Membership, Assignment, Slot
-from services import make_course_single_result
-
 from common.networkutils import never_ever_cache
 from problems.models import Problem
-from problems.views import ProblemStatementMixin
 
-from .views import BaseCourseView, UserCacheMixinMixin
+from courses.forms import AddExtraProblemSlotForm
+from courses.models import (
+    Assignment,
+    Membership,
+    Slot,
+    Topic,
+)
+from courses.views import (
+    BaseCourseView,
+    UserCacheMixinMixin,
+)
+from courses.services import make_course_single_result
 
 
 AssignmentDataRepresentation = namedtuple('AssignmentDataRepresentation', 'topic_reprs')
@@ -47,7 +52,7 @@ class BaseCourseMemberAssignView(UserCacheMixinMixin, BaseCourseAssignView):
     def dispatch(self, request, course_id, user_id, *args, **kwargs):
         membership = Membership.objects.filter(user_id=user_id, course_id=course_id, role=Membership.STUDENT).first()
         if membership is None:
-            return redirect('courses:course_assignment_empty', course_id)
+            return redirect('courses:assignment:empty', course_id)
         self.membership = membership
         return super(BaseCourseMemberAssignView, self).dispatch(request, course_id, membership, *args, **kwargs)
 
@@ -82,13 +87,13 @@ class CourseAssignCreatePenaltyProblem(BaseCourseMemberAssignView):
         if extra_form.is_valid():
             topic = extra_form.cleaned_data['penaltytopic']
             Assignment.objects.create(topic=topic, membership=membership)
-        return redirect('courses:course_assignment', course.id, membership.user_id)
+        return redirect('courses:assignment:index', course.id, membership.user_id)
 
 
 class CourseAssignDeletePenaltyProblem(BaseCourseMemberAssignView):
     def post(self, request, course, membership, assignment_id):
         Assignment.objects.filter(pk=assignment_id, membership=membership).delete()
-        return redirect('courses:course_assignment', course.id, membership.user_id)
+        return redirect('courses:assignment:index', course.id, membership.user_id)
 
 
 AssignmentData = namedtuple('AssignmentData', 'topic assignment')

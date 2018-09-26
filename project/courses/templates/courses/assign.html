@@ -31,7 +31,7 @@
         <div class="panel-body">
             <ul>
                 {% for user_descr in student_list %}
-                    {% url 'courses:course_assignment' course.id user_descr.id as assign_url %}
+                    {% url 'courses:assignment:index' course.id user_descr.id as assign_url %}
                     <li>{% irunner_courses_user_card user_descr.id user_cache url=assign_url %}</li>
                 {% endfor %}
             </ul>
@@ -69,7 +69,7 @@
                                         <button type="button" class="btn btn-default btn-sm ir-cancel-button">{% trans 'Cancel' %}</button>
                                     </p>
                                     {% if slot_result.is_penalty %}
-                                        <form method="post" action="{% url 'courses:course_assignment_delete_penalty' course.id current_student.id slot_result.assignment.id %}">
+                                        <form method="post" action="{% url 'courses:assignment:delete_penalty' course.id current_student.id slot_result.assignment.id %}">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 {% trans 'Remove extra problem' %}
@@ -97,7 +97,7 @@
 
     <div class="panel-collapse collapse" id="penalty">
         <div class="panel-body">
-            <form method="post" action="{% url 'courses:course_assignment_new_penalty' course.id current_student.id %}" class="form-horizontal">
+            <form method="post" action="{% url 'courses:assignment:new_penalty' course.id current_student.id %}" class="form-horizontal">
                 {% csrf_token %}
                 {% bootstrap_form extra_form layout='horizontal' %}
                 {% buttons layout='horizontal' %}

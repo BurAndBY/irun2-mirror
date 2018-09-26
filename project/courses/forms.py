@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from django import forms
 from django.contrib import auth
 from django.utils import timezone
@@ -14,12 +16,26 @@ from common.mptt_fields import OrderedTreeNodeChoiceField
 import common.widgets
 import solutions.forms
 
-from .models import Topic, Course, Activity, Assignment, ActivityRecord, Subgroup, Membership, MailThread, MailMessage, Queue, QueueEntry
-from courses.utils import make_year_of_study_string, make_academic_year_string
+from courses.models import (
+    Activity,
+    ActivityRecord,
+    Assignment,
+    Course,
+    MailMessage,
+    MailThread,
+    Membership,
+    Queue,
+    QueueEntry,
+    Subgroup,
+    Topic,
+)
+from courses.utils import (
+    make_year_of_study_string, make_academic_year_string
+)
 
 
 def make_year_of_study_choices():
-    return [(unicode(), unicode())] + [
+    return [('', '')] + [
         (year, make_year_of_study_string(year))
         for year in xrange(1, 7)
     ]
@@ -28,15 +44,17 @@ def make_year_of_study_choices():
 def make_academic_year_choices():
     cur_year = timezone.now().date().year
 
-    return [(unicode(), unicode())] + [
+    return [('', '')] + [
         (year, make_academic_year_string(year))
         for year in xrange(2004, cur_year + 2)
     ]
 
 
 class NewCourseForm(forms.ModelForm):
-    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False, choices=make_year_of_study_choices, coerce=int, empty_value=None)
-    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False, choices=make_academic_year_choices, coerce=int, empty_value=None)
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False,
+                                           choices=make_academic_year_choices, coerce=int, empty_value=None)
 
     class Meta:
         model = Course
@@ -44,8 +62,10 @@ class NewCourseForm(forms.ModelForm):
 
 
 class PropertiesForm(forms.ModelForm):
-    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False, choices=make_year_of_study_choices, coerce=int, empty_value=None)
-    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False, choices=make_academic_year_choices, coerce=int, empty_value=None)
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+    academic_year = forms.TypedChoiceField(label=_('Academic year'), required=False,
+                                           choices=make_academic_year_choices, coerce=int, empty_value=None)
 
     class Meta:
         model = Course
@@ -75,7 +95,8 @@ class CompilersForm(forms.ModelForm):
 
 class TopicForm(forms.ModelForm):
     problem_folder = OrderedTreeNodeChoiceField(label=_('Problem folder'), queryset=None)
-    num_problems = forms.IntegerField(label=_('Problems to assign per student in the course'), min_value=0, max_value=10, initial=1)
+    num_problems = forms.IntegerField(label=_('Problems to assign per student in the course'),
+                                      min_value=0, max_value=10, initial=1)
 
     class Meta:
         model = Topic
@@ -109,7 +130,7 @@ class SubgroupForm(forms.ModelForm):
         model = Subgroup
         fields = ['name']
         help_texts = {
-            'name': _(u'Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’.')
+            'name': _('Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’.')
         }
 
 
@@ -156,7 +177,7 @@ class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
 class CourseUsersForm(forms.Form):
     users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
                                             model=auth.get_user_model(), folder_model=UserFolder,
-                                            url_pattern='courses:course_settings_users_json_list')
+                                            url_pattern='courses:settings:users_json_list')
 
 
 class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
@@ -168,7 +189,7 @@ class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
 class CourseCommonProblemsForm(forms.ModelForm):
     common_problems = TwoPanelProblemMultipleChoiceField(label=_('Problems'), required=False,
                                                          model=Problem, folder_model=ProblemFolder,
-                                                         url_pattern='courses:course_settings_problems_json_list')
+                                                         url_pattern='courses:settings:problems_json_list')
 
     class Meta:
         model = Course
@@ -195,7 +216,8 @@ class SolutionListUserForm(forms.Form):
     def __init__(self, *args, **kwargs):
         user_choices = kwargs.pop('user_choices')
         super(SolutionListUserForm, self).__init__(*args, **kwargs)
-        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=False)
+        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices,
+                                                     coerce=int, empty_value=None, required=False)
         self.fields['user'].widget.attrs['class'] = 'form-control'
 
 
@@ -203,7 +225,8 @@ class SolutionListProblemForm(forms.Form):
     def __init__(self, *args, **kwargs):
         problem_choices = kwargs.pop('problem_choices')
         super(SolutionListProblemForm, self).__init__(**kwargs)
-        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int, empty_value=None, required=False)
+        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices,
+                                                        coerce=int, empty_value=None, required=False)
         self.fields['problem'].widget.attrs['class'] = 'form-control'
 
 
@@ -285,6 +308,7 @@ class MailMessageForm(forms.ModelForm):
 class MailResolvedForm(forms.Form):
     resolved = forms.BooleanField(required=False)
 
+
 '''
 Queues
 '''
@@ -301,7 +325,12 @@ class QueueForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         course = kwargs.pop('course')
         super(QueueForm, self).__init__(*args, **kwargs)
-        self.fields['subgroup'] = forms.ModelChoiceField(label=_('Subgroup'), queryset=Subgroup.objects.filter(course=course), empty_label=EMPTY_SELECT, required=False)
+        self.fields['subgroup'] = forms.ModelChoiceField(
+            label=_('Subgroup'),
+            queryset=Subgroup.objects.filter(course=course),
+            empty_label=EMPTY_SELECT,
+            required=False
+        )
 
 
 class QueueEntryForm(forms.ModelForm):
@@ -312,4 +341,5 @@ class QueueEntryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user_choices = kwargs.pop('user_choices')
         super(QueueEntryForm, self).__init__(*args, **kwargs)
-        self.fields['user_id'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=True)
+        self.fields['user_id'] = forms.TypedChoiceField(label=_('User'), choices=user_choices,
+                                                        coerce=int, empty_value=None, required=True)

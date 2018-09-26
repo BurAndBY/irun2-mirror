@@ -6,7 +6,7 @@
 
 {% block submain %}
     <div class="form-group">
-        <a href="{% url 'courses:course_settings_quizzes_create' course.id %}" class="btn btn-default">
+        <a href="{% url 'courses:settings:quizzes_create' course.id %}" class="btn btn-default">
             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New quiz' %}</span>
         </a>
     </div>
@@ -36,7 +36,7 @@
                                 {% for field in form %}{{ field }}{% endfor %}
                             </td>
                             <td>
-                                <a class="btn btn-xs btn-default" href="{% url 'courses:course_settings_quizzes_update' course.id instance.id %}">
+                                <a class="btn btn-xs btn-default" href="{% url 'courses:settings:quizzes_update' course.id instance.id %}">
                                     {% bootstrap_icon 'pencil' %}
                                     <span class="ir-icon-label">{% trans 'Edit' %}</span>
                                 </a>

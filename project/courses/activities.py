@@ -2,7 +2,10 @@ from __future__ import unicode_literals
 
 from django.utils.encoding import smart_text
 
-from .models import Activity, ActivityRecord
+from courses.models import (
+    Activity,
+    ActivityRecord
+)
 
 
 class ActivityResult(object):
