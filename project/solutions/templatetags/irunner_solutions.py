@@ -6,6 +6,7 @@ import uuid
 
 from django import template
 from django.utils.encoding import smart_text
+from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
@@ -149,7 +150,7 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
             else:
                 contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
 
-    return '<div class="{0}">{1}</div>'.format(' '.join(classes), contents)
+    return mark_safe('<div class="{0}">{1}</div>'.format(' '.join(classes), contents))
 
 
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')

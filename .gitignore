@@ -1,5 +1,6 @@
 *.py[co]
 *.sqlite3
 /venv/
+/venv3/
 /filestorage/
 /iprinter/printouts

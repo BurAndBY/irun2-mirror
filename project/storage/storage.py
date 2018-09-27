@@ -9,9 +9,10 @@ import six
 import sys
 import tempfile
 
+from wsgiref.util import FileWrapper
+
 from django.conf import settings
 from django.core.files.base import File
-from django.core.servers.basehttp import FileWrapper
 from django.db import models
 from django.utils.encoding import force_text, python_2_unicode_compatible
 

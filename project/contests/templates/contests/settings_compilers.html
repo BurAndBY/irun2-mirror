@@ -26,7 +26,7 @@
                     <div class="checkbox">
                         <label>
                             {{ checkbox.tag }}
-                            {% irunner_cache_lookup compiler_cache checkbox.choice_value as compiler %}
+                            {% irunner_cache_lookup compiler_cache checkbox.data.value as compiler %}
                             {% irunner_proglangs_compilerbox compiler tooltip=False %} <span{% if not compiler.default_for_contests %} class="ir-compiler-legacy"{% endif %}>{{ checkbox.choice_label }}</span>
                         </label>
                     </div>

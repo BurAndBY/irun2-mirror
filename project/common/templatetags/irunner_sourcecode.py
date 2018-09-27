@@ -8,6 +8,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.util import ClassNotFound
 
 from django import template
+from django.utils.html import mark_safe
 
 from common.highlight import get_highlight_style
 
@@ -20,7 +21,7 @@ def irunner_sourcecode_css(context):
     formatter = HtmlFormatter(style=style)
     styles = formatter.get_style_defs('.ir-pygments .code pre')
 
-    return '<style type="text/css">{0}</style>'.format(styles)
+    return mark_safe('<style type="text/css">{0}</style>'.format(styles))
 
 
 @register.simple_tag(takes_context=False)
@@ -40,4 +41,4 @@ def irunner_sourcecode(code, language, hrefs=False):
 
     result = highlight(code, lexer, formatter)
 
-    return '<div class="ir-pygments codehilite">{0}</div>'.format(result)
+    return mark_safe('<div class="ir-pygments codehilite">{0}</div>'.format(result))

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
+from django.utils.html import mark_safe
 
 register = template.Library()
 
@@ -30,4 +31,4 @@ def irunner_plagiarism_box(aggregated_result, solution_id):
 @register.simple_tag(takes_context=False)
 def irunner_plagiarism_csscolor(x):
     x = min(max(x, 0.0), 1.0)
-    return 'hsl(0, {0}%, 50%)'.format(round(x * 100))
+    return mark_safe('hsl(0, {0}%, 50%)'.format(round(x * 100)))
