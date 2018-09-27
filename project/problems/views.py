@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import json
 import mimetypes
 import operator
@@ -270,7 +272,7 @@ class ProblemSolutionsProcessView(BaseProblemView):
             for solution in solutions:
                 blob, is_complete = storage.read_blob(solution.source_code.resource_id, max_size=max_size)
                 if is_complete:
-                    fn = u'{0}/{1}'.format(solution.id, solution.source_code.filename)
+                    fn = '{0}/{1}'.format(solution.id, solution.source_code.filename)
                     zf.writestr(fn, blob)
 
         # Grab ZIP file from in-memory, make response with correct MIME-type
@@ -624,11 +626,11 @@ class ProblemTestsTestEditView(BaseProblemView):
             if name:
                 names.append(name)
         if names:
-            message += u' '
+            message += ' '
             message += unicode(_('Changes:'))
-            message += u' '
-            message += u', '.join(unicode(name) for name in names)
-            message += u'.'
+            message += ' '
+            message += ', '.join(unicode(name) for name in names)
+            message += '.'
         return message
 
     def post(self, request, problem_id, test_number):
@@ -1301,7 +1303,7 @@ def get_tex_preview(form, problem=None):
     else:
         log_lines = []
         for field, errors in form.errors.items():
-            log_lines.extend(u'— {0}'.format(e) for e in errors)
+            log_lines.extend('— {0}'.format(e) for e in errors)
         result['log'] = '\n'.join(log_lines)
     return result
 
@@ -1388,7 +1390,7 @@ class BaseProblemTeXNewView(BaseProblemView):
     file_type = None
 
     def get_initial_data(self, problem):
-        return u''
+        return ''
 
     def _make_tex_context(self, problem, form, meta_form):
         context = self._make_context(problem)
@@ -1741,13 +1743,13 @@ class ProblemChallengeView(BaseProblemView):
             representation = storage.represent(resource_id, limit=self.max_bytes, max_lines=self.max_lines)
             solutions = outputs[resource_id]
             percent = 100 * len(solutions) // num_solutions
-            filename = u'challenge-{0}-output-{1:02}'.format(challenge.id, i + 1)
+            filename = 'challenge-{0}-output-{1:02}'.format(challenge.id, i + 1)
             results.append(ChallengeOutput(resource_id, representation, solutions, percent, filename))
 
         progress_url = reverse('problems:challenge_status_json', kwargs={'problem_id': problem.id, 'challenge_id': challenge.id})
         context = self._make_context(problem, {
             'input_repr': input_repr,
-            'input_filename': u'challenge-{0}-input'.format(challenge.id),
+            'input_filename': 'challenge-{0}-input'.format(challenge.id),
             'challenge': challenge,
             'outputs': results,
             'stats': fetch_challenge_stats(problem.id, challenge.id),

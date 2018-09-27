@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -67,9 +69,9 @@ class Contest(models.Model):
     compilers = models.ManyToManyField(Compiler, blank=True)
     problems = models.ManyToManyField(Problem, blank=True, through='ContestProblem')
     statements = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL)
-    unauthorized_access = models.IntegerField(_(u'access for unauthorized users'),
+    unauthorized_access = models.IntegerField(_('access for unauthorized users'),
                                               choices=UnauthorizedAccessLevel.CHOICES, default=UnauthorizedAccessLevel.NO_ACCESS)
-    contestant_own_solutions_access = models.IntegerField(_(u'contestant’s access to his own solutions'),
+    contestant_own_solutions_access = models.IntegerField(_('contestant’s access to his own solutions'),
                                                           choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS)
     attempt_limit = models.PositiveIntegerField(_('maximum number of attempts per problem'), default=100)
     file_size_limit = models.PositiveIntegerField(_('maximum solution file size (bytes)'), default=65536)

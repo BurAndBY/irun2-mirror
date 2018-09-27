@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -56,16 +58,16 @@ class Problem(models.Model):
 
     def get_formatted_number(self):
         if self.number is None:
-            return u''
+            return ''
         if self.subnumber is None:
-            return u'{0}'.format(self.number)
+            return '{0}'.format(self.number)
         else:
-            return u'{0}.{1}'.format(self.number, self.subnumber)
+            return '{0}.{1}'.format(self.number, self.subnumber)
 
     def _numbered_name(self, name):
         if self.number is not None:
             if name:
-                return u'{0}. {1}'.format(self.get_formatted_number(), name)
+                return '{0}. {1}'.format(self.get_formatted_number(), name)
             else:
                 return self.get_formatted_number()
         else:
@@ -77,7 +79,7 @@ class Problem(models.Model):
     def numbered_full_name_difficulty(self):
         result = self.numbered_full_name()
         if self.difficulty is not None:
-            return u'[{0}] {1}'.format(self.difficulty, result)
+            return '[{0}] {1}'.format(self.difficulty, result)
         else:
             return result
 

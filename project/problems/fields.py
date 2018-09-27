@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import six
 
 from django import forms
@@ -18,7 +20,7 @@ class FloatStoredAsIntField(forms.FloatField):
         value = super(FloatStoredAsIntField, self).prepare_value(value)
         if isinstance(value, six.integer_types):
             if value == 0:
-                return u''
+                return ''
             if value % self.int_to_float_ratio == 0:
                 return value // self.int_to_float_ratio
             else:

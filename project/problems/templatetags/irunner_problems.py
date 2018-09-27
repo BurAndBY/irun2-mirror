@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django import template
 from django.utils.formats import number_format
 from django.utils.translation import ugettext as _
@@ -20,7 +22,7 @@ def irunner_problems_statement(statement, letter=None):
 
 
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
-def irunner_problems_list(problems, pagination_context=None, show_checkbox=False, query_string=u''):
+def irunner_problems_list(problems, pagination_context=None, show_checkbox=False, query_string=''):
     manager = ProblemInfoManager(problems)
     return {
         'problems': problems,
@@ -94,7 +96,7 @@ class Bounds(object):
                         })
         elif self.default_value is not None:
             tokens.append(formatter(self.default_value))
-        return u', '.join(tokens)
+        return ', '.join(tokens)
 
 from collections import namedtuple
 

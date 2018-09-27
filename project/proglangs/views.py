@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.views.generic import ListView, CreateView, UpdateView
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
@@ -39,5 +41,5 @@ class UpdateCompilerView(StaffMemberRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateCompilerView, self).get_context_data(**kwargs)
-        context['page_title'] = u'{0} {1} ({2})'.format(_('Compiler'), self.object.handle, self.object.description)
+        context['page_title'] = '{0} {1} ({2})'.format(_('Compiler'), self.object.handle, self.object.description)
         return context

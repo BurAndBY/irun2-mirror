@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from .models import Problem, ProblemFolder
 
 from common.folderutils import ROOT, cast_id
@@ -7,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 
-PARAM = u'nav-folder'
+PARAM = 'nav-folder'
 
 
 def _create_query_string(params):
@@ -82,7 +84,7 @@ class Navigator(object):
         self.impl = init(problem_id, request_get)
 
     def query_string(self):
-        return u'' if self.impl is None else self.impl.get_query_string()
+        return '' if self.impl is None else self.impl.get_query_string()
 
     def query_params(self):
         return [] if self.impl is None else self.impl.iterate_query_params()

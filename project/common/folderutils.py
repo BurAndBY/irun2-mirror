@@ -1,9 +1,11 @@
+from __future__ import unicode_literals
+
 import json
 from collections import namedtuple
 
 from django.http import Http404
 
-ROOT = u'root'
+ROOT = 'root'
 
 # id may be integer (then object is not None) or ROOT (the object is None)
 NodeEx = namedtuple('NodeEx', 'object folder_id')

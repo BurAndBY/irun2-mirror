@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from collections import namedtuple
 
 from django.utils import timezone
@@ -18,7 +20,7 @@ from .utils.types import SolutionKind
 
 LabeledProblem = namedtuple('LabeledProblem', 'letter problem stats')
 
-LETTERS = u'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 RECENT_CHANGES_WINDOW = timezone.timedelta(minutes=30)
 
 
@@ -29,12 +31,12 @@ def make_letter(x):
         x //= len(LETTERS)
         if x == 0:
             break
-    return u''.join(reversed(result))
+    return ''.join(reversed(result))
 
 
 def make_lettered_name(letter, name):
     if name:
-        return u'{0}: {1}'.format(letter, name)
+        return '{0}: {1}'.format(letter, name)
     else:
         return letter
 
@@ -350,18 +352,18 @@ class ACMProblemResult(ProblemResultBase):
         return False
 
     def as_html(self):
-        result = u''
+        result = ''
         if self._kind == SolutionKind.ACCEPTED:
-            number = u'+' if self._num_submissions == 1 else u'+{0}'.format(self._num_submissions - 1)
+            number = '+' if self._num_submissions == 1 else '+{0}'.format(self._num_submissions - 1)
             hours, minutes = divmod(self._acceptance_time, 60)
-            result = u'<span class="ir-accepted">{0}</span><br><span class="ir-ts">{1}:{2:02d}</span>'.format(number, hours, minutes)
+            result = '<span class="ir-accepted">{0}</span><br><span class="ir-ts">{1}:{2:02d}</span>'.format(number, hours, minutes)
         elif self._kind == SolutionKind.PENDING:
-            result = u'<span class="ir-pending">?{0}</span>'.format(self._num_submissions)
+            result = '<span class="ir-pending">?{0}</span>'.format(self._num_submissions)
         elif self._kind == SolutionKind.REJECTED:
             if self._num_submissions == 0:
-                result = u'.'
+                result = '.'
             else:
-                result = u'<span class="ir-rejected">−{0}</span>'.format(self._num_submissions)
+                result = '<span class="ir-rejected">−{0}</span>'.format(self._num_submissions)
         return mark_safe(result)
 
 
@@ -382,14 +384,14 @@ class IOIProblemResult(ProblemResultBase):
 
     def as_html(self):
         if self._score is None:
-            result = u'.'
+            result = '.'
         else:
             if self._max_score == 0:
-                result = u'{0}'.format(self._score)
+                result = '{0}'.format(self._score)
             elif self._score == self._max_score:
-                result = u'<span class="ir-accepted">{0}</span>'.format(self._score)
+                result = '<span class="ir-accepted">{0}</span>'.format(self._score)
             else:
-                result = u'<span class="ir-rejected">{0}</span>'.format(self._score)
+                result = '<span class="ir-rejected">{0}</span>'.format(self._score)
         return mark_safe(result)
 
 

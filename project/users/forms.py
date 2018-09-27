@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import os
 import zipfile
 
@@ -41,20 +43,20 @@ class CreateUserForm(UserCreationForm):
 
 class CreateUsersMassForm(forms.Form):
     MODE_CHOICES = (
-        ('students', _(u'Students: “[username] [last name] [first name]” or “[username] [last name] [first name] [patronymic]”')),
-        ('acm', _(u'Teams: “[username] [team name]”')),
+        ('students', _('Students: “[username] [last name] [first name]” or “[username] [last name] [first name] [patronymic]”')),
+        ('acm', _('Teams: “[username] [team name]”')),
     )
 
     mode = forms.ChoiceField(label=_('Mode'), choices=MODE_CHOICES)
     tsv = forms.CharField(widget=forms.Textarea, required=True,
                           label=_('Data about users'),
-                          help_text=_(u'Enter lines in the given format.'))
+                          help_text=_('Enter lines in the given format.'))
     password = forms.CharField(required=True, label=_('Password'))
 
     def _parse_user_line(self, line, mode, number):
-        first_name = u''
-        last_name = u''
-        patronymic = u''
+        first_name = ''
+        last_name = ''
+        patronymic = ''
 
         if mode == 'students':
             tokens = line.split()
@@ -63,7 +65,7 @@ class CreateUsersMassForm(forms.Form):
             elif len(tokens) == 4:
                 username, last_name, first_name, patronymic = tokens
             else:
-                raise forms.ValidationError(_(u'Line %(number)s does not match the template.'),
+                raise forms.ValidationError(_('Line %(number)s does not match the template.'),
                                             code='tokens', params={'number': number + 1})
         elif mode == 'acm':
             tokens = line.split(None, 1)
@@ -93,7 +95,7 @@ class CreateUsersMassForm(forms.Form):
                     continue
                 user, userprofile = self._parse_user_line(line, mode, number)
                 if user.username in usernames:
-                    raise forms.ValidationError(_(u'User “%(username)s” is listed more than once.'),
+                    raise forms.ValidationError(_('User “%(username)s” is listed more than once.'),
                                                 code='duplicate', params={'username': user.username})
                 usernames.add(user.username)
                 pairs.append((user, userprofile))
@@ -106,7 +108,7 @@ class CreateUsersMassForm(forms.Form):
 
                     userprofile.full_clean(exclude=['user'])
                 except forms.ValidationError as e:
-                    errors.append(forms.ValidationError(u'{0}: {1}'.format(user.username, u' '.join(e.messages))))
+                    errors.append(forms.ValidationError('{0}: {1}'.format(user.username, ' '.join(e.messages))))
             if errors:
                 raise forms.ValidationError(errors)
             cleaned_data['pairs'] = pairs
@@ -125,7 +127,7 @@ class UpdateProfileMassForm(forms.Form):
     field = forms.ChoiceField(label=_('Field to update'), choices=FIELD_CHOICES)
     tsv = forms.CharField(widget=forms.Textarea, required=True,
                           label=_('Data about users'),
-                          help_text=_(u'Enter lines in the format of “[username] [value]”.'))
+                          help_text=_('Enter lines in the format of “[username] [value]”.'))
 
     def __init__(self, *args, **kwargs):
         self.folder_id = kwargs.pop('folder_id', None)
@@ -142,7 +144,7 @@ class UpdateProfileMassForm(forms.Form):
                 continue
             tokens = line.split(None, 1)
             if len(tokens) != 2:
-                raise forms.ValidationError(_(u'Line %(number)s does not match the template.'),
+                raise forms.ValidationError(_('Line %(number)s does not match the template.'),
                                             code='tokens', params={'number': number + 1})
             username, value = tokens
 
@@ -152,7 +154,7 @@ class UpdateProfileMassForm(forms.Form):
 
             user_id = qs.values_list('id', flat=True).first()
             if user_id is None:
-                raise forms.ValidationError(_(u'User “%(username)s” does not exist.'),
+                raise forms.ValidationError(_('User “%(username)s” does not exist.'),
                                             code='not_exists', params={'username': username})
             pairs.append((user_id, value))
 
@@ -218,6 +220,7 @@ class MoveUsersForm(forms.Form):
         super(MoveUsersForm, self).__init__(*args, **kwargs)
         self.fields['folder'].queryset = UserFolder.objects.all()
 
+
 '''
 User search
 '''
@@ -275,6 +278,7 @@ class UserProfileForm(forms.ModelForm):
             'kind': forms.RadioSelect
         }
 
+
 '''
 User profile: permissions
 '''
@@ -298,7 +302,7 @@ Photos
 
 
 class PhotoForm(forms.Form):
-    upload = forms.FileField(label=_('Photo'), required=False, help_text=_(u'Select JPEG image.'))
+    upload = forms.FileField(label=_('Photo'), required=False, help_text=_('Select JPEG image.'))
 
     def clean(self):
         cleaned_data = super(PhotoForm, self).clean()

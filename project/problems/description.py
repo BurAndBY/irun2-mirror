@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import re
 from collections import namedtuple
 
@@ -7,6 +9,7 @@ REGEX = re.compile(r'\$\{image:(?P<filename>[\w\.-]+)\}')
 class IDescriptionImageLoader(object):
     def get_image_list(self):
         raise NotImplementedError()
+
 
 RenderResult = namedtuple('RenderResult', 'text images')
 
@@ -33,4 +36,4 @@ def render_description(text, image_loader):
 
     portions.append(text[last_start:])
 
-    return RenderResult(u''.join(portions).strip(), images)
+    return RenderResult(''.join(portions).strip(), images)

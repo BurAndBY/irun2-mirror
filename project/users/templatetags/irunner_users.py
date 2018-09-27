@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django import template
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
@@ -18,7 +20,7 @@ def irunner_users_card(user):
     user_name = user.get_full_name()
 
     return format_html(
-        u'<a tabindex="0" class="ir-card-link ir-card-link-nohref" role="button" data-poload="{0}">{1}</a>',
+        '<a tabindex="0" class="ir-card-link ir-card-link-nohref" role="button" data-poload="{0}">{1}</a>',
         card_url,
         user_name
     )

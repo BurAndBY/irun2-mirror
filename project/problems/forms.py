@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import zipfile
 
 from django import forms
@@ -196,8 +198,8 @@ class ProblemRelatedSourceFileNewForm(ProblemRelatedSourceFileForm):
 
 class ProblemTestArchiveUploadForm(forms.Form):
     ARCHIVE_SCHEME_CHOICES = (
-        ('/a', u'X / X.a'),
-        ('in/out', u'X.in / X.out'),
+        ('/a', 'X / X.a'),
+        ('in/out', 'X.in / X.out'),
     )
 
     upload = forms.FileField(label=_('ZIP-archive'), required=True, widget=forms.FileInput,

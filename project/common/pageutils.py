@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import InvalidPage, Paginator
 from django.http import Http404
@@ -151,7 +153,7 @@ class IRunnerPaginator(object):
             try:
                 page = paginator.page(page_number)
             except InvalidPage as e:
-                raise Http404(u'Invalid page (%(page_number)s): %(message)s' % {
+                raise Http404('Invalid page (%(page_number)s): %(message)s' % {
                     'page_number': page_number,
                     'message': unicode(e)
                 })

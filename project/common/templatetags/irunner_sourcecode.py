@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -18,7 +20,7 @@ def irunner_sourcecode_css(context):
     formatter = HtmlFormatter(style=style)
     styles = formatter.get_style_defs('.ir-pygments .code pre')
 
-    return u'<style type="text/css">{0}</style>'.format(styles)
+    return '<style type="text/css">{0}</style>'.format(styles)
 
 
 @register.simple_tag(takes_context=False)
@@ -38,4 +40,4 @@ def irunner_sourcecode(code, language, hrefs=False):
 
     result = highlight(code, lexer, formatter)
 
-    return u'<div class="ir-pygments codehilite">{0}</div>'.format(result)
+    return '<div class="ir-pygments codehilite">{0}</div>'.format(result)

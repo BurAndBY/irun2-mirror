@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -15,12 +17,12 @@ def get_full_name(root, language):
     for name in root.findall('names/name'):
         if name.attrib['language'] == language:
             return name.attrib['value']
-    return u''
+    return ''
 
 
 def parse_input_output_file(name):
     if name in (None, 'stdin', 'stdout'):
-        return u''
+        return ''
     return name
 
 

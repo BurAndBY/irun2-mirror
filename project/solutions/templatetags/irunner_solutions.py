@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import uuid
 
 from django import template
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from common.constants import ACCEPTED_FOR_TESTING
 from common.outcome import Outcome
 from solutions.models import Judgement
 from solutions.permissions import SolutionPermissions
@@ -32,7 +33,7 @@ ONE_LETTER_STATUS_CODES = {
     Judgement.TESTING: 'T',
 }
 
-ELLIPSIS = u'…'
+ELLIPSIS = '…'
 
 
 def _get_style(outcome, code):
@@ -97,7 +98,7 @@ def _find_in_choices(choices, what):
     for pair in choices:
         if pair[0] == what:
             return pair[1]
-    return u''
+    return ''
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
@@ -143,9 +144,9 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
             contents = '&nbsp;'
         else:
             if judgement.score == judgement.max_score:
-                contents = u'{0}'.format(judgement.score)
+                contents = '{0}'.format(judgement.score)
             else:
-                contents = u'{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
+                contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
 
     return '<div class="{0}">{1}</div>'.format(' '.join(classes), contents)
 
