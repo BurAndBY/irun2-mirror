@@ -5,12 +5,32 @@ from django.utils import timezone
 from django.db import transaction
 
 from common.outcome import Outcome
-from problems.models import Validation, TestCaseValidation, ProblemRelatedSourceFile, TestCase, ProblemExtraInfo
+from problems.models import (
+    ProblemExtraInfo,
+    ProblemRelatedSourceFile,
+    TestCase,
+    TestCaseValidation,
+    Validation,
+)
 from proglangs.models import Compiler
-from solutions.models import Judgement, TestCaseResult, JudgementExtraInfo, JudgementLog, Challenge, ChallengedSolution
+from solutions.models import (
+    Judgement,
+    TestCaseResult,
+    JudgementExtraInfo,
+    JudgementLog,
+    ChallengedSolution,
+)
 
-from .models import DbObjectInQueue
-from .workerstructs import WorkerTestingJob, WorkerTestCase, WorkerProblem, WorkerFile, WorkerChecker, WorkerValidator, WorkerState
+from api.models import DbObjectInQueue
+from api.workerstructs import (
+    WorkerChecker,
+    WorkerFile,
+    WorkerProblem,
+    WorkerState,
+    WorkerTestCase,
+    WorkerTestingJob,
+    WorkerValidator,
+)
 
 
 class IObjectInQueue(object):
@@ -219,7 +239,8 @@ class JudgementInQueue(IObjectInQueue):
         JudgementLog.objects.bulk_create(report.logs)
 
     def update_state(self, state):
-        Judgement.objects.filter(pk=self._judgement_id).exclude(status=Judgement.DONE).update(status=state.status, test_number=state.test_number)
+        Judgement.objects.filter(pk=self._judgement_id).exclude(status=Judgement.DONE).\
+            update(status=state.status, test_number=state.test_number)
 
         if state.status == Judgement.PREPARING:
             JudgementExtraInfo.objects.filter(pk=self._judgement_id).update(start_testing_time=timezone.now())

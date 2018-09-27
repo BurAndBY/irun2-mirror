@@ -24,10 +24,16 @@ from contests.models import Printout
 
 import plagiarism.plagiarism_api
 
-from .models import DbObjectInQueue
-from .queue import dequeue, update, finalize
-from .serializers import parse_resource_id
-from .serializers import WorkerTestingJobSerializer, WorkerTestingReportSerializer, WorkerStateSerializer, WorkerGreetingSerializer, PlagiarismJobSerializer
+from api.models import DbObjectInQueue
+from api.queue import dequeue, update, finalize
+from api.serializers import parse_resource_id
+from api.serializers import (
+    PlagiarismJobSerializer,
+    WorkerGreetingSerializer,
+    WorkerStateSerializer,
+    WorkerTestingJobSerializer,
+    WorkerTestingReportSerializer,
+)
 
 
 #

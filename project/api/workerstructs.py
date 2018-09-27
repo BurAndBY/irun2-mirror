@@ -34,7 +34,8 @@ class WorkerTestingJob(object):
 
 
 class WorkerTestingReport(object):
-    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs, general_failure_reason, general_failure_message, sample_tests_passed):
+    def __init__(self, outcome, first_failed_test, tests, score, max_score, logs,
+                 general_failure_reason, general_failure_message, sample_tests_passed):
         self.outcome = outcome
         self.first_failed_test = first_failed_test
         self.tests = tests
