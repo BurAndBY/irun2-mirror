@@ -1,6 +1,7 @@
 import uuid
 
 from django import template
+from django.utils.encoding import smart_text
 
 register = template.Library()
 
@@ -25,5 +26,5 @@ def irunner_progress(url, value=0, value_good=0, value_bad=0, total=0, active=No
     context['url'] = url
     context['refresh'] = True
     context['active'] = active if active is not None else (value + value_good + value_bad < total)
-    context['uid'] = unicode(uuid.uuid1().hex)
+    context['uid'] = smart_text(uuid.uuid1().hex)
     return context

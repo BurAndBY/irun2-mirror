@@ -22,7 +22,7 @@ def export_to_s4ris_json(contest, results):
     } for run in results.all_runs if run.kind in (SolutionKind.ACCEPTED, SolutionKind.REJECTED)]
 
     json = {
-        'contestName': unicode(contest),
+        'contestName': smart_text(contest),
         'problemLetters': [lp.letter for lp in results.contest_descr.labeled_problems],
         'contestants': [ur.user.get_full_name() for ur in results.user_results],
         'runs': runs
@@ -37,6 +37,7 @@ EJUDGE_DATETIME_FORMAT = '%Y/%m/%d %H:%M:%S'
 
 def as_ejudge_ts(ts):
     return timezone.localtime(ts).strftime(EJUDGE_DATETIME_FORMAT)
+
 
 EJUDGE_OUTCOME_CODES = {
     Outcome.ACCEPTED: 'OK',

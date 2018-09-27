@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django import template
+from django.utils.encoding import smart_text
 from django.utils.formats import number_format
 from django.utils.translation import ugettext as _
 
@@ -108,7 +109,7 @@ def time_formatter(value):
         return NO
     if value % 1000 == 0:
         # integer number of seconds
-        seconds = unicode(value // 1000)
+        seconds = smart_text(value // 1000)
     else:
         # use localized fraction representation
         seconds = number_format(value * 0.001)
@@ -119,7 +120,7 @@ def memory_formatter(value):
     if not value:
         return NO
     if value % (1024 * 1024) == 0:
-        megabytes = unicode(value // (1024 * 1024))
+        megabytes = smart_text(value // (1024 * 1024))
     else:
         megabytes = number_format(float(value) / (1024 * 1024))
     return _('%(megabytes)s MB') % {'megabytes': megabytes}

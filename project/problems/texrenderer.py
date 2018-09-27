@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from collections import namedtuple
 
+from django.utils.encoding import force_text
 from django.utils.html import escape
 
 from common.constants import STDIN, STDOUT
@@ -25,7 +26,7 @@ def _render(begin, tex_source, end):
         dst, log = tex2html.convert(src)
         dst, log = dst.decode(TEX2HTML_ENCODING, errors='replace'), log.decode(TEX2HTML_ENCODING, errors='replace')
     except ImportError as e:
-        dst, log = ('<pre>' + escape(src) + '</pre>'), unicode(e)
+        dst, log = ('<pre>' + escape(src) + '</pre>'), force_text(e)
 
     dst = dst.replace(IMAGE_PATH, '')
     return TeXRenderResult(dst, log)

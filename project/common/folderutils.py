@@ -4,6 +4,7 @@ import json
 from collections import namedtuple
 
 from django.http import Http404
+from django.utils.encoding import force_text
 
 ROOT = 'root'
 
@@ -70,7 +71,7 @@ def make_fancytree_json(cached_trees, root_name):
 
     result = {
         'key': ROOT,
-        'title': unicode(root_name),
+        'title': force_text(root_name),
         'folder': True,
         'children': dicts
     }

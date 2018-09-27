@@ -20,6 +20,7 @@ from django.http import Http404, JsonResponse, HttpResponseRedirect, HttpRespons
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils import timezone
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -618,7 +619,7 @@ class ProblemTestsTestEditView(BaseProblemView):
     }
 
     def _notify_about_changes(self, test_number, changed_fields):
-        message = unicode(_('Test %(number)s has been saved.') % {'number': test_number})
+        message = force_text(_('Test %(number)s has been saved.') % {'number': test_number})
 
         names = []
         for field in changed_fields:
@@ -627,9 +628,9 @@ class ProblemTestsTestEditView(BaseProblemView):
                 names.append(name)
         if names:
             message += ' '
-            message += unicode(_('Changes:'))
+            message += force_text(_('Changes:'))
             message += ' '
-            message += ', '.join(unicode(name) for name in names)
+            message += ', '.join(force_text(name) for name in names)
             message += '.'
         return message
 

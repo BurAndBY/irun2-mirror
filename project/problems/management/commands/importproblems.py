@@ -6,6 +6,7 @@ import re
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils.encoding import force_text
 
 from common.memory_string import parse_memory
 from common.irunner_import import connect_irunner_db
@@ -97,7 +98,7 @@ class Command(BaseCommand):
                 memory_limit = parse_memory(row[3]) if row[3] else 0
                 folder_id = row[4]
 
-                description = u'\n'.join([unicode(t) for t in row[5:9] if t])
+                description = u'\n'.join([force_text(t) for t in row[5:9] if t])
 
                 problem.number = full_number
                 problem.subnumber = full_subnumber

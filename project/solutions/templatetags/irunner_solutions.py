@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import uuid
 
 from django import template
+from django.utils.encoding import smart_text
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
@@ -159,7 +160,7 @@ def irunner_solutions_testresults(test_results, solution_permissions, url_patter
     if not isinstance(solution_permissions, SolutionPermissions):
         raise TypeError('SolutionPermissions required')
 
-    uid = unicode(uuid.uuid1().hex)
+    uid = smart_text(uuid.uuid1().hex)
 
     any_toggleable = False
 

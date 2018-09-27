@@ -6,6 +6,7 @@ from .models import Problem, ProblemFolder
 
 from common.folderutils import ROOT, cast_id
 from django.core.urlresolvers import reverse
+from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 
@@ -45,7 +46,7 @@ class NavigatorImpl(object):
         return self._query_string
 
     def iterate_query_params(self):
-        folder_id_or_root = unicode(self.folder.id) if self.folder is not None else ROOT
+        folder_id_or_root = force_text(self.folder.id) if self.folder is not None else ROOT
         return [(PARAM, folder_id_or_root)]
 
     def get_current_index(self):

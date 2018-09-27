@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
 
 from common.constants import EMPTY_SELECT, make_empty_select
 from proglangs.models import Compiler
@@ -138,7 +139,7 @@ class AllSolutionsFilterForm(forms.Form):
         super(AllSolutionsFilterForm, self).__init__(*args, **kwargs)
 
         present_compiler_choices = ((_('compiler'), tuple(
-            (unicode(compiler.id), unicode(compiler))
+            (force_text(compiler.id), force_text(compiler))
             for compiler in Compiler.objects.all()
         )), )
 

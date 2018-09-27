@@ -7,6 +7,7 @@ from django.db import transaction
 from django.db.models import Count
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy, pgettext_lazy
 from django.utils.timesince import timesince
 from django.views import generic
@@ -603,7 +604,7 @@ class SolutionStatusJsonView(BaseSolutionView):
             final = (judgement.status == Judgement.DONE)
             complete = self.permissions.state
             data = {
-                'text': unicode(judgement.show_status(complete)),
+                'text': force_text(judgement.show_status(complete)),
                 'final': final
             }
             if final:
