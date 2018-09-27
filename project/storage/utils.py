@@ -6,8 +6,8 @@ from django.http import Http404
 from django.http import StreamingHttpResponse
 from django.views.decorators.http import etag
 
-from models import FileMetadata
-from storage import create_storage, ResourceId
+from .models import FileMetadata
+from .storage import create_storage, ResourceId
 
 
 def parse_resource_id(resource_id):

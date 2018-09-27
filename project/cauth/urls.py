@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
 from django.contrib.auth import views as default_views
-import views
-import overridden_views
+from . import views
+from . import overridden_views
 
 urlpatterns = [
     url(r'^login/$', overridden_views.login, name='login'),

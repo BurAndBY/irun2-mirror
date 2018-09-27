@@ -275,7 +275,7 @@ def _make_contest_results(contest, frozen, user_result_class, column_presence, u
         user_result.finalize()
 
     # order the table
-    user_results.sort(key=lambda x: x.get_key())
+    user_results = sorted(user_results, key=lambda x: x.get_key())
 
     # put places
     place = 0

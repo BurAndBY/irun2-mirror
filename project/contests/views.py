@@ -434,6 +434,7 @@ class SubmissionView(BaseContestView):
         context = self.get_context_data(solution_id=solution_id)
         return render(request, self.template_name, context)
 
+
 '''
 Messages
 '''
@@ -453,8 +454,6 @@ class MessagesView(BaseContestView):
         if me.is_authenticated():
             read_message_ids = set(qs.filter(messageuser__user=me).values_list('pk', flat=True))
             unread_message_ids = set()
-
-            print read_message_ids
 
             for message in messages:
                 if message.pk not in read_message_ids:
@@ -575,6 +574,7 @@ class DeleteMessageView(MessagesMixin, BaseContestView):
 
         message.delete()
         return self.to_message_list()
+
 
 '''
 Questions
@@ -780,6 +780,7 @@ class MyQuestionsAnswersView(ProblemResolverMixin, BaseContestView):
         self._mark_as_read(question)
         context = self.get_context_data(question=question, answers=answers)
         return render(request, self.template_name, context)
+
 
 '''
 Compilers

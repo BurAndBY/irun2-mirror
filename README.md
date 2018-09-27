@@ -15,7 +15,7 @@ On UNIX-like systems, this is done with git:
 
 ### Setting up the environment ###
 
-Ensure that Python 2.7 is installed and available through your PATH environment variable. 64-bit version is recommended.
+Ensure that Python 2.7 is installed. iRunner should also work with Python 3.6, but it is not well-tested, use it at your own risk. 64-bit version is recommended.
 
 You will also need pip and virtualenv tools. Follow official guides to set them up. pip is shipped together with recent Python distributions downloaded from python.org. Then, virtualenv is installed with pip:
 
@@ -23,7 +23,7 @@ You will also need pip and virtualenv tools. Follow official guides to set them 
 
 Please update pip if it says it has newer version.
 
-Now create and activate a new virtual environment.
+Now create a new virtual environment and activate it.
 
 On UNIX-like systems:
 
@@ -36,6 +36,8 @@ On Windows:
     C:\work\irunner2>virtualenv venv --no-site-packages
     C:\work\irunner2>venv\Scripts\activate.bat
     (venv) C:\work\irunner2>
+
+If you haven't added Python to your PATH environment variable, you may have to type full paths to pip and virtualenv (on Windows they are in `C:\Python\Scripts` directory). After activation, full paths are not required anymore.
 
 ### Installing dependencies ###
 
@@ -68,8 +70,8 @@ Now create tables in the development database and start the development server.
 On UNIX-like systems:
 
     (venv)sobols@magellan:~/irunner2$ cd project
-    (venv)sobols@magellan:~/irunner2/project$ python manage.py migrate
-    (venv)sobols@magellan:~/irunner2/project$ python manage.py runserver
+    (venv)sobols@magellan:~/irunner2/project$ ./manage.py migrate
+    (venv)sobols@magellan:~/irunner2/project$ ./manage.py runserver
 
 On Windows:
 

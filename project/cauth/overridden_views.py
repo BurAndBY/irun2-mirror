@@ -22,7 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-import forms as custom_forms
+import cauth.forms as custom_forms
 
 
 @sensitive_post_parameters()

@@ -1,7 +1,7 @@
 from django import forms
 
 
-from constants import EMPTY_SELECT, TREE_LEVEL_INDICATOR
+from common.constants import EMPTY_SELECT, TREE_LEVEL_INDICATOR
 
 
 class OrderedTreeNodeChoiceFieldMixin(object):

@@ -73,7 +73,7 @@ class ResourceIdField(models.BinaryField):
         if value is None:
             return value
 
-        return ResourceId(str(value))
+        return ResourceId(six.binary_type(value))
 
     def to_python(self, value):
         if isinstance(value, ResourceId):
@@ -82,7 +82,7 @@ class ResourceIdField(models.BinaryField):
         if value is None:
             return value
 
-        return ResourceId(str(value))
+        return ResourceId(six.binary_type(value))
 
     def get_prep_value(self, value):
         if isinstance(value, ResourceId):

@@ -48,7 +48,7 @@ def _make_contest_list_data(contests):
         is_private = contest.unauthorized_access == UnauthorizedAccessLevel.NO_ACCESS
         year_to_contests.setdefault(year, []).append(ContestInfo(contest, is_private))
 
-    pairs = year_to_contests.items()
+    pairs = list(year_to_contests.items())
     pairs.sort(reverse=True)
     return pairs
 

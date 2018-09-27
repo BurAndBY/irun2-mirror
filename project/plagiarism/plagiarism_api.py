@@ -1,8 +1,7 @@
 from common.outcome import Outcome
 from solutions.models import Solution
 from plagiarism.models import JudgementResult, AggregatedResult
-from plagiarism_utils import QueryExecutor
-from plagiarismstructs import PlagiarismSubJob, PlagiarismTestingJob
+from plagiarism.plagiarismstructs import PlagiarismSubJob, PlagiarismTestingJob
 from storage.storage import ResourceId
 from django.db import transaction
 

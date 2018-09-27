@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, UserPassesTestMixin
-import forms
+from cauth import forms
 
 
 class ShowProfileView(LoginRequiredMixin, generic.TemplateView):

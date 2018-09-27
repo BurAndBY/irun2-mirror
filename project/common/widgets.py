@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, format_html
 
-from mptt_fields import OrderedTreeNodeChoiceField
+from common.mptt_fields import OrderedTreeNodeChoiceField
 
 
 class SelectWithGrayOut(forms.Select):
@@ -113,13 +113,13 @@ class TwoPanelSelectMultiple(forms.SelectMultiple):
         # TODO: "id_" is hard-coded here. This should instead use the correct
         # API to determine the ID dynamically.
         result = get_template('common/twopanelselectmultiple_widget.html').render(
-            Context({
+            {
                 'uid': uid,
                 'name': name,
                 'selected': selected,
                 'folder_form': self._make_folder_form(uid),
                 'url_pattern': self.url_pattern,
                 'url_params': self.url_params,
-            })
+            }
         )
         return result

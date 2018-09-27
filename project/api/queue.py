@@ -1,4 +1,4 @@
-import urllib2
+from six.moves.urllib import request as urllibreq
 
 from django.conf import settings
 from django.utils import timezone
@@ -317,8 +317,8 @@ OBJECT_IN_QUEUE_CLASSES = [
 def notify_enqueued():
     if settings.SEMAPHORE:
         try:
-            req = urllib2.Request(settings.SEMAPHORE + 'signal', '')
-            urllib2.urlopen(req).read()
+            req = urllibreq.Request(settings.SEMAPHORE + 'signal', '')
+            urllibreq.urlopen(req).read()
         except:
             pass
 

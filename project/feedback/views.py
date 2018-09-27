@@ -7,8 +7,8 @@ import storage.utils as fsutils
 from common.views import IRunnerListView
 from cauth.mixins import StaffMemberRequiredMixin
 
-import forms
-import models
+from feedback import forms
+from feedback import models
 
 
 class NewFeedbackView(generic.View):

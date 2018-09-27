@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from question import SingleAnswerQuestion, MultipleAnswersQuestion, TextAnswerQuestion
+from quizdemo.question import SingleAnswerQuestion, MultipleAnswersQuestion, TextAnswerQuestion
 
 
 class IQuestionFactory(object):

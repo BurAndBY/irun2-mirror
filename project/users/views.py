@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 import json
 import operator
+from collections import namedtuple
+from six.moves import reduce
 
 from django.contrib import auth, messages
 from django.contrib.auth.hashers import make_password
@@ -28,12 +30,10 @@ from courses.models import Membership
 from solutions.models import Solution
 from storage.utils import create_storage, parse_resource_id, serve_resource
 
-import forms
-from models import UserFolder, UserProfile
-from users.forms import PhotoForm
+from users import forms
+from users.models import UserFolder, UserProfile
 import users.intranetbsu as intranetbsu
 import users.photo as photo
-from collections import namedtuple
 
 
 class IndexView(StaffMemberRequiredMixin, generic.View):
@@ -530,7 +530,7 @@ class ProfilePhotoView(BaseProfileView, generic.View):
             f = FakeFile(url, name)
         else:
             f = None
-        form = PhotoForm(data=data, files=files, initial={'upload': f})
+        form = forms.PhotoForm(data=data, files=files, initial={'upload': f})
         return form
 
     def get(self, request, user):

@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from models import FeedbackMessage
+from feedback.models import FeedbackMessage
 
 
 class FeedbackForm(forms.ModelForm):

@@ -8,7 +8,7 @@ import operator
 import re
 import zipfile
 import collections
-import StringIO
+import six
 
 from django.contrib import messages
 from django.core.exceptions import ValidationError
@@ -264,7 +264,7 @@ class ProblemSolutionsProcessView(BaseProblemView):
             select_related('source_code')
 
         # Open StringIO to grab in-memory ZIP contents
-        s = StringIO.StringIO()
+        s = six.StringIO()
 
         storage = create_storage()
 
