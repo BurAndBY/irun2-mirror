@@ -138,6 +138,7 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',  # for bulk update (contests, etc.)
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',  # for compatibility with old iRunner
 ]
 
