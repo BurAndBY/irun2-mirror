@@ -10,11 +10,11 @@ from irunner2.settings_prod_private import *
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-STATIC_ROOT = '/opt/irunner2/static'
+STATIC_ROOT = 'C:\\inetpub\\wwwroot-acm\\static'
 
-STATIC_URL = '/beta/static/'
-LOGIN_REDIRECT_URL = '/beta/'
-LOGIN_URL = '/beta/login/'
+STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 TEMPLATES[0]['OPTIONS']['loaders'] = [
     ('django.template.loaders.cached.Loader', [
@@ -37,7 +37,7 @@ DATABASES = {
 
 # File storage
 
-STORAGE_DIR = os.path.join('/opt/irunner2/filestorage')
+STORAGE_DIR = 'E:\\irunner2\\filestorage'
 
 EXTERNAL_LINKS = [
     (_('Wiki'), u'/wiki/')
