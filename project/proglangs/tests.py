@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from models import Compiler
-from utils import guess_filename
+from proglangs.models import Compiler
+from proglangs.utils import guess_filename
 
 
 class GuessFilenameTests(TestCase):

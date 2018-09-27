@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import binascii
 import hashlib
 import os
+import six
 import sys
 import tempfile
 
@@ -10,6 +13,7 @@ from django.conf import settings
 from django.core.files.base import File
 from django.core.servers.basehttp import FileWrapper
 from django.db import models
+from django.utils.encoding import force_text, python_2_unicode_compatible
 
 from common.stringutils import cut_text_block
 from .encodings import try_decode_ascii
@@ -17,9 +21,10 @@ from .encodings import try_decode_ascii
 HASH_SIZE = 20
 
 
+@python_2_unicode_compatible
 class ResourceId(object):
-    def __init__(self, binary=''):
-        if not isinstance(binary, str):
+    def __init__(self, binary=b''):
+        if not isinstance(binary, six.binary_type):
             raise TypeError('Binary string expected, {0} found'.format(type(binary)))
         if len(binary) > HASH_SIZE:
             raise ValueError('Resource id must have length not greater than {0}'.format(HASH_SIZE))
@@ -29,7 +34,7 @@ class ResourceId(object):
         return self._binary
 
     def __str__(self):
-        return binascii.b2a_hex(self._binary)
+        return force_text(binascii.b2a_hex(self._binary), encoding='ascii')
 
     @staticmethod
     def parse(s):
@@ -42,7 +47,7 @@ class ResourceId(object):
         return not self.__eq__(other)
 
     def to_representation(self, obj):
-        return str(obj)
+        return force_text(obj)
 
     def __hash__(self):
         return hash(self._binary)
@@ -138,15 +143,14 @@ class ServedData(object):
 
 
 def _is_binary(blob):
-    for ch in blob:
-        code = ord(ch)
+    for code in six.iterbytes(blob):
         if not ((9 <= code <= 13) or (32 <= code <= 126) or (128 <= code <= 255)):
             return True
     return False
 
 
 def _cut_utf8_bom(blob):
-    return blob[3:] if blob.startswith('\xEF\xBB\xBF') else None
+    return blob[3:] if blob.startswith(b'\xEF\xBB\xBF') else None
 
 
 def _try_decode_utf8(blob, is_complete):
@@ -166,6 +170,7 @@ def _try_decode_utf8(blob, is_complete):
 
 
 def _represent(blob, full_size, max_lines, max_line_length):
+    assert isinstance(blob, six.binary_type)
     assert len(blob) <= full_size
     is_complete = len(blob) == full_size
 
@@ -202,6 +207,7 @@ def _represent(blob, full_size, max_lines, max_line_length):
 
 def _serve_string(s):
     return ServedData(len(s), (s,))
+
 
 DEFAULT_REPRESENTATION_LIMIT = 2**16
 
@@ -254,7 +260,7 @@ class FileSystemStorage(IDataStorage):
     @staticmethod
     def _list_subdirectory_names(directory):
         for x in range(256):
-            subdir = os.path.join(directory, binascii.b2a_hex(chr(x)))
+            subdir = os.path.join(directory, force_text(binascii.b2a_hex(six.int2byte(x))))
             yield subdir
 
     def _get_path(self, resource_id):

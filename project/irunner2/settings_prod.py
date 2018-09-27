@@ -2,10 +2,10 @@ import os
 
 from django.utils.translation import ugettext_lazy as _
 
-from settings_common import *
+from irunner2.settings_common import *
 
 # file is not in the repository
-from settings_prod_private import *
+from irunner2.settings_prod_private import *
 
 DEBUG = False
 TEMPLATE_DEBUG = False

@@ -1,6 +1,6 @@
 import re
 
-from models import Compiler
+from proglangs.models import Compiler
 
 HIGHLIGHTJS = {
     Compiler.C: 'c',
