@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-28 11:00+0300\n"
-"PO-Revision-Date: 2018-09-28 11:01+0300\n"
+"PO-Revision-Date: 2018-09-28 11:37+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -311,7 +311,7 @@ msgstr ""
 
 #: .\cauth\templates\cauth\two_factor\core\login.html:32
 msgid "As a last resort, you can use a backup token:"
-msgstr "В крайнем случае, используйте резервный токен:"
+msgstr "В крайнем случае используйте резервный токен:"
 
 #: .\cauth\templates\cauth\two_factor\core\login.html:35
 msgid "Use backup token"
@@ -366,7 +366,7 @@ msgstr ""
 
 #: .\cauth\templates\cauth\two_factor\core\setup_complete.html:7
 msgid "Congratulations, you've successfully enabled two-factor authentication."
-msgstr "Поздравляем, вы успешно активировали двухафакторную аутентификацию."
+msgstr "Поздравляем, вы успешно активировали двухфакторную аутентификацию."
 
 #: .\cauth\templates\cauth\two_factor\core\setup_complete.html:8
 msgid ""
