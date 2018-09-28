@@ -22,6 +22,7 @@
         {% endif %}
         {% if can_change_password %}
             <a href="{% url 'password_change' %}" class="list-group-item">{% trans 'Change password' %}</a>
+            <a href="{% url 'two_factor:profile' %}" class="list-group-item">{% trans 'Two-factor authentication' %}</a>
         {% endif %}
         <a href="{% url 'language' %}?next={% irunner_next %}" class="list-group-item">{% trans 'Change interface language' %}</a>
     </div>

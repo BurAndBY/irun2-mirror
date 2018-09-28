@@ -3,6 +3,8 @@ from django.contrib import auth
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
+import two_factor.forms
+
 from users.models import UserProfile
 
 
@@ -20,6 +22,7 @@ class PasswordChangeForm(auth.forms.PasswordChangeForm):
                 profile.save()
 
             return result
+
 
 # for proper field ordering
 PasswordChangeForm.base_fields = auth.forms.PasswordChangeForm.base_fields
@@ -41,3 +44,11 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
         fields = ['email']
+
+
+# 2FA: override field widget appearance
+class TOTPDeviceForm(two_factor.forms.TOTPDeviceForm):
+    token = forms.IntegerField(
+        label=_('Token'), required=False,
+        widget=forms.NumberInput(attrs={'autofocus': '1'})
+    )

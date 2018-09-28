@@ -1,0 +1,13 @@
+{% extends 'cauth/two_factor/wizard.html' %}
+{% load i18n %}
+
+{% block wizard %}
+<h2>{% block title %}{% trans "Enable two-factor authentication" %}{% endblock %}</h2>
+
+<p>{% trans "Congratulations, you've successfully enabled two-factor authentication." %}</p>
+<p>{% trans "In order to check the authentication mechanism, log out and then log in." %}</p>
+
+{% if not phone_methods %}
+    <p><a href="{% url 'two_factor:profile' %}" class="btn btn-block btn-default">{% trans "Back" %}</a></p>
+{% endif %}
+{% endblock %}

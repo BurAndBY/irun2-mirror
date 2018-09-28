@@ -1,0 +1,16 @@
+{% extends 'cauth/two_factor/wizard.html' %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block wizard %}
+<h2>{% block title %}{% trans "Disable two-factor authentication" %}{% endblock %}</h2>
+
+<p>{% trans 'You are about to disable two-factor authentication.' %}</p>
+<p>{% trans 'This weakens your account security, are you sure?' %}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn btn-danger" type="submit">{% trans "Disable 2FA" %}</button>
+</form>
+{% endblock %}

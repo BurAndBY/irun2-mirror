@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Login' %}{% endblock %}
+
+{% block content %}
+<div class="panel panel-default ir-login-panel">
+    <div class="panel-body">
+        {% if wizard.steps.current == 'auth' %}
+            {% if request.GET.next %}
+                {% if user.is_authenticated %}
+                    <p>{% trans "Your account doesn't have access to this page. To proceed, please log in with an account that has access." %}</p>
+                {% else %}
+                    <p>{% trans "Please log in to see this page." %}</p>
+                {% endif %}
+            {% endif %}
+
+        {% elif wizard.steps.current == 'token' %}
+            <p>{% trans "Please enter the token from your mobile application." %}</p>
+
+        {% elif wizard.steps.current == 'backup' %}
+            <p>{% trans "Use this form for entering backup tokens for logging in. These tokens have been generated for you to print and keep safe. Please enter one of these backup tokens to login to your account." %}</p>
+        {% endif %}
+
+        <form action="" method="post">{% csrf_token %}
+            {% include "cauth/two_factor/_wizard_forms.html" %}
+
+            {# hidden submit button to enable [enter] key #}
+            <input type="submit" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1"/>
+
+            {% if backup_tokens %}
+                <p>{% trans "As a last resort, you can use a backup token:" %}</p>
+                <p>
+                    <button name="wizard_goto_step" type="submit" value="backup"
+                    class="btn btn-default btn-block">{% trans "Use backup token" %}</button>
+                </p>
+            {% endif %}
+
+            {% include "cauth/two_factor/_wizard_actions.html" %}
+        </form>
+    </div>
+</div>
+{% endblock %}

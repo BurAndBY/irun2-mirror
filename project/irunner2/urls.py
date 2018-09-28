@@ -19,7 +19,6 @@ import common.views
 from django_js_reverse.views import urls_js
 from django.views.decorators.cache import cache_page
 
-
 urlpatterns = [
     url(r'^$', common.views.home, name='home'),
     url(r'^language/$', common.views.language, name='language'),

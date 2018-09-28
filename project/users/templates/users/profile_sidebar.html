@@ -20,6 +20,10 @@
         {% bootstrap_icon 'asterisk' %}
         <span class="ir-icon-label">{% trans 'Change password' %}</span>
     </a>
+    <a href="{% url 'users:profile_two_factor' edited_user.id %}" class="list-group-item{% if active_tab == 'two_factor' %} active{% endif %}">
+        {% bootstrap_icon 'star' %}
+        <span class="ir-icon-label">{% trans 'Two-factor authentication' %}</span>
+    </a>
     <a href="{% url 'users:profile_permissions' edited_user.id %}" class="list-group-item{% if active_tab == 'permissions' %} active{% endif %}">
         {% bootstrap_icon 'lock' %}
         <span class="ir-icon-label">{% trans 'Permissions' %}</span>

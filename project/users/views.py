@@ -20,6 +20,8 @@ from django.utils.translation import ungettext
 from django.views import generic
 from django.http import HttpResponse, Http404
 
+from django_otp import devices_for_user, user_has_device
+
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.fakefile import FakeFile
@@ -561,6 +563,22 @@ class ProfilePhotoView(BaseProfileView, generic.View):
 
         context = self.get_context_data(form=form, profile=profile)
         return render(request, self.template_name, context)
+
+
+class ProfileTwoFactorView(BaseProfileView, generic.View):
+    tab = 'two_factor'
+    template_name = 'users/profile_two_factor.html'
+    page_title = _('Two-factor authentication')
+
+    def get(self, request, user):
+        return render(request, self.template_name,
+                      self.get_context_data(enabled=user_has_device(user)))
+
+    def post(self, request, user):
+        with transaction.atomic():
+            for device in devices_for_user(user):
+                device.delete()
+        return redirect('users:profile_two_factor', user.id)
 
 
 def is_allowed(request_user, target_user):
