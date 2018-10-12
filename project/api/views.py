@@ -178,13 +178,22 @@ class QueueView(StaffMemberRequiredMixin, generic.View):
 
     def get(self, request):
         new_objects = DbObjectInQueue.objects.exclude(state=DbObjectInQueue.DONE).order_by('-priority', 'id').all()
-        last_objects = DbObjectInQueue.objects.filter(state=DbObjectInQueue.DONE).order_by('-last_update_time', 'id').all()[:10]
-        return render(request, self.template_name, {'new_objects': new_objects, 'last_objects': last_objects})
+        done_count = DbObjectInQueue.objects.filter(state=DbObjectInQueue.DONE).count()
+        last_done_objects = DbObjectInQueue.objects.filter(state=DbObjectInQueue.DONE).order_by('-last_update_time', 'id').all()[:10]
+
+        return render(request, self.template_name, {
+            'new_objects': new_objects,
+            'last_done_objects': last_done_objects,
+            'done_count': done_count,
+        })
 
     def post(self, request):
-        ids = make_int_list_quiet(request.POST.getlist('id'))
-        if ids:
-            DbObjectInQueue.objects.filter(pk__in=ids).update(state=DbObjectInQueue.WAITING)
+        if 'clear' in request.POST:
+            DbObjectInQueue.objects.filter(state=DbObjectInQueue.DONE).delete()
+        else:
+            ids = make_int_list_quiet(request.POST.getlist('id'))
+            if ids:
+                DbObjectInQueue.objects.filter(pk__in=ids).update(state=DbObjectInQueue.WAITING)
         return redirect('api:queue')
 
 

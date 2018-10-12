@@ -15,12 +15,17 @@
                 {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Restart' context 'verb' %}</span>
             </button>
         {% endbuttons %}
+
+        <hr>
+
+        <h3>{% trans 'Last completed jobs' %} <small>({{ done_count }})</small></h3>
+        {% irunner_api_queue last_done_objects show_checkboxes=False %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger" name="clear">
+                {% bootstrap_icon 'remove' %} <span class="ir-icon-label">{% trans 'Clear' %}</span>
+            </button>
+        {% endbuttons %}
     </form>
-
-    <hr>
-
-    <h3>{% trans 'Last completed jobs' %}</h3>
-    {% irunner_api_queue last_objects show_checkboxes=False %}
 
     <script>
         jQuery(document).ready(irSetUpSelectAll);
