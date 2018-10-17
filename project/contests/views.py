@@ -282,11 +282,15 @@ class AllSolutionsView(ProblemResolverMixin, BaseContestView):
 
         user_form = SolutionListUserForm(data=request.GET, user_choices=make_contestant_choices(contest))
         if user_form.is_valid():
-            solutions = solutions.filter(author_id=user_form.cleaned_data['user'])
+            user_id = user_form.cleaned_data['user']
+            if user_id is not None:
+                solutions = solutions.filter(author_id=user_id)
 
         problem_form = SolutionListProblemForm(data=request.GET, problem_choices=make_problem_choices(contest))
         if problem_form.is_valid():
-            solutions = solutions.filter(problem_id=problem_form.cleaned_data['problem'])
+            problem_id = problem_form.cleaned_data['problem']
+            if problem_id is not None:
+                solutions = solutions.filter(problem_id=problem_id)
 
         # State filter
         filter_form = AllSolutionsFilterForm(request.GET)

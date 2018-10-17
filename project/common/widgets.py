@@ -64,11 +64,6 @@ class SelectWithGrayOut(forms.Select):
 # get_template is what we need for loading up the template for parsing.
 from django.template.loader import get_template
 
-# Templates in Django need a "Context" to parse with, so we'll borrow this.
-# "Context"'s are really nothing more than a generic dict wrapped up in a
-# neat little function call.
-from django.template import Context
-
 
 class TwoPanelSelectMultiple(forms.SelectMultiple):
     '''
@@ -97,7 +92,7 @@ class TwoPanelSelectMultiple(forms.SelectMultiple):
     def _make_folder_form(self, uid):
         class ObjectForm(forms.Form):
             folders = OrderedTreeNodeChoiceField(queryset=self.folder_model.objects.all(),
-                                                 widget=forms.Select(attrs={'class': 'form-control'}))
+                                                 widget=forms.Select(attrs={'class': 'form-control'}), required=False)
         return ObjectForm(prefix=uid)
 
     def render(self, name, value, attrs=None, choices=()):

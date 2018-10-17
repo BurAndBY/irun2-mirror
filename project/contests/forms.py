@@ -91,7 +91,7 @@ class SolutionListUserForm(forms.Form):
     def __init__(self, *args, **kwargs):
         user_choices = kwargs.pop('user_choices')
         super(SolutionListUserForm, self).__init__(*args, **kwargs)
-        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=True)
+        self.fields['user'] = forms.TypedChoiceField(label=_('User'), choices=user_choices, coerce=int, empty_value=None, required=False)
         self.fields['user'].widget.attrs['class'] = 'form-control'
 
 
@@ -99,7 +99,7 @@ class SolutionListProblemForm(forms.Form):
     def __init__(self, *args, **kwargs):
         problem_choices = kwargs.pop('problem_choices')
         super(SolutionListProblemForm, self).__init__(**kwargs)
-        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int, empty_value=None, required=True)
+        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int, empty_value=None, required=False)
         self.fields['problem'].widget.attrs['class'] = 'form-control'
 
 
