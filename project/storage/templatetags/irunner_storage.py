@@ -1,4 +1,6 @@
 from django import template
+from django.utils.html import mark_safe
+from django.utils.html import format_html
 
 from proglangs.utils import get_highlightjs_class
 
@@ -29,3 +31,24 @@ def irunner_storage_showcode(representation, compiler, hrefs=False):
         'language': language,
         'hrefs': hrefs,
     }
+
+
+@register.simple_tag(takes_context=False)
+def irunner_storage_hex(hexdata, compact=False):
+    result = []
+    for line in hexdata:
+        if compact:
+            portion = format_html(
+                '<span class="text-muted">{}  {}</span>',
+                line.hex1, line.hex2
+            )
+        else:
+            portion = format_html(
+                '<span class="text-info">{}</span>:  '
+                '<span class="text-muted">{}  {}</span>  '
+                '<span class="text-primary">{}</span>',
+                line.offset, line.hex1, line.hex2, line.ascii
+            )
+        result.append(portion)
+
+    return mark_safe('\n'.join(result))

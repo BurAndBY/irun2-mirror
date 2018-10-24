@@ -4,6 +4,7 @@ import six
 
 from common.stringutils import cut_text_block
 from .encodings import try_decode_ascii
+from .hexdump import hexdump
 
 
 class ResourseRepresentation(object):
@@ -12,11 +13,11 @@ class ResourseRepresentation(object):
     IS_UTF8 = 4
     HAS_BOM = 8
 
-    def __init__(self, size, flags, text):
+    def __init__(self, size, flags, text, hexdata):
         self.size = size
         self.flags = flags
         self.text = text
-        self.html = None
+        self.hexdata = hexdata
 
     def is_binary(self):
         return bool(ResourseRepresentation.IS_BINARY & self.flags)
@@ -125,13 +126,20 @@ def represent_blob(blob, full_size=None, max_lines=None, max_line_length=None):
     is_complete = len(blob) == full_size
 
     text, flags = _decode_plain_text(blob, is_complete)
+    hexdata = None
 
     if text is not None:
         modified, text = cut_text_block(text, max_lines, max_line_length)
         if modified:
             is_complete = False
 
+    if (flags & ResourseRepresentation.IS_BINARY) != 0:
+        hexdata = hexdump(blob)
+        if (max_lines is not None) and (len(hexdata) > max_lines):
+            hexdata = hexdata[:max_lines]
+            is_complete = False
+
     if is_complete:
         flags |= ResourseRepresentation.IS_COMPLETE
 
-    return ResourseRepresentation(full_size, flags, text)
+    return ResourseRepresentation(full_size, flags, text, hexdata)
