@@ -44,9 +44,9 @@ def irunner_storage_hex(hexdata, compact=False):
             )
         else:
             portion = format_html(
-                '<span class="text-info">{}</span>:  '
+                '<span class="text-warning">{}</span>:  '
                 '<span class="text-muted">{}  {}</span>  '
-                '<span class="text-primary">{}</span>',
+                '<span class="text-danger">{}</span>',
                 line.offset, line.hex1, line.hex2, line.ascii
             )
         result.append(portion)

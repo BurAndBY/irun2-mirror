@@ -4,7 +4,7 @@
 <div>
     {% if representation %}
         {% if not compact %}
-            {% if representation.is_binary %}
+            {% if representation.is_binary and representation.hexdata == None %}
             <div class="alert alert-warning">
                 {% trans "The file is binary." %}
             </div>
