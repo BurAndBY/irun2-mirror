@@ -8,8 +8,9 @@ from django.core.files.base import ContentFile
 from django.utils.encoding import force_text
 
 from .encodings import try_decode_ascii
-from .storage import ResourceId, FileSystemStorage, ResourseRepresentation
+from .storage import ResourceId, FileSystemStorage
 from .validators import validate_filename
+from .representation import ResourseRepresentation, represent_blob
 
 import codecs
 import os
@@ -139,3 +140,64 @@ class GuessAsciiEncodingTests(TestCase):
         msg = u'Hello, world!'
         self.assertEqual(try_decode_ascii(msg.encode('cp1251')), msg)
         self.assertEqual(try_decode_ascii(msg.encode('cp866')), msg)
+
+
+class RepresentationTests(TestCase):
+    def test_empty(self):
+        r = represent_blob(b'', 0)
+        self.assertTrue(r.is_utf8())
+        self.assertFalse(r.is_binary())
+        self.assertTrue(r.is_empty())
+        self.assertEqual(r.complete_text, '')
+
+    def test_binary(self):
+        r = represent_blob(b'\x00', 1)
+        self.assertFalse(r.is_utf8())
+        self.assertTrue(r.is_binary())
+
+        r = represent_blob(b'\xFF\xFE\x00\x00', 4)
+        self.assertFalse(r.is_utf8())
+        self.assertTrue(r.is_binary())
+
+        r = represent_blob(b'\x01\x02\x03', 3)
+        self.assertFalse(r.is_utf8())
+        self.assertTrue(r.is_binary())
+
+    def test_boms(self):
+        r = represent_blob(b'\xEF\xBB\xBF', 3)
+        self.assertTrue(r.is_utf8())
+        self.assertFalse(r.is_binary())
+        self.assertTrue(r.has_bom())
+        self.assertEqual(r.editable_text, None)
+
+    def test_ascii(self):
+        r = represent_blob(b'aba\tcaba\r\n')
+        self.assertTrue(r.is_utf8())
+        self.assertEqual(r.text, 'aba\tcaba\r\n')
+
+    def test_utf16(self):
+        blob = b'\xFF\xFE' + 'привет hello'.encode('utf_16_le')
+        self.assertEqual(len(blob), 2 + 12 * 2)
+        self.assertTrue(b'\x00' in blob)
+
+        r = represent_blob(blob, len(blob))
+        self.assertEqual(r.text, 'привет hello')
+        self.assertFalse(r.is_binary())
+        self.assertEqual(r.editable_text, None)
+
+    def test_broken_utf8(self):
+        blob = 'Привет'.encode('utf-8')
+        r = represent_blob(blob)
+        self.assertTrue(r.is_utf8())
+        self.assertEqual(r.text, 'Привет')
+        self.assertTrue(r.is_complete())
+
+        r = represent_blob(blob[:-1])
+        self.assertFalse(r.is_utf8())
+        self.assertEqual(r.text, 'РџСЂРёРІРµС')  # UTF-8 bytes as Win-1251
+        self.assertTrue(r.is_complete())
+
+        r = represent_blob(blob[:-1], 100500)
+        self.assertTrue(r.is_utf8())
+        self.assertEqual(r.text, 'Приве')
+        self.assertFalse(r.is_complete())

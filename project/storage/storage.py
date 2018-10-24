@@ -16,8 +16,7 @@ from django.core.files.base import File
 from django.db import models
 from django.utils.encoding import force_text, python_2_unicode_compatible
 
-from common.stringutils import cut_text_block
-from .encodings import try_decode_ascii
+from .representation import represent_blob
 
 HASH_SIZE = 20
 
@@ -102,108 +101,10 @@ def _get_data_directly(resource_id):
     return blob if len(blob) < HASH_SIZE else None
 
 
-class ResourseRepresentation(object):
-    IS_BINARY = 1
-    IS_COMPLETE = 2
-    IS_UTF8 = 4
-    HAS_BOM = 8
-
-    def __init__(self, size, flags, text):
-        self.size = size
-        self.flags = flags
-        self.text = text
-
-    def is_binary(self):
-        return bool(ResourseRepresentation.IS_BINARY & self.flags)
-
-    def is_complete(self):
-        return bool(ResourseRepresentation.IS_COMPLETE & self.flags)
-
-    def is_utf8(self):
-        return bool(ResourseRepresentation.IS_UTF8 & self.flags)
-
-    def has_bom(self):
-        return bool(ResourseRepresentation.HAS_BOM & self.flags)
-
-    def is_empty(self):
-        return self.size == 0
-
-    @property
-    def complete_text(self):
-        return self.text if self.is_complete() else None
-
-    @property
-    def editable_text(self):
-        return self.text if (self.is_complete() and self.is_utf8() and not self.has_bom()) else None
-
-
 class ServedData(object):
     def __init__(self, size, generator):
         self.size = size
         self.generator = generator
-
-
-def _is_binary(blob):
-    for code in six.iterbytes(blob):
-        if not ((9 <= code <= 13) or (32 <= code <= 126) or (128 <= code <= 255)):
-            return True
-    return False
-
-
-def _cut_utf8_bom(blob):
-    return blob[3:] if blob.startswith(b'\xEF\xBB\xBF') else None
-
-
-def _try_decode_utf8(blob, is_complete):
-    try:
-        return blob.decode('utf-8')
-    except UnicodeDecodeError:
-        pass
-
-    if not is_complete:
-        # try to cut the last char: it may be broken
-        try:
-            return blob[:-1].decode('utf-8')
-        except UnicodeDecodeError:
-            pass
-
-    return None
-
-
-def _represent(blob, full_size, max_lines, max_line_length):
-    assert isinstance(blob, six.binary_type)
-    assert len(blob) <= full_size
-    is_complete = len(blob) == full_size
-
-    flags = 0
-    text = None
-
-    if _is_binary(blob):
-        flags |= ResourseRepresentation.IS_BINARY
-    else:
-        no_bom_blob = _cut_utf8_bom(blob)
-        if no_bom_blob is not None:
-            text = _try_decode_utf8(no_bom_blob, is_complete)
-            if text is not None:
-                flags |= ResourseRepresentation.IS_UTF8
-                flags |= ResourseRepresentation.HAS_BOM
-        else:
-            text = _try_decode_utf8(blob, is_complete)
-            if text is not None:
-                flags |= ResourseRepresentation.IS_UTF8
-
-        if text is None:
-            text = try_decode_ascii(blob)
-
-    if text is not None:
-        modified, text = cut_text_block(text, max_lines, max_line_length)
-        if modified:
-            is_complete = False
-
-    if is_complete:
-        flags |= ResourseRepresentation.IS_COMPLETE
-
-    return ResourseRepresentation(full_size, flags, text)
 
 
 def _serve_string(s):
@@ -315,7 +216,7 @@ class FileSystemStorage(IDataStorage):
             return None
         blob = _get_data_directly(resource_id)
         if blob is not None:
-            return _represent(blob, len(blob), max_lines, max_line_length)
+            return represent_blob(blob, len(blob), max_lines, max_line_length)
 
         target_name = self._get_path(resource_id)
         if not os.path.exists(target_name):
@@ -329,7 +230,7 @@ class FileSystemStorage(IDataStorage):
 
             fd.seek(0, os.SEEK_SET)
             blob = fd.read(part)
-            return _represent(blob, size, max_lines, max_line_length)
+            return represent_blob(blob, size, max_lines, max_line_length)
 
     def get_size_on_disk(self, resource_id):
         if resource_id is None:
