@@ -333,7 +333,9 @@ class MySolutionsView(ProblemResolverMixin, BaseContestView):
 
         problem_form = SolutionListProblemForm(data=request.GET, problem_choices=self._make_problem_choices())
         if problem_form.is_valid():
-            solutions = solutions.filter(problem_id=problem_form.cleaned_data['problem'])
+            problem = problem_form.cleaned_data['problem']
+            if problem is not None:
+                solutions = solutions.filter(problem_id=problem)
 
         context = paginate(request, solutions, self.paginate_by)
 
