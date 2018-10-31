@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 11:00+0300\n"
-"PO-Revision-Date: 2018-09-28 11:37+0300\n"
+"POT-Creation-Date: 2018-11-01 02:01+0300\n"
+"PO-Revision-Date: 2018-11-01 02:02+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -17,238 +17,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.2\n"
 
-#: .\api\models.py:14 .\contests\models.py:172 .\courses\models.py:259
-#: .\solutions\forms.py:107 .\solutions\models.py:50
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: .\api\models.py:15
 msgid "Executing"
 msgstr "Выполнение"
 
-#: .\api\models.py:16 .\contests\models.py:171 .\courses\models.py:261
-#: .\solutions\forms.py:112 .\solutions\models.py:49
 msgid "Done"
 msgstr "Готово"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:12
-#: .\problems\templates\problems\rejudges.html:16
-#: .\solutions\templates\solutions\judgement.html:27
-#: .\solutions\templates\solutions\rejudge.html:26
-#: .\solutions\templates\solutions\rejudge_list.html:21
 msgid "State"
 msgstr "Состояние"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:13
-#: .\contests\templates\contests\printout_show.html:11
-#: .\problems\templates\problems\challenge.html:15
-#: .\solutions\templates\solutions\judgement.html:18
-#: .\solutions\templates\solutions\judgement_list.html:20
-#: .\solutions\templates\solutions\rejudge.html:15
 msgid "Created"
 msgstr "Создано"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:14
 msgid "Last updated"
 msgstr "Последнее обновление"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:15
 msgid "Priority"
 msgstr "Приоритет"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:16
-#: .\problems\templates\problems\files.html:21
-#: .\problems\templates\problems\files.html:59
-#: .\problems\templates\problems\overview.html:70
-#: .\problems\templates\problems\show_test.html:73
-#: .\proglangs\templates\proglangs\index.html:20
-#: .\users\templates\users\profile_show.html:50
 msgid "Description"
 msgstr "Описание"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:33
 msgid "Validation"
 msgstr "Контроль"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:37
-#: .\storage\templates\storage\usage.html:34
 msgid "Challenge"
 msgstr "Взлом"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:41
-#: .\storage\templates\storage\usage.html:19
-#: .\storage\templates\storage\usage.html:24
 msgid "Run"
 msgstr "Запуск"
 
-#: .\api\templates\api\irunner_api_queue_tag.html:49
 msgid "Queue is empty."
 msgstr "Очередь пуста."
 
-#: .\api\templates\api\queue.html:8 .\courses\models.py:250
-#: .\templates\navbar.html:31
 msgid "Queue"
 msgstr "Очередь"
 
-#: .\api\templates\api\queue.html:15
 msgctxt "verb"
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: .\api\templates\api\queue.html:22
 msgid "Last completed jobs"
 msgstr "Последние завершённые задания"
 
-#: .\cauth\forms.py:10
+msgid "Clear"
+msgstr "Очистить"
+
 msgid "Remember me"
 msgstr "Запомнить меня"
 
-#: .\cauth\templates\cauth\profile.html:19
-#: .\cauth\templates\cauth\profile_edit.html:6
+msgid "Token"
+msgstr "Токен"
+
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: .\cauth\templates\cauth\profile.html:21
 msgid "Change name"
 msgstr "Изменить имя"
 
-#: .\cauth\templates\cauth\profile.html:24
-#: .\cauth\templates\registration\password_change_form.html:6
-#: .\common\templates\common\home.html:32
-#: .\users\templates\users\profile_sidebar.html:21 .\users\views.py:501
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: .\cauth\templates\cauth\profile.html:25
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:7
-#: .\users\templates\users\profile_sidebar.html:25
-#: .\users\templates\users\profile_two_factor.html:8 .\users\views.py:571
 msgid "Two-factor authentication"
 msgstr "Двухфакторная аутентификация"
 
-#: .\cauth\templates\cauth\profile.html:27
 msgid "Change interface language"
 msgstr "Изменить язык интерфейса"
 
-#: .\cauth\templates\cauth\profile_edit.html:21
-#: .\common\templates\common\language.html:26
-#: .\contests\templates\contests\messages_form.html:16
-#: .\contests\templates\contests\messages_new.html:16
-#: .\contests\templates\contests\printout_edit.html:15
-#: .\contests\templates\contests\settings_compilers.html:40
-#: .\contests\templates\contests\settings_filter.html:13
-#: .\contests\templates\contests\settings_problems.html:12
-#: .\contests\templates\contests\settings_properties.html:13
-#: .\contests\templates\contests\settings_statements.html:12
-#: .\contests\templates\contests\settings_users_edit.html:13
-#: .\courses\templates\courses\criterion_form.html:12
-#: .\courses\templates\courses\settings_common_problems_edit.html:13
-#: .\courses\templates\courses\settings_compilers.html:42
-#: .\courses\templates\courses\settings_component.html:13
-#: .\courses\templates\courses\settings_properties.html:13
-#: .\courses\templates\courses\settings_quiz_edit.html:33
-#: .\courses\templates\courses\settings_quizzes.html:54
-#: .\courses\templates\courses\settings_users.html:49
-#: .\courses\templates\courses\settings_users_edit.html:17
-#: .\news\templates\news\update.html:13
-#: .\problems\templates\problems\batch_edit_tests.html:15
-#: .\problems\templates\problems\edit_file.html:11
-#: .\problems\templates\problems\edit_test.html:44
-#: .\problems\templates\problems\edit_tex.html:18
-#: .\problems\templates\problems\folders.html:20
-#: .\problems\templates\problems\list_folder_form.html:35
-#: .\problems\templates\problems\name.html:15
-#: .\problems\templates\problems\properties.html:16
-#: .\problems\templates\problems\tests_reorder.html:27
-#: .\proglangs\templates\proglangs\edit.html:20
-#: .\quizzes\templates\quizzes\question_edit.html:115
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:95
-#: .\quizzes\templates\quizzes\quiz_template_update.html:11
-#: .\users\templates\users\create_form.html:33
-#: .\users\templates\users\profile_password.html:16
-#: .\users\templates\users\profile_photo.html:19
-#: .\users\templates\users\profile_update.html:15
 msgid "Save"
 msgstr "Сохранить"
 
-#: .\cauth\templates\cauth\two_factor\_wizard_actions.html:6
-#: .\contests\templates\contests\all_questions_delete.html:21
-#: .\contests\templates\contests\contest_confirm_delete.html:14
-#: .\contests\templates\contests\contest_form.html:13
-#: .\contests\templates\contests\messages_delete.html:21
-#: .\contests\templates\contests\messages_form.html:19
-#: .\contests\templates\contests\messages_new.html:19
-#: .\contests\templates\contests\my_questions_form.html:19
-#: .\contests\templates\contests\printout_edit.html:18
-#: .\contests\templates\contests\printout_new.html:20
-#: .\contests\templates\contests\question_answers.html:46
-#: .\contests\templates\contests\settings_users_edit.html:16
-#: .\courses\templates\courses\assign.html:69
-#: .\courses\templates\courses\course_form.html:13
-#: .\courses\templates\courses\messages.html:148
-#: .\courses\templates\courses\messages_new.html:27
-#: .\courses\templates\courses\queue_add.html:16
-#: .\courses\templates\courses\quiz.html:37
-#: .\courses\templates\courses\quizzes_answers.html:81
-#: .\courses\templates\courses\settings_common_problems_edit.html:16
-#: .\courses\templates\courses\settings_component.html:21
-#: .\courses\templates\courses\settings_quiz_edit.html:41
-#: .\courses\templates\courses\settings_users_edit.html:20
-#: .\news\templates\news\new.html:14 .\news\templates\news\update.html:14
-#: .\problems\templates\problems\batch_delete_tests.html:18
-#: .\problems\templates\problems\batch_edit_tests.html:18
-#: .\problems\templates\problems\challenge_new.html:28
-#: .\problems\templates\problems\delete.html:23
-#: .\problems\templates\problems\delete_file.html:15
-#: .\problems\templates\problems\edit_file.html:12
-#: .\problems\templates\problems\edit_test.html:51
-#: .\problems\templates\problems\edit_tex.html:19
-#: .\problems\templates\problems\list_folder_confirm_delete.html:35
-#: .\problems\templates\problems\list_folder_form.html:38
-#: .\problems\templates\problems\list_import_from_polygon.html:38
-#: .\problems\templates\problems\show_test.html:131
-#: .\problems\templates\problems\tests_reorder.html:28
-#: .\problems\templates\problems\upload_archive.html:20
-#: .\proglangs\templates\proglangs\edit.html:21
-#: .\quizzes\templates\quizzes\question_group_create.html:12
-#: .\quizzes\templates\quizzes\question_group_upload.html:34
-#: .\quizzes\templates\quizzes\quiz_template_create.html:12
-#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:22
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:97
-#: .\quizzes\templates\quizzes\quiz_template_update.html:12
-#: .\quizzes\utils.py:136
-#: .\solutions\templates\solutions\judgement_storage.html:28
-#: .\users\templates\users\bulk_operation.html:32
-#: .\users\templates\users\create_form.html:36
-#: .\users\templates\users\folder_confirm_delete.html:24
 msgid "Cancel"
 msgstr "Отмена"
 
-#: .\cauth\templates\cauth\two_factor\_wizard_actions.html:11
-#: .\cauth\templates\cauth\two_factor\_wizard_actions.html:14
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:24
-#: .\cauth\templates\cauth\two_factor\core\setup_complete.html:11
-#: .\contests\templates\contests\question_answers.html:51
-#: .\contests\templates\contests\settings_filter.html:16
-#: .\courses\templates\courses\criterion_confirm_delete.html:18
-#: .\news\templates\news\show.html:15
-#: .\quizdemo\templates\quizdemo\question.html:26
 msgid "Back"
 msgstr "Назад"
 
-#: .\cauth\templates\cauth\two_factor\_wizard_actions.html:16
-#: .\quizzes\utils.py:137
 msgid "Next"
 msgstr "Далее"
 
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:5
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:13
 msgid "Backup tokens"
 msgstr "Резервные токены"
 
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:6
 msgid ""
 "Backup tokens can be used when your primary device isn't available.\n"
 "Each backup token below can be used for one-time login verification.\n"
@@ -263,26 +118,18 @@ msgstr ""
 "Если вы использовали все токены, можно сгенерировать новые.\n"
 "Сейчас активны только токены, перечисленные ниже."
 
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:17
 msgid "Print these tokens and keep them somewhere safe."
 msgstr "Распечатайте эти токены и храните их в безопасном месте."
 
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:19
 msgid "You don't have any backup tokens yet."
 msgstr "У вас нет резервных токенов."
 
-#: .\cauth\templates\cauth\two_factor\core\backup_tokens.html:25
 msgid "Generate tokens"
 msgstr "Сгенерировать токены"
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:4
-#: .\cauth\templates\registration\login.html:6
-#: .\cauth\templates\registration\login.html:23 .\templates\navbar.html:55
 msgid "Login"
 msgstr "Вход"
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:12
-#: .\cauth\templates\registration\login.html:16
 msgid ""
 "Your account doesn't have access to this page. To proceed, please log in "
 "with an account that has access."
@@ -290,16 +137,12 @@ msgstr ""
 "Ваша учётная запись не имеет права доступа к этой странице. Пожалуйста, "
 "войдите под другим именем, чтобы продолжить."
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:14
-#: .\cauth\templates\registration\login.html:18
 msgid "Please log in to see this page."
 msgstr "Пожалуйста, войдите в систему, чтобы открыть эту страницу."
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:19
 msgid "Please enter the token from your mobile application."
 msgstr "Пожалуйста, введите токен из мобильного приложения."
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:22
 msgid ""
 "Use this form for entering backup tokens for logging in. These tokens have "
 "been generated for you to print and keep safe. Please enter one of these "
@@ -309,20 +152,15 @@ msgstr ""
 "распечатать и сохранить в надёжном месте. Сейчас введите один из этих "
 "токенов для входа в аккаунт."
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:32
 msgid "As a last resort, you can use a backup token:"
 msgstr "В крайнем случае используйте резервный токен:"
 
-#: .\cauth\templates\cauth\two_factor\core\login.html:35
 msgid "Use backup token"
 msgstr "Использовать резервный токен"
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:5
-#: .\cauth\templates\cauth\two_factor\core\setup_complete.html:5
 msgid "Enable two-factor authentication"
 msgstr "Включить двухфакторную аутентификацию"
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:8
 msgid ""
 "You are about to take your account security to the\n"
 "        next level. Follow the steps in this wizard to enable two-factor\n"
@@ -331,13 +169,11 @@ msgstr ""
 "Вы собираетесь повысить безопасность вашего аккаунта.\n"
 "Следуйте указаниям мастера для активации двухфакторной аутентификации."
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:13
 msgid ""
 "Please select which authentication method you would\n"
 "        like to use."
 msgstr "Выберите, какой метод авторизации вы хотите использовать."
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:17
 msgid ""
 "To start using a token generator, please use your smartphone to scan the QR "
 "code below."
@@ -345,64 +181,48 @@ msgstr ""
 "Чтобы начать использовать генератор токенов на смартфоне, просканируйте QR-"
 "код ниже."
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:18
 msgid "For example, use the applications:"
 msgstr "Например, можно использовать приложения:"
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:20
 msgid "Yandex.Key"
 msgstr "Яндекс.Ключ"
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:22
 msgid "any application that supports TOTP protocol"
 msgstr "любое приложение, которое поддерживает протокол TOTP"
 
-#: .\cauth\templates\cauth\two_factor\core\setup.html:27
 msgid ""
 "Then, enter the six-digit code generated by the app. The code changes every "
 "30 seconds."
 msgstr ""
 "Затем, введите полученный код из шести цифр. Код меняется каждые 30 секунд."
 
-#: .\cauth\templates\cauth\two_factor\core\setup_complete.html:7
 msgid "Congratulations, you've successfully enabled two-factor authentication."
 msgstr "Поздравляем, вы успешно активировали двухфакторную аутентификацию."
 
-#: .\cauth\templates\cauth\two_factor\core\setup_complete.html:8
 msgid ""
 "In order to check the authentication mechanism, log out and then log in."
 msgstr ""
 "Чтобы проверить работу механизма аутентификации, выйдите из системы и "
 "войдите заново."
 
-#: .\cauth\templates\cauth\two_factor\profile\disable.html:6
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:22
 msgid "Disable two-factor authentication"
 msgstr "Отключить двухфакторную аутентификацию"
 
-#: .\cauth\templates\cauth\two_factor\profile\disable.html:8
 msgid "You are about to disable two-factor authentication."
 msgstr "Вы собираетесь выключить двухфакторную аутентификацию."
 
-#: .\cauth\templates\cauth\two_factor\profile\disable.html:9
 msgid "This weakens your account security, are you sure?"
 msgstr "Это понизит безопасность вашей учётной записи, вы уверены?"
 
-#: .\cauth\templates\cauth\two_factor\profile\disable.html:14
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:26
-#: .\users\templates\users\profile_two_factor.html:12
 msgid "Disable 2FA"
 msgstr "Отключить 2ФА"
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:10
 msgid "2FA is on"
 msgstr "2ФА включена"
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:11
 msgid "Tokens will be generated by your mobile application."
 msgstr "Токены будут генерироваться мобильным приложением."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:15
 msgid ""
 "If you don't have any device with you, you can access your account using "
 "backup tokens."
@@ -410,7 +230,6 @@ msgstr ""
 "Если у вас нет с собой мобильного устройства, вы можете получить доступ к "
 "учётной записи посредством резервных токенов."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:16
 #, python-format
 msgid "You have only one backup token remaining."
 msgid_plural "You have %(counter)s backup tokens remaining."
@@ -418,11 +237,9 @@ msgstr[0] "У вас остался %(counter)s токен."
 msgstr[1] "У вас осталось %(counter)s токена."
 msgstr[2] "У вас осталось %(counter)s токенов."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:19
 msgid "Show tokens"
 msgstr "Показать токены"
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:23
 msgid ""
 "If you start using a new mobile device or perform a factory reset, disable "
 "two-factor authentication and then enable it again."
@@ -430,44 +247,34 @@ msgstr ""
 "Если вы переходите на новое мобильное устройство или выполняете общий сброс, "
 "временно отключите двухфакторную аутентификацию, затем включите её снова."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:29
 msgid "Two-factor authentication is not enabled for your account."
 msgstr "Двухфакторная аутентификация не включена для вашей учётной записи."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:30
 msgid "Enable two-factor authentication for enhanced account security."
 msgstr ""
 "Включите двухфакторную аутентификацию для обеспечения лучшей безопасности."
 
-#: .\cauth\templates\cauth\two_factor\profile\profile.html:33
 msgid "Enable 2FA"
 msgstr "Включить 2ФА"
 
-#: .\cauth\templates\registration\logged_out.html:5 .\templates\navbar.html:53
 msgid "Logout"
 msgstr "Выход"
 
-#: .\cauth\templates\registration\logged_out.html:10
 msgid "You are now logged out. Any automatic login has also been stopped."
 msgstr "Теперь вы вышли из системы. Автоматический вход больше невозможен."
 
-#: .\cauth\templates\registration\logged_out.html:11
 msgid "Didn't mean to log out?"
 msgstr "Не хотели выходить?"
 
-#: .\cauth\templates\registration\logged_out.html:11
 msgid "Log in again."
 msgstr "Войдите снова."
 
-#: .\cauth\templates\registration\password_change_done.html:9
 msgid "Your password was changed."
 msgstr "Ваш пароль был изменён."
 
-#: .\cauth\templates\registration\password_change_done.html:9
 msgid "Go to the main page."
 msgstr "Перейти на главную страницу."
 
-#: .\cauth\templates\registration\password_change_form.html:14
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
@@ -475,88 +282,61 @@ msgstr ""
 "В целях безопасности, пожалуйста, введите свой старый пароль, затем введите "
 "новый пароль дважды, чтобы мы могли убедиться в правильности написания."
 
-#: .\cauth\templates\registration\password_change_form.html:21
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: .\cauth\twofactorviews.py:15
-msgid "Token"
-msgstr "Токен"
-
-#: .\common\constants.py:12
 msgid "standard input"
 msgstr "стандартный ввод"
 
-#: .\common\constants.py:13
 msgid "standard output"
 msgstr "стандартный вывод"
 
-#: .\common\constants.py:14 .\courses\forms.py:247
-#: .\problems\templates\problems\overview.html:47
-#: .\problems\templatetags\irunner_problems.py:90
-#: .\users\templates\users\profile_show.html:86
 msgid "no"
 msgstr "нет"
 
-#: .\common\constants.py:15
 msgid "Your changes have been saved."
 msgstr "Ваши изменения сохранены."
 
-#: .\common\constants.py:16
 msgid "Accepted for testing"
 msgstr "Принято на тестирование"
 
-#: .\common\outcome.py:18
 msgid "N/A"
 msgstr "N/A"
 
-#: .\common\outcome.py:19 .\solutions\forms.py:95
 msgid "Accepted"
 msgstr "Принято"
 
-#: .\common\outcome.py:20 .\solutions\forms.py:96
 msgid "Compilation Error"
 msgstr "Ошибка компиляции"
 
-#: .\common\outcome.py:21 .\solutions\forms.py:97
 msgid "Wrong Answer"
 msgstr "Неправильный ответ"
 
-#: .\common\outcome.py:22 .\solutions\forms.py:98
 msgid "Time Limit Exceeded"
 msgstr "Нарушен предел времени"
 
-#: .\common\outcome.py:23 .\solutions\forms.py:99
 msgid "Memory Limit Exceeded"
 msgstr "Нарушен предел памяти"
 
-#: .\common\outcome.py:24 .\solutions\forms.py:100
 msgid "Idleness Limit Exceeded"
 msgstr "Нарушен предел ожидания"
 
-#: .\common\outcome.py:25 .\solutions\forms.py:101
 msgid "Run-time Error"
 msgstr "Ошибка во время выполнения"
 
-#: .\common\outcome.py:26 .\solutions\forms.py:102
 msgid "Presentation Error"
 msgstr "Ошибка представления"
 
-#: .\common\outcome.py:27 .\solutions\forms.py:103
 msgid "Security Violation"
 msgstr "Нарушение безопасности"
 
-#: .\common\outcome.py:28 .\solutions\forms.py:104
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-#: .\common\templates\common\about.html:5
-#: .\common\templates\common\about.html:8 .\templates\base.html:55
 msgctxt "about the system"
 msgid "About"
 msgstr "О системе"
 
-#: .\common\templates\common\about.html:11
 #, python-format
 msgid ""
 "\n"
@@ -569,169 +349,103 @@ msgstr ""
 "обслуживания олимпиад по программированию, проведения практических занятий "
 "по основам алгоритмизации и смежным наукам.\n"
 
-#: .\common\templates\common\about.html:29
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:8
-#: .\solutions\templates\solutions\solution.html:114
-#: .\solutions\templates\solutions\solution_source.html:9
 msgid "Source code"
 msgstr "Исходный код"
 
-#: .\common\templates\common\activity.html:11 .\templates\navbar.html:41
 msgid "Activity"
 msgstr "Активность"
 
-#: .\common\templates\common\activity.html:13
 msgid "Submission count during the year"
 msgstr "Число посылок в течение года"
 
-#: .\common\templates\common\activity.html:29
 msgid "Statistics of courses during the current term"
 msgstr "Статистика курсов в текущем семестре"
 
-#: .\common\templates\common\activity.html:29
 msgid "starting from"
 msgstr "начиная с"
 
-#: .\common\templates\common\activity.html:32
 msgid "Submission count"
 msgstr "Число посылок"
 
-#: .\common\templates\common\activity.html:50
-#: .\contests\templates\contests\all_solutions.html:12
-#: .\contests\templates\contests\my_solutions.html:11
-#: .\contests\templates\contests\sidebar.html:52
-#: .\courses\templates\courses\sidebar.html:65 .\courses\views.py:645
 msgid "All solutions"
 msgstr "Все решения"
 
-#: .\common\templates\common\activity.html:59
 msgid "Accepted solutions"
 msgstr "Принятые решения"
 
-#: .\common\templates\common\activity.html:68
 msgid "Outcomes"
 msgstr "Вердикты"
 
-#: .\common\templates\common\error403.html:6
-#: .\common\templates\common\error403.html:10
 msgid "Access denied"
 msgstr "Доступ запрещён"
 
-#: .\common\templates\common\hall_of_fame.html:9 .\templates\navbar.html:38
 msgid "Hall of fame"
 msgstr "Зал славы"
 
-#: .\common\templates\common\hall_of_fame.html:11
 msgid "Leaders in number of attempts"
 msgstr "Лидеры по числу попыток"
 
-#: .\common\templates\common\hall_of_fame.html:17
 msgid "on problem"
 msgstr "по задаче"
 
-#: .\common\templates\common\home.html:9
 msgctxt "main page"
 msgid "Main"
 msgstr "Главная"
 
-#: .\common\templates\common\home.html:16
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
 
-#: .\common\templates\common\home.html:32
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-#: .\common\templates\common\home.html:41 .\courses\globalviews.py:107
 msgid "My courses"
 msgstr "Мои курсы"
 
-#: .\common\templates\common\home.html:54
 msgid "No active courses"
 msgstr "Нет активных курсов"
 
-#: .\common\templates\common\home.html:56
-#: .\common\templates\common\home.html:62
-#: .\common\templates\common\home.html:71
 msgid "View all"
 msgstr "Все"
 
-#: .\common\templates\common\home.html:60 .\contests\globalviews.py:25
 msgid "My contests"
 msgstr "Мои соревнования"
 
-#: .\common\templates\common\home.html:69
 msgid "Contest results"
 msgstr "Результаты соревнований"
 
-#: .\common\templates\common\home.html:77 .\news\templates\news\index.html:9
-#: .\news\templates\news\show.html:6 .\templates\navbar.html:40
 msgid "News"
 msgstr "Новости"
 
-#: .\common\templates\common\irunner_pagination_tag.html:34
 msgid "Page"
 msgstr "Страница"
 
-#: .\common\templates\common\irunner_pagination_tag.html:34
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:15
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:20
-#: .\courses\templates\courses\problems_base.html:28
-#: .\courses\templates\courses\quizzes_answers.html:38
-#: .\problems\templates\problems\show_test.html:22
-#: .\problems\templates\problems\sidebar.html:13
-#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:8
-#: .\solutions\templates\solutions\compare.html:61
-#: .\solutions\templates\solutions\compare.html:86
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:43
-#: .\solutions\templates\solutions\judgement.html:31
-#: .\solutions\templates\solutions\solution.html:28
 msgid "of"
 msgstr "из"
 
-#: .\common\templates\common\irunner_pagination_tag.html:79
-#: .\common\templates\common\irunner_pagination_tag.html:81
-#: .\courses\views.py:868
 msgid "All"
 msgstr "Все"
 
-#: .\common\templates\common\language.html:7
 msgid "Interface language"
 msgstr "Язык интерфейса"
 
-#: .\common\templates\common\twopanelselectmultiple_widget.html:11
 msgid "Loading"
 msgstr "Загрузка"
 
-#: .\common\templates\common\twopanelselectmultiple_widget.html:22
-#: .\courses\templates\courses\assign.html:105
-#: .\courses\templates\courses\queue_add.html:14
-#: .\news\templates\news\new.html:13
-#: .\quizzes\templates\quizzes\quiz_template_add_group.html:11
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:85
 msgid "Add"
 msgstr "Добавить"
 
-#: .\common\templates\common\twopanelselectmultiple_widget.html:23
 msgid "Add all"
 msgstr "Добавить всё"
 
-#: .\common\templates\common\twopanelselectmultiple_widget.html:24
 msgid "Remove"
 msgstr "Удалить"
 
-#: .\common\templates\common\twopanelselectmultiple_widget.html:25
 msgid "Remove all"
 msgstr "Удалить всё"
 
-#: .\common\templatetags\irunner_time.py:16
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:5
 msgid "s"
 msgstr "с"
 
-#: .\common\templatetags\irunner_time.py:39
 #, python-format
 msgid "%(count)d day"
 msgid_plural "%(count)d days"
@@ -739,7 +453,6 @@ msgstr[0] "%(count)d день"
 msgstr[1] "%(count)d дня"
 msgstr[2] "%(count)d дней"
 
-#: .\common\templatetags\irunner_time.py:44
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
@@ -747,7 +460,6 @@ msgstr[0] "%d день"
 msgstr[1] "%d дня"
 msgstr[2] "%d дней"
 
-#: .\common\templatetags\irunner_time.py:45
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -755,7 +467,6 @@ msgstr[0] "%d час"
 msgstr[1] "%d часа"
 msgstr[2] "%d часов"
 
-#: .\common\templatetags\irunner_time.py:46
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -763,7 +474,6 @@ msgstr[0] "%d минута"
 msgstr[1] "%d минуты"
 msgstr[2] "%d минут"
 
-#: .\common\templatetags\irunner_time.py:47
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -771,46 +481,22 @@ msgstr[0] "%d секунда"
 msgstr[1] "%d секунды"
 msgstr[2] "%d секунд"
 
-#: .\common\templatetags\irunner_time.py:72
 msgctxt "time"
 msgid ", "
 msgstr " "
 
-#: .\contests\forms.py:32 .\courses\forms.py:80
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
-#: .\contests\forms.py:67 .\contests\templates\contests\problems_later.html:5
-#: .\contests\templates\contests\problems_list.html:8
-#: .\contests\templates\contests\settings_base.html:24
-#: .\contests\templates\contests\sidebar.html:21 .\courses\forms.py:190
-#: .\courses\templates\courses\settings_base.html:18
-#: .\courses\templates\courses\standings.html:34
-#: .\courses\templates\courses\standings.html:114
-#: .\courses\templates\courses\standings_wide.html:29
-#: .\courses\templates\courses\standings_wide.html:113
-#: .\problems\navigator.py:35 .\problems\templates\problems\list_base.html:6
-#: .\problems\templates\problems\list_folder.html:11
-#: .\problems\templates\problems\list_folder.html:17
-#: .\problems\templates\problems\list_folder_confirm_delete.html:8
-#: .\problems\templates\problems\list_folder_confirm_delete.html:13
-#: .\problems\templates\problems\list_folder_form.html:8
-#: .\problems\templates\problems\list_folder_form.html:13
-#: .\problems\templates\problems\list_import_from_polygon.html:9
-#: .\problems\templates\problems\list_import_from_polygon.html:14
-#: .\problems\templates\problems\tree.html:6 .\templates\navbar.html:23
 msgid "Problems"
 msgstr "Задачи"
 
-#: .\contests\forms.py:68
 msgid "Order of problem addition is significant."
 msgstr "Порядок добавления задач имеет значение."
 
-#: .\contests\forms.py:74
 msgid "Statements file"
 msgstr "Файл условий"
 
-#: .\contests\forms.py:75
 msgid ""
 "You can upload a single file containing statements of all problems (usually "
 "in PDF format)."
@@ -818,422 +504,209 @@ msgstr ""
 "Вы можете загрузить один файл, содержащий условия всех задач (обычно в "
 "формате PDF)."
 
-#: .\contests\forms.py:85 .\contests\templates\contests\settings_base.html:30
-#: .\courses\forms.py:178 .\courses\templates\courses\settings_base.html:27
-#: .\templates\navbar.html:22 .\users\templates\users\base.html:6
-#: .\users\templates\users\bulk_operation.html:8
-#: .\users\templates\users\create_form.html:8
-#: .\users\templates\users\create_form.html:13
-#: .\users\templates\users\folder.html:10
-#: .\users\templates\users\folder.html:15
-#: .\users\templates\users\folder_confirm_delete.html:8
-#: .\users\templates\users\folder_confirm_delete.html:13
-#: .\users\templates\users\intranetbsu_errors.html:9
-#: .\users\templates\users\intranetbsu_errors.html:14
-#: .\users\templates\users\irunner_users_list_tag.html:40
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\contests\forms.py:94 .\courses\forms.py:219 .\courses\forms.py:289
-#: .\courses\forms.py:344
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:17
 msgid "User"
 msgstr "Пользователь"
 
-#: .\contests\forms.py:102 .\contests\forms.py:109 .\contests\forms.py:154
-#: .\contests\services.py:46
-#: .\contests\templates\contests\all_solutions.html:38
-#: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\templates\contests\my_solutions.html:32
-#: .\contests\templates\contests\problem.html:7 .\courses\forms.py:155
-#: .\courses\forms.py:202 .\courses\forms.py:228 .\courses\forms.py:287
-#: .\courses\templates\courses\problems_statement.html:8
-#: .\courses\templates\courses\problems_statement.html:13
-#: .\courses\templates\courses\solutions.html:41
-#: .\courses\templates\courses\standings.html:60 .\courses\views.py:606
-#: .\courses\views.py:667 .\problems\templates\problems\base.html:5
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:5
-#: .\problems\templates\problems\sidebar.html:26
-#: .\problems\templates\problems\statement_print.html:7
-#: .\solutions\templates\solutions\challenge_list.html:20
-#: .\solutions\templates\solutions\rejudge.html:22
-#: .\solutions\templates\solutions\solution.html:35
-#: .\solutions\templates\solutions\solution_list.html:36
-#: .\storage\templates\storage\usage.html:29
-#: .\storage\templates\storage\usage.html:45
-#: .\storage\templates\storage\usage.html:51
 msgid "Problem"
 msgstr "Задача"
 
-#: .\contests\forms.py:125
-#: .\contests\templates\contests\irunner_contests_message_tag.html:18
 msgid "To"
 msgstr "Кому"
 
-#: .\contests\forms.py:174
 msgid "Choose the room where you are to use the closest printer."
 msgstr ""
 "Выберите аудиторию, в которой вы находитесь, чтобы использовать ближайший "
 "принтер."
 
-#: .\contests\forms.py:186
 msgid "Text is too long."
 msgstr "Текст слишком большой."
 
-#: .\contests\globalviews.py:23
 msgid "All contests"
 msgstr "Все соревнования"
 
-#: .\contests\globalviews.py:26 .\templates\navbar.html:39
 msgid "Contests"
 msgstr "Соревнования"
 
-#: .\contests\models.py:27
 msgid "No access"
 msgstr "Нет доступа"
 
-#: .\contests\models.py:28
 msgid "View standings"
 msgstr "Просмотр результатов"
 
-#: .\contests\models.py:29
 msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
 
-#: .\contests\models.py:41
 msgid "Not set"
 msgstr "Не указано"
 
-#: .\contests\models.py:42
 msgid "Official contest"
 msgstr "Официальное соревнование"
 
-#: .\contests\models.py:43
 msgid "Trial tour"
 msgstr "Пробный тур"
 
-#: .\contests\models.py:44
 msgid "Qualifying tour"
 msgstr "Отборочный тур"
 
-#: .\contests\models.py:45
 msgid "Training"
 msgstr "Тренировка"
 
-#: .\contests\models.py:66 .\contests\models.py:196 .\courses\models.py:25
-#: .\courses\models.py:43 .\courses\models.py:93 .\courses\models.py:126
-#: .\courses\models.py:136 .\courses\models.py:244 .\problems\models.py:23
-#: .\quizzes\models.py:16 .\quizzes\models.py:58 .\users\models.py:15
 msgid "name"
 msgstr "название"
 
-#: .\contests\models.py:67
 msgid "rules"
 msgstr "правила"
 
-#: .\contests\models.py:72
 msgid "access for unauthorized users"
 msgstr "доступ для неавторизованных пользователей"
 
-#: .\contests\models.py:74
 msgid "contestant’s access to his own solutions"
 msgstr "доступ участника к его собственным решениям"
 
-#: .\contests\models.py:76
 msgid "maximum number of attempts per problem"
 msgstr "максимальное число попыток по задаче"
 
-#: .\contests\models.py:77
 msgid "maximum solution file size (bytes)"
 msgstr "максимальный размер файла решения (в байтах)"
 
-#: .\contests\models.py:78
 msgid "start time"
 msgstr "время начала"
 
-#: .\contests\models.py:79
 msgid "duration"
 msgstr "длительность"
 
-#: .\contests\models.py:80
 msgid "standings freeze time"
 msgstr "время заморозки результатов"
 
-#: .\contests\models.py:80
 msgid "If not set, there will be no freezing."
 msgstr "Если не задано, заморозки не будет."
 
-#: .\contests\models.py:81
 msgid "show pending runs during the freeze time"
 msgstr "отображать новые попытки во время заморозки"
 
-#: .\contests\models.py:82
 msgid "unfreeze standings after the end of the contest"
 msgstr "разморозить результаты по окончании соревнования"
 
-#: .\contests\models.py:83
 msgid "enable upsolving after the end of the contest"
 msgstr "включить дорешивание по окончании соревнования"
 
-#: .\contests\models.py:84
 msgid "enable printing"
 msgstr "включить печать"
 
-#: .\contests\models.py:85
 msgid "rooms (comma-separated)"
 msgstr "аудитории (через запятую)"
 
-#: .\contests\models.py:86 .\courses\models.py:128 .\users\models.py:42
 msgid "kind"
 msgstr "вид"
 
-#: .\contests\models.py:97
 msgid "Freeze time must not exceed the contest duration."
 msgstr "Время заморозки не должно быть больше длительности соревнования."
 
-#: .\contests\models.py:108
 msgid "contestant"
 msgstr "участник"
 
-#: .\contests\models.py:109
 msgid "juror"
 msgstr "член жюри"
 
-#: .\contests\models.py:114 .\courses\models.py:153
 msgid "role"
 msgstr "роль"
 
-#: .\contests\models.py:139
-#: .\contests\templates\contests\all_questions_delete.html:7
-#: .\contests\templates\contests\question_answers.html:9
-#: .\quizdemo\templates\quizdemo\question.html:13
-#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:6
-#: .\quizzes\utils.py:131
 msgid "Question"
 msgstr "Вопрос"
 
-#: .\contests\models.py:140
 msgid "Answer"
 msgstr "Ответ"
 
-#: .\contests\models.py:141
 msgid "Message"
 msgstr "Сообщение"
 
-#: .\contests\models.py:149 .\courses\models.py:211 .\feedback\models.py:12
-#: .\news\models.py:9
 msgid "subject"
 msgstr "тема"
 
-#: .\contests\models.py:150 .\courses\models.py:222
 msgid "message"
 msgstr "сообщение"
 
-#: .\contests\models.py:173 .\contests\templates\contests\settings_base.html:33
-#: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "Печать"
 
-#: .\contests\models.py:174
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: .\contests\models.py:179 .\contests\models.py:188
-#: .\contests\templates\contests\printing.html:32
 msgid "room"
 msgstr "аудитория"
 
-#: .\contests\models.py:181
 msgid "text"
 msgstr "текст"
 
-#: .\contests\models.py:182 .\courses\models.py:64 .\courses\models.py:268
 msgid "status"
 msgstr "статус"
 
-#: .\contests\models.py:197
 msgid "regular expression"
 msgstr "регулярное выражение"
 
-#: .\contests\services.py:58
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:23
 msgid "Contestant"
 msgstr "Участник"
 
-#: .\contests\services.py:505
 msgid "The scoreboard will be available after the start of the contest"
 msgstr "Таблица результатов будет доступна после начала соревнования"
 
-#: .\contests\services.py:524
 msgid "The scoreboard is hidden"
 msgstr "Таблица результатов скрыта"
 
-#: .\contests\settingsviews.py:205
 msgid "Contestants"
 msgstr "Участники"
 
-#: .\contests\settingsviews.py:206
 msgid "Jury"
 msgstr "Жюри"
 
-#: .\contests\templates\contests\all_questions.html:9
-#: .\contests\templates\contests\my_questions.html:7
-#: .\contests\templates\contests\sidebar.html:36
-#: .\contests\templates\contests\sidebar.html:44
-#: .\quizdemo\templates\quizdemo\index.html:6
 msgid "Questions"
 msgstr "Вопросы"
 
-#: .\contests\templates\contests\all_questions.html:13
-#: .\contests\templates\contests\my_questions.html:19
 msgid "No questions"
 msgstr "Вопросов нет"
 
-#: .\contests\templates\contests\all_questions_delete.html:10
 msgid "The question is going to be deleted."
 msgstr "Вопрос будет удалён."
 
-#: .\contests\templates\contests\all_questions_delete.html:18
-#: .\contests\templates\contests\irunner_contests_message_tag.html:13
-#: .\contests\templates\contests\messages_delete.html:18
-#: .\contests\templates\contests\question_answers.html:45
-#: .\courses\templates\courses\criterion_confirm_delete.html:24
-#: .\courses\templates\courses\messages.html:149
-#: .\courses\templates\courses\quizzes_answers.html:24
-#: .\courses\templates\courses\quizzes_answers.html:82
-#: .\courses\templates\courses\settings_component.html:17
-#: .\courses\templates\courses\settings_quiz_edit.html:37
-#: .\problems\templates\problems\batch_delete_tests.html:15
-#: .\problems\templates\problems\delete.html:20
-#: .\problems\templates\problems\delete_file.html:14
-#: .\problems\templates\problems\files.html:36
-#: .\problems\templates\problems\files.html:78
-#: .\problems\templates\problems\list_folder.html:42
-#: .\problems\templates\problems\list_folder_confirm_delete.html:32
-#: .\problems\templates\problems\show_test.html:39
-#: .\problems\templates\problems\show_test.html:132
-#: .\problems\templates\problems\tests.html:65
-#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:21
-#: .\solutions\templates\solutions\solution_list.html:76
-#: .\users\templates\users\folder.html:34
-#: .\users\templates\users\folder.html:67
-#: .\users\templates\users\folder_confirm_delete.html:21
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\contests\templates\contests\all_solutions.html:24
-#: .\contests\templates\contests\my_solutions.html:20
-#: .\courses\templates\courses\solutions.html:26
-#: .\problems\templates\problems\solutions.html:29
-#: .\solutions\templates\solutions\solution_list.html:25
 msgid "Apply"
 msgstr "Применить"
 
-#: .\contests\templates\contests\all_solutions.html:39
-#: .\contests\templates\contests\printing.html:24
-#: .\contests\templates\contests\printout_show.html:14
-#: .\courses\templates\courses\solutions.html:39
-#: .\news\templates\news\index.html:19
-#: .\problems\templates\problems\challenge.html:18
-#: .\problems\templates\problems\challenges.html:21
-#: .\problems\templates\problems\rejudges.html:14
-#: .\problems\templates\problems\show_test.html:61
-#: .\problems\templates\problems\solutions.html:56
-#: .\solutions\templates\solutions\challenge_list.html:18
-#: .\solutions\templates\solutions\compare.html:47
-#: .\solutions\templates\solutions\compare.html:72
-#: .\solutions\templates\solutions\rejudge.html:18
-#: .\solutions\templates\solutions\rejudge.html:41
-#: .\solutions\templates\solutions\rejudge_list.html:18
-#: .\solutions\templates\solutions\solution.html:31
-#: .\solutions\templates\solutions\solution_list.html:37
-#: .\solutions\templates\solutions\solution_plagiarism.html:20
 msgid "Author"
 msgstr "Автор"
 
-#: .\contests\templates\contests\all_solutions.html:40
-#: .\contests\templates\contests\my_solutions.html:33
-#: .\contests\templates\contests\printing.html:25
-#: .\courses\templates\courses\solutions.html:42
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:19
-#: .\solutions\templates\solutions\solution_attempts.html:18
-#: .\solutions\templates\solutions\solution_list.html:38
-#: .\solutions\templates\solutions\solution_plagiarism.html:19
 msgid "Time"
 msgstr "Время"
 
-#: .\contests\templates\contests\all_solutions.html:41
-#: .\contests\templates\contests\my_solutions.html:34
-#: .\courses\templates\courses\solutions.html:43 .\problems\forms.py:155
-#: .\problems\forms.py:173 .\problems\forms.py:177 .\problems\forms.py:196
-#: .\problems\templates\problems\files.html:19
-#: .\problems\templates\problems\files.html:57
-#: .\problems\templates\problems\solutions.html:58
-#: .\problems\templates\problems\texs.html:11
-#: .\solutions\templates\solutions\solution.html:86
-#: .\solutions\templates\solutions\solution_attempts.html:19
-#: .\solutions\templates\solutions\solution_list.html:39
-#: .\storage\templates\storage\usage.html:39
-#: .\storage\templates\storage\usage.html:44
-#: .\storage\templates\storage\usage.html:50
 msgid "File"
 msgstr "Файл"
 
-#: .\contests\templates\contests\all_solutions.html:42
-#: .\contests\templates\contests\my_solutions.html:35
-#: .\contests\templates\contests\printing.html:26
-#: .\contests\templates\contests\printout_show.html:20
-#: .\courses\templates\courses\solutions.html:44
-#: .\problems\templates\problems\solutions.html:59 .\solutions\forms.py:93
-#: .\solutions\templates\solutions\judgement_list.html:19
-#: .\solutions\templates\solutions\solution_attempts.html:20
-#: .\solutions\templates\solutions\solution_list.html:40
 msgid "Status"
 msgstr "Статус"
 
-#: .\contests\templates\contests\all_solutions.html:44
-#: .\contests\templates\contests\my_solutions.html:37
-#: .\solutions\templates\solutions\compare.html:60
-#: .\solutions\templates\solutions\compare.html:85
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:18
-#: .\solutions\templates\solutions\judgement.html:30
-#: .\solutions\templates\solutions\solution.html:27
 msgid "Score"
 msgstr "Очки"
 
-#: .\contests\templates\contests\all_solutions.html:75
 msgid "Disqualify"
 msgstr "Дисквалифицировать"
 
-#: .\contests\templates\contests\all_solutions.html:78
 msgid "Cancel the disqualification"
 msgstr "Отменить дисквалификацию"
 
-#: .\contests\templates\contests\all_solutions.html:89
-#: .\contests\templates\contests\my_solutions.html:67
-#: .\courses\templates\courses\info.html:57
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:60
-#: .\courses\templates\courses\solutions.html:91
-#: .\solutions\templates\solutions\rejudge.html:93
 msgid "No solutions"
 msgstr "Решений нет"
 
-#: .\contests\templates\contests\compilers.html:7
-#: .\contests\templates\contests\settings_base.html:21
-#: .\contests\templates\contests\sidebar.html:73
-#: .\courses\templates\courses\compilers.html:6
-#: .\courses\templates\courses\settings_base.html:21
-#: .\courses\templates\courses\sidebar.html:86
-#: .\proglangs\templates\proglangs\index.html:10 .\templates\navbar.html:33
 msgid "Compilers"
 msgstr "Компиляторы"
 
-#: .\contests\templates\contests\contest_confirm_delete.html:7
-#: .\contests\templates\contests\settings_properties.html:17
 msgid "Delete the contest"
 msgstr "Удалить соревнование"
 
-#: .\contests\templates\contests\contest_confirm_delete.html:8
 msgid ""
 "Are you sure you want to permanently delete the contest? This action cannot "
 "be undone."
@@ -1241,342 +714,188 @@ msgstr ""
 "Вы уверены, что хотите полностью удалить это соревнование? Это действие не "
 "может быть отменено."
 
-#: .\contests\templates\contests\contest_confirm_delete.html:12
-#: .\courses\templates\courses\course_confirm_delete.html:12
-#: .\feedback\templates\feedback\confirm.html:12
-#: .\problems\templates\problems\show_test.html:122
-#: .\solutions\templates\solutions\confirm_multiple.html:28
-#: .\users\templates\users\bulk_operation.html:28
 msgid "Confirm"
 msgstr "Подтвердить"
 
-#: .\contests\templates\contests\contest_form.html:7
-#: .\contests\templates\contests\contest_list.html:29
 msgid "New contest"
 msgstr "Новое соревнование"
 
-#: .\contests\templates\contests\contest_form.html:12
-#: .\courses\templates\courses\course_form.html:12
-#: .\problems\templates\problems\list_folder.html:31
-#: .\quizzes\templates\quizzes\question_group_create.html:11
-#: .\quizzes\templates\quizzes\quiz_template_create.html:11
-#: .\users\templates\users\folder.html:28
 msgid "Create"
 msgstr "Создать"
 
-#: .\contests\templates\contests\contest_list.html:26
 msgid "There are no contests available."
 msgstr "Нет доступных соревнований."
 
-#: .\contests\templates\contests\export.html:7
-#: .\contests\templates\contests\sidebar.html:87
 msgid "Export"
 msgstr "Экспорт"
 
-#: .\contests\templates\contests\export.html:13
 msgid "System"
 msgstr "Система"
 
-#: .\contests\templates\contests\irunner_contests_message_tag.html:12
-#: .\contests\templates\contests\problem.html:13
-#: .\courses\templates\courses\problems_statement.html:53
-#: .\courses\templates\courses\settings_quizzes.html:41
-#: .\courses\templates\courses\sheet.html:120
-#: .\problems\templates\problems\files.html:35
-#: .\problems\templates\problems\files.html:77
-#: .\problems\templates\problems\show_test.html:34
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:21
 msgid "Edit"
 msgstr "Правка"
 
-#: .\contests\templates\contests\irunner_contests_message_tag.html:18
-#: .\contests\views.py:493
 msgctxt "to"
 msgid "all"
 msgstr "всем"
 
-#: .\contests\templates\contests\irunner_contests_question_tag.html:13
-#: .\contests\views.py:716 .\courses\views.py:867
 msgid "General question"
 msgstr "Общий вопрос"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:9
 msgid "The scoreboard was frozen at"
 msgstr "Таблица результатов заморожена по состоянию на"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:12
 msgid "Last success"
 msgstr "Последнее принятое решение"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:15
 msgid "Last run"
 msgstr "Последнее решение"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:22
-#: .\contests\templates\contests\my_solutions.html:31
-#: .\courses\templates\courses\api_list_problems.html:10
-#: .\courses\templates\courses\quizzes.html:57
-#: .\courses\templates\courses\quizzes_rating.html:29
-#: .\courses\templates\courses\quizzes_sheet.html:26
-#: .\courses\templates\courses\settings_quizzes.html:21
-#: .\courses\templates\courses\settings_users.html:27
-#: .\courses\templates\courses\sheet.html:31
-#: .\courses\templates\courses\standings.html:25
-#: .\courses\templates\courses\standings.html:107
-#: .\courses\templates\courses\standings_wide.html:20
-#: .\courses\templates\courses\standings_wide.html:106
-#: .\problems\templates\problems\challenge.html:43
-#: .\problems\templates\problems\tests.html:79
-#: .\problems\templates\problems\tests_browse.html:14
-#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:11
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:28
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:40
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:11
-#: .\solutions\templates\solutions\rejudge.html:37
-#: .\solutions\templates\solutions\solution_attempts.html:16
-#: .\solutions\templates\solutions\solution_plagiarism.html:18
 msgid "#"
 msgstr "№"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:35
 msgid "Penalty"
 msgstr "Штраф"
 
-#: .\contests\templates\contests\irunner_contests_standings_tag.html:38
 msgid "Sum"
 msgstr "Сумма"
 
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:9
 msgid "The contest has not started"
 msgstr "Соревнование не началось"
 
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:10
 msgid "Time left to start"
 msgstr "До начала"
 
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:14
 msgid "The contest is running"
 msgstr "Соревнование идёт"
 
-#: .\contests\templates\contests\irunner_contests_timing_tag.html:19
-#: .\contests\templates\contests\submit.html:14
-#: .\contests\templates\contests\submit.html:18
 msgid "The contest is over"
 msgstr "Соревнование окончено"
 
-#: .\contests\templates\contests\messages.html:8
-#: .\contests\templates\contests\messages_delete.html:7
-#: .\contests\templates\contests\messages_form.html:7
-#: .\contests\templates\contests\messages_new.html:7
-#: .\contests\templates\contests\my_questions_form.html:7
-#: .\contests\templates\contests\printing.html:9
-#: .\contests\templates\contests\sidebar.html:28
-#: .\courses\templates\courses\course_list.html:31
-#: .\courses\templates\courses\messages.html:8
-#: .\courses\templates\courses\messages_new.html:6
-#: .\courses\templates\courses\queue_add.html:6
-#: .\courses\templates\courses\sidebar.html:36
 msgid "Messages"
 msgstr "Сообщения"
 
-#: .\contests\templates\contests\messages.html:14
 msgid "New message"
 msgstr "Новое сообщение"
 
-#: .\contests\templates\contests\messages.html:19
 msgid "No messages"
 msgstr "Сообщений нет"
 
-#: .\contests\templates\contests\messages_delete.html:10
 msgid "The message is going to be deleted."
 msgstr "Сообщение будет удалено."
 
-#: .\contests\templates\contests\messages_form.html:16
-#: .\contests\templates\contests\messages_new.html:16
-#: .\contests\templates\contests\my_questions_form.html:16
-#: .\contests\templates\contests\printout_new.html:17
-#: .\contests\templates\contests\submit.html:37
-#: .\courses\templates\courses\messages_new.html:25
-#: .\courses\templates\courses\submit.html:29
-#: .\feedback\templates\feedback\new.html:12
-#: .\problems\templates\problems\submit.html:11
 msgid "Send"
 msgstr "Отправить"
 
-#: .\contests\templates\contests\my_questions.html:12
 msgid "Ask a question"
 msgstr "Задать вопрос"
 
-#: .\contests\templates\contests\printing.html:14
-#: .\contests\templates\contests\printout_new.html:7
 msgid "New printout"
 msgstr "Новая распечатка"
 
-#: .\contests\templates\contests\printing.html:19
 msgid "No printouts"
 msgstr "Распечаток нет"
 
-#: .\contests\templates\contests\printing.html:27
 msgid "Text"
 msgstr "Текст"
 
-#: .\contests\templates\contests\printout_edit.html:6
-#: .\contests\templates\contests\printout_show.html:7
 msgid "Printout"
 msgstr "Распечатка"
 
-#: .\contests\templates\contests\printout_new.html:25
 msgid "Printing is only available during the contest"
 msgstr "Печать доступна только во время соревнования"
 
-#: .\contests\templates\contests\printout_show.html:17
 msgid "Room"
 msgstr "Аудитория"
 
-#: .\contests\templates\contests\problems_later.html:8
 msgid "Problems will be available after the start of the contest"
 msgstr "Задачи будут доступны после начала соревнования"
 
-#: .\contests\templates\contests\problems_list.html:15
 msgid "Problem statements"
 msgstr "Условия задач"
 
-#: .\contests\templates\contests\problems_list.html:33
-#: .\problems\templates\problems\irunner_problems_list_tag.html:44
 msgid "No problems"
 msgstr "Задач нет"
 
-#: .\contests\templates\contests\question_answers.html:14
-#: .\courses\templates\courses\quiz.html:32
 msgid "Warning"
 msgstr "Внимание"
 
-#: .\contests\templates\contests\question_answers.html:14
 msgid "Someone has already answered the question."
 msgstr "Кто-то уже ответил на вопрос."
 
-#: .\contests\templates\contests\question_answers.html:15
 msgid "Please read the answers and submit your answer again if needed."
 msgstr ""
 "Ознакомьтесь со списком ответов и, если необходимо, отправьте ваш ответ "
 "снова."
 
-#: .\contests\templates\contests\question_answers.html:36
 msgid "There are no answers to this question"
 msgstr "Ответов на этот вопрос нет"
 
-#: .\contests\templates\contests\question_answers.html:44
 msgctxt "verb"
 msgid "Answer"
 msgstr "Ответить"
 
-#: .\contests\templates\contests\settings_base.html:5
-#: .\contests\templates\contests\sidebar.html:80
-#: .\courses\templates\courses\settings_base.html:5
-#: .\courses\templates\courses\sidebar.html:107
-#: .\problems\templates\problems\challenge_new.html:19
 msgid "Settings"
 msgstr "Настройки"
 
-#: .\contests\templates\contests\settings_base.html:12
-#: .\courses\templates\courses\settings_base.html:12 .\problems\tabs.py:27
-#: .\problems\templates\problems\list_folder.html:37
 msgid "Properties"
 msgstr "Свойства"
 
-#: .\contests\templates\contests\settings_base.html:15
-#: .\courses\templates\courses\settings_base.html:15
 msgid "Access"
 msgstr "Доступ"
 
-#: .\contests\templates\contests\settings_base.html:18
 msgid "Limits"
 msgstr "Ограничения"
 
-#: .\contests\templates\contests\settings_base.html:27
 msgid "Statements"
 msgstr "Условия"
 
-#: .\contests\templates\contests\settings_compilers.html:15
-#: .\courses\templates\courses\settings_compilers.html:16
 msgid "Check all"
 msgstr "Отметить все"
 
-#: .\contests\templates\contests\settings_compilers.html:18
-#: .\courses\templates\courses\settings_compilers.html:19
 msgid "Uncheck all"
 msgstr "Снять пометки"
 
-#: .\contests\templates\contests\settings_filter.html:7
 msgid "User filters"
 msgstr "Фильтры по пользователям"
 
-#: .\contests\templates\contests\settings_users.html:14
-#: .\courses\templates\courses\settings_problems.html:59
-#: .\courses\templates\courses\settings_users.html:17
 msgid "Edit the list"
 msgstr "Редактировать список"
 
-#: .\contests\templates\contests\settings_users.html:18
-#: .\contests\templates\contests\standings_extra_controls.html:7
 msgid "Filters"
 msgstr "Фильтры"
 
-#: .\contests\templates\contests\settings_users.html:30
 msgid "No users are set"
 msgstr "Пользователи не заданы"
 
-#: .\contests\templates\contests\sidebar.html:14
-#: .\contests\templates\contests\standings.html:9
-#: .\contests\templates\contests\standings_wide.html:7
 msgctxt "contest"
 msgid "Standings"
 msgstr "Результаты"
 
-#: .\contests\templates\contests\sidebar.html:59
-#: .\courses\templates\courses\sidebar.html:72 .\courses\views.py:686
 msgid "My solutions"
 msgstr "Мои решения"
 
-#: .\contests\templates\contests\sidebar.html:66
-#: .\contests\templates\contests\submission.html:9
-#: .\contests\templates\contests\submit.html:7
-#: .\courses\templates\courses\problems_statement.html:47
-#: .\courses\templates\courses\sidebar.html:79
-#: .\courses\templates\courses\submission.html:6
-#: .\courses\templates\courses\submit.html:6 .\problems\tabs.py:38
 msgid "Submit solution"
 msgstr "Отправить решение"
 
-#: .\contests\templates\contests\standings_extra_controls.html:20
-#: .\courses\templates\courses\assign.html:68
 msgid "Reset"
 msgstr "Сброс"
 
-#: .\contests\templates\contests\standings_extra_controls.html:27
 msgid "Refresh the page every 30 seconds"
 msgstr "Обновлять страницу каждые 30 секунд"
 
-#: .\contests\templates\contests\standings_extra_controls.html:29
-#: .\contests\templates\contests\standings_extra_controls.html:31
 msgid "Autorefresh"
 msgstr "Автообновление"
 
-#: .\contests\templates\contests\standings_extra_controls.html:35
-#: .\courses\templates\courses\standings.html:14
 msgid "Widescreen version"
 msgstr "Широкоэкранная версия"
 
-#: .\contests\templates\contests\standings_wide.html:7
-#: .\courses\templates\courses\standings_wide.html:9
 msgid "widescreen"
 msgstr "широкоэкр."
 
-#: .\contests\templates\contests\submission.html:13
 msgid "Your solution has been submitted successfully."
 msgstr "Ваше решение отправлено успешно."
 
-#: .\contests\templates\contests\submission.html:14
 msgid ""
 "You are not required to wait for the judgement result: you may continue "
 "using the system and check the status of your submissions on ‘My solutions’ "
@@ -1586,240 +905,178 @@ msgstr ""
 "использование системы и проверять состояние ваших посылок на странице «Мои "
 "решения» в любое время."
 
-#: .\contests\templates\contests\submit.html:11
 msgid "Submission form will be available after the start of the contest"
 msgstr "Форма отправки будет доступна после начала соревнования"
 
-#: .\contests\templates\contests\submit.html:18
 msgid ""
 "Upsolving mode is on: your submission will not affect the final standings."
 msgstr ""
 "Включён режим дорешивания: ваша посылка не повлияет на итоговые результаты."
 
-#: .\contests\templatetags\irunner_contests.py:71
 msgid "Off."
 msgstr "Офиц."
 
-#: .\contests\templatetags\irunner_contests.py:72
 msgid "Trial"
 msgstr "Пробн."
 
-#: .\contests\templatetags\irunner_contests.py:73
 msgid "Qual."
 msgstr "Отбор"
 
-#: .\contests\templatetags\irunner_contests.py:74
 msgid "Train."
 msgstr "Трен."
 
-#: .\contests\views.py:746
 msgid "The question has been successfully submitted."
 msgstr "Вопрос был успешно отправлен."
 
-#: .\contests\views.py:901
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Ваша распечатка успешно добавлена в очередь печати."
 
-#: .\courses\forms.py:54 .\courses\forms.py:65 .\courses\models.py:60
 msgid "Year of study"
 msgstr "Год обучения"
 
-#: .\courses\forms.py:56 .\courses\forms.py:67 .\courses\models.py:62
 msgid "Academic year"
 msgstr "Учебный год"
 
-#: .\courses\forms.py:97
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
-#: .\courses\forms.py:98
 msgid "Problems to assign per student in the course"
 msgstr "Число задач для назначения студенту в курсе"
 
-#: .\courses\forms.py:114
 msgid "Weight coefficient"
 msgstr "Весовой коэффициент"
 
-#: .\courses\forms.py:133
 msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
 msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
 
-#: .\courses\forms.py:168
 msgid "Topic"
 msgstr "Тема"
 
-#: .\courses\forms.py:211
 msgid "Attempt count limit is reached."
 msgstr "Достигнуто ограничение по числу попыток."
 
-#: .\courses\forms.py:294 .\courses\templates\courses\messages.html:91
-#: .\feedback\forms.py:18 .\feedback\templates\feedback\list.html:32
 msgid "Attachment"
 msgstr "Вложение"
 
-#: .\courses\forms.py:295 .\feedback\forms.py:19
 msgid "You can attach an arbitrary file to your message"
 msgstr "Вы можете прикрепить к сообщению произвольный файл"
 
-#: .\courses\forms.py:322
 msgid "Students may join the queue."
 msgstr "Студенты могут записываться в очередь."
 
-#: .\courses\forms.py:329 .\courses\templates\courses\settings_queues.html:12
-#: .\courses\templates\courses\settings_users.html:29
 msgid "Subgroup"
 msgstr "Подгруппа"
 
-#: .\courses\globalviews.py:86
 msgid "Active courses"
 msgstr "Активные курсы"
 
-#: .\courses\globalviews.py:97
 msgid "All courses"
 msgstr "Все курсы"
 
-#: .\courses\models.py:24
 msgid "criterion label"
 msgstr "обозначение критерия"
 
-#: .\courses\models.py:36
 msgid "Running"
 msgstr "В процессе"
 
-#: .\courses\models.py:37 .\courses\templates\courses\sidebar.html:15
 msgid "Archived"
 msgstr "В архиве"
 
-#: .\courses\models.py:47
 msgid "student’s access to his own solutions"
 msgstr "доступ студента к его собственным решениям"
 
-#: .\courses\models.py:50
 msgid "student’s access to all solutions of the course"
 msgstr "доступ студента ко всем решениям курса"
 
-#: .\courses\models.py:53
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
-#: .\courses\models.py:54
 msgid "enable electronic queues"
 msgstr "включить электронные очереди"
 
-#: .\courses\models.py:58
 msgid "Number of attempts a day per problem"
 msgstr "Число попыток по задаче в день"
 
-#: .\courses\models.py:61
 msgid "Group number"
 msgstr "Номер группы"
 
-#: .\courses\models.py:71
 msgid "No information is given to identify the course."
 msgstr "Нет данных, чтобы идентифицировать курс."
 
 # There should be some way to write here 1st, 2nd etc.
-#: .\courses\models.py:78
 #, python-format
 msgid "%(group)d group"
 msgstr "%(group)d-я группа"
 
-#: .\courses\models.py:95
 msgid "problem folder"
 msgstr "папка с задачами"
 
-#: .\courses\models.py:96 .\courses\models.py:162
 msgid "criteria"
 msgstr "критерии"
 
-#: .\courses\models.py:119
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
 
-#: .\courses\models.py:120
 msgid "mark"
 msgstr "оценка"
 
-#: .\courses\models.py:121
 msgid "passed or not passed"
 msgstr "зачёт/незачёт"
 
-#: .\courses\models.py:122
 msgid "quiz result"
 msgstr "результат теста"
 
-#: .\courses\models.py:127 .\problems\models.py:106 .\problems\models.py:144
-#: .\problems\models.py:170 .\problems\models.py:180 .\problems\views.py:616
-#: .\proglangs\models.py:30 .\users\models.py:18 .\users\models.py:37
 msgid "description"
 msgstr "описание"
 
-#: .\courses\models.py:129 .\courses\templates\courses\settings_sheet.html:18
 msgid "weight"
 msgstr "вес"
 
-#: .\courses\models.py:130
 msgid "quiz"
 msgstr "тест"
 
-#: .\courses\models.py:147
 msgid "student"
 msgstr "студент"
 
-#: .\courses\models.py:148
 msgid "teacher"
 msgstr "преподаватель"
 
-#: .\courses\models.py:154 .\courses\models.py:245
-#: .\users\templates\users\user_card.html:38
 msgid "subgroup"
 msgstr "подгруппа"
 
-#: .\courses\models.py:160
 msgid "problem"
 msgstr "задача"
 
-#: .\courses\models.py:193
 msgid "pass"
 msgstr "зачёт"
 
-#: .\courses\models.py:194
 msgid "no pass"
 msgstr "незачёт"
 
-#: .\courses\models.py:195
 msgid "absence"
 msgstr "отсутствие"
 
-#: .\courses\models.py:223 .\feedback\models.py:14
 msgid "attachment"
 msgstr "Вложение"
 
-#: .\courses\models.py:243
 msgid "queue is active"
 msgstr "очередь активна"
 
-#: .\courses\models.py:260
 msgid "In progress"
 msgstr "В процессе"
 
-#: .\courses\models.py:270
 msgid "enqueue time"
 msgstr "время добавления в очередь"
 
-#: .\courses\queueviews.py:135
 msgid "You have successfully joined the queue."
 msgstr "Вы успешно записались в очередь."
 
-#: .\courses\quizviews.py:136
 msgid "Permission denied"
 msgstr "Доступ запрещён"
 
-#: .\courses\quizviews.py:139
 msgid "Quiz does not exist"
 msgstr "Тест не существует либо был удалён"
 
-#: .\courses\quizviews.py:143
 msgid ""
 "Quiz is finished or no time is left. You will be redirected to the results "
 "page."
@@ -1827,45 +1084,24 @@ msgstr ""
 "Тест был завершён, либо отведённое на него время вышло. Вы будете "
 "перенаправлены на страницу с результатами."
 
-#: .\courses\quizviews.py:146
 msgid "Request is not valid"
 msgstr "Запрос некорректен"
 
-#: .\courses\services.py:170 .\courses\templates\courses\assign.html:121
-#: .\courses\templates\courses\my_problems.html:45
-#: .\courses\templates\courses\settings_problems.html:45
-#: .\courses\templates\courses\standings.html:103
-#: .\courses\templates\courses\standings_wide.html:102
 msgid "Common problems"
 msgstr "Общие задачи"
 
-#: .\courses\services.py:212 .\courses\settingsviews.py:135
-#: .\courses\templates\courses\assign.html:26
-#: .\courses\templates\courses\course_list.html:29
 msgid "Students"
 msgstr "Студенты"
 
-#: .\courses\services.py:216 .\courses\settingsviews.py:137
 msgid "Teachers"
 msgstr "Преподаватели"
 
-#: .\courses\settingsviews.py:135
-#: .\courses\templates\courses\quizzes_answers.html:29
-#: .\courses\templates\courses\quizzes_rating.html:30
-#: .\courses\templates\courses\quizzes_sheet.html:27
-#: .\courses\templates\courses\sheet.html:32
-#: .\courses\templates\courses\standings.html:26
-#: .\courses\templates\courses\standings.html:108
-#: .\courses\templates\courses\standings_wide.html:21
-#: .\courses\templates\courses\standings_wide.html:107 .\courses\views.py:598
 msgid "Student"
 msgstr "Студент"
 
-#: .\courses\settingsviews.py:137
 msgid "Teacher"
 msgstr "Преподаватель"
 
-#: .\courses\settingsviews.py:179 .\users\views.py:187
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
@@ -1873,7 +1109,6 @@ msgstr[0] "Добавлен %(count)d пользователь."
 msgstr[1] "Добавлены %(count)d пользователя."
 msgstr[2] "Добавлено %(count)d пользователей."
 
-#: .\courses\settingsviews.py:187
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
@@ -1881,200 +1116,129 @@ msgstr[0] "Удалён %(count)d пользователь."
 msgstr[1] "Удалены %(count)d пользователя."
 msgstr[2] "Удалено %(count)d пользователей."
 
-#: .\courses\templates\courses\api_list_problems.html:8
-#: .\problems\templates\problems\irunner_problems_list_tag.html:18
-#: .\solutions\forms.py:128
 msgid "Level"
 msgstr "Уровень"
 
-#: .\courses\templates\courses\api_list_problems.html:11
-#: .\courses\templates\courses\settings_queues.html:13 .\problems\tabs.py:26
-#: .\problems\templates\problems\irunner_problems_list_tag.html:19
-#: .\problems\templates\problems\overview.html:27
-#: .\quizzes\templates\quizzes\question_group_list.html:16
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:41
-#: .\quizzes\templates\quizzes\quiz_template_list.html:16
-#: .\users\templates\users\profile_show.html:31
 msgid "Name"
 msgstr "Название"
 
-#: .\courses\templates\courses\api_list_problems.html:15
-#: .\courses\templates\courses\api_list_problems.html:24
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:28
 msgid "Assign"
 msgstr "Назначить"
 
-#: .\courses\templates\courses\api_list_problems.html:16
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:23
-#: .\problems\tabs.py:29
 msgid "Statement"
 msgstr "Условие"
 
-#: .\courses\templates\courses\assign.html:16
-#: .\courses\templates\courses\sidebar.html:44
 msgid "Assignment of problems"
 msgstr "Назначение задач"
 
-#: .\courses\templates\courses\assign.html:64
 msgid "Select a problem to assign"
 msgstr "Выберите задачу для назначения"
 
-#: .\courses\templates\courses\assign.html:75
 msgid "Remove extra problem"
 msgstr "Удалить дополнительную задачу"
 
-#: .\courses\templates\courses\assign.html:93
-#: .\courses\templates\courses\standings.html:84
-#: .\courses\templates\courses\standings_wide.html:83
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
 
-#: .\courses\templates\courses\course_confirm_delete.html:7
 msgid "Delete course"
 msgstr "Удалить курс"
 
-#: .\courses\templates\courses\course_confirm_delete.html:8
 msgid "Are you sure you want to permanently delete the course?"
 msgstr "Вы уверены, что хотите удалить этот курс?"
 
-#: .\courses\templates\courses\course_confirm_delete.html:8
-#: .\problems\templates\problems\batch_delete_tests.html:12
-#: .\problems\templates\problems\delete.html:17
 msgid "This action cannot be undone."
 msgstr "Это действие не может быть отменено."
 
-#: .\courses\templates\courses\course_form.html:7
-#: .\courses\templates\courses\course_list.html:9
 msgid "New course"
 msgstr "Новый курс"
 
-#: .\courses\templates\courses\course_list.html:15
 msgid "Show all"
 msgstr "Показать все"
 
-#: .\courses\templates\courses\course_list.html:30 .\problems\tabs.py:32
-#: .\problems\templates\problems\challenges.html:22
-#: .\problems\templates\problems\irunner_problems_list_tag.html:22
-#: .\problems\templates\problems\rejudges.html:15
-#: .\solutions\templates\solutions\solution_list.html:13
-#: .\templates\navbar.html:24 .\users\templates\users\profile_show.html:82
 msgid "Solutions"
 msgstr "Решения"
 
-#: .\courses\templates\courses\course_list.html:51
 msgid "There are no courses available."
 msgstr "Нет доступных курсов."
 
-#: .\courses\templates\courses\criterion_confirm_delete.html:8
 msgid "Delete criterion"
 msgstr "Удалить критерий"
 
-#: .\courses\templates\courses\criterion_confirm_delete.html:10
 msgid ""
 "Criterion is currently used in the following courses and cannot be deleted."
 msgstr ""
 "Критерий в настоящий момент используется в следующих курсах и не может быть "
 "удалён."
 
-#: .\courses\templates\courses\criterion_confirm_delete.html:20
 msgid "Criterion is not used in courses."
 msgstr "Критерий не используется в курсах."
 
-#: .\courses\templates\courses\criterion_list.html:8
-#: .\courses\templates\courses\settings_problems.html:28
-#: .\templates\navbar.html:34
 msgid "Criteria"
 msgstr "Критерии"
 
-#: .\courses\templates\courses\criterion_list.html:16
 msgid "edit"
 msgstr "редактировать"
 
-#: .\courses\templates\courses\criterion_list.html:17 .\solutions\views.py:351
 msgid "delete"
 msgstr "удалить"
 
-#: .\courses\templates\courses\criterion_list.html:22
 msgid "There are no criteria defined"
 msgstr "Критерии не определены"
 
-#: .\courses\templates\courses\criterion_list.html:24 .\courses\views.py:536
 msgid "New criterion"
 msgstr "Новый критерий"
 
-#: .\courses\templates\courses\info.html:24
 msgid "Number of submitted solutions"
 msgstr "Число отправленных решений"
 
-#: .\courses\templates\courses\info.html:33
 msgid "Programming language popularity"
 msgstr "Популярность языков программирования"
 
-#: .\courses\templates\courses\info.html:42
 msgid "Latest accepted solutions"
 msgstr "Последние принятые решения"
 
-#: .\courses\templates\courses\info.html:47
 msgid "ago"
 msgstr "назад"
 
-#: .\courses\templates\courses\info.html:68
 msgid "all"
 msgstr "все"
 
-#: .\courses\templates\courses\info.html:73
 msgid "accepted"
 msgstr "принятые"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:25
 msgid "No problem is assigned"
 msgstr "Задача не назначена"
 
-#: .\courses\templates\courses\irunner_courses_slotresult_tag.html:57
-#: .\problems\templates\problems\overview.html:112
-#: .\users\templates\users\profile_show.html:84
 msgid "solution"
 msgid_plural "solutions"
 msgstr[0] "решение"
 msgstr[1] "решения"
 msgstr[2] "решений"
 
-#: .\courses\templates\courses\messages.html:15
-#: .\courses\templates\courses\messages_new.html:13
 msgid "Compose"
 msgstr "Написать"
 
-#: .\courses\templates\courses\messages.html:24
 msgid "No subject"
 msgstr "Без темы"
 
-#: .\courses\templates\courses\messages.html:34
-#: .\courses\templates\courses\messages.html:61
 msgid "Public conversation"
 msgstr "Общедоступный разговор"
 
-#: .\courses\templates\courses\messages.html:75
 msgid "Consider the issue resolved"
 msgstr "Считать вопрос решённым"
 
-#: .\courses\templates\courses\messages.html:104
 msgid "Reply to thread"
 msgstr "Ответ в тему"
 
-#: .\courses\templates\courses\messages.html:115
 msgid "Reply"
 msgstr "Ответить"
 
-#: .\courses\templates\courses\messages.html:119
-#: .\courses\templates\courses\messages.html:139
 msgid "Delete thread"
 msgstr "Удалить тему"
 
-#: .\courses\templates\courses\messages.html:142
 msgid "Conversation will be deleted"
 msgstr "Переписка будет удалена"
 
-#: .\courses\templates\courses\messages.html:142
 #, python-format
 msgid "%(counter)s message"
 msgid_plural "%(counter)s messages"
@@ -2082,93 +1246,60 @@ msgstr[0] "%(counter)s сообщение"
 msgstr[1] "%(counter)s сообщения"
 msgstr[2] "%(counter)s сообщений"
 
-#: .\courses\templates\courses\my_problems.html:9
-#: .\courses\templates\courses\sidebar.html:29
 msgid "My problems"
 msgstr "Мои задачи"
 
-#: .\courses\templates\courses\problems_base.html:5
-#: .\courses\templates\courses\sidebar.html:22
 msgid "Course problems"
 msgstr "Задачи по курсу"
 
-#: .\courses\templates\courses\problems_base.html:43
 msgid "Select a topic to view problems."
 msgstr "Выберите тему, чтобы посмотреть задачи."
 
-#: .\courses\templates\courses\problems_statement.html:18
 msgid "Problem is assigned"
 msgstr "Задача назначена"
 
-#: .\courses\templates\courses\problems_statement.html:25
 msgid "Problem is not assigned"
 msgstr "Задача не назначена"
 
-#: .\courses\templates\courses\problems_statement.html:31
-#: .\problems\models.py:126
 msgid "Solution description"
 msgstr "Описание решения"
 
-#: .\courses\templates\courses\queue.html:7
-#: .\courses\templates\courses\sidebar.html:100
 msgid "Electronic queue"
 msgstr "Электронная очередь"
 
-#: .\courses\templates\courses\queue.html:58
 msgid "Sign up"
 msgstr "Записаться"
 
-#: .\courses\templates\courses\queue.html:63
 msgid "Add a student"
 msgstr "Добавить студента"
 
-#: .\courses\templates\courses\queue.html:72
-#: .\courses\templates\courses\settings_queues.html:28
 msgid "No queues"
 msgstr "Очередей нет"
 
-#: .\courses\templates\courses\quiz.html:6
 msgid "Quiz"
 msgstr "Тест"
 
-#: .\courses\templates\courses\quiz.html:28
-#: .\courses\templates\courses\quizzes.html:92
 msgid "Attention"
 msgstr "Внимание"
 
-#: .\courses\templates\courses\quiz.html:31
 msgid "Are you sure you want to finish this quiz?"
 msgstr "Вы уверены, что хотите завершить тест?"
 
-#: .\courses\templates\courses\quiz.html:32
 msgid "Some questions left unanswered."
 msgstr "Некоторые вопросы остались без ответа."
 
-#: .\courses\templates\courses\quiz.html:38
-#: .\quizzes\templates\quizzes\question_edit.html:31
-#: .\quizzes\templates\quizzes\question_group_upload.html:20
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:31
-#: .\quizzes\utils.py:133
 msgid "OK"
 msgstr "OK"
 
-#: .\courses\templates\courses\quizzes.html:8
-#: .\courses\templates\courses\settings_base.html:33
-#: .\courses\templates\courses\sidebar.html:93
-#: .\quizzes\templates\quizzes\base.html:5
-#: .\quizzes\templates\quizzes\sidebar.html:6 .\templates\navbar.html:42
 msgid "Quizzes"
 msgstr "Тесты"
 
-#: .\courses\templates\courses\quizzes.html:16
 msgid "Your browser is out-of-date."
 msgstr "Вы используете устаревший браузер."
 
-#: .\courses\templates\courses\quizzes.html:17
 msgid "You will not be able to pass a quiz using this browser."
 msgstr "Пройти тестирование в этом браузере не получится."
 
-#: .\courses\templates\courses\quizzes.html:31
 #, python-format
 msgid "%(counter)s question"
 msgid_plural "%(counter)s questions"
@@ -2176,11 +1307,9 @@ msgstr[0] "%(counter)s вопрос"
 msgstr[1] "%(counter)s вопроса"
 msgstr[2] "%(counter)s вопросов"
 
-#: .\courses\templates\courses\quizzes.html:40
 msgid "unlimited number of attempts"
 msgstr "число попыток не ограничено"
 
-#: .\courses\templates\courses\quizzes.html:42
 #, python-format
 msgid "%(counter)s attempt left"
 msgid_plural "%(counter)s attempts left"
@@ -2188,160 +1317,93 @@ msgstr[0] "осталась %(counter)s попытка"
 msgstr[1] "осталось %(counter)s попытки"
 msgstr[2] "осталось %(counter)s попыток"
 
-#: .\courses\templates\courses\quizzes.html:58
-#: .\courses\templates\courses\quizzes_answers.html:41
-#: .\courses\templates\courses\quizzes_rating.html:31
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:19
 msgid "Start time"
 msgstr "Время начала"
 
-#: .\courses\templates\courses\quizzes.html:59
-#: .\courses\templates\courses\quizzes_answers.html:46
-#: .\courses\templates\courses\quizzes_rating.html:32
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:20
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:216
 msgid "Duration"
 msgstr "Длительность"
 
-#: .\courses\templates\courses\quizzes.html:60
-#: .\courses\templates\courses\quizzes_answers.html:33
-#: .\courses\templates\courses\quizzes_rating.html:33
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:21
 msgid "Mark"
 msgstr "Оценка"
 
-#: .\courses\templates\courses\quizzes.html:73
-#: .\courses\templates\courses\quizzes_rating.html:47
 msgid "Answers"
 msgstr "Ответы"
 
-#: .\courses\templates\courses\quizzes.html:75
 msgid "Not permitted to view answers"
 msgstr "Просмотр ответов запрещён"
 
-#: .\courses\templates\courses\quizzes.html:81
 msgid "Continue"
 msgstr "Продолжить"
 
-#: .\courses\templates\courses\quizzes.html:93
 msgid "You can pass this quiz only once."
 msgstr "Тест можно пройти только один раз."
 
-#: .\courses\templates\courses\quizzes.html:103
 msgid "Turn off"
 msgstr "Выключить"
 
-#: .\courses\templates\courses\quizzes.html:111
 msgid "Turn on"
 msgstr "Включить"
 
-#: .\courses\templates\courses\quizzes.html:118
-#: .\courses\templates\courses\quizzes_sheet.html:9
-#: .\courses\templates\courses\settings_base.html:30
-#: .\courses\templates\courses\sheet.html:15
-#: .\courses\templates\courses\sidebar.html:58
 msgid "Sheet"
 msgstr "Ведомость"
 
-#: .\courses\templates\courses\quizzes.html:124
-#: .\courses\templates\courses\quizzes_rating.html:11
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: .\courses\templates\courses\quizzes.html:132
 msgid "Start quiz"
 msgstr "Начать тест"
 
-#: .\courses\templates\courses\quizzes.html:142
-#: .\courses\templates\courses\settings_quizzes.html:49
 msgid "No quizzes"
 msgstr "Тестов нет"
 
-#: .\courses\templates\courses\quizzes_answers.html:10
 msgid "Quiz answers"
 msgstr "Ответы на тест"
 
-#: .\courses\templates\courses\quizzes_answers.html:37 .\problems\forms.py:132
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:11
-#: .\problems\templates\problems\show_test.html:48
-#: .\problems\templates\problems\tests.html:82
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:30
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:42
 msgid "Points"
 msgstr "Баллы"
 
-#: .\courses\templates\courses\quizzes_answers.html:54
-#: .\quizzes\statistics.py:94
 msgid "Correct"
 msgstr "Верно"
 
-#: .\courses\templates\courses\quizzes_answers.html:55
 msgid "Incorrect but chosen"
 msgstr "Неверно, но выбрано"
 
-#: .\courses\templates\courses\quizzes_answers.html:56
 msgid "Correct but not chosen"
 msgstr "Верно, но не выбрано"
 
-#: .\courses\templates\courses\quizzes_answers.html:72
 msgid "Delete session"
 msgstr "Удалить сессию"
 
-#: .\courses\templates\courses\quizzes_answers.html:75
 msgid "Quiz session will be deleted"
 msgstr "Сессия тестирования будет удалена"
 
-#: .\courses\templates\courses\quizzes_rating.html:55
 msgid "No finished sessions"
 msgstr "Нет завершённых сессий"
 
-#: .\courses\templates\courses\quizzes_sheet.html:16
 msgid "Average mark"
 msgstr "Средняя оценка"
 
-#: .\courses\templates\courses\quizzes_sheet.html:19
-#: .\courses\templates\courses\standings.html:35
-#: .\courses\templates\courses\standings_wide.html:30
-#: .\problems\templates\problems\challenge.html:21
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:9
-#: .\solutions\templates\solutions\rejudge.html:29
-#: .\solutions\templates\solutions\solution.html:11
-#: .\solutions\templates\solutions\solution.html:23
 msgid "Result"
 msgstr "Итог"
 
-#: .\courses\templates\courses\quizzes_sheet.html:28
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:13
-#: .\solutions\templates\solutions\solution.html:102
-#: .\solutions\templates\solutions\solution_attempts.html:9
 msgid "Attempts"
 msgstr "Попытки"
 
-#: .\courses\templates\courses\settings_base.html:24
 msgid "Subgroups"
 msgstr "Подгруппы"
 
-#: .\courses\templates\courses\settings_base.html:36
 msgid "Queues"
 msgstr "Очереди"
 
-#: .\courses\templates\courses\settings_common_problems_edit.html:7
 msgid "Edit common problems list"
 msgstr "Редактирование списка общих задач"
 
-#: .\courses\templates\courses\settings_problems.html:8
 msgid "Topics"
 msgstr "Темы"
 
-#: .\courses\templates\courses\settings_problems.html:15
-#: .\problems\templates\problems\list_folder.html:25 .\users\forms.py:246
-#: .\users\templates\users\folder.html:22
-#: .\users\templates\users\irunner_users_list_tag.html:20
 msgid "Folder"
 msgstr "Папка"
 
-#: .\courses\templates\courses\settings_problems.html:19
-#: .\courses\templates\courses\settings_problems.html:26
 #, python-format
 msgid "%(counter)s problem"
 msgid_plural "%(counter)s problems"
@@ -2349,53 +1411,40 @@ msgstr[0] "%(counter)s задача"
 msgstr[1] "%(counter)s задачи"
 msgstr[2] "%(counter)s задач"
 
-#: .\courses\templates\courses\settings_problems.html:25
 msgid "To assign"
 msgstr "Для назначения"
 
-#: .\courses\templates\courses\settings_problems.html:39
 msgid "No topics"
 msgstr "Тем нет"
 
-#: .\courses\templates\courses\settings_problems.html:42
 msgid "New topic"
 msgstr "Новая тема"
 
-#: .\courses\templates\courses\settings_problems.html:47
 msgid ""
 "These problems are not assigned individually. Every student can solve them."
 msgstr ""
 "Эти задачи не назначаются индивидуально. Их может решать каждый студент."
 
-#: .\courses\templates\courses\settings_properties.html:17
 msgid "Delete the course"
 msgstr "Удалить курс"
 
-#: .\courses\templates\courses\settings_queues.html:11
 msgctxt "queue"
 msgid "Is active?"
 msgstr "Активна?"
 
-#: .\courses\templates\courses\settings_queues.html:14
 msgid "Entries"
 msgstr "Записи"
 
-#: .\courses\templates\courses\settings_queues.html:32
 msgid "New queue"
 msgstr "Новая очередь"
 
-#: .\courses\templates\courses\settings_quiz_edit.html:12
-#: .\courses\templates\courses\settings_quizzes.html:22 .\quizzes\models.py:68
-#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:14
 msgid "Quiz template"
 msgstr "Шаблон теста"
 
-#: .\courses\templates\courses\settings_quiz_edit.html:21
 msgctxt "quiz"
 msgid "Passed"
 msgstr "Пройден"
 
-#: .\courses\templates\courses\settings_quiz_edit.html:24
 #, python-format
 msgid "%(counter)s time"
 msgid_plural "%(counter)s times"
@@ -2403,20 +1452,16 @@ msgstr[0] "%(counter)s раз"
 msgstr[1] "%(counter)s раза"
 msgstr[2] "%(counter)s раз"
 
-#: .\courses\templates\courses\settings_quizzes.html:10
 msgid "New quiz"
 msgstr "Новый тест"
 
-#: .\courses\templates\courses\settings_quizzes.html:23
 msgid "Tag"
 msgstr "Метка"
 
-#: .\courses\templates\courses\settings_quizzes.html:24
 msgctxt "quiz"
 msgid "Available"
 msgstr "Доступен"
 
-#: .\courses\templates\courses\settings_sheet.html:9
 #, python-format
 msgid ""
 "<strong>Warning!</strong> Sum of weights is %(sum_actual)s, but "
@@ -2425,92 +1470,63 @@ msgstr ""
 "<strong>Внимание!</strong> Сумма весов равна %(sum_actual)s, хотя необходима "
 "сумма %(sum_expected)s."
 
-#: .\courses\templates\courses\settings_sheet.html:14
 msgid "Main kinds of activity"
 msgstr "Основные зачётные виды деятельности"
 
-#: .\courses\templates\courses\settings_sheet.html:25
 msgid "Extra kinds of activity"
 msgstr "Дополнительные виды деятельности"
 
-#: .\courses\templates\courses\settings_sheet.html:36
 msgid "New kind of activity"
 msgstr "Новый вид деятельности"
 
-#: .\courses\templates\courses\settings_subgroups.html:15
 msgid "No subgroups"
 msgstr "Подгрупп нет"
 
-#: .\courses\templates\courses\settings_subgroups.html:18
 msgid "New subgroup"
 msgstr "Новая подгруппа"
 
-#: .\courses\templates\courses\settings_users.html:43
 msgid "No users are set."
 msgstr "Пользователи не заданы."
 
-#: .\courses\templates\courses\settings_users_edit.html:8
 msgid "Edit students list"
 msgstr "Редактирование списка студентов"
 
-#: .\courses\templates\courses\settings_users_edit.html:10
 msgid "Edit teachers list"
 msgstr "Редактирование списка преподавателей"
 
-#: .\courses\templates\courses\sheet.html:21
 msgid "Edit mode is on."
 msgstr "Включён режим редактирования."
 
-#: .\courses\templates\courses\sheet.html:21
 msgid "All changes are saved automatically."
 msgstr "Все изменения автоматически сохраняются."
 
-#: .\courses\templates\courses\sheet.html:22
 msgid "Return to view mode (read-only)."
 msgstr "Вернуться в режим просмотра (только чтение)."
 
-#: .\courses\templates\courses\sidebar.html:51
-#: .\courses\templates\courses\standings.html:9
-#: .\courses\templates\courses\standings_wide.html:9
-#: .\courses\templates\courses\standings_wide.html:13
 msgctxt "course"
 msgid "Standings"
 msgstr "Журнал"
 
-#: .\courses\templates\courses\solutions.html:46
-#: .\solutions\templates\solutions\solution.html:132
-#: .\solutions\templates\solutions\solution_list.html:41
-#: .\solutions\templates\solutions\solution_plagiarism.html:10
 msgid "Plagiarism"
 msgstr "Плагиат"
 
-#: .\courses\templates\courses\standings.html:21
-#: .\courses\templates\courses\standings_wide.html:16
 msgid "Individual problems"
 msgstr "Индивидуальные задачи"
 
-#: .\courses\templates\courses\submit.html:43
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:83
-#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:46
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:117
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
-#: .\courses\templates\courses\submit.html:46
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
 # There should be some way to write here 1st, 2nd etc.
-#: .\courses\utils.py:9
 #, python-format
 msgid "%(year)d year"
 msgstr "%(year)d-й курс"
 
-#: .\courses\views.py:549
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
-#: .\courses\views.py:734
 #, python-format
 msgid "You have %(count)d attempt remaining for the problem during the day."
 msgid_plural ""
@@ -2519,166 +1535,115 @@ msgstr[0] "Осталась %(count)d попытка по задаче в теч
 msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
 msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
 
-#: .\courses\views.py:738
 msgid "You have no attempts remaining for the problem."
 msgstr "Доступные попытки по задаче закончились."
 
-#: .\courses\views.py:744
 #, python-format
 msgid "Please try again after %(ts)s."
 msgstr "Попробуйте отправить решение после %(ts)s."
 
-#: .\courses\views.py:746
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
 
-#: .\feedback\models.py:13 .\news\models.py:10
 msgid "message body"
 msgstr "тело сообщения"
 
-#: .\feedback\templates\feedback\confirm.html:6
-#: .\solutions\templates\solutions\confirm_multiple.html:8
-#: .\solutions\templates\solutions\confirm_multiple.html:12
 msgid "Confirmation required"
 msgstr "Требуется подтверждение"
 
-#: .\feedback\templates\feedback\confirm.html:10
 msgid "Are you sure you want to delete the feedback message?"
 msgstr "Вы уверены, что хотите удалить сообщение обратной связи?"
 
-#: .\feedback\templates\feedback\list.html:8
 msgid "Feedback Messages"
 msgstr "Сообщения обратной связи"
 
-#: .\feedback\templates\feedback\list.html:17
 msgid "Anonymous user"
 msgstr "Анонимный пользователь"
 
-#: .\feedback\templates\feedback\new.html:7
 msgid "Feedback Form"
 msgstr "Форма обратной связи"
 
-#: .\feedback\templates\feedback\thanks.html:7
 msgid "Thanks!"
 msgstr "Спасибо!"
 
-#: .\feedback\templates\feedback\thanks.html:9
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
 
-#: .\irunner2\settings_prod.py:43
 msgid "Wiki"
 msgstr "Вики"
 
-#: .\news\models.py:11
 msgid "show on the main page"
 msgstr "показывать на главной странице"
 
-#: .\news\templates\news\index.html:12 .\news\templates\news\new.html:7
 msgid "Add news"
 msgstr "Добавить новость"
 
-#: .\news\templates\news\index.html:18
 msgid "Date"
 msgstr "Дата"
 
-#: .\news\templates\news\index.html:20
 msgid "Subject"
 msgstr "Тема"
 
-#: .\news\templates\news\index.html:21
 msgid "Visibility"
 msgstr "Видимость"
 
-#: .\news\templates\news\update.html:7
 msgid "Update news"
 msgstr "Обновить новость"
 
-#: .\problems\fields.py:56
 msgid "Time limit cannot be negative."
 msgstr "Ограничение по времени не может быть отрицательным."
 
-#: .\problems\fields.py:57
 #, python-format
 msgid "Time limit is too big (exceeds %(limit)s s)."
 msgstr "Ограничение по времени слишком большое (превышает %(limit)s с)."
 
-#: .\problems\fields.py:58
 msgid "Time limit is too small."
 msgstr "Ограничение по времени слишком маленькое."
 
-#: .\problems\fields.py:60
 msgid "Time limit per test measured in seconds (i. e. 0.5 or 2)."
 msgstr "Ограничение по времени на тест в секундах (например 0,5 или 2)."
 
-#: .\problems\fields.py:67
 msgid "Memory limit cannot be negative."
 msgstr "Ограничение по памяти не может быть отрицательным."
 
-#: .\problems\fields.py:68
 #, python-format
 msgid "Memory limit is too big (exceeds %(limit)s MB)."
 msgstr "Ограничение по памяти слишком большое (превышает %(limit)s МБ)."
 
-#: .\problems\fields.py:69
 msgid "Memory limit is too small."
 msgstr "Ограничение по памяти слишком маленькое."
 
-#: .\problems\fields.py:71
 msgid "Memory limit per test measured in mebibytes (i. e. 64 or 256)."
 msgstr "Ограничение по памяти на тест в мебибайтах (например 64 или 256)."
 
-#: .\problems\forms.py:33
 msgid "Difficulty level on the ten-point scale (for courses)."
 msgstr "Уровень сложности по десятибалльной шкале (для учебных курсов)."
 
-#: .\problems\forms.py:34
 msgid "Leave empty to use standard input."
 msgstr "Оставьте пустым, чтобы использовать стандартный ввод."
 
-#: .\problems\forms.py:35
 msgid "Leave empty to use standard output."
 msgstr "Оставьте пустым, чтобы использовать стандартный вывод."
 
-#: .\problems\forms.py:47
 msgid "Problem folders"
 msgstr "Папки с задачами"
 
-#: .\problems\forms.py:61 .\problems\forms.py:76 .\problems\forms.py:124
-#: .\problems\forms.py:281
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:10
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:15
-#: .\problems\templates\problems\show_test.html:52
-#: .\problems\templates\problems\tests.html:83
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:16
-#: .\solutions\templates\solutions\irunner_solutions_timelimitbox_tag.html:3
 msgid "Time limit"
 msgstr "Ограничение по времени"
 
-#: .\problems\forms.py:62 .\problems\forms.py:77 .\problems\forms.py:128
-#: .\problems\forms.py:282
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:13
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
-#: .\problems\templates\problems\show_test.html:56
-#: .\problems\templates\problems\tests.html:84
-#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
 msgid "Memory limit"
 msgstr "Ограничение по памяти"
 
-#: .\problems\forms.py:71
 msgid "Full feedback will be available for the first <i>N</i> test cases."
 msgstr ""
 "Для первых <i>N</i> тестов будут открыты полные результаты тестирования."
 
-#: .\problems\forms.py:149
 msgid "A file with this name already exists."
 msgstr "Файл с таким именем уже существует."
 
-#: .\problems\forms.py:205 .\users\forms.py:165
 msgid "ZIP-archive"
 msgstr "ZIP-архив"
 
-#: .\problems\forms.py:206
 msgid ""
 "The archive should not contain any other files except test inputs and "
 "outputs."
@@ -2686,279 +1651,186 @@ msgstr ""
 "Архив не должен содержать других данных, кроме входных и выходных файлов "
 "тестов."
 
-#: .\problems\forms.py:207
 msgid "File naming scheme"
 msgstr "Схема именования файлов"
 
-#: .\problems\forms.py:221 .\users\forms.py:199
 msgid "Archive format is not supported."
 msgstr "Формат архива не поддерживается."
 
-#: .\problems\forms.py:232
 msgid "No test files found in the archive."
 msgstr "Тестовые файлы в архиве не найдены."
 
-#: .\problems\forms.py:267 .\problems\models.py:164 .\problems\tabs.py:31
 msgid "Validator"
 msgstr "Контролёр тестов"
 
-#: .\problems\forms.py:303
 msgid "Russian"
 msgstr "Русский"
 
-#: .\problems\forms.py:304
 msgid "English"
 msgstr "Английский"
 
-#: .\problems\forms.py:307
 msgid "Full package (Windows) as a ZIP-archive"
 msgstr "Полный пакет (Windows) в виде ZIP-архива"
 
-#: .\problems\forms.py:308
 msgid "Problem statement language"
 msgstr "Язык условия задачи"
 
-#: .\problems\forms.py:309
 msgid "Compiler for checker and validator"
 msgstr "Компилятор для программы проверки и контролёра тестов"
 
-#: .\problems\importing.py:64
 #, python-format
 msgid "Unknown file found in the archive: %(name)s"
 msgstr "В архиве обнаружен неизвестный файл: %(name)s"
 
-#: .\problems\importing.py:76
 #, python-format
 msgid "File not found in the archive: %(name)s"
 msgstr "Файл не найден в архиве: %(name)s"
 
-#: .\problems\models.py:31 .\problems\models.py:179
 msgid "number"
 msgstr "номер"
 
-#: .\problems\models.py:32
 msgid "subnumber"
 msgstr "подномер"
 
-#: .\problems\models.py:33
 msgid "full name"
 msgstr "полное название"
 
-#: .\problems\models.py:34
 msgid "short name"
 msgstr "короткое название"
 
-#: .\problems\models.py:35
 msgid "difficulty"
 msgstr "сложность"
 
-#: .\problems\models.py:37
 msgid "input file name"
 msgstr "имя входного файла"
 
-#: .\problems\models.py:38
 msgid "output file name"
 msgstr "имя выходного файла"
 
-#: .\problems\models.py:40
 msgid "folders"
 msgstr "папки"
 
-#: .\problems\models.py:101
 msgid "A problem must have a number or a non-empty name."
 msgstr "У задачи должен быть номер или непустое название."
 
-#: .\problems\models.py:107
 msgid "hint"
 msgstr "подсказка"
 
-#: .\problems\models.py:110
 msgid "number of sample tests"
 msgstr "число тестов-примеров"
 
-#: .\problems\models.py:123
 msgid "TeX statement"
 msgstr "Условие в формате TeX"
 
-#: .\problems\models.py:124
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
 
-#: .\problems\models.py:125
 msgid "Additional statement file"
 msgstr "Дополнительный файл условия"
 
-#: .\problems\models.py:127
 msgid "Sample input file"
 msgstr "Пример входного файла"
 
-#: .\problems\models.py:128
 msgid "Sample output file"
 msgstr "Пример выходного файла"
 
-#: .\problems\models.py:129
 msgid "User file"
 msgstr "Файл пользователя"
 
-#: .\problems\models.py:143 .\problems\models.py:169
 msgid "file type"
 msgstr "тип файла"
 
-#: .\problems\models.py:159
 msgid "Author's solution"
 msgstr "Авторское решение"
 
-#: .\problems\models.py:160
 msgid "Checker"
 msgstr "Программа проверки"
 
-#: .\problems\models.py:161
 msgid "Contestant solution"
 msgstr "Решение участника"
 
-#: .\problems\models.py:162
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\problems\models.py:163
 msgid "Library"
 msgstr "Библиотека"
 
-#: .\problems\models.py:171 .\solutions\forms.py:141
 msgid "compiler"
 msgstr "компилятор"
 
-#: .\problems\tabs.py:28 .\problems\templates\problems\list_base.html:14
-#: .\problems\templates\problems\overview.html:38
-#: .\users\templates\users\base.html:13
 msgid "Folders"
 msgstr "Папки"
 
-#: .\problems\tabs.py:30
-#: .\problems\templates\problems\irunner_problems_list_tag.html:21
 msgid "Tests"
 msgstr "Тесты"
 
-#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
-#: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Взломы"
 
-#: .\problems\tabs.py:34 .\solutions\templates\solutions\rejudge_list.html:10
-#: .\templates\navbar.html:29
 msgid "Rejudges"
 msgstr "Перетестирования"
 
-#: .\problems\tabs.py:35
 msgid "Files"
 msgstr "Файлы"
 
-#: .\problems\tabs.py:36 .\problems\templates\problems\tex_playground.html:7
-#: .\templates\navbar.html:36
 msgid "TeX editor"
 msgstr "Редактор TeX"
 
-#: .\problems\tabs.py:37
 msgid "Pictures"
 msgstr "Картинки"
 
-#: .\problems\templates\problems\batch_delete_tests.html:8
 msgid "Batch deteting"
 msgstr "Массовое удаление"
 
-#: .\problems\templates\problems\batch_delete_tests.html:8
-#: .\problems\templates\problems\batch_edit_tests.html:8
-#: .\problems\templates\problems\overview.html:95
 msgid "test"
 msgid_plural "tests"
 msgstr[0] "тест"
 msgstr[1] "теста"
 msgstr[2] "тестов"
 
-#: .\problems\templates\problems\batch_delete_tests.html:12
 msgid "The tests are going to be deleted."
 msgstr "Тесты будут удалены."
 
-#: .\problems\templates\problems\batch_edit_tests.html:8
 msgid "Batch editing"
 msgstr "Массовое редактирование"
 
-#: .\problems\templates\problems\challenge.html:27
-#: .\problems\templates\problems\challenge.html:41
-#: .\problems\templates\problems\files.html:33
-#: .\problems\templates\problems\files.html:75
-#: .\problems\templates\problems\show_test.html:98
-#: .\problems\templates\problems\show_test.html:107
-#: .\problems\templates\problems\tests.html:99
-#: .\problems\templates\problems\tests.html:108
-#: .\solutions\templates\solutions\solution_source.html:20
 msgid "Open"
 msgstr "Открыть"
 
-#: .\problems\templates\problems\challenge.html:28
-#: .\problems\templates\problems\challenge.html:42
-#: .\problems\templates\problems\files.html:34
-#: .\problems\templates\problems\files.html:76
-#: .\problems\templates\problems\show_test.html:99
-#: .\problems\templates\problems\show_test.html:108
-#: .\problems\templates\problems\tests.html:100
-#: .\problems\templates\problems\tests.html:109
-#: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:8
-#: .\solutions\templates\solutions\solution_source.html:23
-#: .\storage\templates\storage\show.html:14
 msgid "Download"
 msgstr "Загрузить"
 
-#: .\problems\templates\problems\challenge.html:29
-#: .\problems\templates\problems\challenge_new.html:15
-#: .\problems\templates\problems\edit_test.html:27
-#: .\solutions\templates\solutions\testcaseresult.html:12
 msgid "Input file"
 msgstr "Входной файл"
 
-#: .\problems\templates\problems\challenge.html:43
-#: .\solutions\templates\solutions\judgement_storage.html:19
-#: .\solutions\templates\solutions\testcaseresult.html:18
 msgid "Output file"
 msgstr "Выходной файл"
 
-#: .\problems\templates\problems\challenge.html:46
 msgid "No result got"
 msgstr "Результат не получен"
 
-#: .\problems\templates\problems\challenge.html:65
 msgid "Add to test cases"
 msgstr "Добавить к тестам"
 
-#: .\problems\templates\problems\challenge_new.html:11
-#: .\problems\templates\problems\challenges.html:12
 msgid "New challenge"
 msgstr "Новый взлом"
 
-#: .\problems\templates\problems\challenge_new.html:26
 msgid "Start"
 msgstr "Старт"
 
-#: .\problems\templates\problems\challenges.html:20
-#: .\solutions\templates\solutions\challenge_list.html:19
 msgctxt "challenge"
 msgid "Created"
 msgstr "Создан"
 
-#: .\problems\templates\problems\challenges.html:36
 msgid "No challenges"
 msgstr "Взломов нет"
 
-#: .\problems\templates\problems\delete.html:10
 msgid "Unable to delete the problem because it is currently in use."
 msgstr "Нельзя удалить задачу, потому что она в данный момент используется."
 
-#: .\problems\templates\problems\delete.html:13
-#: .\problems\templates\problems\name.html:18
 msgid "Delete the problem"
 msgstr "Удалить задачу"
 
-#: .\problems\templates\problems\delete.html:16
 msgid ""
 "You should probably do not do this. Consider moving the problem to a special "
 "folder instead of permanently deleting it."
@@ -2966,57 +1838,39 @@ msgstr ""
 "Скорее всего, вам не следует делать этого. Рассмотрите вариант переноса "
 "задачи в специальную папку вместо того, чтобы удалять её совсем."
 
-#: .\problems\templates\problems\delete_file.html:8
 msgid "Are you sure you want to delete the file"
 msgstr "Вы уверены, что хотите удалить файл"
 
-#: .\problems\templates\problems\edit_test.html:16
 msgid "Edit the test case"
 msgstr "Редактировать тест"
 
-#: .\problems\templates\problems\edit_test.html:18
-#: .\problems\templates\problems\tests.html:40
 msgid "New test case"
 msgstr "Новый тест"
 
-#: .\problems\templates\problems\edit_test.html:34
-#: .\solutions\templates\solutions\testcaseresult.html:24
 msgid "Answer file"
 msgstr "Файл правильного ответа"
 
-#: .\problems\templates\problems\files.html:14
 msgid "Data files"
 msgstr "Файлы с данными"
 
-#: .\problems\templates\problems\files.html:14
 msgid "(statements, editorials, pictures)"
 msgstr "(условия, разборы, картинки)"
 
-#: .\problems\templates\problems\files.html:20
-#: .\problems\templates\problems\files.html:58
-#: .\problems\templates\problems\texs.html:12
 msgid "Type"
 msgstr "Тип"
 
-#: .\problems\templates\problems\files.html:46
-#: .\problems\templates\problems\files.html:88
 msgid "New file"
 msgstr "Новый файл"
 
-#: .\problems\templates\problems\files.html:52
 msgid "Source files"
 msgstr "Файлы с кодом"
 
-#: .\problems\templates\problems\files.html:52
 msgid "(checkers, validators)"
 msgstr "(программы проверки, контролёры тестов)"
 
-#: .\problems\templates\problems\files.html:60 .\proglangs\views.py:44
-#: .\solutions\forms.py:26 .\solutions\templates\solutions\solution.html:92
 msgid "Compiler"
 msgstr "Компилятор"
 
-#: .\problems\templates\problems\folders.html:11
 msgid ""
 "A problem may be put into several folders. Use <kbd>Ctrl</kbd> key to select "
 "multiple options."
@@ -3024,68 +1878,48 @@ msgstr ""
 "Задача может располагаться в нескольких папках. Используйте клавишу "
 "<kbd>Ctrl</kbd> для выбора папок."
 
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:7
 msgid "Input file name"
 msgstr "Имя входного файла"
 
-#: .\problems\templates\problems\irunner_problems_heading_tag.html:8
 msgid "Output file name"
 msgstr "Имя выходного файла"
 
-#: .\problems\templates\problems\irunner_problems_list_tag.html:20
-#: .\problems\templates\problems\overview.html:24
 msgid "Short name"
 msgstr "Короткое название"
 
-#: .\problems\templates\problems\irunner_problems_statement_tag.html:23
 msgid "There is no statement for this problem"
 msgstr "В системе нет условия для этой задачи"
 
-#: .\problems\templates\problems\irunner_problems_testparams_tag.html:19
 msgid "MB"
 msgstr "МБ"
 
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:7
 msgid "Use F2 key to switch view"
 msgstr "Используйте клавишу F2 для переключения вида"
 
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:22
 msgid "one example"
 msgstr "один пример"
 
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:23
 msgid "two examples"
 msgstr "два примера"
 
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:24
 msgid "three examples"
 msgstr "три примера"
 
-#: .\problems\templates\problems\irunner_problems_tex_tag.html:69
-#: .\solutions\templates\solutions\irunner_solutions_livesubmission_tag.html:13
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:112
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: .\problems\templates\problems\list_base.html:17
-#: .\users\templates\users\base.html:16
 msgid "Search"
 msgstr "Поиск"
 
-#: .\problems\templates\problems\list_folder.html:51 .\problems\views.py:1218
 msgid "New problem"
 msgstr "Новая задача"
 
-#: .\problems\templates\problems\list_folder.html:54
 msgid "Import from Polygon"
 msgstr "Импорт из Polygon"
 
-#: .\problems\templates\problems\list_folder_confirm_delete.html:16
-#: .\users\templates\users\folder_confirm_delete.html:16
 msgid "Delete folder"
 msgstr "Удалить папку"
 
-#: .\problems\templates\problems\list_folder_confirm_delete.html:19
 msgid ""
 "The folder or its subfolders are currently used in the following courses and "
 "cannot be deleted."
@@ -3093,7 +1927,6 @@ msgstr ""
 "Папка или её подпапки в настоящий момент используются в следующих курсах и "
 "не могут быть удалены."
 
-#: .\problems\templates\problems\list_folder_confirm_delete.html:28
 msgid ""
 "The folder is going to be deleted together with its subfolders. The problems "
 "they contain will not be deleted."
@@ -3101,307 +1934,234 @@ msgstr ""
 "Папка будет удалена вместе с подпапками. Задачи, которые в них содержатся, "
 "не будут удалены."
 
-#: .\problems\templates\problems\list_folder_form.html:22
-#: .\users\templates\users\create_form.html:21
 #, python-format
 msgid "inside ‘%(nn)s’"
 msgstr "в папке «%(nn)s»"
 
-#: .\problems\templates\problems\list_folder_form.html:24
-#: .\users\templates\users\create_form.html:23
 msgid "in the root folder"
 msgstr "в корневой папке"
 
-#: .\problems\templates\problems\list_import_from_polygon.html:19
 msgid "Import error"
 msgstr "Ошибка импорта"
 
-#: .\problems\templates\problems\list_import_from_polygon.html:32
 msgid "Import a problem from Polygon"
 msgstr "Импортировать задачу из Polygon"
 
-#: .\problems\templates\problems\list_import_from_polygon.html:37
 msgid "Import"
 msgstr "Импорт"
 
-#: .\problems\templates\problems\list_search.html:10
 msgid "Problem search"
 msgstr "Поиск задач"
 
-#: .\problems\templates\problems\list_search.html:16
-#: .\users\templates\users\index.html:16
 msgid "Search for..."
 msgstr "Искать..."
 
-#: .\problems\templates\problems\overview.html:11
-#: .\users\templates\users\profile_sidebar.html:13 .\users\views.py:487
 msgid "Main properties"
 msgstr "Основные свойства"
 
-#: .\problems\templates\problems\overview.html:16
 msgid "Number"
 msgstr "Номер"
 
-#: .\problems\templates\problems\overview.html:21
 msgid "Full name"
 msgstr "Полное название"
 
-#: .\problems\templates\problems\overview.html:32
 msgid "Difficulty level"
 msgstr "Уровень сложности"
 
-#: .\problems\templates\problems\overview.html:53
-#: .\problems\templates\problems\tests.html:80
-#: .\problems\templates\problems\tests_browse.html:15
 msgid "Input"
 msgstr "Вход"
 
-#: .\problems\templates\problems\overview.html:56
-#: .\problems\templates\problems\tests.html:81
-#: .\problems\templates\problems\tests_browse.html:16
 msgid "Output"
 msgstr "Выход"
 
-#: .\problems\templates\problems\overview.html:59
 msgid "Default time limit"
 msgstr "Ограничение по времени по умолчанию"
 
-#: .\problems\templates\problems\overview.html:62
 msgid "Default memory limit"
 msgstr "Ограничение по памяти по умолчанию"
 
-#: .\problems\templates\problems\overview.html:74
 msgid "Hint"
 msgstr "Подсказка"
 
-#: .\problems\templates\problems\overview.html:129
 msgid "file"
 msgid_plural "files"
 msgstr[0] "файл"
 msgstr[1] "файла"
 msgstr[2] "файлов"
 
-#: .\problems\templates\problems\pictures.html:24
 msgid "No pictures"
 msgstr "Картинок нет"
 
-#: .\problems\templates\problems\pictures.html:33
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:80
 msgid "Image"
 msgstr "Изображение"
 
-#: .\problems\templates\problems\pictures.html:39
 msgid "Open in new tab"
 msgstr "Открыть в новой вкладке"
 
-#: .\problems\templates\problems\rejudges.html:13
-#: .\solutions\templates\solutions\rejudge_list.html:19
 msgctxt "rejudge"
 msgid "Created"
 msgstr "Создано"
 
-#: .\problems\templates\problems\rejudges.html:31
 msgid "No rejudges"
 msgstr "Перетестирований нет"
 
-#: .\problems\templates\problems\show_test.html:22
-#: .\problems\templates\problems\tests.html:94
-#: .\problems\templates\problems\tests_reorder.html:19
-#: .\solutions\templates\solutions\testcaseresult.html:59
-#: .\storage\templates\storage\usage.html:29
 msgid "Test"
 msgstr "Тест"
 
-#: .\problems\templates\problems\show_test.html:67
 msgctxt "test"
 msgid "Created"
 msgstr "Создан"
 
-#: .\problems\templates\problems\show_test.html:125
 msgid "Test case is going to be deleted."
 msgstr "Тест будет удалён."
 
-#: .\problems\templates\problems\solutions.html:17
-#: .\users\templates\users\folder.html:49
 msgid "Bulk operations"
 msgstr "Массовые операции"
 
-#: .\problems\templates\problems\solutions.html:42
 msgid "Rejudge all solutions"
 msgstr "Перетестировать все решения"
 
-#: .\problems\templates\problems\solutions.html:45
 msgid "Rejudge accepted solutions"
 msgstr "Перетестировать принятые решения"
 
-#: .\problems\templates\problems\solutions.html:57
-#: .\solutions\templates\solutions\compare.html:56
-#: .\solutions\templates\solutions\compare.html:81
-#: .\solutions\templates\solutions\rejudge.html:39
 msgid "Submission time"
 msgstr "Время отправления"
 
-#: .\problems\templates\problems\solutions.html:80
-#: .\solutions\templates\solutions\solution_judgements.html:15
-#: .\solutions\templates\solutions\solution_list.html:75
 msgctxt "verb"
 msgid "Rejudge"
 msgstr "Перетестировать"
 
-#: .\problems\templates\problems\solutions.html:83
 msgid "Download archive"
 msgstr "Загрузить архив"
 
-#: .\problems\templates\problems\solutions.html:85
-#: .\solutions\templates\solutions\solution_attempts.html:70
 msgid "Check two solutions to compare."
 msgstr "Отметьте два решения для сравнения."
 
-#: .\problems\templates\problems\solutions.html:86
-#: .\solutions\templates\solutions\solution_attempts.html:71
 msgid "Compare solutions"
 msgstr "Сравнить решения"
 
-#: .\problems\templates\problems\statement.html:10
 msgid "Print version"
 msgstr "Версия для печати"
 
-#: .\problems\templates\problems\tests.html:15
 msgid "An error occurred while running validator"
 msgstr "Во время выполнения контролёра тестов произошла ошибка"
 
-#: .\problems\templates\problems\tests.html:20
 msgid "All test input files have passed the validation."
 msgstr "Все входные файлы тестов прошли контроль."
 
-#: .\problems\templates\problems\tests.html:25
 msgid "Some test input files have not passed the validation."
 msgstr "Некоторые входные файлы тестов не прошли контроль."
 
-#: .\problems\templates\problems\tests.html:30
 msgid ""
 "Validation is running&hellip; Refresh the page after a while to see results."
 msgstr ""
 "Идёт контроль тестов&hellip; Обновите страницу через некоторое время, чтобы "
 "увидеть результаты."
 
-#: .\problems\templates\problems\tests.html:43
-#: .\problems\templates\problems\upload_archive.html:8
 msgid "New tests from archive"
 msgstr "Новые тесты из архива"
 
-#: .\problems\templates\problems\tests.html:49
 msgid "Browse"
 msgstr "Обзор"
 
-#: .\problems\templates\problems\tests.html:52
 msgid "Reorder"
 msgstr "Порядок"
 
-#: .\problems\templates\problems\tests.html:58
-#: .\solutions\templates\solutions\solution_list.html:71
-#: .\users\templates\users\folder.html:62
 msgid "Actions"
 msgstr "Действия"
 
-#: .\problems\templates\problems\tests.html:62
 msgid "Set time limit"
 msgstr "Задать ограничение по времени"
 
-#: .\problems\templates\problems\tests.html:63
 msgid "Set memory limit"
 msgstr "Задать ограничение по памяти"
 
-#: .\problems\templates\problems\tests.html:64
 msgid "Set points"
 msgstr "Задать баллы"
 
-#: .\problems\templates\problems\tests.html:72
-#: .\problems\templates\problems\tests_browse.html:9
 msgid "No tests"
 msgstr "Нет тестов"
 
-#: .\problems\templates\problems\tests.html:93
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:34
 msgid "Sample test"
 msgstr "Тест-пример"
 
-#: .\problems\templates\problems\texs.html:28
 msgid "New statement"
 msgstr "Новое условие"
 
-#: .\problems\templates\problems\texs.html:29
 msgid "New editorial"
 msgstr "Новый разбор"
 
-#: .\problems\templates\problems\upload_archive.html:12
 msgid "The same settings will be used for each uploaded test case."
 msgstr ""
 "Для каждого загруженного теста будут использованы одинаковые настройки."
 
-#: .\problems\templates\problems\upload_archive.html:17
-#: .\quizzes\templates\quizzes\question_group_upload.html:33
 msgid "Upload"
 msgstr "Загрузить"
 
-#: .\problems\templates\problems\validator.html:17
 msgid "Revalidate testset"
 msgstr "Выполнить контроль набора тестов"
 
-#: .\problems\templatetags\irunner_problems.py:95
 #, python-format
 msgid "from %(from)s to %(to)s"
 msgstr "от %(from)s до %(to)s"
 
-#: .\problems\templatetags\irunner_problems.py:116
 #, python-format
 msgid "%(seconds)s s"
 msgstr "%(seconds)s с"
 
-#: .\problems\templatetags\irunner_problems.py:126
 #, python-format
 msgid "%(megabytes)s MB"
 msgstr "%(megabytes)s МБ"
 
-#: .\problems\utils.py:66
+msgctxt "section"
+msgid "Input"
+msgstr "Формат входных данных"
+
+msgctxt "section"
+msgid "Output"
+msgstr "Формат выходных данных"
+
+msgctxt "section"
+msgid "Example"
+msgstr "Пример"
+
+msgctxt "section"
+msgid "Examples"
+msgstr "Примеры"
+
+msgctxt "section"
+msgid "Note"
+msgstr "Замечание"
+
 #, python-format
 msgid "Test %(no)d has been added."
 msgstr "Добавлен тест %(no)d."
 
-#: .\problems\views.py:499
 msgid "Tests have been reordered."
 msgstr "Тесты были переупорядочены."
 
-#: .\problems\views.py:613 .\quizzes\models.py:75
 msgid "points"
 msgstr "баллы"
 
-#: .\problems\views.py:614 .\quizzes\models.py:62 .\quizzes\models.py:86
 msgid "time limit"
 msgstr "ограничение по времени"
 
-#: .\problems\views.py:615
 msgid "memory limit"
 msgstr "ограничение по памяти"
 
-#: .\problems\views.py:617
 msgid "input file"
 msgstr "входной файл"
 
-#: .\problems\views.py:618
 msgid "answer file"
 msgstr "файл правильного ответа"
 
-#: .\problems\views.py:622
 #, python-format
 msgid "Test %(number)s has been saved."
 msgstr "Тест %(number)s сохранён."
 
-#: .\problems\views.py:631
 msgid "Changes:"
 msgstr "Изменения:"
 
-#: .\problems\views.py:867
 #, python-format
 msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
@@ -3409,351 +2169,246 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
-#: .\problems\views.py:1118 .\users\views.py:134
 msgid "Create folder"
 msgstr "Создать папку"
 
-#: .\problems\views.py:1136
 msgid "Folder properties"
 msgstr "Свойства папки"
 
-#: .\proglangs\models.py:18
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: .\proglangs\models.py:28
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-#: .\proglangs\models.py:29 .\solutions\forms.py:120
 msgid "language"
 msgstr "язык"
 
-#: .\proglangs\models.py:31
 msgid "compiler is enabled by default in new courses"
 msgstr "компилятор включён по умолчанию в новых курсах"
 
-#: .\proglangs\models.py:32
 msgid "compiler is enabled by default in new contests"
 msgstr "компилятор включён по умолчанию в новых соревнованиях"
 
-#: .\proglangs\models.py:49
 msgid "compile command"
 msgstr "команда компиляции"
 
-#: .\proglangs\models.py:50
 msgid "run command"
 msgstr "команда запуска"
 
-#: .\proglangs\templates\proglangs\index.html:13 .\proglangs\views.py:30
 msgid "New compiler"
 msgstr "Новый компилятор"
 
-#: .\proglangs\templates\proglangs\index.html:19
 msgid "String identifier"
 msgstr "Строковый идентификатор"
 
-#: .\proglangs\templates\proglangs\index.html:21
-#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:19
-#: .\solutions\forms.py:119
 msgid "Language"
 msgstr "Язык"
 
-#: .\proglangs\templates\proglangs\index.html:22
 msgid "For courses?"
 msgstr "Для курсов?"
 
-#: .\proglangs\templates\proglangs\index.html:23
 msgid "For contests?"
 msgstr "Для соревнований?"
 
-#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:22
 msgid "Compile command line"
 msgstr "Командная строка компиляции"
 
-#: .\proglangs\templates\proglangs\irunner_proglangs_commandlines_tag.html:25
 msgid "Run command line"
 msgstr "Командная строка запуска"
 
-#: .\quizzes\models.py:22
-#: .\quizzes\templates\quizzes\quiz_template_delete_group.html:17
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:29
 msgid "Question group"
 msgstr "Группа вопросов"
 
-#: .\quizzes\models.py:32 .\quizzes\utils.py:162
 msgid "Single correct answer"
 msgstr "Один правильный ответ"
 
-#: .\quizzes\models.py:33 .\quizzes\utils.py:163
 msgid "Multiple correct answers"
 msgstr "Несколько правильных ответов"
 
-#: .\quizzes\models.py:34 .\quizzes\utils.py:164
 msgid "Text answer"
 msgstr "Текстовый ответ"
 
-#: .\quizzes\models.py:59
 msgid "shuffle questions"
 msgstr "перемешать вопросы"
 
-#: .\quizzes\models.py:61 .\quizzes\models.py:88
 msgid "attempts"
 msgstr "попытки"
 
-#: .\quizzes\models.py:72
 msgid "group"
 msgstr "группа"
 
-#: .\quizzes\models.py:83
 msgid "quiz template"
 msgstr "шаблон теста"
 
-#: .\quizzes\models.py:84
 msgid "course"
 msgstr "курс"
 
-#: .\quizzes\models.py:85
 msgid "is available"
 msgstr "доступен"
 
-#: .\quizzes\models.py:87
 msgid "tag"
 msgstr "метка"
 
-#: .\quizzes\models.py:89
 msgid "show answers"
 msgstr "показывать ответы"
 
-#: .\quizzes\statistics.py:97
 msgid "Incorrect"
 msgstr "Неверно"
 
-#: .\quizzes\tabs.py:9
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:183
 msgid "Question groups"
 msgstr "Группы вопросов"
 
-#: .\quizzes\tabs.py:10
 msgid "Quiz templates"
 msgstr "Шаблоны тестов"
 
-#: .\quizzes\templates\quizzes\irunner_quizzes_showanswer.html:20
 msgid "No answer"
 msgstr "Ответа нет"
 
-#: .\quizzes\templates\quizzes\question_edit.html:14
 msgid "Question editor"
 msgstr "Редактор вопроса"
 
-#: .\quizzes\templates\quizzes\question_edit.html:25
-#: .\quizzes\templates\quizzes\question_edit.html:28
-#: .\quizzes\templates\quizzes\question_group_upload.html:14
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:25
-#: .\quizzes\utils.py:135
 msgid "Error"
 msgstr "Ошибка"
 
-#: .\quizzes\templates\quizzes\question_group_browse.html:19
 msgid "New question"
 msgstr "Новый вопрос"
 
-#: .\quizzes\templates\quizzes\question_group_browse.html:23
 msgid "Upload from file"
 msgstr "Загрузить из файла"
 
-#: .\quizzes\templates\quizzes\question_group_list.html:8
 msgid "New question group"
 msgstr "Новая группа вопросов"
 
-#: .\quizzes\templates\quizzes\question_group_list.html:17
 msgid "Question count"
 msgstr "Число вопросов"
 
-#: .\quizzes\templates\quizzes\question_group_list.html:31
 msgid "No question groups"
 msgstr "Групп вопросов нет"
 
-#: .\quizzes\templates\quizzes\question_group_upload.html:17
 msgid "Make sure that you selected a file and it has the correct format."
 msgstr "Убедитесь, что выбран файл верного формата."
 
-#: .\quizzes\templates\quizzes\question_group_upload.html:27
 msgid "Upload questions from file"
 msgstr "Загрузить вопросы из файла"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:10
 msgid "Shuffle questions"
 msgstr "Перемешать вопросы"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:14
 msgid "Unlimited"
 msgstr "Без ограничений"
 
-#: .\quizzes\templates\quizzes\quiz_template_detail.html:46
 msgid "Edit groups"
 msgstr "Редактировать группы"
 
-#: .\quizzes\templates\quizzes\quiz_template_edit_groups.html:28
 msgid "Ensure that you provided correct points values for all group relations."
 msgstr "Убедитесь, что баллы указаны верно для всех групп вопросов."
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:8
 msgid "New template"
 msgstr "Новый шаблон"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:17
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:11
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:52
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:94
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:129
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:157
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:172
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:192
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:221
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:231
 msgid "Sessions"
 msgstr "Сессии"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:27
 msgid "Statistics"
 msgstr "Статистика"
 
-#: .\quizzes\templates\quizzes\quiz_template_list.html:33
 msgid "No quiz templates"
 msgstr "Шаблонов тестов нет"
 
-#: .\quizzes\templates\quizzes\quiz_template_sessions.html:18
-#: .\solutions\templates\solutions\compare.html:51
-#: .\solutions\templates\solutions\compare.html:76
-#: .\solutions\templates\solutions\solution.html:56
 msgid "Course"
 msgstr "Курс"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:24
 msgid "No data for statistics"
 msgstr "Нет данных для статистики"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:39
 msgid "Quiz marks by years"
 msgstr "Оценки за тест по годам"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:58
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:99
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:134
 msgid "sess."
 msgstr "сесс."
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:80
 msgid "Quiz marks by courses in the last year"
 msgstr "Оценки за тест по курсам за последний год"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:115
 msgid "Quiz marks by courses in the year before last"
 msgstr "Оценки за тест по курсам за предпоследний год"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:150
 msgid "Quiz marks distribution"
 msgstr "Распределение оценок за тест"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:209
 msgid "Sessions duration"
 msgstr "Длительность сессий"
 
-#: .\quizzes\templates\quizzes\quiz_template_statistics.html:213
 msgid "min"
 msgstr "мин"
 
-#: .\quizzes\utils.py:132
 msgid "Finish"
 msgstr "Завершить"
 
-#: .\quizzes\utils.py:134 .\solutions\forms.py:129
 msgid "No"
 msgstr "Нет"
 
-#: .\quizzes\utils.py:138
 msgid "Previous"
 msgstr "Назад"
 
-#: .\quizzes\utils.py:139
 msgid "Network error"
 msgstr "Ошибка сети"
 
-#: .\quizzes\utils.py:140
 msgid "No time left"
 msgstr "Время вышло"
 
-#: .\quizzes\utils.py:141
 msgid "Quiz is over"
 msgstr "Тестирование окончено"
 
-#: .\quizzes\utils.py:148 .\quizzes\utils.py:166
 msgid "Type the question text here..."
 msgstr "Введите текст вопроса..."
 
-#: .\quizzes\utils.py:151 .\quizzes\utils.py:167
 msgid "Type the choice text here..."
 msgstr "Введите текст ответа..."
 
-#: .\quizzes\utils.py:159
 msgid "Question text"
 msgstr "Текст вопроса"
 
-#: .\quizzes\utils.py:160
 msgid "Question type"
 msgstr "Тип вопроса"
 
-#: .\quizzes\utils.py:161
 msgid "Is correct"
 msgstr "Верно"
 
-#: .\quizzes\utils.py:165
 msgid "Add choice"
 msgstr "Добавить вариант ответа"
 
-#: .\quizzes\utils.py:168
 msgid "Refresh preview"
 msgstr "Обновить превью"
 
-#: .\solutions\compare.py:26
 msgid "not found"
 msgstr "не найдено"
 
-#: .\solutions\compare.py:32
 msgid "access denied"
 msgstr "доступ запрещён"
 
-#: .\solutions\compare.py:38 .\users\templates\users\profile_show.html:70
-#: .\users\templates\users\profile_show.html:73
 msgid "no data"
 msgstr "нет данных"
 
-#: .\solutions\compare.py:42
 msgid "the file is binary"
 msgstr "файл бинарный"
 
-#: .\solutions\compare.py:46
 msgid "the file is too big"
 msgstr "файл слишком большой"
 
-#: .\solutions\compare.py:52 .\solutions\templatetags\irunner_solutions.py:225
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
-#: .\solutions\forms.py:32
 msgid "Enter source code"
 msgstr "Введите исходный код"
 
-#: .\solutions\forms.py:38 .\storage\forms.py:17
 msgid "…or upload a file"
 msgstr "…или загрузите файл"
 
-#: .\solutions\forms.py:42 .\storage\forms.py:21
 msgid "If you select a file, text field content is ignored."
 msgstr "Если вы выбираете файл, содержимое текстового поля игнорируется."
 
-#: .\solutions\forms.py:57
 #, python-format
 msgid ""
 "The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B)."
@@ -3761,11 +2416,9 @@ msgstr ""
 "Размер исходного файла (%(actual)d Б) превышает установленное ограничение "
 "(%(limit)d Б)."
 
-#: .\solutions\forms.py:69
 msgid "Unable to submit an empty solution."
 msgstr "Нельзя отправить пустое решение."
 
-#: .\solutions\forms.py:80
 msgid ""
 "Unable to determine the name of the source file. For Java code, make sure "
 "you have a single public class defined. You can also try to upload a file "
@@ -3775,401 +2428,269 @@ msgstr ""
 "убедитесь, что объявлен ровно один public-класс. Вы также можете попробовать "
 "загрузить файл вместо того, чтобы непосредственно вводить код."
 
-#: .\solutions\forms.py:94
 msgid "outcome"
 msgstr "вердикт"
 
-#: .\solutions\forms.py:106
 msgid "state"
 msgstr "состояние"
 
-#: .\solutions\forms.py:108 .\solutions\models.py:51
 msgid "Preparing"
 msgstr "Подготовка"
 
-#: .\solutions\forms.py:109 .\solutions\models.py:52
 msgid "Compiling"
 msgstr "Компиляция"
 
-#: .\solutions\forms.py:110 .\solutions\models.py:53
-#: .\solutions\templates\solutions\judgement_list.html:22
 msgid "Testing"
 msgstr "Тестирование"
 
-#: .\solutions\forms.py:111 .\solutions\models.py:54
 msgid "Finishing"
 msgstr "Завершение"
 
-#: .\solutions\forms.py:113
 msgid "Not Done"
 msgstr "Не готово"
 
-#: .\solutions\forms.py:124
 msgid "Problem ID"
 msgstr "ID задачи"
 
-#: .\solutions\forms.py:125
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: .\solutions\forms.py:150
 msgid "First solution"
 msgstr "Первое решение"
 
-#: .\solutions\forms.py:151
 msgid "Second solution"
 msgstr "Второе решение"
 
-#: .\solutions\forms.py:152
 msgid "Show only contextual differences, else show full files"
 msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
-#: .\solutions\models.py:109
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
 
-#: .\solutions\permissions.py:24
 msgid "no access"
 msgstr "нет доступа"
 
-#: .\solutions\permissions.py:25
 msgid "view current solution state"
 msgstr "просмотр текущего состояния решения"
 
-#: .\solutions\permissions.py:26
 msgid "view compilation log"
 msgstr "просмотр журнала компиляции"
 
-#: .\solutions\permissions.py:27
 msgid "view source code"
 msgstr "просмотр исходного кода"
 
-#: .\solutions\permissions.py:28
 msgid "view testing details on sample tests"
 msgstr "просмотр деталей тестирования на примерах"
 
-#: .\solutions\permissions.py:29
 msgid "view testing details"
 msgstr "просмотр деталей тестирования"
 
-#: .\solutions\permissions.py:30
 msgid "view testing details with checker messages"
 msgstr "просмотр деталей тестирования с сообщениями программы проверки"
 
-#: .\solutions\permissions.py:31
 msgid "view testing details and test data"
 msgstr "просмотр деталей тестирования и данных тестов"
 
-#: .\solutions\templates\solutions\challenge_list.html:21
-#: .\solutions\templates\solutions\rejudge_list.html:20
 msgid "Number of solutions"
 msgstr "Число решений"
 
-#: .\solutions\templates\solutions\compare.html:12 .\templates\navbar.html:37
 msgid "Comparison of solutions"
 msgstr "Сравнение решений"
 
-#: .\solutions\templates\solutions\compare.html:12
 msgid "and"
 msgstr "и"
 
-#: .\solutions\templates\solutions\compare.html:20
-#: .\solutions\templates\solutions\solution_plagiarism.html:36
 msgid "Compare"
 msgstr "Сравнить"
 
-#: .\solutions\templates\solutions\compare.html:27
 msgid "Unable to compare solutions."
 msgstr "Не удаётся сравнить решения."
 
-#: .\solutions\templates\solutions\compare.html:30
-#: .\solutions\templates\solutions\compare.html:34
-#: .\solutions\templates\solutions\compare.html:43
-#: .\solutions\templates\solutions\compare.html:68
-#: .\solutions\templates\solutions\judgement_list.html:17
-#: .\solutions\templates\solutions\rejudge.html:40
-#: .\solutions\templates\solutions\solution.html:11
-#: .\solutions\templates\solutions\solution.html:18
-#: .\solutions\templates\solutions\solution_attempts.html:29
 msgid "Solution"
 msgstr "Решение"
 
-#: .\solutions\templates\solutions\compare.html:93
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
 
-#: .\solutions\templates\solutions\compare.html:106
 msgid "Full files"
 msgstr "Файлы полностью"
 
-#: .\solutions\templates\solutions\compare.html:109
 msgid "Differences only"
 msgstr "Только отличия"
 
-#: .\solutions\templates\solutions\confirm_multiple.html:15
 #, python-format
 msgid "Are you sure you want to %(action)s these solutions?"
 msgstr "Вы уверены, что хотите %(action)s эти решения?"
 
-#: .\solutions\templates\solutions\confirm_multiple.html:33
 msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
 
-#: .\solutions\templates\solutions\irunner_solutions_checkfailed_tag.html:7
 msgid "Check failed"
 msgstr "Ошибка тестирования"
 
-#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:4
-#: .\solutions\templates\solutions\irunner_solutions_memorylimitbox_tag.html:6
 msgid "KB"
 msgstr "КБ"
 
-#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:4
-#: .\solutions\templates\solutions\rejudge_list.html:34
 msgid "committed"
 msgstr "зафиксировано"
 
-#: .\solutions\templates\solutions\irunner_solutions_rejudgestate_tag.html:6
-#: .\solutions\templates\solutions\rejudge_list.html:36
 msgid "rolled back"
 msgstr "отменено"
 
-#: .\solutions\templates\solutions\irunner_solutions_sourcelink_tag.html:7
 msgid "View source code"
 msgstr "Посмотреть исходный код"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:13
 msgid "Outcome"
 msgstr "Вердикт"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:20
 msgid "Memory"
 msgstr "Память"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:22
 msgid "Exit Code"
 msgstr "Код выхода"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:26
-#: .\solutions\templates\solutions\testcaseresult.html:48
 msgid "Checker message"
 msgstr "Сообщение программы проверки"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:65
 msgid "Hide"
 msgstr "Скрыть"
 
-#: .\solutions\templates\solutions\irunner_solutions_testresults_tag.html:148
 msgid "No test results"
 msgstr "Нет результатов по тестам"
 
-#: .\solutions\templates\solutions\judgement.html:7
-#: .\solutions\templates\solutions\judgement.html:12
-#: .\solutions\templates\solutions\judgement_storage.html:8
-#: .\solutions\templates\solutions\judgement_storage.html:13
 msgid "Judgement"
 msgstr "Запуск"
 
-#: .\solutions\templates\solutions\judgement.html:13
-#: .\solutions\templates\solutions\judgement_storage.html:14
 msgid "of solution"
 msgstr "решения"
 
-#: .\solutions\templates\solutions\judgement.html:23
-#: .\solutions\templates\solutions\judgement_list.html:18
-#: .\solutions\templates\solutions\rejudge.html:12
 msgid "Rejudge"
 msgstr "Перетестирование"
 
-#: .\solutions\templates\solutions\judgement.html:37
-#: .\solutions\templates\solutions\solution.html:126
-#: .\solutions\templates\solutions\solution_tests.html:6
 msgid "Test results"
 msgstr "Результаты тестов"
 
-#: .\solutions\templates\solutions\judgement.html:40
-#: .\solutions\templates\solutions\judgement_storage.html:17
-#: .\storage\templates\storage\index.html:7 .\templates\navbar.html:35
 msgid "File storage"
 msgstr "Хранилище файлов"
 
-#: .\solutions\templates\solutions\judgement.html:44
-#: .\solutions\templates\solutions\solution.html:120
-#: .\solutions\templates\solutions\solution_log.html:6
 msgid "Compilation log"
 msgstr "Журнал компиляции"
 
-#: .\solutions\templates\solutions\judgement_list.html:9
-#: .\templates\navbar.html:30
 msgid "Runs"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\judgement_list.html:21
 msgid "In queue"
 msgstr "В очереди"
 
-#: .\solutions\templates\solutions\judgement_storage.html:20
-#: .\solutions\templates\solutions\testcaseresult.html:30
 msgid "Standard output (stdout)"
 msgstr "Стандартный вывод (stdout)"
 
-#: .\solutions\templates\solutions\judgement_storage.html:21
-#: .\solutions\templates\solutions\testcaseresult.html:36
 msgid "Standard error (stderr)"
 msgstr "Стандартный вывод ошибок (stderr)"
 
-#: .\solutions\templates\solutions\judgement_storage.html:27
-msgid "Clear"
-msgstr "Очистить"
-
-#: .\solutions\templates\solutions\rejudge.html:42
 msgid "Before"
 msgstr "До"
 
-#: .\solutions\templates\solutions\rejudge.html:43
 msgid "After"
 msgstr "После"
 
-#: .\solutions\templates\solutions\rejudge.html:44
 msgid "Current"
 msgstr "Текущий"
 
-#: .\solutions\templates\solutions\rejudge.html:100
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: .\solutions\templates\solutions\rejudge.html:101
 msgid "Rollback"
 msgstr "Откатить"
 
-#: .\solutions\templates\solutions\rejudge.html:103
 msgid "Clone"
 msgstr "Клонировать"
 
-#: .\solutions\templates\solutions\rejudge.html:108
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
-#: .\solutions\templates\solutions\solution.html:51
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
 
-#: .\solutions\templates\solutions\solution.html:65
 msgid "Contest"
 msgstr "Соревнование"
 
-#: .\solutions\templates\solutions\solution.html:73
 msgid "Submitted"
 msgstr "Отправлено"
 
-#: .\solutions\templates\solutions\solution.html:77
 msgid "Judged"
 msgstr "Протестировано"
 
-#: .\solutions\templates\solutions\solution.html:82
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: .\solutions\templates\solutions\solution.html:108
-#: .\solutions\templates\solutions\solution_judgements.html:7
 msgid "Judgements"
 msgstr "Запуски"
 
-#: .\solutions\templates\solutions\solution_attempts.html:21
 msgid "Changes"
 msgstr "Изменения"
 
-#: .\solutions\templates\solutions\solution_attempts.html:51
 msgid "Compare the soluton with the previous one"
 msgstr "Сравнить решение с предыдущим"
 
-#: .\solutions\templates\solutions\solution_log.html:13
 msgid "Compilation log is not available"
 msgstr "Журнал компиляции недоступен"
 
-#: .\solutions\templates\solutions\solution_plagiarism.html:21
 msgid "Algo"
 msgstr "Алгоритм"
 
-#: .\solutions\templates\solutions\solution_plagiarism.html:22
 msgid "Similarity"
 msgstr "Похожесть"
 
-#: .\solutions\templates\solutions\solution_plagiarism.html:23
 msgid "Verdict"
 msgstr "Вердикт"
 
-#: .\solutions\templates\solutions\solution_plagiarism.html:42
-#: .\solutions\templates\solutions\testcaseresult.html:43
-#: .\storage\templates\storage\irunner_storage_show_tag.html:24
-#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:23
-#: .\storage\templates\storage\irunner_storage_showcode_tag.html:21
 msgid "No data"
 msgstr "Нет данных"
 
-#: .\solutions\templates\solutions\solution_source.html:29
 msgid "Select all"
 msgstr "Выделить всё"
 
-#: .\solutions\templates\solutions\solution_source.html:35
 msgid "Style"
 msgstr "Стиль"
 
-#: .\solutions\templates\solutions\testcaseresult.html:89
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
 
-#: .\solutions\templatetags\irunner_solutions.py:226
 msgid "error while compiling checker"
 msgstr "ошибка компиляции программы проверки"
 
-#: .\solutions\templatetags\irunner_solutions.py:227
 msgid "error while compiling validator"
 msgstr "ошибка компиляции контролёра тестов"
 
-#: .\solutions\templatetags\irunner_solutions.py:228
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
 
-#: .\solutions\views.py:244
 msgctxt "verb"
 msgid "rejudge"
 msgstr "перетестировать"
 
-#: .\storage\forms.py:11
 msgid "Enter text here"
 msgstr "Введите текст здесь"
 
-#: .\storage\models.py:11
 msgid "Filename"
 msgstr "Имя файла"
 
-#: .\storage\templates\storage\index.html:9
 msgid "This is internal debug page."
 msgstr "Это внутренняя отладочная страница."
 
-#: .\storage\templates\storage\index.html:11
 msgid "You can get access to any resource by its id:"
 msgstr "Вы можете получить доступ к любому ресурсу по его идентификатору:"
 
-#: .\storage\templates\storage\index.html:16
 msgid "Upload new resource"
 msgstr "Загрузить новый ресурс"
 
-#: .\storage\templates\storage\index.html:18
-#: .\storage\templates\storage\statistics.html:8
 msgid "Storage statistics"
 msgstr "Статистика хранения"
 
-#: .\storage\templates\storage\irunner_storage_show_tag.html:6
-#: .\storage\templates\storage\irunner_storage_showcode_tag.html:8
-msgid ""
-"The file is <strong>binary</strong> and its content can not be displayed."
-msgstr ""
-"Файл <strong>бинарный</strong> и его содержимое не может быть показано."
+msgid "The file is binary."
+msgstr "Файл бинарный."
 
-#: .\storage\templates\storage\irunner_storage_show_tag.html:12
-#: .\storage\templates\storage\irunner_storage_showcode_tag.html:14
 msgid ""
 "The file is <strong>too big</strong>, so it is displayed truncated. You can "
 "download the full version."
@@ -4177,101 +2698,77 @@ msgstr ""
 "Файл <strong>слишком большой</strong>, поэтому он показан сокращённым. Вы "
 "можете загрузить полную версию."
 
-#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:7
-msgid "The file is binary."
-msgstr "Файл бинарный."
-
-#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:11
 msgid "The file is too big."
 msgstr "Файл слишком большой."
 
-#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:15
 msgid "The encoding of the file is not UTF-8."
 msgstr "Файл не в кодировке UTF-8."
 
-#: .\storage\templates\storage\irunner_storage_showbrief_tag.html:19
 msgid "The file has Byte Order Mark (BOM)."
 msgstr "В файле есть метка порядка байтов (BOM)."
 
-#: .\storage\templates\storage\new.html:7
+msgid ""
+"The file is <strong>binary</strong> and its content can not be displayed."
+msgstr ""
+"Файл <strong>бинарный</strong> и его содержимое не может быть показано."
+
 msgid "New resource"
 msgstr "Новый ресурс"
 
-#: .\storage\templates\storage\new.html:13
 msgid "Submit"
 msgstr "Отправить"
 
-#: .\storage\templates\storage\show.html:7
-#: .\storage\templates\storage\show.html:10
-#: .\storage\templates\storage\usage.html:8
 msgid "View resource"
 msgstr "Просмотр ресурса"
 
-#: .\storage\templates\storage\show.html:17
-#: .\storage\templates\storage\usage.html:11
 msgid "Resource usage"
 msgstr "Использование ресурса"
 
-#: .\storage\templates\storage\show.html:24
 msgid "Size"
 msgstr "Размер"
 
-#: .\storage\templates\storage\show.html:27
 msgid "Is binary"
 msgstr "Является бинарным"
 
-#: .\storage\templates\storage\show.html:30
 msgid "Is UTF-8"
 msgstr "В кодировке UTF-8"
 
-#: .\storage\templates\storage\show.html:33
 msgid "Has BOM"
 msgstr "Имеет BOM"
 
-#: .\storage\templates\storage\show.html:39
 msgid "Resource not found in the file storage."
 msgstr "Ресурс не найден в хранилище."
 
-#: .\storage\templates\storage\statistics.html:11
 msgid "Resource count"
 msgstr "Число ресурсов"
 
-#: .\storage\templates\storage\statistics.html:13
 msgid "Total size"
 msgstr "Общий размер"
 
-#: .\storage\templates\storage\statistics.html:17
 msgid "The largest resources"
 msgstr "Самые большие ресурсы"
 
-#: .\storage\templates\storage\usage.html:24
 msgid "log"
 msgstr "журнал"
 
-#: .\storage\templates\storage\usage.html:58
 msgid "Cleanup stdout/stderr"
 msgstr "Очистить stdout/stderr"
 
-#: .\storage\validators.py:17
 msgid "Filename must be a string"
 msgstr "Имя файла должно быть строкой"
 
-#: .\storage\validators.py:20
 msgid "Filename cannot be empty"
 msgstr "Имя файла не может быть пустым"
 
-#: .\storage\validators.py:24
 msgid "The use of characters in range 0–31 in filenames is forbidden"
 msgstr "Использование символов с кодами 0–31 в именах файлов запрещено"
 
-#: .\storage\validators.py:28
 #, python-format
 msgid "Characters %(forbidden)s are reserved and cannot be used in filenames"
 msgstr ""
 "Символы %(forbidden)s зарезервированы и не могут быть использованы в именах "
 "файлов"
 
-#: .\storage\validators.py:34
 msgid ""
 "For compatibility with Windows, words CON, PRN, AUX, NUL, COM1…9, LPT1…9 are "
 "reserved and cannot be used as filenames"
@@ -4279,11 +2776,9 @@ msgstr ""
 "Для совместимости с Windows слова CON, PRN, AUX, NUL, COM1…9, LPT1…9 "
 "зарезервированы и не могут быть именами файлов"
 
-#: .\storage\validators.py:38
 msgid "Filename must not end with a space or a period"
 msgstr "Имя файла не должно заканчиваться на пробел или точку"
 
-#: .\storage\views.py:106
 #, python-format
 msgid "%(rows)s DB row updated"
 msgid_plural "%(rows)s DB rows updated"
@@ -4291,31 +2786,24 @@ msgstr[0] "Обновлена %(rows)s строка в БД"
 msgstr[1] "Обновлены %(rows)s строки в БД"
 msgstr[2] "Обновлены %(rows)s строк в БД"
 
-#: .\templates\base.html:53
 msgid "DMA department of FAMCS BSU"
 msgstr "Кафедра ДМА ФПМИ БГУ"
 
-#: .\templates\base.html:57
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\navbar.html:21
 msgid "Courses"
 msgstr "Курсы"
 
-#: .\templates\navbar.html:26
 msgid "Administration"
 msgstr "Администрирование"
 
-#: .\templates\navbar.html:32
 msgid "View Feedback"
 msgstr "Просмотр сообщений обратной связи"
 
-#: .\users\forms.py:37
 msgid "Folder name"
 msgstr "Имя папки"
 
-#: .\users\forms.py:46
 msgid ""
 "Students: “[username] [last name] [first name]” or “[username] [last name] "
 "[first name] [patronymic]”"
@@ -4323,116 +2811,89 @@ msgstr ""
 "Студенты: «[имя пользователя] [фамилия] [имя]» или «[имя пользователя] "
 "[фамилия] [имя] [отчество]»"
 
-#: .\users\forms.py:47
 msgid "Teams: “[username] [team name]”"
 msgstr "Команды: «[имя пользователя] [название команды]»"
 
-#: .\users\forms.py:50
 msgid "Mode"
 msgstr "Режим"
 
-#: .\users\forms.py:52 .\users\forms.py:129
 msgid "Data about users"
 msgstr "Данные о пользователях"
 
-#: .\users\forms.py:53
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
 
-#: .\users\forms.py:54 .\users\forms.py:121
 msgid "Password"
 msgstr "Пароль"
 
-#: .\users\forms.py:68 .\users\forms.py:147
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
 
-#: .\users\forms.py:98
 #, python-format
 msgid "User “%(username)s” is listed more than once."
 msgstr "Пользователь «%(username)s» указан несколько раз."
 
-#: .\users\forms.py:122
 msgid "Team name"
 msgstr "Название команды"
 
-#: .\users\forms.py:123
 msgid "Team members"
 msgstr "Состав команды"
 
-#: .\users\forms.py:124
 msgid "Last name, first name, patronymic"
 msgstr "Фамилия, имя, отчество"
 
-#: .\users\forms.py:127
 msgid "Field to update"
 msgstr "Поле для обновления"
 
-#: .\users\forms.py:130
 msgid "Enter lines in the format of “[username] [value]”."
 msgstr "Введите строки в формате «[имя пользователя] [значение]»."
 
-#: .\users\forms.py:157
 #, python-format
 msgid "User “%(username)s” does not exist."
 msgstr "Пользователь «%(username)s» не существует."
 
-#: .\users\forms.py:186
 msgid "Archive should not contain subdirectories."
 msgstr "Архив не должен содержать подкаталогов."
 
-#: .\users\forms.py:189
 #, python-format
 msgid "File extension %(ext)s is not supported."
 msgstr "Расширение файла %(ext)s не поддерживается."
 
-#: .\users\forms.py:191
 #, python-format
 msgid "User %(username)s is not found."
 msgstr "Пользователь %(username)s не найден."
 
-#: .\users\forms.py:206
 msgid "Faculty of Applied Mathematics and Computer Science"
 msgstr "Факультет прикладной математики и информатики"
 
-#: .\users\forms.py:207
 msgid "Faculty of Radiophysics and Computer Technologies (RFE)"
 msgstr "Факультет радиофизики и компьютерных технологий (РФЭ)"
 
-#: .\users\forms.py:209
 msgid "Faculty"
 msgstr "Факультет"
 
-#: .\users\forms.py:210
 msgid "Include archive"
 msgstr "Включая архив"
 
-#: .\users\forms.py:211
 msgid "Group"
 msgstr "Группа"
 
-#: .\users\forms.py:212
 msgid "Admission year"
 msgstr "Год поступления"
 
-#: .\users\forms.py:213
 msgid "Skip errors"
 msgstr "Пропускать ошибки"
 
-#: .\users\forms.py:213
 msgid "On error, continue fetching photos for next users."
 msgstr "При ошибке продолжать загрузку фотографий для следующих пользователей."
 
-#: .\users\forms.py:217
 msgid "Destination folder"
 msgstr "Папка назначения"
 
-#: .\users\forms.py:231
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-#: .\users\forms.py:274
 msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
@@ -4441,139 +2902,102 @@ msgstr ""
 "Таким образом предотвращается использование небезопасных паролей по "
 "умолчанию."
 
-#: .\users\forms.py:305 .\users\templates\users\irunner_users_photo_tag.html:7
-#: .\users\templates\users\profile_sidebar.html:33 .\users\views.py:526
-#: .\users\views.py:531
 msgid "Photo"
 msgstr "Фотография"
 
-#: .\users\forms.py:305
 msgid "Select JPEG image."
 msgstr "Выберите изображение в формате JPEG."
 
-#: .\users\models.py:29
 msgid "Person"
 msgstr "Человек"
 
-#: .\users\models.py:30 .\users\templates\users\profile_show.html:19
 msgid "Team"
 msgstr "Команда"
 
-#: .\users\models.py:34
 msgid "folder"
 msgstr "папка"
 
-#: .\users\models.py:35
 msgid "patronymic"
 msgstr "отчество"
 
-#: .\users\models.py:36
 msgid "password needs to be changed by user"
 msgstr "пользователю необходимо изменить пароль"
 
-#: .\users\models.py:38
 msgid "last used compiler"
 msgstr "последний использованный компилятор"
 
-#: .\users\models.py:39
 msgid "API access"
 msgstr "Доступ к API"
 
-#: .\users\models.py:43
 msgid "members"
 msgstr "состав"
 
-#: .\users\models.py:44
 msgid "user is allowed to change name"
 msgstr "пользователь может изменить имя"
 
-#: .\users\models.py:45
 msgid "user is allowed to change password"
 msgstr "пользователь может изменить пароль"
 
-#: .\users\photo.py:15
 msgid "The image cannot be opened and identified."
 msgstr "Изображение не может быть открыто и опознано."
 
-#: .\users\photo.py:18
 #, python-format
 msgid "The image format %(format)s is not supported."
 msgstr "Формат изображения %(format)s не поддерживается."
 
-#: .\users\templates\users\bulk_operation.html:38
 msgid "No users selected"
 msgstr "Пользователи не выбраны"
 
-#: .\users\templates\users\folder.html:43
 msgid "New user"
 msgstr "Новый пользователь"
 
-#: .\users\templates\users\folder.html:53
 msgid "Sign-up"
 msgstr "Регистрация"
 
-#: .\users\templates\users\folder.html:54
 msgctxt "noun"
 msgid "Update profiles"
 msgstr "Обновление профилей"
 
-#: .\users\templates\users\folder.html:55
 msgid "Upload photo"
 msgstr "Загрузка фотографий"
 
-#: .\users\templates\users\folder.html:56
 msgid "Obtain photos from intranet.bsu"
 msgstr "Получить фото из intranet.bsu"
 
-#: .\users\templates\users\folder.html:66
 msgid "Move"
 msgstr "Переместить"
 
-#: .\users\templates\users\folder.html:68
 msgid "Swap first and last name"
 msgstr "Поменять местами имя и фамилию"
 
-#: .\users\templates\users\folder.html:69
 msgid "Export as JSON"
 msgstr "Экспорт в JSON"
 
-#: .\users\templates\users\folder.html:85
 msgid "There are no users in the folder"
 msgstr "В этой папке нет пользователей"
 
-#: .\users\templates\users\index.html:10
 msgid "User search"
 msgstr "Поиск пользователей"
 
-#: .\users\templates\users\index.html:36
 msgid "No users found."
 msgstr "Пользователи не найдены."
 
-#: .\users\templates\users\intranetbsu_errors.html:19
 msgid "Unable to obtain some photos from"
 msgstr "Не удалось получить некоторые фотографии из"
 
-#: .\users\templates\users\irunner_users_list_tag.html:16
-#: .\users\templates\users\profile_show.html:59
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: .\users\templates\users\irunner_users_list_tag.html:17
 msgctxt "human"
 msgid "Full name"
 msgstr "Полное имя"
 
-#: .\users\templates\users\irunner_users_list_tag.html:18
-#: .\users\templates\users\profile_show.html:69
 msgid "Last login"
 msgstr "Последний вход"
 
-#: .\users\templates\users\irunner_users_list_tag.html:45
-#: .\users\templates\users\profile_sidebar.html:17 .\users\views.py:495
 msgid "Update profile"
 msgstr "Обновить профиль"
 
-#: .\users\templates\users\profile_password.html:7
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user's "
 "password, but you can set a new password."
@@ -4581,52 +3005,40 @@ msgstr ""
 "Пароли не хранятся в открытом виде, поэтому нет возможности увидеть пароль "
 "этого пользователя. Но вы можете установить новый пароль."
 
-#: .\users\templates\users\profile_show.html:24
 msgid "The user belongs to staff and has extended access permissions."
 msgstr ""
 "Пользователь входит в число сотрудников и обладает расширенными правами."
 
-#: .\users\templates\users\profile_show.html:37
 msgid "First name"
 msgstr "Имя"
 
-#: .\users\templates\users\profile_show.html:40
 msgid "Patronymic"
 msgstr "Отчество"
 
-#: .\users\templates\users\profile_show.html:43
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\users\templates\users\profile_show.html:64
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: .\users\templates\users\profile_show.html:72
 msgid "Date joined"
 msgstr "Дата регистрации"
 
-#: .\users\templates\users\profile_show.html:77
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-#: .\users\templates\users\profile_sidebar.html:29 .\users\views.py:520
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: .\users\views.py:150
 msgid "Create user"
 msgstr "Создать пользователя"
 
-#: .\users\views.py:171
 msgid "Bulk sign-up"
 msgstr "Массовая регистрация"
 
-#: .\users\views.py:198
 msgid "Bulk profile update"
 msgstr "Массовое обновление профилей"
 
-#: .\users\views.py:239
 #, python-format
 msgid "%(count)d profile has been updated."
 msgid_plural "%(count)d profiles have been updated."
@@ -4634,11 +3046,9 @@ msgstr[0] "Обновлён %(count)d профиль."
 msgstr[1] "Обновлено %(count)d профиля."
 msgstr[2] "Обновлено %(count)d профилей."
 
-#: .\users\views.py:250
 msgid "Bulk photo upload"
 msgstr "Массовая загрузка фотографий"
 
-#: .\users\views.py:273 .\users\views.py:357
 #, python-format
 msgid "%(count)d photo has been uploaded."
 msgid_plural "%(count)d photos have been uploaded."
@@ -4646,22 +3056,23 @@ msgstr[0] "Добавлена %(count)d фотография."
 msgstr[1] "Добавлено %(count)d фотографии."
 msgstr[2] "Добавлено %(count)d фотографий."
 
-#: .\users\views.py:287
 msgid "Photos from intranet.bsu"
 msgstr "Фотографии из intranet.bsu"
 
-#: .\users\views.py:373
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
-#: .\users\views.py:384
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
 
-#: .\users\views.py:417
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#, fuzzy
+#~| msgid "Actions"
+#~ msgid "section"
+#~ msgstr "Действия"
 
 #~ msgid "For service accounts used by the testing module."
 #~ msgstr ""

@@ -1,16 +1,25 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from collections import namedtuple
 
 from django.utils.encoding import force_text
 from django.utils.html import escape
-
+from django.utils.translation import pgettext_lazy
 from common.constants import STDIN, STDOUT
 
 # for strings passed to external library
 TEX2HTML_ENCODING = 'utf-8'
 
 IMAGE_PATH = '/fIpZ6d9gT5GYgPFox3cO/'
+
+SUBSTITUTIONS = [
+    ('<h2>Формат входного файла</h2>', pgettext_lazy('section', 'Input'), '<h2>{}</h2>'),
+    ('<h2>Формат выходного файла</h2>', pgettext_lazy('section', 'Output'), '<h2>{}</h2>'),
+    ('<h2>Пример</h2>', pgettext_lazy('section', 'Example'), '<h2>{}</h2>'),
+    ('<h2>Примеры</h2>', pgettext_lazy('section', 'Examples'), '<h2>{}</h2>'),
+    ('<h2><i>Замечание</i></h2>', pgettext_lazy('section', 'Note'), '<h2><i>{}</i></h2>'),
+]
 
 '''
 output contains HTML data
@@ -29,6 +38,11 @@ def _render(begin, tex_source, end):
         dst, log = ('<pre>' + escape(src) + '</pre>'), force_text(e)
 
     dst = dst.replace(IMAGE_PATH, '')
+
+    for src_phrase, translated_text, template in SUBSTITUTIONS:
+        dst_phrase = template.format(translated_text)
+        dst = dst.replace(src_phrase, dst_phrase)
+
     return TeXRenderResult(dst, log)
 
 
