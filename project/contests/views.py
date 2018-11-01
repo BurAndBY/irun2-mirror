@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import F, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext, pgettext
@@ -29,7 +29,7 @@ from .calcpermissions import calculate_contest_permissions
 from .exporting import export_to_s4ris_json, export_to_ejudge_xml
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .forms import PrintoutForm, EditPrintoutForm
-from .models import Contest, Membership, ContestSolution, Message, MessageUser, Printout, ContestUserRoom
+from .models import Contest, Membership, ContestSolution, Message, MessageUser, Printout, ContestUserRoom, ContestProblem
 from .services import make_contestant_choices, make_problem_choices, make_letter
 from .services import ProblemResolver, ContestTiming
 from .services import create_contest_service
@@ -232,7 +232,7 @@ class ProblemView(ProblemStatementMixin, ContestProblemsetMixin, BaseContestView
     def is_allowed(self, permissions):
         return permissions.problems
 
-    def get(self, request, contest, problem_id, filename):
+    def get(self, request, contest, problem_id):
         if not self.is_problemset_available():
             return self.later(request)
 
@@ -240,15 +240,32 @@ class ProblemView(ProblemStatementMixin, ContestProblemsetMixin, BaseContestView
         if problem is None:
             return redirect('contests:problems', contest.id)
 
-        if self.is_aux_file(filename):
-            return self.serve_aux_file(request, problem.id, filename)
-
         context = self.get_context_data()
         context['problem'] = problem
         context['statement'] = self.make_statement(problem)
         context['problem_to_submit'] = problem.id
         context['letter'] = ProblemResolver(contest).get_letter(problem.id)
         return render(request, self.template_name, context)
+
+
+class ProblemFileView(ProblemStatementMixin, ContestProblemsetMixin, BaseContestView):
+    tab = 'problems'
+    template_name = 'contests/problem.html'
+
+    def is_allowed(self, permissions):
+        return permissions.problems
+
+    def get(self, request, contest, problem_id, filename):
+        if not self.is_problemset_available():
+            raise Http404('no access to statements')
+
+        if not ContestProblem.objects.filter(contest=self.contest, problem_id=problem_id).exists():
+            raise Http404('problem does not belong to the contest')
+
+        if not self.is_aux_file(filename):
+            raise Http404('not a valid file')
+
+        return self.serve_aux_file(request, problem_id, filename)
 
 
 class AllSolutionsView(ProblemResolverMixin, BaseContestView):

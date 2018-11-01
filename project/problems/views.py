@@ -79,10 +79,10 @@ class ProblemStatementMixin(object):
         return filename.rstrip('/')
 
     def is_aux_file(self, filename):
-        return filename is not None and len(ProblemStatementView._normalize(filename)) > 0
+        return filename is not None and len(ProblemStatementMixin._normalize(filename)) > 0
 
     def serve_aux_file(self, request, problem_id, filename):
-        filename = ProblemStatementView._normalize(filename)
+        filename = ProblemStatementMixin._normalize(filename)
 
         related_file = get_object_or_404(ProblemRelatedFile, problem_id=problem_id, filename=filename)
         mime_type, encoding = mimetypes.guess_type(filename)
