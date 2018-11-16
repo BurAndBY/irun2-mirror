@@ -35,6 +35,7 @@ from storage.utils import create_storage, parse_resource_id, serve_resource
 from users import forms
 from users.models import UserFolder, UserProfile
 import users.intranetbsu as intranetbsu
+import users.intranetbsu.photos as intranetbsuphotos
 import users.photo as photo
 
 
@@ -318,7 +319,7 @@ class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin,
             if user.userprofile.photo is not None:
                 continue
 
-            request = intranetbsu.photos.Request(
+            request = intranetbsuphotos.Request(
                 form.cleaned_data['faculty'],
                 user.first_name,
                 user.last_name,
@@ -333,7 +334,7 @@ class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin,
 
             try:
                 # photo.generate_thumbnail_blob(None)
-                photo_blob = intranetbsu.photos.download_photo(request)
+                photo_blob = intranetbsuphotos.download_photo(request)
                 if photo_blob is not None:
                     photo_thumbnail_blob = photo.generate_thumbnail_blob(photo_blob)
             except Exception as e:
