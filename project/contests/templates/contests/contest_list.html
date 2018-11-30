@@ -5,6 +5,13 @@
 {% load irunner_contests %}
 
 {% block content %}
+    {% if may_create_contests %}
+        <div class="pull-right">
+            <a href="{% url 'contests:new' %}" class="btn btn-default">
+                {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New contest' %}</span>
+            </a>
+        </div>
+    {% endif %}
     <h1>{% block title %}{{ page_title }}{% endblock %}</h1>
     {% if pairs %}
         <table class="table table-condensed">
@@ -24,8 +31,5 @@
         </table>
     {% else %}
         <p>{% trans 'There are no contests available.' %}</p>
-    {% endif %}
-    {% if may_create_contests %}
-        <p><a href="{% url 'contests:new' %}">{% trans 'New contest' %}</a></p>
     {% endif %}
 {% endblock %}
