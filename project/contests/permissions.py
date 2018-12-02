@@ -26,6 +26,7 @@ class ContestPermissions(object):
 
     def set_juror(self):
         self.standings = True
+        self.standings_before = True
         self.always_unfrozen_standings = True
         self.problems = True
         self.all_solutions = True
