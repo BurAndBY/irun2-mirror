@@ -10,8 +10,10 @@ from django.views import generic
 from rest_framework import permissions
 from rest_framework import serializers
 from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.exceptions import NotFound
 from rest_framework.parsers import FileUploadParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -260,4 +262,12 @@ class PrintingView(WorkerAPIView):
 class PrintingDoneView(WorkerAPIView):
     def post(self, request, printout_id):
         Printout.objects.filter(pk=printout_id, status=Printout.WAITING).update(status=Printout.DONE)
+        return Response('OK')
+
+
+class AuthCheckView(APIView):
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
         return Response('OK')

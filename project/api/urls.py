@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^sleep$', views.SleepView.as_view()),
     url(r'^printing$', views.PrintingView.as_view()),
     url(r'^printing/(?P<printout_id>\d+)$', views.PrintingDoneView.as_view()),
+    url(r'^auth/check$', views.AuthCheckView.as_view()),
 
     url(r'^queue/$', views.QueueView.as_view(), name='queue')
 ]
