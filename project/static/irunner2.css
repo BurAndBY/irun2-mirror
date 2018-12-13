@@ -2017,3 +2017,7 @@ Green menu
 .ir-test-reorder .dndDraggingSource {
     display: none;
 }
+
+.ir-username {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}

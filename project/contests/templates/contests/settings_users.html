@@ -23,7 +23,7 @@
         {% if view_model.users %}
             <ol>
                 {% for user in view_model.users %}
-                    <li><a href="{% url 'users:profile_show' user.id %}">{% irunner_users_show user %}</a></li>
+                    <li><span class="ir-username">{{ user.username }}</span> <a href="{% url 'users:profile_show' user.id %}">{% irunner_users_show user %}</a></li>
                 {% endfor %}
             </ol>
         {% else %}
