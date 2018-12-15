@@ -1,4 +1,4 @@
-from .models import Validation, TestCaseValidation
+from problems.models import Validation, TestCaseValidation
 
 from api.queue import ValidationInQueue, enqueue, notify_enqueued
 

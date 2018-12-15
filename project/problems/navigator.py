@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from .models import Problem, ProblemFolder
+from problems.models import Problem, ProblemFolder
 
 from common.folderutils import ROOT, cast_id
 from django.core.urlresolvers import reverse

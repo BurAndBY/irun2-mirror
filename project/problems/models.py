@@ -222,3 +222,24 @@ class TestCaseValidation(models.Model):
     input_resource_id = ResourceIdField()
     is_valid = models.BooleanField()
     validator_message = models.CharField(max_length=255, blank=True)
+
+
+class AccessMode(object):
+    READ = 1
+    WRITE = 2
+
+    CHOICES = (
+        (READ, _('Read')),
+        (WRITE, _('Write')),
+    )
+
+
+class ProblemAccess(models.Model):
+    problem = models.ForeignKey(Problem)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
+    mode = models.IntegerField(choices=AccessMode.CHOICES)
+    when_granted = models.DateTimeField(auto_now=True)
+    who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        unique_together = ('problem', 'user')

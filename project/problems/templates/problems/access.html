@@ -1,0 +1,53 @@
+{% extends 'problems/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_users %}
+
+{% block main %}
+
+{% if share_form %}
+    <h3>{% trans 'Grant access' %}</h3>
+    <div class="form-group">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            {% bootstrap_form share_form layout='inline' %}
+            <button name="grant" type="submit" class="btn btn-default">{% trans 'Grant access' %}</button>
+        </form>
+    </div>
+    <h3>{% trans 'Access control list' %}</h3>
+    <p><em>{% trans 'Note: administators have full access to all problems.' %}</em></p>
+
+    {% if acl %}
+        <form method="post">
+            <table class="table table-condensed ir-table-nonfluid">
+                <thead>
+                    <tr>
+                        <th class="ir-col-shrink"><input type="checkbox" id="selectall"></th>
+                        <th>{% trans 'Username' %}</th>
+                        <th>{% trans 'User' %}</th>
+                        <th>{% trans 'Mode' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in acl %}
+                        <tr>
+                            <td><input type="checkbox" class="ir-checkbox" name="id" value="{{ entry.id }}"></td>
+                            <td><span class="ir-username">{{ entry.user.username }}</span></td>
+                            <td>{% irunner_users_card entry.user %}</td>
+                            <td><span class="badge" title="{% blocktrans with when=entry.when_granted|date:"SHORT_DATE_FORMAT" who=entry.who_granted %}Permission was granted on {{ when }} by user {{ who }}{% endblocktrans %}">{{ entry.get_mode_display }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% csrf_token %}
+            <button name="revoke" type="submit" class="btn btn-default ir-checkbox-driven">{% trans 'Revoke access' %}</button>
+        <script>
+        $(document).ready(function () {
+            irSetUpSelectAll();
+        });
+        </script>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

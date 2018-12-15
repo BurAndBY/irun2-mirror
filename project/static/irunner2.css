@@ -2021,3 +2021,12 @@ Green menu
 .ir-username {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.ir-col-shrink {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.ir-table-nonfluid {
+   width: auto !important;
+}
