@@ -16,8 +16,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
 from mptt.templatetags.mptt_tags import cache_tree_children
+from django.core.exceptions import PermissionDenied
 
-from cauth.mixins import StaffMemberRequiredMixin
+from cauth.mixins import StaffMemberRequiredMixin, LoginRequiredMixin
+from common.access import Permissions, PermissionCheckMixin
 from common.folderutils import lookup_node_ex, cast_id, ROOT, _fancytree_recursive_node_to_dict
 from common.pageutils import paginate
 from common.views import IRunnerListView
@@ -27,7 +29,7 @@ from proglangs.models import Compiler
 from storage.storage import create_storage
 from storage.utils import serve_resource
 
-
+from problems.calcpermissions import get_problems_queryset
 from problems.forms import (
     ProblemSearchForm,
     TeXForm,
@@ -155,6 +157,25 @@ All problems: folders
 '''
 
 
+class ProblemPermissions(Permissions):
+    VIEW_ALL_PROBLEMS = 1 << 0
+    CREATE_PROBLEMS = 1 << 1
+    MANAGE_FOLDERS = 1 << 2
+    ALL = VIEW_ALL_PROBLEMS | CREATE_PROBLEMS | MANAGE_FOLDERS
+
+
+class ProblemPermissionCheckMixin(PermissionCheckMixin):
+    def _make_permissions(self, user):
+        if user.is_staff:
+            return ProblemPermissions(ProblemPermissions.ALL)
+        if user.userprofile.has_access_to_problems:
+            return ProblemPermissions()
+
+
+class BrowseProblemsAccessMixin(LoginRequiredMixin, ProblemPermissionCheckMixin):
+    pass
+
+
 class ProblemFolderMixin(object):
     def get_context_data(self, **kwargs):
         context = super(ProblemFolderMixin, self).get_context_data(**kwargs)
@@ -169,7 +190,7 @@ class ProblemFolderMixin(object):
         return context
 
 
-class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListView):
+class ShowFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, IRunnerListView):
     template_name = 'problems/list_folder.html'
     paginate_by = 100
 
@@ -182,13 +203,13 @@ class ShowFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, IRunnerListVi
 
     def get_queryset(self):
         folder_id = cast_id(self.kwargs['folder_id_or_root'])
-        return Problem.objects\
-            .filter(folders__id=folder_id)
+        return get_problems_queryset(self.request.user).filter(folders__id=folder_id)
 
 
-class CreateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.FormView):
+class CreateFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.FormView):
     template_name = 'problems/list_folder_form.html'
     form_class = ProblemFolderForm
+    requirements = ProblemPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super(CreateFolderView, self).get_context_data(**kwargs)
@@ -204,9 +225,10 @@ class CreateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.For
         return redirect('problems:show_folder', folder_id_or_root)
 
 
-class UpdateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.UpdateView):
+class UpdateFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.UpdateView):
     template_name = 'problems/list_folder_form.html'
     form_class = ProblemFolderForm
+    requirements = ProblemPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super(UpdateFolderView, self).get_context_data(**kwargs)
@@ -226,8 +248,9 @@ class UpdateFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.Upd
             raise Http404('no folder found')
 
 
-class DeleteFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+class DeleteFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
     template_name = 'problems/list_folder_confirm_delete.html'
+    requirements = ProblemPermissions.MANAGE_FOLDERS
 
     def list_courses(self, folder):
         subfolder_ids = folder.get_descendants(include_self=True).values_list('id', flat=True)
@@ -248,8 +271,9 @@ class DeleteFolderView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.bas
         return redirect('problems:show_folder', parent_id if parent_id is not None else ROOT)
 
 
-class ImportFromPolygonView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+class ImportFromPolygonView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
     template_name = 'problems/list_import_from_polygon.html'
+    requirements = ProblemPermissions.CREATE_PROBLEMS
 
     def get(self, request, folder_id_or_root):
         # TODO: better way to select default compiler (remember last used?)
@@ -286,9 +310,10 @@ class ImportFromPolygonView(StaffMemberRequiredMixin, ProblemFolderMixin, generi
         return render(request, self.template_name, context)
 
 
-class CreateProblemView(StaffMemberRequiredMixin, ProblemFolderMixin, generic.FormView):
+class CreateProblemView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.FormView):
     template_name = 'problems/list_folder_form.html'
     form_class = SimpleProblemForm
+    requirements = ProblemPermissions.CREATE_PROBLEMS
 
     def get_context_data(self, **kwargs):
         context = super(CreateProblemView, self).get_context_data(**kwargs)
@@ -313,7 +338,7 @@ All problems: search
 '''
 
 
-class SearchView(StaffMemberRequiredMixin, generic.View):
+class SearchView(BrowseProblemsAccessMixin, generic.View):
     template_name = 'problems/list_search.html'
     paginate_by = 12
     number_regex = re.compile(r'^(?P<number>\d+)(\.(?P<subnumber>\d+))?$')
@@ -331,7 +356,7 @@ class SearchView(StaffMemberRequiredMixin, generic.View):
         return posfilter
 
     def get_queryset(self, query=None):
-        queryset = Problem.objects.all()
+        queryset = get_problems_queryset(self.request.user)
         if query is not None:
             terms = query.split()
             if terms:

@@ -18,8 +18,10 @@
 
     {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
 
+    {% if permissions.can_manage_folders or permissions.can_create_problems %}
     <div class="form-group">
         <div class="btn-toolbar" role="toolbar">
+            {% if permissions.can_manage_folders %}
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folder' %}</span>
@@ -45,7 +47,9 @@
                     {% endif %}
                 </ul>
             </div>
+            {% endif %}
 
+            {% if permissions.can_create_problems %}
             <div class="btn-group btn-group-sm" role="group">
                 <a class="btn btn-default" href="{% irunner_folders_url 'problems:create_problem' folder_id %}">
                     {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New problem' %}</span>
@@ -54,12 +58,14 @@
                     {% bootstrap_icon 'import' %} <span class="ir-icon-label">{% trans 'Import from Polygon' %}</span>
                 </a>
             </div>
+            {% endif %}
         </div>
     </div>
+    {% endif %}
 
     {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
 
-    {% irunner_problems_list problems=object_list pagination_context=pagination_context query_string=query_string %}
+    {% irunner_problems_list problems=object_list pagination_context=pagination_context list_is_complete=permissions.can_view_all_problems query_string=query_string %}
 
     <script>
     $(document).ready(function () {

@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from problems.models import Problem, ProblemFolder
+from problems.calcpermissions import get_problems_queryset
 
 from common.folderutils import ROOT, cast_id
 from django.core.urlresolvers import reverse
@@ -56,7 +57,7 @@ class NavigatorImpl(object):
         return len(self.problems_list)
 
 
-def init(problem_id, request_get):
+def init(problem_id, request_user, request_get):
     if PARAM not in request_get:
         return
     try:
@@ -72,7 +73,8 @@ def init(problem_id, request_get):
         if folder is None:
             return
 
-    problems_list = Problem.objects.filter(folders__id=folder_id).values_list('id', flat=True)
+    qs = get_problems_queryset(request_user)
+    problems_list = qs.filter(folders__id=folder_id).values_list('id', flat=True)
     problems_list = list(problems_list)
     if problem_id not in problems_list:
         return
@@ -81,8 +83,8 @@ def init(problem_id, request_get):
 
 
 class Navigator(object):
-    def __init__(self, problem_id, request_get):
-        self.impl = init(problem_id, request_get)
+    def __init__(self, problem_id, request_user, request_get):
+        self.impl = init(problem_id, request_user, request_get)
 
     def query_string(self):
         return '' if self.impl is None else self.impl.get_query_string()

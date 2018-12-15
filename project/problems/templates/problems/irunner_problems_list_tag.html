@@ -13,35 +13,41 @@
                 <thead>
                     <tr>
                         {% if show_checkbox %}
-                            <th><input type="checkbox" id="selectall"></th>
+                            <th class="ir-col-shrink"><input type="checkbox" id="selectall"></th>
                         {% endif %}
-                        <th>{% trans 'Level' %}</th>
+                        <th class="ir-col-shrink">{% trans 'Level' %}</th>
                         <th>{% trans 'Name' %}</th>
                         <th class="text-nowrap">{% trans 'Short name' %}</th>
-                        <th class="text-right">{% trans 'Tests' %}</th>
-                        <th class="text-center" colspan="2">{% trans 'Solutions' %}</th>
+                        <th class="ir-col-shrink text-right">{% trans 'Tests' %}</th>
+                        <th class="ir-col-shrink text-right">{% trans 'Solutions' %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for problem in problems %}
                     <tr>
                         {% if show_checkbox %}
-                            <td><input type="checkbox" class="ir-checkbox" name="{{ problem.id }}"></td>
+                            <td class="ir-col-shrink"><input type="checkbox" class="ir-checkbox" name="{{ problem.id }}"></td>
                         {% endif %}
-                        <td>{% irunner_problems_difficulty problem.difficulty %}</td>
+                        <td class="ir-col-shrink">{% irunner_problems_difficulty problem.difficulty %}</td>
                         <td><a href="{% url 'problems:overview' problem.id %}{{ query_string }}">{{ problem.numbered_full_name }}</a></td>
                         <td class="text-nowrap">{{ problem.numbered_short_name }}</td>
                         {% irunner_problems_getinfo problem.id infomanager as info %}
-                        <td class="text-right">{{ info.test_count }}</td>
-                        <td class="text-right ir-accepted-solution-count">{{ info.accepted_solution_count }}</td>
-                        <td class="text-left ir-all-solution-count">{{ info.all_solution_count }}</td>
+                        <td class="ir-col-shrink text-right">{{ info.test_count }}</td>
+                        <td class="ir-col-shrink text-right"><span class="ir-accepted-solution-count">{{ info.accepted_solution_count }}</span>&thinsp;/&thinsp;<span class="ir-all-solution-count">{{ info.all_solution_count }}</span></td>
+                        <td class="ir-col-shrink text-left "></td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
         {% else %}
-            <div class="ir-absence">{% trans 'No problems' %}</div>
+            <div class="ir-absence">
+                {% if list_is_complete %}
+                    {% trans 'No problems' %}
+                {% else %}
+                    {% trans 'No problems available' %}
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 </div>

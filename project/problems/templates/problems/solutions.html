@@ -12,11 +12,13 @@
 
 <form method="get" class="form-inline">
     <div class="ir-solution-filter">
+        {% if permissions.can_rejudge %}
         <div class="pull-left">
             <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#ir_bulk_buttons">
                 {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Bulk operations' %}</span>
             </button>
         </div>
+        {% endif %}
 
         <div class="pull-right">
             {% for name, value in navigator.query_params %}
@@ -35,6 +37,7 @@
 <form method="post" target="_blank" action="{% url 'problems:solutions_process' problem.id %}">
     {% csrf_token %}
 
+    {% if permissions.can_rejudge %}
     <div class="collapse" id="ir_bulk_buttons">
         {% buttons %}
         <div class="btn-group">
@@ -47,6 +50,7 @@
         </div>
         {% endbuttons %}
     </div>
+    {% endif %}
 
     {% irunner_pagination pagination_context %}
     <table class="table table-condensed table-striped">
@@ -76,9 +80,12 @@
     </table>
 
     {% buttons %}
+        {% if permissions.can_rejudge %}
         <button type="submit" name="rejudge" class="btn btn-default ir-checkbox-driven" disabled>
             {% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Rejudge' context 'verb' %}</span>
         </button>
+        {% endif %}
+
         <button type="submit" name="pack" class="btn btn-default ir-checkbox-driven" disabled>
             {% bootstrap_icon 'compressed' %} <span class="ir-icon-label">{% trans 'Download archive' %}</span>
         </button>

@@ -28,6 +28,7 @@
             </a>
         </li>
     </ul>
+    {% if permissions.can_edit %}
     <ul class="pagination ir-pagination-no-margin">
         <li>
             <a href="{% url 'problems:edit_test' problem_id current_test %}{{ navigator.query_string }}">
@@ -40,6 +41,7 @@
             </a>
         </li>
     </ul>
+    {% endif %}
 </nav>
 
 <table class="ir-test-info">

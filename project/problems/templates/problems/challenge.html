@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            {% if out.resource_id != None %}
+            {% if out.resource_id != None and permissions.can_edit %}
                 <form method="post" action="{% url 'problems:challenge_add_test' problem.id challenge.id %}{{ navigator.query_string }}">
                     {% csrf_token %}
                     <input type="hidden" name="answer" value="{{ out.resource_id }}">

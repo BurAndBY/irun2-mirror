@@ -38,7 +38,7 @@
                             {% if solution.problem.difficulty != None %}
                                 {% irunner_problems_difficulty solution.problem.difficulty %}
                             {% endif %}
-                            {% if user.is_staff %}
+                            {% if user.is_staff or solution_environment.has_problem %}
                                 <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
                             {% elif solution_environment.course %}
                                 <a href="{% url 'courses:course_problems_problem' solution_environment.course.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>

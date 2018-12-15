@@ -24,8 +24,10 @@
         </tbody>
     </table>
 
+    {% if permissions.can_edit %}
     {% buttons %}
         <a href="{% url 'problems:tex_new_statement' problem.id %}{{ navigator.query_string }}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New statement' %}</span></a>
         <a href="#" class="btn btn-default disabled">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New editorial' %}</span></a>
     {% endbuttons %}
+    {% endif %}
 {% endblock %}

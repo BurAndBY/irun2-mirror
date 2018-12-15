@@ -91,4 +91,4 @@ class SolutionPermissions(object):
 
 
 # course/contest the solution belongs to
-SolutionEnvironment = namedtuple('SolutionEnvironment', 'course contest')
+SolutionEnvironment = namedtuple('SolutionEnvironment', 'course contest has_problem')

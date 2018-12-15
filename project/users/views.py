@@ -29,6 +29,7 @@ from common.folderutils import lookup_node_ex, cast_id, ROOT
 from common.pageutils import paginate
 from common.views import IRunnerListView, MassOperationView
 from courses.models import Membership
+from problems.models import ProblemAccess
 from solutions.models import Solution
 from storage.utils import create_storage, parse_resource_id, serve_resource
 
@@ -595,6 +596,10 @@ def is_allowed(request_user, target_user):
 
     if get_courses(request_user) & get_courses(target_user):
         return True
+
+    if ProblemAccess.objects.filter(user=request_user, problem__solution__author=target_user).exists():
+        return True
+
     return False
 
 

@@ -45,8 +45,9 @@ problem_urlpatterns = [
     url(r'^tex/$', pviews.ProblemTeXView.as_view(), name='tex'),
     url(r'^tex/render/$', pviews.ProblemTeXRenderView.as_view(), name='tex_render'),
     url(r'^tex/new/statement/$', pviews.ProblemTeXNewStatementView.as_view(), name='tex_new_statement'),
+    url(r'^tex/new/statement/(?P<filename>.+)$', pviews.ProblemTeXEditorRelatedFileView.as_view()),
     url(r'^tex/(?P<file_id>[0-9]+)/$', pviews.ProblemTeXEditView.as_view(), name='edit_tex'),
-    url(r'^tex/(?P<file_id>[0-9]+)/(?P<filename>.+)$', pviews.ProblemTeXEditRelatedFileView.as_view()),
+    url(r'^tex/([0-9]+)/(?P<filename>.+)$', pviews.ProblemTeXEditorRelatedFileView.as_view()),
 
     url(r'^challenges/$', pviews.ProblemChallengesView.as_view(), name='challenges'),
     url(r'^challenges/(?P<challenge_id>[0-9]+)/$', pviews.ProblemChallengeView.as_view(), name='challenge'),

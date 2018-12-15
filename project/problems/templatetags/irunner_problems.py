@@ -23,14 +23,15 @@ def irunner_problems_statement(statement, letter=None):
 
 
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
-def irunner_problems_list(problems, pagination_context=None, show_checkbox=False, query_string=''):
+def irunner_problems_list(problems, pagination_context=None, list_is_complete=False, show_checkbox=False, query_string=''):
     manager = ProblemInfoManager(problems)
     return {
         'problems': problems,
         'infomanager': manager,
+        'list_is_complete': list_is_complete,
         'pagination_context': pagination_context,
         'show_checkbox': show_checkbox,
-        'query_string': query_string
+        'query_string': query_string,
     }
 
 

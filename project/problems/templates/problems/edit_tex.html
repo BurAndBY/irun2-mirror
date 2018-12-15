@@ -15,7 +15,7 @@
             {% endif %}
 
             {% buttons %}
-                <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                {% if permissions.can_edit %}<button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>{% endif %}
                 <a href="{% url 'problems:tex' problem.id %}{{ navigator.query_string }}" class="btn btn-default">{% trans 'Cancel' %}</a>
             {% endbuttons %}
         </form>
