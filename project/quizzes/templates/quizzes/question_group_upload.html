@@ -2,8 +2,10 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_quizzes %}
 
 {% block main %}
+    {% irunner_quizzes_breadcrumbs %}
 
     {% if error %}
         <div class="modal fade" id="errModal" tabindex="-1" role="dialog" aria-labelledby="warnModalLabel" aria-hidden="true" data-show="true">
@@ -31,7 +33,7 @@
         {% bootstrap_field form.file %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">{% trans 'Upload' %}</button>
-            <a href="{% url 'quizzes:groups:browse' pk %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+            <a href="{% url 'quizzes:categories:groups:browse' category_slug group.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
         {% endbuttons %}
     </form>
 

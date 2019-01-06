@@ -43,6 +43,7 @@ class UserProfile(models.Model):
     can_change_name = models.BooleanField(_('user is allowed to change name'), null=False, default=False)
     can_change_password = models.BooleanField(_('user is allowed to change password'), null=False, default=True)
     has_access_to_problems = models.BooleanField(_('user was explicitly granted access to certain problems'), default=False)
+    has_access_to_quizzes = models.BooleanField(_('user was explicitly granted access to certain quiz categories'), default=False)
 
     def is_team(self):
         return self.kind == UserProfile.TEAM

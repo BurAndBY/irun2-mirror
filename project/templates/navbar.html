@@ -46,6 +46,10 @@
                             <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
                         </ul>
                     </li>
+                {% else %}
+                    {% if user.userprofile.has_access_to_quizzes %}
+                    <li><a href="{% url 'quizzes:categories:list' %}">{% trans 'Quizzes' %}</a></li>
+                    {% endif %}
                 {% endif %}
                 {% for name, url in external_links %}
                     <li><a href="{{ url }}" target="_blank">{{ name }}</a></li>

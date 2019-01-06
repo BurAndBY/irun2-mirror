@@ -1,0 +1,26 @@
+{% extends 'quizzes/base.html' %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+{% load irunner_quizzes %}
+
+{% block main %}
+    {% irunner_quizzes_breadcrumbs %}
+
+    <div class="form-group">
+        <a href="{% url 'quizzes:categories:create' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New category' %}</span></a>
+    </div>
+
+    {% if object_list or no_category_slug %}
+        <ul>
+        {% for category in object_list %}
+        <li><a href="{% url 'quizzes:categories:groups:list' category.slug %}">{{ category.name }}</a></li>
+        {% endfor %}
+        {% if no_category_slug %}
+        <li><a href="{% url 'quizzes:categories:groups:list' no_category_slug %}"><i>{% trans 'No category' %}</i></a></li>
+        {% endif %}
+        </ul>
+    {% else %}
+        <div class="ir-absence">{% trans 'No categories available' %}</div>
+    {% endif %}
+{% endblock %}

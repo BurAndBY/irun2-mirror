@@ -5,6 +5,7 @@ from collections import namedtuple
 
 from common.katex import tex2html
 
+from quizzes.constants import NO_CATEGORY_SLUG
 from quizzes.models import Question
 
 register = template.Library()
@@ -13,15 +14,17 @@ SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'text is_right is_wrong is_n
 
 
 @register.inclusion_tag('quizzes/irunner_quizzes_showquestion.html')
-def irunner_quizzes_showquestion(question):
+def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
     preparer = escape if (question.kind == Question.TEXT_ANSWER) else tex2html
     return {
         'id': question.id,
+        'category_slug': category_slug,
         'group_id': question.group_id,
         'text': tex2html(question.text),
         'choices': [
             (preparer(ch.text), ch.is_right) for ch in question.choice_set.order_by('id')
         ],
+        'can_edit': can_edit,
     }
 
 
@@ -57,3 +60,17 @@ def irunner_quizzes_showanswer(session_question, counter):
 def irunner_quizzes_mark(result, is_finished=True):
     value = int(result) if (result is not None and is_finished) else '?'
     return format_html('<div class="ir-quiz-mark">{}</div>', value)
+
+
+@register.inclusion_tag('quizzes/irunner_quizzes_breadcrumbs.html', takes_context=True)
+def irunner_quizzes_breadcrumbs(context, question=False):
+    if 'category' in context:
+        category = context['category']  # may be None
+        return {
+            'has_category': True,
+            'category': category,
+            'category_slug': category.slug if category is not None else NO_CATEGORY_SLUG,
+            'group': context.get('group'),
+            'question': question,
+        }
+    return {}

@@ -1,0 +1,18 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_quizzes %}
+
+{% block main %}
+    {% irunner_quizzes_breadcrumbs %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
+            <a href="{% url 'quizzes:categories:list' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

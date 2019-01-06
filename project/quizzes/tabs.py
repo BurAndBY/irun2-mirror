@@ -6,10 +6,10 @@ Tab = namedtuple('Tab', 'name icon url_pattern')
 
 
 class Tabs(object):
-    GROUPS = Tab(_('Question groups'), 'question-sign', 'quizzes:groups:list')
+    CATEGORIES = Tab(_('Question categories'), 'question-sign', 'quizzes:categories:list')
     TEMPLATES = Tab(_('Quiz templates'), 'list', 'quizzes:templates:list')
 
     ALL = [
-        GROUPS,
+        CATEGORIES,
         TEMPLATES
     ]

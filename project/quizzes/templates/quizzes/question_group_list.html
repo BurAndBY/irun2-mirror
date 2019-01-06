@@ -2,10 +2,23 @@
 
 {% load i18n %}
 {% load bootstrap3 %}
+{% load irunner_quizzes %}
 
 {% block main %}
+    {% irunner_quizzes_breadcrumbs %}
+
     <div class="form-group">
-        <a href="{% url 'quizzes:groups:create' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New question group' %}</span></a>
+        {% if permissions.can_edit_questions %}
+            <a href="{% url 'quizzes:categories:groups:create' category_slug %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New question group' %}</span></a>
+        {% endif %}
+        {% if category %}
+            {% if permissions.can_edit_properties %}
+                <a href="{% url 'quizzes:categories:edit' category_slug %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
+            {% endif %}
+            {% if permissions.can_manage_access %}
+                <a href="{% url 'quizzes:categories:access' category_slug %}" class="btn btn-default">{% bootstrap_icon 'lock' %} <span class="ir-icon-label">{% trans 'Access' %}</span></a>
+            {% endif %}
+        {% endif %}
     </div>
 
     {% if object_list %}
@@ -21,7 +34,7 @@
                 {% for group in object_list %}
                 <tr>
                     <td>{{ group.id }}</td>
-                    <td><a href="{% url 'quizzes:groups:browse' group.id %}">{{ group.name }}</a></td>
+                    <td><a href="{% url 'quizzes:categories:groups:browse' category_slug group.id %}">{{ group.name }}</a></td>
                     <td>{{ group.question_count }}</td>
                 </tr>
                 {% endfor %}

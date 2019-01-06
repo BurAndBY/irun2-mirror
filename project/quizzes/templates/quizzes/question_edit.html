@@ -1,6 +1,7 @@
 {% extends 'quizzes/base.html' %}
 
 {% load irunner_katex %}
+{% load irunner_quizzes %}
 {% load bootstrap3 %}
 {% load i18n %}
 
@@ -11,7 +12,7 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{% trans 'Question editor' %}</h2>
+    {% irunner_quizzes_breadcrumbs question=True %}
 
     <input id="questionData" type="hidden" value="{{ object }}" />
     <input id="languageTags" type="hidden" value="{{ languageTags }}"/>
@@ -111,9 +112,8 @@
         {% csrf_token %}
         <input type="hidden" id="resultQuestionData" name="question"/>
         {% buttons %}
-        <button type="submit" class="btn btn-primary">
-            <span class="ir-icon-label">{% trans 'Save' %}</span>
-        </button>
+            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+            <a class="btn btn-link" href="{{request.META.HTTP_REFERER|escape}}">{% trans 'Cancel' %}</a>
         {% endbuttons %}
     </form>
 

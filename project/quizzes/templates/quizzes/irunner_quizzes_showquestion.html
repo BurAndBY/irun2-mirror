@@ -5,11 +5,13 @@
     <div class="panel-body">
         <div class="row">
             <div class="ir-res-problem col-sm-11">{{ text|safe }}</div>
+            {% if can_edit %}
             <div class="form-group col-sm-1">
-                <a class="btn btn-default btn-sm ir-btn-without-border" href="{% url 'quizzes:groups:edit_question' group_id id %}">
+                <a class="btn btn-default btn-sm ir-btn-without-border" href="{% url 'quizzes:categories:groups:edit_question' category_slug group_id id %}">
                     {% bootstrap_icon 'pencil' %}
                 </a>
             </div>
+            {% endif %}
         </div>
         {% for text, is_true in choices %}
             <div class="col-xs-12 ir-res-answer{% if is_true %} bg-success ir-res-answer-correct{% endif %}">{{ text|safe }}</div>

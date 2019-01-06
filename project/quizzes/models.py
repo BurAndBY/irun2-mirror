@@ -12,8 +12,21 @@ from courses.models import Course
 
 
 @python_2_unicode_compatible
+class Category(models.Model):
+    name = models.CharField(_('name'), max_length=100)
+    slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Category')
+
+
+@python_2_unicode_compatible
 class QuestionGroup(models.Model):
     name = models.CharField(_('name'), max_length=100, unique=True)
+    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name=_('category'))
 
     def __str__(self):
         return self.name
@@ -60,6 +73,7 @@ class QuizTemplate(models.Model):
     question_groups = models.ManyToManyField(QuestionGroup, through='GroupQuizRelation')
     attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
     time_limit = models.DurationField(_('time limit'), null=False, default=timedelta(minutes=30))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     def __str__(self):
         return self.name
@@ -129,3 +143,24 @@ class SessionQuestionAnswer(models.Model):
 
     def __str__(self):
         return smart_text(self.choice)
+
+
+class AccessMode(object):
+    READ = 1
+    WRITE = 2
+
+    CHOICES = (
+        (READ, _('Read')),
+        (WRITE, _('Write')),
+    )
+
+
+class CategoryAccess(models.Model):
+    category = models.ForeignKey(Category)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
+    mode = models.IntegerField(choices=AccessMode.CHOICES)
+    when_granted = models.DateTimeField(auto_now=True)
+    who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        unique_together = ('category', 'user')

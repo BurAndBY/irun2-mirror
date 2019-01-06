@@ -4,12 +4,17 @@
 {% load i18n %}
 
 {% block main %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'quizzes:categories:list' %}">{% trans 'Categories' %}</a></li>
+        <li class="active">{% if category %}{{ category }}{% else %}<i>{% trans 'No category' %}</i>{% endif %}</li>
+    </ol>
+
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
-            <a href="{% url 'quizzes:groups:list' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+            <a href="{% url 'quizzes:categories:groups:list' category_slug %}" class="btn btn-link">{% trans 'Cancel' %}</a>
         {% endbuttons %}
     </form>
 {% endblock %}

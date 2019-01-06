@@ -11,23 +11,25 @@
 {% endblock %}
 
 {% block main %}
-    <h3>{{ object.name }}</h3>
+    {% irunner_quizzes_breadcrumbs %}
 
+    {% if permissions.can_edit_questions %}
     <div class="form-group">
-        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:groups:create_question' object.id %}">
+        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:categories:groups:create_question' category_slug group.id %}">
             {% bootstrap_icon 'plus' %}
             <span class="ir-icon-label">{% trans 'New question' %}</span>
         </a>
-        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:groups:upload' object.id %}">
+        <a class="btn btn-default ir-inline-block" href="{% url 'quizzes:categories:groups:upload' category_slug group.id %}">
             {% bootstrap_icon 'open' %}
             <span class="ir-icon-label">{% trans 'Upload from file' %}</span>
         </a>
     </div>
+    {% endif %}
 
     {% irunner_pagination pagination_context %}
 
     {% for question in object_list %}
-        {% irunner_quizzes_showquestion question %}
+        {% irunner_quizzes_showquestion question category_slug can_edit=permissions.can_edit_questions %}
     {% endfor %}
 
     {% irunner_katex_body %}

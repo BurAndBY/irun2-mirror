@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-15 20:56+0300\n"
-"PO-Revision-Date: 2018-12-15 21:01+0300\n"
+"POT-Creation-Date: 2019-01-06 20:55+0300\n"
+"PO-Revision-Date: 2019-01-06 20:58+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2251,6 +2251,18 @@ msgstr "Командная строка компиляции"
 msgid "Run command line"
 msgstr "Командная строка запуска"
 
+msgid "name for URL"
+msgstr "Название для URL"
+
+msgid "Short Latin name to use in page links"
+msgstr "Короткое латинское название для использования в ссылках на страницы"
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "category"
+msgstr "категория"
+
 msgid "Question group"
 msgstr "Группа вопросов"
 
@@ -2290,17 +2302,29 @@ msgstr "показывать ответы"
 msgid "Incorrect"
 msgstr "Неверно"
 
-msgid "Question groups"
-msgstr "Группы вопросов"
+msgid "Question categories"
+msgstr "Категории вопросов"
 
 msgid "Quiz templates"
 msgstr "Шаблоны тестов"
 
+msgid "Grant access to the category"
+msgstr "Выдать доступ к категории"
+
+msgid "New category"
+msgstr "Новая категория"
+
+msgid "No category"
+msgstr "Без категории"
+
+msgid "No categories available"
+msgstr "Доступных категорий нет"
+
+msgid "Categories"
+msgstr "Категории"
+
 msgid "No answer"
 msgstr "Ответа нет"
-
-msgid "Question editor"
-msgstr "Редактор вопроса"
 
 msgid "Error"
 msgstr "Ошибка"
@@ -2370,6 +2394,9 @@ msgstr "Оценки за тест по курсам за предпоследн
 
 msgid "Quiz marks distribution"
 msgstr "Распределение оценок за тест"
+
+msgid "Question groups"
+msgstr "Группы вопросов"
 
 msgid "Sessions duration"
 msgstr "Длительность сессий"
@@ -2973,6 +3000,9 @@ msgstr "пользователь может изменить пароль"
 msgid "user was explicitly granted access to certain problems"
 msgstr "пользователю явно выдан доступ к отдельным задачам"
 
+msgid "user was explicitly granted access to certain quiz categories"
+msgstr "пользователю явно выдан доступ к отдельным категориям тестов"
+
 msgid "The image cannot be opened and identified."
 msgstr "Изображение не может быть открыто и опознано."
 
@@ -3100,6 +3130,9 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Question editor"
+#~ msgstr "Редактор вопроса"
 
 #~ msgid "API access"
 #~ msgstr "Доступ к API"

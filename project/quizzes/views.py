@@ -2,54 +2,56 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
-from django.db.models import F
-
-from cauth.mixins import StaffMemberRequiredMixin
-from common.pageutils import paginate
+from django.http import HttpResponseRedirect
 
 import json
 
+from common.pageutils import paginate
+
 from quizzes.serializers import QuestionDataSerializer, RelationsDataSerializer
-from .forms import AddQuestionGroupForm, UploadFileForm
-from .models import QuestionGroup, QuizTemplate, GroupQuizRelation, QuizSession, Question, Choice
-from .tabs import Tabs
-from .utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
+from quizzes.forms import UploadFileForm
+from quizzes.mixins import (
+    QuizAdminMixin,
+    CategoryMixin,
+    QuestionGroupMixin,
+    CategoryPermissions,
+)
+from quizzes.models import (
+    Choice,
+    GroupQuizRelation,
+    Question,
+    QuestionGroup,
+    QuizSession,
+    QuizTemplate,
+)
+from quizzes.tabs import Tabs
+from quizzes.utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
     is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID, is_relation_valid
-from .statistics import get_statistics
-
-
-class QuizAdminMixin(StaffMemberRequiredMixin):
-    tab = None
-
-    def get_context_data(self, **kwargs):
-        context = super(QuizAdminMixin, self).get_context_data(**kwargs)
-        context['all_tabs'] = Tabs.ALL
-        context['active_tab'] = self.tab
-        context.update(kwargs)
-        return context
+from quizzes.statistics import get_statistics
 
 
 class EmptyView(QuizAdminMixin, generic.TemplateView):
     template_name = 'quizzes/base.html'
 
 
-class QuestionGroupListView(QuizAdminMixin, generic.ListView):
-    tab = Tabs.GROUPS
+class QuestionGroupListView(QuizAdminMixin, CategoryMixin, generic.ListView):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_group_list.html'
 
-    # count related non-deleted questions
-    queryset = QuestionGroup.objects.annotate(question_count=models.Sum(
-        models.Case(
-            models.When(question__is_deleted=False, then=1),
-            default=0,
-            output_field=models.IntegerField()
-        ))
-    ).order_by('id')
+    def get_queryset(self):
+        # count related non-deleted questions
+        queryset = QuestionGroup.objects.filter(category=self.category).annotate(question_count=models.Sum(
+            models.Case(
+                models.When(question__is_deleted=False, then=1),
+                default=0,
+                output_field=models.IntegerField()
+            ))
+        ).order_by('id')
+        return queryset
 
 
-class QuestionGroupBrowseView(QuizAdminMixin, generic.DetailView):
-    tab = Tabs.GROUPS
-    model = QuestionGroup
+class QuestionGroupBrowseView(QuizAdminMixin, QuestionGroupMixin, generic.TemplateView):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_group_browse.html'
     paginate_by = 7
 
@@ -57,7 +59,7 @@ class QuestionGroupBrowseView(QuizAdminMixin, generic.DetailView):
         context = super(QuestionGroupBrowseView, self).get_context_data(**kwargs)
 
         # fetch related non-deleted questions
-        qs = self.object.question_set.filter(is_deleted=False).order_by('id').select_related('group')
+        qs = self.group.question_set.filter(is_deleted=False).order_by('id')
 
         page_context = paginate(self.request, qs, default_page_size=self.paginate_by, allow_all=False)
         context.update(page_context)
@@ -204,28 +206,29 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
 
 
 class SaveQuestionMixin(object):
-    def _process_error(self, request, pk, json_data):
+    def _process_error(self, request, json_data):
         context = self.get_context_data()
         context['has_error'] = True
         context['object'] = json.dumps(json_data)
-        context['group_id'] = pk
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
-    def _do_post(self, request, pk):
-        group = get_object_or_404(QuestionGroup, pk=pk)
+    def _redirect_to_list(self):
+        return redirect('quizzes:categories:groups:browse', self.category_slug, self.group.id)
+
+    def _do_post(self, request):
         try:
             json_data = json.loads(request.POST['question'])
         except:
-            return redirect('quizzes:groups:browse', pk)
+            return self._redirect_to_list()
 
         serializer = QuestionDataSerializer(data=json_data)
         if not serializer.is_valid(raise_exception=False):
-            return self._process_error(request, pk, json_data)
+            return self._process_error(request, json_data)
 
         question_data = serializer.save()
         if not is_question_valid(question_data):
-            return self._process_error(request, pk, json_data)
+            return self._process_error(request, json_data)
 
         with transaction.atomic():
             if question_data.id is not None:
@@ -233,82 +236,89 @@ class SaveQuestionMixin(object):
                 question.is_deleted = True
                 question.save()
             question = Question.objects.create(kind=QUESTION_KINDS[question_data.type],
-                                               text=question_data.text, group=group)
+                                               text=question_data.text, group=self.group)
             choices = []
             for c in question_data.choices:
                 choices.append(Choice(question=question, text=c.text, is_right=c.is_right))
             Choice.objects.bulk_create(choices)
 
-        return redirect('quizzes:groups:browse', pk)
+        return self._redirect_to_list()
 
 
-class QuestionEditView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
-    tab = Tabs.GROUPS
+class QuestionEditView(QuizAdminMixin, QuestionGroupMixin, SaveQuestionMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_edit.html'
+    requirements = CategoryPermissions.EDIT_QUESTIONS
 
     def _get_question_data(self, question_id):
-        question = get_object_or_404(Question, pk=question_id)
+        question = get_object_or_404(Question, pk=question_id, group=self.group)
         choices = []
         for c in question.choice_set.all():
             choices.append({'id': c.id, 'text': c.text, 'is_right': c.is_right})
         return {'id': question.id, 'text': question.text,
                 'type': QUESTION_KINDS_BY_ID[question.kind], 'choices': choices}
 
-    def get(self, request, pk, question_id):
+    def get(self, request, question_id):
         context = self.get_context_data()
         context['object'] = json.dumps(self._get_question_data(question_id))
-        context['group_id'] = int(pk)
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
-    def post(self, request, pk, question_id):
-        return self._do_post(request, pk)
+    def post(self, request, question_id):
+        return self._do_post(request)
 
 
-class QuestionCreateView(QuizAdminMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
-    tab = Tabs.GROUPS
+class QuestionCreateView(QuizAdminMixin, QuestionGroupMixin, generic.base.ContextMixin, SaveQuestionMixin, generic.View):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_edit.html'
+    requirements = CategoryPermissions.EDIT_QUESTIONS
 
-    def get(self, request, pk):
-        any_question = Question.objects.filter(group_id=pk, is_deleted=False).first()
+    def get(self, request):
+        any_question = Question.objects.filter(group=self.group, is_deleted=False).first()
         kind = Question.SINGLE_ANSWER if any_question is None else any_question.kind
 
         context = self.get_context_data()
         context['object'] = json.dumps(get_empty_question_data(kind))
-        context['group_id'] = int(pk)
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
-    def post(self, request, pk):
-        return self._do_post(request, pk)
+    def post(self, request):
+        return self._do_post(request)
 
 
-class QuestionGroupCreateView(QuizAdminMixin, generic.CreateView):
-    tab = Tabs.GROUPS
+class QuestionGroupCreateView(QuizAdminMixin, CategoryMixin, generic.CreateView):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_group_create.html'
+    requirements = CategoryPermissions.EDIT_QUESTIONS
+
     model = QuestionGroup
     fields = ['name']
 
     def get_success_url(self):
-        return reverse('quizzes:groups:browse', kwargs={'pk': self.object.id})
+        return reverse('quizzes:categories:groups:browse', kwargs={'categ_slug': self.category_slug, 'group_id': self.object.id})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.category = self.category
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
-class QuestionGroupUploadFromFileView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
-    tab = Tabs.GROUPS
+class QuestionGroupUploadFromFileView(QuizAdminMixin, QuestionGroupMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.CATEGORIES
     template_name = 'quizzes/question_group_upload.html'
+    requirements = CategoryPermissions.EDIT_QUESTIONS
 
-    def _process_error(self, request, pk):
-        context = self.get_context_data(error='ERROR', form=UploadFileForm(), pk=pk)
+    def _process_error(self, request):
+        context = self.get_context_data(error='ERROR', form=UploadFileForm())
         return render(request, self.template_name, context)
 
-    def get(self, request, pk):
-        get_object_or_404(QuestionGroup, pk=pk)
+    def get(self, request):
         form = UploadFileForm()
-        context = self.get_context_data(form=form, pk=pk)
+        context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, pk):
-        group = get_object_or_404(QuestionGroup, pk=pk)
+    def post(self, request):
         form = UploadFileForm(request.POST, request.FILES)
         questions_data = []
         if form.is_valid():
@@ -316,17 +326,17 @@ class QuestionGroupUploadFromFileView(QuizAdminMixin, generic.base.ContextMixin,
             try:
                 json_questions = json.loads(json_data)
             except:
-                return self._process_error(request, pk)
+                return self._process_error(request)
             for q in json_questions:
                 serializer = QuestionDataSerializer(data=q)
                 if not serializer.is_valid(raise_exception=False):
-                    return self._process_error(request, pk)
+                    return self._process_error(request)
                 question_data = serializer.save()
                 if not is_question_valid(question_data):
-                    return self._process_error(request, pk)
+                    return self._process_error(request)
                 questions_data.append(question_data)
         else:
-            return self._process_error(request, pk)
+            return self._process_error(request)
 
-        add_questions_to_question_group(group, questions_data)
-        return redirect('quizzes:groups:browse', pk)
+        add_questions_to_question_group(self.group, questions_data)
+        return redirect('quizzes:categories:groups:browse', self.category_slug, self.group.id)

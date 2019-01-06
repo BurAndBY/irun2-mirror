@@ -293,7 +293,7 @@ class UserPermissionsForm(forms.ModelForm):
 class UserProfilePermissionsForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['can_change_name', 'can_change_password', 'has_access_to_problems']
+        fields = ['can_change_name', 'can_change_password', 'has_access_to_problems', 'has_access_to_quizzes']
 
 
 '''

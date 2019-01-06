@@ -1,14 +1,23 @@
 from django.conf.urls import include, url
 
 from . import views
+from .category import views as categoryviews
 
 group_urlpatterns = [
     url(r'^$', views.QuestionGroupListView.as_view(), name='list'),
     url(r'^new/$', views.QuestionGroupCreateView.as_view(), name='create'),
-    url(r'^(?P<pk>[0-9]+)/browse/$', views.QuestionGroupBrowseView.as_view(), name='browse'),
-    url(r'^(?P<pk>[0-9]+)/questions/(?P<question_id>[0-9]+)/edit/$', views.QuestionEditView.as_view(), name='edit_question'),
-    url(r'^(?P<pk>[0-9]+)/questions/new/$', views.QuestionCreateView.as_view(), name='create_question'),
-    url(r'^(?P<pk>[0-9]+)/questions/upload/$', views.QuestionGroupUploadFromFileView.as_view(), name='upload'),
+    url(r'^(?P<group_id>[0-9]+)/browse/$', views.QuestionGroupBrowseView.as_view(), name='browse'),
+    url(r'^(?P<group_id>[0-9]+)/questions/(?P<question_id>[0-9]+)/edit/$', views.QuestionEditView.as_view(), name='edit_question'),
+    url(r'^(?P<group_id>[0-9]+)/questions/new/$', views.QuestionCreateView.as_view(), name='create_question'),
+    url(r'^(?P<group_id>[0-9]+)/questions/upload/$', views.QuestionGroupUploadFromFileView.as_view(), name='upload'),
+]
+
+category_urlpatterns = [
+    url(r'^$', categoryviews.CategoryListView.as_view(), name='list'),
+    url(r'^new/$', categoryviews.CategoryCreateView.as_view(), name='create'),
+    url(r'^(?P<categ_slug>[-\w]+)/edit/', categoryviews.CategoryUpdateView.as_view(), name='edit'),
+    url(r'^(?P<categ_slug>[-\w]+)/access/', categoryviews.CategoryAccessView.as_view(), name='access'),
+    url(r'^(?P<categ_slug>[-\w]+)/groups/', include(group_urlpatterns, namespace='groups')),
 ]
 
 template_urlpatterns = [
@@ -23,6 +32,6 @@ template_urlpatterns = [
 
 urlpatterns = [
     url(r'^$', views.EmptyView.as_view(), name='empty'),
-    url(r'^question-groups/', include(group_urlpatterns, namespace='groups')),
     url(r'^quiz-templates/', include(template_urlpatterns, namespace='templates')),
+    url(r'^categories/', include(category_urlpatterns, namespace='categories')),
 ]
