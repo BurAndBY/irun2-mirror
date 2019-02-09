@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-06 20:55+0300\n"
-"PO-Revision-Date: 2019-01-06 20:58+0300\n"
+"POT-Creation-Date: 2019-02-09 20:21+0300\n"
+"PO-Revision-Date: 2019-02-09 20:23+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2275,8 +2275,17 @@ msgstr "Несколько правильных ответов"
 msgid "Text answer"
 msgstr "Текстовый ответ"
 
+msgid "soft"
+msgstr "лояльная"
+
+msgid "strict"
+msgstr "строгая"
+
 msgid "shuffle questions"
 msgstr "перемешать вопросы"
+
+msgid "score policy"
+msgstr "схема оценивания"
 
 msgid "attempts"
 msgstr "попытки"
@@ -2352,6 +2361,9 @@ msgstr "Загрузить вопросы из файла"
 
 msgid "Shuffle questions"
 msgstr "Перемешать вопросы"
+
+msgid "Score policy"
+msgstr "Схема оценивания"
 
 msgid "Unlimited"
 msgstr "Без ограничений"
