@@ -78,7 +78,7 @@ class SoftPolicy(IPolicy): # author: Artur Mialikov
     key = ScorePolicy.SOFT
 
     def heaviside(self, score):
-        return 0. if score < 0 else 1 
+        return 0. if score < 0 else 1.
 
     def estimate(self, answers):
         r = answers.chosen_correct
