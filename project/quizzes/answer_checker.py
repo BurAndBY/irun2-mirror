@@ -79,11 +79,17 @@ class StrictPolicy(IPolicy):
         return 0.
 
 
-class SoftPolicy(IPolicy):
+class SoftPolicy(IPolicy): # author: Artur Mialikov
     key = Policy.SOFT
 
+    def heaviside(self, score):
+        return 0. if score < 0 else 1 
+
     def estimate(self, answers):
-        raise NotImplementedError()
+        r = answers.chosen_correct
+        w = answers.chosen_incorrect
+        k = answers.total_correct
+        return self.heaviside(r - w) * (r - w) / max(r + w, k)
 
 
 _POLICIES = {
