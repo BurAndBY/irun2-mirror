@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import six
 
 from django import forms
 from django.contrib import auth
@@ -37,7 +38,7 @@ from courses.utils import (
 def make_year_of_study_choices():
     return [('', '')] + [
         (year, make_year_of_study_string(year))
-        for year in xrange(1, 7)
+        for year in six.moves.range(1, 7)
     ]
 
 
@@ -46,7 +47,7 @@ def make_academic_year_choices():
 
     return [('', '')] + [
         (year, make_academic_year_string(year))
-        for year in xrange(2004, cur_year + 2)
+        for year in six.moves.range(2004, cur_year + 2)
     ]
 
 
