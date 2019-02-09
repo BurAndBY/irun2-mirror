@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import urllib
-import urllib2
+from six.moves import urllib
 
-from parse_func import parse_intranet_bsu_html
+from .parse_func import parse_intranet_bsu_html
 
 BASE_URL = 'http://intranet.bsu/resurses/Students/Find/'
 FAMCS = 3
@@ -39,8 +38,8 @@ def _create_request_params(request):
 
 def fetch_intranet_students(request):
     rp = _create_request_params(request)
-    req = urllib2.Request(BASE_URL, urllib.urlencode(rp))
-    response = urllib2.urlopen(req)
+    req = urllib.request.Request(BASE_URL, urllib.parse.urlencode(rp))
+    response = urllib.request.urlopen(req)
     html = response.read().decode('cp1251')
     students = parse_intranet_bsu_html(html)
 
@@ -65,7 +64,7 @@ def download_photo(request):
     if student.photo is None:
         return None
 
-    blob = urllib.urlopen(BASE_URL + student.photo).read()
+    blob = urllib.request.urlopen(BASE_URL + student.photo).read()
     if len(blob) < 1024:
         # corrupt photo
         return None
