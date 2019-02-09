@@ -66,10 +66,22 @@ class Choice(models.Model):
         return self.text
 
 
+class ScorePolicy(object):
+    SOFT = 0
+    STRICT = 1
+
+    CHOICES = (
+        (SOFT, _('soft')),
+        (STRICT, _('strict')),
+    )
+
+
 @python_2_unicode_compatible
 class QuizTemplate(models.Model):
     name = models.CharField(_('name'), max_length=100, unique=True)
     shuffle_questions = models.BooleanField(_('shuffle questions'), default=True)
+    score_policy = models.IntegerField(_('score policy'), choices=ScorePolicy.CHOICES,
+                                       default=ScorePolicy.STRICT)
     question_groups = models.ManyToManyField(QuestionGroup, through='GroupQuizRelation')
     attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
     time_limit = models.DurationField(_('time limit'), null=False, default=timedelta(minutes=30))
@@ -113,6 +125,8 @@ class QuizInstance(models.Model):
 class QuizSession(models.Model):
     quiz_instance = models.ForeignKey(QuizInstance, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    score_policy = models.IntegerField(_('score policy'), choices=ScorePolicy.CHOICES,
+                                       default=ScorePolicy.STRICT)
     start_time = models.DateTimeField()
     result = models.FloatField(default=0)
     is_finished = models.BooleanField(default=False)

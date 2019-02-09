@@ -89,7 +89,7 @@ class QuizTemplateUpdateView(QuizAdminMixin, generic.UpdateView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_update.html'
     model = QuizTemplate
-    fields = ['name', 'shuffle_questions', 'attempts', 'time_limit']
+    fields = ['name', 'shuffle_questions', 'score_policy', 'attempts', 'time_limit']
 
     def get_success_url(self):
         return reverse('quizzes:templates:detail', kwargs={'pk': self.object.id})

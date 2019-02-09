@@ -25,7 +25,8 @@ QUESTION_KINDS_BY_ID = {
 
 @transaction.atomic
 def create_session(instance, user):
-    session = QuizSession.objects.create(quiz_instance=instance, user=user, start_time=timezone.now())
+    session = QuizSession.objects.create(quiz_instance=instance, user=user, start_time=timezone.now(),
+                                         score_policy=instance.quiz_template.score_policy)
     relations = list(instance.quiz_template.groupquizrelation_set.all().select_related('group'))
     if instance.quiz_template.shuffle_questions:
         random.shuffle(relations)
@@ -72,7 +73,7 @@ def check_quiz_answers(session):
     for question in session.sessionquestion_set.select_related('question').all():
         max_res += question.points
         checker = CHECKERS[question.question.kind]
-        q_result = checker.get_result_points(question)
+        q_result = checker.get_result_points(question, session.score_policy)
         res += q_result
         question.result_points = q_result
         question.save()

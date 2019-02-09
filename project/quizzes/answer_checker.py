@@ -1,4 +1,4 @@
-from .models import Question
+from .models import Question, ScorePolicy
 
 from collections import namedtuple
 
@@ -6,20 +6,15 @@ from collections import namedtuple
 AnswersInfo = namedtuple('AnswersInfo', 'chosen_correct chosen_incorrect total_correct')
 
 
-class Policy(object):
-    STRICT = 0
-    SOFT = 1
-
-
 class IAnswerChecker(object):
-    def get_result_points(self, question, policy=Policy.STRICT):
+    def get_result_points(self, question, policy=ScorePolicy.STRICT):
         raise NotImplementedError()
 
 
 class SingleAnswerChecker(IAnswerChecker):
     key = Question.SINGLE_ANSWER
 
-    def get_result_points(self, question, policy=Policy.STRICT):
+    def get_result_points(self, question, policy=ScorePolicy.STRICT):
         is_right = False
         for answer in question.sessionquestionanswer_set.select_related('choice').all():
             if answer.is_chosen and answer.choice.is_right:
@@ -33,7 +28,7 @@ class SingleAnswerChecker(IAnswerChecker):
 class TextAnswerChecker(IAnswerChecker):
     key = Question.TEXT_ANSWER
 
-    def get_result_points(self, question, policy=Policy.STRICT):
+    def get_result_points(self, question, policy=ScorePolicy.STRICT):
         answer = question.sessionquestionanswer_set.select_related('choice').first()
         if answer and answer.user_answer and answer.user_answer.strip() == answer.choice.text:
             return question.points
@@ -43,7 +38,7 @@ class TextAnswerChecker(IAnswerChecker):
 class MultipleAnswersChecker(IAnswerChecker):
     key = Question.MULTIPLE_ANSWERS
 
-    def get_result_points(self, question, policy=Policy.STRICT):
+    def get_result_points(self, question, policy=ScorePolicy.STRICT):
         chosen_correct = 0    # chosen and right
         chosen_incorrect = 0  # chosen but not right
         total_correct = 0     # right choice
@@ -71,7 +66,7 @@ class IPolicy(object):
 
 
 class StrictPolicy(IPolicy):
-    key = Policy.STRICT
+    key = ScorePolicy.STRICT
 
     def estimate(self, answers):
         if answers.chosen_incorrect == 0 and answers.chosen_correct == answers.total_correct:
@@ -80,7 +75,7 @@ class StrictPolicy(IPolicy):
 
 
 class SoftPolicy(IPolicy): # author: Artur Mialikov
-    key = Policy.SOFT
+    key = ScorePolicy.SOFT
 
     def heaviside(self, score):
         return 0. if score < 0 else 1 
@@ -93,8 +88,8 @@ class SoftPolicy(IPolicy): # author: Artur Mialikov
 
 
 _POLICIES = {
-    Policy.STRICT: StrictPolicy(),
-    Policy.SOFT: SoftPolicy()
+    ScorePolicy.STRICT: StrictPolicy(),
+    ScorePolicy.SOFT: SoftPolicy()
 }
 
 

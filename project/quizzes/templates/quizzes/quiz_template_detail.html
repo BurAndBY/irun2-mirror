@@ -10,6 +10,9 @@
         <dt>{% trans 'Shuffle questions' %}</dt>
         <dd>{{ object.shuffle_questions|yesno }}</dd>
 
+        <dt>{% trans 'Score policy' %}</dt>
+        <dd>{{ object.get_score_policy_display }}</dd>
+
         <dt>{% trans 'Attempts' %}</dt>
         <dd>{% if object.attempts == None %}{% trans 'Unlimited' %}{% else %}{{ object.attempts }}{% endif %}</dd>
 
