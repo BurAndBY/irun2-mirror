@@ -51,9 +51,12 @@ def _create_judgementresult_insert(data):
         )
     ]
 
+    judgement_res = []
     for _ in data['comparasion']:
         for __ in _['result']['results']:
-            vals.append(
+            if __['similarity'] == 0.:
+                continue
+            judgement_res.append(
                 JudgementResult(
                     solution_to_judge_id=data['id'],
                     solution_to_compare_id=_['id'],
@@ -62,7 +65,8 @@ def _create_judgementresult_insert(data):
                     verdict=__['verdict']
                 )
             )
-
+    judgement_res.sort(key=lambda res: -res.similarity)
+    vals.extend(judgement_res[:100])
     return vals
 
 
