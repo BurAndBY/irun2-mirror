@@ -40,11 +40,13 @@ class Question(models.Model):
     SINGLE_ANSWER = 0
     MULTIPLE_ANSWERS = 1
     TEXT_ANSWER = 2
+    OPEN_ANSWER = 3
 
     KIND_OF_CHOICES = (
         (SINGLE_ANSWER, _('Single correct answer')),
         (MULTIPLE_ANSWERS, _('Multiple correct answers')),
         (TEXT_ANSWER, _('Text answer')),
+        (OPEN_ANSWER, _('Open answer')),
     )
 
     group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
@@ -131,6 +133,7 @@ class QuizSession(models.Model):
     result = models.FloatField(default=0)
     is_finished = models.BooleanField(default=False)
     finish_time = models.DateTimeField(null=True)
+    pending_manual_check = models.BooleanField(default=False)
 
     def __str__(self):
         return '{}: {}'.format(self.quiz_instance, self.start_time)
@@ -151,7 +154,7 @@ class SessionQuestion(models.Model):
 @python_2_unicode_compatible
 class SessionQuestionAnswer(models.Model):
     session_question = models.ForeignKey(SessionQuestion, on_delete=models.CASCADE)
-    choice = models.ForeignKey(Choice, on_delete=models.PROTECT)
+    choice = models.ForeignKey(Choice, on_delete=models.PROTECT, null=True)
     user_answer = models.CharField(max_length=200, default=None, null=True)
     is_chosen = models.BooleanField(default=False)
 

@@ -30,17 +30,20 @@ def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
 
 @register.inclusion_tag('quizzes/irunner_quizzes_showanswer.html')
 def irunner_quizzes_showanswer(session_question, counter):
-    is_text = (session_question.question.kind == Question.TEXT_ANSWER)
+    is_text = (session_question.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER])
     preparer = escape if is_text else tex2html
     answers = []
     for answer in session_question.sessionquestionanswer_set.order_by('id').select_related('choice'):
-        if is_text:
+        if is_text and session_question.question.kind == Question.TEXT_ANSWER:
             if answer.choice.text == answer.user_answer:
                 answers.append(SessionAnswerInfo(preparer(answer.user_answer), True, False, False))
             else:
                 answers.append(SessionAnswerInfo(preparer(answer.choice.text), False, False, True))
                 answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer),
                                                  False, True, False))
+        elif is_text and session_question.question.kind == Question.OPEN_ANSWER:
+            answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer),
+                                                 False, False, False))
         else:
             is_right = answer.is_chosen and answer.choice.is_right
             is_wrong = answer.is_chosen and not answer.choice.is_right
@@ -57,8 +60,10 @@ def irunner_quizzes_showanswer(session_question, counter):
 
 
 @register.simple_tag
-def irunner_quizzes_mark(result, is_finished=True):
+def irunner_quizzes_mark(result, is_finished=True, pending_manual_check=False):
     value = int(result) if (result is not None and is_finished) else '?'
+    if pending_manual_check:
+        return format_html('<div class="ir-quiz-pending-mark">{}</div>', value)
     return format_html('<div class="ir-quiz-mark">{}</div>', value)
 
 

@@ -284,8 +284,8 @@ def make_quiz_instance_results(course, user_cache, instance):
 
     stats = QuizStudentCount(
         total=len(user_results),
-        passing=user_id_to_state.values().count(False),
-        passed=user_id_to_state.values().count(True),
+        passing=list(user_id_to_state.values()).count(False),
+        passed=list(user_id_to_state.values()).count(True),
     )
 
     average_mark = 1. * sum(marks) / len(marks) if marks else 0.

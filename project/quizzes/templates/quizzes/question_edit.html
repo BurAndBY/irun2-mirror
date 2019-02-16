@@ -48,6 +48,7 @@
                     <option value="single">{{languageTags.singleAnswer}}</option>
                     <option value="multiple">{{languageTags.multipleAnswers}}</option>
                     <option value="text">{{languageTags.textAnswer}}</option>
+                    <option value="open">{{languageTags.openAnswer}}</option>
                 </select>
             </div>
             <div class="col-xs-12">
@@ -83,7 +84,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-default ir-inline-block" type="button" ng-click="addChoice()" ng-disabled="question.type === 'text'">
+                    <button class="btn btn-default ir-inline-block" type="button" ng-click="addChoice()" ng-disabled="question.type === 'text' || question.type === 'open'">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="ir-icon-label">{{languageTags.addChoice}}</span>
                     </button>
@@ -128,7 +129,7 @@
     <script>
 var app = angular.module('editor', ["ngSanitize"]);
 app.run(function ($rootScope, $window, $interval) {
-    var types = ['single', 'multiple', 'text'];
+    var types = ['single', 'multiple', 'text', 'open'];
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
     $rootScope.preview = angular.copy($rootScope.question);
     $rootScope.languageTags = angular.fromJson(document.getElementById('languageTags').value);
@@ -225,6 +226,16 @@ app.run(function ($rootScope, $window, $interval) {
                     c.is_right = $index === rightIdx;
                 });
             }
+        }
+        if (oldValue !== types[3] && newValue === types[3]) {
+            $rootScope.question.choices = [];
+        }
+        if (oldValue === types[3] && newValue !== types[3]) {
+            $rootScope.question.choices = [{
+                id: $rootScope.nextId++,
+                text: $rootScope.languageTags.defaultChoiceText,
+                is_right: true
+            }];
         }
     });
 });

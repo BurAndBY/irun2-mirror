@@ -25,7 +25,13 @@
             {% elif answer.is_notchosen %}
                 <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text }}</div>
             {% else %}
-                <div class="col-xs-12 ir-res-answer">{{ answer.text }}</div>
+                <div class="col-xs-12 ir-res-answer">
+                    {% if not answer.text %}
+                        <em>{% trans 'No answer' %}</em>
+                    {% else %}
+                        {{ answer.text }}
+                    {% endif %}
+                </div>
             {% endif %}
         {% endfor %}
     </div>
