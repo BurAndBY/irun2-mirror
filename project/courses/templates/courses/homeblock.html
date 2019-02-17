@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if my_active_courses %}
+    <ul class="list-unstyled">
+    {% for course, unread in my_active_courses %}
+        <li>
+            <a href="{% url 'courses:show_course_info' course.id %}">{{ course }}</a>
+            {% if unread %}
+                <span class="badge">{{ unread }}</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p><em>{% trans 'No active courses' %}</em></p>
+{% endif %}
+<p class="small"><a href="{% url 'courses:my' %}">{% trans 'View all' %}...</a></p>

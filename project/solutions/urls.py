@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
 
 from . import views
+from .halloffame import views as hviews
+from .activity import views as aviews
 
 solutions_urlpatterns = [
     url(r'^$', views.SolutionListView.as_view(), name='list'),
@@ -51,4 +53,6 @@ urlpatterns = [
     url(r'^runs/', include(judgements_urlpatterns)),
     url(r'^rejudges/', include(rejudges_urlpatterns)),
     url(r'^challenges/', include(challenges_urlpatterns)),
+    url(r'^hall-of-fame/$', hviews.HallOfFameView.as_view(), name='hall_of_fame'),
+    url(r'^activity/$', aviews.ActivityView.as_view(), name='activity'),
 ]

@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'contests',
     'courses',
     'feedback',
+    'home',
     'news',
     'plagiarism',
     'problems',

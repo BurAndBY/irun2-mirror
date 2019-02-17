@@ -1,0 +1,7 @@
+{% load bootstrap3 %}
+
+<h2>
+    {% if block.icon %}{% bootstrap_icon block.icon %} {% endif %}<span class="ir-icon-label">{{ block.name }}</span>
+    {% if block.count != None %}<small>({{ block.count }})</small>{% endif %}
+</h2>
+{{ block.content|safe }}
