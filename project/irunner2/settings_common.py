@@ -207,3 +207,18 @@ SEMAPHORE = 'http://127.0.0.1:17083/'
 DEALER_TYPE = 'git'
 DEALER_PATH = BASE_DIR
 APRIL_FOOLS_DAY_MODE = False
+
+MAIN_LOGO = {
+    'ru': {
+        'path': 'bsu/logo_ru.svg',
+        'fallback': 'bsu/logo_ru.png',
+        'width': 376,
+        'height': 96,
+    },
+    'en': {
+        'path': 'bsu/logo_en.svg',
+        'fallback': 'bsu/logo_en.png',
+        'width': 232,
+        'height': 97,
+    }
+}

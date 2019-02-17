@@ -16,12 +16,7 @@
             <p>{% trans 'Automatic testing system' %}</p>
         </div>
         <div class="col-md-6 text-right">
-            {% get_current_language as lng %}
-            {% if lng == 'ru' %}
-                <img class="img-responsive" src="{% static 'logo_ru.png' %}" width="376" height="96">
-            {% elif lng == 'en' %}
-                <img class="img-responsive" src="{% static 'logo_en.png' %}" width="232" height="97">
-            {% endif %}
+            {% irunner_home_main_logo %}
         </div>
     </div>
 </div>
