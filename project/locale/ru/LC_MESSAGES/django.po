@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-09 20:21+0300\n"
-"PO-Revision-Date: 2019-02-09 20:23+0300\n"
+"POT-Creation-Date: 2019-02-17 13:39+0300\n"
+"PO-Revision-Date: 2019-02-17 13:41+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -333,89 +333,6 @@ msgstr "Нарушение безопасности"
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
 
-msgctxt "about the system"
-msgid "About"
-msgstr "О системе"
-
-#, python-format
-msgid ""
-"\n"
-"%(system_full_name)s is a software designed to serve programming contests of "
-"algorithm nature and help teachers in practicals labs on algorithm basics "
-"and related courses.\n"
-msgstr ""
-"\n"
-"%(system_full_name)s — это учебно-методический комплекс, предназначенный для "
-"обслуживания олимпиад по программированию, проведения практических занятий "
-"по основам алгоритмизации и смежным наукам.\n"
-
-msgid "Source code"
-msgstr "Исходный код"
-
-msgid "Activity"
-msgstr "Активность"
-
-msgid "Submission count during the year"
-msgstr "Число посылок в течение года"
-
-msgid "Statistics of courses during the current term"
-msgstr "Статистика курсов в текущем семестре"
-
-msgid "starting from"
-msgstr "начиная с"
-
-msgid "Submission count"
-msgstr "Число посылок"
-
-msgid "All solutions"
-msgstr "Все решения"
-
-msgid "Accepted solutions"
-msgstr "Принятые решения"
-
-msgid "Outcomes"
-msgstr "Вердикты"
-
-msgid "Access denied"
-msgstr "Доступ запрещён"
-
-msgid "Hall of fame"
-msgstr "Зал славы"
-
-msgid "Leaders in number of attempts"
-msgstr "Лидеры по числу попыток"
-
-msgid "on problem"
-msgstr "по задаче"
-
-msgctxt "main page"
-msgid "Main"
-msgstr "Главная"
-
-msgid "Automatic testing system"
-msgstr "Система автоматического тестирования"
-
-msgid "Please set up a new password instead of default one."
-msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
-
-msgid "My courses"
-msgstr "Мои курсы"
-
-msgid "No active courses"
-msgstr "Нет активных курсов"
-
-msgid "View all"
-msgstr "Все"
-
-msgid "My contests"
-msgstr "Мои соревнования"
-
-msgid "Contest results"
-msgstr "Результаты соревнований"
-
-msgid "News"
-msgstr "Новости"
-
 msgid "Page"
 msgstr "Страница"
 
@@ -424,9 +341,6 @@ msgstr "из"
 
 msgid "All"
 msgstr "Все"
-
-msgid "Interface language"
-msgstr "Язык интерфейса"
 
 msgid "Loading"
 msgstr "Загрузка"
@@ -527,8 +441,14 @@ msgstr "Текст слишком большой."
 msgid "All contests"
 msgstr "Все соревнования"
 
+msgid "My contests"
+msgstr "Мои соревнования"
+
 msgid "Contests"
 msgstr "Соревнования"
+
+msgid "Contest results"
+msgstr "Результаты соревнований"
 
 msgid "No access"
 msgstr "Нет доступа"
@@ -674,6 +594,9 @@ msgstr "Вопрос будет удалён."
 msgid "Delete"
 msgstr "Удалить"
 
+msgid "All solutions"
+msgstr "Все решения"
+
 msgid "Apply"
 msgstr "Применить"
 
@@ -731,6 +654,9 @@ msgstr "Экспорт"
 
 msgid "System"
 msgstr "Система"
+
+msgid "View all"
+msgstr "Все"
 
 msgid "Edit"
 msgstr "Правка"
@@ -973,6 +899,9 @@ msgstr "Активные курсы"
 msgid "All courses"
 msgstr "Все курсы"
 
+msgid "My courses"
+msgstr "Мои курсы"
+
 msgid "criterion label"
 msgstr "обозначение критерия"
 
@@ -1187,6 +1116,9 @@ msgstr "Критерии не определены"
 
 msgid "New criterion"
 msgstr "Новый критерий"
+
+msgid "No active courses"
+msgstr "Нет активных курсов"
 
 msgid "Number of submitted solutions"
 msgstr "Число отправленных решений"
@@ -1572,8 +1504,59 @@ msgstr "Спасибо!"
 msgid "Your message has been saved."
 msgstr "Ваше сообщение сохранено."
 
+msgctxt "about the system"
+msgid "About"
+msgstr "О системе"
+
+#, python-format
+msgid ""
+"%(system_full_name)s is an educational platform designed to serve "
+"programming contests and to help conducting practical classes on algorithm "
+"basics and related courses."
+msgstr ""
+"%(system_full_name)s — это образовательная платформа, предназначенная для "
+"обслуживания олимпиад по программированию, проведения практических занятий "
+"по основам алгоритмизации и смежным дисциплинам."
+
+msgid "Development"
+msgstr "Разработка"
+
+msgid ""
+"The system was originally created and is now developed at Belarusian State "
+"University (BSU), at the department of discrete mathematics and algorithmics "
+"(DMA) of the faculty of applied mathematics and computer science (FAMCS)."
+msgstr ""
+"Система изначально была создана и разрабатывается в Белорусском "
+"государственном университете (БГУ), на кафедре дискретной математики и "
+"алгоритмики (ДМА) факультета прикладной математики и информатики (ФПМИ)."
+
+msgid "The source code is available on BitBucket"
+msgstr "Исходный код доступен на BitBucket"
+
+msgid "Feel free to contribute!"
+msgstr "Вы можете внести свой вклад!"
+
+msgid "Access denied"
+msgstr "Доступ запрещён"
+
+msgctxt "main page"
+msgid "Main"
+msgstr "Главная"
+
+msgid "Automatic testing system"
+msgstr "Система автоматического тестирования"
+
+msgid "Please set up a new password instead of default one."
+msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
+
+msgid "Interface language"
+msgstr "Язык интерфейса"
+
 msgid "Wiki"
 msgstr "Вики"
+
+msgid "News"
+msgstr "Новости"
 
 msgid "show on the main page"
 msgstr "показывать на главной странице"
@@ -1965,6 +1948,9 @@ msgstr "МБ"
 
 msgid "Use F2 key to switch view"
 msgstr "Используйте клавишу F2 для переключения вида"
+
+msgid "Source code"
+msgstr "Исходный код"
 
 msgid "one example"
 msgstr "один пример"
@@ -2564,6 +2550,27 @@ msgstr "просмотр деталей тестирования с сообще
 msgid "view testing details and test data"
 msgstr "просмотр деталей тестирования и данных тестов"
 
+msgid "Activity"
+msgstr "Активность"
+
+msgid "Submission count during the year"
+msgstr "Число посылок в течение года"
+
+msgid "Statistics of courses during the current term"
+msgstr "Статистика курсов в текущем семестре"
+
+msgid "starting from"
+msgstr "начиная с"
+
+msgid "Submission count"
+msgstr "Число посылок"
+
+msgid "Accepted solutions"
+msgstr "Принятые решения"
+
+msgid "Outcomes"
+msgstr "Вердикты"
+
 msgid "Number of solutions"
 msgstr "Число решений"
 
@@ -2597,6 +2604,15 @@ msgstr "Вы уверены, что хотите %(action)s эти решени�
 
 msgid "There are no solutions selected."
 msgstr "Решения не выбраны."
+
+msgid "Hall of fame"
+msgstr "Зал славы"
+
+msgid "Leaders in number of attempts"
+msgstr "Лидеры по числу попыток"
+
+msgid "on problem"
+msgstr "по задаче"
 
 msgid "Check failed"
 msgstr "Ошибка тестирования"

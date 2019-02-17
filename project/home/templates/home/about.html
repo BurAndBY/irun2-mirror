@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load staticfiles %}
 
 {% block title %}{% trans 'About' context 'about the system' %}{% endblock %}
 
@@ -8,26 +9,20 @@
 <h1>{% trans 'About' context 'about the system' %} {{ system_short_name }}</h1>
 
 <p>
-{% blocktrans %}
-{{ system_full_name }} is a software designed to serve programming contests of algorithm nature and help teachers in practicals labs on algorithm basics and related courses.
-{% endblocktrans %}
+{% blocktrans %}{{ system_full_name }} is an educational platform designed to serve programming contests and to help conducting practical classes on algorithm basics and related courses.{% endblocktrans %}
 </p>
 
+<h3>{% trans 'Development' %}</h3>
+
+<p>{% trans 'The system was originally created and is now developed at Belarusian State University (BSU), at the department of discrete mathematics and algorithmics (DMA) of the faculty of applied mathematics and computer science (FAMCS).' %}</p>
+
+{% get_current_language as lng %}
 <p>
-{{ system_full_name }} — простой инструмент с эффективной функциональностью контроля, тренинга и самостоятельной работы.
+    <span style="display: inline-block;">
+        <img src="{% if lng == 'ru' %}{% static 'bsu/logo_ru.svg' %}{% else %}{% static 'bsu/logo_en.svg' %}{% endif %}" width="50%">
+    </span>
+</p>
 
-Система позволят переложить на компьютер сугубо механическую работу преподавателя при проверке решений.
-Комплекс легко осваивается и интегрируется в учебный процесс.
-С его помощью можно эффективно решать следующие задачи:
-<ul>
-    <li>создание и поддержка большого архива заданий;</li>
-    <li>проведение online- и offline-олимпиад;</li>
-    <li>организацию практических занятий и сборов по информатике;</li>
-    <li>самостоятельная подготовка к занятиям.</li>
-</ul>
-
-<h3>{% trans 'Source code' %}</h3>
-
-<p><a href="https://bitbucket.org/sobols/irunner2">https://bitbucket.org/sobols/irunner2</a></p>
+<p>{% trans 'The source code is available on BitBucket' %}: <a href="https://bitbucket.org/sobols/irunner2">https://bitbucket.org/sobols/irunner2</a>. {% trans 'Feel free to contribute!' %}</p>
 
 {% endblock %}
