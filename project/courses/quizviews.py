@@ -34,7 +34,7 @@ from quizzes.utils import (
 from courses.views import BaseCourseView, UserCacheMixinMixin
 
 QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_count sessions')
-SessionInfo = namedtuple('SessionInfo', 'session is_own result')
+SessionInfo = namedtuple('SessionInfo', 'session is_own result is_finished pending_manual_check')
 
 
 class QuizMixin(object):
@@ -175,6 +175,8 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         info = {
             'name': session.quiz_instance.quiz_template.name,
             'result': session.result,
+            'is_finished': session.is_finished,
+            'pending_manual_check': session.pending_manual_check,
             'start_time': session.start_time,
             'finish_time': session.finish_time,
             'answers': answers,
@@ -223,8 +225,7 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
     def make_session_info(self, session, user):
         is_own = session.user_id == user.id
-        result = session.result
-        return SessionInfo(session, is_own, result)
+        return SessionInfo(session, is_own, session.result, session.is_finished, session.pending_manual_check)
 
     def get(self, request, course, instance_id):
         instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()

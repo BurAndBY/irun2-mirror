@@ -57,7 +57,7 @@ class OpenAnswerChecker(IAnswerChecker):
     key = Question.OPEN_ANSWER
 
     def get_result_points(self, question, policy=ScorePolicy.STRICT):
-        return 0.
+        return question.result_points
 
 
 def _get_points_with_policy(answers, policy):
