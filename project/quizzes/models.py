@@ -155,7 +155,7 @@ class SessionQuestion(models.Model):
 class SessionQuestionAnswer(models.Model):
     session_question = models.ForeignKey(SessionQuestion, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.PROTECT, null=True)
-    user_answer = models.CharField(max_length=200, default=None, null=True)
+    user_answer = models.CharField(max_length=16383, default=None, null=True)
     is_chosen = models.BooleanField(default=False)
 
     def __str__(self):

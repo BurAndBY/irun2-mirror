@@ -7,7 +7,7 @@ from quizzes.quizstructs import QuizAnswer, QuizAnswersData, SaveAnswerMessage, 
 class QuizAnswerSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, required=True)
     chosen = serializers.BooleanField(default=False)
-    user_answer = serializers.CharField(max_length=200, default=None, allow_blank=True, allow_null=True)
+    user_answer = serializers.CharField(max_length=16383, default=None, allow_blank=True, allow_null=True)
 
 
 class QuizAnswersDataSerializer(serializers.Serializer):
