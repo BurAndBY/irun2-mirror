@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.db import transaction
 from django.utils.translation import ugettext as _
 import random
+from collections import Counter
 
 from common.katex import tex2html
 from quizzes.answer_checker import CHECKERS
@@ -30,13 +31,26 @@ def create_session(instance, user):
     session = QuizSession.objects.create(quiz_instance=instance, user=user, start_time=timezone.now(),
                                          score_policy=instance.quiz_template.score_policy)
     relations = list(instance.quiz_template.groupquizrelation_set.all().select_related('group'))
+
+    count_by_group = Counter()
+    for rel in relations:
+        count_by_group[rel.group_id] += 1
+
+    questions_by_group = {}
+    for group_id, required_count in count_by_group.items():
+        qs = Question.objects.filter(group_id=group_id, is_deleted=False).order_by('pk')
+        available_count = qs.count()
+        questions_by_group[group_id] = [qs[i] for i in random.sample(range(available_count), min(required_count, available_count))]
+
     if instance.quiz_template.shuffle_questions:
         random.shuffle(relations)
     questions = []
     for idx, rel in enumerate(relations):
-        qs = rel.group.question_set.filter(is_deleted=False).order_by('pk')
-        q = qs[random.randint(0, qs.count() - 1)]
-        questions.append(SessionQuestion(quiz_session=session, order=idx, points=rel.points, question=q))
+        qs = questions_by_group[rel.group_id]
+        if qs:
+            q = qs.pop()
+            questions.append(SessionQuestion(quiz_session=session, order=idx, points=rel.points, question=q))
+
     SessionQuestion.objects.bulk_create(questions)
     questions = SessionQuestion.objects.filter(quiz_session=session)\
         .select_related('question').prefetch_related('question__choice_set')
