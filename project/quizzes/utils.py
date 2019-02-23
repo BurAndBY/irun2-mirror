@@ -161,7 +161,7 @@ def get_empty_question_data(kind):
         'choices': [{
             'text': _('Type the choice text here...'),
             'is_right': True
-        }]
+        }] if kind != Question.OPEN_ANSWER else [],
     }
 
 
