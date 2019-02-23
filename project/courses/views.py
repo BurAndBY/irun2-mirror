@@ -225,7 +225,7 @@ class CourseSheetEditApiView(BaseCourseView):
         form = ActivityRecordFakeForm(request.POST)
         if form.is_valid():
             to_update = {}
-            for k, v in form.cleaned_data.iteritems():
+            for k, v in form.cleaned_data.items():
                 if v is not None:
                     to_update[k] = v
 
