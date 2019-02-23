@@ -4,6 +4,7 @@ from collections import namedtuple
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
@@ -15,6 +16,7 @@ from common.networkutils import never_ever_cache
 from quizzes.models import (
     QuizInstance,
     QuizSession,
+    SessionQuestion,
     SessionQuestionAnswer,
 )
 from quizzes.quizstructs import SaveAnswerMessage
@@ -33,8 +35,10 @@ from quizzes.utils import (
 
 from courses.views import BaseCourseView, UserCacheMixinMixin
 
+from courses.forms import QuizMarkFakeForm
+
 QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_count sessions')
-SessionInfo = namedtuple('SessionInfo', 'session is_own result')
+SessionInfo = namedtuple('SessionInfo', 'session is_own result is_finished pending_manual_check')
 
 
 class QuizMixin(object):
@@ -175,10 +179,13 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         info = {
             'name': session.quiz_instance.quiz_template.name,
             'result': session.result,
+            'is_finished': session.is_finished,
+            'pending_manual_check': session.pending_manual_check,
             'start_time': session.start_time,
             'finish_time': session.finish_time,
             'answers': answers,
             'user_id': session.user_id,
+            'reviewer_id': session.reviewer_id,
             'points': round(points + eps, 1),
             'result_points': round(result_points + eps, 1),
         }
@@ -212,6 +219,11 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
         context['quiz'] = self.get_session_info(session)
         context['session'] = session
         context['can_delete'] = self.permissions.quizzes_admin
+        context['save_mark_url'] = (
+            reverse('courses:quizzes:save_mark',
+                    kwargs={'course_id': self.course.id, 'session_id': session_id})
+            if self.permissions.quizzes_admin else None
+        )
         return render(request, self.template_name, context)
 
 
@@ -223,8 +235,7 @@ class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
     def make_session_info(self, session, user):
         is_own = session.user_id == user.id
-        result = session.result
-        return SessionInfo(session, is_own, result)
+        return SessionInfo(session, is_own, session.result, session.is_finished, session.pending_manual_check)
 
     def get(self, request, course, instance_id):
         instance = QuizInstance.objects.filter(pk=instance_id, course=course).select_related('quiz_template').first()
@@ -284,8 +295,8 @@ def make_quiz_instance_results(course, user_cache, instance):
 
     stats = QuizStudentCount(
         total=len(user_results),
-        passing=user_id_to_state.values().count(False),
-        passed=user_id_to_state.values().count(True),
+        passing=list(user_id_to_state.values()).count(False),
+        passed=list(user_id_to_state.values()).count(True),
     )
 
     average_mark = 1. * sum(marks) / len(marks) if marks else 0.
@@ -326,3 +337,30 @@ class CourseQuizzesTurnOffView(BaseCourseView):
     def post(self, request, course, instance_id):
         QuizInstance.objects.filter(pk=instance_id, course=course).update(is_available=False)
         return redirect('courses:quizzes:list', course.id)
+
+
+class CourseQuizzesSaveMarkView(QuizMixin, BaseCourseView):
+    def is_allowed(self, permissions):
+        return permissions.quizzes_admin
+
+    def post(self, request, course, session_id):
+        form = QuizMarkFakeForm(request.POST)
+        if form.is_valid():
+            value = form.cleaned_data['value']
+
+            with transaction.atomic():
+                question = SessionQuestion.objects.filter(
+                    pk=form.cleaned_data['pk'],
+                    quiz_session=session_id,
+                    quiz_session__quiz_instance__course=course
+                ).first()
+                if question is not None:
+                    if 0 <= value <= question.points:
+                        question.result_points = value
+                        question.save()
+                        check_quiz_answers(question.quiz_session)
+                        question.quiz_session.pending_manual_check = False
+                        question.quiz_session.reviewer = request.user
+                        question.quiz_session.save()
+                        return HttpResponse('OK')
+        return HttpResponseBadRequest('Error')

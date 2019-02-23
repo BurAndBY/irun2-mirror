@@ -344,3 +344,8 @@ class QueueEntryForm(forms.ModelForm):
         super(QueueEntryForm, self).__init__(*args, **kwargs)
         self.fields['user_id'] = forms.TypedChoiceField(label=_('User'), choices=user_choices,
                                                         coerce=int, empty_value=None, required=True)
+
+
+class QuizMarkFakeForm(forms.Form):
+    value = forms.FloatField(required=True, localize=True)
+    pk = forms.IntegerField(required=True)

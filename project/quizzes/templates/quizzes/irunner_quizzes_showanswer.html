@@ -5,7 +5,14 @@
         <div class="row">
             <div class="col-xs-8">{% trans 'Question' %} {{ counter }}</div>
             <div class="col-xs-4 text-right">
-                <small><strong>{{ result_points }}</strong> {% trans 'of' %} {{ points }}</small>
+                <small>
+                    <strong>
+                        {% if is_editable %}
+                        <a href="#" class="ir-res-editable-ans" data-type="text" data-pk="{{ question_id }}" data-url="{{ save_mark_url }}" data-title="{% trans 'Enter new mark' %}">{{ result_points }}</a>
+                        {% else %}
+                        {{ result_points }}
+                        {% endif %}
+                    </strong> {% trans 'of' %} {{ points }}</small>
             </div>
         </div>
     </div>
@@ -25,7 +32,13 @@
             {% elif answer.is_notchosen %}
                 <div class="col-xs-12 ir-res-answer bg-info ir-res-answer-notchosen">{{ answer.text }}</div>
             {% else %}
-                <div class="col-xs-12 ir-res-answer">{{ answer.text }}</div>
+                <div class="col-xs-12 ir-res-answer">
+                    {% if not answer.text %}
+                        <em>{% trans 'No answer' %}</em>
+                    {% else %}
+                        {{ answer.text|linebreaksbr }}
+                    {% endif %}
+                </div>
             {% endif %}
         {% endfor %}
     </div>

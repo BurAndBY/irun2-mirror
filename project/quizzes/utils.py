@@ -13,13 +13,15 @@ from quizzes.models import QuizSession, SessionQuestion, SessionQuestionAnswer, 
 QUESTION_KINDS = {
     'single': Question.SINGLE_ANSWER,
     'multiple': Question.MULTIPLE_ANSWERS,
-    'text': Question.TEXT_ANSWER
+    'text': Question.TEXT_ANSWER,
+    'open': Question.OPEN_ANSWER,
 }
 
 QUESTION_KINDS_BY_ID = {
     Question.SINGLE_ANSWER: 'single',
     Question.MULTIPLE_ANSWERS: 'multiple',
-    Question.TEXT_ANSWER: 'text'
+    Question.TEXT_ANSWER: 'text',
+    Question.OPEN_ANSWER: 'open',
 }
 
 
@@ -39,9 +41,15 @@ def create_session(instance, user):
     questions = SessionQuestion.objects.filter(quiz_session=session)\
         .select_related('question').prefetch_related('question__choice_set')
     answers = []
+    requires_manual_check = False
     for q in questions:
         for c in q.question.choice_set.all():
             answers.append(SessionQuestionAnswer(session_question=q, choice=c))
+        if q.question.kind == Question.OPEN_ANSWER:
+            answers.append(SessionQuestionAnswer(session_question=q))
+            requires_manual_check = True
+    session.pending_manual_check = requires_manual_check
+    session.save()
     SessionQuestionAnswer.objects.bulk_create(answers)
     return session
 
@@ -57,7 +65,7 @@ def get_quiz_data(session):
             select_related('question').prefetch_related('sessionquestionanswer_set', 'sessionquestionanswer_set__choice'):
         choices = []
         for a in q.sessionquestionanswer_set.all():
-            if q.question.kind == Question.TEXT_ANSWER:
+            if q.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER]:
                 choices.append({'id': a.id, 'chosen': a.is_chosen, 'userAnswer': a.user_answer})
             else:
                 choices.append({'id': a.id, 'chosen': a.is_chosen, 'text': tex2html(a.choice.text)})
@@ -108,6 +116,8 @@ def is_question_valid(question):
         return num_choices >= 0 and correct_choices >= 1
     elif question.type == QUESTION_KINDS_BY_ID[Question.TEXT_ANSWER]:
         return num_choices == 1 and correct_choices == 1
+    elif question.type == QUESTION_KINDS_BY_ID[Question.OPEN_ANSWER]:
+        return num_choices == 0 and correct_choices == 0
     else:
         return False
 
@@ -163,6 +173,7 @@ def get_question_editor_language_tags():
         'singleAnswer': _('Single correct answer'),
         'multipleAnswers': _('Multiple correct answers'),
         'textAnswer': _('Text answer'),
+        'openAnswer': _('Open answer'),
         'addChoice': _('Add choice'),
         'defaultQuestionText': _('Type the question text here...'),
         'defaultChoiceText': _('Type the choice text here...'),

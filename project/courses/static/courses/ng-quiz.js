@@ -173,7 +173,7 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         c.chosen = true;
     };
     $rootScope.isQuestionAnswered = function (q) {
-        if (q.type === 2) {
+        if (q.type === 2 || q.type === 3) {
             return (q.choices[0].userAnswer || '').length > 0;
         }
         var dirty = false;

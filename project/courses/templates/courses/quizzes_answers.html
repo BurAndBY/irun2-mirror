@@ -10,7 +10,10 @@
 {% block subtitle %}{% trans 'Quiz answers' %}{% endblock %}
 
 {% block head %}
+    {% load static %}
     {% irunner_katex_head %}
+    <link href="{% static 'bootstrap3-editable-1.5.1/css/bootstrap-editable.css' %}" rel="stylesheet">
+    <script src="{% static 'bootstrap3-editable-1.5.1/js/bootstrap-editable.min.js' %}"></script>
 {% endblock %}
 
 {% block main %}
@@ -29,9 +32,15 @@
                 <div class="col-xs-6 text-right text-muted">{% trans 'Student' %}:</div>
                 <div class="col-xs-6 text-left">{% irunner_courses_user_card quiz.user_id user_cache %}</div>
             </div>
+            {% if quiz.reviewer_id %}
+            <div class="col-xs-12">
+                <div class="col-xs-6 text-right text-muted">{% trans 'Reviewer' %}:</div>
+                <div class="col-xs-6 text-left">{% irunner_courses_user_card quiz.reviewer_id user_cache %}</div>
+            </div>
+            {% endif %}
             <div class="col-xs-12">
                 <div class="col-xs-6 text-right text-muted">{% trans 'Mark' %}:</div>
-                <div class="col-xs-6 text-left">{% irunner_quizzes_mark quiz.result %}</div>
+                <div class="col-xs-6 text-left">{% irunner_quizzes_mark quiz.result quiz.is_finished quiz.pending_manual_check %}</div>
             </div>
             <div class="col-xs-12">
                 <div class="col-xs-6 text-right text-muted">{% trans 'Points' %}:</div>
@@ -57,7 +66,7 @@
                 </div>
             </div>
             {% for answer in quiz.answers %}
-                {% irunner_quizzes_showanswer answer forloop.counter %}
+                {% irunner_quizzes_showanswer answer forloop.counter save_mark_url %}
             {% endfor %}
         </div>
     </div>
@@ -88,5 +97,16 @@
     {% endif %}
 
     {% irunner_katex_body %}
+
+    {% csrf_token %}
+    <script>
+        $(document).ready(function() {
+            $('.ir-res-editable-ans').editable({
+                ajaxOptions: {
+                    headers: {"X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val()}
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

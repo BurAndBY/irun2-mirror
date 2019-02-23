@@ -178,7 +178,7 @@ h3 { font-size: 20px; line-height: 32px; }
     white-space: normal;
 }
 
-.popover {
+.ir-card-link + .popover {
     max-width: 380px;
     min-width: 380px;
 }
@@ -1904,6 +1904,19 @@ Green menu
     font-weight: bold;
     background-color: rgba(86, 61, 124, .15);
     color: rgb(111, 84, 153);
+    text-align: center;
+    border-radius: 2px;
+    line-height: 100%;
+    padding: 2px;
+}
+
+.ir-quiz-pending-mark {
+    display: inline-block;
+    min-width: 2em;
+    font-size: 100%;
+    font-weight: bold;
+    background-color: rgba(240, 173, 78, .15);
+    color: rgb(240, 173, 78);
     text-align: center;
     border-radius: 2px;
     line-height: 100%;

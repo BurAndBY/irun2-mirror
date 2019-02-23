@@ -53,6 +53,13 @@ class MultipleAnswersChecker(IAnswerChecker):
                                                          policy)
 
 
+class OpenAnswerChecker(IAnswerChecker):
+    key = Question.OPEN_ANSWER
+
+    def get_result_points(self, question, policy=ScorePolicy.STRICT):
+        return question.result_points
+
+
 def _get_points_with_policy(answers, policy):
     handler = _POLICIES[policy]
     if not handler:
@@ -96,5 +103,6 @@ _POLICIES = {
 CHECKERS = {
     Question.SINGLE_ANSWER: SingleAnswerChecker(),
     Question.MULTIPLE_ANSWERS: MultipleAnswersChecker(),
-    Question.TEXT_ANSWER: TextAnswerChecker()
+    Question.TEXT_ANSWER: TextAnswerChecker(),
+    Question.OPEN_ANSWER: OpenAnswerChecker(),
 }
