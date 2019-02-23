@@ -8,7 +8,7 @@
                 <small>
                     <strong>
                         {% if is_editable %}
-                        <a href="#" class="ir-res-editable-ans" data-type="text" data-pk="{{ question_id }}" data-url="{{ save_mark_url }}" data-title="{% trans 'Enter new mark' %}">{{ result_points }}</a>
+                        <a href="#" class="ir-res-editable-ans" data-type="text" data-pk="{{ question_id }}" data-url="{{ save_mark_url }}" data-title="{% trans 'Enter new mark' %}" data-savenochange="true">{{ result_points }}</a>
                         {% else %}
                         {{ result_points }}
                         {% endif %}
