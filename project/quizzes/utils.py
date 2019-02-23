@@ -86,8 +86,9 @@ def check_quiz_answers(session):
         question.result_points = q_result
         question.save()
     session.result = calc_ten_point_grade(res, max_res)
-    session.is_finished = True
-    session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
+    if not session.is_finished:
+        session.is_finished = True
+        session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
     session.save()
 
 
