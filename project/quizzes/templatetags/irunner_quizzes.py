@@ -29,7 +29,7 @@ def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
 
 
 @register.inclusion_tag('quizzes/irunner_quizzes_showanswer.html')
-def irunner_quizzes_showanswer(session_question, counter):
+def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None):
     is_text = (session_question.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER])
     preparer = escape if is_text else tex2html
     answers = []
@@ -51,11 +51,14 @@ def irunner_quizzes_showanswer(session_question, counter):
             answers.append(SessionAnswerInfo(preparer(answer.choice.text), is_right, is_wrong, is_notchosen))
     eps = 0.000001
     return {
+        'question_id': session_question.id,
         'text': tex2html(session_question.question.text),
         'points': round(session_question.points + eps, 1),
         'result_points': round(session_question.result_points + eps, 1),
         'counter': counter,
         'answers': answers,
+        'is_editable': save_mark_url is not None and session_question.question.kind == Question.OPEN_ANSWER,
+        'save_mark_url': save_mark_url,
     }
 
 

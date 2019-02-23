@@ -178,7 +178,7 @@ h3 { font-size: 20px; line-height: 32px; }
     white-space: normal;
 }
 
-.popover {
+.ir-card-link + .popover {
     max-width: 380px;
     min-width: 380px;
 }

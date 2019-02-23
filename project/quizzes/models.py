@@ -134,6 +134,7 @@ class QuizSession(models.Model):
     is_finished = models.BooleanField(default=False)
     finish_time = models.DateTimeField(null=True)
     pending_manual_check = models.BooleanField(default=False)
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     def __str__(self):
         return '{}: {}'.format(self.quiz_instance, self.start_time)
