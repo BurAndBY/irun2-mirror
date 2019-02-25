@@ -9,7 +9,7 @@ from .highlight import do_highlight
 
 
 def tex2html(tex, inline=False):
-    return tex2html_general(tex, inline=inline)
+    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False)
 
 
 class TestBasic(unittest.TestCase):
@@ -119,10 +119,10 @@ class TestVerbatim(unittest.TestCase):
                          '<div class="paragraph"><div class="verbatim">#include &lt;iostream&gt;</div></div>')
 
     def test_mintinline(self):
-        self.assertEqual(tex2html('\\mintinline{bash}{VAR1=${VAR2}}', inline=True, pygmentize=False), '<span class="verbatim">VAR1=${VAR2}</span>')
+        self.assertEqual(tex2html('\\mintinline{bash}{VAR1=${VAR2}}', inline=True), '<span class="verbatim">VAR1=${VAR2}</span>')
 
     def test_minted_env(self):
-        self.assertEqual(tex2html('\\begin{minted}{bash}\n#!/bin/bash\n\necho "Hello, world!"\n\\end{minted}', pygmentize=False),
+        self.assertEqual(tex2html('\\begin{minted}{bash}\n#!/bin/bash\n\necho "Hello, world!"\n\\end{minted}'),
                          '<div class="paragraph"><div class="verbatim">#!/bin/bash\n\necho "Hello, world!"\n</div></div>')
 
 
