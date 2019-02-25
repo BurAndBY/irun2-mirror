@@ -62,19 +62,18 @@ INSTALLED_APPS = (
     'quizzes',
 )
 
-MIDDLEWARE_CLASSES = (
-    'common.middleware.CutPrefix',
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-)
+    'django.middleware.locale.LocaleMiddleware',
+    'common.middleware.LogRemoteUserMiddleware',
+]
 
 ROOT_URLCONF = 'irunner2.urls'
 
