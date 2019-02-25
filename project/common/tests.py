@@ -9,6 +9,7 @@ from django.test import TestCase
 from common.enum import Enum
 from common.katex import parse_tex_math, Portion, PortionMode
 from common.templatetags.irunner_time import irunner_timedelta_hms, irunner_timedelta_humanized
+from common.pylightex.tests import *  # noqa
 
 PM = PortionMode
 

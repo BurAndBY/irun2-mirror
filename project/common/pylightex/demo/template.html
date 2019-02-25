@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>pylightex demo</title>
+    <link rel="stylesheet" type="text/css" href="pylightex.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" integrity="sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.11/dist/jquery.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js" integrity="sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij" crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">$STYLE</style>
+  </head>
+<body>
+  $BODY
+  <script>
+    (function($) {
+      $.fn.katex = function(options) {
+        var settings = $.extend({
+          displayMode: false,
+          debug: false,
+          errorMessage: "error"
+        }, options);
+        return this.each(function() {
+          var texContent = $(this).text(), element = $(this).get(0);
+          katex.render(
+            texContent,
+            element, {
+              displayMode: settings.displayMode
+            }
+          );
+        });
+      };
+    }(jQuery));
+
+    $(document).ready(function() {
+      $(".pylightex span.math").katex({ displayMode: false });
+      $(".pylightex div.math").katex({ displayMode: true });
+    });
+  </script>
+</body>
+</html>

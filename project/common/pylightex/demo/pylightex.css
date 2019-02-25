@@ -1,0 +1,22 @@
+.pylightex {
+    font-family: Georgia, "Times New Roman", Times, serif
+}
+
+.pylightex > .paragraph {
+    margin-top: 30px;
+}
+
+.pylightex .verbatim {
+    font-family: "Consolas", monospace;
+    white-space: pre-wrap;
+}
+
+.pylightex .path {
+    font-family: "Consolas", monospace;
+    white-space: pre-wrap;
+    font-style: italic;
+}
+
+.pylightex .error {
+    color: red;
+}
