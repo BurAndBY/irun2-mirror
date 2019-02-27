@@ -1,13 +1,13 @@
 {% extends 'quizzes/base.html' %}
 
 {% load i18n %}
-{% load irunner_katex %}
+{% load irunner_pylightex %}
 {% load irunner_pagination %}
 {% load irunner_quizzes %}
 {% load bootstrap3 %}
 
 {% block head %}
-    {% irunner_katex_head %}
+    {% irunner_pylightex_head %}
 {% endblock %}
 
 {% block main %}
@@ -32,5 +32,5 @@
         {% irunner_quizzes_showquestion question category_slug can_edit=permissions.can_edit_questions %}
     {% endfor %}
 
-    {% irunner_katex_body %}
+    {% irunner_pylightex_body %}
 {% endblock %}

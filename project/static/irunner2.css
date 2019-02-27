@@ -2043,3 +2043,40 @@ Green menu
 .ir-table-nonfluid {
    width: auto !important;
 }
+
+/**
+ * pylightex
+ */
+.pylightex {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 110%;
+}
+.pylightex > .paragraph + .paragraph {
+    margin-top: 14px;
+}
+.pylightex .verbatim {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    white-space: pre-wrap;
+}
+.pylightex div.verbatim {
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    padding: 9px 14px;
+    margin: 4px 0;
+}
+.pylightex .path {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    white-space: pre-wrap;
+    font-style: italic;
+}
+.pylightex .monospace {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.pylightex .error {
+    color: red;
+    white-space: pre-wrap;
+}
+.pylightex .katex {
+    font-size: 1.1em;
+}

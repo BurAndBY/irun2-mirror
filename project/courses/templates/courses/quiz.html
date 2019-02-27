@@ -1,13 +1,13 @@
 {% extends 'courses/base.html' %}
 
 {% load i18n %}
-{% load irunner_katex %}
+{% load irunner_pylightex %}
 
 {% block subtitle %}{% trans 'Quiz' %}{% endblock %}
 
 {% block head %}
     {% load static %}
-    {% irunner_katex_head %}
+    {% irunner_pylightex_head %}
     {% load i18n %}
     <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
 {% endblock %}
@@ -125,5 +125,5 @@
 
     <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
 	<script src="{% static 'courses/ng-quiz.js' %}"></script>
-    {% irunner_katex_body %}
+    {% irunner_pylightex_body %}
 {% endblock %}

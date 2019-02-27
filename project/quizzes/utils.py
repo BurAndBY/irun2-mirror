@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 import random
 from collections import Counter
 
-from common.katex import tex2html
+from common.pylightex import tex2html
 from quizzes.answer_checker import CHECKERS
 from quizzes.models import QuizSession, SessionQuestion, SessionQuestionAnswer, Question, QuestionGroup, Choice
 
@@ -82,8 +82,8 @@ def get_quiz_data(session):
             if q.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER]:
                 choices.append({'id': a.id, 'chosen': a.is_chosen, 'userAnswer': a.user_answer})
             else:
-                choices.append({'id': a.id, 'chosen': a.is_chosen, 'text': tex2html(a.choice.text)})
-        questions.append({'id': q.id, 'text': tex2html(q.question.text), 'type': q.question.kind, 'choices': choices})
+                choices.append({'id': a.id, 'chosen': a.is_chosen, 'text': tex2html(a.choice.text, inline=True)})
+        questions.append({'id': q.id, 'text': tex2html(q.question.text, inline=False), 'type': q.question.kind, 'choices': choices})
     quiz_data['questions'] = questions
     return quiz_data
 

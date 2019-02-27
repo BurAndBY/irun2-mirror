@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_quizzes %}
-{% load irunner_katex %}
+{% load irunner_pylightex %}
 {% load irunner_courses %}
 {% load irunner_time %}
 
@@ -11,7 +11,7 @@
 
 {% block head %}
     {% load static %}
-    {% irunner_katex_head %}
+    {% irunner_pylightex_head %}
     <link href="{% static 'bootstrap3-editable-1.5.1/css/bootstrap-editable.css' %}" rel="stylesheet">
     <script src="{% static 'bootstrap3-editable-1.5.1/js/bootstrap-editable.min.js' %}"></script>
 {% endblock %}
@@ -96,7 +96,7 @@
     </div>
     {% endif %}
 
-    {% irunner_katex_body %}
+    {% irunner_pylightex_body %}
 
     {% csrf_token %}
     <script>

@@ -1,13 +1,13 @@
 {% extends 'quizzes/base.html' %}
 
-{% load irunner_katex %}
+{% load irunner_pylightex %}
 {% load irunner_quizzes %}
 {% load bootstrap3 %}
 {% load i18n %}
 
 {% block head %}
     {% load static %}
-    {% irunner_katex_head %}
+    {% irunner_pylightex_head %}
     <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
 {% endblock %}
 
@@ -127,8 +127,8 @@
         </script>
     {% endif %}
     <script>
-var app = angular.module('editor', ["ngSanitize"]);
-app.run(function ($rootScope, $http, $window, $interval) {
+var app = angular.module('editor', []);
+app.run(function ($rootScope, $http, $window, $interval, $sce) {
     var types = ['single', 'multiple', 'text', 'open'];
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
     $rootScope.preview = {};
@@ -174,6 +174,13 @@ app.run(function ($rootScope, $http, $window, $interval) {
         return true;
     };
 
+    $rootScope.renderKaTeX = function(block) {
+        var dom = $('<div>').append($.parseHTML(block["html"]));
+        $("span.math", dom).katex({ displayMode: false });
+        $("div.math", dom).katex({ displayMode: true });
+        return $sce.trustAsHtml($(dom).html());
+    }
+
     $rootScope.updatePreview = function () {
         var question = angular.copy($rootScope.question);
         var shouldTexifyChoices = !(question.type === types[2] || question.type === types[3]);
@@ -197,21 +204,18 @@ app.run(function ($rootScope, $http, $window, $interval) {
             },
         }).then(function(response) {
             var results = response.data;
-            question.text = results[0]["html"];
+            question.text = $rootScope.renderKaTeX(results[0]);
             if (shouldTexifyChoices) {
                 var index = 0;
                 angular.forEach(question.choices, function (c) {
-                    c.text = results[++index]["html"];
+                    c.text = $rootScope.renderKaTeX(results[++index]);
+                });
+            } else {
+                angular.forEach(question.choices, function (c) {
+                    c.text = $sce.trustAsHtml(c.text);
                 });
             }
             $rootScope.preview = question;
-
-            setTimeout(function () {
-                $(".ir-katex-displayed:not(.processed)").katex({ displayMode: true });
-                $(".ir-katex-inline:not(.processed)").katex({ displayMode: false });
-                $(".ir-katex-displayed:not(.processed)").addClass("processed");
-                $(".ir-katex-inline:not(.processed)").addClass("processed");
-            }, 0);
         });
     };
     $rootScope.updatePreview();

@@ -1,9 +1,9 @@
 from django import template
-from django.utils.html import escape, format_html
+from django.utils.html import escape, format_html, mark_safe
 
 from collections import namedtuple
 
-from common.katex import tex2html
+from common.pylightex import tex2html
 
 from quizzes.constants import NO_CATEGORY_SLUG
 from quizzes.models import Question
@@ -13,16 +13,24 @@ register = template.Library()
 SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'text is_right is_wrong is_notchosen')
 
 
+def escape_preparer(tex, inline):
+    return escape(tex)
+
+
+def tex2html_preparer(tex, inline):
+    return mark_safe(tex2html(tex, inline=inline))
+
+
 @register.inclusion_tag('quizzes/irunner_quizzes_showquestion.html')
 def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
-    preparer = escape if (question.kind == Question.TEXT_ANSWER) else tex2html
+    preparer = escape_preparer if (question.kind == Question.TEXT_ANSWER) else tex2html_preparer
     return {
         'id': question.id,
         'category_slug': category_slug,
         'group_id': question.group_id,
-        'text': tex2html(question.text),
+        'text': tex2html_preparer(question.text, inline=False),
         'choices': [
-            (preparer(ch.text), ch.is_right) for ch in question.choice_set.order_by('id')
+            (preparer(ch.text, inline=True), ch.is_right) for ch in question.choice_set.order_by('id')
         ],
         'can_edit': can_edit,
     }
@@ -31,28 +39,28 @@ def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
 @register.inclusion_tag('quizzes/irunner_quizzes_showanswer.html')
 def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None):
     is_text = (session_question.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER])
-    preparer = escape if is_text else tex2html
+    preparer = escape_preparer if is_text else tex2html_preparer
     answers = []
     for answer in session_question.sessionquestionanswer_set.order_by('id').select_related('choice'):
         if is_text and session_question.question.kind == Question.TEXT_ANSWER:
             if answer.choice.text == answer.user_answer:
-                answers.append(SessionAnswerInfo(preparer(answer.user_answer), True, False, False))
+                answers.append(SessionAnswerInfo(preparer(answer.user_answer, inline=True), True, False, False))
             else:
-                answers.append(SessionAnswerInfo(preparer(answer.choice.text), False, False, True))
-                answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer),
+                answers.append(SessionAnswerInfo(preparer(answer.choice.text, inline=True), False, False, True))
+                answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
                                                  False, True, False))
         elif is_text and session_question.question.kind == Question.OPEN_ANSWER:
-            answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer),
-                                                 False, False, False))
+            answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
+                                             False, False, False))
         else:
             is_right = answer.is_chosen and answer.choice.is_right
             is_wrong = answer.is_chosen and not answer.choice.is_right
             is_notchosen = not answer.is_chosen and answer.choice.is_right
-            answers.append(SessionAnswerInfo(preparer(answer.choice.text), is_right, is_wrong, is_notchosen))
+            answers.append(SessionAnswerInfo(preparer(answer.choice.text, inline=True), is_right, is_wrong, is_notchosen))
     eps = 0.000001
     return {
         'question_id': session_question.id,
-        'text': tex2html(session_question.question.text),
+        'text': tex2html_preparer(session_question.question.text, inline=False),
         'points': round(session_question.points + eps, 1),
         'result_points': round(session_question.result_points + eps, 1),
         'counter': counter,
