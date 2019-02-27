@@ -128,10 +128,10 @@
     {% endif %}
     <script>
 var app = angular.module('editor', ["ngSanitize"]);
-app.run(function ($rootScope, $window, $interval) {
+app.run(function ($rootScope, $http, $window, $interval) {
     var types = ['single', 'multiple', 'text', 'open'];
     $rootScope.question = angular.fromJson(document.getElementById('questionData').value);
-    $rootScope.preview = angular.copy($rootScope.question);
+    $rootScope.preview = {};
     $rootScope.languageTags = angular.fromJson(document.getElementById('languageTags').value);
     $rootScope.nextId = 1;
     angular.forEach($rootScope.question.choices, function (c) {
@@ -173,32 +173,46 @@ app.run(function ($rootScope, $window, $interval) {
         }
         return true;
     };
+
     $rootScope.updatePreview = function () {
-        $rootScope.preview = angular.copy($rootScope.question);
-        $rootScope.preview.text = $rootScope.processKatex($rootScope.preview.text);
-        angular.forEach($rootScope.preview.choices, function (c) {
-            c.text = $rootScope.processKatex(c.text);
+        var question = angular.copy($rootScope.question);
+        var shouldTexifyChoices = !(question.type === types[2] || question.type === types[3]);
+
+        var texBlocks = [{
+            tex: question.text,
+            inline: false
+        }];
+        if (shouldTexifyChoices) {
+            angular.forEach(question.choices, function (c) {
+                texBlocks.push({
+                    tex: c.text,
+                    inline: true
+                })
+            });
+        }
+
+        $http.post("{% url 'quizzes:preview:render' %}", texBlocks, {
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+        }).then(function(response) {
+            var results = response.data;
+            question.text = results[0]["html"];
+            if (shouldTexifyChoices) {
+                var index = 0;
+                angular.forEach(question.choices, function (c) {
+                    c.text = results[++index]["html"];
+                });
+            }
+            $rootScope.preview = question;
+
+            setTimeout(function () {
+                $(".ir-katex-displayed:not(.processed)").katex({ displayMode: true });
+                $(".ir-katex-inline:not(.processed)").katex({ displayMode: false });
+                $(".ir-katex-displayed:not(.processed)").addClass("processed");
+                $(".ir-katex-inline:not(.processed)").addClass("processed");
+            }, 0);
         });
-        setTimeout(function () {
-            $(".ir-katex-displayed:not(.processed)").katex({ displayMode: true });
-            $(".ir-katex-inline:not(.processed)").katex({ displayMode: false });
-            $(".ir-katex-displayed:not(.processed)").addClass("processed");
-            $(".ir-katex-inline:not(.processed)").addClass("processed");
-        }, 0);
-    };
-    $rootScope.processKatex = function (original) {
-        var replacerInline = function (match, p1, p2, p3, offset, original) {
-            return '<span class="ir-katex-inline">' + p2 + '</span>';
-        };
-        var replacerDisplayed = function (match, p1, p2, p3, offset, original) {
-            return '<div class="ir-katex-displayed">' + p2 + '</div>';
-        };
-        var regDisplayed = /(\$\$)([^$]+)(\$\$)/g;
-        var res = original.replace(regDisplayed, replacerDisplayed);
-        var regInline = /(\$)([^$]+)(\$)/g;
-        res = res.replace(regInline, replacerInline);
-        res = res.replace(/\n\n/g, '<br />');
-        return res;
     };
     $rootScope.updatePreview();
 

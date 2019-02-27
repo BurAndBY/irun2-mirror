@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 
 from . import views
 from .category import views as categoryviews
+from .preview.urls import urlpatterns as preview_urlpatterns
 
 group_urlpatterns = [
     url(r'^$', views.QuestionGroupListView.as_view(), name='list'),
@@ -34,4 +35,5 @@ urlpatterns = [
     url(r'^$', views.EmptyView.as_view(), name='empty'),
     url(r'^quiz-templates/', include(template_urlpatterns, namespace='templates')),
     url(r'^categories/', include(category_urlpatterns, namespace='categories')),
+    url(r'^preview/', include(preview_urlpatterns, namespace='preview')),
 ]
