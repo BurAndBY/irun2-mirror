@@ -10,6 +10,9 @@
                 <a class="btn btn-default btn-sm ir-btn-without-border" href="{% url 'quizzes:categories:groups:edit_question' category_slug group_id id %}">
                     {% bootstrap_icon 'pencil' %}
                 </a>
+                <a class="btn btn-default btn-sm ir-btn-without-border" href="{% url 'quizzes:categories:groups:clone_question' category_slug group_id id %}">
+                    {% bootstrap_icon 'copy' %}
+                </a>
             </div>
             {% endif %}
         </div>

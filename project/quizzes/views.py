@@ -273,16 +273,28 @@ class QuestionCreateView(QuizAdminMixin, QuestionGroupMixin, generic.base.Contex
     template_name = 'quizzes/question_edit.html'
     requirements = CategoryPermissions.EDIT_QUESTIONS
 
-    def get(self, request):
-        any_question = Question.objects.filter(group=self.group, is_deleted=False).first()
-        kind = Question.SINGLE_ANSWER if any_question is None else any_question.kind
+    def _get_question_data(self, question_id):
+        question = get_object_or_404(Question, pk=question_id, group=self.group)
+        choices = []
+        for c in question.choice_set.all():
+            choices.append({'text': c.text, 'is_right': c.is_right})
+        return {'id': None, 'text': question.text,
+                'type': QUESTION_KINDS_BY_ID[question.kind], 'choices': choices}
 
+    def get(self, request, question_id=None):
         context = self.get_context_data()
-        context['object'] = json.dumps(get_empty_question_data(kind))
+
+        if question_id is None:
+            any_question = Question.objects.filter(group=self.group, is_deleted=False).first()
+            kind = Question.SINGLE_ANSWER if any_question is None else any_question.kind
+            context['object'] = json.dumps(get_empty_question_data(kind))
+        else:
+            context['object'] = json.dumps(self._get_question_data(question_id))
+
         context['languageTags'] = json.dumps(get_question_editor_language_tags())
         return render(request, self.template_name, context)
 
-    def post(self, request):
+    def post(self, request, question_id=None):
         return self._do_post(request)
 
 
