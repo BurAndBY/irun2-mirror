@@ -13,11 +13,13 @@ _PARAGRAPH_BREAKER: /\n{2,}/
 NEWLINE: /\n/
 
 // Plain text
-!usual_symbol: /[^\\%${}~\n\-<>]+/
+!usual_symbol: /[^\\%${}~\n\-<>&]+/
 !unusual_symbol: "<" | ">" | "-"
 !special_symbol: "~" | "<<" | ">>" | "--" | "---" | "{}"
-!escaped_symbol: "\\" /[\\%${}]/
-_plain_text: usual_symbol | unusual_symbol | special_symbol | escaped_symbol
+!escaped_symbol: "\\" /[\\%${}&_#]/
+textbackslash_command: /\\textbackslash */
+linebreak_command: "\\\\"
+_plain_text: usual_symbol | unusual_symbol | special_symbol | escaped_symbol | textbackslash_command | linebreak_command | NEWLINE
 
 // Math
 MATH_SPECIAL: "\\$" | "\\\\"
@@ -47,7 +49,7 @@ _text_style_cmd: texttt_cmd | textit_cmd | textbf_cmd | emph_cmd
 _phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | mintinline_cmd | _text_style_cmd
 
 phrase: _phrasing_element*
-paragraph: (_phrasing_element | NEWLINE | display_math | verbatim_env | minted_env)+
+paragraph: (_phrasing_element | display_math | verbatim_env | minted_env)+
 
 paragraphs: (_PARAGRAPH_BREAKER? paragraph (_PARAGRAPH_BREAKER paragraph)* _PARAGRAPH_BREAKER?) // at least one paragraph
     | _PARAGRAPH_BREAKER? // no paragraphs
@@ -77,7 +79,13 @@ class TreeToHtml(Transformer):
     @v_args(inline=True)
     def escaped_symbol(self, backslash, symbol):
         assert backslash == '\\'
-        return symbol
+        return cgi.escape(symbol)
+
+    def textbackslash_command(self, children):
+        return '\\'
+
+    def linebreak_command(self, children):
+        return '<br>'
 
     @v_args(inline=True)
     def usual_symbol(self, symbol):
@@ -173,13 +181,15 @@ def _make_error_page(tex, inline, u):
     return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', cgi.escape(body))
 
 
-def tex2html(tex, inline=False, pygmentize=True, wrap=True):
+def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False):
     parser = TEX_PARSER_INLINE if inline else TEX_PARSER
     try:
         tree = parser.parse(tex)
         transformer = TreeToHtml(get_highlight_func(pygmentize))
         html = transformer.transform(tree)
     except UnexpectedInput as u:
+        if throw:
+            raise
         html = _make_error_page(tex, inline, u)
 
     if not wrap:

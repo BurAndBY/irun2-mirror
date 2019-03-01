@@ -4,12 +4,14 @@ from __future__ import unicode_literals
 import unittest
 import logging
 
+from lark import UnexpectedInput
+
 from .convert import tex2html as tex2html_general
 from .highlight import do_highlight
 
 
 def tex2html(tex, inline=False):
-    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False)
+    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False, throw=True)
 
 
 class TestBasic(unittest.TestCase):
@@ -36,10 +38,35 @@ class TestBasic(unittest.TestCase):
 
     def test_html_escaping(self):
         self.assertEqual(tex2html('x < y > z', inline=True), 'x &lt; y &gt; z')
+        self.assertEqual(tex2html('x \\& y', inline=True), 'x &amp; y')
 
     def test_special_characters(self):
-        self.assertEqual(tex2html('\\\\ [ ] \\{ \\}', inline=True), '\\ [ ] { }')
-        self.assertEqual(tex2html('_', inline=True), '_')
+        self.assertEqual(tex2html('[ ] \\{ \\} \\% \\$', inline=True), '[ ] { } % $')
+
+    def test_optional_escaping(self):
+        # This requires escaping in real LaTeX
+        self.assertEqual(tex2html('_ | #', inline=True), '_ | #')
+        self.assertEqual(tex2html('\\_ \\#', inline=True), '_ #')
+
+    def test_textbackslash(self):
+        self.assertEqual(tex2html('a\\textbackslash b', inline=True), 'a\\b')
+        self.assertEqual(tex2html('a\\textbackslash\\textbackslash b', inline=True), 'a\\\\b')
+        self.assertEqual(tex2html('a\\textbackslash  b', inline=True), 'a\\b')
+        self.assertEqual(tex2html('a\\textbackslash\nb', inline=True), 'a\\\nb')
+        self.assertEqual(tex2html('a\\textbackslash\n\nb'), '<div class="paragraph">a\\</div><div class="paragraph">b</div>')
+        self.assertEqual(tex2html('a\\textbackslash\n\n\nb'), '<div class="paragraph">a\\</div><div class="paragraph">b</div>')
+        self.assertEqual(tex2html('a\\textbackslash12', inline=True), 'a\\12')
+        self.assertEqual(tex2html('a\\textbackslash\\&b', inline=True), 'a\\&amp;b')
+
+        with self.assertRaises(UnexpectedInput):
+            tex2html(r'a\b', inline=True)
+
+    def test_line_break(self):
+        self.assertEqual(tex2html(r'a\\b', inline=True), 'a<br>b')
+        self.assertEqual(tex2html(r'a\\\\b', inline=True), 'a<br><br>b')
+
+        with self.assertRaises(UnexpectedInput):
+            tex2html(r'a\\\b', inline=True)
 
     def test_spaces(self):
         self.assertEqual(tex2html('a~b', inline=True), 'a\u00A0b')
