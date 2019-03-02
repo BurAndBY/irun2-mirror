@@ -108,21 +108,6 @@ class CleanupView(StaffMemberRequiredMixin, generic.View):
         return redirect('storage:usage', resource_id)
 
 
-class StatisticsView(StaffMemberRequiredMixin, generic.View):
-    template_name = 'storage/statistics.html'
-
-    def get(self, request):
-        storage = create_storage()
-        data = list(storage.list_all())
-
-        context = {
-            'total_size': sum(p[1] for p in data),
-            'total_count': len(data),
-            'top_list': sorted(data, key=lambda p: p[1], reverse=True)[:100]
-        }
-        return render(request, self.template_name, context)
-
-
 class DownloadView(StaffMemberRequiredMixin, generic.View):
     def get(self, request, resource_id):
         resource_id = parse_resource_id(resource_id)
