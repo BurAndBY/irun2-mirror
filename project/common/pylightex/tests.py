@@ -10,8 +10,9 @@ from .convert import tex2html as tex2html_general
 from .highlight import do_highlight
 
 
-def tex2html(tex, inline=False, olymp_section_names={}):
-    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False, throw=True, olymp_section_names=olymp_section_names)
+def tex2html(tex, inline=False, olymp_section_names={}, olymp_file_names={}):
+    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False, throw=True,
+                            olymp_section_names=olymp_section_names, olymp_file_names=olymp_file_names)
 
 
 class TestBasic(unittest.TestCase):
@@ -32,9 +33,11 @@ class TestBasic(unittest.TestCase):
 
     def test_comments(self):
         self.assertEqual(tex2html('a%bcd'), '<div class="paragraph">a</div>')
+        self.assertEqual(tex2html('a%b\ncd'), '<div class="paragraph">acd</div>')
         self.assertEqual(tex2html('a\\%bcd'), '<div class="paragraph">a%bcd</div>')
         self.assertEqual(tex2html('% just a comment'), '<div class="paragraph"></div>')
-        self.assertEqual(tex2html('% just a comment\n\n'), '<div class="paragraph"></div>')
+        self.assertEqual(tex2html('% just a comment\n'), '<div class="paragraph"></div>')
+        self.assertEqual(tex2html('% just a comment\n\n'), '<div class="paragraph">\n</div>')
 
     def test_html_escaping(self):
         self.assertEqual(tex2html('x < y > z', inline=True), 'x &lt; y &gt; z')
@@ -42,6 +45,8 @@ class TestBasic(unittest.TestCase):
 
     def test_special_characters(self):
         self.assertEqual(tex2html('[ ] \\{ \\} \\% \\$', inline=True), '[ ] { } % $')
+        with self.assertRaises(UnexpectedInput):
+            tex2html('a & b', inline=True)
 
     def test_optional_escaping(self):
         # This requires escaping in real LaTeX
@@ -61,6 +66,11 @@ class TestBasic(unittest.TestCase):
         with self.assertRaises(UnexpectedInput):
             tex2html(r'a\b', inline=True)
 
+    def test_ldots(self):
+        self.assertEqual(tex2html('a\\ldots b', inline=True), 'a…b')
+        self.assertEqual(tex2html('a\\ldots\\ b', inline=True), 'a… b')
+        self.assertEqual(tex2html('a\\ldots\n\nb'), '<div class="paragraph">a…</div><div class="paragraph">b</div>')
+
     def test_line_break(self):
         self.assertEqual(tex2html(r'a\\b', inline=True), 'a<br>b')
         self.assertEqual(tex2html(r'a\\\\b', inline=True), 'a<br><br>b')
@@ -70,6 +80,8 @@ class TestBasic(unittest.TestCase):
 
     def test_spaces(self):
         self.assertEqual(tex2html('a~b', inline=True), 'a\u00A0b')
+        self.assertEqual(tex2html('a\\,b', inline=True), 'a\u2009b')
+        self.assertEqual(tex2html('a\\quad b', inline=True), 'a\u2003b')
 
     def test_quotes(self):
         self.assertEqual(tex2html('<<a>>', inline=True), '«a»')
@@ -89,6 +101,10 @@ class TestBasic(unittest.TestCase):
         self.assertEqual(tex2html('\\texttt{\\textit{b}}', inline=True), '<span class="monospace"><i>b</i></span>')
         self.assertEqual(tex2html('\\texttt{\\textit{a}b\\textit{c}}', inline=True), '<span class="monospace"><i>a</i>b<i>c</i></span>')
         self.assertEqual(tex2html('\\emph{note}', inline=True), '<em>note</em>')
+
+    def test_mbox(self):
+        self.assertEqual(tex2html('a\\mbox{b c}d', inline=True), 'a<span class="mbox">b c</span>d')
+        self.assertEqual(tex2html('\\mbox{т.\\,е.}', inline=True), '<span class="mbox">т.\u2009е.</span>')
 
 
 class TestMath(unittest.TestCase):
@@ -144,6 +160,10 @@ class TestVerbatim(unittest.TestCase):
     def test_verbatim_env(self):
         self.assertEqual(tex2html('\\begin{verbatim}#include <iostream>\\end{verbatim}'),
                          '<div class="paragraph"><div class="verbatim">#include &lt;iostream&gt;</div></div>')
+
+    def test_verbatim_multiline(self):
+        self.assertEqual(tex2html('\\begin{verbatim}aba\n\n\ncaba\n\\end{verbatim}'),
+                         '<div class="paragraph"><div class="verbatim">aba\n\n\ncaba\n</div></div>')
 
     def test_mintinline(self):
         self.assertEqual(tex2html('\\mintinline{bash}{VAR1=${VAR2}}', inline=True), '<span class="verbatim">VAR1=${VAR2}</span>')
@@ -205,6 +225,101 @@ class SectioningTest(unittest.TestCase):
     def test_olymp_sections(self):
         self.assertEqual(tex2html('\\InputFile'), '<h2>InputFile</h2>')
         self.assertEqual(tex2html('\\InputFile', olymp_section_names={'InputFile': 'Формат входных данных'}), '<h2>Формат входных данных</h2>')
+
+
+class CenterTest(unittest.TestCase):
+    def test_paragraph_splitting(self):
+        self.assertEqual(tex2html('\\begin{center}\\end{center}'), '<div class="paragraph"><div class="center"></div></div>')
+        self.assertEqual(tex2html('a\\begin{center}b\\end{center}c'), '<div class="paragraph">a<div class="center"><div class="paragraph">b</div></div>c</div>')
+        self.assertEqual(tex2html('a\n\\begin{center}b\\end{center}c'), '<div class="paragraph">a\n<div class="center"><div class="paragraph">b</div></div>c</div>')
+        self.assertEqual(tex2html('a\n\n\\begin{center}b\\end{center}c'), '<div class="paragraph">a</div><div class="paragraph"><div class="center"><div class="paragraph">b</div></div>c</div>')
+
+
+class ImageTest(unittest.TestCase):
+    def test_includegraphics(self):
+        self.assertEqual(tex2html('\\includegraphics{1.jpg}', inline=True), '<img src="1.jpg">')
+        self.assertEqual(tex2html('\\includegraphics{aba caba.jpg}', inline=True), '<img src="aba caba.jpg">')
+        self.assertEqual(tex2html('\\includegraphics{a<b.jpg}', inline=True), '<img src="a&lt;b.jpg">')
+        self.assertEqual(tex2html('\\includegraphics{a%b\n.jpg}', inline=True), '<img src="a.jpg">')
+        self.assertEqual(tex2html('\\includegraphics{a"b.jpg}', inline=True), '<img src="a&quot;b.jpg">')
+
+
+class ExampleTest(unittest.TestCase):
+    def test_no_spaces(self):
+        self.assertEqual(tex2html('\\begin{example}\\exmp{2 2}{4\\\\5}\\end{example}'),
+                         '<div class="paragraph"><table class="example"><tbody><tr>'
+                         '<td>2 2</td><td>4<br>5</td>'
+                         '</tr></tbody></table></div>')
+
+        self.assertEqual(tex2html('\\begin{example}\\exmp{2<\\&2}{4}\\end{example}',
+                                  olymp_file_names={'input': 'input.txt', 'output': 'a.out'}),
+                         '<div class="paragraph"><table class="example"><thead>'
+                         '<tr><th>input.txt</th><th>a.out</th></tr>'
+                         '</thead><tbody><tr>'
+                         '<td>2&lt;&amp;2</td><td>4</td>'
+                         '</tr></tbody></table></div>')
+
+    def test_spaces(self):
+        self.assertEqual(tex2html('\\begin{example}\n'
+                                  '\\exmp{\n'
+                                  '2 2\n'
+                                  '}{\n'
+                                  '4\n'
+                                  '}\n'
+                                  '\\end{example}\n'),
+                         '<div class="paragraph"><table class="example"><tbody><tr>'
+                         '<td>2 2\n</td><td>4\n</td>'
+                         '</tr></tbody></table>\n</div>')
+
+        self.assertEqual(tex2html('\\begin{example}\n'
+                                  '\\exmp{\n'
+                                  '1\n'
+                                  '2\n'
+                                  '\n'
+                                  '3\n'
+                                  '\n'
+                                  '\n'
+                                  '}{\n'
+                                  '4\n'
+                                  '}\n'
+                                  '\\end{example}\n'),
+                         '<div class="paragraph"><table class="example"><tbody><tr>'
+                         '<td>1\n2\n\n3\n\n\n</td><td>4\n</td>'
+                         '</tr></tbody></table>\n</div>')
+
+    def test_two_examples(self):
+        self.assertEqual(tex2html('\\begin{example}\\exmp{1}{2}\\exmp{3}{4}\\end{example}'),
+                         '<div class="paragraph"><table class="example"><tbody>'
+                         '<tr><td>1</td><td>2</td></tr>'
+                         '<tr><td>3</td><td>4</td></tr>'
+                         '</tbody></table></div>')
+
+
+class ListTest(unittest.TestCase):
+    def test_itemize(self):
+        self.assertEqual(tex2html('\\begin{itemize}\\item aba \\item caba\\end{itemize}'),
+                         '<div class="paragraph"><ul>'
+                         '<li><div class="paragraph">aba </div></li>'
+                         '<li><div class="paragraph">caba</div></li>'
+                         '</ul></div>')
+
+        self.assertEqual(tex2html('\\begin{itemize}\n\\item aba\\end{itemize}'),
+                         '<div class="paragraph"><ul>'
+                         '<li><div class="paragraph">aba</div></li>'
+                         '</ul></div>')
+
+        self.assertEqual(tex2html('\\begin{itemize}    \\item aba\n\ncaba\n\n\\item   daba\\end{itemize}'),
+                         '<div class="paragraph"><ul>'
+                         '<li><div class="paragraph">aba</div><div class="paragraph">caba</div></li>'
+                         '<li><div class="paragraph">daba</div></li>'
+                         '</ul></div>')
+
+    def test_enumerate(self):
+        self.assertEqual(tex2html('\\begin{enumerate}\\item aba\\item caba\\end{enumerate}'),
+                         '<div class="paragraph"><ol>'
+                         '<li><div class="paragraph">aba</div></li>'
+                         '<li><div class="paragraph">caba</div></li>'
+                         '</ol></div>')
 
 
 if __name__ == '__main__':

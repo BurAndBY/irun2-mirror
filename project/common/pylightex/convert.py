@@ -8,19 +8,17 @@ from lark import Lark, Transformer, v_args, UnexpectedInput
 
 TEX_GRAMMAR = r'''
 // General
-_COMMENT: "%" /[^\n]/*
+_COMMENT: "%" /[^\n]/* "\n"?
 _PARAGRAPH_BREAKER: /\n{2,}/
 NEWLINE: /\n/
 _WHITESPACE: /\s+/
 
 // Plain text
 !usual_symbol: /[^\\%${}~\n\-<>&]+/
-!unusual_symbol: "<" | ">" | "-"
-!special_symbol: "~" | "<<" | ">>" | "--" | "---" | "{}"
-!escaped_symbol: "\\" /[\\%${}&_#]/
-textbackslash_command: /\\textbackslash */
-linebreak_command: "\\\\"
-_plain_text: usual_symbol | unusual_symbol | special_symbol | escaped_symbol | textbackslash_command | linebreak_command | NEWLINE
+!special_symbol: "~" | "<" | "<<" | ">" | ">>" | "-" | "--" | "---" | "{}"
+!escaped_symbol: "\\" /[\\%${}&_#,\\ ]/
+!noarg_command: /\\(textbackslash|dots|ldots|quad) */
+_plain_text: usual_symbol | special_symbol | escaped_symbol | noarg_command | NEWLINE
 
 // Math
 MATH_SPECIAL: "\\$" | "\\\\"
@@ -39,6 +37,19 @@ mintinline_cmd: "\\mintinline{" CNAME "}{" inline_verbatim_block "}"
 verbatim_env: "\\begin{verbatim}" verbatim_content "\\end{verbatim}"
 minted_env: "\\begin{minted}{" CNAME "}" verbatim_content "\\end{minted}"
 
+// Center
+center_env: "\\begin{center}" paragraphs "\\end{center}"
+
+// Lists
+_ITEM: /\\item\s*/
+_BEGIN_ITEMIZE: /\\begin{itemize}\s*/
+_END_ITEMIZE: /\\end{itemize}/
+_BEGIN_ENUMERATE: /\\begin{enumerate}\s*/
+_END_ENUMERATE: /\\end{enumerate}/
+item: _ITEM paragraphs
+itemize_env: _BEGIN_ITEMIZE item* _END_ITEMIZE
+enumerate_env: _BEGIN_ENUMERATE item* _END_ENUMERATE
+
 // Style
 texttt_cmd: "\\texttt{" phrase "}"
 textit_cmd: "\\textit{" phrase "}"
@@ -46,16 +57,29 @@ textbf_cmd: "\\textbf{" phrase "}"
 emph_cmd: "\\emph{" phrase "}"
 _text_style_cmd: texttt_cmd | textit_cmd | textbf_cmd | emph_cmd
 
+// mbox
+mbox_cmd: "\\mbox{" phrase "}"
+
 // Sectioning
 section_cmd: "\\section{" phrase "}"
 subsection_cmd: "\\subsection{" phrase "}"
 !olymp_section_cmd: "\\InputFile" | "\\OutputFile" | "\\Note" | "\\Example" | "\\Examples"
 
+// Images
+includegraphics_cmd: "\\includegraphics{" text_phrase "}"
+
+// Olymp environments
+exmp_cmd: "\\exmp{" text_phrase "}{" text_phrase "}"
+example_env: "\\begin{example}" (exmp_cmd | _WHITESPACE | _COMMENT)* "\\end{example}"
+
 // Document structure
-_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | mintinline_cmd | _text_style_cmd
+multiple_newlines: /\n{2,}/
+_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | mintinline_cmd | includegraphics_cmd | _text_style_cmd | mbox_cmd
+_text_phrasing_element: _COMMENT | _plain_text | multiple_newlines
 
 phrase: _phrasing_element*
-paragraph: (_phrasing_element | display_math | verbatim_env | minted_env)+
+text_phrase: _text_phrasing_element*
+paragraph: (_phrasing_element | display_math | verbatim_env | minted_env | center_env | example_env | itemize_env | enumerate_env)+
 
 _breaker: (section_cmd | subsection_cmd | olymp_section_cmd | _PARAGRAPH_BREAKER) _WHITESPACE?
 
@@ -69,18 +93,41 @@ document: paragraphs
 
 CHARACTER_MAP = {
     '~': '\u00A0',
+    '<': '&lt;',
     '<<': '\u00AB',
+    '>': '&gt;',
     '>>': '\u00BB',
+    '-': '-',
     '--': '\u2013',
     '---': '\u2014',
     '{}': '',
 }
 
+ESCAPED_SYMBOL_MAP = {
+    ',': '\u2009',  # THIN SPACE
+    '&': '&amp;',
+    '\\': '<br>',
+}
+
+NOARG_COMMAND_MAP = {
+    'textbackslash': '\\',
+    'ldots': '\u2026',
+    'dots': '\u2026',
+    'quad': '\u2003',  # EM SPACE
+}
+
+
+def _cut_leading_newline(s):
+    if s.startswith('\n'):
+        return s[1:]
+    return s
+
 
 class TreeToHtml(Transformer):
-    def __init__(self, highlight_func, olymp_section_names):
+    def __init__(self, highlight_func, olymp_section_names, olymp_file_names):
         self._highlight_func = highlight_func
         self._olymp_section_names = olymp_section_names
+        self._olymp_file_names = olymp_file_names
 
     def plain_text(self, children):
         return ''.join(children)
@@ -88,21 +135,15 @@ class TreeToHtml(Transformer):
     @v_args(inline=True)
     def escaped_symbol(self, backslash, symbol):
         assert backslash == '\\'
-        return cgi.escape(symbol)
+        return ESCAPED_SYMBOL_MAP.get(symbol, symbol)
 
-    def textbackslash_command(self, children):
-        return '\\'
-
-    def linebreak_command(self, children):
-        return '<br>'
+    @v_args(inline=True)
+    def noarg_command(self, command):
+        return NOARG_COMMAND_MAP[command[1:].rstrip()]
 
     @v_args(inline=True)
     def usual_symbol(self, symbol):
         return symbol
-
-    @v_args(inline=True)
-    def unusual_symbol(self, symbol):
-        return cgi.escape(symbol)
 
     def paragraph(self, children):
         return ['<div class="paragraph">'] + children + ['</div>']
@@ -111,6 +152,9 @@ class TreeToHtml(Transformer):
         return list(itertools.chain.from_iterable(children))
 
     def phrase(self, children):
+        return ''.join(children)
+
+    def text_phrase(self, children):
         return ''.join(children)
 
     @v_args(inline=True)
@@ -188,6 +232,54 @@ class TreeToHtml(Transformer):
         command = command[1:]
         return '<h2>{}</h2>'.format(self._olymp_section_names.get(command, command))
 
+    @v_args(inline=True)
+    def center_env(self, paragraphs):
+        return '<div class="center">{}</div>'.format(''.join(paragraphs))
+
+    @v_args(inline=True)
+    def includegraphics_cmd(self, url):
+        return '<img src="{}">'.format(url.replace('"', '&quot;'))
+
+    @v_args(inline=True)
+    def exmp_cmd(self, inp, outp):
+        return '<tr><td>{}</td><td>{}</td></tr>'.format(
+            _cut_leading_newline(inp),
+            _cut_leading_newline(outp)
+        )
+
+    def example_env(self, rows):
+        tokens = []
+
+        input_name = self._olymp_file_names.get('input')
+        output_name = self._olymp_file_names.get('output')
+        if input_name is not None and output_name is not None:
+            tokens.extend(['<thead><tr><th>', cgi.escape(input_name),
+                           '</th><th>', cgi.escape(output_name), '</th></tr></thead>'])
+
+        tokens.append('<tbody>')
+        for row in rows:
+            tokens.append(row)
+        tokens.append('</tbody>')
+
+        return ''.join(['<table class="example">'] + tokens + ['</table>'])
+
+    @v_args(inline=True)
+    def item(self, paragraphs):
+        return '<li>{}</li>'.format(''.join(paragraphs))
+
+    def itemize_env(self, items):
+        return '<ul>{}</ul>'.format(''.join(items))
+
+    def enumerate_env(self, items):
+        return '<ol>{}</ol>'.format(''.join(items))
+
+    def mbox_cmd(self, children):
+        return '<span class="mbox">{}</span>'.format(''.join(children))
+
+    @v_args(inline=True)
+    def multiple_newlines(self, data):
+        return data
+
 
 DEBUG = True
 PARSER = 'lalr'
@@ -202,11 +294,11 @@ def _make_error_page(tex, inline, u):
     return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', cgi.escape(body))
 
 
-def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False, olymp_section_names={}):
+def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False, olymp_section_names={}, olymp_file_names={}):
     parser = TEX_PARSER_INLINE if inline else TEX_PARSER
     try:
         tree = parser.parse(tex)
-        transformer = TreeToHtml(get_highlight_func(pygmentize), olymp_section_names)
+        transformer = TreeToHtml(get_highlight_func(pygmentize), olymp_section_names, olymp_file_names)
         html = transformer.transform(tree)
     except UnexpectedInput as u:
         if throw:
