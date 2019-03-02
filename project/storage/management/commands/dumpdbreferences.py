@@ -15,8 +15,9 @@ from storage.models import FileMetadata
 
 
 class ResourceCollector(object):
-    def __init__(self):
-        self._stat = defaultdict(Counter)
+    def __init__(self, simple):
+        self._count = Counter()
+        self._stat = defaultdict(Counter) if not simple else None
 
     def add(self, resource_id, tag):
         if resource_id is None:
@@ -26,18 +27,22 @@ class ResourceCollector(object):
         if len(blob) < HASH_SIZE:
             return
 
-        self._stat[str(resource_id)][tag] += 1
+        key = str(resource_id)
+        self._count[key] += 1
+        if self._stat is not None:
+            self._stat[str(resource_id)][tag] += 1
 
     @property
     def size(self):
-        return len(self._stat)
+        return len(self._count)
 
     def dump(self, path):
         with open(path, 'w') as fd:
-            for k in sorted(self._stat):
-                v = self._stat[k]
-                line = '{}\t{}\t{}\n'.format(k, sum(v.values()), json.dumps(v, sort_keys=True))
-                fd.write(line)
+            for k in sorted(self._count):
+                tokens = [k, str(self._count[k])]
+                if self._stat is not None:
+                    tokens.append(json.dumps(self._stat[k], sort_keys=True))
+                fd.write('\t'.join(tokens) + '\n')
 
 
 class Command(BaseCommand):
@@ -45,10 +50,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('dump', help='tsv file')
+        parser.add_argument('-s', '--simple', help='no details, just count references (faster)', action='store_true')
 
     def handle(self, *args, **options):
         logger = logging.getLogger('irunner_import')
-        collector = ResourceCollector()
+        collector = ResourceCollector(options['simple'])
 
         prev = [0]
 
