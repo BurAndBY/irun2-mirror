@@ -10,8 +10,8 @@ from .convert import tex2html as tex2html_general
 from .highlight import do_highlight
 
 
-def tex2html(tex, inline=False):
-    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False, throw=True)
+def tex2html(tex, inline=False, olymp_section_names={}):
+    return tex2html_general(tex, inline=inline, pygmentize=False, wrap=False, throw=True, olymp_section_names=olymp_section_names)
 
 
 class TestBasic(unittest.TestCase):
@@ -22,7 +22,7 @@ class TestBasic(unittest.TestCase):
         self.assertEqual(tex2html('a\n\nb'), '<div class="paragraph">a</div><div class="paragraph">b</div>')
         self.assertEqual(tex2html('a\n\n\nb'), '<div class="paragraph">a</div><div class="paragraph">b</div>')
 
-        self.assertEqual(tex2html('\na'), '<div class="paragraph">\na</div>')
+        self.assertEqual(tex2html('\na'), '<div class="paragraph">a</div>')
         self.assertEqual(tex2html('\n\na'), '<div class="paragraph">a</div>')
         self.assertEqual(tex2html('\n\n\na'), '<div class="paragraph">a</div>')
 
@@ -170,6 +170,41 @@ class TestPygments(unittest.TestCase):
     def test_bad_lang(self):
         self.assertEqual(do_highlight('Foo<42>()', 'doesnotexist'),
                          'Foo&lt;42&gt;()\n')
+
+
+class SectioningTest(unittest.TestCase):
+    def test_section(self):
+        self.assertEqual(tex2html('\\section{Hello \\& world}'), '<h2>Hello &amp; world</h2>')
+        self.assertEqual(tex2html('a\\section{b}c'), '<div class="paragraph">a</div><h2>b</h2><div class="paragraph">c</div>')
+
+    def test_subsection(self):
+        self.assertEqual(tex2html('\\subsection{\\textit{Name}}'), '<h3><i>Name</i></h3>')
+
+    def test_dummy_newlines_after(self):
+        self.assertEqual(tex2html('\\section{a}\n'), '<h2>a</h2>')
+        self.assertEqual(tex2html('\\section{a}\n\n'), '<h2>a</h2>')
+        self.assertEqual(tex2html('\\section{a}\n\n\n'), '<h2>a</h2>')
+        self.assertEqual(tex2html('\\section{a}\nb'), '<h2>a</h2><div class="paragraph">b</div>')
+        self.assertEqual(tex2html('\\section{a}\n\nb'), '<h2>a</h2><div class="paragraph">b</div>')
+        self.assertEqual(tex2html('\\section{a}\n\n\nb'), '<h2>a</h2><div class="paragraph">b</div>')
+
+    def test_dummy_newlines_before(self):
+        self.assertEqual(tex2html('\n\\section{a}'), '<h2>a</h2>')
+        self.assertEqual(tex2html('\n\n\\section{a}'), '<h2>a</h2>')
+        self.assertEqual(tex2html('\n\n\n\\section{a}'), '<h2>a</h2>')
+        self.assertEqual(tex2html('a\n\\section{b}'), '<div class="paragraph">a\n</div><h2>b</h2>')
+        self.assertEqual(tex2html('a\n\n\\section{b}'), '<div class="paragraph">a</div><h2>b</h2>')
+        self.assertEqual(tex2html('a\n\n\n\\section{b}'), '<div class="paragraph">a</div><h2>b</h2>')
+
+    def test_consecutive_sections(self):
+        self.assertEqual(tex2html('\\section{a}\\section{b}'), '<h2>a</h2><h2>b</h2>')
+        self.assertEqual(tex2html('\\section{a}\n\\section{b}'), '<h2>a</h2><h2>b</h2>')
+        self.assertEqual(tex2html('\\section{a}\n\n\\section{b}'), '<h2>a</h2><h2>b</h2>')
+        self.assertEqual(tex2html('\\section{a}\n\n\n\\section{b}'), '<h2>a</h2><h2>b</h2>')
+
+    def test_olymp_sections(self):
+        self.assertEqual(tex2html('\\InputFile'), '<h2>InputFile</h2>')
+        self.assertEqual(tex2html('\\InputFile', olymp_section_names={'InputFile': 'Формат входных данных'}), '<h2>Формат входных данных</h2>')
 
 
 if __name__ == '__main__':

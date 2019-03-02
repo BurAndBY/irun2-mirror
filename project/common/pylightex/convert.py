@@ -11,6 +11,7 @@ TEX_GRAMMAR = r'''
 _COMMENT: "%" /[^\n]/*
 _PARAGRAPH_BREAKER: /\n{2,}/
 NEWLINE: /\n/
+_WHITESPACE: /\s+/
 
 // Plain text
 !usual_symbol: /[^\\%${}~\n\-<>&]+/
@@ -45,14 +46,21 @@ textbf_cmd: "\\textbf{" phrase "}"
 emph_cmd: "\\emph{" phrase "}"
 _text_style_cmd: texttt_cmd | textit_cmd | textbf_cmd | emph_cmd
 
+// Sectioning
+section_cmd: "\\section{" phrase "}"
+subsection_cmd: "\\subsection{" phrase "}"
+!olymp_section_cmd: "\\InputFile" | "\\OutputFile" | "\\Note" | "\\Example" | "\\Examples"
+
 // Document structure
 _phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | mintinline_cmd | _text_style_cmd
 
 phrase: _phrasing_element*
 paragraph: (_phrasing_element | display_math | verbatim_env | minted_env)+
 
-paragraphs: (_PARAGRAPH_BREAKER? paragraph (_PARAGRAPH_BREAKER paragraph)* _PARAGRAPH_BREAKER?) // at least one paragraph
-    | _PARAGRAPH_BREAKER? // no paragraphs
+_breaker: (section_cmd | subsection_cmd | olymp_section_cmd | _PARAGRAPH_BREAKER) _WHITESPACE?
+
+paragraphs: _WHITESPACE? ((_breaker* paragraph (_breaker+ paragraph)* _breaker*) // at least one paragraph
+    | _breaker*) // no paragraphs
 
 document: paragraphs
 
@@ -70,8 +78,9 @@ CHARACTER_MAP = {
 
 
 class TreeToHtml(Transformer):
-    def __init__(self, highlight_func):
+    def __init__(self, highlight_func, olymp_section_names):
         self._highlight_func = highlight_func
+        self._olymp_section_names = olymp_section_names
 
     def plain_text(self, children):
         return ''.join(children)
@@ -167,6 +176,18 @@ class TreeToHtml(Transformer):
     def emph_cmd(self, children):
         return '<em>{}</em>'.format(''.join(children))
 
+    def section_cmd(self, children):
+        return '<h2>{}</h2>'.format(children[0])
+
+    def subsection_cmd(self, children):
+        return '<h3>{}</h3>'.format(''.join(children))
+
+    @v_args(inline=True)
+    def olymp_section_cmd(self, command):
+        assert command[0] == '\\'
+        command = command[1:]
+        return '<h2>{}</h2>'.format(self._olymp_section_names.get(command, command))
+
 
 DEBUG = True
 PARSER = 'lalr'
@@ -181,11 +202,11 @@ def _make_error_page(tex, inline, u):
     return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', cgi.escape(body))
 
 
-def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False):
+def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False, olymp_section_names={}):
     parser = TEX_PARSER_INLINE if inline else TEX_PARSER
     try:
         tree = parser.parse(tex)
-        transformer = TreeToHtml(get_highlight_func(pygmentize))
+        transformer = TreeToHtml(get_highlight_func(pygmentize), olymp_section_names)
         html = transformer.transform(tree)
     except UnexpectedInput as u:
         if throw:
