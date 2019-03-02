@@ -295,6 +295,9 @@ def _make_error_page(tex, inline, u):
 
 
 def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False, olymp_section_names={}, olymp_file_names={}):
+    # Convert to single-byte UNIX newlines
+    tex = tex.replace('\r\n', '\n').replace('\r', '\n')
+
     parser = TEX_PARSER_INLINE if inline else TEX_PARSER
     try:
         tree = parser.parse(tex)
