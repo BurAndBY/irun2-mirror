@@ -70,13 +70,13 @@ class Command(BaseCommand):
         log_new()
 
         logger.info('> TestCase')
-        for inp, ans in TestCase.objects.values_list('input_resource_id', 'answer_resource_id'):
+        for inp, ans in TestCase.objects.values_list('input_resource_id', 'answer_resource_id').iterator():
             collector.add(inp, 'testcase_input')
             collector.add(ans, 'testcase_answer')
         log_new()
 
         logger.info('> TestCaseValidation')
-        for inp, in TestCaseValidation.objects.values_list('input_resource_id'):
+        for inp, in TestCaseValidation.objects.values_list('input_resource_id').iterator():
             collector.add(inp, 'validation_input')
         log_new()
 
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                 'answer_resource_id',
                 'stdout_resource_id',
                 'stderr_resource_id',
-                ):
+                ).iterator():
             collector.add(inf, 'testcaseresult_input')
             collector.add(ouf, 'testcaseresult_output')
             collector.add(ans, 'testcaseresult_answer')
@@ -123,7 +123,7 @@ class Command(BaseCommand):
 
         for model in (ProblemRelatedFile, ProblemRelatedSourceFile, FileMetadata):
             logger.info('> %s', model.__name__)
-            for r in model.objects.values_list('resource_id', flat=True):
+            for r in model.objects.values_list('resource_id', flat=True).iterator():
                 collector.add(r, 'metadata')
             log_new()
         collector.dump(options['dump'])
