@@ -57,7 +57,6 @@ from problems.problem.forms import (
     TestDescriptionForm,
     TestUploadForm,
     TestUploadOrTextForm,
-    TeXForm,
     ValidatorForm,
 )
 from problems.problem.permissions import SingleProblemPermissions
@@ -66,7 +65,10 @@ from problems.problem.tabs import PROBLEM_TABS, TabManager
 from problems.problem.validation import revalidate_testset
 
 from problems.description import IDescriptionImageLoader, render_description
-from problems.forms import SimpleProblemForm
+from problems.forms import (
+    SimpleProblemForm,
+    TeXForm,
+)
 from problems.models import (
     AccessMode,
     Problem,
@@ -1130,7 +1132,7 @@ class BaseProblemTeXNewView(BaseProblemView):
 
 class ProblemTeXNewStatementView(BaseProblemTeXNewView):
     filename = 'statement.tex'
-    file_type = ProblemRelatedFile.STATEMENT_TEX
+    file_type = ProblemRelatedFile.STATEMENT_TEX_TEX2HTML
 
 
 class ProblemTeXEditorRelatedFileView(BaseProblemView):

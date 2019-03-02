@@ -7,6 +7,7 @@ from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.translation import pgettext_lazy
 from common.constants import STDIN, STDOUT
+from common.pylightex import tex2html as pylightex_tex2html
 
 # for strings passed to external library
 TEX2HTML_ENCODING = 'utf-8'
@@ -20,6 +21,14 @@ SUBSTITUTIONS = [
     ('<h2>Примеры</h2>', pgettext_lazy('section', 'Examples'), '<h2>{}</h2>'),
     ('<h2><i>Замечание</i></h2>', pgettext_lazy('section', 'Note'), '<h2><i>{}</i></h2>'),
 ]
+
+PYLIGHTEX_SECTIONS = {
+    'InputFile': pgettext_lazy('section', 'Input'),
+    'OutputFile': pgettext_lazy('section', 'Output'),
+    'Example': pgettext_lazy('section', 'Example'),
+    'Examples': pgettext_lazy('section', 'Examples'),
+    'Note': pgettext_lazy('section', 'Note'),
+}
 
 '''
 output contains HTML data
@@ -46,21 +55,29 @@ def _render(begin, tex_source, end):
     return TeXRenderResult(dst, log)
 
 
-def render_tex_with_header(tex_source, problem):
-    begin = '\\begin{problem}{%s}{%s}{%s}{0 seconds}{%s}{}\n' % (
-        problem.numbered_full_name_difficulty(),
-        problem.input_filename or STDIN,
-        problem.output_filename or STDOUT,
-        'no memory limit',
-    )
-    end = '\n\\end{problem}\n'
-    return _render(begin, tex_source, end)
-
-
-def render_tex(tex_source, input_filename=None, output_filename=None):
+def _render_tex_tex2html(tex_source, input_filename, output_filename):
     begin = '\\begin{rawproblem}{%s}{%s}\n' % (
         input_filename or STDIN,
         output_filename or STDOUT,
     )
     end = '\n\\end{rawproblem}\n'
     return _render(begin, tex_source, end)
+
+
+def _render_tex_pylightex(tex_source, input_filename, output_filename):
+    return TeXRenderResult(pylightex_tex2html(
+        tex_source, inline=False,
+        olymp_file_names={
+            'input': input_filename or STDIN,
+            'output': output_filename or STDOUT,
+        },
+        olymp_section_names=PYLIGHTEX_SECTIONS
+    ), '')
+
+
+def render_tex(tex_source, input_filename=None, output_filename=None, renderer='tex2html'):
+    if renderer == 'tex2html':
+        return _render_tex_tex2html(tex_source, input_filename, output_filename)
+    if renderer == 'pylightex':
+        return _render_tex_pylightex(tex_source, input_filename, output_filename)
+    return TeXRenderResult('', 'Unknown renderer: <{}>'.format(renderer))

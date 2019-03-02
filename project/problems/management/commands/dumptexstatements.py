@@ -56,7 +56,7 @@ class Command(BaseCommand):
         zf.write(css, CSS_FILE_NAME)
 
         problem_ids = set()
-        for tex_file in ProblemRelatedFile.objects.filter(file_type=ProblemRelatedFile.STATEMENT_TEX):
+        for tex_file in ProblemRelatedFile.objects.filter(file_type=ProblemRelatedFile.STATEMENT_TEX_TEX2HTML):
             if tex_file.problem_id in problem_ids:
                 logger.warning('Multiple statements for problem %d', tex_file.problem_id)
                 continue

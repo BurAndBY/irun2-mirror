@@ -2052,14 +2052,14 @@ Green menu
     font-size: 110%;
 }
 .pylightex > .paragraph + .paragraph {
-    margin-top: 14px;
+    margin-top: 10px;
 }
 .pylightex .verbatim {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     white-space: pre-wrap;
 }
 .pylightex div.verbatim {
-    background-color: #f7f7f9;
+    background-color: #f8f9fa;
     border: 1px solid #e1e1e8;
     border-radius: 4px;
     padding: 9px 14px;
@@ -2079,4 +2079,43 @@ Green menu
 }
 .pylightex .katex {
     font-size: 1.1em;
+}
+.pylightex table.example {
+    width: 100%;
+    border-collapse: collapse;
+}
+.pylightex .example td {
+    white-space: pre-wrap;
+    vertical-align: top;
+    width: 50%;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    border: 1px solid #888;
+    background-color: #efefef;
+    padding: 0.3em;
+}
+.pylightex .example th {
+    width: 50%;
+    border: 1px solid #888;
+    padding: 0.3em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+.pylightex h2, .pylightex h3 {
+    color: #225a8d;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.pylightex h2 {
+    font-size: 120%;
+}
+.pylightex h3 {
+    font-size: 100%;
+}
+.pylightex .center {
+    text-align: center;
+}
+.pylightex .mbox {
+    white-space: nowrap;
 }

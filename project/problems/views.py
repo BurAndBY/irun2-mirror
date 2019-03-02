@@ -73,6 +73,7 @@ class ProblemStatementMixin(object):
         related_files = problem.problemrelatedfile_set.all()
 
         tex_statement_resource_id = None
+        renderer = None
         html_statement_name = None
 
         for related_file in related_files:
@@ -82,9 +83,15 @@ class ProblemStatementMixin(object):
                 if html_statement_name is None:
                     html_statement_name = related_file.filename
 
-            elif ft == ProblemRelatedFile.STATEMENT_TEX:
+            elif ft == ProblemRelatedFile.STATEMENT_TEX_TEX2HTML:
                 if tex_statement_resource_id is None:
                     tex_statement_resource_id = related_file.resource_id
+                    renderer = 'tex2html'
+
+            elif ft == ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX:
+                if tex_statement_resource_id is None:
+                    tex_statement_resource_id = related_file.resource_id
+                    renderer = 'pylightex'
 
         st = StatementRepresentation(problem)
 
@@ -93,7 +100,7 @@ class ProblemStatementMixin(object):
             storage = create_storage()
             tex_data = storage.represent(tex_statement_resource_id)
             if tex_data is not None and tex_data.complete_text is not None:
-                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename)
+                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename, renderer=renderer)
                 st.content = render_result.output
 
         # HTML
@@ -397,10 +404,13 @@ def get_tex_preview(form, problem=None):
     result = {}
     if form.is_valid():
         source = form.cleaned_data['source']
+        renderer = form.cleaned_data['renderer']
+
         if problem is None:
-            render_result = render_tex(source)
+            render_result = render_tex(source, renderer=renderer)
         else:
-            render_result = render_tex(source, input_filename=problem.input_filename, output_filename=problem.output_filename)
+            render_result = render_tex(source, input_filename=problem.input_filename, output_filename=problem.output_filename,
+                                       renderer=renderer)
         result['output'] = render_result.output
         result['log'] = render_result.log
     else:

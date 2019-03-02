@@ -3,6 +3,11 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_problems %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block extrasidebar %}
     <div class="list-group">
@@ -14,4 +19,5 @@
 
 {% block main %}
     {% irunner_problems_statement statement %}
+    {% irunner_pylightex_body %}
 {% endblock %}

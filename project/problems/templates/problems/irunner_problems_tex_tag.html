@@ -6,7 +6,8 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist" title="{% trans 'Use F2 key to switch view' %}">
         <li role="presentation" class="active"><a href="#ir_tab_source" role="tab" data-toggle="tab">{% trans 'Source code' %}</a></li>
-        <li role="presentation"><a href="#ir_tab_result" role="tab" data-toggle="tab">{% trans 'Result' %}</a></li>
+        <li role="presentation"><a href="#ir_tab_result_tex2html" role="tab" data-toggle="tab">{% trans 'Result' %}: TeXtoHTML</a></li>
+        <li role="presentation"><a href="#ir_tab_result_pylightex" role="tab" data-toggle="tab">{% trans 'Result' %}: pylightex</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -27,11 +28,15 @@
             {% bootstrap_form form show_label=False show_help=False %}
         </div>
 
-        <div role="tabpanel" class="tab-pane fade" id="ir_tab_result">
+        <div role="tabpanel" class="tab-pane fade" id="ir_tab_result_tex2html">
             <pre class="ir-pre ir-tex-pre"><code class="hljs ir-tex-log"></code></pre>
             <div class="ir-problem-statement">
                 <div class="ir-tex-output"></div>
             </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="ir_tab_result_pylightex">
+            <div id="pylightex_output"></div>
         </div>
     </div>
 </div>
@@ -65,12 +70,13 @@
             //e.target // newly activated tab
             //e.relatedTarget // previous active tab
             var target = $(e.target).attr("href");
-            if (target === "#ir_tab_result") {
+            if (target === "#ir_tab_result_tex2html") {
                 editorBlock.find(".ir-tex-log").text("{% trans 'Loading...' %}");
                 editorBlock.find(".ir-tex-output").html("");
                 var params = {
                     "csrfmiddlewaretoken": "{{ csrf_token }}",
-                    "source": $(textarea).val()
+                    "source": $(textarea).val(),
+                    "renderer": "tex2html",
                 };
                 $.post("{{ render_url }}", params).done(function(data) {
                     if (data["log"] !== undefined) {
@@ -83,12 +89,31 @@
                     editorBlock.find(".ir-tex-log").text("{% trans 'Error while getting data from server.' %}");
                 });
             }
+
+            if (target === "#ir_tab_result_pylightex") {
+                editorBlock.find("#pylightex_output").text("{% trans 'Loading...' %}");
+                var params = {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "source": $(textarea).val(),
+                    "renderer": "pylightex",
+                };
+                $.post("{{ render_url }}", params).done(function(data) {
+                    if (data["output"] !== undefined) {
+                        var dom = $('<div>').append($.parseHTML(data["output"]));
+                        $("span.math", dom).katex({ displayMode: false });
+                        $("div.math", dom).katex({ displayMode: true });
+                        editorBlock.find("#pylightex_output").html($(dom).html());
+                    }
+                }).fail(function(data) {
+                    editorBlock.find("#pylightex_output").text("{% trans 'Error while getting data from server.' %}");
+                });
+            }
         });
 
         $(document).keydown(function(e) {
             e = e || window.event;
             if (e.keyCode == 113 && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-                editorBlock.find(".nav-tabs > li").not(".active").find("a").trigger("click");
+                editorBlock.find(".nav-tabs > li").not(".active").first().find("a").trigger("click");
             }
         });
     });

@@ -3,8 +3,13 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_problems %}
+{% load irunner_pylightex %}
 
 {% block subtitle %}{% trans 'Problem' %} {{ letter }}{% endblock %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block extrasidebar %}
     {% if user.is_staff %}
@@ -18,4 +23,5 @@
 
 {% block main %}
     {% irunner_problems_statement statement letter=letter %}
+    {% irunner_pylightex_body %}
 {% endblock %}

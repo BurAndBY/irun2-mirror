@@ -3,6 +3,11 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_problems %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block main %}
     {% if form %}
