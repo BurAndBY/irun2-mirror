@@ -11,7 +11,30 @@ sem = multiprocessing.Semaphore(0)
 
 TIMEOUT = 20
 SCRIPT_PATH = ''
+HOST = '127.0.0.1'
 PORT = 17083
+
+
+class SemaphoreHolder(object):
+    def __init__(self):
+        self._default_sem = multiprocessing.Semaphore(0)
+        self._lock = multiprocessing.Lock()
+        self._sems = {}
+
+    def get(self, tag):
+        if tag is None:
+            return self._default_sem
+
+        with self._lock:
+            sem = self._sems.get(tag)
+            if sem is None:
+                sem = multiprocessing.Semaphore(0)
+                self._sems[tag] = sem
+
+        return sem
+
+
+semaphores = SemaphoreHolder()
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -21,21 +44,22 @@ class Handler(BaseHTTPRequestHandler):
             return p[len(SCRIPT_PATH):]
         return p
 
-    def _signal(self):
-        sem.release()
+    def _signal(self, tag):
+        semaphores.get(tag).release()
         return True
 
-    def _wait(self):
-        return sem.acquire(True, TIMEOUT)
+    def _wait(self, tag):
+        return semaphores.get(tag).acquire(True, TIMEOUT)
 
     def do_POST(self):
+        tag = self.headers.getheader('X-iRunner-Worker-Tag', None)
         path = self._get_path()
 
         ok = False
         if path == '/signal':
-            ok = self._signal()
+            ok = self._signal(tag)
         elif path == '/wait':
-            ok = self._wait()
+            ok = self._wait(tag)
 
         self.send_response(httplib.OK if ok else httplib.NOT_FOUND)
         self.end_headers()
@@ -48,6 +72,9 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write('OK')
+        elif path in ('/signal', '/wait'):
+            self.send_response(httplib.METHOD_NOT_ALLOWED)
+            self.end_headers()
         else:
             self.send_response(httplib.NOT_FOUND)
             self.end_headers()
@@ -69,7 +96,7 @@ class PySvc(win32serviceutil.ServiceFramework):
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
         socket.setdefaulttimeout(60)
-        self.server = ThreadedHTTPServer(('127.0.0.1', PORT), Handler)
+        self.server = ThreadedHTTPServer((HOST, PORT), Handler)
 
     # core logic of the service
     def SvcDoRun(self):
@@ -82,5 +109,11 @@ class PySvc(win32serviceutil.ServiceFramework):
         self.server.shutdown()
 
 
+def main():
+    server = ThreadedHTTPServer((HOST, PORT), Handler)
+    server.serve_forever()
+
+
 if __name__ == '__main__':
     win32serviceutil.HandleCommandLine(PySvc)
+    # main()
