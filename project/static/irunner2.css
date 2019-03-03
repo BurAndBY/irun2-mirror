@@ -320,7 +320,9 @@ h3 { font-size: 20px; line-height: 32px; }
     /*background-color: #B6D7A8;*/
     background-color: #C2F1D9;
 }
-
+.ir-langbox-sh {
+    background-color: #eee;
+}
 
 /**
  * Language Select

@@ -10,6 +10,7 @@ HIGHLIGHTJS = {
     Compiler.DELPHI: 'delphi',
     Compiler.PYTHON: 'py',
     Compiler.CSHARP: 'csharp',
+    Compiler.SHELL: 'bash',
 }
 
 
@@ -25,6 +26,7 @@ FILENAME_EXTENSIONS = {
     Compiler.DELPHI: 'dpr',
     Compiler.PYTHON: 'py',
     Compiler.CSHARP: 'cs',
+    Compiler.SHELL: 'sh',
 }
 
 PUBLIC_CLASS_REGEX = re.compile(r'^(?P<ws>\s*)public\s+class\s+(?P<name>[a-zA-Z0-9_]{1,64})')

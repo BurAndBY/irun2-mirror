@@ -13,6 +13,7 @@ class Compiler(models.Model):
     DELPHI = 'dpr'
     PYTHON = 'py'
     CSHARP = 'cs'
+    SHELL = 'sh'
 
     LANGUAGE_CHOICES = (
         (UNKNOWN, _('Unknown')),
@@ -23,6 +24,7 @@ class Compiler(models.Model):
         (DELPHI, 'Delphi'),
         (PYTHON, 'Python'),
         (CSHARP, 'C#'),
+        (SHELL, 'Shell'),
     )
 
     handle = models.CharField(_('string identifier'), max_length=30, unique=True)
