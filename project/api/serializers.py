@@ -190,7 +190,7 @@ class WorkerStateSerializer(serializers.Serializer):
 
 class WorkerGreetingSerializer(serializers.Serializer):
     name = serializers.CharField()
-    tag = serializers.CharField(required=False, allow_blank=True)
+    tag = serializers.CharField(required=False, allow_blank=True, default='')
 
     def create(self, validated_data):
         return WorkerGreeting(**validated_data)
