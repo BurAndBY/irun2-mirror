@@ -62,14 +62,18 @@
                     {% endif %}
                 </h5>
 
-                {% if test_case.author != None %}
-                    <p>{% bootstrap_icon 'user' %} {% irunner_users_show test_case.author %}</p>
-                {% endif %}
-                {% if test_case.creation_time != None %}
-                    <p>{% bootstrap_icon 'time' %} {{ test_case.creation_time }}</p>
+                {% if user.is_staff %}
+                    {% if test_case.author != None %}
+                        <p>{% bootstrap_icon 'user' %} {% irunner_users_show test_case.author %}</p>
+                    {% endif %}
+                    {% if test_case.creation_time != None %}
+                        <p>{% bootstrap_icon 'time' %} {{ test_case.creation_time }}</p>
+                    {% endif %}
                 {% endif %}
 
-                <p>{{ description.text|linebreaksbr }}</p>
+                {% if description.text %}
+                    <p>{{ description.text|linebreaksbr }}</p>
+                {% endif %}
 
                 {% if description.images %}
                     <table class="ir-image-gallery ir-image-gallery-vertical">
