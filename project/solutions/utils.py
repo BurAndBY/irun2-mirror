@@ -1,7 +1,8 @@
 from django.core.files.base import ContentFile
 from django.utils import timezone
 
-from api.queue import enqueue, bulk_enqueue, JudgementInQueue
+from api.queue import enqueue, bulk_enqueue
+from api.objectinqueue import JudgementInQueue
 from common.networkutils import get_request_ip
 from solutions.models import Solution, Judgement, JudgementExtraInfo, Rejudge
 from storage.utils import store_with_metadata
@@ -33,11 +34,13 @@ def judge(solution, rejudge=None, set_best=True):
     JudgementExtraInfo.objects.create(judgement=judgement, creation_time=timezone.now())
 
     priority = 10 if rejudge is None else 5
-    enqueue(JudgementInQueue(judgement.id), priority)
+    notifier = enqueue(JudgementInQueue(judgement.id), priority)
 
     if set_best and solution.best_judgement_id is None:
         solution.best_judgement = judgement
         solution.save()
+
+    return notifier
 
 
 def bulk_rejudge(solutions, author):
@@ -66,6 +69,6 @@ def bulk_rejudge(solutions, author):
 
     JudgementExtraInfo.objects.bulk_create(judgement_extra_infos)
 
-    bulk_enqueue((JudgementInQueue(pk) for pk in judgement_ids), priority=5)
+    notifier = bulk_enqueue((JudgementInQueue(pk) for pk in judgement_ids), priority=5)
 
-    return rejudge
+    return notifier, rejudge

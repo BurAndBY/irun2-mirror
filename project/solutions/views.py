@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy, pgettext_lazy
 from django.utils.timesince import timesince
 from django.views import generic
 
-from api.queue import notify_enqueued
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.highlight import list_highlight_styles, get_highlight_style, update_highlight_style
 from common.pageutils import paginate
@@ -29,7 +28,7 @@ from .compare import fetch_solution
 from .forms import AllSolutionsFilterForm, CompareSolutionsForm
 from .models import Solution, Judgement, Rejudge, TestCaseResult, JudgementLog, Challenge
 from .permissions import SolutionPermissions
-from .utils import judge, bulk_rejudge
+from .utils import bulk_rejudge
 from .filters import apply_state_filter, apply_compiler_filter, apply_difficulty_filter
 
 
@@ -246,8 +245,8 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
 
     def perform(self, filtered_queryset, form):
         with transaction.atomic():
-            rejudge = bulk_rejudge(filtered_queryset, self.request.user)
-        notify_enqueued()
+            notifier, rejudge = bulk_rejudge(filtered_queryset, self.request.user)
+        notifier.notify()
         return redirect('solutions:rejudge', rejudge.id)
 
     def get_queryset(self):
@@ -310,8 +309,8 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
         need_clone = ('clone' in request.POST)
         if need_clone:
             with transaction.atomic():
-                rejudge = bulk_rejudge(Solution.objects.filter(judgement__rejudge_id=rejudge_id), self.request.user)
-            notify_enqueued()
+                notifier, rejudge = bulk_rejudge(Solution.objects.filter(judgement__rejudge_id=rejudge_id), self.request.user)
+            notifier.notify()
             return redirect('solutions:rejudge', rejudge.id)
 
         if (need_commit ^ need_rollback):

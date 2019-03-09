@@ -27,7 +27,8 @@ TWO_LETTER_OUTCOME_CODES = {
     Outcome.RUNTIME_ERROR: 'RTE',
     Outcome.PRESENTATION_ERROR: 'PE',
     Outcome.SECURITY_VIOLATION: 'SV',
-    Outcome.CHECK_FAILED: 'CF'
+    Outcome.CHECK_FAILED: 'CF',
+    Outcome.FAILED: 'FL',
 }
 
 ONE_LETTER_STATUS_CODES = {

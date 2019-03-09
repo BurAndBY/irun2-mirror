@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-23 20:20+0300\n"
-"PO-Revision-Date: 2019-02-23 20:21+0300\n"
+"POT-Creation-Date: 2019-03-09 23:09+0300\n"
+"PO-Revision-Date: 2019-03-09 23:10+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -332,6 +332,9 @@ msgstr "Нарушение безопасности"
 
 msgid "Check Failed"
 msgstr "Ошибка тестирования"
+
+msgid "Failed"
+msgstr "Ошибка"
 
 msgid "Page"
 msgstr "Страница"
@@ -1448,6 +1451,12 @@ msgstr "Журнал"
 msgid "Plagiarism"
 msgstr "Плагиат"
 
+msgid "Problem solving"
+msgstr "Решение задач"
+
+msgid "Solution"
+msgstr "Решение"
+
 msgid "Individual problems"
 msgstr "Индивидуальные задачи"
 
@@ -1627,8 +1636,11 @@ msgstr "подсказка"
 msgid "number of sample tests"
 msgstr "число тестов-примеров"
 
-msgid "TeX statement"
-msgstr "Условие в формате TeX"
+msgid "TeX statement (TeXtoHTML)"
+msgstr "Условие в формате TeX (TeXtoHTML)"
+
+msgid "TeX statement (pylightex)"
+msgstr "Условие в формате TeX (pylightex)"
 
 msgid "HTML statement"
 msgstr "Условие в формате HTML"
@@ -2595,9 +2607,6 @@ msgstr "Сравнить"
 msgid "Unable to compare solutions."
 msgstr "Не удаётся сравнить решения."
 
-msgid "Solution"
-msgstr "Решение"
-
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
 
@@ -2783,9 +2792,6 @@ msgstr "Вы можете получить доступ к любому ресу
 msgid "Upload new resource"
 msgstr "Загрузить новый ресурс"
 
-msgid "Storage statistics"
-msgstr "Статистика хранения"
-
 msgid "The file is binary."
 msgstr "Файл бинарный."
 
@@ -2836,15 +2842,6 @@ msgstr "Имеет BOM"
 
 msgid "Resource not found in the file storage."
 msgstr "Ресурс не найден в хранилище."
-
-msgid "Resource count"
-msgstr "Число ресурсов"
-
-msgid "Total size"
-msgstr "Общий размер"
-
-msgid "The largest resources"
-msgstr "Самые большие ресурсы"
 
 msgid "log"
 msgstr "журнал"
@@ -3168,6 +3165,18 @@ msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
 
+#~ msgid "Storage statistics"
+#~ msgstr "Статистика хранения"
+
+#~ msgid "Resource count"
+#~ msgstr "Число ресурсов"
+
+#~ msgid "Total size"
+#~ msgstr "Общий размер"
+
+#~ msgid "The largest resources"
+#~ msgstr "Самые большие ресурсы"
+
 #~ msgid "Question editor"
 #~ msgstr "Редактор вопроса"
 
@@ -3318,6 +3327,3 @@ msgstr ""
 
 #~ msgid "Management"
 #~ msgstr "Управление"
-
-#~ msgid "Problems to solve"
-#~ msgstr "Задач для решения"

@@ -21,7 +21,8 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
-from api.queue import ValidationInQueue, ChallengedSolutionInQueue, enqueue, bulk_enqueue, notify_enqueued
+from api.queue import enqueue, bulk_enqueue
+from api.objectinqueue import ValidationInQueue, ChallengedSolutionInQueue
 from cauth.mixins import LoginRequiredMixin
 from common.access import PermissionCheckMixin
 from common.cast import make_int_list_quiet
@@ -213,8 +214,8 @@ class ProblemSolutionsProcessView(BaseProblemView):
 
     def _rejudge(self, problem, solutions):
         with transaction.atomic():
-            rejudge = bulk_rejudge(solutions, self.request.user)
-        notify_enqueued()
+            notifier, rejudge = bulk_rejudge(solutions, self.request.user)
+        notifier.notify()
         return redirect('solutions:rejudge', rejudge.id)
 
     def post(self, request, problem_id):
@@ -994,8 +995,8 @@ class ProblemSubmitView(BaseProblemView):
         if form.is_valid():
             with transaction.atomic():
                 solution = solutions.utils.new_solution(request, form, problem_id=problem.id)
-                solutions.utils.judge(solution)
-            notify_enqueued()
+                notifier = solutions.utils.judge(solution)
+            notifier.notify()
             return redirect_with_query_string(request, 'problems:submission', problem.id, solution.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1318,15 +1319,14 @@ class ProblemValidatorView(BaseProblemView):
                 'is_pending': need_validation,
                 'general_failure_reason': '',
             }
-            enqueued = False
+            notifier = None
             with transaction.atomic():
                 validation, _ = Validation.objects.update_or_create(problem=problem, defaults=upd)
                 validation.testcasevalidation_set.all().delete()
                 if need_validation:
-                    enqueue(ValidationInQueue(validation.id))
-                    enqueued = True
-            if enqueued:
-                notify_enqueued()
+                    notifier = enqueue(ValidationInQueue(validation.id))
+            if notifier is not None:
+                notifier.notify()
             return redirect_with_query_string(request, 'problems:validator', problem.id)
 
         context = self._make_context(problem, {'form': form})
@@ -1379,7 +1379,7 @@ class ProblemNewChallengeView(BaseProblemView):
                 filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED).\
                 values_list('id', flat=True)
 
-            enqueued = False
+            notifier = None
             with transaction.atomic():
                 challenge = Challenge(
                     author=request.user,
@@ -1394,10 +1394,10 @@ class ProblemNewChallengeView(BaseProblemView):
                 ChallengedSolution.objects.bulk_create(challenged_solutions)
 
                 new_ids = ChallengedSolution.objects.filter(challenge=challenge).values_list('id', flat=True)
-                enqueued = bulk_enqueue((ChallengedSolutionInQueue(pk) for pk in new_ids), priority=7)
+                notifier = bulk_enqueue((ChallengedSolutionInQueue(pk) for pk in new_ids), priority=7)
 
-            if enqueued:
-                notify_enqueued()
+            if notifier is not None:
+                notifier.notify()
 
             return redirect_with_query_string(request, 'problems:challenge', problem.id, challenge.id)
 

@@ -18,7 +18,6 @@ from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
 from django.template import defaultfilters
 
-from api.queue import notify_enqueued
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
 from common.constants import make_empty_select
@@ -301,8 +300,8 @@ class CourseSubmitView(BaseCourseView):
 
                 solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
                 CourseSolution.objects.create(solution=solution, course=course)
-                judge(solution)
-            notify_enqueued()
+                notifier = judge(solution)
+            notifier.notify()
             return redirect('courses:course_submission', course.id, solution.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)

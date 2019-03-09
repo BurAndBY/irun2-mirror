@@ -23,6 +23,7 @@ class WorkerProblem(object):
         self.tests = []
         self.checker = None
         self.validator = None
+        self.default_time_limit = None
 
 
 class WorkerTestingJob(object):
@@ -57,6 +58,7 @@ class WorkerChecker(object):
     IRUNNER = 'IRUNNER'
     TESTLIB_H = 'TESTLIB_H'
     ACCEPT_ALL = 'ACCEPT_ALL'
+    PYTEST = 'PYTEST'
 
     def __init__(self, source=None, kind=IRUNNER):
         self.source = source
@@ -69,5 +71,6 @@ class WorkerValidator(object):
 
 
 class WorkerGreeting(object):
-    def __init__(self, name):
+    def __init__(self, name, tag):
         self.name = name
+        self.tag = tag

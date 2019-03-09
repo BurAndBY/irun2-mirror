@@ -24,7 +24,7 @@ from api.workerstructs import (
 def parse_resource_id(string):
     try:
         return ResourceId.parse(string)
-    except ValueError as e:
+    except (ValueError, TypeError) as e:
         raise serializers.ValidationError('Unable to parse resource id: {0}'.format(e))
 
 
@@ -111,6 +111,7 @@ class WorkerProblemSerializer(serializers.Serializer):
     tests = WorkerTestCaseSerializer(many=True)
     checker = WorkerCheckerSerializer()
     validator = WorkerValidatorSerializer()
+    default_time_limit = serializers.IntegerField()
 
 
 class WorkerTestingJobSerializer(serializers.Serializer):
@@ -128,14 +129,14 @@ class TestCaseResultSerializer(serializers.Serializer):
     time_used = serializers.IntegerField(min_value=0, default=0)
     memory_limit = serializers.IntegerField(min_value=0, default=0)
     memory_used = serializers.IntegerField(min_value=0, default=0)
-    score = serializers.IntegerField(min_value=0, default=0)
-    max_score = serializers.IntegerField(min_value=0, default=0)
+    score = serializers.IntegerField(min_value=0, default=None)
+    max_score = serializers.IntegerField(min_value=0, default=1)
     checker_message = serializers.CharField(allow_blank=True, default='')
-    input_resource_id = ResourceIdField(allow_null=True)
-    output_resource_id = ResourceIdField(allow_null=True)
-    answer_resource_id = ResourceIdField(allow_null=True)
-    stdout_resource_id = ResourceIdField(allow_null=True)
-    stderr_resource_id = ResourceIdField(allow_null=True)
+    input_resource_id = ResourceIdField(default=None, allow_null=True)
+    output_resource_id = ResourceIdField(default=None, allow_null=True)
+    answer_resource_id = ResourceIdField(default=None, allow_null=True)
+    stdout_resource_id = ResourceIdField(default=None, allow_null=True)
+    stderr_resource_id = ResourceIdField(default=None, allow_null=True)
     is_sample = serializers.BooleanField(default=False)
 
     def create(self, validated_data):
@@ -166,14 +167,14 @@ class JudgementLogField(serializers.Field):
 
 class WorkerTestingReportSerializer(serializers.Serializer):
     outcome = OutcomeField()
-    first_failed_test = serializers.IntegerField(min_value=0, required=False, default=0)
-    score = serializers.IntegerField(min_value=0, required=False, default=0)
-    max_score = serializers.IntegerField(min_value=0, required=False, default=0)
+    first_failed_test = serializers.IntegerField(min_value=0, required=False, default=None)
+    score = serializers.IntegerField(min_value=0, required=False, default=None)
+    max_score = serializers.IntegerField(min_value=0, required=False, default=None)
     tests = serializers.ListField(child=TestCaseResultField())
-    logs = serializers.ListField(child=JudgementLogField())
+    logs = serializers.ListField(child=JudgementLogField(), required=False, default=[])
     general_failure_reason = serializers.CharField(allow_null=True, allow_blank=True, default='')
     general_failure_message = serializers.CharField(allow_null=True, allow_blank=True, default='')
-    sample_tests_passed = serializers.BooleanField(required=False)
+    sample_tests_passed = serializers.BooleanField(required=False, default=True)
 
     def create(self, validated_data):
         return WorkerTestingReport(**validated_data)
@@ -189,6 +190,7 @@ class WorkerStateSerializer(serializers.Serializer):
 
 class WorkerGreetingSerializer(serializers.Serializer):
     name = serializers.CharField()
+    tag = serializers.CharField(required=False, allow_blank=True)
 
     def create(self, validated_data):
         return WorkerGreeting(**validated_data)

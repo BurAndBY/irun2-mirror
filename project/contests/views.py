@@ -11,7 +11,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext, pgettext
 from django.views import generic
 
-from api.queue import notify_enqueued
 from common.cast import make_int_list_quiet
 from common.constants import make_empty_select, EMPTY_SELECT
 from common.networkutils import make_json_response, redirect_with_query_string
@@ -433,8 +432,8 @@ class SubmitView(BaseContestView):
 
                     solution = new_solution(request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=self.service.should_stop_on_fail())
                     ContestSolution.objects.create(solution=solution, contest=contest)
-                    judge(solution)
-                notify_enqueued()
+                    notifier = judge(solution)
+                notifier.notify()
 
                 return redirect('contests:submission', contest.id, solution.id)
         else:

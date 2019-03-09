@@ -1,6 +1,7 @@
 import time
 
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.db import transaction
 from django.http import Http404, StreamingHttpResponse
 from django.shortcuts import render, redirect
@@ -28,10 +29,12 @@ import plagiarism.plagiarism_api
 
 from api.models import DbObjectInQueue
 from api.queue import dequeue, update, finalize
+from api.workerstructs import WorkerFile
 from api.serializers import parse_resource_id
 from api.serializers import (
     PlagiarismJobSerializer,
     WorkerGreetingSerializer,
+    WorkerFileSerializer,
     WorkerStateSerializer,
     WorkerTestingJobSerializer,
     WorkerTestingReportSerializer,
@@ -104,6 +107,17 @@ class FileView(WorkerAPIView):
         return response
 
 
+class NewFileView(WorkerAPIView):
+    parser_classes = (FileUploadParser,)
+
+    def post(self, request, filename, format=None):
+        storage = create_storage()
+        file_obj = request.FILES.get('file')
+        resource_id = storage.save(file_obj if file_obj is not None else ContentFile(b''))
+        serializer = WorkerFileSerializer(WorkerFile(resource_id))
+        return Response(serializer.data)
+
+
 #
 # Testing Job/Report API
 #
@@ -114,7 +128,7 @@ class JobTakeView(WorkerAPIView):
         serializer.is_valid(raise_exception=True)
         greeting = serializer.save()
 
-        obj = dequeue(greeting.name)
+        obj = dequeue(greeting.name, greeting.tag)
         if obj is None:
             raise Http404('Nothing to test')
 

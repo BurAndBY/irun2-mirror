@@ -13,6 +13,7 @@ class Outcome(object):
     PRESENTATION_ERROR = 8
     SECURITY_VIOLATION = 9
     CHECK_FAILED = 10
+    FAILED = 11
 
     CHOICES = (
         (NOT_AVAILABLE, _('N/A')),
@@ -25,5 +26,6 @@ class Outcome(object):
         (RUNTIME_ERROR, _('Run-time Error')),
         (PRESENTATION_ERROR, _('Presentation Error')),
         (SECURITY_VIOLATION, _('Security Violation')),
-        (CHECK_FAILED, _('Check Failed'))
+        (CHECK_FAILED, _('Check Failed')),
+        (FAILED, _('Failed')),
     )
