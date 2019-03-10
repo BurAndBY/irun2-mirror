@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from six.moves import urllib
+from six.moves import http_client
 
 
 class WorkerNotifier(object):
@@ -24,5 +25,5 @@ class WorkerNotifier(object):
 
             try:
                 urllib.request.urlopen(req).read()
-            except urllib.error.URLError:
+            except (urllib.error.URLError, http_client.HTTPException):
                 pass
