@@ -75,7 +75,7 @@
 
         <div class="row form-group">
             <div class="col-xs-8">
-                <select class="form-control" ng-model="newRel.group" ng-options="g as g.name for g in groups">
+                <select class="form-control" ng-model="newRel.group" ng-options="g as g.name group by g.category_name for g in groups">
                 </select>
             </div>
             <div class="col-xs-2">

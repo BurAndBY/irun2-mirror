@@ -3,6 +3,7 @@ from django.views import generic
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.utils.encoding import force_text
 
 import json
 
@@ -24,6 +25,7 @@ from quizzes.models import (
     QuizSession,
     QuizTemplate,
 )
+from quizzes.constants import NO_CATEGORY_NAME
 from quizzes.tabs import Tabs
 from quizzes.utils import finish_overdue_sessions, get_question_editor_language_tags, get_empty_question_data, \
     is_question_valid, add_questions_to_question_group, QUESTION_KINDS, QUESTION_KINDS_BY_ID, is_relation_valid
@@ -111,13 +113,20 @@ class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, gene
     template_name = 'quizzes/quiz_template_edit_groups.html'
     model = QuizTemplate
 
+    def _list_groups(self):
+        groups = QuestionGroup.objects.all().prefetch_related('category')
+        json_groups = [{
+            'id': group.id,
+            'name': group.name,
+            'category_name': group.category.name if group.category is not None else force_text(NO_CATEGORY_NAME),
+        } for group in groups]
+        return json_groups
+
     def _process_error(self, request, quiz_template, json_data):
         context = self.get_context_data()
         context['has_error'] = True
         context['relations'] = json.dumps(json_data)
-        groups = QuestionGroup.objects.all()
-        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
-        context['groups'] = json.dumps(json_groups)
+        context['groups'] = json.dumps(self._list_groups())
         context['object'] = quiz_template
         return render(request, self.template_name, context)
 
@@ -127,10 +136,8 @@ class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, gene
         context['object'] = quiz_template
         relations = GroupQuizRelation.objects.filter(template=quiz_template).select_related('group')
         json_relations = [{'id': rel.group_id, 'name': rel.group.name, 'points': rel.points} for rel in relations]
-        groups = QuestionGroup.objects.all()
-        json_groups = [{'id': group.id, 'name': group.name} for group in groups]
         context['relations'] = json.dumps(json_relations)
-        context['groups'] = json.dumps(json_groups)
+        context['groups'] = json.dumps(self._list_groups())
         return context
 
     def get(self, request, pk):
