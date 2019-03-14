@@ -170,6 +170,13 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
     def get_session_info(self, session):
         answers = session.sessionquestion_set.order_by('order').select_related('question')
+        sessionquestion_ids = [sessionquestion.id for sessionquestion in answers]
+        sessionquestionanswer_cache = {}
+        for sqa in SessionQuestionAnswer.objects.\
+                filter(session_question_id__in=sessionquestion_ids).\
+                order_by('id').select_related('choice'):
+            sessionquestionanswer_cache.setdefault(sqa.session_question_id, []).append(sqa)
+
         result_points = 0
         points = 0
         for answer in answers:
@@ -188,6 +195,7 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             'reviewer_id': session.reviewer_id,
             'points': round(points + eps, 1),
             'result_points': round(result_points + eps, 1),
+            'sessionquestionanswer_cache': sessionquestionanswer_cache,
         }
         return info
 

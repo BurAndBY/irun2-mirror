@@ -37,11 +37,15 @@ def irunner_quizzes_showquestion(question, category_slug, can_edit=False):
 
 
 @register.inclusion_tag('quizzes/irunner_quizzes_showanswer.html')
-def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None):
+def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None, sessionquestionanswer_cache=None):
     is_text = (session_question.question.kind in [Question.TEXT_ANSWER, Question.OPEN_ANSWER])
     preparer = escape_preparer if is_text else tex2html_preparer
     answers = []
-    for answer in session_question.sessionquestionanswer_set.order_by('id').select_related('choice'):
+    if sessionquestionanswer_cache is not None:
+        qs = sessionquestionanswer_cache.get(session_question.id, [])
+    else:
+        qs = session_question.sessionquestionanswer_set.order_by('id').select_related('choice')
+    for answer in qs:
         if is_text and session_question.question.kind == Question.TEXT_ANSWER:
             if answer.choice.text == answer.user_answer:
                 answers.append(SessionAnswerInfo(preparer(answer.user_answer, inline=True), True, False, False))

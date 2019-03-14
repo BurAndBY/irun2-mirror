@@ -66,7 +66,7 @@
                 </div>
             </div>
             {% for answer in quiz.answers %}
-                {% irunner_quizzes_showanswer answer forloop.counter save_mark_url %}
+                {% irunner_quizzes_showanswer answer forloop.counter save_mark_url sessionquestionanswer_cache=quiz.sessionquestionanswer_cache %}
             {% endfor %}
         </div>
     </div>
