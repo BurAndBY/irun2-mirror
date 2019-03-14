@@ -105,6 +105,13 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-12" ng-hide="hideSingleOptionAlert()">
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <strong>{{languageTags.attention}}!</strong>
+                {{languageTags.singleOptionAlert}}
+                </div>
+            </div>
         </div>
     {% endverbatim %}
 
@@ -173,6 +180,13 @@ app.run(function ($rootScope, $http, $window, $interval, $sce) {
         }
         return true;
     };
+
+    $rootScope.hideSingleOptionAlert = function() {
+        if ($rootScope.question.type === types[2] || $rootScope.question.type === types[3]) {
+            return true;
+        }
+        return $rootScope.question.choices.length > 1;
+    }
 
     $rootScope.renderKaTeX = function(block) {
         var dom = $('<div>').append($.parseHTML(block["html"]));

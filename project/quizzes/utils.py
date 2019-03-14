@@ -193,4 +193,6 @@ def get_question_editor_language_tags():
         'defaultQuestionText': _('Type the question text here...'),
         'defaultChoiceText': _('Type the choice text here...'),
         'refreshPreview': _('Refresh preview'),
+        'attention': _('Attention'),
+        'singleOptionAlert': _('Single option left for the question that allows multiple options.')
     }
