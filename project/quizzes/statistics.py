@@ -92,10 +92,10 @@ def get_statistics_by_question_group(template_pk):
         'categories': names,
         'series': [{
             'name': _('Correct'),
-            'data': [correct_cnt[name] for name in names]
+            'data': [correct_cnt.get(name, 0) for name in names]
         }, {
             'name': _('Incorrect'),
-            'data': [incorrect_cnt[name] for name in names]
+            'data': [incorrect_cnt.get(name, 0) for name in names]
         }]
     }
 
