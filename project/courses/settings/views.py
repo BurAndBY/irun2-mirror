@@ -14,7 +14,7 @@ from problems.models import Problem
 from proglangs.models import Compiler
 from quizzes.models import QuizInstance
 
-from courses.forms import (
+from courses.settings.forms import (
     AccessForm,
     ActivityForm,
     CompilersForm,
@@ -27,11 +27,11 @@ from courses.forms import (
     SubgroupForm,
     TopicForm,
 )
-from courses.forms import (
+from courses.settings.forms import (
     TwoPanelProblemMultipleChoiceField,
     TwoPanelUserMultipleChoiceField,
 )
-from courses.forms import create_member_subgroup_formset_class
+from courses.settings.forms import create_member_subgroup_formset_class
 from courses.models import Membership
 from courses.views import BaseCourseView
 
