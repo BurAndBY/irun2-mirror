@@ -13,6 +13,7 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.conf import settings
 from django.conf.urls import include, url
 from django_js_reverse.views import urls_js
 from django.views.decorators.cache import cache_page
@@ -35,5 +36,11 @@ urlpatterns = [
     url(r'^storage/', include('storage.urls', namespace='storage')),
     url(r'^users/', include('users.urls', namespace='users')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
 
 handler403 = 'home.views.error403'
