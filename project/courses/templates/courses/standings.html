@@ -112,7 +112,11 @@
         <colgroup span="2">
         <colgroup span="{{ course_descr.common_problem_count }}">
         {% for topic_descr in course_descr.topic_descrs %}
+            {% with topic_descr.common_problem_count as width %}
+            {% if width > 0 %}
             <colgroup span="{{ topic_descr.common_problem_count }}">
+            {% endif %}
+            {% endwith %}
         {% endfor %}
         <colgroup>
 
