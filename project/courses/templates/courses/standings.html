@@ -165,11 +165,13 @@
                     {% endif %}
                 </td>
                 {% for pr in user_result.get_all_common_problem_results %}
+                    <td>
                     {% if pr and pr.was_submitted %}
-                        {% irunner_solutions_scorecell pr.best_solution.best_judgement pr.accepted_before_deadline %}
+                        {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=True accepted_before_deadline=pr.accepted_before_deadline %}
                     {% else %}
-                        {% irunner_solutions_scorecell %}
+                        {% irunner_solutions_scorebox %}
                     {% endif %}
+                    </td>
                 {% endfor %}
                 <td class="ir-problem-summary text-nowrap">
                     {{ user_result.get_complete_common_problem_count }}

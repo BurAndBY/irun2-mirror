@@ -124,7 +124,7 @@ def irunner_solutions_outcomebox(outcome, tooltip=False):
 
 
 @register.simple_tag(takes_context=False)
-def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
+def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False, accepted_before_deadline=True):
     '''
     Displays score for a judgement.
 
@@ -133,13 +133,18 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
     '''
 
     classes = ['ir-box', 'ir-scorebox']
-    contents = '&nbsp;'
+    contents = '\u200B'
+    title = ''
 
     if judgement is not None:
         accepted = (judgement.outcome == Outcome.ACCEPTED)
 
         if accepted:
-            classes.append('ir-scorebox-accepted')
+            if accepted_before_deadline:
+                classes.append('ir-scorebox-accepted')
+            else:
+                classes.append('ir-scorebox-accepted-after-deadline')
+                title = _('Accepted after deadline')
         else:
             classes.append('ir-scorebox-attempted')
 
@@ -151,7 +156,10 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
             else:
                 contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
 
-    return mark_safe('<div class="{0}">{1}</div>'.format(' '.join(classes), contents))
+    if not title:
+        return mark_safe('<div class="{0}">{1}</div>'.format(' '.join(classes), contents))
+    else:
+        return mark_safe('<div class="{0}" title="{2}">{1}</div>'.format(' '.join(classes), contents, title))
 
 
 @register.simple_tag(takes_context=False)
