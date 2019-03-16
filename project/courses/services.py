@@ -31,6 +31,7 @@ from courses.models import (
     AssignmentCriteriaIntermediate,
     Membership,
     Subgroup,
+    TopicCommonProblem,
 )
 
 '''
@@ -144,6 +145,7 @@ class ProblemChoicesBuilder(object):
     def __init__(self, topics):
         self._topics = topics
         self._folder_problems = {}
+        self._topic_common_problems = {}
         self._common_problems = []
 
     def add(self, folder_id, problem):
@@ -151,6 +153,9 @@ class ProblemChoicesBuilder(object):
 
     def add_common(self, problem):
         self._common_problems.append(problem)
+
+    def add_topic_common(self, topic_id, problem):
+        self._topic_common_problems.setdefault(topic_id, []).append(problem)
 
     def get(self, empty_select):
         data = []
@@ -162,9 +167,13 @@ class ProblemChoicesBuilder(object):
 
         for topic in self._topics:
             problems = self._folder_problems.get(topic.problem_folder_id)
-            if problems is None:
-                continue
-            data.append((topic.name, make_group(problems)))
+            if problems is not None:
+                data.append((topic.name, make_group(problems)))
+
+            problems = self._topic_common_problems.get(topic.id)
+            if problems is not None:
+                name = '{}: {}'.format(topic.name, _('Common problems'))
+                data.append((name, make_group(problems)))
 
         if self._common_problems:
             data.append((_('Common problems'), make_group(self._common_problems)))
@@ -193,6 +202,9 @@ def make_problem_choices(course, full=False, user_id=None, membership_id=None, e
         for problem in Problem.objects.filter(assignment__membership_id=membership_id).\
                 annotate(folder_id=F('assignment__topic__problem_folder_id')):
             builder.add(problem.folder_id, problem)
+
+    for tcp in TopicCommonProblem.objects.filter(topic__course=course).select_related('problem'):
+        builder.add_topic_common(tcp.topic_id, tcp.problem)
 
     for problem in course.common_problems.all():
         builder.add_common(problem)
@@ -407,7 +419,11 @@ class CourseDescr(object):
         self.topic_descrs = []
         self._topic_id_to_index = {}
 
-        for topic in course.topic_set.prefetch_related('criteria').prefetch_related('slot_set').all():
+        for topic in course.topic_set.\
+                prefetch_related('criteria').\
+                prefetch_related('slot_set').\
+                prefetch_related('common_problems').\
+                all():
             descr = TopicDescr(topic)
             self._topic_id_to_index[topic.id] = len(self.topic_descrs)
             self.topic_descrs.append(descr)
@@ -436,6 +452,17 @@ class CourseDescr(object):
     def get_extra_activities(self):
         return [activity for activity in self.activities if activity.weight == 0.0]
 
+    @property
+    def has_individual_problems(self):
+        for topic in self.topic_descrs:
+            if topic.slot_count > 0:
+                return True
+        return False
+
+    @property
+    def common_problem_count(self):
+        return len(self.common_problems)
+
 
 class TopicDescr(object):
     def __init__(self, topic):
@@ -449,8 +476,15 @@ class TopicDescr(object):
             self._id_to_index[slot.id] = len(self.slots)
             self.slots.append(slot)
 
-    def get_slot_count(self):
+        self.common_problems = [problem for problem in topic.common_problems.all()]
+
+    @property
+    def slot_count(self):
         return len(self.slots)
+
+    @property
+    def common_problem_count(self):
+        return len(self.common_problems)
 
     def get_slot_index(self, slot_id):
         return self._id_to_index[slot_id]
@@ -565,6 +599,7 @@ class TopicResult(object):
         self.topic_descr = topic_descr
         self.slot_results = [SlotResult(topic_descr, slot) for slot in topic_descr.slots]
         self.penalty_problem_results = []
+        self.common_problem_results = [ProblemResult(problem) for problem in topic_descr.common_problems]
 
     def get_slot_and_penalty_results(self):
         return self.slot_results + self.penalty_problem_results
@@ -583,6 +618,8 @@ class TopicResult(object):
             slot_result.register_solution(solution)
         for slot_result in self.penalty_problem_results:
             slot_result.register_solution(solution)
+        for problem_result in self.common_problem_results:
+            problem_result.register_solution(solution)
 
 
 class ProblemSolvingMark(object):
@@ -712,4 +749,11 @@ class UserResult(object):
         return max(min(result, 10), 1)
 
     def get_complete_common_problem_count(self):
-        return sum(int(pr.is_ok()) for pr in self.common_problem_results)
+        return sum(int(pr.is_ok()) for pr in self.get_all_common_problem_results())
+
+    def get_all_common_problem_results(self):
+        for pr in self.common_problem_results:
+            yield pr
+        for topic_result in self.topic_results:
+            for pr in topic_result.common_problem_results:
+                yield pr

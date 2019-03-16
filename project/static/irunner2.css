@@ -68,60 +68,49 @@ body {
  * Course standings
  */
 .ir-course-standings {
+    font-size: 12px;
+    border: 1px solid #ddd;
     margin-bottom: 20px;
 }
-.ir-course-standings > thead:first-child > tr:first-child > th {
-    border-top: 2px solid #ddd;
-    padding: 4px;
-}
-.ir-course-standings tbody > tr > td {
-    border: 1px solid #ddd;
-    font-size: 12px;
-}
-.ir-course-standings thead > tr > th {
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    font-size: 12px;
-    text-align: center;
-    vertical-align: top;
-}
-.ir-course-standings .ir-slot .ir-row1 {
-    font-size: 12px;
-}
-.ir-course-standings .ir-slot .ir-row2 {
-    font-size: 12px;
-}
-.ir-course-standings .ir-score {
-    min-width: 40px;
-}
-.ir-course-standings .ir-letter {
-    width: 20px;
-}
-.ir-course-standings > tbody > tr > td.ir-seq-no {
+/* Create thick left border. .ir-seq-no is the first td or th in each row */
+.ir-course-standings .ir-seq-no {
+    border-left: 5px solid #ddd;
     text-align: right;
     padding-right: 4px;
-    vertical-align: top;
 }
-.ir-course-standings > tbody > tr > .ir-subgroup-1 {
+.ir-course-standings .ir-seq-no.ir-subgroup-1 {
     border-left-color: #F7EBAD;
 }
-.ir-course-standings > tbody > tr > .ir-subgroup-2 {
+.ir-course-standings .ir-seq-no.ir-subgroup-2 {
     border-left-color: #D9EDF7;
 }
-.ir-course-standings > tbody > tr > .ir-subgroup-3 {
+.ir-course-standings .ir-seq-no.ir-subgroup-3 {
     border-left-color: #e1b16a;
 }
-.ir-course-standings > tbody > tr > td.ir-seq-no .ir-row2 {
-    font-size: 12px;
-    color: #ddd;
+/* border between header and body */
+.ir-course-standings > tbody > tr:first-child > td {
+    border-top: 2px solid #ddd;
 }
-.ir-course-standings .ir-seq-no {
-    border-left-width: 5px;
-    border-left-color: #ddd;
-}
+/* highlight me */
 .ir-me > td, .ir-me > th {
-    background-color: #ffffcc !important;
+    background-color: #ffffcc;
 }
+/* usual cell */
+.ir-course-standings td, .ir-course-standings th {
+    border-right: 1px solid #ddd;
+}
+.ir-course-standings th {
+    border-bottom: 1px solid #ddd;
+    min-width: 2em;
+    vertical-align: top;
+    text-align: center;
+}
+.ir-course-standings th.ir-problem-name {
+    font-size: 10px;
+    text-align: left;
+    overflow: hidden;
+}
+/* scorebox */
 .ir-course-standings .ir-scorebox {
     min-width: 4em;
     border-radius: 2px;
@@ -137,6 +126,7 @@ body {
     color: white;
     background-color: #f0ad4e;
 }
+
 .ir-course-standings .ir-problem-summary {
     padding-left: 4px;
     padding-right: 4px;
@@ -144,6 +134,7 @@ body {
 .ir-course-standings .ir-problem-summary span {
     color: #aa6708;
 }
+
 .ir-stripe > .ir-box {
     border-radius: 0;
 }
@@ -158,6 +149,9 @@ body {
 .ir-stripe-wide {
     margin-left: 2px;
     margin-right: 2px;
+}
+.ir-course-standings > colgroup {
+    border-right: 2px solid #ddd;
 }
 
 /**
@@ -848,6 +842,10 @@ span.ir-absence {
     background-color: #dff0d8;
 }*/
 
+.ir-scorecell {
+    min-width: 3.0em;
+    max-width: 3.5em;
+}
 
 /**
  * Solutions

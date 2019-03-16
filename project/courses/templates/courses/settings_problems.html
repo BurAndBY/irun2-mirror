@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load irunner_courses %}
 {% load irunner_problems %}
+{% load bootstrap3 %}
 
 {% block submain %}
     <h3>{% trans 'Topics' %}</h3>
@@ -31,6 +32,24 @@
                             {% irunner_courses_criterion criterion True tooltip=True %}
                         {% endfor %}
                     </dd>
+
+                    <dt>{% trans 'Common problems' %}</dt>
+                    <dd>
+                        <ul class="list-unstyled">
+                            {% for problem in topic.get_common_problems %}
+                            <li>
+                                {% irunner_problems_difficulty problem.difficulty %}
+                                <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_full_name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{% url 'courses:settings:topic_common_problems' course.id topic.id %}" class="btn btn-xs btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
+                    </dd>
+
+                    {% if topic.deadline %}
+                        <dt>{% trans 'Deadline' %}</dt>
+                        <dd>{{ topic.deadline }}</dd>
+                    {% endif %}
                 </dl>
             </li>
         {% endfor %}

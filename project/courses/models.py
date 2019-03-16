@@ -94,6 +94,8 @@ class Topic(models.Model):
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
     problem_folder = models.ForeignKey(ProblemFolder, null=True, on_delete=models.SET_NULL, verbose_name=_('problem folder'))
     criteria = models.ManyToManyField(Criterion, blank=True, verbose_name=_('criteria'))
+    common_problems = models.ManyToManyField(Problem, blank=True, through='TopicCommonProblem')
+    deadline = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -103,6 +105,17 @@ class Topic(models.Model):
         if self.problem_folder is not None:
             problems = self.problem_folder.problem_set.all().order_by('number', 'subnumber')
         return problems
+
+    def get_common_problems(self):
+        return self.common_problems.order_by('link_to_topic')
+
+
+class TopicCommonProblem(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, related_name='link_to_topic')
+
+    class Meta:
+        ordering = ['id']
 
 
 class Slot(models.Model):

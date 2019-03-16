@@ -26,13 +26,17 @@ from courses.settings.forms import (
     QuizInstanceUpdateForm,
     SubgroupForm,
     TopicForm,
+    TopicCommonProblemsForm,
 )
 from courses.settings.forms import (
     TwoPanelProblemMultipleChoiceField,
     TwoPanelUserMultipleChoiceField,
 )
 from courses.settings.forms import create_member_subgroup_formset_class
-from courses.models import Membership
+from courses.models import (
+    Membership,
+    TopicCommonProblem,
+)
 from courses.views import BaseCourseView
 
 
@@ -448,6 +452,38 @@ class CourseSettingsProblemsJsonListView(CourseSettingsView):
     def get(self, request, course, folder_id):
         problems = Problem.objects.filter(folders__id=folder_id)
         return TwoPanelProblemMultipleChoiceField.ajax(problems)
+
+
+class CourseSettingsTopicCommonProblemsView(CourseSettingsView):
+    template_name = 'courses/settings_common_problems_edit.html'
+
+    def _create_form(self, course, topic_id, data=None):
+        topic = get_object_or_404(course.topic_set, pk=topic_id)
+        qs = topic.get_common_problems()
+        form = TopicCommonProblemsForm(data, initial={'common_problems': qs})
+        form.fields['common_problems'].widget.url_params = [course.id]
+        if data is None:
+            form.fields['common_problems'].queryset = qs
+        return form
+
+    def get(self, request, course, topic_id):
+        form = self._create_form(course, topic_id)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course, topic_id):
+        form = self._create_form(course, topic_id, request.POST)
+        if form.is_valid():
+            relations = [
+                TopicCommonProblem(topic_id=topic_id, problem=problem)
+                for problem in form.cleaned_data['common_problems']
+            ]
+            with transaction.atomic():
+                TopicCommonProblem.objects.filter(topic_id=topic_id).delete()
+                TopicCommonProblem.objects.bulk_create(relations)
+            return redirect('courses:settings:problems', course_id=course.id)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
 
 
 '''

@@ -133,7 +133,7 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
     '''
 
     classes = ['ir-box', 'ir-scorebox']
-    contents = '&mdash;'
+    contents = '&nbsp;'
 
     if judgement is not None:
         accepted = (judgement.outcome == Outcome.ACCEPTED)
@@ -144,7 +144,7 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
             classes.append('ir-scorebox-attempted')
 
         if accepted and hide_score_if_accepted:
-            contents = '&nbsp;'
+            pass
         else:
             if judgement.score == judgement.max_score:
                 contents = '{0}'.format(judgement.score)
@@ -152,6 +152,36 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
                 contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
 
     return mark_safe('<div class="{0}">{1}</div>'.format(' '.join(classes), contents))
+
+
+@register.simple_tag(takes_context=False)
+def irunner_solutions_scorecell(judgement=None):
+    '''
+    Displays score for a judgement.
+
+    args:
+        judgement
+    '''
+
+    classes = ['ir-scorecell']
+    contents = ''
+
+    if judgement is not None:
+        accepted = (judgement.outcome == Outcome.ACCEPTED)
+
+        if accepted:
+            classes.append('ir-scorebox-accepted')
+        else:
+            classes.append('ir-scorebox-attempted')
+
+        if judgement.score == judgement.max_score:
+            contents = '{0}'.format(judgement.score)
+        else:
+            contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
+    if contents:
+        return mark_safe('<td class="{}" title="{}"></td>'.format(' '.join(classes), contents))
+    else:
+        return mark_safe('<td class="{}"></td>'.format(' '.join(classes)))
 
 
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')

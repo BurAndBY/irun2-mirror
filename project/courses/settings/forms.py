@@ -66,7 +66,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ['name', 'problem_folder', 'criteria']
+        fields = ['name', 'problem_folder', 'criteria', 'deadline']
         widgets = {
             'criteria': forms.CheckboxSelectMultiple
         }
@@ -138,6 +138,13 @@ class CourseCommonProblemsForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['common_problems']
+
+
+class TopicCommonProblemsForm(forms.Form):
+    common_problems = TwoPanelProblemMultipleChoiceField(label=_('Problems'), required=False,
+                                                         model=Problem, folder_model=ProblemFolder,
+                                                         clean_to_list=True,
+                                                         url_pattern='courses:settings:problems_json_list')
 
 
 def create_member_subgroup_form_class(subgroups):

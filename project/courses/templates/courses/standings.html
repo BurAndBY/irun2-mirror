@@ -17,18 +17,29 @@
 {% endblock %}
 
 {% block main %}
-{% if course_descr.topic_descrs %}
+{% if course_descr.has_individual_problems %}
 <h4>{% trans 'Individual problems' %}</h4>
-<table class="table ir-table-more-condensed table-striped ir-course-standings">
+<table class="ir-table-more-condensed table-striped ir-course-standings">
+    <colgroup span="2">
+    {% for topic_descr in course_descr.topic_descrs %}
+        {% with topic_descr.slot_count as width %}
+        {% if width > 0 %}
+            <colgroup span="{{ topic_descr.slot_count }}">
+        {% endif %}
+        {% endwith %}
+    {% endfor %}
+    <colgroup span="2">
     <thead>
         <tr>
             <th class="ir-seq-no">{% trans '#' %}</th>
             <th>{% trans 'Student' %}</th>
             {% for topic_descr in course_descr.topic_descrs %}
-                {% with topic_descr.get_slot_count as width %}
+                {% with topic_descr.slot_count as width %}
+                {% if width > 0 %}
                     <th {% if width > 1 %}colspan="{{ width }}"{% endif %}>
                         <a href="{% url 'courses:course_problems_topic' course.id topic_descr.topic.id %}">{{ topic_descr.topic.name }}</a>
                     </th>
+                {% endif %}
                 {% endwith %}
             {% endfor %}
             <th>{% trans 'Problems' %}</th>
@@ -95,23 +106,44 @@
 </table>
 {% endif %}
 
-{% if course_descr.topic_descrs and course_descr.common_problems %}
-    <hr>
-{% endif %}
-
 {% if course_descr.common_problems %}
     <h4>{% trans 'Common problems' %}</h4>
     <table class="ir-table-more-condensed table-striped ir-course-standings">
+        <colgroup span="2">
+        <colgroup span="{{ course_descr.common_problem_count }}">
+        {% for topic_descr in course_descr.topic_descrs %}
+            <colgroup span="{{ topic_descr.common_problem_count }}">
+        {% endfor %}
+        <colgroup>
+
         <thead>
             <tr>
-                <th class="ir-seq-no">{% trans '#' %}</th>
-                <th>{% trans 'Student' %}</th>
+                <th class="ir-seq-no" rowspan="2">{% trans '#' %}</th>
+                <th rowspan="2">{% trans 'Student' %}</th>
                 {% for problem in course_descr.common_problems %}
-                    <th>
+                    <th rowspan="2" class="ir-scorecell ir-problem-name">
                         <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_short_name }}</a>
                     </th>
                 {% endfor %}
-                <th>{% trans 'Problems' %}</th>
+                {% for topic_descr in course_descr.topic_descrs %}
+                    {% with topic_descr.common_problem_count as width %}
+                    {% if width > 0 %}
+                        <th {% if width > 1 %}colspan="{{ width }}"{% endif %}>
+                            {{ topic_descr.topic.name }}
+                        </th>
+                    {% endif %}
+                    {% endwith %}
+                {% endfor %}
+                <th rowspan="2">{% trans 'Problems' %}</th>
+            </tr>
+            <tr>
+                {% for topic_descr in course_descr.topic_descrs %}
+                    {% for problem in topic_descr.common_problems %}
+                        <th class="ir-scorecell ir-problem-name">
+                            <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_short_name }}</a>
+                        </th>
+                    {% endfor %}
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
@@ -128,18 +160,12 @@
                         {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True %}
                     {% endif %}
                 </td>
-                {% for pr in user_result.common_problem_results %}
-                    <td class="text-nowrap ir-slot">
-                        {% spaceless %}
-                            <span class="ir-stripe">
-                                {% if pr and pr.was_submitted %}
-                                    {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=True %}
-                                {% else %}
-                                    {% irunner_solutions_scorebox %}
-                                {% endif %}
-                            </span>
-                        {% endspaceless %}
-                    </td>
+                {% for pr in user_result.get_all_common_problem_results %}
+                    {% if pr and pr.was_submitted %}
+                        {% irunner_solutions_scorecell pr.best_solution.best_judgement %}
+                    {% else %}
+                        {% irunner_solutions_scorecell %}
+                    {% endif %}
                 {% endfor %}
                 <td class="ir-problem-summary text-nowrap">
                     {{ user_result.get_complete_common_problem_count }}
