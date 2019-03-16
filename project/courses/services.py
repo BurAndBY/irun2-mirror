@@ -460,6 +460,13 @@ class CourseDescr(object):
         return False
 
     @property
+    def has_common_problems(self):
+        for topic in self.topic_descrs:
+            if topic.common_problem_count > 0:
+                return True
+        return False
+
+    @property
     def common_problem_count(self):
         return len(self.common_problems)
 
