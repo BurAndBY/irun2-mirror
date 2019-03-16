@@ -110,7 +110,9 @@
     <h4>{% trans 'Common problems' %}</h4>
     <table class="ir-table-more-condensed table-striped ir-course-standings">
         <colgroup span="2">
-        <colgroup span="{{ course_descr.common_problem_count }}">
+        {% if course_descr.common_problem_count > 0 %}
+            <colgroup span="{{ course_descr.common_problem_count }}">
+        {% endif %}
         {% for topic_descr in course_descr.topic_descrs %}
             {% with topic_descr.common_problem_count as width %}
             {% if width > 0 %}
