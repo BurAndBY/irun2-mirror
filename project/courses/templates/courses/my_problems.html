@@ -13,13 +13,28 @@
 <table class="ir-assignment">
     <tbody>
         {% for topic_result in user_result.topic_results %}
+            {% for problem_result in topic_result.common_problem_results %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ topic_result.common_problem_results|length }}" class="ir-topic">
+                            <div class="ir-topic-name">
+                                <strong>{{ topic_result.topic_descr.topic.name }}</strong><br><span class="text-muted">{% trans 'Common problems' %}</span>
+                            </div>
+                        </td>
+                    {% endif %}
+                    <td class="ir-slot-cell">
+                        {% irunner_courses_problemresult problem_result course.id %}
+                    </td>
+                </tr>
+            {% endfor %}
+
             {% with topic_result.get_slot_and_penalty_results as joint_results %}
                 {% for slot_result in joint_results %}
                     <tr>
                         {% if forloop.first %}
                             <td rowspan="{{ joint_results|length }}" class="ir-topic">
                                 <div class="ir-topic-name">
-                                    {{ topic_result.topic_descr.topic.name }}
+                                    <strong>{{ topic_result.topic_descr.topic.name }}</strong>
                                 </div>
                             </td>
                         {% endif %}
@@ -42,7 +57,7 @@
                     {% if forloop.first %}
                         <td rowspan="{{ user_result.common_problem_results|length }}" class="ir-topic">
                             <div class="ir-topic-name">
-                                {% trans 'Common problems' %}
+                                <span class="text-muted">{% trans 'Common problems' %}</span>
                             </div>
                         </td>
                     {% endif %}

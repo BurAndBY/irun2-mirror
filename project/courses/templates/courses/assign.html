@@ -50,7 +50,7 @@
                         {% if forloop.first %}
                             <td rowspan="{{ joint_results|length }}" class="ir-topic">
                                 <div class="ir-topic-name">
-                                    {{ topic_repr.topic_result.topic_descr.topic.name }}
+                                    <strong>{{ topic_repr.topic_result.topic_descr.topic.name }}</strong>
                                 </div>
                             </td>
                         {% endif %}
@@ -109,6 +109,27 @@
         </div>
     </div>
 </div>
+
+<table class="table table-bordered ir-assignment">
+    <tbody>
+        {% for topic_repr in data.topic_reprs %}
+            {% for problem_result in topic_repr.topic_result.common_problem_results %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ topic_repr.topic_result.common_problem_results|length }}" class="ir-topic">
+                            <div class="ir-topic-name">
+                                <strong>{{ topic_repr.topic_result.topic_descr.topic.name }}</strong><br><span class="text-muted">{% trans 'Common problems' %}</span>
+                            </div>
+                        </td>
+                    {% endif %}
+                    <td class="ir-slot-cell">
+                        {% irunner_courses_problemresult problem_result course.id %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 
 {% if common_problem_results %}
     <table class="table table-bordered ir-assignment">
