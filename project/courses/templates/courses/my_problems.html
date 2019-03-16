@@ -18,7 +18,11 @@
                     {% if forloop.first %}
                         <td rowspan="{{ topic_result.common_problem_results|length }}" class="ir-topic">
                             <div class="ir-topic-name">
-                                <strong>{{ topic_result.topic_descr.topic.name }}</strong><br><span class="text-muted">{% trans 'Common problems' %}</span>
+                                <strong>{{ topic_result.topic_descr.topic.name }}</strong><br>
+                                <span class="text-muted">{% trans 'Common problems' %}</span><br>
+                                {% if topic_result.topic_descr.topic.deadline %}
+                                    <span class="text-danger">{% trans 'Deadline' %}: {{ topic_result.topic_descr.topic.deadline|date:'SHORT_DATETIME_FORMAT' }}</span>
+                                {% endif %}
                             </div>
                         </td>
                     {% endif %}

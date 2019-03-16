@@ -133,7 +133,7 @@
                     {% with topic_descr.common_problem_count as width %}
                     {% if width > 0 %}
                         <th {% if width > 1 %}colspan="{{ width }}"{% endif %}>
-                            {{ topic_descr.topic.name }}
+                            {{ topic_descr.topic.name }}{% if topic_descr.topic.deadline %}<br><span class="text-danger">{% trans 'until' %} {{ topic_descr.topic.deadline|date:"SHORT_DATE_FORMAT" }}</span>{% endif %}
                         </th>
                     {% endif %}
                     {% endwith %}
@@ -166,7 +166,7 @@
                 </td>
                 {% for pr in user_result.get_all_common_problem_results %}
                     {% if pr and pr.was_submitted %}
-                        {% irunner_solutions_scorecell pr.best_solution.best_judgement %}
+                        {% irunner_solutions_scorecell pr.best_solution.best_judgement pr.accepted_before_deadline %}
                     {% else %}
                         {% irunner_solutions_scorecell %}
                     {% endif %}

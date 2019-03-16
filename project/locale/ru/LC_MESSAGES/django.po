@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-09 23:09+0300\n"
-"PO-Revision-Date: 2019-03-09 23:10+0300\n"
+"POT-Creation-Date: 2019-03-16 18:34+0300\n"
+"PO-Revision-Date: 2019-03-16 18:36+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -866,18 +866,6 @@ msgstr "Год обучения"
 msgid "Academic year"
 msgstr "Учебный год"
 
-msgid "Problem folder"
-msgstr "Папка с задачами"
-
-msgid "Problems to assign per student in the course"
-msgstr "Число задач для назначения студенту в курсе"
-
-msgid "Weight coefficient"
-msgstr "Весовой коэффициент"
-
-msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
-msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
-
 msgid "Topic"
 msgstr "Тема"
 
@@ -889,12 +877,6 @@ msgstr "Вложение"
 
 msgid "You can attach an arbitrary file to your message"
 msgstr "Вы можете прикрепить к сообщению произвольный файл"
-
-msgid "Students may join the queue."
-msgstr "Студенты могут записываться в очередь."
-
-msgid "Subgroup"
-msgstr "Подгруппа"
 
 msgid "Active courses"
 msgstr "Активные курсы"
@@ -1027,6 +1009,24 @@ msgstr "Студенты"
 
 msgid "Teachers"
 msgstr "Преподаватели"
+
+msgid "Problem folder"
+msgstr "Папка с задачами"
+
+msgid "Problems to assign per student in the course"
+msgstr "Число задач для назначения студенту в курсе"
+
+msgid "Weight coefficient"
+msgstr "Весовой коэффициент"
+
+msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
+msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
+
+msgid "Students may join the queue."
+msgstr "Студенты могут записываться в очередь."
+
+msgid "Subgroup"
+msgstr "Подгруппа"
 
 msgid "Student"
 msgstr "Студент"
@@ -1183,6 +1183,9 @@ msgstr[2] "%(counter)s сообщений"
 
 msgid "My problems"
 msgstr "Мои задачи"
+
+msgid "Deadline"
+msgstr "Крайний срок"
 
 msgid "Course problems"
 msgstr "Задачи по курсу"
@@ -1451,14 +1454,11 @@ msgstr "Журнал"
 msgid "Plagiarism"
 msgstr "Плагиат"
 
-msgid "Problem solving"
-msgstr "Решение задач"
-
-msgid "Solution"
-msgstr "Решение"
-
 msgid "Individual problems"
 msgstr "Индивидуальные задачи"
+
+msgid "until"
+msgstr "до"
 
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
@@ -2252,6 +2252,9 @@ msgstr "Командная строка компиляции"
 msgid "Run command line"
 msgstr "Командная строка запуска"
 
+msgid "No category"
+msgstr "Без категории"
+
 msgid "name for URL"
 msgstr "Название для URL"
 
@@ -2326,9 +2329,6 @@ msgstr "Выдать доступ к категории"
 
 msgid "New category"
 msgstr "Новая категория"
-
-msgid "No category"
-msgstr "Без категории"
 
 msgid "No categories available"
 msgstr "Доступных категорий нет"
@@ -2461,6 +2461,11 @@ msgstr "Добавить вариант ответа"
 
 msgid "Refresh preview"
 msgstr "Обновить превью"
+
+msgid "Single option left for the question that allows multiple options."
+msgstr ""
+"Задан только один вариант ответа для вопроса, в котором нужно выбирать "
+"вариант."
 
 msgid "not found"
 msgstr "не найдено"
@@ -2606,6 +2611,9 @@ msgstr "Сравнить"
 
 msgid "Unable to compare solutions."
 msgstr "Не удаётся сравнить решения."
+
+msgid "Solution"
+msgstr "Решение"
 
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
@@ -2763,6 +2771,9 @@ msgstr "Стиль"
 
 msgid "Test case is not available in the current problem version."
 msgstr "В текущей версии задачи тест недоступен."
+
+msgid "Accepted after deadline"
+msgstr "Принято после дедлайна"
 
 msgid "error while compiling checker"
 msgstr "ошибка компиляции программы проверки"
@@ -3164,6 +3175,9 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Problem solving"
+#~ msgstr "Решение задач"
 
 #~ msgid "Storage statistics"
 #~ msgstr "Статистика хранения"

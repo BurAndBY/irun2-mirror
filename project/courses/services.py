@@ -510,13 +510,16 @@ def _choose_better_solution(s1, s2):
 
 
 class ProblemResult(object):
-    def __init__(self, problem):
+    def __init__(self, problem, deadline=None):
         assert problem is not None
         self.problem = problem
+        self.deadline = deadline
+
         self.best_solution = None
         self.attempts = 0
         self.max_attempts = None
         self.solutions = []
+        self.accepted_before_deadline = self.deadline is None
 
     def register_solution(self, solution):
         if self.problem.id != solution.problem_id:
@@ -530,6 +533,9 @@ class ProblemResult(object):
             return
         if judgement.status != Judgement.DONE:
             return
+
+        if self.deadline is not None and solution.best_judgement.outcome == Outcome.ACCEPTED:
+            self.accepted_before_deadline |= (solution.reception_time < self.deadline)
 
         if self.best_solution is None:
             self.best_solution = solution
@@ -599,7 +605,7 @@ class TopicResult(object):
         self.topic_descr = topic_descr
         self.slot_results = [SlotResult(topic_descr, slot) for slot in topic_descr.slots]
         self.penalty_problem_results = []
-        self.common_problem_results = [ProblemResult(problem) for problem in topic_descr.common_problems]
+        self.common_problem_results = [ProblemResult(problem, deadline=topic_descr.topic.deadline) for problem in topic_descr.common_problems]
 
     def get_slot_and_penalty_results(self):
         return self.slot_results + self.penalty_problem_results

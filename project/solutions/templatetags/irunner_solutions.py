@@ -155,7 +155,7 @@ def irunner_solutions_scorebox(judgement=None, hide_score_if_accepted=False):
 
 
 @register.simple_tag(takes_context=False)
-def irunner_solutions_scorecell(judgement=None):
+def irunner_solutions_scorecell(judgement=None, accepted_before_deadline=True):
     '''
     Displays score for a judgement.
 
@@ -170,13 +170,16 @@ def irunner_solutions_scorecell(judgement=None):
         accepted = (judgement.outcome == Outcome.ACCEPTED)
 
         if accepted:
-            classes.append('ir-scorebox-accepted')
+            if accepted_before_deadline:
+                classes.append('ir-scorebox-accepted')
+                contents = _('Accepted')
+            else:
+                classes.append('ir-scorebox-accepted-after-deadline')
+                contents = _('Accepted after deadline')
         else:
             classes.append('ir-scorebox-attempted')
 
-        if judgement.score == judgement.max_score:
-            contents = '{0}'.format(judgement.score)
-        else:
+        if not contents and judgement.score != judgement.max_score:
             contents = '{0}&thinsp;/&thinsp;{1}'.format(judgement.score, judgement.max_score)
     if contents:
         return mark_safe('<td class="{}" title="{}"></td>'.format(' '.join(classes), contents))
