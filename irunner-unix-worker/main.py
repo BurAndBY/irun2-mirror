@@ -1,3 +1,4 @@
+import argparse
 import configparser
 import logging
 import random
@@ -31,8 +32,12 @@ def main():
     logging.info('Hello, Sir! It\'s test server.')
     worker_name = gen_name()
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('config', help='path to config file', default='config.ini', nargs='?')
+    args = parser.parse_args()
+
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(args.config)
 
     cache = Cache('cache')
 
