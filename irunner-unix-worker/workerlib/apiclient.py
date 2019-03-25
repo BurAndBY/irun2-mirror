@@ -3,6 +3,7 @@ import urllib
 import requests
 
 from requests.adapters import HTTPAdapter
+from requests.exceptions import Timeout
 from requests.packages.urllib3.util.retry import Retry
 
 from .resourceid import (
@@ -29,7 +30,11 @@ class IRunnerApiClient:
         self._set_up_retries(self._session)
 
     def wait_on_semaphore(self):
-        r = self._session.post(self._url('semaphore/wait'))
+        try:
+            r = self._session.post(self._url('semaphore/wait'), timeout=60.0)
+        except Timeout:
+            logging.warning('Semaphore request timeout')
+            return False
         return r.status_code == requests.codes.OK
 
     def take_job(self, cache):
