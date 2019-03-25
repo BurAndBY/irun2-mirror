@@ -61,6 +61,7 @@ from courses.models import (
     MailMessage,
     Membership,
     Topic,
+    TopicCommonProblem,
 )
 from courses.services import (
     UserCache,
@@ -392,6 +393,8 @@ class CourseStatementMixin(object):
             can_submit = any((x.user_id == me) for x in simple_assignments)
             if not can_submit:
                 can_submit |= self.course.common_problems.filter(pk=self.problem.id).exists()
+            if not can_submit:
+                can_submit |= TopicCommonProblem.objects.filter(topic__course=self.course, problem=self.problem).exists()
 
         if self.permissions.editorials:
             context['editorial_files'] = [
@@ -480,6 +483,9 @@ class CourseProblemsProblemView(ProblemStatementMixin, CourseStatementMixin, Bas
 
         # We show the problem if it is present in the list of common problems for course.
         if self.course.common_problems.filter(pk=problem_id).exists():
+            return True
+
+        if TopicCommonProblem.objects.filter(topic__course_id=course_id, problem_id=problem_id).exists():
             return True
 
         return False
