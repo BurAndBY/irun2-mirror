@@ -124,7 +124,13 @@ body {
 }
 .ir-course-standings .ir-scorebox-accepted-after-deadline {
     color: white;
-    background-color: #dff0d8;
+    background: repeating-linear-gradient(
+        -45deg,
+        #76d276,
+        #76d276 5px,
+        #dff0d8 5px,
+        #dff0d8 10px
+    );
 }
 .ir-course-standings .ir-scorebox-attempted {
     color: white;
