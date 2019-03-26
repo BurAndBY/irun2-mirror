@@ -1,8 +1,7 @@
-from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class ProgrammingLanguage(models.Model):
+class ProgrammingLanguage(object):
     UNKNOWN = ''
     C = 'c'
     CPP = 'cpp'
