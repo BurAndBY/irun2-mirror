@@ -7,6 +7,7 @@ from django.utils.encoding import force_text
 
 from common.constants import EMPTY_SELECT, make_empty_select
 from proglangs.models import Compiler
+from proglangs.langlist import ProgrammingLanguage
 from proglangs.utils import guess_filename
 from storage.validators import validate_filename
 
@@ -117,7 +118,7 @@ class AllSolutionsFilterForm(forms.Form):
 
     DEFAULT_COMPILER_CHOICES = (
         ('', make_empty_select(_('Language'))),
-        (_('language'), Compiler.LANGUAGE_CHOICES[1:]),
+        (_('language'), ProgrammingLanguage.CHOICES[1:]),
     )
     compiler = forms.ChoiceField(choices=DEFAULT_COMPILER_CHOICES, required=False)
 

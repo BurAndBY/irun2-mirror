@@ -31,6 +31,7 @@ from common.folderutils import ROOT
 from common.networkutils import redirect_with_query_string
 from common.outcome import Outcome
 from common.pageutils import paginate
+from proglangs.langlist import split_language_codes
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
 from solutions.models import Challenge, ChallengedSolution, Judgement, Rejudge
@@ -149,10 +150,12 @@ class ProblemOverviewView(BaseProblemView):
         problem = self._load(problem_id)
 
         context = self._make_context(problem)
+        extra = problem.extra
         context['test_count'] = problem.testcase_set.count()
         context['solution_count'] = problem.solution_set.count()
         context['file_count'] = problem.problemrelatedfile_set.count()
         context['folders'] = problem.folders.all()
+        context['allowed_programming_languages'] = list(split_language_codes(extra.allowed_programming_languages)) if extra else []
         return render(request, self.template_name, context)
 
 

@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load irunner_problems %}
+{% load irunner_proglangs %}
 {% load bootstrap3 %}
 
 {% block main %}
@@ -56,10 +57,10 @@
             <dt>{% trans 'Output' %}</dt>
             <dd>{% irunner_problems_outputfile problem.output_filename %}</dd>
 
-            <dt>{% trans 'Default time limit' %}</dt>
+            <dt>{% trans 'Time' %}</dt>
             <dd>{% irunner_problems_timelimit problem.get_default_time_limit %}</dd>
 
-            <dt>{% trans 'Default memory limit' %}</dt>
+            <dt>{% trans 'Memory' %}</dt>
             <dd>{% irunner_problems_memorylimit problem.get_default_memory_limit %}</dd>
         </dl>
 
@@ -73,6 +74,11 @@
                     {% if extra.hint %}
                         <dt>{% trans 'Hint' %}</dt>
                         <dd>{{ extra.hint }}</dd>
+                    {% endif %}
+
+                    {% if allowed_programming_languages %}
+                        <dt>{% trans 'Allowed languages' %}</dt>
+                        <dd>{% for lang in allowed_programming_languages %}{% irunner_proglangs_langbox lang %} {% endfor %}</dd>
                     {% endif %}
                 </dl>
             {% endif %}

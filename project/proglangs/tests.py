@@ -1,16 +1,16 @@
 from django.test import TestCase
 
-from proglangs.models import Compiler
+from proglangs.langlist import ProgrammingLanguage
 from proglangs.utils import guess_filename
 
 
 class GuessFilenameTests(TestCase):
     def test_java_1(self):
-        self.assertEqual(guess_filename(Compiler.JAVA, ''), None)
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, ''), None)
 
     def test_java_2(self):
         code = 'public class solution {}'
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'solution.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'solution.java')
 
     def test_java_3(self):
         code = '''
@@ -18,26 +18,26 @@ class GuessFilenameTests(TestCase):
         public class indic_sm extends Thread{
         }
         '''
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'indic_sm.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'indic_sm.java')
 
     def test_java_4(self):
         code = '''
         // public class Old implements Runnable {
         public class New implements Runnable {
         '''
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'New.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'New.java')
 
     def test_java_5(self):
         code = '''
         public   class BinaryTree <T extends Comparable <T>>  {
         '''
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'BinaryTree.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'BinaryTree.java')
 
     def test_java_6(self):
         code = '''
         public class BinaryTree<T extends Comparable <T>>  {
         '''
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'BinaryTree.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'BinaryTree.java')
 
     def test_java_7(self):
         code = '''\
@@ -59,4 +59,4 @@ public class Lab4 {
     }
 }
 '''
-        self.assertEqual(guess_filename(Compiler.JAVA, code), 'Lab4.java')
+        self.assertEqual(guess_filename(ProgrammingLanguage.JAVA, code), 'Lab4.java')

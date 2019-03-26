@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-16 18:34+0300\n"
-"PO-Revision-Date: 2019-03-16 18:36+0300\n"
+"POT-Creation-Date: 2019-03-26 12:13+0300\n"
+"PO-Revision-Date: 2019-03-26 12:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -872,6 +872,10 @@ msgstr "Тема"
 msgid "Attempt count limit is reached."
 msgstr "Достигнуто ограничение по числу попыток."
 
+#, python-format
+msgid "This problem must be solved in %(langs)s"
+msgstr "Эту задачу нужно решать на %(langs)s"
+
 msgid "Attachment"
 msgstr "Вложение"
 
@@ -1636,6 +1640,9 @@ msgstr "подсказка"
 msgid "number of sample tests"
 msgstr "число тестов-примеров"
 
+msgid "allowed programming languages"
+msgstr "разрешённые языки программирования"
+
 msgid "TeX statement (TeXtoHTML)"
 msgstr "Условие в формате TeX (TeXtoHTML)"
 
@@ -2045,14 +2052,14 @@ msgstr "Вход"
 msgid "Output"
 msgstr "Выход"
 
-msgid "Default time limit"
-msgstr "Ограничение по времени по умолчанию"
-
-msgid "Default memory limit"
-msgstr "Ограничение по памяти по умолчанию"
+msgid "Memory"
+msgstr "Память"
 
 msgid "Hint"
 msgstr "Подсказка"
+
+msgid "Allowed languages"
+msgstr "Разрешённые языки"
 
 msgid "file"
 msgid_plural "files"
@@ -2209,6 +2216,13 @@ msgstr "Создать папку"
 
 msgid "Folder properties"
 msgstr "Свойства папки"
+
+msgid "Possible choices"
+msgstr "Возможные варианты"
+
+#, python-format
+msgid "Unknown programming language code: %(code)s"
+msgstr "Неизвестный код языка программирования: %(code)s"
 
 msgid "Unknown"
 msgstr "Неизвестно"
@@ -2657,9 +2671,6 @@ msgstr "Посмотреть исходный код"
 
 msgid "Outcome"
 msgstr "Вердикт"
-
-msgid "Memory"
-msgstr "Память"
 
 msgid "Exit Code"
 msgstr "Код выхода"
@@ -3175,6 +3186,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Default time limit"
+#~ msgstr "Ограничение по времени по умолчанию"
+
+#~ msgid "Default memory limit"
+#~ msgstr "Ограничение по памяти по умолчанию"
 
 #~ msgid "Problem solving"
 #~ msgstr "Решение задач"

@@ -108,6 +108,7 @@ class ProblemExtraInfo(models.Model):
     default_time_limit = models.IntegerField(default=DEFAULT_TIME_LIMIT)
     default_memory_limit = models.IntegerField(default=DEFAULT_MEMORY_LIMIT)
     sample_test_count = models.IntegerField(_('number of sample tests'), default=0)
+    allowed_programming_languages = models.CharField(_('allowed programming languages'), max_length=255, null=False, blank=True)
 
 
 class ProblemRelatedFile(FileMetadataBase):

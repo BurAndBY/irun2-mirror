@@ -1,6 +1,8 @@
 from django import template
+from django.utils.html import format_html
 
 from proglangs.models import Compiler
+from proglangs.langlist import get_language_label
 
 register = template.Library()
 
@@ -23,3 +25,12 @@ def irunner_proglangs_commandlines(compilers, expanded=False):
         'compilers': [compilers] if isinstance(compilers, Compiler) else compilers,
         'expanded': expanded
     }
+
+
+@register.simple_tag()
+def irunner_proglangs_langbox(language):
+    return format_html(
+        '<div class="ir-box ir-langbox ir-langbox-{}"><span>{}</span></div>',
+        language,
+        get_language_label(language)
+    )

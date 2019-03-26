@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from problems.models import ProblemRelatedSourceFile
 from solutions.models import Judgement
-from proglangs.models import Compiler
+from proglangs.langlist import ProgrammingLanguage
 
 from api.worker import DefaultWorker, UnixWorker
 from api.objectinqueue import JudgementInQueue
@@ -24,7 +24,7 @@ def choose_workers(objs):
     unix_judgement_ids = set(
         Judgement.objects.
         filter(solution__problem__problemrelatedsourcefile__file_type=ProblemRelatedSourceFile.CHECKER).
-        filter(solution__problem__problemrelatedsourcefile__compiler__language=Compiler.PYTHON).
+        filter(solution__problem__problemrelatedsourcefile__compiler__language=ProgrammingLanguage.PYTHON).
         distinct().values_list('id', flat=True)
     )
 

@@ -1,6 +1,6 @@
 from collections import namedtuple, Counter
 
-from proglangs.models import get_language_label
+from proglangs.langlist import get_language_label
 from solutions.models import Judgement
 
 from .outcome import Outcome

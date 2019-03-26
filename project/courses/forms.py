@@ -22,6 +22,13 @@ from courses.models import (
 from courses.utils import (
     make_year_of_study_string, make_academic_year_string
 )
+from problems.models import (
+    ProblemExtraInfo,
+)
+from proglangs.langlist import (
+    split_language_codes,
+    get_language_label,
+)
 
 
 def make_year_of_study_choices():
@@ -86,6 +93,19 @@ class SolutionForm(solutions.forms.SolutionForm):
         if problem is not None:
             if self.attempt_limit_checker(problem):
                 raise forms.ValidationError(_('Attempt count limit is reached.'), code='limit')
+
+            compiler = cleaned_data.get('compiler')
+            if compiler is not None:
+                allowed_languages = ProblemExtraInfo.objects.filter(problem=problem).\
+                    values_list('allowed_programming_languages', flat=True).first()
+                if allowed_languages:
+                    codes = list(split_language_codes(allowed_languages))
+                    if compiler.language not in codes:
+                        err = forms.ValidationError(_('This problem must be solved in %(langs)s'),
+                                                    params={'langs': ', '.join(get_language_label(code) for code in codes)},
+                                                    code='language_restriction')
+                        self.add_error('compiler', err)
+
         return cleaned_data
 
 

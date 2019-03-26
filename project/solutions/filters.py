@@ -1,4 +1,4 @@
-from proglangs.models import Compiler
+from proglangs.langlist import ProgrammingLanguage
 
 from common.outcome import Outcome
 from .models import Judgement
@@ -43,7 +43,7 @@ def apply_state_filter(solution_queryset, value):
 def apply_compiler_filter(solution_queryset, value):
     if value:
         ok = False
-        for language, _ in Compiler.LANGUAGE_CHOICES:
+        for language, _ in ProgrammingLanguage.CHOICES:
             if language == value:
                 solution_queryset = solution_queryset.filter(compiler__language=language)
                 ok = True

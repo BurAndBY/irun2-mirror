@@ -9,7 +9,7 @@ from problems.models import (
     TestCaseValidation,
     Validation,
 )
-from proglangs.models import Compiler
+from proglangs.models import ProgrammingLanguage
 from solutions.models import (
     Judgement,
     TestCaseResult,
@@ -195,8 +195,8 @@ class JudgementInQueue(IObjectInQueue):
         checker = problem.problemrelatedsourcefile_set.filter(file_type=ProblemRelatedSourceFile.CHECKER).first()
         if checker is not None:
             kind = {
-                Compiler.CPP: WorkerChecker.TESTLIB_H,
-                Compiler.PYTHON: WorkerChecker.PYTEST,
+                ProgrammingLanguage.CPP: WorkerChecker.TESTLIB_H,
+                ProgrammingLanguage.PYTHON: WorkerChecker.PYTEST,
             }.get(checker.compiler.language, WorkerChecker.IRUNNER)
             wproblem.checker = WorkerChecker(checker, kind)
 

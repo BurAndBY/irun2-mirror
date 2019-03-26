@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from common.constants import EMPTY_SELECT
 from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from users.fields import UsernameField
+from proglangs.fields import ProgrammingLanguagesField
 
 from problems.problem.importing import extract_tests
 from problems.problem.fields import TimeLimitField, MemoryLimitField
@@ -62,10 +63,12 @@ class ProblemFoldersForm(forms.ModelForm):
 class ProblemExtraInfoForm(forms.ModelForm):
     default_time_limit = TimeLimitField(label=_('Time limit'), required=True)
     default_memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
+    allowed_programming_languages = ProgrammingLanguagesField(required=False)
 
     class Meta:
         model = ProblemExtraInfo
-        fields = ['sample_test_count', 'default_time_limit', 'default_memory_limit', 'description']
+        fields = ['sample_test_count', 'default_time_limit', 'default_memory_limit',
+                  'description', 'allowed_programming_languages']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
