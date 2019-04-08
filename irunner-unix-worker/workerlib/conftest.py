@@ -8,7 +8,7 @@ def pytest_addoption(parser):
     parser.addoption('--tests-dir', action='store', help='path to directory with tests')
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def solution(request):
     '''
     Path to solution file
