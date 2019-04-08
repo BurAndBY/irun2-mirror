@@ -161,6 +161,11 @@ class BaseTester:
             if test_case.find('failure') is not None:
                 outcome = Outcome.FAILED
                 traceback = test_case.find('failure').text
+                if traceback:
+                    tblines = traceback.splitlines()
+                    if len(tblines) > 0 and tblines[-1].startswith('E   Failed: Timeout >'):
+                        outcome = Outcome.TIME_LIMIT_EXCEEDED
+
             if test_case.find('error') is not None:
                 outcome = Outcome.CHECK_FAILED
                 traceback = test_case.find('error').text

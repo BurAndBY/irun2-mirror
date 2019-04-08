@@ -7,6 +7,7 @@ class Outcome(Enum):
     ACCEPTED = 1
     FAILED = 2
     CHECK_FAILED = 3
+    TIME_LIMIT_EXCEEDED = 4
 
 
 TestCaseResult = namedtuple('TestCaseResult', ['test_case', 'outcome', 'time_used', 'time_limit', 'message', 'traceback', 'stdout', 'stderr'])
