@@ -288,7 +288,7 @@ TEX_PARSER_INLINE = Lark(TEX_GRAMMAR, parser=PARSER, debug=DEBUG, start='phrase'
 
 
 def _make_error_page(tex, inline, u):
-    body = '{}: {}'.format(type(u).__name__, str(u))
+    body = '{}: {}'.format(type(u).__name__, u)
     if inline:
         body = body.splitlines()[0]
     return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', cgi.escape(body))
