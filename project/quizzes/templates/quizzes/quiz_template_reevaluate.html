@@ -1,0 +1,26 @@
+{% extends 'quizzes/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block main %}
+    <h3>{{ object.name }}</h3>
+    {% if changes %}
+        <ul>
+            {% for fromto, count in changes %}
+                <li>{{ fromto.0 }} → {{ fromto.1 }}: {{ count }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if not changes %}
+        <form method="post">
+            {% csrf_token %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">{% trans 'Re-evaluate' %}</button>
+                <a href="{% url 'quizzes:templates:detail' object.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+            {% endbuttons %}
+        </form>
+    {% else %}
+        <a href="{% url 'quizzes:templates:detail' object.id %}" class="btn btn-default">{% trans 'Done' %}</a>
+    {% endif %}
+{% endblock %}

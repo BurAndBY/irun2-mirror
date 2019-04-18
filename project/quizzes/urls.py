@@ -27,6 +27,7 @@ template_urlpatterns = [
     url(r'^new/$', views.QuizTemplateCreateView.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)/$', views.QuizTemplateDetailView.as_view(), name='detail'),
     url(r'^(?P<pk>[0-9]+)/edit/$', views.QuizTemplateUpdateView.as_view(), name='update'),
+    url(r'^(?P<pk>[0-9]+)/re-evaluate/$', views.QuizTemplateReEvaluateView.as_view(), name='reevaluate'),
     url(r'^(?P<pk>[0-9]+)/edit-groups/$', views.QuizTemplateEditGroupsView.as_view(), name='edit_groups'),
     url(r'^(?P<pk>[0-9]+)/sessions/$', views.QuizSessionListView.as_view(), name='sessions'),
     url(r'^(?P<pk>[0-9]+)/statistics/$', views.QuizStatisticsView.as_view(), name='statistics'),

@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.utils.encoding import force_text
 
 import json
+from collections import Counter
 
 from common.pageutils import paginate
 
@@ -106,6 +107,38 @@ class QuizTemplateDetailView(QuizAdminMixin, generic.DetailView):
         context = super(QuizTemplateDetailView, self).get_context_data(**kwargs)
         context['relations'] = GroupQuizRelation.objects.filter(template=self.object).select_related('group')
         return context
+
+
+class QuizTemplateReEvaluateView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
+    tab = Tabs.TEMPLATES
+    template_name = 'quizzes/quiz_template_reevaluate.html'
+    model = QuizTemplate
+
+    def get(self, request, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        context = self.get_context_data(object=quiz_template)
+        return render(request, self.template_name, context)
+
+    def _sessions_qs(self, quiz_template):
+        return QuizSession.objects.filter(quiz_instance__quiz_template=quiz_template)
+
+    def _fetch_results(self, quiz_template):
+        results = {}
+        for session_id, result in self._sessions_qs(quiz_template).filter(is_finished=True).values_list('pk', 'result'):
+            results[session_id] = result
+        return results
+
+    def post(self, request, pk):
+        quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        results_before = self._fetch_results(quiz_template)
+        self._sessions_qs(quiz_template).update(is_finished=False)
+        finish_overdue_sessions(self._sessions_qs(quiz_template))
+        results_after = self._fetch_results(quiz_template)
+        changes = Counter()
+        for session_id in results_before:
+            changes[(results_before.get(session_id, 0.), results_after.get(session_id, 0.))] += 1
+        context = self.get_context_data(object=quiz_template, changes=changes.items())
+        return render(request, self.template_name, context)
 
 
 class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):

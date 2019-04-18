@@ -22,6 +22,7 @@
 
     <div class="form-group">
         <a href="{% url 'quizzes:templates:update' object.id %}" class="btn btn-default">{% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span></a>
+        <a href="{% url 'quizzes:templates:reevaluate' object.id %}" class="btn btn-default">{% bootstrap_icon 'repeat' %} <span class="ir-icon-label">{% trans 'Re-evaluate' %}</span></a>
     </div>
 
     {% if relations %}
