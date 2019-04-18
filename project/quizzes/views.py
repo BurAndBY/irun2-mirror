@@ -131,7 +131,7 @@ class QuizTemplateReEvaluateView(QuizAdminMixin, generic.base.ContextMixin, gene
     def post(self, request, pk):
         quiz_template = get_object_or_404(QuizTemplate, pk=pk)
         results_before = self._fetch_results(quiz_template)
-        self._sessions_qs(quiz_template).update(is_finished=False)
+        self._sessions_qs(quiz_template).update(is_finished=False, score_policy=quiz_template.score_policy)
         finish_overdue_sessions(self._sessions_qs(quiz_template))
         results_after = self._fetch_results(quiz_template)
         changes = Counter()
