@@ -17,8 +17,8 @@ def escape_preparer(tex, inline):
     return escape(tex)
 
 
-def tex2html_preparer(tex, inline):
-    return mark_safe(tex2html(tex, inline=inline))
+def tex2html_preparer(tex, inline, throw=False):
+    return mark_safe(tex2html(tex, inline=inline, throw=throw))
 
 
 @register.inclusion_tag('quizzes/irunner_quizzes_showquestion.html')
@@ -54,8 +54,12 @@ def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None, se
                 answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
                                                  False, True, False))
         elif session_question.question.kind == Question.OPEN_ANSWER:
-            answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer, inline=False),
-                                             False, False, False))
+            try:
+                answers.append(SessionAnswerInfo(tex2html_preparer('' if answer.user_answer is None else answer.user_answer, inline=False, throw=True),
+                                                 False, False, False))
+            except:
+                answers.append(SessionAnswerInfo(escape_preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
+                                                 False, False, False))
         else:
             is_right = answer.is_chosen and answer.choice.is_right
             is_wrong = answer.is_chosen and not answer.choice.is_right
