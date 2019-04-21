@@ -8,7 +8,7 @@
 {% block head %}
     {% load static %}
     {% irunner_pylightex_head %}
-    <script src="{% static 'angular-1.2.0-rc.3/angular.min.js' %}"></script>
+    <script src="{% static 'angular-1.2.x/angular.min.js' %}"></script>
 {% endblock %}
 
 {% block main %}
@@ -125,7 +125,7 @@
         {% endbuttons %}
     </form>
 
-    <script src="{% static 'angular-1.2.0-rc.3/angular-sanitize.js' %}"></script>
+    <script src="{% static 'angular-1.2.x/angular-sanitize.min.js' %}"></script>
     {% if has_error %}
         <script>
         $(window).on('load',function(){
