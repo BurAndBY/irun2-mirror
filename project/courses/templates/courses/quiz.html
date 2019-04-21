@@ -99,6 +99,21 @@
                         </div>
 					</form>
 				</div>
+                <div class="col-xs-12 form-group" ng-hide="q.type !== 3">
+                    <button class="btn btn-default ir-inline-block" type="button" ng-click="updatePreview(q)">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                        <span class="ir-icon-label">{{langTags.refreshPreview}}</span>
+                    </button>
+                </div>
+                <div class="col-xs-12" ng-hide="q.type !== 3 || !previewText">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12" ng-bind-html="previewText"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
             <div class="row form-group">
                 <div class="col-sm-6 text-left">

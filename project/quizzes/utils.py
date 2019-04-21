@@ -165,6 +165,7 @@ def get_quiz_page_language_tags():
         'networkError': _('Network error'),
         'noTimeLeft': _('No time left'),
         'quizIsOver': _('Quiz is over'),
+        'refreshPreview': _('Refresh preview'),
     }
 
 

@@ -81,7 +81,7 @@ app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
-app.run(function ($rootScope, $http, $window, $interval, $timeout) {
+app.run(function ($rootScope, $http, $window, $interval, $timeout, $sce) {
     $rootScope.quizData = angular.fromJson(document.getElementById('quizData').value);
     $rootScope.langTags = angular.fromJson(document.getElementById('languageTags').value);
     $rootScope.urls = angular.fromJson(document.getElementById('urls').value);
@@ -89,11 +89,34 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
     $rootScope.chosen = null;
     $rootScope.unsetChosenWatchFunc = null;
     $rootScope.state = null;
+    $rootScope.previwText = null;
 
     $rootScope.formModifyHandler = function (newValue, oldValue) {
         if (oldValue !== newValue) {
             $rootScope.state.update(newValue);
         }
+    };
+
+    $rootScope.renderKaTeX = function(block) {
+        var dom = $('<div>').append($.parseHTML(block["html"]));
+        $("span.math", dom).katex({ displayMode: false });
+        $("div.math", dom).katex({ displayMode: true });
+        return $sce.trustAsHtml($(dom).html());
+    }
+
+    $rootScope.updatePreview = function (q) {
+        if (q.type !== 3) return;
+        var texBlocks = [{
+            tex: q.choices[0].userAnswer,
+            inline: false
+        }];
+
+        $http.post($rootScope.urls.update_preview, texBlocks).then(function(response) {
+            var results = response.data;
+            $rootScope.previewText = $rootScope.renderKaTeX(results[0]);
+        }, function (response, explicitCall) {
+            $rootScope.showErrorMessage(response.data, response.status, !explicitCall);
+        });
     };
 
     $rootScope.doSetChosen = function (q) {
@@ -102,6 +125,7 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         }
 
         $rootScope.chosen = q;
+        $rootScope.previewText = null;
         $rootScope.state = new State($http, $timeout, $rootScope.urls.save_answer,
             function (obj) {
                 return $rootScope.getRequestData(obj);
@@ -112,6 +136,9 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout) {
         );
 
         $rootScope.unsetChosenWatchFunc = $rootScope.$watch('chosen', $rootScope.formModifyHandler, true);
+        if (q.type === 3) {
+            $rootScope.updatePreview(q);
+        }
     };
     $rootScope.doSetChosen($rootScope.quizData.questions[0]);
 

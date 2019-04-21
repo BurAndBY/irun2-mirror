@@ -97,6 +97,7 @@ class CourseQuizzesSessionView(QuizMixin, BaseCourseView):
             'home': reverse('courses:quizzes:list', kwargs={'course_id': self.course.id}),
             'answers': reverse('courses:quizzes:answers',
                                kwargs={'course_id': self.course.id, 'session_id': session_id}),
+            'update_preview': reverse('quizzes:preview:render'),
         }
 
     @method_decorator(never_ever_cache)
