@@ -772,3 +772,13 @@ class UserResult(object):
         for topic_result in self.topic_results:
             for pr in topic_result.common_problem_results:
                 yield pr
+
+    def get_common_problem_points(self):
+        total_score = 0.
+        for pr in self.get_all_common_problem_results():
+            score = pr.problem.difficulty
+            if pr.is_ok() and score is not None:
+                if not pr.accepted_before_deadline:
+                    score *= 0.5
+                total_score += score
+        return total_score

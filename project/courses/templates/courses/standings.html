@@ -141,6 +141,7 @@
                     {% endwith %}
                 {% endfor %}
                 <th rowspan="2">{% trans 'Problems' %}</th>
+                <th rowspan="2">{% trans 'Points' %}</th>
             </tr>
             <tr>
                 {% for topic_descr in course_descr.topic_descrs %}
@@ -177,6 +178,9 @@
                 {% endfor %}
                 <td class="ir-problem-summary text-nowrap">
                     {{ user_result.get_complete_common_problem_count }}
+                </td>
+                <td class="ir-problem-summary text-nowrap">
+                    {{ user_result.get_common_problem_points }}
                 </td>
             </tr>
             {% endfor %}
