@@ -1,4 +1,4 @@
-{% extends 'courses/base.html' %}
+{% extends 'courses/base3pane.html' %}
 
 {% load bootstrap3 %}
 {% load i18n %}
@@ -16,8 +16,17 @@
     <script src="{% static 'bootstrap3-editable-1.5.1/js/bootstrap-editable.min.js' %}"></script>
 {% endblock %}
 
-{% block main %}
+{% block extrasidebar %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="bg-success h5 ir-res-legend ir-res-answer-correct">{% trans 'Correct' %}</div>
+        <div class="bg-danger h5 ir-res-legend ir-res-answer-wrong">{% trans 'Incorrect but chosen' %}</div>
+        <div class="bg-info h5 ir-res-legend ir-res-answer-notchosen">{% trans 'Correct but not chosen' %}</div>
+    </div>
+</div>
+{% endblock %}
 
+{% block main %}
     <div class="row">
         <div class="col-xs-12 text-center ir-res-meta">
             <div class="col-xs-12 h3">
@@ -58,13 +67,6 @@
             {% endif %}
         </div>
         <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col-sm-4 bg-success h5 ir-res-legend ir-res-answer-correct">{% trans 'Correct' %}</div>
-                    <div class="col-sm-4 bg-danger h5 ir-res-legend ir-res-answer-wrong">{% trans 'Incorrect but chosen' %}</div>
-                    <div class="col-sm-4 bg-info h5 ir-res-legend ir-res-answer-notchosen">{% trans 'Correct but not chosen' %}</div>
-                </div>
-            </div>
             {% for answer in quiz.answers %}
                 {% irunner_quizzes_showanswer answer forloop.counter save_mark_url sessionquestionanswer_cache=quiz.sessionquestionanswer_cache %}
             {% endfor %}

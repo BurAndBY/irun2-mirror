@@ -11,7 +11,7 @@
     {% if queues %}
         <div class="row">
             {% for queue_info in queues %}
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {% irunner_courses_showsubgroup queue_info.queue.subgroup_id user_cache %} {{ queue_info.queue }}

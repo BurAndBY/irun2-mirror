@@ -1,0 +1,5 @@
+{% extends 'courses/base3pane_.html' %}
+{# Workaround for "block appears more than once" #}
+{% block extrasidebarleft %}
+	{% block extrasidebar %}{% endblock %}
+{% endblock %}
