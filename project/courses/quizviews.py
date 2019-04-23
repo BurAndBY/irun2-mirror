@@ -389,7 +389,6 @@ class CourseQuizzesSubmitCommentView(QuizMixin, BaseCourseView):
     def post(self, request, course, session_id):
         form = QuizSessionCommentFakeForm(request.POST)
         if not form.is_valid():
-            print(form.errors)
             return redirect('courses:quizzes:answers', course.id, session_id)
         text = form.cleaned_data['comment_text']
         session = QuizSession.objects.filter(pk=session_id, quiz_instance__course=course).select_related('quiz_instance').first()
@@ -399,6 +398,5 @@ class CourseQuizzesSubmitCommentView(QuizMixin, BaseCourseView):
         if not session.is_finished:
             return redirect('courses:quizzes:list', course.id)
         if session.quiz_instance.enable_discussion or self.permissions.quizzes_admin:
-            comment = QuizSessionComment.objects.create(author=self.request.user, quiz_session=session, timestamp=timezone.now(), text=text)
-            comment.save()
+            QuizSessionComment.objects.create(author=self.request.user, quiz_session=session, timestamp=timezone.now(), text=text)
         return redirect('courses:quizzes:answers', course.id, session.id)
