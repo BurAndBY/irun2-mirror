@@ -1,0 +1,12 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% load irunner_courses %}
+
+<div class="ir-quiz-comment">
+    <div class="ir-quiz-comment-heading">
+        <span class="ir-quiz-comment-author">{% bootstrap_icon 'share-alt' %} {% irunner_courses_user_card comment.author_id user_cache %}</span>
+        <span class="ir-quiz-comment-date">{{ comment.timestamp }}</span>
+    </div>
+    <div class="ir-quiz-comment-body">{{ text|safe }}</div>
+</div>

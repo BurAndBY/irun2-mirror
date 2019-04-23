@@ -71,6 +71,44 @@
                 {% irunner_quizzes_showanswer answer forloop.counter save_mark_url sessionquestionanswer_cache=quiz.sessionquestionanswer_cache %}
             {% endfor %}
         </div>
+        {% if quiz.show_discussion %}
+            <div class="col-xs-12 h4">{% trans 'Discussion' %}</div>
+            <div class="col-xs-12">
+                {% for comment in quiz.comments %}
+                    {% irunner_quizzes_showcomment comment user_cache %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if quiz.enable_discussion %}
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {% bootstrap_icon 'share-alt' %} <a role="button" data-toggle="collapse" href="#commentForm">{% trans 'Join discussion' %}</a>
+                        </h4>
+                    </div>
+
+                    <div id="commentForm" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <form method="post" action="{% url 'courses:quizzes:submit_comment' course.id session.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea class="form-control" id="comment_text" name="comment_text" rows="5" required=""></textarea>
+                                </div>
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-primary">
+                                        {% trans 'Send' %}
+                                    </button>
+                                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#commentForm" aria-expanded="false" aria-controls="commentForm">
+                                        {% trans 'Cancel' %}
+                                    </button>
+                                {% endbuttons %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     {% if can_delete %}

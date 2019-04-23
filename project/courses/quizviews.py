@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,6 +19,7 @@ from quizzes.models import (
     QuizSession,
     SessionQuestion,
     SessionQuestionAnswer,
+    QuizSessionComment,
 )
 from quizzes.quizstructs import SaveAnswerMessage
 from quizzes.serializers import (
@@ -35,7 +37,7 @@ from quizzes.utils import (
 
 from courses.views import BaseCourseView, UserCacheMixinMixin
 
-from courses.forms import QuizMarkFakeForm
+from courses.forms import QuizMarkFakeForm, QuizSessionCommentFakeForm
 
 QuizInfo = namedtuple('QuizInfo', 'instance can_start attempts_left question_count sessions')
 SessionInfo = namedtuple('SessionInfo', 'session is_own result is_finished pending_manual_check')
@@ -171,6 +173,7 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
 
     def get_session_info(self, session):
         answers = session.sessionquestion_set.order_by('order').select_related('question')
+        comments = session.quizsessioncomment_set.order_by('timestamp')
         sessionquestion_ids = [sessionquestion.id for sessionquestion in answers]
         sessionquestionanswer_cache = {}
         for sqa in SessionQuestionAnswer.objects.\
@@ -197,6 +200,9 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             'points': round(points + eps, 1),
             'result_points': round(result_points + eps, 1),
             'sessionquestionanswer_cache': sessionquestionanswer_cache,
+            'enable_discussion': session.quiz_instance.enable_discussion or self.permissions.quizzes_admin,
+            'show_discussion': session.quiz_instance.enable_discussion or len(comments) > 0,
+            'comments': comments,
         }
         return info
 
@@ -373,3 +379,26 @@ class CourseQuizzesSaveMarkView(QuizMixin, BaseCourseView):
                         question.quiz_session.save()
                         return HttpResponse('OK')
         return HttpResponseBadRequest('Error')
+
+class CourseQuizzesSubmitCommentView(QuizMixin, BaseCourseView):
+    template_name = 'courses/quizzes_answers.html'
+
+    def is_allowed(self, permissions):
+        return permissions.quizzes or permissions.quizzes_admin
+
+    def post(self, request, course, session_id):
+        form = QuizSessionCommentFakeForm(request.POST)
+        if not form.is_valid():
+            print(form.errors)
+            return redirect('courses:quizzes:answers', course.id, session_id)
+        text = form.cleaned_data['comment_text']
+        session = QuizSession.objects.filter(pk=session_id, quiz_instance__course=course).select_related('quiz_instance').first()
+        if session is None or (session.user_id != self.request.user.id and not self.permissions.quizzes_admin):
+            return redirect('courses:quizzes:list', course.id)
+        finish_overdue_session(session)
+        if not session.is_finished:
+            return redirect('courses:quizzes:list', course.id)
+        if session.quiz_instance.enable_discussion or self.permissions.quizzes_admin:
+            comment = QuizSessionComment.objects.create(author=self.request.user, quiz_session=session, timestamp=timezone.now(), text=text)
+            comment.save()
+        return redirect('courses:quizzes:answers', course.id, session.id)

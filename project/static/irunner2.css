@@ -1932,6 +1932,24 @@ Green menu
     line-height: 100%;
     padding: 2px;
 }
+.ir-quiz-comment {
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.ir-quiz-comment-author {
+    float: left;
+}
+.ir-quiz-comment-date {
+    float: right;
+    color: #888;
+}
+.ir-quiz-comment-heading {
+    overflow: hidden;
+    padding-bottom: 10px;
+}
 
 /**
  * Violet menu

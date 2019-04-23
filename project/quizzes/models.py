@@ -115,6 +115,7 @@ class QuizInstance(models.Model):
     tag = models.CharField(_('tag'), max_length=100, null=False, blank=True)
     attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
     show_answers = models.BooleanField(_('show answers'), default=True)
+    enable_discussion = models.BooleanField(_('enable discussion'), default=False)
 
     def __str__(self):
         if self.tag:
@@ -182,3 +183,10 @@ class CategoryAccess(models.Model):
 
     class Meta:
         unique_together = ('category', 'user')
+
+
+class QuizSessionComment(models.Model):
+    quiz_session = models.ForeignKey(QuizSession, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    text = models.CharField(max_length=16383, null=False)
+    timestamp = models.DateTimeField()

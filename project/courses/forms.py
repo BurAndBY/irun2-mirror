@@ -194,3 +194,7 @@ class QueueEntryForm(forms.ModelForm):
 class QuizMarkFakeForm(forms.Form):
     value = forms.FloatField(required=True, localize=True)
     pk = forms.IntegerField(required=True)
+
+
+class QuizSessionCommentFakeForm(forms.Form):
+    comment_text = forms.CharField(required=True, max_length=16383)

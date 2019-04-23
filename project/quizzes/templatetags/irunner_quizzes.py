@@ -98,3 +98,16 @@ def irunner_quizzes_breadcrumbs(context, question=False):
             'question': question,
         }
     return {}
+
+
+@register.inclusion_tag('quizzes/irunner_quizzes_showcomment.html')
+def irunner_quizzes_showcomment(comment, user_cache):
+    try:
+        text = tex2html_preparer(comment.text, inline=False, throw=True)
+    except:
+        text = escape_preparer(comment.text, inline=True)
+    return {
+        'text': text,
+        'comment': comment,
+        'user_cache': user_cache,
+    }
