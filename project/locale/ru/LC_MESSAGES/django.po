@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 12:13+0300\n"
-"PO-Revision-Date: 2019-03-26 12:14+0300\n"
+"POT-Creation-Date: 2019-04-25 01:37+0300\n"
+"PO-Revision-Date: 2019-04-25 01:41+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1242,6 +1242,12 @@ msgstr "Вы используете устаревший браузер."
 msgid "You will not be able to pass a quiz using this browser."
 msgstr "Пройти тестирование в этом браузере не получится."
 
+msgid "no deadline"
+msgstr "нет крайнего срока"
+
+msgid "till"
+msgstr "до"
+
 #, python-format
 msgid "%(counter)s question"
 msgid_plural "%(counter)s questions"
@@ -1301,12 +1307,6 @@ msgstr "Тестов нет"
 msgid "Quiz answers"
 msgstr "Ответы на тест"
 
-msgid "Reviewer"
-msgstr "Проверяющий"
-
-msgid "Points"
-msgstr "Баллы"
-
 msgid "Correct"
 msgstr "Верно"
 
@@ -1315,6 +1315,24 @@ msgstr "Неверно, но выбрано"
 
 msgid "Correct but not chosen"
 msgstr "Верно, но не выбрано"
+
+msgid "Reviewer"
+msgstr "Проверяющий"
+
+msgid "Points"
+msgstr "Баллы"
+
+msgid "Finish time"
+msgstr "Время завершения"
+
+msgid "Quiz was finished after deadline."
+msgstr "Тест был завершён после дедлайна"
+
+msgid "Discussion"
+msgstr "Обсуждение"
+
+msgid "Join discussion"
+msgstr "Комментировать"
 
 msgid "Delete session"
 msgstr "Удалить сессию"
@@ -2329,6 +2347,12 @@ msgstr "метка"
 msgid "show answers"
 msgstr "показывать ответы"
 
+msgid "enable discussion"
+msgstr "включить обсуждение"
+
+msgid "disable time limit"
+msgstr "отключить ограничение по времени"
+
 msgid "Incorrect"
 msgstr "Неверно"
 
@@ -2389,6 +2413,9 @@ msgstr "Схема оценивания"
 msgid "Unlimited"
 msgstr "Без ограничений"
 
+msgid "Re-evaluate"
+msgstr "Переоценить"
+
 msgid "Edit groups"
 msgstr "Редактировать группы"
 
@@ -2437,6 +2464,12 @@ msgstr "Длительность сессий"
 msgid "min"
 msgstr "мин"
 
+msgid "No deadline"
+msgstr "Нет крайнего срока"
+
+msgid "Till"
+msgstr "До"
+
 msgid "Finish"
 msgstr "Завершить"
 
@@ -2455,6 +2488,9 @@ msgstr "Время вышло"
 msgid "Quiz is over"
 msgstr "Тестирование окончено"
 
+msgid "Refresh preview"
+msgstr "Обновить превью"
+
 msgid "Type the question text here..."
 msgstr "Введите текст вопроса..."
 
@@ -2472,9 +2508,6 @@ msgstr "Верно"
 
 msgid "Add choice"
 msgstr "Добавить вариант ответа"
-
-msgid "Refresh preview"
-msgstr "Обновить превью"
 
 msgid "Single option left for the question that allows multiple options."
 msgstr ""
