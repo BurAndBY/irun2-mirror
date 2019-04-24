@@ -109,7 +109,7 @@ class QuizInstanceCreateForm(forms.ModelForm):
 class QuizInstanceUpdateForm(forms.ModelForm):
     class Meta:
         model = QuizInstance
-        fields = ['tag', 'attempts', 'time_limit', 'show_answers', 'enable_discussion']
+        fields = ['tag', 'attempts', 'time_limit', 'deadline', 'disable_time_limit', 'show_answers', 'enable_discussion']
 
 
 class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):

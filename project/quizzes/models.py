@@ -116,6 +116,8 @@ class QuizInstance(models.Model):
     attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
     show_answers = models.BooleanField(_('show answers'), default=True)
     enable_discussion = models.BooleanField(_('enable discussion'), default=False)
+    disable_time_limit = models.BooleanField(_('disable time limit'), default=False)
+    deadline = models.DateTimeField(null=True, blank=True, default=None)
 
     def __str__(self):
         if self.tag:

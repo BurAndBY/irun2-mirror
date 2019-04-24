@@ -26,7 +26,17 @@
                     <div class="row">
                         <div class="col-md-3">
                             <ul class="ir-quiz-info-list">
-                                <li>{% irunner_timedelta_humanized quiz.instance.time_limit %}</li>
+                                {% if quiz.instance.disable_time_limit %}
+                                    <li>
+                                        {% if quiz.instance.deadline == None %}
+                                            {% trans 'no deadline' %}
+                                        {% else %}
+                                            {% trans 'till' %} {{quiz.instance.deadline}}
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li>{% irunner_timedelta_humanized quiz.instance.time_limit %}</li>
+                                {% endif %}
                                 <li>
                                     {% blocktrans count counter=quiz.question_count trimmed %}
                                         {{ counter }} question
@@ -68,7 +78,7 @@
                                                 <td>{{ session.start_time }}</td>
                                                 {% if session.is_finished %}
                                                     <td>{% irunner_timediff_hms session.start_time session.finish_time %}</td>
-                                                    <td>{% irunner_quizzes_mark session.result session.is_finished session.pending_manual_check %}</td>
+                                                    <td>{% irunner_quizzes_mark session.result session.is_finished session.pending_manual_check session.finish_time quiz.instance.deadline %}</td>
                                                     {% if quiz.instance.show_answers or permissions.quizzes_admin %}
                                                         <td><a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% trans 'Answers' %}</a></td>
                                                     {% else %}

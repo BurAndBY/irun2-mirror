@@ -203,6 +203,9 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             'enable_discussion': session.quiz_instance.enable_discussion or self.permissions.quizzes_admin,
             'show_discussion': session.quiz_instance.enable_discussion or len(comments) > 0,
             'comments': comments,
+            'no_time_limit': session.quiz_instance.disable_time_limit,
+            'after_deadline': session.quiz_instance.disable_time_limit and session.quiz_instance.deadline is not None
+                              and session.finish_time is not None and session.quiz_instance.deadline < session.finish_time
         }
         return info
 

@@ -36,7 +36,7 @@
                 <td>
                 {% for session in ur.sessions %}
                     {% if permissions.quizzes_admin and session.is_finished %}
-                        <a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% irunner_quizzes_mark session.result session.is_finished session.pending_manual_check %}</a>
+                        <a href="{% url 'courses:quizzes:answers' course.id session.id %}">{% irunner_quizzes_mark session.result session.is_finished session.pending_manual_check session.finish_time instance.deadline %}</a>
                     {% else %}
                         {% irunner_quizzes_mark session.result session.is_finished session.pending_manual_check %}
                     {% endif %}

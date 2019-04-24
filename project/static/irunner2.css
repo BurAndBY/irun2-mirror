@@ -1919,7 +1919,6 @@ Green menu
     line-height: 100%;
     padding: 2px;
 }
-
 .ir-quiz-pending-mark {
     display: inline-block;
     min-width: 2em;
@@ -1932,6 +1931,20 @@ Green menu
     line-height: 100%;
     padding: 2px;
 }
+.ir-quiz-pending-after-deadline-mark {
+    display: inline-block;
+    min-width: 2em;
+    font-size: 100%;
+    font-weight: bold;
+    background-color: rgb(242, 222, 222);
+    color: rgb(217, 83, 79);
+    text-align: center;
+    border-radius: 2px;
+    line-height: 100%;
+    padding: 2px;
+}
+
+
 .ir-quiz-comment {
     border: 1px solid #eee;
     border-left-width: 5px;

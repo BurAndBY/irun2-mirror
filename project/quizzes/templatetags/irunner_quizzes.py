@@ -79,9 +79,12 @@ def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None, se
 
 
 @register.simple_tag
-def irunner_quizzes_mark(result, is_finished=True, pending_manual_check=False):
+def irunner_quizzes_mark(result, is_finished=True, pending_manual_check=False, finish_time=None, deadline=None):
+    after_deadline = finish_time is not None and deadline is not None and finish_time > deadline
     value = int(result) if (result is not None and is_finished) else '?'
     if pending_manual_check:
+        if after_deadline:
+            return format_html('<div class="ir-quiz-pending-after-deadline-mark">{}</div>', value)
         return format_html('<div class="ir-quiz-pending-mark">{}</div>', value)
     return format_html('<div class="ir-quiz-mark">{}</div>', value)
 

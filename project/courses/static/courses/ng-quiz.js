@@ -151,6 +151,9 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout, $sce) {
         }
     };
     var updateTimeLeft = function () {
+        if ($rootScope.quizData.noTimeLimit) {
+            return;
+        }
         var secondsPassed = (Date.now() - $rootScope.initialTimestamp) * 0.001;
         $rootScope.quizData.timeLeft = $rootScope.initialTimeLeft - secondsPassed;
         if ($rootScope.quizData.timeLeft <= 0) {
@@ -159,7 +162,9 @@ app.run(function ($rootScope, $http, $window, $interval, $timeout, $sce) {
     };
     $rootScope.initialTimeLeft = $rootScope.quizData.timeLeft;
     $rootScope.initialTimestamp = Date.now();
-    var stopTimeLeft = $interval(updateTimeLeft, 1000);
+    if (!$rootScope.quizData.noTimeLimit) {
+        var stopTimeLeft = $interval(updateTimeLeft, 1000);
+    }
     $rootScope.setChosen = function (q) {
         $rootScope.state.finalize(function() {
             $rootScope.doSetChosen(q);

@@ -120,8 +120,9 @@
                     <button ng-class="{'btn': true, 'btn-default': !quizAnswered, 'btn-success': quizAnswered}" ng-click="saveChosen()">
                         <span class="glyphicon glyphicon-stop"></span> {{langTags.finish}}
                     </button>
-                    <span ng-show="quizData.timeLeft > 0" class="text-muted">{{quizData.timeLeft | secondsToDateTime | date:'HH:mm:ss'}}</span>
-                    <span ng-hide="quizData.timeLeft > 0" class="text-danger">{{langTags.noTimeLeft}}</span>
+                    <span ng-show="!quizData.noTimeLimit && quizData.timeLeft > 0" class="text-muted">{{quizData.timeLeft | secondsToDateTime | date:'HH:mm:ss'}}</span>
+                    <span ng-hide="quizData.noTimeLimit || quizData.timeLeft > 0" class="text-danger">{{langTags.noTimeLeft}}</span>
+                    <span ng-show="quizData.noTimeLimit" class="text-muted">{{quizData.deadline}}</span>
                 </div>
                 <div class="col-sm-6 text-right">
                     <div class="btn-group">

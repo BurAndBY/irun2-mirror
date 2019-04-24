@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.utils import timezone
 from django.db import transaction
 from django.utils.translation import ugettext as _
+from django.template import defaultfilters
 import random
 from collections import Counter
 
@@ -72,8 +73,16 @@ def get_quiz_data(session):
     quiz_data = {
         'id': session.id,
         'name': session.quiz_instance.quiz_template.name,
-        'timeLeft': (session.start_time + session.quiz_instance.time_limit - timezone.now()).total_seconds()
+        'timeLeft': None if session.quiz_instance.disable_time_limit
+                    else (session.start_time + session.quiz_instance.time_limit - timezone.now()).total_seconds(),
+        'noTimeLimit': session.quiz_instance.disable_time_limit,
     }
+    if session.quiz_instance.disable_time_limit:
+        if session.quiz_instance.deadline is None:
+            quiz_data['deadline'] = _('No deadline')
+        else:
+            tz = timezone.get_current_timezone()
+            quiz_data['deadline'] = _('Till') + ' ' + defaultfilters.date(session.quiz_instance.deadline.astimezone(tz), 'DATETIME_FORMAT')
     questions = []
     for q in session.sessionquestion_set.order_by('order').\
             select_related('question').prefetch_related('sessionquestionanswer_set', 'sessionquestionanswer_set__choice'):
@@ -102,7 +111,10 @@ def check_quiz_answers(session):
     session.result = calc_ten_point_grade(res, max_res)
     if not session.is_finished:
         session.is_finished = True
-        session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
+        if session.quiz_instance.disable_time_limit:
+            session.finish_time = timezone.now()
+        else:
+            session.finish_time = min(session.start_time + session.quiz_instance.time_limit, timezone.now())
     session.save()
 
 
@@ -117,8 +129,9 @@ def finish_overdue_sessions(sessions):
 
 
 def finish_overdue_session(session):
-    if not session.is_finished \
-            and timezone.now() - session.start_time > session.quiz_instance.time_limit:
+    if session.is_finished or session.quiz_instance.disable_time_limit:
+        return
+    if timezone.now() - session.start_time > session.quiz_instance.time_limit:
         check_quiz_answers(session)
 
 
