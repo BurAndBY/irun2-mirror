@@ -94,7 +94,7 @@
                         <div class="form-group" ng-switch-when="3">
                             <div ng-repeat="c in q.choices">
                                 <label class="sr-only" for="{{getInputId(c.id)}}"></label>
-                                <textarea class="form-control" rows="10" id="{{getInputId(c.id)}}" name="{{getInputName(q.id)}}" ng-model="c.userAnswer" maxlength="16383"></textarea>
+                                <textarea class="form-control" rows="10" id="{{getInputId(c.id)}}" name="{{getInputName(q.id)}}" ng-model="c.userAnswer" maxlength="65535"></textarea>
                             </div>
                         </div>
 					</form>

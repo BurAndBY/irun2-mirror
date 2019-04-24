@@ -108,7 +108,7 @@
                             <form method="post" action="{% url 'courses:quizzes:submit_comment' course.id session.id %}">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <textarea class="form-control" id="comment_text" name="comment_text" rows="5" required=""></textarea>
+                                    <textarea class="form-control" id="comment_text" name="comment_text" rows="5" required="" maxlength="65535"></textarea>
                                 </div>
                                 {% buttons %}
                                     <button type="submit" class="btn btn-primary">
