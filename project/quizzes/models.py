@@ -50,7 +50,7 @@ class Question(models.Model):
     )
 
     group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE)
-    text = models.CharField(max_length=16383)
+    text = models.TextField(max_length=65535)
     is_deleted = models.BooleanField(default=False)
     kind = models.IntegerField(choices=KIND_OF_CHOICES, default=SINGLE_ANSWER)
 
@@ -159,7 +159,7 @@ class SessionQuestion(models.Model):
 class SessionQuestionAnswer(models.Model):
     session_question = models.ForeignKey(SessionQuestion, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.PROTECT, null=True)
-    user_answer = models.CharField(max_length=16383, default=None, null=True)
+    user_answer = models.TextField(max_length=65535, default=None, null=True)
     is_chosen = models.BooleanField(default=False)
 
     def __str__(self):
@@ -190,5 +190,5 @@ class CategoryAccess(models.Model):
 class QuizSessionComment(models.Model):
     quiz_session = models.ForeignKey(QuizSession, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
-    text = models.CharField(max_length=16383, null=False)
+    text = models.TextField(max_length=65535, null=False)
     timestamp = models.DateTimeField()

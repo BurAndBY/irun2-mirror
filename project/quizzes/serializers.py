@@ -7,7 +7,7 @@ from quizzes.quizstructs import QuizAnswer, QuizAnswersData, SaveAnswerMessage, 
 class QuizAnswerSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, required=True)
     chosen = serializers.BooleanField(default=False)
-    user_answer = serializers.CharField(max_length=16383, default=None, allow_blank=True, allow_null=True)
+    user_answer = serializers.CharField(max_length=65535, default=None, allow_blank=True, allow_null=True)
 
 
 class QuizAnswersDataSerializer(serializers.Serializer):
@@ -34,7 +34,7 @@ class QuestionChoiceSerializer(serializers.Serializer):
 
 class QuestionDataSerializer(serializers.Serializer):
     id = serializers.IntegerField(min_value=0, default=None, required=False, allow_null=True)
-    text = serializers.CharField(required=True, max_length=16383)
+    text = serializers.CharField(required=True, max_length=65535)
     type = serializers.CharField(required=True)
     choices = serializers.ListField(child=QuestionChoiceSerializer())
 

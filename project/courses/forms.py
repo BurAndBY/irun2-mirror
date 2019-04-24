@@ -197,4 +197,4 @@ class QuizMarkFakeForm(forms.Form):
 
 
 class QuizSessionCommentFakeForm(forms.Form):
-    comment_text = forms.CharField(required=True, max_length=16383)
+    comment_text = forms.CharField(required=True, max_length=65535)
