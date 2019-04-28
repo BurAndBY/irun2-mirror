@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load staticfiles %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
+
+{% block content %}
+
+<table class="table table">
+{% for name, examples in sections %}
+    <tr>
+        <th colspan="2" class="text-center active">{{ name }}</th>
+    </tr>
+    <tr>
+        <th>Разметка</th>
+        <th>{% trans 'Result' %}</th>
+    </tr>
+    {% for markup, result in examples %}
+        <tr>
+            <td><div class="pylightex"><div class="verbatim">{{ markup }}</div></div></td>
+            <td><div class="pylightex">{{ result }}</div></td>
+        </tr>
+    {% endfor %}
+{% endfor %}
+</table>
+
+{% irunner_pylightex_body %}
+
+{% endblock %}
