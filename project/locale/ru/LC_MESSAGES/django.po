@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-25 01:37+0300\n"
-"PO-Revision-Date: 2019-04-25 01:41+0300\n"
+"POT-Creation-Date: 2019-04-30 11:24+0300\n"
+"PO-Revision-Date: 2019-04-30 11:26+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1586,6 +1586,15 @@ msgstr "Пожалуйста, установите новый пароль вм�
 msgid "Interface language"
 msgstr "Язык интерфейса"
 
+msgid "Introduction to TeX markup"
+msgstr "Введение в TeX-разметку"
+
+msgid "Table of contents"
+msgstr "Содержание"
+
+msgid "Markup"
+msgstr "Разметка"
+
 msgid "Wiki"
 msgstr "Вики"
 
@@ -2490,6 +2499,9 @@ msgstr "Тестирование окончено"
 
 msgid "Refresh preview"
 msgstr "Обновить превью"
+
+msgid "Help on TeX markup"
+msgstr "Справка по TeX-разметке"
 
 msgid "Type the question text here..."
 msgstr "Введите текст вопроса..."

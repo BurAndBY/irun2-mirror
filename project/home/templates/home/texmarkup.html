@@ -10,13 +10,23 @@
 
 {% block content %}
 
+{% blocktrans asvar the_title %}Introduction to TeX markup{% endblocktrans %}
+<h1>{{ the_title|stylizetex }}</h1>
+
+<h3>{% trans 'Table of contents' %}</h3>
+<ol>
+    {% for name, examples in sections %}
+        <li><a href="#section{{ forloop.counter }}">{{ name }}</a></li>
+    {% endfor %}
+</ol>
+
 <table class="table table">
 {% for name, examples in sections %}
     <tr>
-        <th colspan="2" class="text-center active">{{ name }}</th>
+        <th colspan="2" class="text-center active" id="section{{ forloop.counter }}">{{ name }}</th>
     </tr>
     <tr>
-        <th>Разметка</th>
+        <th>{% trans 'Markup' %}</th>
         <th>{% trans 'Result' %}</th>
     </tr>
     {% for markup, result in examples %}

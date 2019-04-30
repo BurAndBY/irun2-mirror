@@ -179,6 +179,7 @@ def get_quiz_page_language_tags():
         'noTimeLeft': _('No time left'),
         'quizIsOver': _('Quiz is over'),
         'refreshPreview': _('Refresh preview'),
+        'helpOnMarkup': _('Help on TeX markup'),
     }
 
 
