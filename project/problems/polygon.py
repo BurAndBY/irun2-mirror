@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 
 import zipfile
 import xml.etree.ElementTree as ET
@@ -40,7 +40,7 @@ def load_source_file(myzip, elem, problem, file_type, compiler):
     related_file.save()
 
 
-def load_statement(myzip, problem, language):
+def load_html_statement(myzip, problem, language):
     prefix = 'statements/.html/{0}/'.format(language)
     for path in myzip.namelist():
         if path.startswith(prefix):
@@ -61,6 +61,58 @@ def load_statement(myzip, problem, language):
             store_and_fill_metadata(fd, related_file)
             related_file.full_clean()
             related_file.save()
+
+
+def load_tex_statement(myzip, problem, language):
+    lines = []
+
+    def load(fn):
+        name = 'statement-sections/{0}/{1}'.format(language, fn)
+        try:
+            return myzip.read(name).decode('utf-8')
+        except (KeyError, UnicodeDecodeError):
+            return
+
+    def add(fn, section):
+        data = load(fn)
+        if data is None:
+            return
+        if section:
+            lines.append('')
+            lines.append('\\{}'.format(section))
+        lines.append(data)
+
+    add('legend.tex', '')
+    add('input.tex', 'InputFile')
+    add('output.tex', 'OutputFile')
+
+    example_lines = []
+    i = 0
+    while True:
+        i += 1
+        inp = load('example.{:02d}'.format(i))
+        ans = load('example.{:02d}.a'.format(i))
+        if inp and ans:
+            example_lines.append('\\exmp{{{}}}{{{}}}'.format(inp, ans))
+        else:
+            break
+
+    if example_lines:
+        lines.append('')
+        lines.append('\\Example' if len(example_lines) == 1 else '\\Examples')
+        lines.append('\\begin{example}')
+        lines.extend(example_lines)
+        lines.append('\\end{example}')
+
+    add('notes.tex', 'Note')
+
+    if lines:
+        tex_data = ''.join('{}\n'.format(line) for line in lines)
+        related_file = ProblemRelatedFile(problem=problem, file_type=ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX)
+        fd = ContentFile(tex_data, name='statement.tex')
+        store_and_fill_metadata(fd, related_file)
+        related_file.full_clean()
+        related_file.save()
 
 
 def parse_archive(myzip, language, compiler, user):
@@ -132,8 +184,8 @@ def parse_archive(myzip, language, compiler, user):
         for validator in root.findall('assets/validators/validator'):
             load_source_file(myzip, validator, problem, ProblemRelatedSourceFile.VALIDATOR, compiler)
 
-    load_statement(myzip, problem, language)
-
+    load_html_statement(myzip, problem, language)
+    load_tex_statement(myzip, problem, language)
     return problem
 
 
