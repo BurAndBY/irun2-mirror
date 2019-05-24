@@ -642,11 +642,12 @@ class ProblemSolvingMark(object):
         self.topic_results = topic_results
 
     def get_mark(self):
-        if len(self.topic_results) == 0:
-            return 0
-
         sum_values = 0
+        num_values = 0
+
         for topic_result in self.topic_results:
+            if not topic_result.slot_results:
+                continue
             best = 0
             for slot_result in topic_result.slot_results:
                 if slot_result.is_complete():
@@ -654,8 +655,11 @@ class ProblemSolvingMark(object):
                     if d is not None:
                         best = max(best, d)
             sum_values += best
+            num_values += 1
 
-        return int(round(1.0 * sum_values / len(self.topic_results)))
+        if num_values > 0:
+            return int(round(1.0 * sum_values / num_values + 1.e-6))
+        return 0
 
 
 class UserResult(object):
