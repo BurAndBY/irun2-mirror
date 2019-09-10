@@ -11,7 +11,7 @@
     <small>{% trans 'Coach' %}: {{ coach.full_name }}</small>
 </h1>
 
-<form method="post" class="ir-compact-form">
+<form method="post" class="ir-compact-form" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form_errors team_form %}
     <div class="row">
