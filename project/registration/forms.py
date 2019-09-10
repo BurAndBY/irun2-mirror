@@ -18,6 +18,11 @@ from .models import (
     IcpcContestant,
 )
 
+FAKE_MESSAGES = [
+    _('Ex.'),
+    _('Format'),
+]
+
 
 def _format_example(key, value):
     return '{}: {}'.format(smart_text(gettext(key)), value)
