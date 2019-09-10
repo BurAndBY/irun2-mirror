@@ -46,6 +46,7 @@ EXTERNAL_LINKS = [
 ADMINS = [('Sergei Sobol', 'sergei_sobol@tut.by')]
 
 SERVER_EMAIL = 'irunner.2@ya.ru'
+DEFAULT_FROM_EMAIL = 'iRunner 2 <{}>'.format(SERVER_EMAIL)
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465

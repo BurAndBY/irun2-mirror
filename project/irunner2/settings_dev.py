@@ -35,3 +35,5 @@ STORAGE_DIR = os.path.join(BASE_DIR, os.pardir, 'filestorage')
 # Worker
 
 WORKER_TOKEN = 'abacaba'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

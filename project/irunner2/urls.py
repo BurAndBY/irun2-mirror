@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^compilers/', include('proglangs.urls', namespace='proglangs')),
     url(r'^contests/', include('contests.urls', namespace='contests')),
     url(r'^courses/', include('courses.urls', namespace='courses')),
+    url(r'^events/', include('events.urls', namespace='events')),
     url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
     url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),

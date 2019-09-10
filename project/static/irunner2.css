@@ -199,6 +199,14 @@ h3 { font-size: 20px; line-height: 32px; }
     padding-right: 2px;
 }
 
+.ir-compact-form .form-group {
+    margin-bottom: 8px;
+}
+
+.ir-compact-form .help-block {
+    margin-bottom: 0;
+}
+
 .ir-compact-table {
     font-size: 13px;
     line-height: normal;

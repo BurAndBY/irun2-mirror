@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Events' %}{% endblock %}</h1>
+
+    <div class="form-group">
+        <a href="{% url 'events:manage:new' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New event' %}</span></a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{% trans 'Event' %}</th>
+                <th>{% trans 'Name' %}</th>
+                <th>{% trans 'Name' %} (en)</th>
+                <th>{% trans 'External link' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in object_list %}
+                <tr>
+                    <td><a href="{% url 'events:manage:update' event.slug %}">{{ event.slug }}</a></td>
+                    <td>{{ event.local_name }}</td>
+                    <td>{{ event.en_name }}</td>
+                    <td><a href="{% url 'events:home' event.slug %}">{% url 'events:home' event.slug %}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

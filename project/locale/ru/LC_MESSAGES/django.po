@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-30 11:24+0300\n"
-"PO-Revision-Date: 2019-04-30 11:26+0300\n"
+"POT-Creation-Date: 2019-09-10 14:42+0300\n"
+"PO-Revision-Date: 2019-09-10 14:43+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -975,7 +975,7 @@ msgid "absence"
 msgstr "отсутствие"
 
 msgid "attachment"
-msgstr "Вложение"
+msgstr "вложение"
 
 msgid "queue is active"
 msgstr "очередь активна"
@@ -1326,7 +1326,7 @@ msgid "Finish time"
 msgstr "Время завершения"
 
 msgid "Quiz was finished after deadline."
-msgstr "Тест был завершён после дедлайна"
+msgstr "Тест был завершён после дедлайна."
 
 msgid "Discussion"
 msgstr "Обсуждение"
@@ -1513,6 +1513,45 @@ msgstr "Попробуйте отправить решение после %(ts)s
 
 msgid "The number of attempts is not limited."
 msgstr "Число попыток не ограничено."
+
+msgid "name for URL"
+msgstr "название для URL"
+
+msgid "Short Latin name to use in page links"
+msgstr "Короткое латинское название для использования в ссылках на страницы"
+
+msgid "name in local language"
+msgstr "название на местном языке"
+
+msgid "name in English"
+msgstr "название на английском"
+
+msgid "descripion in local language"
+msgstr "описание на местном языке"
+
+msgid "descripion in English"
+msgstr "описание на английском"
+
+msgid "registration is available"
+msgstr "доступна регистрация"
+
+msgid "Register as Coach"
+msgstr "Зарегистрироваться как тренер"
+
+msgid "Edit event"
+msgstr "Редактировать событие"
+
+msgid "Events"
+msgstr "События"
+
+msgid "New event"
+msgstr "Новое событие"
+
+msgid "Event"
+msgstr "Событие"
+
+msgid "External link"
+msgstr "Внешняя ссылка"
 
 msgid "message body"
 msgstr "тело сообщения"
@@ -2296,12 +2335,6 @@ msgstr "Командная строка запуска"
 msgid "No category"
 msgstr "Без категории"
 
-msgid "name for URL"
-msgstr "Название для URL"
-
-msgid "Short Latin name to use in page links"
-msgstr "Короткое латинское название для использования в ссылках на страницы"
-
 msgid "Category"
 msgstr "Категория"
 
@@ -2525,6 +2558,136 @@ msgid "Single option left for the question that allows multiple options."
 msgstr ""
 "Задан только один вариант ответа для вопроса, в котором нужно выбирать "
 "вариант."
+
+msgid "Ex."
+msgstr "Пр."
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Own university"
+msgstr "Своего университета"
+
+msgid "Belarusian State University"
+msgstr "Белорусского государственного университета"
+
+msgid "Ask about near venues"
+msgstr "Запросить варианты участия у организаторов"
+
+msgid "Official (diplomas, personal invitation)"
+msgstr "Конкурсно (борется за дипломы олимпиады, персональную квоту)"
+
+msgid "Hors concours"
+msgstr "Вне конкурса"
+
+msgid "Bachelor"
+msgstr "Бакалавриат"
+
+msgid "Specialist"
+msgstr "Специалитет"
+
+msgid "Master"
+msgstr "Магистратура"
+
+msgid "PhD"
+msgstr "Аспирантура"
+
+msgid "Female"
+msgstr "Женский"
+
+msgid "Male"
+msgstr "Мужской"
+
+msgid "e-mail"
+msgstr "e-mail"
+
+msgid "first name"
+msgstr "имя"
+
+msgid "last name"
+msgstr "фамилия"
+
+msgid "university"
+msgstr "университет"
+
+msgid "team name"
+msgstr "название команды"
+
+msgid "participation venue"
+msgstr "команда участвует на площадке"
+
+msgid "participation type"
+msgstr "команда участвует"
+
+msgid "date of birth"
+msgstr "дата рождения"
+
+msgid "study program"
+msgstr "учебная программа"
+
+msgid "program start year"
+msgstr "год начала обучения"
+
+msgid "graduation year"
+msgstr "планируемый год окончания обучения"
+
+msgid "sex"
+msgstr "пол"
+
+msgid "Coach registration"
+msgstr "Регистрация тренера"
+
+msgid "Please fill the form in English."
+msgstr "Пожалуйста, заполните форму на английском."
+
+msgid "A letter will be sent to confirm your e-mail address."
+msgstr "Для подтверждения почтового адреса будет отправлено письмо."
+
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgid ""
+"Check your mailbox and follow the instructions to continue registration."
+msgstr ""
+"Проверьте почту и следуйте дальнейшим инструкциям для продолжения "
+"регистрации."
+
+msgid "Unable to end e-mail. Please verify your address and try again later."
+msgstr ""
+"Не удалось отправить e-mail. Проверьте ваш адрес электронной почты и "
+"попробуйте снова."
+
+msgid "Coach"
+msgstr "Тренер"
+
+msgid "New team"
+msgstr "Новая команда"
+
+msgid "No teams"
+msgstr "Команд нет"
+
+#, python-format
+msgid ""
+"%(full_name)s,\n"
+"\n"
+"You have been registered as a coach. To edit your team data, use the "
+"following link:\n"
+"%(link)s\n"
+"\n"
+"--\n"
+"iRunner 2\n"
+msgstr ""
+"%(full_name)s,\n"
+"\n"
+"Вы зарегистрированы в качестве тренера. Чтобы редактировать данные команд, "
+"перейдите по ссылке:\n"
+"%(link)s\n"
+"\n"
+"--\n"
+"iRunner 2\n"
+
+msgid "Registration"
+msgstr "Регистрация"
 
 msgid "not found"
 msgstr "не найдено"
@@ -3332,9 +3495,6 @@ msgstr ""
 #~ msgid "No solutions selected"
 #~ msgstr "Решения не выбраны"
 
-#~ msgid "Mass registration"
-#~ msgstr "Массовая регистрация"
-
 #~ msgid "Mass user registration"
 #~ msgstr "Массовая регистрация пользователей"
 
@@ -3394,12 +3554,6 @@ msgstr ""
 
 #~ msgid "List of Solutions"
 #~ msgstr "Список решений"
-
-#~ msgid "last name"
-#~ msgstr "фамилия"
-
-#~ msgid "first name"
-#~ msgstr "имя"
 
 #~ msgid "Management"
 #~ msgstr "Управление"

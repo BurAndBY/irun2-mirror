@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h4>{{ event.name }}</h4>
+<h1>{% block title %}{% trans 'Coach registration' %}{% endblock %}</h1>
+
+<p>{% trans 'Please fill the form in English.' %}</p>
+<p>{% trans 'A letter will be sent to confirm your e-mail address.' %}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
+        <a href="{% url 'events:home' event.slug %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

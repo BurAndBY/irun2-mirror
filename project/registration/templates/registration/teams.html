@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+
+<h4>{{ event.name }}</h4>
+<h1>{% block title %}{{ coach.university }}{% endblock %}
+    <small>{% trans 'Coach' %}: {{ coach.full_name }}</small>
+</h1>
+
+<p><a href="{% url 'events:create_team' slug coach_id %}" class="btn btn-default">
+    {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New team' %}</span>
+</a></p>
+
+{% if teams %}
+    <ul>
+        {% for team in teams %}
+            <li><a href="{% url 'events:update_team' slug coach_id_str team.id %}">{{ team.name }}</a>
+                <span class="text-muted">({{ team.participants }})</span></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="ir-absence">{% trans 'No teams' %}</div>
+{% endif %}
+
+{% endblock %}

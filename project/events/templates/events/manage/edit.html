@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Edit event' %}{% endblock %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+            <a href="{% url 'events:manage:list' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

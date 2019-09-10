@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h4>{{ event.name }}</h4>
+<h1>{% block title %}{{ coach.university }}{% endblock %}
+    <small>{% trans 'Coach' %}: {{ coach.full_name }}</small>
+</h1>
+
+<form method="post" class="ir-compact-form">
+    {% csrf_token %}
+    {% bootstrap_form_errors team_form %}
+    <div class="row">
+        {% for field in team_form %}
+        <div class="col-md-4 col-sm-4">
+            {% bootstrap_field field %}
+        </div>
+        {% endfor %}
+    </div>
+
+    {{ contestant_formset.management_form }}
+    <div class="row">
+        {% for form in contestant_formset %}
+        <div class="col-md-4 col-sm-4">
+            <h3>{% trans 'Contestant' %} {% trans '#' %}{{ forloop.counter }}</h3>
+            {% bootstrap_form form %}
+        </div>
+        {% endfor %}
+    </div>
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% trans 'Save' %}
+        </button>
+        <a href="{% url 'events:list_teams' event.slug coach_id_str %}" class="btn btn-link">
+            {% trans 'Cancel' %}
+        </a>
+    {% endbuttons %}
+</form>
+{% endblock %}

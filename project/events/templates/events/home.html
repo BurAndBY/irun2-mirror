@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+    <img class="img-responsive" src="{% static 'icpc-logo.png' %}"></img>
+    <h1>{% block title %}{{ object.name }}{% endblock %}</h1>
+    {{ object.description|urlize|linebreaks }}
+
+    {% if object.is_registration_available %}
+        <a href="{% url 'events:register_coach' object.slug %}" class="btn btn-primary btn-lg">
+            {% trans 'Register as Coach' %}
+        </a>
+    {% endif %}
+{% endblock %}

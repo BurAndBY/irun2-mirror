@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h4>{{ event.name }}</h4>
+<h1>{% block title %}{% trans 'Coach registration' %}{% endblock %}</h1>
+
+{% if sent %}
+    <p>{% trans 'Check your mailbox and follow the instructions to continue registration.' %}</p>
+{% else %}
+    <p>{% trans 'Unable to end e-mail. Please verify your address and try again later.' %}</p>
+{% endif %}
+
+{% buttons %}
+    {% if sent %}
+        <a href="{% url 'events:home' event.slug %}" class="btn btn-default">OK</a>
+    {% else %}
+        <a href="javascript:history.back()" class="btn btn-default">{% trans 'Back' %}</a>
+    {% endif %}
+{% endbuttons %}
+
+{% endblock %}
