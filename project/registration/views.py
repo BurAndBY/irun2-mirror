@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_text
 from django.utils.translation import gettext, gettext_lazy
 from django.views import generic
 
@@ -48,8 +48,8 @@ iRunner 2
 
 
 def _send_link_to_email(event, coach, link):
-    subject = '{}: {}'.format(smart_text(gettext('Registration')), event.name)
-    message = LETTER % {
+    subject = '{}: {}'.format(force_text(gettext('Registration')), event.name)
+    message = force_text(LETTER) % {
         'full_name': coach.full_name,
         'link': link,
     }
