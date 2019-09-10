@@ -13,6 +13,7 @@ CONTESTANTS_PER_TEAM = 3
 MAX_NAME_LENGTH = 50
 MAX_ENUM_LENGTH = 16
 MAX_TITLE_LENGTH = 255
+MAX_EMAIL_LENGTH = 100
 
 PARTICIPATION_VENUE_CHOICES = [
     ('OWN', _('Own university')),
@@ -41,7 +42,7 @@ SEX_CHOICES = [
 class IcpcCoach(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(_('e-mail'), unique=True)
+    email = models.EmailField(_('e-mail'), unique=True, max_length=MAX_EMAIL_LENGTH)
     first_name = models.CharField(_('first name'), max_length=MAX_NAME_LENGTH)
     last_name = models.CharField(_('last name'), max_length=MAX_NAME_LENGTH)
     university = models.CharField(_('university'), max_length=MAX_NAME_LENGTH)
@@ -61,7 +62,7 @@ class IcpcTeam(models.Model):
 
 class IcpcContestant(models.Model):
     team = models.ForeignKey(IcpcTeam, on_delete=models.CASCADE)
-    email = models.EmailField(_('e-mail'))
+    email = models.EmailField(_('e-mail'), max_length=MAX_EMAIL_LENGTH)
     first_name = models.CharField(_('first name'), max_length=MAX_NAME_LENGTH)
     last_name = models.CharField(_('last name'), max_length=MAX_NAME_LENGTH)
     date_of_birth = models.DateField(_('date of birth'))

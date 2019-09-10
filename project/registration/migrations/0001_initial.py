@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='IcpcCoach',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('email', models.EmailField(max_length=254, unique=True, verbose_name='e-mail')),
+                ('email', models.EmailField(max_length=100, unique=True, verbose_name='e-mail')),
                 ('first_name', models.CharField(max_length=50, verbose_name='first name')),
                 ('last_name', models.CharField(max_length=50, verbose_name='last name')),
                 ('university', models.CharField(max_length=50, verbose_name='university')),
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             name='IcpcContestant',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(max_length=254, verbose_name='e-mail')),
+                ('email', models.EmailField(max_length=100, verbose_name='e-mail')),
                 ('first_name', models.CharField(max_length=50, verbose_name='first name')),
                 ('last_name', models.CharField(max_length=50, verbose_name='last name')),
                 ('date_of_birth', models.DateField(verbose_name='date of birth')),
