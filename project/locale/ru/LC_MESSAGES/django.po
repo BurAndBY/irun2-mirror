@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-10 14:42+0300\n"
-"PO-Revision-Date: 2019-09-10 14:43+0300\n"
+"POT-Creation-Date: 2019-09-10 18:37+0300\n"
+"PO-Revision-Date: 2019-09-10 18:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2559,11 +2559,14 @@ msgstr ""
 "Задан только один вариант ответа для вопроса, в котором нужно выбирать "
 "вариант."
 
-msgid "Ex."
-msgstr "Пр."
+msgid "Program start year"
+msgstr "Год начала обучения"
 
-msgid "Format"
-msgstr "Формат"
+msgid "Graduation year"
+msgstr "Планируемый год окончания обучения"
+
+msgid "Date of birth"
+msgstr "Дата рождения"
 
 msgid "Own university"
 msgstr "Своего университета"
@@ -3394,6 +3397,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Ex."
+#~ msgstr "Пр."
+
+#~ msgid "Format"
+#~ msgstr "Формат"
 
 #~ msgid "Default time limit"
 #~ msgstr "Ограничение по времени по умолчанию"

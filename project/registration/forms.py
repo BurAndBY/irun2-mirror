@@ -6,8 +6,8 @@ import six
 
 from django import forms
 from django.utils.functional import lazy
-from django.utils.text import format_lazy
 from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django.utils.encoding import smart_text
 
 from common.constants import EMPTY_SELECT
@@ -62,9 +62,10 @@ class IcpcTeamForm(forms.ModelForm):
 
 
 class IcpcContestantForm(forms.ModelForm):
-    program_start_year = forms.TypedChoiceField(coerce=int, choices=_year_choices(-6, +1))
-    graduation_year = forms.TypedChoiceField(coerce=int, choices=_year_choices(-1, +6))
+    program_start_year = forms.TypedChoiceField(label=_('Program start year'), coerce=int, choices=_year_choices(-6, +1))
+    graduation_year = forms.TypedChoiceField(label=_('Graduation year'), coerce=int, choices=_year_choices(-1, +6))
     date_of_birth = forms.DateField(
+        label=_('Date of birth'),
         widget=forms.DateInput(format='%Y-%m-%d'),
         input_formats=['%Y-%m-%d'],
         help_text=_fmt('YYYY-MM-DD'),
