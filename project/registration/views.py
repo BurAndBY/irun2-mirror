@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import logging
-import shortuuid
 import smtplib
 
 from django import forms
@@ -32,7 +31,7 @@ from events.mixins import EventMixin
 def _create_coach_dashboard_link(request, event, coach):
     url = reverse('events:list_teams', kwargs={
         'slug': event.slug,
-        'coach_id': shortuuid.encode(coach.id)
+        'coach_id': coach.human_readable_id,
     })
     return request.build_absolute_uri(url)
 

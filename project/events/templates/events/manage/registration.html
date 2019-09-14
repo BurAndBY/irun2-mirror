@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% block title %}{% trans 'Registration' %}{% endblock %}</h1>
+
+    <h2>{% trans 'Coaches' %}</h2>
+
+    <table class="table">
+        <thead>
+            <th>{% trans '#' %}</th>
+            <th>{% trans 'E-mail' %}</th>
+            <th>{% trans 'Link' %}</th>
+            <th>{% trans 'Name' context 'person' %}</th>
+            <th>{% trans 'University' %}</th>
+            <th>{% trans 'Teams' %}</th>
+        </thead>
+        <tbody>
+            {% for coach in coaches %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td class="ir-monospace">{{ coach.email }}</td>
+                    <td><a href="{% url 'events:list_teams' event.slug coach.human_readable_id %}">{{ coach.human_readable_id }}</a></td>
+                    <td>{{ coach.full_name }}</td>
+                    <td>{{ coach.university }}</td>
+                    <td>{{ coach.num_teams }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>{% trans 'Teams' %}</h2>
+    <a href="{% url 'events:manage:registration_csv' event.slug %}">CSV</a>
+{% endblock %}

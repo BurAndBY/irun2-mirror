@@ -7,7 +7,9 @@ from . import manageviews
 manage_urlpatterns = [
     url(r'^$', manageviews.ListEventsView.as_view(), name='list'),
     url(r'^new/$', manageviews.CreateEventView.as_view(), name='new'),
-    url(r'^update/(?P<slug>.*)/$', manageviews.UpdateEventView.as_view(), name='update'),
+    url(r'^(?P<slug>.*)/update/$', manageviews.UpdateEventView.as_view(), name='update'),
+    url(r'^(?P<slug>.*)/registration/$', manageviews.EventRegistrationView.as_view(), name='registration'),
+    url(r'^(?P<slug>.*)/registration/teams\.csv$', manageviews.TeamsCsvView.as_view(), name='registration_csv'),
 ]
 
 event_urlpatterns = [

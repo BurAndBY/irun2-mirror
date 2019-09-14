@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-10 18:57+0300\n"
-"PO-Revision-Date: 2019-09-10 18:38+0300\n"
+"POT-Creation-Date: 2019-09-14 16:50+0300\n"
+"PO-Revision-Date: 2019-09-14 16:51+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1553,6 +1553,28 @@ msgstr "Событие"
 msgid "External link"
 msgstr "Внешняя ссылка"
 
+msgid "Registration"
+msgstr "Регистрация"
+
+msgid "Coaches"
+msgstr "Тренеры"
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Link"
+msgstr "Ссылка"
+
+msgctxt "person"
+msgid "Name"
+msgstr "Имя"
+
+msgid "University"
+msgstr "Университет"
+
+msgid "Teams"
+msgstr "Команды"
+
 msgid "message body"
 msgstr "тело сообщения"
 
@@ -2694,9 +2716,6 @@ msgstr ""
 "\n"
 "--\n"
 "iRunner 2\n"
-
-msgid "Registration"
-msgstr "Регистрация"
 
 msgid "not found"
 msgstr "не найдено"

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import uuid
+import shortuuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -51,6 +52,10 @@ class IcpcCoach(models.Model):
     def full_name(self):
         full_name = '{} {}'.format(self.first_name, self.last_name)
         return full_name.strip()
+
+    @property
+    def human_readable_id(self):
+        return shortuuid.encode(self.id)
 
 
 class IcpcTeam(models.Model):
