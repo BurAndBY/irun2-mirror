@@ -22,6 +22,7 @@ from .models import (
 )
 from .forms import (
     IcpcCoachForm,
+    IcpcCoachUpdateForm,
     IcpcTeamForm,
     IcpcContestantForm,
 )
@@ -81,6 +82,17 @@ class RegisterCoachView(EventMixin, generic.CreateView):
 
         context = self.get_context_data(sent=sent, email=coach.email)
         return render(self.request, self.result_template_name, context)
+
+
+class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
+    form_class = IcpcCoachUpdateForm
+    template_name = 'registration/update_coach.html'
+
+    def get_object(self):
+        return self.coach
+
+    def get_success_url(self):
+        return reverse('events:list_teams', kwargs={'slug': self.event.slug, 'coach_id': self.coach_id_str})
 
 
 class ListTeamsView(EventMixin, CoachMixin, generic.TemplateView):

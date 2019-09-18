@@ -57,6 +57,17 @@ class IcpcCoachForm(forms.ModelForm):
         }
 
 
+class IcpcCoachUpdateForm(forms.ModelForm):
+    class Meta:
+        model = IcpcCoach
+        fields = ['first_name', 'last_name', 'university']
+        help_texts = {
+            'first_name': _ex('Ivan'),
+            'last_name': _ex('Ivanov'),
+            'university': _ex('Bytelandian State University'),
+        }
+
+
 class IcpcTeamForm(forms.ModelForm):
     class Meta:
         model = IcpcTeam

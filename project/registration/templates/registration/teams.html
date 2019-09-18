@@ -10,9 +10,14 @@
     <small>{% trans 'Coach' %}: {{ coach.full_name }}</small>
 </h1>
 
-<p><a href="{% url 'events:create_team' slug coach_id %}" class="btn btn-default">
-    {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New team' %}</span>
-</a></p>
+<p>
+    <a href="{% url 'events:update_coach' slug coach_id %}" class="btn btn-default">
+        {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
+    </a>
+    <a href="{% url 'events:create_team' slug coach_id %}" class="btn btn-default">
+        {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New team' %}</span>
+    </a>
+</p>
 
 {% if teams %}
     <ul>
