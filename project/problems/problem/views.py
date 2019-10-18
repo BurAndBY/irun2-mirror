@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import collections
 import json
 import mimetypes
-import six
 import zipfile
 
 from django.contrib import messages
@@ -13,7 +12,7 @@ from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F, Count, ProtectedError, Case, When
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from django.utils import timezone
@@ -120,7 +119,7 @@ class BaseProblemView(LoginRequiredMixin, SingleProblemPermissionCheckMixin, gen
     def _load(self, problem_id):
         return get_object_or_404(Problem.objects.select_related('extra'), pk=problem_id)
 
-    def _make_context(self, problem, extra=None):
+    def _make_context(self, problem, aux_data=None):
         tab_manager = TabManager(PROBLEM_TABS, self.permissions)
         active_tab = tab_manager.get(self.tab)
         active_tab_url_pattern = active_tab.url_pattern if active_tab is not None else 'problems:overview'
@@ -133,8 +132,8 @@ class BaseProblemView(LoginRequiredMixin, SingleProblemPermissionCheckMixin, gen
             'active_tab_url_pattern': active_tab_url_pattern,
             'permissions': self.permissions,
         }
-        if extra is not None:
-            context.update(extra)
+        if aux_data is not None:
+            context.update(aux_data)
         return context
 
 
@@ -151,7 +150,7 @@ class ProblemOverviewView(BaseProblemView):
         problem = self._load(problem_id)
 
         context = self._make_context(problem)
-        extra = problem.extra
+        extra = problem.get_extra()
         context['test_count'] = problem.testcase_set.count()
         context['solution_count'] = problem.solution_set.count()
         context['file_count'] = problem.problemrelatedfile_set.count()
