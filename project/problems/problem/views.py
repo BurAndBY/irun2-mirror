@@ -65,6 +65,7 @@ from problems.problem.permissions import SingleProblemPermissions
 from problems.problem.utils import register_new_test
 from problems.problem.tabs import PROBLEM_TABS, TabManager
 from problems.problem.validation import revalidate_testset
+from problems.problem.zipsaver import ZipSaver
 
 from problems.description import IDescriptionImageLoader, render_description
 from problems.forms import (
@@ -197,23 +198,12 @@ class ProblemSolutionsProcessView(BaseProblemView):
             filter(pk__in=solution_ids).\
             select_related('source_code')
 
-        # Open StringIO to grab in-memory ZIP contents
-        s = six.StringIO()
-
-        storage = create_storage()
-
-        # The zip compressor
-        with zipfile.ZipFile(s, 'w') as zf:
+        zs = ZipSaver('solutions-{}.zip'.format(problem.id))
+        with zs.writer() as wr:
             for solution in solutions:
-                blob, is_complete = storage.read_blob(solution.source_code.resource_id, max_size=max_size)
-                if is_complete:
-                    fn = '{0}/{1}'.format(solution.id, solution.source_code.filename)
-                    zf.writestr(fn, blob)
-
-        # Grab ZIP file from in-memory, make response with correct MIME-type
-        response = HttpResponse(s.getvalue(), content_type='application/x-zip-compressed')
-        response['Content-Disposition'] = 'attachment; filename="solutions-{0}.zip"'.format(problem.id)
-        return response
+                fn = '{0}/{1}'.format(solution.id, solution.source_code.filename)
+                wr.add(solution.source_code.resource_id, fn, max_size)
+        return zs.serve()
 
     def _rejudge(self, problem, solutions):
         with transaction.atomic():
@@ -759,6 +749,22 @@ class ProblemTestsBatchDeleteView(ProblemTestsBatchSetView):
             for test_id in test_ids:
                 no += 1
                 TestCase.objects.filter(pk=test_id, problem=problem).update(ordinal_number=no)
+
+
+class ProblemTestsDownloadArchiveView(BaseProblemView):
+    def get(self, request, problem_id):
+        max_size = 32 * 1024 * 1024
+
+        problem = self._load(problem_id)
+        test_numbers = make_int_list_quiet(request.GET.getlist('id'))
+        tests = problem.testcase_set.filter(ordinal_number__in=test_numbers)
+
+        zs = ZipSaver('tests-{}.zip'.format(problem.id))
+        with zs.writer() as wr:
+            for test in tests:
+                wr.add(test.input_resource_id, '{:02}'.format(test.ordinal_number), max_size)
+                wr.add(test.answer_resource_id, '{:02}.a'.format(test.ordinal_number), max_size)
+        return zs.serve()
 
 
 class ProblemTestsUploadArchiveView(BaseProblemView):

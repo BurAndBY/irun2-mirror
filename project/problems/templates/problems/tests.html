@@ -68,6 +68,7 @@
                 <li><a href="#" id="ir_set_memory_limit">{% trans 'Set memory limit' %}</a></li>
                 <li><a href="#" id="ir_set_points">{% trans 'Set points' %}</a></li>
                 <li><a href="#" id="ir_delete">{% trans 'Delete' %}</a></li>
+                <li><a href="#" id="ir_download">{% trans 'Download archive' %}</a></li>
             </ul>
         </div>
         {% endif %}
@@ -167,6 +168,10 @@
         $("#ir_delete").click(function(e) {
             e.preventDefault();
             irPerformActionOnSelected("{% url 'problems:tests_mass_delete' problem.id %}{{ navigator.query_string }}");
+        });
+        $("#ir_download").click(function(e) {
+            e.preventDefault();
+            irPerformActionOnSelected("{% url 'problems:tests_batch_download' problem.id %}");
         });
     });
 </script>
