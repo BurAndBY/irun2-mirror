@@ -15,7 +15,7 @@ def make_teams_csv(event):
 
     fields = ['coach_email', 'coach_first_name', 'coach_last_name', 'university', 'team_name', 'participation_venue', 'participation_type']
     for i in range(3):
-        for field in ['first_name', 'last_name', 'date_of_birth', 'study_program', 'program_start_year', 'graduation_year', 'sex']:
+        for field in ['email', 'first_name', 'last_name', 'date_of_birth', 'study_program', 'program_start_year', 'graduation_year', 'sex']:
             fields.append('contestant_{}_{}'.format(i + 1, field))
 
     si = six.BytesIO()
@@ -38,6 +38,7 @@ def make_teams_csv(event):
 
         for i, contestant in enumerate(contestants):
             subrow = {
+                'email': contestant.email,
                 'first_name': contestant.first_name,
                 'last_name': contestant.last_name,
                 'date_of_birth': six.text_type(contestant.date_of_birth),
