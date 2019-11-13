@@ -29,4 +29,7 @@ def calculate_permissions(solution, user):
     if user.is_staff:
         permissions.set_all()
 
+    if in_course == SolutionAccessLevel.FULL:
+        permissions.plagiarism = True
+
     return (permissions, SolutionEnvironment(in_course.course, in_contest.contest, in_problem.has_problem))
