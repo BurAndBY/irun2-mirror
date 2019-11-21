@@ -2,7 +2,7 @@ from contests.calcpermissions import calculate_contest_solution_access_level
 from courses.calcpermissions import calculate_course_solution_access_level
 from problems.calcpermissions import calculate_problem_solution_access_level
 
-from .permissions import SolutionAccessLevel, SolutionPermissions, SolutionEnvironment
+from solutions.permissions import SolutionAccessLevel, SolutionPermissions, SolutionEnvironment
 
 
 def calculate_permissions(solution, user):
