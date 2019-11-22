@@ -3,72 +3,53 @@
 {% load irunner_solutions %}
 
 {% if test_results %}
-
-<table class="table ir-table-more-condensed" id="{{ uid }}">
-    <thead>
-        <tr>
-            {# always 8 columns #}
-            <th class="ir-col-no">{% trans '#' %}</th>
-            <th class="ir-col-arrow"></th>
-            <th class="ir-col-outcome">{% trans 'Outcome' %}</th>
-            {% if not solution_permissions.exit_codes %}
-                {# print verbose outcome instead of exit code #}
-                <th></th>
-            {% endif %}
-            <th class="ir-col-score">{% trans 'Score' %}</th>
-            <th class="ir-col-limit">{% trans 'Time' %}</th>
-            <th class="ir-col-limit">{% trans 'Memory' %}</th>
-            {% if solution_permissions.exit_codes %}
-                <th class="ir-col-code">{% trans 'Exit Code' %}</th>
-            {% endif %}
-            <th class="ir-col-msg">
-                {% if solution_permissions.checker_messages %}
-                    {% trans 'Checker message' %}
-                {% endif %}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for test, toggleable in test_results %}
-        <tr{% if toggleable %} class="ir-toggle-row"{% endif %} data-testid="{{ test.id }}">
-            <td class="ir-col-no">{% if test.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span>&nbsp;{% endif %}{{ forloop.counter }}</td>
-
-            {# arrow > is shown only when the row can be expanded #}
-            <td class="ir-col-arrow">{% if toggleable %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
-
-            <td class="ir-col-outcome">{% irunner_solutions_outcomebox test.outcome tooltip=solution_permissions.exit_codes %}</td>
-            {% if not solution_permissions.exit_codes %}
-                <td>{{ test.get_outcome_display }}</td>
-            {% endif %}
-            <td class="ir-col-score">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>
-            <td class="ir-col-limit">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
-            <td class="ir-col-limit">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
-            {% if solution_permissions.exit_codes %}
-                <td class="ir-col-code">{{ test.exit_code }}</td>
-            {% endif %}
-            <td class="ir-col-msg">
-                {% if solution_permissions.checker_messages %}
-                    <div class="ir-checker-msg">{{ test.checker_message }}</div>
-                {% endif %}
-            </td>
-        </tr>
-        <tr style="display: none">
-            <td class="ir-col-no"></td>
-            <td class="ir-col-arrow"></td>
-            <td colspan="6">
-                <div class="ir-ajax-data">
-                    <div class="ir-ajax-message">
-                    </div>
-                </div>
-
-                <div class="pull-right">
-                    <button class="btn btn-link btn-sm ir-btn-hide" type="button">{% trans 'Hide' %}</button>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<table class="ir-testcase-table" id="{{ uid }}">
+<thead>
+    <tr>
+        <th class="ir-col-no">{% trans '#' %}</th>
+        <th class="ir-col-arrow"></th>
+        <th class="ir-col-min">{% trans 'Outcome' %}</th>
+        <th></th>
+        <th class="ir-col-min-center">{% trans 'Score' %}</th>
+        <th class="ir-col-min-center">{% trans 'Time' %}</th>
+        <th class="ir-col-min-center">{% trans 'Memory' %}</th>
+        {% if columns.exit_code %}<th class="ir-col-min-center">{% trans 'Exit Code' %}</th>{% endif %}
+        {% if columns.checker_message %}<th>{% trans 'Checker message' %}</th>{% endif %}
+    </tr>
+</thead>
+<tbody>
+    {% for test, toggleable in test_results %}
+    <tr class="ir-testcase-main-row{% if toggleable %} ir-toggle-row{% endif %}" data-testid="{{ test.id }}">
+        <td class="ir-col-no">{% if test.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span> {% endif %}{{ forloop.counter }}</td>
+        <td class="ir-col-arrow">{# arrow > is shown only when the row can be expanded #}{% if toggleable %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
+        <td class="ir-col-min">{% irunner_solutions_outcomebox test.outcome tooltip=columns.tooltip block=True %}</td>
+        <td>{% if columns.verbose_outcome %}{{ test.get_outcome_display }}{% endif %}</td>
+        <td class="ir-col-min-center">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>
+        <td class="ir-col-min-center">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
+        <td class="ir-col-min-center">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
+        {% if columns.exit_code %}<td class="ir-col-min-center">{{ test.exit_code }}</td>{% endif %}
+        {% if columns.checker_message %}<td class="ir-checker-msg">{{ test.checker_message }}</td>{% endif %}
+    </tr>
+    {% if toggleable %}<tr class="ir-testcase-hidden-row">
+        {% if not compact %}<td class="ir-col-no"></td>
+        <td class="ir-col-arrow"></td>{% endif %}
+        <td colspan="{{ span_columns_cnt }}" class="ir-col-max">
+            <div class="ir-ajax-data">
+                <div class="ir-ajax-message"></div>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-link btn-sm ir-btn-hide" type="button">{% trans 'Hide' %}</button>
+            </div>
+        </td>
+    </tr>{% endif %}
+    {% endfor %}
+</tbody>
 </table>
+{% if some_tests_hidden %}
+<div class="ir-absence">
+    {% trans 'The rest of tests are hidden' %}
+</div>
+{% endif %}
 
 {% if any_toggleable %}
 <!-- For showing test case images -->
@@ -103,6 +84,7 @@ function showHideTest_{{ uid }}(row) {
     if (!url) {
         return;
     }
+    {% if compact %}url += "?c=1";{% endif %}
     var detailsRow = row.next("tr");
     var arrowSpan = row.find(".ir-arrow");
     if (detailsRow.css("display") === "none") {
@@ -145,6 +127,6 @@ $(document).ready(function() {
 
 {% else %}{# if not test_results #}
 <div class="ir-absence">
-    {% trans 'No test results' %}
+    {% if some_tests_hidden %}{% trans 'All tests are hidden' %}{% else %}{% trans 'No test results' %}{% endif %}
 </div>
 {% endif %}

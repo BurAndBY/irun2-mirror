@@ -35,6 +35,7 @@ class TestCaseResultMixin(object):
             'answer_repr': storage.represent(testcaseresult.answer_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
             'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
             'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
+            'wide': not (self.request.GET.get('c') == '1'),
         }
 
         test_case = testcaseresult.test_case

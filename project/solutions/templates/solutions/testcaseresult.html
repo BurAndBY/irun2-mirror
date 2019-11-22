@@ -5,9 +5,10 @@
 {% load irunner_storage %}
 {% load irunner_users %}
 
+{% if wide %}
 <div class="row">
     <div class="col-sm-8">
-
+{% endif %}
         {% if input_repr %}
             <a href="{% url data_url_pattern item_id test_case_result.id 'input' %}">{% trans 'Input file' %}</a>
             <span class="ir-file-size">[{{ input_repr.size|filesizeformat }}]</span>
@@ -46,10 +47,12 @@
 
         {% if test_case_result.checker_message %}
             <a>{% trans 'Checker message' %}</a>
-            <div><samp>{{ test_case_result.checker_message }}</samp></div>
+            <div><samp style="word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;">{{ test_case_result.checker_message }}</samp></div>
         {% endif %}
+{% if wide %}
     </div>
     <div class="col-sm-4">
+{% endif %}
         <div class="ir-test-description">
             {% if test_case %}
                 <h5>
@@ -93,5 +96,7 @@
                 <p>{% trans 'Test case is not available in the current problem version.' %}</p>
             {% endif %}
         </div>
+{% if wide %}
     </div>
 </div>
+{% endif %}

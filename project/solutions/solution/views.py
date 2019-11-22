@@ -3,6 +3,7 @@ from collections import namedtuple
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.timesince import timesince
 from django.views import generic
@@ -123,11 +124,6 @@ class SolutionTestsView(BaseSolutionView):
 
     def do_get(self, request, solution):
         test_results = solution.best_judgement.testcaseresult_set.all()
-
-        if self.permissions.sample_results and not self.permissions.results:
-            # Show only sample test cases
-            test_results = test_results.filter(is_sample=True)
-
         context = self.get_context_data(test_results=test_results)
         return render(request, self.template_name, context)
 
@@ -251,9 +247,15 @@ class SolutionMainView(BaseSolutionView):
 
 class SolutionStatusJsonView(BaseSolutionView):
     with_related = False
+    template_name = 'solutions/solution_status.html'
 
     def is_allowed(self, permissions):
         return permissions.state_on_samples or permissions.state
+
+    def _render_table(self, request, judgement):
+        test_results = judgement.testcaseresult_set.all()
+        context = self.get_context_data(test_results=test_results)
+        return render_to_string(self.template_name, context, request)
 
     def do_get(self, request, solution):
         judgement = solution.best_judgement
@@ -270,12 +272,14 @@ class SolutionStatusJsonView(BaseSolutionView):
                     data['color'] = 'green' if (judgement.outcome == Outcome.ACCEPTED) else 'red'
                 else:
                     data['color'] = 'yellow'
+                if request.GET.get('table') == '1':
+                    data['table'] = self._render_table(request, judgement)
         else:
             data = {
                 'text': 'N/A',
                 'final': False
             }
-        return JsonResponse(data)
+        return JsonResponse(data, json_dumps_params={'ensure_ascii': False})
 
 
 class BaseSolutionSourceCodeView(BaseSolutionView):

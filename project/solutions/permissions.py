@@ -38,7 +38,7 @@ class SolutionPermissions(object):
         self.state = False
         self.compilation_log = False
         self.source_code = False
-        self.sample_results = False
+        self.sample_results = False  # includes the full sample test data and outputs
         self.results = False
         self.exit_codes = False
         self.checker_messages = False

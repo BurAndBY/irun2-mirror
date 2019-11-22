@@ -397,6 +397,48 @@ h3 { font-size: 20px; line-height: 32px; }
 /**
  * Table Column
  */
+.ir-testcase-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.panel .ir-testcase-table {
+    margin-bottom: 0;
+}
+.ir-testcase-table > thead > tr > th {
+    border-bottom: 2px solid #ddd;
+    padding: 1px 8px;
+    white-space: nowrap;
+}
+.ir-testcase-table > tbody > tr.ir-testcase-main-row > td {
+    border-top: 1px solid #ddd;
+    padding: 1px 8px;
+}
+.ir-testcase-table > tbody > tr.ir-testcase-hidden-row {
+    display: none;
+}
+.ir-testcase-table > tbody > tr.ir-testcase-hidden-row > td {
+    padding: 8px 8px 8px 8px;
+}
+/*.ir-testcase-table > tbody > tr > td:first-child,
+.ir-testcase-table > thead > tr > th:first-child {
+    padding-left: 16px;
+}
+.ir-testcase-table > tbody > tr > td:last-child,
+.ir-testcase-table > thead > tr > th:last-child {
+    padding-right: 16px;
+}*/
+.ir-col-min {
+    width: 1%;
+}
+.ir-col-min-center {
+    text-align: center;
+    width: 1%;
+}
+.ir-col-max {
+    max-width: 0;
+}
+
 .ir-col-limit {
     width: 120px;
     text-align: center;
@@ -416,7 +458,8 @@ h3 { font-size: 20px; line-height: 32px; }
     width: 300px;
 }
 .ir-col-no {
-    width: 50px;
+    width: 1%;
+    white-space: nowrap;
     text-align: right;
 }
 
@@ -430,18 +473,19 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 .ir-col-arrow {
-    width: 20px;
+    width: 32px;
 }
 
 .ir-checker-msg {
+    max-width: 0;
     white-space: pre;
-    overflow: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .ir-col-sourcelink {
     width: 170px;
 }
-
 
 /**
  * Tabs
@@ -770,7 +814,10 @@ Yellow menu
     display: inline-block;
     text-align: center;
 }
-
+.ir-block-box {
+    display: block;
+    text-align: center;
+}
 .ir-criterion {
     font-weight: bold;
     font-size: 0.9em;

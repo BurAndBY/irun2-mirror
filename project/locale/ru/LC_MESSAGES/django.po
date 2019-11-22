@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-14 16:50+0300\n"
-"PO-Revision-Date: 2019-09-14 16:51+0300\n"
+"POT-Creation-Date: 2019-11-22 22:05+0300\n"
+"PO-Revision-Date: 2019-11-22 22:06+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2916,6 +2916,12 @@ msgstr "Сообщение программы проверки"
 
 msgid "Hide"
 msgstr "Скрыть"
+
+msgid "The rest of tests are hidden"
+msgstr "Остальные тесты скрыты"
+
+msgid "All tests are hidden"
+msgstr "Все тесты скрыты"
 
 msgid "No test results"
 msgstr "Нет результатов по тестам"

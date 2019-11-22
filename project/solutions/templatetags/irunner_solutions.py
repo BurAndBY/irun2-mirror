@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from collections import namedtuple
 import uuid
 
 from django import template
@@ -49,7 +50,7 @@ def _get_style(outcome, code):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True):
+def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True, block=False):
     '''
     Displays judgement state.
 
@@ -62,6 +63,7 @@ def irunner_solutions_judgementbox(judgement, tooltip=False, complete=True):
         'style': '',
         'test_no': 0,
         'tooltip': '',
+        'block': block,
     }
 
     if judgement is not None:
@@ -105,20 +107,24 @@ def _find_in_choices(choices, what):
 
 
 @register.inclusion_tag('solutions/irunner_solutions_box_tag.html')
-def irunner_solutions_outcomebox(outcome, tooltip=False):
+def irunner_solutions_outcomebox(outcome, tooltip=False, block=False):
     '''
     Displays outcome for a single test.
 
     args:
         outcome(int): value of solutions.models.Outcome enum
     '''
-    context = {}
     if outcome is not None:
         code = TWO_LETTER_OUTCOME_CODES.get(outcome, ELLIPSIS)
         context = {
+            'block': block,
             'code': code,
             'style': _get_style(outcome, code),
             'tooltip': _find_in_choices(Outcome.CHOICES, outcome) if tooltip else '',
+        }
+    else:
+        context = {
+            'block': block,
         }
     return context
 
@@ -195,31 +201,54 @@ def irunner_solutions_scorecell(judgement=None, accepted_before_deadline=True):
         return mark_safe('<td class="{}"></td>'.format(' '.join(classes)))
 
 
+TestResultColumns = namedtuple('TestResultColumns', ['verbose_outcome', 'exit_code', 'checker_message', 'tooltip'])
+
+
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')
-def irunner_solutions_testresults(test_results, solution_permissions, url_pattern=None, first_placeholder=None):
+def irunner_solutions_testresults(test_results, permissions, url_pattern=None, first_placeholder=None, compact=False):
     '''
     Displays a table with results per test.
+
+    args:
+        compact: if is true, the table fits better in a limited-width region
     '''
-    if not isinstance(solution_permissions, SolutionPermissions):
+    if not isinstance(permissions, SolutionPermissions):
         raise TypeError('SolutionPermissions required')
 
-    uid = smart_text(uuid.uuid1().hex)
-
     any_toggleable = False
+    some_tests_hidden = False
+
+    # do not even load unnecessary fields from the database
+    test_results = test_results.defer('input_resource_id', 'output_resource_id', 'answer_resource_id', 'stdout_resource_id', 'stderr_resource_id')
 
     pairs = []
     for test in test_results:
-        toggleable = (url_pattern is not None) and (solution_permissions.tests_data or test.is_sample)
+        if not (permissions.results or (permissions.sample_results and test.is_sample)):
+            some_tests_hidden = True
+            continue
+        toggleable = (url_pattern is not None) and (permissions.tests_data or test.is_sample)
         any_toggleable |= toggleable
         pairs.append((test, toggleable))
 
+    columns = TestResultColumns(
+        verbose_outcome=(not compact and not permissions.exit_codes and not permissions.checker_messages),
+        exit_code=(not compact and permissions.exit_codes),
+        checker_message=(not compact and permissions.exit_codes),
+        tooltip=(compact or permissions.exit_codes or permissions.checker_messages),
+    )
+    span_columns_cnt = (compact * 2) + 5 + columns.exit_code + columns.checker_message
+
+    uid = smart_text(uuid.uuid1().hex)
     return {
         'test_results': pairs,
-        'solution_permissions': solution_permissions,
         'url_pattern': url_pattern,
         'first_placeholder': first_placeholder,
         'uid': uid,
         'any_toggleable': any_toggleable,
+        'columns': columns,
+        'span_columns_cnt': span_columns_cnt,
+        'compact': compact,
+        'some_tests_hidden': some_tests_hidden,
     }
 
 
