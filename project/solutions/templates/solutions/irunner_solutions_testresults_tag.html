@@ -9,8 +9,8 @@
         <th class="ir-col-no">{% trans '#' %}</th>
         <th class="ir-col-arrow"></th>
         <th class="ir-col-min">{% trans 'Outcome' %}</th>
-        <th></th>
-        <th class="ir-col-min-center">{% trans 'Score' %}</th>
+        {% if columns.verbose_outcome %}<th></th>{% endif %}
+        {% if columns.score %}<th class="ir-col-min-center">{% trans 'Score' %}</th>{% endif %}
         <th class="ir-col-min-center">{% trans 'Time' %}</th>
         <th class="ir-col-min-center">{% trans 'Memory' %}</th>
         {% if columns.exit_code %}<th class="ir-col-min-center">{% trans 'Exit Code' %}</th>{% endif %}
@@ -23,8 +23,8 @@
         <td class="ir-col-no">{% if test.is_sample %}<span class="ir-sample-test-mark" title="{% trans 'Sample test' %}">{% bootstrap_icon 'certificate' %}</span> {% endif %}{{ forloop.counter }}</td>
         <td class="ir-col-arrow">{# arrow > is shown only when the row can be expanded #}{% if toggleable %}<span class="ir-arrow">&#x25BA;</span>{% endif %}</td>
         <td class="ir-col-min">{% irunner_solutions_outcomebox test.outcome tooltip=columns.tooltip block=True %}</td>
-        <td>{% if columns.verbose_outcome %}{{ test.get_outcome_display }}{% endif %}</td>
-        <td class="ir-col-min-center">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>
+        {% if columns.verbose_outcome %}<td>{{ test.get_outcome_display }}</td>{% endif %}
+        {% if columns.score %}<td class="ir-col-min-center">{{ test.score }} {% trans 'of' %} {{ test.max_score }}</td>{% endif %}
         <td class="ir-col-min-center">{% irunner_solutions_timelimitbox test.time_used test.time_limit %}</td>
         <td class="ir-col-min-center">{% irunner_solutions_memorylimitbox test.memory_used test.memory_limit %}</td>
         {% if columns.exit_code %}<td class="ir-col-min-center">{{ test.exit_code }}</td>{% endif %}

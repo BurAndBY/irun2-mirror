@@ -123,7 +123,7 @@ class SolutionTestsView(BaseSolutionView):
         return permissions.sample_results or permissions.results
 
     def do_get(self, request, solution):
-        test_results = solution.best_judgement.testcaseresult_set.all()
+        test_results = _get_plain_testcaseresults(solution.best_judgement)
         context = self.get_context_data(test_results=test_results)
         return render(request, self.template_name, context)
 
@@ -141,6 +141,23 @@ class SolutionJudgementsView(BaseSolutionView):
         return render(request, self.template_name, context)
 
 
+def _get_compilation_log_repr(judgement):
+    if judgement is not None:
+        judgementlog = judgement.judgementlog_set.filter(kind=JudgementLog.SOLUTION_COMPILATION).first()
+        if judgementlog is not None:
+            storage = create_storage()
+            return storage.represent(judgementlog.resource_id)
+
+
+def _get_plain_testcaseresults(judgement):
+    if judgement is not None:
+        # do not even load unnecessary fields from the database
+        test_results = judgement.testcaseresult_set.all()
+        test_results = test_results.defer('input_resource_id', 'output_resource_id', 'answer_resource_id', 'stdout_resource_id', 'stderr_resource_id')
+        return list(test_results)
+    return []
+
+
 class SolutionLogView(BaseSolutionView):
     tab = 'log'
     template_name = 'solutions/solution_log.html'
@@ -150,13 +167,8 @@ class SolutionLogView(BaseSolutionView):
 
     def do_get(self, request, solution):
         log_repr = None
-
         if solution.best_judgement is not None:
-            judgementlog = solution.best_judgement.judgementlog_set.filter(kind=JudgementLog.SOLUTION_COMPILATION).first()
-            if judgementlog is not None:
-                storage = create_storage()
-                log_repr = storage.represent(judgementlog.resource_id)
-
+            log_repr = _get_compilation_log_repr(solution.best_judgement)
         context = self.get_context_data(log_repr=log_repr)
         return render(request, self.template_name, context)
 
@@ -252,9 +264,11 @@ class SolutionStatusJsonView(BaseSolutionView):
     def is_allowed(self, permissions):
         return permissions.state_on_samples or permissions.state
 
-    def _render_table(self, request, judgement):
-        test_results = judgement.testcaseresult_set.all()
-        context = self.get_context_data(test_results=test_results)
+    def _render_report(self, request, judgement):
+        if judgement.outcome == Outcome.COMPILATION_ERROR:
+            context = self.get_context_data(mode='compilation_log', log_repr=_get_compilation_log_repr(judgement))
+        else:
+            context = self.get_context_data(mode='test_results', test_results=_get_plain_testcaseresults(judgement))
         return render_to_string(self.template_name, context, request)
 
     def do_get(self, request, solution):
@@ -273,7 +287,7 @@ class SolutionStatusJsonView(BaseSolutionView):
                 else:
                     data['color'] = 'yellow'
                 if request.GET.get('table') == '1':
-                    data['table'] = self._render_table(request, judgement)
+                    data['report'] = self._render_report(request, judgement)
         else:
             data = {
                 'text': 'N/A',

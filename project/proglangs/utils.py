@@ -18,6 +18,22 @@ def get_highlightjs_class(lang):
     return HIGHLIGHTJS.get(lang)
 
 
+ACE = {
+    ProgrammingLanguage.C: 'c_cpp',
+    ProgrammingLanguage.CPP: 'c_cpp',
+    ProgrammingLanguage.JAVA: 'java',
+    ProgrammingLanguage.PASCAL: 'pascal',
+    ProgrammingLanguage.DELPHI: 'pascal',
+    ProgrammingLanguage.PYTHON: 'python',
+    ProgrammingLanguage.CSHARP: 'csharp',
+    ProgrammingLanguage.SHELL: 'sh',
+}
+
+
+def get_ace_mode(lang):
+    return ACE.get(lang, 'text')
+
+
 FILENAME_EXTENSIONS = {
     ProgrammingLanguage.C: 'c',
     ProgrammingLanguage.CPP: 'cpp',

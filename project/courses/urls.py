@@ -53,7 +53,7 @@ single_course_urlpatterns = [
         views.CourseSheetEditApiView.as_view(), name='course_sheet_edit_api'),
     url(r'^compilers/$', views.CourseCompilersView.as_view(), name='course_compilers'),
 
-    url(r'^submit/$', views.CourseSubmitView.as_view(), name='course_submit'),
+    url(r'^submit/$', views.CourseSubmit2View.as_view(), name='course_submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.CourseSubmissionView.as_view(), name='course_submission'),
 
     url(r'^problemset/$', views.CourseProblemsView.as_view(), name='course_problems'),

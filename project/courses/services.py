@@ -2,21 +2,22 @@
 
 from __future__ import unicode_literals
 
+from collections import namedtuple
 from datetime import timedelta
+from itertools import chain
 
 from django.contrib import auth
 from django.db.models import F
+from django.template import defaultfilters
 from django.utils.encoding import (
     force_text,
     python_2_unicode_compatible,
     smart_text,
 )
 from django.utils.html import format_html
+from django.utils.translation import ugettext, ungettext
 from django.utils.translation import ugettext as _
 from django.utils import timezone
-
-from itertools import chain
-from collections import namedtuple
 
 from common.constants import EMPTY_SELECT
 from common.outcome import Outcome
@@ -263,6 +264,28 @@ def get_attempt_quota(course, user, problem_id):
         return AttemptQuotaInfo(0, times[-1] + timedelta(days=1))
     else:
         return AttemptQuotaInfo(course.attempts_a_day - len(times), None)
+
+
+def get_attempt_message(course, user, problem_id):
+        attempts, next_try = get_attempt_quota(course, user, problem_id)
+
+        if attempts is not None:
+            if attempts > 0:
+                message = ungettext(
+                    'You have %(count)d attempt remaining for the problem during the day.',
+                    'You have %(count)d attempts remaining for the problem during the day.',
+                    attempts) % {'count': attempts}
+            else:
+                message = ugettext('You have no attempts remaining for the problem.')
+                if next_try is not None:
+                    tz = timezone.get_current_timezone()
+                    ts = defaultfilters.date(next_try.astimezone(tz), 'DATETIME_FORMAT')
+
+                    message += ' '
+                    message += ugettext('Please try again after %(ts)s.') % {'ts': ts}
+        else:
+            message = ugettext('The number of attempts is not limited.')
+        return message
 
 
 '''

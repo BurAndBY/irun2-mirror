@@ -13,10 +13,9 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.encoding import smart_text
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext, ungettext
 from django.utils import timezone
-from django.template import defaultfilters
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
@@ -30,6 +29,7 @@ from problems.models import (
     ProblemRelatedFile,
 )
 from problems.views import ProblemStatementMixin
+from proglangs.utils import get_ace_mode
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
@@ -75,6 +75,7 @@ from courses.services import (
     get_assigned_problem_set,
     get_simple_assignments,
     get_attempt_quota,
+    get_attempt_message,
 )
 from courses.calcpermissions import calculate_course_permissions
 from courses.messaging import (
@@ -285,6 +286,19 @@ class CourseSubmitView(BaseCourseView):
         )
         return form
 
+    def _post_valid_form(self, request, course, form):
+        with transaction.atomic():
+            # remember used compiler to select it again later
+            userprofile = request.user.userprofile
+            userprofile.last_used_compiler = form.cleaned_data['compiler']
+            userprofile.save()
+
+            solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
+            CourseSolution.objects.create(solution=solution, course=course)
+            notifier = judge(solution)
+        notifier.notify()
+        return solution
+
     def get(self, request, course):
         form = self._make_form()
         context = self.get_context_data(form=form)
@@ -293,19 +307,35 @@ class CourseSubmitView(BaseCourseView):
     def post(self, request, course):
         form = self._make_form(request.POST, request.FILES)
         if form.is_valid():
-            with transaction.atomic():
-                # remember used compiler to select it again later
-                userprofile = request.user.userprofile
-                userprofile.last_used_compiler = form.cleaned_data['compiler']
-                userprofile.save()
-
-                solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
-                CourseSolution.objects.create(solution=solution, course=course)
-                notifier = judge(solution)
-            notifier.notify()
+            solution = self._post_valid_form(request, course, form)
             return redirect('courses:course_submission', course.id, solution.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
+
+
+class CourseSubmit2View(CourseSubmitView):
+    template_name = 'courses/submit2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseSubmit2View, self).get_context_data(**kwargs)
+        context['ace_modes'] = [(compiler.id, get_ace_mode(compiler.language)) for compiler in self.course.compilers.all()]
+        return context
+
+    def post(self, request, course):
+        form = self._make_form(request.POST, request.FILES)
+        if form.is_valid():
+            solution = self._post_valid_form(request, course, form)
+            response = {
+                'submitted': True,
+                'solutionId': solution.id,
+                'attempts': get_attempt_message(course, request.user, solution.problem_id)
+            }
+        else:
+            response = {
+                'submitted': False,
+                'errors': [smart_text(e) for errors in form.errors.values() for e in errors]
+            }
+        return JsonResponse(response, json_dumps_params={'ensure_ascii': False})
 
 
 class CourseSubmissionView(BaseCourseView):
@@ -731,25 +761,7 @@ class CourseMyAttemptsView(BaseCourseView):
 
     def get(self, request, course):
         problem_id = str_to_uint(request.GET.get('problem'))
-        attempts, next_try = get_attempt_quota(course, request.user, problem_id)
-
-        if attempts is not None:
-            if attempts > 0:
-                message = ungettext(
-                    'You have %(count)d attempt remaining for the problem during the day.',
-                    'You have %(count)d attempts remaining for the problem during the day.',
-                    attempts) % {'count': attempts}
-            else:
-                message = ugettext('You have no attempts remaining for the problem.')
-                if next_try is not None:
-                    tz = timezone.get_current_timezone()
-                    ts = defaultfilters.date(next_try.astimezone(tz), 'DATETIME_FORMAT')
-
-                    message += ' '
-                    message += ugettext('Please try again after %(ts)s.') % {'ts': ts}
-        else:
-            message = ugettext('The number of attempts is not limited.')
-
+        message = get_attempt_message(course, request.user, problem_id)
         return JsonResponse({'message': message})
 
 

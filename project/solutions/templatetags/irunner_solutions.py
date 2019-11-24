@@ -201,7 +201,7 @@ def irunner_solutions_scorecell(judgement=None, accepted_before_deadline=True):
         return mark_safe('<td class="{}"></td>'.format(' '.join(classes)))
 
 
-TestResultColumns = namedtuple('TestResultColumns', ['verbose_outcome', 'exit_code', 'checker_message', 'tooltip'])
+TestResultColumns = namedtuple('TestResultColumns', ['verbose_outcome', 'score', 'exit_code', 'checker_message', 'tooltip'])
 
 
 @register.inclusion_tag('solutions/irunner_solutions_testresults_tag.html')
@@ -218,9 +218,6 @@ def irunner_solutions_testresults(test_results, permissions, url_pattern=None, f
     any_toggleable = False
     some_tests_hidden = False
 
-    # do not even load unnecessary fields from the database
-    test_results = test_results.defer('input_resource_id', 'output_resource_id', 'answer_resource_id', 'stdout_resource_id', 'stderr_resource_id')
-
     pairs = []
     for test in test_results:
         if not (permissions.results or (permissions.sample_results and test.is_sample)):
@@ -235,8 +232,13 @@ def irunner_solutions_testresults(test_results, permissions, url_pattern=None, f
         exit_code=(not compact and permissions.exit_codes),
         checker_message=(not compact and permissions.exit_codes),
         tooltip=(compact or permissions.exit_codes or permissions.checker_messages),
+        score=(not compact),
     )
-    span_columns_cnt = (compact * 2) + 5 + columns.exit_code + columns.checker_message
+    span_columns_cnt = (
+        (compact * 2) + 3 +
+        columns.verbose_outcome + columns.score +
+        columns.exit_code + columns.checker_message
+    )
 
     uid = smart_text(uuid.uuid1().hex)
     return {
