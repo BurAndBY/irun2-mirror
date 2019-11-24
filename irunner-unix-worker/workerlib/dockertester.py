@@ -40,6 +40,7 @@ class DockerTester(BaseTester):
             'irunner-worker',
             command=cmd,
             environment=self._make_env({}),
+            cap_add=['SYS_PTRACE'],
             volumes={
                 str(workdir.resolve()): {'bind': str(rodir), 'mode': 'ro'}
             }
