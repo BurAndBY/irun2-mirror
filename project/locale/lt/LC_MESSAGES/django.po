@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-03 21:06+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-01-13 01:05+0300\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: .\api\models.py:14 .\contests\models.py:150 .\solutions\forms.py:105
 #: .\solutions\models.py:50
@@ -455,6 +455,7 @@ msgid "%(count)d day"
 msgid_plural "%(count)d days"
 msgstr[0] "%(count)d diena"
 msgstr[1] "%(count)d dienos"
+msgstr[2] ""
 
 #: .\common\templatetags\irunner_time.py:44
 #, python-format
@@ -462,6 +463,7 @@ msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d diena"
 msgstr[1] "%d dienos"
+msgstr[2] ""
 
 #: .\common\templatetags\irunner_time.py:45
 #, python-format
@@ -469,6 +471,7 @@ msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d valanda"
 msgstr[1] "%d valandos"
+msgstr[2] ""
 
 #: .\common\templatetags\irunner_time.py:46
 #, python-format
@@ -476,6 +479,7 @@ msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minutę"
 msgstr[1] "%d minutės"
+msgstr[2] ""
 
 #: .\common\templatetags\irunner_time.py:47
 #, python-format
@@ -483,6 +487,7 @@ msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d sekundė"
 msgstr[1] "%d sekundes"
+msgstr[2] ""
 
 #: .\common\templatetags\irunner_time.py:72
 msgctxt "time"
@@ -706,8 +711,7 @@ msgstr "temag"
 msgid "message"
 msgstr "pranešimas"
 
-#: .\contests\models.py:151
-#: .\contests\templates\contests\settings_base.html:33
+#: .\contests\models.py:151 .\contests\templates\contests\settings_base.html:33
 #: .\contests\templates\contests\sidebar.html:94
 msgid "Printing"
 msgstr "spausdinimas"
@@ -987,8 +991,7 @@ msgstr "Naujas konkursas"
 msgid "Create"
 msgstr "Sukurti"
 
-#: .\contests\templates\contests\contest_list.html:7
-#: .\templates\navbar.html:39
+#: .\contests\templates\contests\contest_list.html:7 .\templates\navbar.html:39
 msgid "Contests"
 msgstr "Konkursai"
 
@@ -1541,6 +1544,7 @@ msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
 msgstr[0] "%(count)d vartotojas buvo pridėtas."
 msgstr[1] "%(count)d vartotojas buvo pridėtas."
+msgstr[2] ""
 
 #: .\courses\settingsviews.py:169
 #, python-format
@@ -1548,6 +1552,7 @@ msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
 msgstr[0] "%(count)d vartotojas buvo pašalintas."
 msgstr[1] "%(count)d vartotojas buvo pašalintas."
+msgstr[2] ""
 
 #: .\courses\templates\courses\api_list_problems.html:8
 msgid "level"
@@ -1691,6 +1696,7 @@ msgid "solution"
 msgid_plural "solutions"
 msgstr[0] "sprendimas"
 msgstr[1] "sprendimai"
+msgstr[2] ""
 
 #: .\courses\templates\courses\messages.html:15
 #: .\courses\templates\courses\messages_new.html:13
@@ -1733,6 +1739,7 @@ msgid "%(counter)s message"
 msgid_plural "%(counter)s messages"
 msgstr[0] "%(counter)s pranešimas"
 msgstr[1] "%(counter)s pranešimi"
+msgstr[2] ""
 
 #: .\courses\templates\courses\my_problems.html:9
 #: .\courses\templates\courses\sidebar.html:22
@@ -1804,6 +1811,7 @@ msgid "%(counter)s question"
 msgid_plural "%(counter)s questions"
 msgstr[0] "%(counter)s klausimas"
 msgstr[1] "%(counter)s klausimai"
+msgstr[2] ""
 
 #: .\courses\templates\courses\quizzes.html:40
 msgid "unlimited number of attempts"
@@ -1815,6 +1823,7 @@ msgid "%(counter)s attempt left"
 msgid_plural "%(counter)s attempts left"
 msgstr[0] "%(counter)s bandymas paliko"
 msgstr[1] "%(counter)s bandymas paliko"
+msgstr[2] ""
 
 #: .\courses\templates\courses\quizzes.html:58
 #: .\courses\templates\courses\quizzes_answers.html:41
@@ -1970,6 +1979,7 @@ msgid "%(counter)s problem"
 msgid_plural "%(counter)s problems"
 msgstr[0] "%(counter)s problema"
 msgstr[1] "%(counter)s problemos"
+msgstr[2] ""
 
 #: .\courses\templates\courses\settings_problems.html:25
 msgid "To assign"
@@ -2011,6 +2021,7 @@ msgid "%(counter)s time"
 msgid_plural "%(counter)s times"
 msgstr[0] "%(counter)s kartą"
 msgstr[1] "%(counter)s kartus"
+msgstr[2] ""
 
 #: .\courses\templates\courses\settings_quizzes.html:10
 msgid "New quiz"
@@ -2129,6 +2140,7 @@ msgid_plural ""
 "You have %(count)d attempts remaining for the problem during the day."
 msgstr[0] "Jūs turite %(count)d bandymo likti problemai per dieną."
 msgstr[1] "Jūs turite %(count)d bandymo likti problemai per dieną."
+msgstr[2] ""
 
 #: .\courses\views.py:689
 msgid "You have no attempts remaining for the problem."
@@ -2277,7 +2289,7 @@ msgid "Memory limit"
 msgstr "Atminties riba"
 
 #: .\problems\forms.py:69
-msgid "Full feedback will be available for the first <i>N</i> test cases."
+msgid "The number of the first test cases with full feedback available."
 msgstr ""
 "Visiems atsiliepimams bus pateikti pirmieji <i>N</i> testavimo atvejai."
 
@@ -2458,8 +2470,7 @@ msgstr "Aplankai"
 msgid "Tests"
 msgstr "Testai"
 
-#: .\problems\tabs.py:33
-#: .\solutions\templates\solutions\challenge_list.html:10
+#: .\problems\tabs.py:33 .\solutions\templates\solutions\challenge_list.html:10
 #: .\templates\navbar.html:28
 msgid "Challenges"
 msgstr "Iššūkiai"
@@ -2493,6 +2504,7 @@ msgid "test"
 msgid_plural "tests"
 msgstr[0] "testas"
 msgstr[1] "testai"
+msgstr[2] ""
 
 #: .\problems\templates\problems\batch_delete_tests.html:12
 msgid "The tests are going to be deleted."
@@ -2801,6 +2813,7 @@ msgid "file"
 msgid_plural "files"
 msgstr[0] "failas"
 msgstr[1] "failai"
+msgstr[2] ""
 
 #: .\problems\templates\problems\pictures.html:24
 msgid "No pictures"
@@ -3018,6 +3031,7 @@ msgid "%(count)d test has been added."
 msgid_plural "%(count)d tests have been added."
 msgstr[0] "%(count)d testas buvo pridėtas."
 msgstr[1] "%(count)d testas buvo pridėtas."
+msgstr[2] ""
 
 #: .\problems\views.py:1041 .\users\views.py:126
 msgid "Create folder"
@@ -3838,6 +3852,7 @@ msgid "%(rows)s DB row updated"
 msgid_plural "%(rows)s DB rows updated"
 msgstr[0] "%(rows)s DB eilutė atnaujinta"
 msgstr[1] "%(rows)s DB eilutė atnaujinta"
+msgstr[2] ""
 
 #: .\templates\base.html:53
 msgid "DMA department of FAMCS BSU"
@@ -4130,6 +4145,7 @@ msgid "%(count)d profile has been updated."
 msgid_plural "%(count)d profiles have been updated."
 msgstr[0] "%(count)d profilis atnaujintas."
 msgstr[1] "%(count)d profilis atnaujintas."
+msgstr[2] ""
 
 #: .\users\views.py:242
 msgid "Bulk photo upload"
@@ -4141,6 +4157,7 @@ msgid "%(count)d photo has been uploaded."
 msgid_plural "%(count)d photos have been uploaded."
 msgstr[0] "%(count)d nuotrauka buvo įkelta."
 msgstr[1] "%(count)d nuotrauka buvo įkelta."
+msgstr[2] ""
 
 #: .\users\views.py:272
 msgid "Are you sure you want to delete the users?"

@@ -73,7 +73,7 @@ class ProblemExtraInfoForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 3}),
         }
         help_texts = {
-            'sample_test_count': _('Full feedback will be available for the first <i>N</i> test cases.')
+            'sample_test_count': _('The number of the first test cases with full feedback available.')
         }
 
 
