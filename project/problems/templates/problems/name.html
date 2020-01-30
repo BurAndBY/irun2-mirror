@@ -17,7 +17,7 @@
         {% if permissions.can_delete %}
         <a href="{% url 'problems:delete' problem.id %}{{ navigator.query_string }}" class="btn btn-link">
             {% trans 'Delete the problem' %}
-        </button>
+        </a>
         {% endif %}
     {% endbuttons %}
 </form>

@@ -19,7 +19,7 @@ class WorkerNotifier(object):
             return
 
         for worker in self._workers:
-            req = urllib.request.Request(settings.SEMAPHORE + 'signal', '')
+            req = urllib.request.Request(settings.SEMAPHORE + 'signal', b'')
             if worker.TAG:
                 req.add_header('X-iRunner-Worker-Tag', worker.TAG)
 

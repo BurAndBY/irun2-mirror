@@ -109,7 +109,7 @@ def load_tex_statement(myzip, problem, language):
     if lines:
         tex_data = ''.join('{}\n'.format(line) for line in lines)
         related_file = ProblemRelatedFile(problem=problem, file_type=ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX)
-        fd = ContentFile(tex_data, name='statement.tex')
+        fd = ContentFile(tex_data.encode('utf-8'), name='statement.tex')
         store_and_fill_metadata(fd, related_file)
         related_file.full_clean()
         related_file.save()
