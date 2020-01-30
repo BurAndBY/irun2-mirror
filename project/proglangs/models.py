@@ -22,5 +22,5 @@ class Compiler(models.Model):
 
 class CompilerDetails(models.Model):
     compiler = models.OneToOneField(Compiler, on_delete=models.CASCADE, primary_key=True)
-    compile_command = models.CharField(_('compile command'), max_length=255, blank=True)
-    run_command = models.CharField(_('run command'), max_length=255, blank=True)
+    compile_command = models.CharField(_('compile command'), max_length=1023, blank=True)
+    run_command = models.CharField(_('run command'), max_length=1023, blank=True)
