@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+import functools
 import json
 import mimetypes
 import operator
@@ -367,7 +368,7 @@ class SearchView(BrowseProblemsAccessMixin, generic.View):
         if query is not None:
             terms = query.split()
             if terms:
-                queryset = queryset.filter(reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
+                queryset = queryset.filter(functools.reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
         return queryset
 
     def get(self, request):
