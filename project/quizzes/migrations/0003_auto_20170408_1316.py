@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('time_limit', models.DurationField()),
                 ('tag', models.CharField(max_length=100)),
                 ('attempts', models.IntegerField(default=None, null=True, blank=True)),
-                ('course', models.ForeignKey(to='courses.Course')),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -35,8 +35,8 @@ class Migration(migrations.Migration):
                 ('result', models.FloatField(default=0)),
                 ('is_finished', models.BooleanField(default=False)),
                 ('finish_time', models.DateTimeField(null=True)),
-                ('quiz_instance', models.ForeignKey(to='quizzes.QuizInstance')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('quiz_instance', models.ForeignKey(to='quizzes.QuizInstance', on_delete=django.db.models.deletion.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('points', models.FloatField()),
                 ('result_points', models.FloatField(default=0)),
                 ('question', models.ForeignKey(to='quizzes.Question', on_delete=django.db.models.deletion.PROTECT)),
-                ('quiz_session', models.ForeignKey(to='quizzes.QuizSession')),
+                ('quiz_session', models.ForeignKey(to='quizzes.QuizSession', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 ('user_answer', models.CharField(default=None, max_length=100, null=True)),
                 ('is_chosen', models.BooleanField(default=False)),
                 ('choice', models.ForeignKey(to='quizzes.Choice', on_delete=django.db.models.deletion.PROTECT)),
-                ('session_question', models.ForeignKey(to='quizzes.SessionQuestion')),
+                ('session_question', models.ForeignKey(to='quizzes.SessionQuestion', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.AddField(
@@ -73,6 +73,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='quizinstance',
             name='quiz_template',
-            field=models.ForeignKey(to='quizzes.QuizTemplate'),
+            field=models.ForeignKey(to='quizzes.QuizTemplate', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

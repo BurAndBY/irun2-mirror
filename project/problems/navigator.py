@@ -6,7 +6,7 @@ from problems.models import Problem, ProblemFolder
 from problems.calcpermissions import get_problems_queryset
 
 from common.folderutils import ROOT, cast_id
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _

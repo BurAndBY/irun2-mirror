@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from django.contrib import auth, messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction
 from django.db.models import Count
 from django.forms import modelformset_factory

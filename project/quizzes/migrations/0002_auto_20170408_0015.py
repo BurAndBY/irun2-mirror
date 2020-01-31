@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -17,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('order', models.IntegerField()),
                 ('points', models.FloatField(default=1.0)),
-                ('group', models.ForeignKey(to='quizzes.QuestionGroup')),
+                ('group', models.ForeignKey(to='quizzes.QuestionGroup', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['order'],
@@ -35,6 +36,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='groupquizrelation',
             name='template',
-            field=models.ForeignKey(to='quizzes.QuizTemplate'),
+            field=models.ForeignKey(to='quizzes.QuizTemplate', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

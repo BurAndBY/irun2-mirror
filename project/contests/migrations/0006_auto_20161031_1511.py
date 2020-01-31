@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='printout',
             name='contest',
-            field=models.ForeignKey(to='contests.Contest'),
+            field=models.ForeignKey(to='contests.Contest', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='printout',
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='contestuserroom',
             name='contest',
-            field=models.ForeignKey(to='contests.Contest'),
+            field=models.ForeignKey(to='contests.Contest', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='contestuserroom',

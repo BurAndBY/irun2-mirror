@@ -9,7 +9,7 @@ import zipfile
 
 from django.contrib import messages
 from django.core.files.base import ContentFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction
 from django.db.models import F, Count, ProtectedError, Case, When
 from django.http import Http404, JsonResponse

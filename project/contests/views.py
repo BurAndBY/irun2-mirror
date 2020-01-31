@@ -2,7 +2,7 @@ import re
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import F, Q
 from django.http import HttpResponse, Http404
@@ -55,7 +55,7 @@ class BaseContestView(generic.View):
 
     def _fill_unread_counters(self, context):
         me = self.request.user
-        if not me.is_authenticated():
+        if not me.is_authenticated:
             return
 
         if self.permissions.read_messages or self.permissions.manage_messages:
@@ -83,7 +83,7 @@ class BaseContestView(generic.View):
         self.contest = get_object_or_404(Contest, pk=contest_id)
         self.service = create_contest_service(self.contest)
         self.timing = ContestTiming(self.contest)
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             self.permissions = calculate_contest_permissions(self.contest, request.user, Membership.objects.filter(contest_id=contest_id, user=request.user))
         else:
             self.permissions = calculate_contest_permissions(self.contest, None, [])
@@ -167,7 +167,7 @@ class StandingsView(BaseContestView):
         if not self.wide and self.permissions.all_solutions:
             user_url = reverse('contests:all_solutions', kwargs={'contest_id': contest.id})
 
-        my_id = request.user.id if request.user.is_authenticated() else None
+        my_id = request.user.id if request.user.is_authenticated else None
         contest_results = None
 
         if self.service.are_standings_available(self.permissions, self.timing):
@@ -473,7 +473,7 @@ class MessagesView(BaseContestView):
         messages = list(qs)
 
         me = self.request.user
-        if me.is_authenticated():
+        if me.is_authenticated:
             read_message_ids = set(qs.filter(messageuser__user=me).values_list('pk', flat=True))
             unread_message_ids = set()
 
@@ -716,7 +716,7 @@ class MyQuestionsView(ProblemResolverMixin, BaseContestView):
         questions = list(qs)
 
         me = self.request.user
-        if me.is_authenticated():
+        if me.is_authenticated:
             read_message_ids = set(qs.filter(messageuser__user=me).values_list('pk', flat=True))
             for question in questions:
                 if question.pk not in read_message_ids:

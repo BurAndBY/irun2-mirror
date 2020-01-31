@@ -1,6 +1,6 @@
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from home.registry import (
     HomePageBlock,
@@ -18,7 +18,7 @@ class ContestBlockFactory(HomePageBlockFactory):
     icon = 'stats'
 
     def create_blocks(self, request):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             my_contests = Contest.objects.filter(membership__user=request.user).distinct()
             my_contest_count = my_contests.count()
             if my_contest_count > 0:

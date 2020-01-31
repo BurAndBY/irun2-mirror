@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, UserPassesTestMixin

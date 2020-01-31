@@ -2,6 +2,6 @@ from django.conf.urls import url
 
 from . import views
 
-urlpatterns = [
+urlpatterns = ([
     url(r'^render$', views.RenderPreviewAPIView.as_view(), name='render'),
-]
+], 'preview')

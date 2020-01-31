@@ -9,7 +9,7 @@ from django.contrib import auth, messages
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import PermissionDenied
 from django.core.files.base import ContentFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
@@ -584,7 +584,7 @@ class ProfileTwoFactorView(BaseProfileView, generic.View):
 
 
 def is_allowed(request_user, target_user):
-    if not request_user.is_authenticated():
+    if not request_user.is_authenticated:
         return False
     if request_user == target_user:
         return True

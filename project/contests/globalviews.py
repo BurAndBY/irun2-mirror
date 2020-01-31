@@ -54,7 +54,7 @@ def _make_contest_list_data(contests):
 
 
 def _get_allowed_contest_set(user):
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return ContestSet.PUBLIC
     if not user.is_staff:
         return ContestSet.MY_AND_PUBLIC
@@ -66,7 +66,7 @@ def _make_context(cs, user):
         'pairs': _make_contest_list_data(_fetch_contests(cs, user)),
         'page_title': _get_page_title(cs),
         'may_create_contests': cs == ContestSet.ALL,
-        'enable_my': user.is_authenticated(),
+        'enable_my': user.is_authenticated,
     }
 
 

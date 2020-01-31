@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'storage'
+
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^new/$', views.NewView.as_view(), name='new'),

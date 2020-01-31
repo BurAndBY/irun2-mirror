@@ -3,7 +3,9 @@ from django.conf.urls import url, include
 from courses.settings.urls import settings_urlpatterns
 from . import views, globalviews, assignviews, quizviews, queueviews
 
-quiz_urlpatterns = [
+app_name = 'courses'
+
+quiz_urlpatterns = ([
     url(r'^$', quizviews.CourseQuizzesView.as_view(), name='list'),
     url(r'^sessions/(?P<session_id>[0-9]+)/$', quizviews.CourseQuizzesSessionView.as_view(), name='session'),
     url(r'^sessions/(?P<session_id>[0-9]+)/answers/$', quizviews.CourseQuizzesAnswersView.as_view(), name='answers'),
@@ -19,17 +21,17 @@ quiz_urlpatterns = [
     url(r'^sheet/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesSheetView.as_view(), name='sheet'),
     url(r'^turn-on/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOnView.as_view(), name='turn_on'),
     url(r'^turn-off/(?P<instance_id>[0-9]+)/$', quizviews.CourseQuizzesTurnOffView.as_view(), name='turn_off'),
-]
+], 'quizzes')
 
-queue_urlpatterns = [
+queue_urlpatterns = ([
     url(r'^$', queueviews.ListView.as_view(), name='list'),
     url(r'^(?P<queue_id>[0-9]+)/add/$', queueviews.AddView.as_view(), name='add'),
     url(r'^(?P<queue_id>[0-9]+)/join/$', queueviews.JoinView.as_view(), name='join'),
     url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/start/$', queueviews.StartView.as_view(), name='start'),
     url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/finish/$', queueviews.FinishView.as_view(), name='finish'),
-]
+], 'queues')
 
-assignment_urlpatterns = [
+assignment_urlpatterns = ([
     url(r'^$', assignviews.CourseEmptyAssignView.as_view(), name='empty'),
     url(r'^(?P<user_id>[0-9]+)/$', assignviews.CourseAssignView.as_view(), name='index'),
     url(r'^(?P<user_id>[0-9]+)/new-penalty/$', assignviews.CourseAssignCreatePenaltyProblem.as_view(), name='new_penalty'),
@@ -41,7 +43,7 @@ assignment_urlpatterns = [
         assignviews.CourseAssignCriterionApiView.as_view(), name='api_criterion'),
     url(r'^(?P<user_id>[0-9]+)/api/topic-problems/(?P<topic_id>[0-9]+)/$',
         assignviews.ListTopicProblemsApiView.as_view()),
-]
+], 'assignment')
 
 single_course_urlpatterns = [
     url(r'^$', views.CourseInfoView.as_view(), name='show_course_info'),
@@ -80,10 +82,10 @@ single_course_urlpatterns = [
         views.CourseMessagesDownloadView.as_view(), name='messages_download'),
     url(r'^mailbox/new/$', views.CourseMessagesNewView.as_view(), name='messages_new'),
 
-    url(r'^quizzes/', include(quiz_urlpatterns, namespace='quizzes')),
-    url(r'^queues/', include(queue_urlpatterns, namespace='queues')),
-    url(r'^settings/', include(settings_urlpatterns, namespace='settings')),
-    url(r'^assign/', include(assignment_urlpatterns, namespace='assignment')),
+    url(r'^quizzes/', include(quiz_urlpatterns)),
+    url(r'^queues/', include(queue_urlpatterns)),
+    url(r'^settings/', include(settings_urlpatterns)),
+    url(r'^assign/', include(assignment_urlpatterns)),
 ]
 
 urlpatterns = [

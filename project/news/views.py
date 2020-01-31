@@ -1,5 +1,5 @@
 from django.views import generic
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from cauth.mixins import StaffMemberRequiredMixin
 

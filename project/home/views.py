@@ -43,7 +43,7 @@ def language(request):
     return render(request, 'home/language.html', {'redirect_to': next})
 
 
-def error403(request):
+def error403(request, exception):
     return render(request, 'home/error403.html', {}, status=403)
 
 

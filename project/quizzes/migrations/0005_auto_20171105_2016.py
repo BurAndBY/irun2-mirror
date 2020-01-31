@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -22,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='groupquizrelation',
             name='group',
-            field=models.ForeignKey(verbose_name='group', to='quizzes.QuestionGroup'),
+            field=models.ForeignKey(verbose_name='group', to='quizzes.QuestionGroup', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AlterField(
             model_name='groupquizrelation',

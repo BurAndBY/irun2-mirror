@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('mark', models.IntegerField(default=0)),
                 ('enum', models.IntegerField(default=0, choices=[(0, b''), (1, 'pass'), (2, 'no pass'), (3, 'absence')])),
-                ('activity', models.ForeignKey(to='courses.Activity')),
+                ('activity', models.ForeignKey(to='courses.Activity', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -69,8 +69,8 @@ class Migration(migrations.Migration):
             name='CourseSolution',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('course', models.ForeignKey(to='courses.Course')),
-                ('solution', models.OneToOneField(to='solutions.Solution')),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
+                ('solution', models.OneToOneField(to='solutions.Solution', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('role', models.IntegerField(verbose_name='role', choices=[(0, 'student'), (1, 'teacher')])),
-                ('course', models.ForeignKey(to='courses.Course')),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=16)),
-                ('course', models.ForeignKey(to='courses.Course')),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64, verbose_name='name')),
-                ('course', models.ForeignKey(to='courses.Course')),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
                 ('criteria', models.ManyToManyField(to='courses.Criterion', verbose_name='criteria', blank=True)),
                 ('problem_folder', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='problem folder', to='problems.ProblemFolder', null=True)),
             ],
@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='slot',
             name='topic',
-            field=models.ForeignKey(to='courses.Topic'),
+            field=models.ForeignKey(to='courses.Topic', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='membership',
@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='membership',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='course',
@@ -141,31 +141,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='assignment',
             name='membership',
-            field=models.ForeignKey(to='courses.Membership'),
+            field=models.ForeignKey(to='courses.Membership', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='assignment',
             name='problem',
-            field=models.ForeignKey(verbose_name='problem', blank=True, to='problems.Problem', null=True),
+            field=models.ForeignKey(verbose_name='problem', blank=True, to='problems.Problem', null=True, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='assignment',
             name='slot',
-            field=models.ForeignKey(to='courses.Slot', null=True),
+            field=models.ForeignKey(to='courses.Slot', null=True, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='assignment',
             name='topic',
-            field=models.ForeignKey(to='courses.Topic', null=True),
+            field=models.ForeignKey(to='courses.Topic', null=True, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='activityrecord',
             name='membership',
-            field=models.ForeignKey(to='courses.Membership'),
+            field=models.ForeignKey(to='courses.Membership', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='activity',
             name='course',
-            field=models.ForeignKey(to='courses.Course'),
+            field=models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

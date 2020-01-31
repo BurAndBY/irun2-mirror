@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'api'
+
 urlpatterns = [
     # ex: /polls/
     url(r'^fs/status$', views.FileStatusView.as_view(), name='fs_status'),

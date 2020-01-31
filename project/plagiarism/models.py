@@ -8,12 +8,12 @@ class Algorithm(models.Model):
     enabled = models.BooleanField()
 
 class JudgementResult(models.Model):
-    solution_to_judge = models.ForeignKey(Solution, related_name='solution_to_judge')
-    solution_to_compare = models.ForeignKey(Solution, related_name='solution_to_compare')
-    algorithm = models.ForeignKey(Algorithm)
+    solution_to_judge = models.ForeignKey(Solution, on_delete=models.CASCADE, related_name='solution_to_judge')
+    solution_to_compare = models.ForeignKey(Solution, on_delete=models.CASCADE, related_name='solution_to_compare')
+    algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
     similarity = models.FloatField()
     verdict = models.CharField(max_length=2048)
 
 class AggregatedResult(models.Model):
-    id = models.OneToOneField(Solution, primary_key=True)
+    id = models.OneToOneField(Solution, on_delete=models.CASCADE, primary_key=True)
     relevance = models.FloatField()

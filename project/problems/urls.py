@@ -3,6 +3,8 @@ from django.conf.urls import include, url
 from problems import views
 from problems.problem import views as pviews
 
+app_name = 'problems'
+
 problem_urlpatterns = [
     url(r'^$', pviews.ProblemOverviewView.as_view(), name='overview'),
     url(r'^statement/(?P<filename>.+)?$', pviews.ProblemStatementView.as_view(), name='statement'),

@@ -241,7 +241,7 @@ AttemptQuotaInfo = namedtuple('AttemptQuotaInfo', 'quota next_try')
 
 
 def get_attempt_quota(course, user, problem_id):
-    if (course.attempts_a_day is None) or (not user.is_authenticated()):
+    if (course.attempts_a_day is None) or (not user.is_authenticated):
         return AttemptQuotaInfo(None, None)
 
     if course.attempts_a_day <= 0:

@@ -2,8 +2,8 @@
 
 from __future__ import unicode_literals
 
+from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import string_concat
 
 
 EMPTY_SELECT = '—'
@@ -17,4 +17,4 @@ ACCEPTED_FOR_TESTING = _('Accepted for testing')
 
 
 def make_empty_select(name):
-    return string_concat('— ', name, ' —')
+    return format_lazy('— {} —', name)

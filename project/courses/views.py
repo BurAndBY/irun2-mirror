@@ -5,7 +5,7 @@ import json
 from collections import namedtuple
 
 from django.contrib import auth
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect

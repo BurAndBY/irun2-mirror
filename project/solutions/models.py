@@ -20,15 +20,15 @@ class AdHocRun(models.Model):
 
 
 class Solution(models.Model):
-    problem = models.ForeignKey(Problem)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     reception_time = models.DateTimeField()
     ip_address = models.GenericIPAddressField(null=True, blank=True)
-    source_code = models.ForeignKey(FileMetadata)
-    compiler = models.ForeignKey(Compiler)
+    source_code = models.ForeignKey(FileMetadata, on_delete=models.PROTECT)
+    compiler = models.ForeignKey(Compiler, on_delete=models.PROTECT)
     stop_on_fail = models.BooleanField(default=False)
 
-    best_judgement = models.ForeignKey('Judgement', null=True, related_name='+')  # '+' means 'do not create a backwards relation'
+    best_judgement = models.ForeignKey('Judgement', on_delete=models.SET_NULL, null=True, related_name='+')  # '+' means 'do not create a backwards relation'
 
 
 class Rejudge(models.Model):
@@ -54,7 +54,7 @@ class Judgement(models.Model):
         (FINISHING, _('Finishing')),
     )
 
-    solution = models.ForeignKey(Solution)
+    solution = models.ForeignKey(Solution, on_delete=models.CASCADE)
     rejudge = models.ForeignKey(Rejudge, null=True, on_delete=models.SET_NULL, default=None)
     judgement_before = models.ForeignKey('Judgement', null=True, on_delete=models.SET_NULL, default=None, related_name='+')
 
@@ -109,13 +109,13 @@ class JudgementLog(models.Model):
         (SOLUTION_COMPILATION, _('Solution compilation log')),
     )
 
-    judgement = models.ForeignKey(Judgement)
+    judgement = models.ForeignKey(Judgement, on_delete=models.CASCADE)
     resource_id = ResourceIdField()
     kind = models.IntegerField(default=SOLUTION_COMPILATION, choices=LOG_KIND_CHOICES)
 
 
 class TestCaseResult(models.Model):
-    judgement = models.ForeignKey(Judgement)
+    judgement = models.ForeignKey(Judgement, on_delete=models.CASCADE)
 
     test_case = models.ForeignKey(TestCase, null=True, on_delete=models.SET_NULL)
 
@@ -147,7 +147,7 @@ class Challenge(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.PROTECT)
     creation_time = models.DateTimeField(auto_now_add=True)
 
-    problem = models.ForeignKey(Problem)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     time_limit = models.IntegerField()
     memory_limit = models.BigIntegerField(default=0)
 
@@ -155,8 +155,8 @@ class Challenge(models.Model):
 
 
 class ChallengedSolution(models.Model):
-    challenge = models.ForeignKey(Challenge)
-    solution = models.ForeignKey(Solution)
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    solution = models.ForeignKey(Solution, on_delete=models.CASCADE)
 
     outcome = models.IntegerField(default=Outcome.NOT_AVAILABLE, choices=Outcome.CHOICES)
     output_resource_id = ResourceIdField(null=True)

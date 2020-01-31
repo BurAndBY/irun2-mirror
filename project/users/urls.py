@@ -2,6 +2,8 @@ from django.conf.urls import include, url
 
 from . import views
 
+app_name = 'users'
+
 folders_urlpatterns = [
     url(r'^$', views.ShowFolderView.as_view(), name='show_folder'),
     url(r'^new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),

@@ -21,7 +21,7 @@ DEFAULT_MEMORY_LIMIT = 1 * 1024 * 1024 * 1024  # 1 GB
 @python_2_unicode_compatible
 class ProblemFolder(MPTTModel):
     name = models.CharField(_('name'), max_length=64)
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True)
 
     def __str__(self):
         return self.name
@@ -143,7 +143,7 @@ class ProblemRelatedFile(FileMetadataBase):
         STATEMENT_TEX_PYLIGHTEX,
     )
 
-    problem = models.ForeignKey(Problem)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
 
@@ -169,17 +169,17 @@ class ProblemRelatedSourceFile(FileMetadataBase):
     )
 
     # null for global checkers
-    problem = models.ForeignKey(Problem, null=True)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
-    compiler = models.ForeignKey(Compiler, verbose_name=_('compiler'))
+    compiler = models.ForeignKey(Compiler, on_delete=models.PROTECT, verbose_name=_('compiler'))
 
     class Meta:
         unique_together = ('problem', 'filename')
 
 
 class TestCase(models.Model):
-    problem = models.ForeignKey(Problem)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     ordinal_number = models.PositiveIntegerField(_('number'), default=0)
     description = models.TextField(_('description'), blank=True)
 
@@ -215,14 +215,14 @@ class TestCase(models.Model):
 
 
 class Validation(models.Model):
-    problem = models.OneToOneField(Problem)
+    problem = models.OneToOneField(Problem, on_delete=models.CASCADE)
     is_pending = models.BooleanField(default=False)
     validator = models.ForeignKey(ProblemRelatedSourceFile, null=True, blank=True, on_delete=models.SET_NULL)
     general_failure_reason = models.CharField(max_length=64, blank=True)
 
 
 class TestCaseValidation(models.Model):
-    validation = models.ForeignKey(Validation)
+    validation = models.ForeignKey(Validation, on_delete=models.CASCADE)
     input_resource_id = ResourceIdField()
     is_valid = models.BooleanField()
     validator_message = models.CharField(max_length=255, blank=True)
@@ -239,8 +239,8 @@ class AccessMode(object):
 
 
 class ProblemAccess(models.Model):
-    problem = models.ForeignKey(Problem)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     mode = models.IntegerField(choices=AccessMode.CHOICES)
     when_granted = models.DateTimeField(auto_now=True)
     who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)

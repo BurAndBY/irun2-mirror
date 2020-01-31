@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -109,14 +109,14 @@ class Membership(models.Model):
         (JUROR, _('juror')),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contestmembership')
-    contest = models.ForeignKey(Contest)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contestmembership')
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
 
 
 class ContestProblem(models.Model):
-    contest = models.ForeignKey(Contest)
-    problem = models.ForeignKey(Problem, related_name='link_to_contest')
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, related_name='link_to_contest')
     ordinal_number = models.PositiveIntegerField()
 
     class Meta:

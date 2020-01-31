@@ -3,7 +3,7 @@ from django.conf.urls import url
 from courses.settings import views as settingsviews
 
 
-settings_urlpatterns = [
+settings_urlpatterns = ([
     url(r'^$', settingsviews.CourseSettingsPropertiesView.as_view(), name='properties'),
 
     url(r'^delete/$', settingsviews.CourseSettingsDeleteView.as_view(), name='delete'),
@@ -39,4 +39,4 @@ settings_urlpatterns = [
     url(r'^queues/$', settingsviews.CourseSettingsQueuesView.as_view(), name='queues'),
     url(r'^queues/create/$', settingsviews.CourseSettingsQueueCreateView.as_view(), name='queue_create'),
     url(r'^queues/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsQueueUpdateView.as_view(), name='queue_update'),
-]
+], 'settings')

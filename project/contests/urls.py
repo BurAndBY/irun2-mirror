@@ -2,6 +2,8 @@ from django.conf.urls import include, url
 
 from . import views, globalviews, settingsviews
 
+app_name = 'contests'
+
 contest_urlpatterns = [
     url(r'^$', views.GeneralView.as_view()),
     url(r'^standings/$', views.StandingsView.as_view(), name='standings'),

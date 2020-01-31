@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
-                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='users.UserFolder', null=True)),
+                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='users.UserFolder', null=True, on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
                 ('patronymic', models.CharField(max_length=30, verbose_name='patronymic', blank=True)),
                 ('needs_change_password', models.BooleanField(default=False, verbose_name='password needs to be changed by user')),
                 ('description', models.CharField(max_length=255, verbose_name='description', blank=True)),

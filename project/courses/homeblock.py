@@ -16,7 +16,7 @@ class CourseBlockFactory(HomePageBlockFactory):
     icon = 'education'
 
     def create_blocks(self, request):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             my_courses = Course.objects.filter(membership__user=request.user).distinct()
             my_course_count = my_courses.count()
 

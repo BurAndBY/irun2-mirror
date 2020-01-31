@@ -158,6 +158,6 @@ def irunner_problems_memorylimit(value):
     return memory_formatter(value)
 
 
-@register.assignment_tag
+@register.simple_tag
 def irunner_problems_getinfo(problem_id, manager):
     return manager.get(problem_id)

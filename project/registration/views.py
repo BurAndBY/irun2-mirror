@@ -6,7 +6,7 @@ import smtplib
 
 from django import forms
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.encoding import force_text

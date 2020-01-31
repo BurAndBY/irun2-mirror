@@ -9,7 +9,7 @@ import operator
 import re
 
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, JsonResponse, HttpResponseRedirect

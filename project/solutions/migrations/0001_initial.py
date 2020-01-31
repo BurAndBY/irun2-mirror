@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('resource_id', storage.storage.ResourceIdField()),
                 ('kind', models.IntegerField(default=0, choices=[(0, 'Solution compilation log')])),
-                ('judgement', models.ForeignKey(to='solutions.Judgement')),
+                ('judgement', models.ForeignKey(to='solutions.Judgement', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -65,11 +65,11 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('reception_time', models.DateTimeField()),
                 ('ip_address', models.GenericIPAddressField(null=True, blank=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('best_judgement', models.ForeignKey(related_name='+', to='solutions.Judgement', null=True)),
-                ('compiler', models.ForeignKey(to='proglangs.Compiler')),
-                ('problem', models.ForeignKey(to='problems.Problem')),
-                ('source_code', models.ForeignKey(to='storage.FileMetadata')),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
+                ('best_judgement', models.ForeignKey(related_name='+', to='solutions.Judgement', null=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('compiler', models.ForeignKey(to='proglangs.Compiler', on_delete=django.db.models.deletion.CASCADE)),
+                ('problem', models.ForeignKey(to='problems.Problem', on_delete=django.db.models.deletion.CASCADE)),
+                ('source_code', models.ForeignKey(to='storage.FileMetadata', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
                 ('max_score', models.IntegerField()),
                 ('checker_message', models.CharField(max_length=255, blank=True)),
                 ('outcome', models.IntegerField(default=0, choices=[(0, 'N/A'), (1, 'Accepted'), (2, 'Compilation Error'), (3, 'Wrong Answer'), (4, 'Time Limit Exceeded'), (5, 'Memory Limit Exceeded'), (6, 'Idleness Limit Exceeded'), (7, 'Runtime Error'), (8, 'Presentation Error'), (9, 'Security Violation'), (10, 'Check Failed')])),
-                ('judgement', models.ForeignKey(to='solutions.Judgement')),
+                ('judgement', models.ForeignKey(to='solutions.Judgement', on_delete=django.db.models.deletion.CASCADE)),
                 ('test_case', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='problems.TestCase', null=True)),
             ],
         ),
@@ -102,6 +102,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='judgement',
             name='solution',
-            field=models.ForeignKey(to='solutions.Solution'),
+            field=models.ForeignKey(to='solutions.Solution', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

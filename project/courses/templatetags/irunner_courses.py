@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import uuid
 
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html, mark_safe, escape
 
 register = template.Library()

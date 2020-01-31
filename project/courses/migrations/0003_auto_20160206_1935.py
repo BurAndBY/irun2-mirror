@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('timestamp', models.DateTimeField()),
                 ('body', models.TextField(max_length=65535, verbose_name='message')),
                 ('attachment', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='attachment', to='storage.FileMetadata', null=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -32,9 +32,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('subject', models.CharField(max_length=255, verbose_name='subject', blank=True)),
                 ('last_message_timestamp', models.DateTimeField()),
-                ('course', models.ForeignKey(to='courses.Course')),
-                ('person', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
-                ('problem', models.ForeignKey(to='problems.Problem', null=True)),
+                ('course', models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE)),
+                ('person', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=django.db.models.deletion.CASCADE)),
+                ('problem', models.ForeignKey(to='problems.Problem', null=True, on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -42,14 +42,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('timestamp', models.DateTimeField()),
-                ('thread', models.ForeignKey(to='courses.MailThread')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('thread', models.ForeignKey(to='courses.MailThread', on_delete=django.db.models.deletion.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.AddField(
             model_name='mailmessage',
             name='thread',
-            field=models.ForeignKey(to='courses.MailThread'),
+            field=models.ForeignKey(to='courses.MailThread', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AlterUniqueTogether(
             name='mailuserthreadvisit',

@@ -30,8 +30,8 @@ class Migration(migrations.Migration):
                 ('enqueue_time', models.DateTimeField()),
                 ('start_time', models.DateTimeField(null=True)),
                 ('finish_time', models.DateTimeField(null=True)),
-                ('queue', models.ForeignKey(to='courses.Queue')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('queue', models.ForeignKey(to='courses.Queue', on_delete=django.db.models.deletion.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.AddField(
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='queue',
             name='course',
-            field=models.ForeignKey(to='courses.Course'),
+            field=models.ForeignKey(to='courses.Course', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='queue',

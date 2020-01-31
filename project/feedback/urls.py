@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'feedback'
+
 urlpatterns = [
     url(r'^new/$', views.NewFeedbackView.as_view(), name='new'),
     url(r'^list/$', views.ListFeedbackView.as_view(), name='list'),

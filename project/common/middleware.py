@@ -16,6 +16,6 @@ class LogRemoteUserMiddleware(object):
         response = self.get_response(request)
 
         # set the header if a user is logged in
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             response['X-iRunner-Username'] = str(request.user.username)
         return response

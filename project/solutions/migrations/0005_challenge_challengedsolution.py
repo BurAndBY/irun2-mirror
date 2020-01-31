@@ -5,6 +5,7 @@ from django.db import migrations, models
 import storage.storage
 import django.db.models.deletion
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -25,7 +26,7 @@ class Migration(migrations.Migration):
                 ('memory_limit', models.IntegerField(default=0)),
                 ('input_resource_id', storage.storage.ResourceIdField()),
                 ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.PROTECT)),
-                ('problem', models.ForeignKey(to='problems.Problem')),
+                ('problem', models.ForeignKey(to='problems.Problem', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -39,8 +40,8 @@ class Migration(migrations.Migration):
                 ('exit_code', models.IntegerField(null=True)),
                 ('time_used', models.IntegerField(null=True)),
                 ('memory_used', models.IntegerField(null=True)),
-                ('challenge', models.ForeignKey(to='solutions.Challenge')),
-                ('solution', models.ForeignKey(to='solutions.Solution')),
+                ('challenge', models.ForeignKey(to='solutions.Challenge', on_delete=django.db.models.deletion.CASCADE)),
+                ('solution', models.ForeignKey(to='solutions.Solution', on_delete=django.db.models.deletion.CASCADE)),
             ],
         ),
     ]

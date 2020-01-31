@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -135,7 +135,7 @@ class Activity(models.Model):
         (QUIZ_RESULT, _('quiz result')),
     )
 
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(_('name'), max_length=64)
     description = models.TextField(_('description'), blank=True, max_length=255)
     kind = models.IntegerField(_('kind'), choices=KIND_CHOICES)
@@ -145,7 +145,7 @@ class Activity(models.Model):
 
 @python_2_unicode_compatible
 class Subgroup(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(_('name'), max_length=16, blank=False)
 
     def __str__(self):
@@ -161,8 +161,8 @@ class Membership(models.Model):
         (TEACHER, _('teacher')),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    course = models.ForeignKey(Course)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     role = models.IntegerField(_('role'), choices=ROLE_CHOICES)
     subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -182,8 +182,8 @@ class AssignmentCriteriaIntermediate(models.Model):
     '''
     This model is used to get direct access to many-to-many relation.
     '''
-    assignment = models.ForeignKey(Assignment)
-    criterion = models.ForeignKey(Criterion)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    criterion = models.ForeignKey(Criterion, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -220,25 +220,25 @@ Messaging
 
 
 class MailThread(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     subject = models.CharField(_('subject'), blank=True, max_length=255)
-    problem = models.ForeignKey(Problem, null=True)
-    person = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    problem = models.ForeignKey(Problem, on_delete=models.SET_NULL, null=True)
+    person = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True)
     last_message_timestamp = models.DateTimeField()
     resolved = models.BooleanField(blank=True, default=True)
 
 
 class MailMessage(models.Model):
-    thread = models.ForeignKey(MailThread)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    thread = models.ForeignKey(MailThread, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
     body = models.TextField(_('message'), max_length=65535)
     attachment = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL, verbose_name=_('attachment'))
 
 
 class MailUserThreadVisit(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    thread = models.ForeignKey(MailThread)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    thread = models.ForeignKey(MailThread, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
 
     class Meta:
@@ -252,7 +252,7 @@ Electronic Queues
 
 @python_2_unicode_compatible
 class Queue(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     is_active = models.BooleanField(_('queue is active'), blank=True, default=True)
     name = models.CharField(_('name'), blank=True, max_length=255)
     subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
@@ -276,8 +276,8 @@ class QueueEntryStatus(object):
 
 
 class QueueEntry(models.Model):
-    queue = models.ForeignKey(Queue)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    queue = models.ForeignKey(Queue, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.IntegerField(_('status'), choices=QueueEntryStatus.CHOICES, default=QueueEntryStatus.WAITING)
 
     enqueue_time = models.DateTimeField(_('enqueue time'), null=False)

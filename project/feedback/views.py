@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
@@ -15,12 +15,12 @@ class NewFeedbackView(generic.View):
     @staticmethod
     def _form_class(request):
         # for anonymous users we do not allow uploading files
-        return forms.FeedbackFormWithUpload if request.user.is_authenticated() else forms.FeedbackForm
+        return forms.FeedbackFormWithUpload if request.user.is_authenticated else forms.FeedbackForm
 
     def get(self, request):
         Form = NewFeedbackView._form_class(request)
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             # extract email from user profile
             initial = {}
             if request.user.email is not None:
@@ -38,7 +38,7 @@ class NewFeedbackView(generic.View):
         if form.is_valid():
             message = form.save(commit=False)
 
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 message.author = request.user
                 message.attachment = fsutils.store_with_metadata(form.cleaned_data['upload'])
 

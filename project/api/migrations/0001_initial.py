@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -21,8 +22,8 @@ class Migration(migrations.Migration):
                 ('creation_time', models.DateTimeField()),
                 ('last_update_time', models.DateTimeField()),
                 ('priority', models.IntegerField()),
-                ('judgement', models.ForeignKey(to='solutions.Judgement', null=True)),
-                ('validation', models.ForeignKey(to='problems.Validation', null=True)),
+                ('judgement', models.ForeignKey(to='solutions.Judgement', on_delete=django.db.models.deletion.CASCADE, null=True)),
+                ('validation', models.ForeignKey(to='problems.Validation', on_delete=django.db.models.deletion.CASCADE, null=True)),
             ],
         ),
     ]

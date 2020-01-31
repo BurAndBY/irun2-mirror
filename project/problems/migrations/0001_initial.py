@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.db.models.deletion
 import mptt.fields
 import storage.storage
 
@@ -38,7 +39,7 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
-                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='problems.ProblemFolder', null=True)),
+                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='problems.ProblemFolder', null=True, on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -67,7 +68,7 @@ class Migration(migrations.Migration):
                 ('resource_id', storage.storage.ResourceIdField()),
                 ('file_type', models.IntegerField(verbose_name='file type', choices=[(215, "Author's solution"), (216, 'Checker'), (217, 'Contestant solution'), (218, 'Generator'), (219, 'Library')])),
                 ('description', models.TextField(verbose_name='description')),
-                ('compiler', models.ForeignKey(verbose_name='compiler', to='proglangs.Compiler')),
+                ('compiler', models.ForeignKey(verbose_name='compiler', to='proglangs.Compiler', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -91,7 +92,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProblemExtraInfo',
             fields=[
-                ('problem', models.OneToOneField(primary_key=True, serialize=False, to='problems.Problem')),
+                ('problem', models.OneToOneField(primary_key=True, serialize=False, to='problems.Problem', on_delete=django.db.models.deletion.CASCADE)),
                 ('description', models.TextField(verbose_name='description', blank=True)),
                 ('hint', models.TextField(verbose_name='hint', blank=True)),
             ],
@@ -99,17 +100,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='testcase',
             name='problem',
-            field=models.ForeignKey(to='problems.Problem'),
+            field=models.ForeignKey(to='problems.Problem', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='problemrelatedsourcefile',
             name='problem',
-            field=models.ForeignKey(to='problems.Problem', null=True),
+            field=models.ForeignKey(to='problems.Problem', null=True, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='problemrelatedfile',
             name='problem',
-            field=models.ForeignKey(to='problems.Problem'),
+            field=models.ForeignKey(to='problems.Problem', on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='problem',

@@ -6,6 +6,8 @@ from .activity import views as aviews
 from .solution.urls import urlpatterns as solution_urlpatterns
 from .judgement.urls import urlpatterns as judgement_urlpatterns
 
+app_name = 'solutions'
+
 solutions_urlpatterns = [
     url(r'^$', views.SolutionListView.as_view(), name='list'),
     url(r'^delete/$', views.DeleteSolutionsView.as_view(), name='delete'),

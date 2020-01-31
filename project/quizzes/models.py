@@ -129,7 +129,7 @@ class QuizInstance(models.Model):
 @python_2_unicode_compatible
 class QuizSession(models.Model):
     quiz_instance = models.ForeignKey(QuizInstance, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     score_policy = models.IntegerField(_('score policy'), choices=ScorePolicy.CHOICES,
                                        default=ScorePolicy.STRICT)
     start_time = models.DateTimeField()
@@ -177,8 +177,8 @@ class AccessMode(object):
 
 
 class CategoryAccess(models.Model):
-    category = models.ForeignKey(Category)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     mode = models.IntegerField(choices=AccessMode.CHOICES)
     when_granted = models.DateTimeField(auto_now=True)
     who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)
@@ -189,6 +189,6 @@ class CategoryAccess(models.Model):
 
 class QuizSessionComment(models.Model):
     quiz_session = models.ForeignKey(QuizSession, on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField(max_length=65535, null=False)
     timestamp = models.DateTimeField()
