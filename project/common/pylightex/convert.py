@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import cgi
 import itertools
 from .highlight import get_highlight_func
 from lark import Lark, Transformer, v_args, UnexpectedInput
+from six import PY2
 
 TEX_GRAMMAR = r'''
 // General
@@ -123,6 +123,15 @@ def _cut_leading_newline(s):
     return s
 
 
+def html_escape(val):
+    """Wrapper around html_escape depreciation."""
+    if not PY2:
+        from html import escape
+    else:
+        from cgi import escape
+    return escape(val)
+
+
 class TreeToHtml(Transformer):
     def __init__(self, highlight_func, olymp_section_names, olymp_file_names):
         self._highlight_func = highlight_func
@@ -163,7 +172,7 @@ class TreeToHtml(Transformer):
 
     @v_args(inline=True)
     def math_symbol(self, symbol):
-        return cgi.escape(symbol)
+        return html_escape(symbol)
 
     def equation(self, children):
         return ''.join(children)
@@ -181,11 +190,11 @@ class TreeToHtml(Transformer):
 
     @v_args(inline=True)
     def verb_cmd(self, block):
-        return '<span class="verbatim">{}</span>'.format(cgi.escape(block))
+        return '<span class="verbatim">{}</span>'.format(html_escape(block))
 
     @v_args(inline=True)
     def path_cmd(self, block):
-        return '<span class="path">{}</span>'.format(cgi.escape(block))
+        return '<span class="path">{}</span>'.format(html_escape(block))
 
     @v_args(inline=True)
     def mintinline_cmd(self, language, block):
@@ -198,7 +207,7 @@ class TreeToHtml(Transformer):
 
     @v_args(inline=True)
     def verbatim_env(self, content):
-        return '<div class="verbatim">{}</div>'.format(cgi.escape(content))
+        return '<div class="verbatim">{}</div>'.format(html_escape(content))
 
     @v_args(inline=True)
     def minted_env(self, language, content):
@@ -253,8 +262,8 @@ class TreeToHtml(Transformer):
         input_name = self._olymp_file_names.get('input')
         output_name = self._olymp_file_names.get('output')
         if input_name is not None and output_name is not None:
-            tokens.extend(['<thead><tr><th>', cgi.escape(input_name),
-                           '</th><th>', cgi.escape(output_name), '</th></tr></thead>'])
+            tokens.extend(['<thead><tr><th>', html_escape(input_name),
+                           '</th><th>', html_escape(output_name), '</th></tr></thead>'])
 
         tokens.append('<tbody>')
         for row in rows:
@@ -291,7 +300,7 @@ def _make_error_page(tex, inline, u):
     body = '{}: {}'.format(type(u).__name__, u)
     if inline:
         body = body.splitlines()[0]
-    return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', cgi.escape(body))
+    return '<{0} class="monospace error">{1}</{0}>'.format('span' if inline else 'div', html_escape(body))
 
 
 def tex2html(tex, inline=False, pygmentize=True, wrap=True, throw=False, olymp_section_names={}, olymp_file_names={}):
