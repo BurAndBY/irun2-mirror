@@ -270,7 +270,7 @@ def _prepare_limit(actual, limit, preparer):
 
 @register.inclusion_tag('solutions/irunner_solutions_timelimitbox_tag.html')
 def irunner_solutions_timelimitbox(actual, limit):
-    return _prepare_limit(actual, limit, lambda x: x * 0.001)
+    return _prepare_limit(actual, limit, lambda x: float(x) / 1000)
 
 
 @register.inclusion_tag('solutions/irunner_solutions_memorylimitbox_tag.html')
