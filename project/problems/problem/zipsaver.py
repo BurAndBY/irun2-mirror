@@ -27,8 +27,8 @@ class ZipWriter(object):
     def __init__(self, parent):
         self._parent = parent
 
-        # Open StringIO to grab in-memory ZIP contents
-        self._stream = six.StringIO()
+        # Open BytesIO to grab in-memory ZIP contents
+        self._stream = six.BytesIO()
         self._zipfile = zipfile.ZipFile(self._stream, 'w', zipfile.ZIP_DEFLATED)
         self._storage = create_storage()
 
