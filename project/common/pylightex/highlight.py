@@ -9,9 +9,10 @@ def html_escape(val):
     """Wrapper around html_escape depreciation."""
     if not PY2:
         from html import escape
+        return escape(val, quote=False)
     else:
         from cgi import escape
-    return escape(val)
+        return escape(val)
 
 
 def do_highlight(code, language):
