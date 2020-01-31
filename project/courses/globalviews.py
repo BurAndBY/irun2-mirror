@@ -48,6 +48,7 @@ class BaseCourseListView(generic.TemplateView):
         solutions_per_course = self._count_for_courses(CourseSolution.objects.all())
 
         year_to_courses = {}
+        no_year_courses = []
         for course in self.get_queryset():
             pk = course.id
             message_counts = message_count_manager.get(pk)
@@ -61,14 +62,16 @@ class BaseCourseListView(generic.TemplateView):
                 message_counts.unresolved,
                 course.status == CourseStatus.ARCHIVED
             )
-            year_to_courses.setdefault(course.academic_year, []).append(item)
+            if course.academic_year is not None:
+                year_to_courses.setdefault(course.academic_year, []).append(item)
+            else:
+                no_year_courses.append(item)
 
         pairs = []
         for academic_year, courses in sorted(year_to_courses.items(), reverse=True):
-            if academic_year is None:
-                pairs.append((None, courses))
-            else:
-                pairs.append((make_academic_year_string(academic_year), courses))
+            pairs.append((make_academic_year_string(academic_year), courses))
+        if no_year_courses:
+            pairs.append((None, no_year_courses))
 
         context = self.get_context_data(pairs=pairs)
         return self.render_to_response(context)
