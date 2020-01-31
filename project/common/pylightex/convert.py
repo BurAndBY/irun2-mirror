@@ -2,9 +2,8 @@
 
 from __future__ import unicode_literals
 import itertools
-from .highlight import get_highlight_func
+from .highlight import get_highlight_func, html_escape
 from lark import Lark, Transformer, v_args, UnexpectedInput
-from six import PY2
 
 TEX_GRAMMAR = r'''
 // General
@@ -121,15 +120,6 @@ def _cut_leading_newline(s):
     if s.startswith('\n'):
         return s[1:]
     return s
-
-
-def html_escape(val):
-    """Wrapper around html_escape depreciation."""
-    if not PY2:
-        from html import escape
-    else:
-        from cgi import escape
-    return escape(val)
 
 
 class TreeToHtml(Transformer):
