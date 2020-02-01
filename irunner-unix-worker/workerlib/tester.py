@@ -134,7 +134,7 @@ class BaseTester:
             '--tests-dir', srcdir / srcpaths.testsdir,
             '--junitxml', dstdir / dstpaths.junitxmlfile,
             '--tb', 'short',
-            '--timeout', str(job.default_time_limit * 0.001),
+            '--timeout', str(job.default_time_limit / 1000),
             '-p', 'no:cacheprovider',
         ]
         return [str(s) for s in cmd]

@@ -113,7 +113,7 @@ def time_formatter(value):
         seconds = smart_text(value // 1000)
     else:
         # use localized fraction representation
-        seconds = number_format(value * 0.001)
+        seconds = number_format(value / 1000)
     return _('%(seconds)s s') % {'seconds': seconds}
 
 
