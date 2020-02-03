@@ -39,9 +39,9 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             prefetch_related('problem').\
             prefetch_related('author').\
             select_related('best_judgement').\
-            select_related('source_code').\
+            prefetch_related('source_code').\
             prefetch_related('aggregatedresult').\
-            defer('ip_address', 'source_code__resource_id').\
+            defer('ip_address', 'stop_on_fail', 'source_code__resource_id', 'best_judgement__rejudge_id', 'best_judgement__judgement_before_id').\
             order_by('-id')
 
         if form.is_valid():
