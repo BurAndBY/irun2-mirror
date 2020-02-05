@@ -95,7 +95,7 @@ class TwoPanelSelectMultiple(forms.SelectMultiple):
                                                  widget=forms.Select(attrs={'class': 'form-control'}), required=False)
         return ObjectForm(prefix=uid)
 
-    def render(self, name, value, attrs=None, choices=()):
+    def render(self, name, value, attrs=None, renderer=None, choices=()):
         selected_choices = set(force_text(v) for v in value)
 
         selected = []
