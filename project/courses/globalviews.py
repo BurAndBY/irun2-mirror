@@ -119,7 +119,7 @@ class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
         with transaction.atomic():
             result = super(CourseCreateView, self).form_valid(form)
             course = self.object
-            course.compilers = Compiler.objects.filter(default_for_courses=True)
+            course.compilers.set(Compiler.objects.filter(default_for_courses=True))
             return result
 
     def get_initial(self):
