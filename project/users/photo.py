@@ -19,14 +19,14 @@ def generate_thumbnail_file(f):
 
     im.thumbnail(THUMBNAIL_SIZE)
 
-    output = six.StringIO()
+    output = six.BytesIO()
     im.save(output, 'JPEG', quality=92)
 
     return output.getvalue()
 
 
 def generate_thumbnail_blob(s):
-    buff = six.StringIO()
+    buff = six.BytesIO()
     buff.write(s)
     buff.seek(0)
     return generate_thumbnail_file(buff)

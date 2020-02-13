@@ -339,7 +339,7 @@ class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin,
                 if photo_blob is not None:
                     photo_thumbnail_blob = photo.generate_thumbnail_blob(photo_blob)
             except Exception as e:
-                message = e.message
+                message = getattr(e, 'message', None)
                 if not message:
                     message = smart_text(e)
                 errors.append(self.UserError(user, type(e).__name__, message))
@@ -353,7 +353,7 @@ class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin,
                 )
 
         with transaction.atomic():
-            for user_id, ids in photo_ids.iteritems():
+            for user_id, ids in photo_ids.items():
                 counter += UserProfile.objects.filter(pk=user_id).update(photo=ids.photo, photo_thumbnail=ids.photo_thumbnail)
 
         msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}

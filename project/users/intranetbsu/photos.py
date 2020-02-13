@@ -38,7 +38,7 @@ def _create_request_params(request):
 
 def fetch_intranet_students(request):
     rp = _create_request_params(request)
-    req = urllib.request.Request(BASE_URL, urllib.parse.urlencode(rp))
+    req = urllib.request.Request(BASE_URL, urllib.parse.urlencode(rp).encode('cp1251'))
     response = urllib.request.urlopen(req)
     html = response.read().decode('cp1251')
     students = parse_intranet_bsu_html(html)
@@ -55,7 +55,7 @@ def download_photo(request):
     '''
     Returns either JPEG blob or None if no photo was found.
     '''
-    students = fetch_intranet_students(request)
+    students = list(fetch_intranet_students(request))
     if len(students) != 1:
         # ambiguous
         return None
