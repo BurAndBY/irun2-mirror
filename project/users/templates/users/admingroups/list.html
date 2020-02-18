@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_users %}
+
+{% block title %}{% trans 'Administrator groups' %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'Administrator groups' %}</h1>
+
+    <p>{% trans 'An administrator group is a group of users that is granted to perform administrative tasks (create problems, set up contests, etc.).' %}</p>
+
+    {% if can_manage_groups %}
+    <div class="form-group pull-right">
+        <a href="{% url 'users:admingroups:create' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span></a>
+    </div>
+    {% else %}
+    <p class="small">{% trans 'Only the groups you belong to are shown.' %}</p>
+    {% endif %}
+
+    {% if object_list %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans 'Name' %}</th>
+                <th>{% trans 'Users' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in object_list %}
+            <tr>
+                <td>
+                    {% if can_manage_groups %}<a href="{% url 'users:admingroups:update' group.id %}">{{ group.name }}</a>{% else %}{{ group.name }}{% endif %}
+                </td>
+                <td>
+                    <ul class="list-unstyled">
+                        {% for user in group.users.all %}
+                            <li>{% if user == request.user %}<strong>{% endif %}{% irunner_users_card user %}{% if user == request.user %}</strong>{% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="ir-absence">{% trans 'No groups' %}</div>
+    {% endif %}
+{% endblock %}

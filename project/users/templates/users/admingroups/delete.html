@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{% trans 'Administrator groups' %}{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
+        <li class="active">{{ object.name }}</li>
+    </ol>
+
+    <p>{% trans 'Are you sure you want to delete the administrator group?' %}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+            <a href="{% url 'users:admingroups:update' object.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{% trans 'Administrator groups' %}{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
+        <li class="active">{% trans 'Create' %}</li>
+    </ol>
+
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
+            <a href="{% url 'users:admingroups:list' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+        {% endbuttons %}
+    </form>
+{% endblock %}

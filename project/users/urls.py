@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 
 from . import views
+from .admingroups.urls import admingroups_urlpatterns
 
 app_name = 'users'
 
@@ -22,6 +23,7 @@ urlpatterns = [
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
     url(r'^export\.json$', views.ExportView.as_view(), name='export'),
     url(r'^swap-first-last-name/$', views.SwapFirstLastNameView.as_view(), name='swap_first_last_name'),
+    url(r'^admin-groups/', include(admingroups_urlpatterns)),
 
     # single user profile
     url(r'^(?P<user_id>[0-9]+)/$', views.ProfileShowView.as_view(), name='profile_show'),

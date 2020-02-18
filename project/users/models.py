@@ -21,6 +21,15 @@ class UserFolder(MPTTModel):
         return self.name
 
 
+@python_2_unicode_compatible
+class AdminGroup(models.Model):
+    name = models.CharField(_('name'), max_length=64)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.name
+
+
 class UserProfile(models.Model):
     PERSON = 1
     TEAM = 2
