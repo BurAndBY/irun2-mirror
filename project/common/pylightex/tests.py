@@ -18,7 +18,9 @@ def tex2html(tex, inline=False, olymp_section_names={}, olymp_file_names={}):
 class TestBasic(unittest.TestCase):
     def test_paragraph(self):
         self.assertEqual(tex2html(''), '')
+        self.assertEqual(tex2html(' '), '<div class="paragraph"> </div>')
         self.assertEqual(tex2html('a'), '<div class="paragraph">a</div>')
+        self.assertEqual(tex2html('abacaba'), '<div class="paragraph">abacaba</div>')
         self.assertEqual(tex2html('a\nb'), '<div class="paragraph">a\nb</div>')
         self.assertEqual(tex2html('a\n\nb'), '<div class="paragraph">a</div><div class="paragraph">b</div>')
         self.assertEqual(tex2html('a\n\n\nb'), '<div class="paragraph">a</div><div class="paragraph">b</div>')
@@ -110,6 +112,8 @@ class TestBasic(unittest.TestCase):
 class TestMath(unittest.TestCase):
     def test_inline(self):
         self.assertEqual(tex2html('$x$'), '<div class="paragraph"><span class="math">x</span></div>')
+        self.assertEqual(tex2html(' $x$'), '<div class="paragraph"> <span class="math">x</span></div>')
+        self.assertEqual(tex2html('$x$ '), '<div class="paragraph"><span class="math">x</span> </div>')
         self.assertEqual(tex2html('$x_i$'), '<div class="paragraph"><span class="math">x_i</span></div>')
         self.assertEqual(tex2html('$\\sqrt{x^2}$'), '<div class="paragraph"><span class="math">\\sqrt{x^2}</span></div>')
         self.assertEqual(tex2html('$x^2\n$'), '<div class="paragraph"><span class="math">x^2\n</span></div>')
@@ -119,7 +123,10 @@ class TestMath(unittest.TestCase):
 
     def test_display(self):
         self.assertEqual(tex2html('$$x$$'), '<div class="paragraph"><div class="math">x</div></div>')
+        self.assertEqual(tex2html(r'$$x\$$$'), r'<div class="paragraph"><div class="math">x\$</div></div>')
         self.assertEqual(tex2html('$$x$$$$y$$'), '<div class="paragraph"><div class="math">x</div><div class="math">y</div></div>')
+        self.assertEqual(tex2html('$$ $$'), '<div class="paragraph"><div class="math"> </div></div>')
+        # TODO: self.assertEqual(tex2html('$$$$'), '<div class="paragraph"><div class="math"></div></div>')
 
     def test_math_escaping_dollars(self):
         self.assertEqual(tex2html(r'$100\$$', inline=True), r'<span class="math">100\$</span>')
@@ -133,11 +140,24 @@ class TestMath(unittest.TestCase):
         self.assertEqual(tex2html('$x < y > z$', inline=True), '<span class="math">x &lt; y &gt; z</span>')
         self.assertEqual(tex2html('$x \\& y$', inline=True), '<span class="math">x \\&amp; y</span>')
 
+    def test_mixed_math(self):
+        self.assertEqual(tex2html('$$x$$$y$'), '<div class="paragraph"><div class="math">x</div><span class="math">y</span></div>')
+        self.assertEqual(tex2html('$x$ $$y$$'), '<div class="paragraph"><span class="math">x</span> <div class="math">y</div></div>')
+        # TODO: self.assertEqual(tex2html('$x$$$y$$'), '<div class="paragraph"><span class="math">x</span><div class="math">y</div></div>')
+
     def test_no_math(self):
         self.assertEqual(tex2html('\\$aba\\$aba', inline=True), '$aba$aba')
         self.assertEqual(tex2html('100\\$', inline=True), '100$')
         self.assertEqual(tex2html('1000\\$\\$', inline=True), '1000$$')
         self.assertEqual(tex2html('\\$\\$\\$a', inline=True), '$$$a')
+
+    def test_error(self):
+        with self.assertRaises(UnexpectedInput):
+            tex2html('$x', inline=True)
+        with self.assertRaises(UnexpectedInput):
+            tex2html('$$x', inline=True)
+        with self.assertRaises(UnexpectedInput):
+            tex2html('$$x$y$$', inline=True)
 
 
 class TestVerbatim(unittest.TestCase):

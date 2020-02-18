@@ -32,7 +32,6 @@ urlpatterns = [
     url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),
     url(r'^news/', include('news.urls', namespace='news')),
     url(r'^problems/', include('problems.urls', namespace='problems')),
-    url(r'^quiz-demo/', include('quizdemo.urls', namespace='quizdemo')),
     url(r'^quizzes/', include('quizzes.urls', namespace='quizzes')),
     url(r'^storage/', include('storage.urls', namespace='storage')),
     url(r'^users/', include('users.urls', namespace='users')),

@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'solutions',
     'storage',
     'users',
-    'quizdemo',
     'quizzes',
 )
 
