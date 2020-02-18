@@ -7,7 +7,6 @@ from six.moves import reduce
 
 from django.contrib import auth, messages
 from django.contrib.auth.hashers import make_password
-from django.core.exceptions import PermissionDenied
 from django.core.files.base import ContentFile
 from django.urls import reverse
 from django.db import transaction
@@ -18,7 +17,7 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 
 from django_otp import devices_for_user, user_has_device
 
@@ -610,7 +609,7 @@ class UserCardView(generic.View):
     def get(self, request, user_id):
         user = get_object_or_404(auth.get_user_model(), pk=user_id)
         if not is_allowed(request.user, user):
-            raise PermissionDenied()
+            return HttpResponseForbidden()
         profile = user.userprofile
         course_memberships = Membership.objects.filter(user=user, role=Membership.STUDENT).\
             select_related('course', 'subgroup').\
