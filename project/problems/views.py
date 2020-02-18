@@ -158,7 +158,7 @@ class ShowTreeFolderJsonView(StaffMemberRequiredMixin, FancyTreeMixin, generic.V
         folder = ProblemFolder.objects.filter(pk=folder_id).first()
         name = folder.name if folder is not None else ''
         data = self._list_folder_contents(folder_id)
-        return JsonResponse({'id': folder_id, 'name': name, 'data': data}, safe=True)
+        return JsonResponse({'id': folder_id, 'name': name, 'data': data}, json_dumps_params={'ensure_ascii': False})
 
 '''
 All problems: folders
@@ -425,4 +425,4 @@ def get_tex_preview(form, problem=None):
 class TeXRenderView(StaffMemberRequiredMixin, generic.View):
     def post(self, request):
         form = TeXForm(request.POST)
-        return JsonResponse(get_tex_preview(form))
+        return JsonResponse(get_tex_preview(form), json_dumps_params={'ensure_ascii': False})

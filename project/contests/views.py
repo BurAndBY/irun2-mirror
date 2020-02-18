@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.db import transaction, IntegrityError
 from django.db.models import F, Q
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext, pgettext
@@ -13,7 +13,7 @@ from django.views import generic
 
 from common.cast import make_int_list_quiet
 from common.constants import make_empty_select, EMPTY_SELECT
-from common.networkutils import make_json_response, redirect_with_query_string
+from common.networkutils import redirect_with_query_string
 from common.pageutils import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
@@ -843,7 +843,7 @@ class S4RiSExportView(ExportView):
     def get(self, request, contest):
         results = self.service.make_contest_results(contest, frozen=False)
         json = export_to_s4ris_json(contest, results)
-        return make_json_response(json)
+        return JsonResponse(json, json_dumps_params={'ensure_ascii': False})
 
 
 class EjudgeExportView(ExportView):

@@ -43,8 +43,3 @@ def redirect_with_query_string(request, *args, **kwargs):
         url += '?'
         url += request.GET.urlencode()
     return HttpResponseRedirect(url)
-
-
-def make_json_response(data):
-    blob = json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8')
-    return HttpResponse(blob, content_type='application/json; charset=utf-8')

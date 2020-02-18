@@ -1046,7 +1046,7 @@ class ProblemTeXRenderView(BaseProblemView):
     def post(self, request, problem_id):
         problem = self._load(problem_id)
         form = TeXForm(request.POST)
-        return JsonResponse(get_tex_preview(form, problem))
+        return JsonResponse(get_tex_preview(form, problem), json_dumps_params={'ensure_ascii': False})
 
 
 class ProblemTeXEditView(BaseProblemView):

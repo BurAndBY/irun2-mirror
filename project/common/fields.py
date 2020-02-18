@@ -24,7 +24,7 @@ class TwoPanelModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     @classmethod
     def ajax(cls, object_list):
         data = [{'id': obj.pk, 'name': cls.label_from_instance(obj)} for obj in object_list]
-        return JsonResponse({'data': data}, safe=True)
+        return JsonResponse({'data': data}, json_dumps_params={'ensure_ascii': False})
 
     def clean(self, value):
         qs = super(TwoPanelModelMultipleChoiceField, self).clean(value)

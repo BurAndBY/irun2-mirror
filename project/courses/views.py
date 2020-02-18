@@ -762,7 +762,7 @@ class CourseMyAttemptsView(BaseCourseView):
     def get(self, request, course):
         problem_id = str_to_uint(request.GET.get('problem'))
         message = get_attempt_message(course, request.user, problem_id)
-        return JsonResponse({'message': message})
+        return JsonResponse({'message': message}, json_dumps_params={'ensure_ascii': False})
 
 
 '''
