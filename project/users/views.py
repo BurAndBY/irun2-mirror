@@ -266,7 +266,7 @@ class UploadPhotoMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.For
         storage = create_storage()
 
         with transaction.atomic():
-            for user_id, photos in upload.iteritems():
+            for user_id, photos in upload.items():
                 photo, photo_thumbnail = photos
                 photo_id = storage.save(ContentFile(photo))
                 photo_thumbnail_id = storage.save(ContentFile(photo_thumbnail))

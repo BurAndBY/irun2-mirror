@@ -55,7 +55,7 @@ def load_html_statement(myzip, problem, language):
             data = myzip.read(path)
             # HACK
             if filename == 'problem-statement.css':
-                data += HIDE_HEADER_CSS
+                data += HIDE_HEADER_CSS.encode('utf-8')
 
             fd = ContentFile(data, name=filename)
             store_and_fill_metadata(fd, related_file)
