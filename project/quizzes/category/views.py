@@ -4,12 +4,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 
+from common.accessmode import AccessMode
 from common.cast import make_int_list_quiet
 from users.models import UserProfile
 
 from quizzes.forms import ShareCategoryForm
 from quizzes.models import (
-    AccessMode,
     Category,
     CategoryAccess,
 )

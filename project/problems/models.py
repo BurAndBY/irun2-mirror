@@ -10,6 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from common.accessmode import BaseAccess
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
@@ -228,22 +229,9 @@ class TestCaseValidation(models.Model):
     validator_message = models.CharField(max_length=255, blank=True)
 
 
-class AccessMode(object):
-    READ = 1
-    WRITE = 2
-
-    CHOICES = (
-        (READ, _('Read')),
-        (WRITE, _('Write')),
-    )
-
-
-class ProblemAccess(models.Model):
+class ProblemAccess(BaseAccess):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
-    mode = models.IntegerField(choices=AccessMode.CHOICES)
-    when_granted = models.DateTimeField(auto_now=True)
-    who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = ('problem', 'user')

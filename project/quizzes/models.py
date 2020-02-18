@@ -8,6 +8,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, smart_text
 
+from common.accessmode import BaseAccess
 from courses.models import Course
 
 
@@ -166,22 +167,9 @@ class SessionQuestionAnswer(models.Model):
         return smart_text(self.choice)
 
 
-class AccessMode(object):
-    READ = 1
-    WRITE = 2
-
-    CHOICES = (
-        (READ, _('Read')),
-        (WRITE, _('Write')),
-    )
-
-
-class CategoryAccess(models.Model):
+class CategoryAccess(BaseAccess):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
-    mode = models.IntegerField(choices=AccessMode.CHOICES)
-    when_granted = models.DateTimeField(auto_now=True)
-    who_granted = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = ('category', 'user')

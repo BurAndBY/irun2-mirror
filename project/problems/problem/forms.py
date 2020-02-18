@@ -6,6 +6,7 @@ from django import forms
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 
+from common.accessmode import AccessMode
 from common.constants import EMPTY_SELECT
 from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from users.fields import UsernameField
@@ -14,7 +15,6 @@ from proglangs.fields import ProgrammingLanguagesField
 from problems.problem.importing import extract_tests
 from problems.problem.fields import TimeLimitField, MemoryLimitField
 from problems.models import (
-    AccessMode,
     Problem,
     ProblemExtraInfo,
     ProblemFolder,

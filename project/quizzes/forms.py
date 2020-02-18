@@ -1,8 +1,10 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import GroupQuizRelation, AccessMode
+from common.accessmode import AccessMode
 from users.fields import UsernameField
+
+from .models import GroupQuizRelation
 
 
 class AddQuestionGroupForm(forms.ModelForm):

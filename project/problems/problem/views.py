@@ -24,6 +24,7 @@ from api.queue import enqueue, bulk_enqueue
 from api.objectinqueue import ValidationInQueue, ChallengedSolutionInQueue
 from cauth.mixins import LoginRequiredMixin
 from common.access import PermissionCheckMixin
+from common.accessmode import AccessMode
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
 from common.folderutils import ROOT
@@ -72,7 +73,6 @@ from problems.forms import (
     TeXForm,
 )
 from problems.models import (
-    AccessMode,
     Problem,
     ProblemAccess,
     ProblemRelatedFile,
