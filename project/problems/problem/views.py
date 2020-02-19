@@ -144,7 +144,7 @@ Overview
 
 class ProblemOverviewView(BaseProblemView):
     tab = 'overview'
-    template_name = 'problems/overview.html'
+    template_name = 'problems/problem/overview.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -166,7 +166,7 @@ Solutions
 
 class ProblemSolutionsView(BaseProblemView):
     tab = 'solutions'
-    template_name = 'problems/solutions.html'
+    template_name = 'problems/problem/solutions.html'
     paginate_by = 25
 
     def get(self, request, problem_id):
@@ -236,8 +236,8 @@ Statement
 
 class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
     tab = 'statement'
-    template_name = 'problems/statement.html'
-    template_name_print = 'problems/statement_print.html'
+    template_name = 'problems/problem/statement.html'
+    template_name_print = 'problems/problem/statement_print.html'
 
     def get(self, request, problem_id, filename):
         problem = self._load(problem_id)
@@ -261,7 +261,7 @@ ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_va
 
 class ProblemTestsView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/tests.html'
+    template_name = 'problems/problem/tests.html'
 
     def _fill_summary(self, context, test_cases):
         total_input_size = 0
@@ -331,7 +331,7 @@ FetchedTestCase = collections.namedtuple('FetchedTestCase', 'test_case input_rep
 
 class ProblemBrowseTestsView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/tests_browse.html'
+    template_name = 'problems/problem/tests_browse.html'
     max_lines = 10
     max_line_length = 48
 
@@ -353,7 +353,7 @@ class ProblemBrowseTestsView(BaseProblemView):
 
 class ProblemReorderTestsView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/tests_reorder.html'
+    template_name = 'problems/problem/tests_reorder.html'
     requirements = SingleProblemPermissions.EDIT
 
     def get(self, request, problem_id):
@@ -439,7 +439,7 @@ class DescriptionImageLoader(IDescriptionImageLoader):
 
 class ProblemTestsTestView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/show_test.html'
+    template_name = 'problems/problem/show_test.html'
 
     def get(self, request, problem_id, test_number):
         problem = self._load(problem_id)
@@ -506,7 +506,7 @@ class ProblemTestsTestDataView(BaseProblemView):
 
 class ProblemTestsTestEditView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/edit_test.html'
+    template_name = 'problems/problem/edit_test.html'
     requirements = SingleProblemPermissions.EDIT
 
     def _make_data_form(self, storage, resource_id, prefix, data=None, files=None):
@@ -607,7 +607,7 @@ class ProblemTestsTestEditView(BaseProblemView):
 
 class ProblemTestsNewView(BaseProblemView):
     tab = 'tests'
-    template_name = 'problems/edit_test.html'
+    template_name = 'problems/problem/edit_test.html'
     requirements = SingleProblemPermissions.EDIT
 
     def _make_data_form(self, prefix, data=None, files=None):
@@ -663,7 +663,7 @@ class ProblemTestsDeleteView(BaseProblemView):
 
 
 class ProblemTestsBatchSetView(BaseProblemView):
-    template_name = 'problems/batch_edit_tests.html'
+    template_name = 'problems/problem/batch_edit_tests.html'
     tab = 'tests'
     form_class = None
     url_pattern = None
@@ -737,7 +737,7 @@ class ProblemTestsSetPointsView(ProblemTestsBatchSetView):
 class ProblemTestsBatchDeleteView(ProblemTestsBatchSetView):
     form_class = None
     url_pattern = 'problems:tests_mass_delete'
-    template_name = 'problems/batch_delete_tests.html'
+    template_name = 'problems/problem/batch_delete_tests.html'
     requirements = SingleProblemPermissions.EDIT
 
     def apply(self, problem, queryset, valid_form):
@@ -767,7 +767,7 @@ class ProblemTestsDownloadArchiveView(BaseProblemView):
 
 
 class ProblemTestsUploadArchiveView(BaseProblemView):
-    template_name = 'problems/upload_archive.html'
+    template_name = 'problems/problem/upload_archive.html'
     tab = 'tests'
     requirements = SingleProblemPermissions.EDIT
 
@@ -827,7 +827,7 @@ Problem files
 
 class ProblemFilesView(BaseProblemView):
     tab = 'files'
-    template_name = 'problems/files.html'
+    template_name = 'problems/problem/files.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -862,7 +862,7 @@ class ProblemFilesSourceFileOpenView(BaseProblemView):
 
 class ProblemFilesBaseFileEditView(BaseProblemView):
     tab = 'files'
-    template_name = 'problems/edit_file.html'
+    template_name = 'problems/problem/edit_file.html'
     form_class = None
     requirements = SingleProblemPermissions.EDIT
 
@@ -913,7 +913,7 @@ class ProblemFilesSourceFileEditView(ProblemFilesBaseFileEditView):
 
 class ProblemFilesBaseFileNewView(BaseProblemView):
     tab = 'files'
-    template_name = 'problems/edit_file.html'
+    template_name = 'problems/problem/edit_file.html'
     form_class = None
     requirements = SingleProblemPermissions.EDIT
 
@@ -951,7 +951,7 @@ class ProblemFilesSourceFileNewView(ProblemFilesBaseFileNewView):
 
 class ProblemFilesBaseFileDeleteView(BaseProblemView):
     tab = 'files'
-    template_name = 'problems/delete_file.html'
+    template_name = 'problems/problem/delete_file.html'
     requirements = SingleProblemPermissions.EDIT
 
     def get_queryset(self, problem, file_id):
@@ -987,7 +987,7 @@ Submit
 
 class ProblemSubmitView(BaseProblemView):
     tab = 'submit'
-    template_name = 'problems/submit.html'
+    template_name = 'problems/problem/submit.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1013,7 +1013,7 @@ class ProblemSubmitView(BaseProblemView):
 
 class ProblemSubmissionView(BaseProblemView):
     tab = 'submit'
-    template_name = 'problems/submission.html'
+    template_name = 'problems/problem/submission.html'
 
     def get(self, request, problem_id, solution_id):
         problem = self._load(problem_id)
@@ -1031,7 +1031,7 @@ TeX editor for current problem
 
 class ProblemTeXView(BaseProblemView):
     tab = 'tex'
-    template_name = 'problems/texs.html'
+    template_name = 'problems/problem/texs.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1051,7 +1051,7 @@ class ProblemTeXRenderView(BaseProblemView):
 
 class ProblemTeXEditView(BaseProblemView):
     tab = 'tex'
-    template_name = 'problems/edit_tex.html'
+    template_name = 'problems/problem/edit_tex.html'
     requirements_to_post = SingleProblemPermissions.EDIT
 
     def _make_tex_context(self, problem, form):
@@ -1096,7 +1096,7 @@ def _new_related_file(problem, related_file, f):
 
 class BaseProblemTeXNewView(BaseProblemView):
     tab = 'tex'
-    template_name = 'problems/edit_tex.html'
+    template_name = 'problems/problem/edit_tex.html'
     filename = None
     file_type = None
     requirements = SingleProblemPermissions.EDIT
@@ -1158,7 +1158,7 @@ Folders
 
 class ProblemFoldersView(BaseProblemView):
     tab = 'folders'
-    template_name = 'problems/folders.html'
+    template_name = 'problems/problem/folders.html'
     requirements = SingleProblemPermissions.MOVE
 
     def get(self, request, problem_id):
@@ -1187,7 +1187,7 @@ Properties
 
 class ProblemPropertiesView(BaseProblemView):
     tab = 'properties'
-    template_name = 'problems/properties.html'
+    template_name = 'problems/problem/properties.html'
     requirements = SingleProblemPermissions.EDIT
 
     def _make_forms(self, problem, data=None):
@@ -1234,7 +1234,7 @@ Name
 
 class ProblemNameView(BaseProblemView):
     tab = 'name'
-    template_name = 'problems/name.html'
+    template_name = 'problems/problem/name.html'
     requirements = SingleProblemPermissions.EDIT
 
     def get(self, request, problem_id):
@@ -1266,7 +1266,7 @@ Images
 
 class ProblemPicturesView(BaseProblemView):
     tab = 'pictures'
-    template_name = 'problems/pictures.html'
+    template_name = 'problems/problem/pictures.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1288,7 +1288,7 @@ Validator
 
 class ProblemValidatorView(BaseProblemView):
     tab = 'validator'
-    template_name = 'problems/validator.html'
+    template_name = 'problems/problem/validator.html'
     requirements = SingleProblemPermissions.EDIT
 
     def _create_form(self, problem, data=None, initial=None):
@@ -1348,7 +1348,7 @@ Challenges
 
 class ProblemChallengesView(BaseProblemView):
     tab = 'challenges'
-    template_name = 'problems/challenges.html'
+    template_name = 'problems/problem/challenges.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1364,7 +1364,7 @@ class ProblemChallengesView(BaseProblemView):
 
 class ProblemNewChallengeView(BaseProblemView):
     tab = 'challenges'
-    template_name = 'problems/challenge_new.html'
+    template_name = 'problems/problem/challenge_new.html'
     requirements = SingleProblemPermissions.CHALLENGE
 
     def get(self, request, problem_id):
@@ -1426,7 +1426,7 @@ def fetch_challenge_stats(problem_id, challenge_id):
 
 class ProblemChallengeView(BaseProblemView):
     tab = 'challenges'
-    template_name = 'problems/challenge.html'
+    template_name = 'problems/problem/challenge.html'
 
     max_bytes = 8192
     max_lines = 30
@@ -1544,7 +1544,7 @@ Delete problem
 
 class ProblemDeleteView(BaseProblemView):
     tab = 'name'
-    template_name = 'problems/delete.html'
+    template_name = 'problems/problem/delete.html'
     requirements = SingleProblemPermissions.DELETE
 
     def get(self, request, problem_id):
@@ -1576,7 +1576,7 @@ Rejudges
 
 class ProblemRejudgesView(BaseProblemView):
     tab = 'rejudges'
-    template_name = 'problems/rejudges.html'
+    template_name = 'problems/problem/rejudges.html'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1598,7 +1598,7 @@ Access
 
 class ProblemAccessView(BaseProblemView):
     tab = 'access'
-    template_name = 'problems/access.html'
+    template_name = 'problems/problem/access.html'
     requirements_to_post = SingleProblemPermissions.EDIT
 
     def _load_access_control_list(self, problem):

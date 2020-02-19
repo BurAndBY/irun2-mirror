@@ -1,18 +1,18 @@
-{% extends "problems/base.html" %}
+{% extends "problems/problem/base.html" %}
 
 {% load bootstrap3 %}
 {% load irunner_mass %}
 {% load i18n %}
 
 {% block main %}
-    <h2>{% trans 'Batch editing' %} <small>({{ ids|length }} {% blocktrans count counter=ids|length %}test{% plural %}tests{% endblocktrans %})</small></h2>
+    <h2>{% trans 'Batch deteting' %} <small>({{ ids|length }} {% blocktrans count counter=ids|length %}test{% plural %}tests{% endblocktrans %})</small></h2>
     <form method="post" action="{% url url_pattern problem.id %}{{ navigator.query_string }}">
         {% csrf_token %}
         {% irunner_mass_hidden ids %}
-        {% bootstrap_form form %}
+        <p>{% trans 'The tests are going to be deleted.' %} {% trans 'This action cannot be undone.' %}</p>
         {% buttons %}
-            <button type="submit" class="btn btn-primary">
-            	{% trans 'Save' %}
+            <button type="submit" class="btn btn-danger">
+            	{% trans 'Delete' %}
             </button>
 			<a href="{% url 'problems:tests' problem.id %}{{ navigator.query_string }}" role="button" class="btn btn-link">
                 {% trans 'Cancel' %}
