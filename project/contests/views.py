@@ -14,7 +14,7 @@ from django.views import generic
 from common.cast import make_int_list_quiet
 from common.constants import make_empty_select, EMPTY_SELECT
 from common.networkutils import redirect_with_query_string
-from common.pageutils import paginate
+from common.pagination import paginate
 from problems.models import Problem
 from problems.views import ProblemStatementMixin
 from solutions.filters import apply_state_filter

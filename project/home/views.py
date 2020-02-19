@@ -13,8 +13,6 @@ from home.texmarkup import TEX_EXAMPLES
 from home.texmarkup import highlight_tex
 from home.registry import HomePageBlockStyle
 
-NUM_CONTESTS = 3
-
 HOME_PAGE_BLOCK_FACTORIES = [
     CourseBlockFactory(),
     ContestBlockFactory(),

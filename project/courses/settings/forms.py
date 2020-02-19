@@ -10,8 +10,8 @@ from problems.models import Problem, ProblemFolder
 from quizzes.models import QuizInstance
 from users.models import UserFolder
 from common.constants import EMPTY_SELECT
-from common.fields import TwoPanelModelMultipleChoiceField
-from common.mptt_fields import OrderedTreeNodeChoiceField
+from common.tree.fields import TwoPanelModelMultipleChoiceField
+from common.tree.mptt_fields import OrderedTreeNodeChoiceField
 
 from courses.models import (
     Activity,

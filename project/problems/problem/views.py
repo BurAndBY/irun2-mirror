@@ -30,7 +30,7 @@ from common.constants import CHANGES_HAVE_BEEN_SAVED
 from common.folderutils import ROOT
 from common.networkutils import redirect_with_query_string
 from common.outcome import Outcome
-from common.pageutils import paginate
+from common.pagination import paginate
 from proglangs.langlist import split_language_codes
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm

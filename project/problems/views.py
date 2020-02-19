@@ -22,8 +22,8 @@ from django.core.exceptions import PermissionDenied
 from cauth.mixins import StaffMemberRequiredMixin, LoginRequiredMixin
 from common.access import Permissions, PermissionCheckMixin
 from common.folderutils import lookup_node_ex, cast_id, ROOT, _fancytree_recursive_node_to_dict
-from common.pageutils import paginate
-from common.views import IRunnerListView
+from common.pagination import paginate
+from common.pagination.views import IRunnerListView
 from courses.models import Course
 from proglangs.models import Compiler
 

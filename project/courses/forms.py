@@ -8,12 +8,10 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
-import common.widgets
 import solutions.forms
 
 from courses.models import (
     ActivityRecord,
-    Assignment,
     Course,
     MailMessage,
     MailThread,
@@ -61,19 +59,6 @@ class NewCourseForm(forms.ModelForm):
 class ProblemModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.numbered_full_name()
-
-
-class ProblemAssignmentForm(forms.ModelForm):
-    problem = ProblemModelChoiceField(label=_('Problem'), queryset=None, required=False,
-                                      widget=common.widgets.SelectWithGrayOut(attrs={'class': 'form-control ir-choose-problem'}))
-
-    class Meta:
-        model = Assignment
-        fields = ['problem', 'criteria', 'extra_requirements', 'extra_requirements_ok']
-        widgets = {
-            'criteria': forms.CheckboxSelectMultiple,
-            'extra_requirements': forms.Textarea(attrs={'rows': 2}),
-        }
 
 
 class AddExtraProblemSlotForm(forms.Form):

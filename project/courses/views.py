@@ -20,7 +20,7 @@ from django.utils import timezone
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import str_to_uint
 from common.constants import make_empty_select
-from common.pageutils import paginate
+from common.pagination import paginate
 from common.outcome import Outcome
 from common.statutils import build_proglangbars
 from problems.models import (

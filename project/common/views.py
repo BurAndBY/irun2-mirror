@@ -1,46 +1,6 @@
-import datetime
-
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import generic
-from django.db.models import Count
-from django.contrib import auth
-from django.utils import timezone
-
-from cauth.mixins import StaffMemberRequiredMixin
-from contests.models import Contest, UnauthorizedAccessLevel
-from courses.models import Course, CourseStatus
-from courses.messaging import MessageCountManager
-from news.models import NewsMessage
-from solutions.models import Solution, Judgement
-from problems.models import Problem
-
-from .outcome import Outcome
-from .pageutils import IRunnerPaginator
-from .statutils import build_proglangbars, build_outcomebars
-
-NUM_CONTESTS = 3
-
-
-class IRunnerBaseListView(generic.list.MultipleObjectMixin, generic.View):
-    allow_all = True
-    paginate_by = 25
-
-    def get_context_data(self, **kwargs):
-        queryset = kwargs.pop('object_list', self.object_list)
-        p = IRunnerPaginator(self.paginate_by, self.allow_all)
-        context = p.paginate(self.request, queryset)
-        context.update(**kwargs)
-        return super(generic.list.MultipleObjectMixin, self).get_context_data(**context)
-
-    def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        context = self.get_context_data()
-        return self.render_to_response(context)
-
-
-class IRunnerListView(generic.list.MultipleObjectTemplateResponseMixin, IRunnerBaseListView):
-    pass
 
 
 class MassOperationView(generic.View):

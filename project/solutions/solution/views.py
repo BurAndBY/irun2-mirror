@@ -11,7 +11,7 @@ from django.views import generic
 from cauth.mixins import LoginRequiredMixin
 from common.highlight import list_highlight_styles, get_highlight_style, update_highlight_style
 from common.outcome import Outcome
-from common.pageutils import paginate
+from common.pagination import paginate
 from plagiarism.models import JudgementResult
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata

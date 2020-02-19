@@ -11,8 +11,9 @@ from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.outcome import Outcome
-from common.pageutils import paginate
-from common.views import MassOperationView, IRunnerListView
+from common.pagination import paginate
+from common.pagination.views import IRunnerListView
+from common.views import MassOperationView
 from problems.models import Problem
 
 from .compare import fetch_solution

@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
 from users.models import UserFolder, AdminGroup
-from common.fields import TwoPanelModelMultipleChoiceField
+from common.tree.fields import TwoPanelModelMultipleChoiceField
 
 
 class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):

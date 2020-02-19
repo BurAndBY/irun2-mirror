@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
 
 from common.fakefile import FakeFile
-from common.mptt_fields import OrderedTreeNodeChoiceField
+from common.tree.mptt_fields import OrderedTreeNodeChoiceField
 
 from users.models import UserFolder, UserProfile
 from users.photo import generate_thumbnail_file, generate_thumbnail_blob

@@ -25,8 +25,9 @@ from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.fakefile import FakeFile
 from common.folderutils import lookup_node_ex, cast_id, ROOT
-from common.pageutils import paginate
-from common.views import IRunnerListView, MassOperationView
+from common.pagination import paginate
+from common.pagination.views import IRunnerListView
+from common.views import MassOperationView
 from courses.models import Membership
 from problems.models import ProblemAccess
 from solutions.models import Solution

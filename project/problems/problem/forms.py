@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from common.accessmode import AccessMode
 from common.constants import EMPTY_SELECT
-from common.mptt_fields import OrderedTreeNodeMultipleChoiceField
+from common.tree.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from users.fields import UsernameField
 from proglangs.fields import ProgrammingLanguagesField
 

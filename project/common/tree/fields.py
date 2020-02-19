@@ -2,7 +2,7 @@ from django import forms
 from django.http import JsonResponse
 from django.utils.encoding import force_text
 
-from common.widgets import TwoPanelSelectMultiple
+from .widgets import TwoPanelSelectMultiple
 
 '''
 TODO: It is slow because it loads all model instances. It can be done better.

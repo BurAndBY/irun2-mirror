@@ -8,7 +8,7 @@ from django.utils.encoding import force_text
 import json
 from collections import Counter
 
-from common.pageutils import paginate
+from common.pagination import paginate
 
 from quizzes.serializers import QuestionDataSerializer, RelationsDataSerializer
 from quizzes.forms import UploadFileForm

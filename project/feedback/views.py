@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
 import storage.utils as fsutils
-from common.views import IRunnerListView
+from common.pagination.views import IRunnerListView
 from cauth.mixins import StaffMemberRequiredMixin
 
 from feedback import forms

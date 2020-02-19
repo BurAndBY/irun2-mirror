@@ -9,7 +9,7 @@ from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
-from common.fields import TwoPanelModelMultipleChoiceField
+from common.tree.fields import TwoPanelModelMultipleChoiceField
 from problems.models import Problem, ProblemFolder
 from solutions.forms import SolutionForm
 from users.models import UserFolder

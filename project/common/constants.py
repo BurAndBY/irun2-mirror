@@ -7,7 +7,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 EMPTY_SELECT = '—'
-TREE_LEVEL_INDICATOR = '—'
 
 STDIN = _('standard input')
 STDOUT = _('standard output')
