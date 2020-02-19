@@ -5,6 +5,7 @@ from .halloffame import views as hviews
 from .activity import views as aviews
 from .solution.urls import urlpatterns as solution_urlpatterns
 from .judgement.urls import urlpatterns as judgement_urlpatterns
+from .rejudge.urls import urlpatterns as rejudges_urlpatterns
 
 app_name = 'solutions'
 
@@ -17,13 +18,6 @@ solutions_urlpatterns = [
 judgements_urlpatterns = [
     url(r'^$', views.JudgementListView.as_view(), name='judgement_list'),
 ] + judgement_urlpatterns
-
-rejudges_urlpatterns = [
-    url(r'^new/$', views.CreateRejudgeView.as_view(), name='create_rejudge'),
-    url(r'^(?P<rejudge_id>[0-9]+)/$', views.RejudgeView.as_view(), name='rejudge'),
-    url(r'^(?P<rejudge_id>[0-9]+)/status/json/$', views.RejudgeJsonView.as_view(), name='rejudge_status_json'),
-    url(r'^$', views.RejudgeListView.as_view(), name='rejudge_list'),
-]
 
 challenges_urlpatterns = [
     url(r'^$', views.ChallengeListView.as_view(), name='challenge_list'),
