@@ -42,7 +42,21 @@ def language(request):
 
 
 def error403(request, exception):
-    return render(request, 'home/error403.html', {}, status=403)
+    context = {
+        'code': '403',
+        'title': 'Forbidden',
+        'explanation': "You don't have permission to access the requested resource.",
+    }
+    return render(request, 'home/error.html', context, status=403)
+
+
+def error404(request, exception):
+    context = {
+        'code': '404',
+        'title': 'Not Found',
+        'explanation': "The requested resource was not found on this server.",
+    }
+    return render(request, 'home/error.html', context, status=404)
 
 
 def tex_markup(request):
