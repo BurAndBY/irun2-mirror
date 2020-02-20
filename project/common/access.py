@@ -1,3 +1,5 @@
+import inspect
+
 from django.core.exceptions import PermissionDenied
 
 FUNC_PREFIX = 'can_'
@@ -12,9 +14,24 @@ class Permissions(object):
     '''
 
     def __init__(self, mask=0):
+        Permissions._validate(mask)
         self._value = mask
 
+    @classmethod
+    def all(cls):
+        mask = 0
+        for _, value in cls.items():
+            mask |= value
+        return cls(mask)
+
+    @classmethod
+    def items(cls):
+        for name, value in inspect.getmembers(cls):
+            if not name.startswith('__') and not callable(value):
+                yield name, value
+
     def set(self, mask):
+        Permissions._validate(mask)
         self._value |= mask
 
     def __getattr__(self, name):
@@ -23,14 +40,20 @@ class Permissions(object):
             cls = type(self)
             ref_value = getattr(cls, name)
             cur_value = self._value
-            return (cur_value & ref_value) != 0
+            return (cur_value & ref_value) == ref_value
         return super(Permissions, self).__getattr__(name)
 
     def check(self, mask):
         '''
         Returns true if all requirements are satisfied.
         '''
+        Permissions._validate(mask)
         return (self._value & mask) == mask
+
+    @staticmethod
+    def _validate(mask):
+        if not isinstance(mask, int):
+            raise TypeError('the value must be int, not {}'.format(type(mask).__name__))
 
 
 class PermissionCheckMixin(object):
