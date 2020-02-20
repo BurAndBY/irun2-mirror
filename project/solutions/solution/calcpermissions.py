@@ -26,7 +26,7 @@ def calculate_permissions(solution, user):
     if in_contest.contest is not None and in_contest.samples_only_state:
         permissions.state = False
 
-    if user.is_staff:
+    if user.is_staff or in_problem.has_problem:
         permissions.set_all()
 
     if in_course.level == SolutionAccessLevel.FULL:

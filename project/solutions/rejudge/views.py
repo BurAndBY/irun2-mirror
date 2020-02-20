@@ -2,20 +2,23 @@ from collections import namedtuple
 
 from django.db import transaction
 from django.db.models import Count
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils.translation import pgettext_lazy
 from django.views import generic
 
-from cauth.mixins import StaffMemberRequiredMixin
+from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.outcome import Outcome
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
 from problems.models import Problem
+from problems.problem.permissions import calc_problems_permissions
 
 from solutions.models import Solution, Judgement, Rejudge
 from solutions.utils import bulk_rejudge
+
+from .permissions import RejudgePermissions
 
 
 class RejudgeListView(StaffMemberRequiredMixin, IRunnerListView):
@@ -43,7 +46,7 @@ class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):
         return Solution.objects.order_by('id')
 
 
-RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after', 'current'])
+RejudgeInfo = namedtuple('RejudgeInfo', ['solution', 'before', 'after', 'current', 'is_available'])
 RejudgeStats = namedtuple('RejudgeStats', ['total', 'accepted', 'rejected'])
 
 
@@ -55,15 +58,58 @@ def fetch_rejudge_stats(rejudge_id):
     return RejudgeStats(total, accepted, rejected)
 
 
-class RejudgeView(StaffMemberRequiredMixin, generic.View):
+def calc_permissions(user, rejudge, any_problem_available, can_rejudge_all):
+    if user.is_staff:
+        return RejudgePermissions.all()
+
+    if any_problem_available:
+        if can_rejudge_all:
+            mask = RejudgePermissions.CLONE
+            if rejudge.author == user:
+                mask |= RejudgePermissions.COMMIT
+            return RejudgePermissions(mask)
+        else:
+            return RejudgePermissions()
+    return None
+
+
+class RejudgeMixin(LoginRequiredMixin):
+    def dispatch(self, request, rejudge_id, *args, **kwargs):
+        self.rejudge = Rejudge.objects.filter(pk=rejudge_id).first()
+        if self.rejudge is None:
+            raise Http404('Rejudge not found')
+
+        self.problems_available = set()
+
+        problem_ids = self.rejudge.judgement_set.all().values_list('solution__problem_id', flat=True).distinct()
+        problem_perms = calc_problems_permissions(request.user, problem_ids)
+
+        any_problem_available = False
+        can_rejudge_all = True
+
+        for problem_id in problem_ids:
+            perms = problem_perms.get(problem_id)
+            if perms is not None:
+                any_problem_available = True
+                self.problems_available.add(problem_id)
+            if perms is None or not perms.can_rejudge:
+                can_rejudge_all = False
+
+        self.permissions = calc_permissions(request.user, self.rejudge, any_problem_available, can_rejudge_all)
+        if self.permissions is None:
+            raise Http404('Access denied')
+
+        return super().dispatch(request, rejudge_id, *args, **kwargs)
+
+
+class RejudgeView(RejudgeMixin, generic.View):
     template_name = 'solutions/rejudge/rejudge.html'
 
     def get(self, request, rejudge_id):
-        rejudge = get_object_or_404(Rejudge, pk=rejudge_id)
         object_list = []
         problem_ids = set()
 
-        for new_judgement in rejudge.judgement_set.all().\
+        for new_judgement in self.rejudge.judgement_set.all().\
                 select_related('solution').\
                 select_related('judgement_before').\
                 select_related('solution__best_judgement').\
@@ -77,7 +123,8 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
             before = new_judgement.judgement_before
             after = new_judgement
             current = solution.best_judgement
-            object_list.append(RejudgeInfo(solution, before, after, current))
+            is_available = solution.problem_id in self.problems_available
+            object_list.append(RejudgeInfo(solution, before, after, current, is_available))
 
         problem = None
         if len(problem_ids) == 1:
@@ -85,7 +132,8 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
 
         progress_url = reverse('solutions:rejudge_status_json', kwargs={'rejudge_id': rejudge_id})
         context = {
-            'rejudge': rejudge,
+            'rejudge': self.rejudge,
+            'permissions': self.permissions,
             'object_list': object_list,
             'progress_url': progress_url,
             'stats': fetch_rejudge_stats(rejudge_id),
@@ -97,13 +145,13 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
         need_commit = ('commit' in request.POST)
         need_rollback = ('rollback' in request.POST)
         need_clone = ('clone' in request.POST)
-        if need_clone:
+        if need_clone and self.permissions.can_clone:
             with transaction.atomic():
                 notifier, rejudge = bulk_rejudge(Solution.objects.filter(judgement__rejudge_id=rejudge_id), self.request.user)
             notifier.notify()
             return redirect('solutions:rejudge', rejudge.id)
 
-        if (need_commit ^ need_rollback):
+        if (need_commit ^ need_rollback) and self.permissions.can_commit:
             target = True if need_commit else False
             num_rows = Rejudge.objects.filter(id=rejudge_id, committed=None).update(committed=target)
             if num_rows and need_commit:
@@ -117,7 +165,7 @@ class RejudgeView(StaffMemberRequiredMixin, generic.View):
         return redirect('solutions:rejudge', rejudge_id)
 
 
-class RejudgeJsonView(StaffMemberRequiredMixin, generic.View):
+class RejudgeJsonView(RejudgeMixin, generic.View):
     def get(self, request, rejudge_id):
         stats = fetch_rejudge_stats(rejudge_id)
         return JsonResponse({

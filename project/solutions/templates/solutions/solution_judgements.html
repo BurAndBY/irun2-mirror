@@ -7,6 +7,7 @@
 {% block subtitle %}{% trans 'Judgements' %}{% endblock %}
 
 {% block main %}
+    {% if request.user.is_staff %}
     <form method="post" action="{% url 'solutions:create_rejudge' %}" target="_blank">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ solution.id }}">
@@ -16,6 +17,7 @@
         </button>
         {% endbuttons %}
     </form>
+    {% endif %}
 
     <table class="table table-condensed">
         <tbody>

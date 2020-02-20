@@ -41,11 +41,13 @@
         </tbody>
     </table>
 
+    {% if permissions.can_edit %}
     {% buttons %}
         <a href="{% url 'problems:data_file_new' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New file' %}</span>
         </a>
     {% endbuttons %}
+    {% endif %}
 
     <hr>
 
@@ -74,8 +76,8 @@
                     <span class="ir-appear-on-hover ir-icons"><!--
                         --><a href="{% url 'problems:source_file_open' problem.id f.id f.filename %}" title="{% trans 'Open' %}">{% bootstrap_icon 'file' %}</a><!--
                         --><a href="{% url 'problems:source_file_download' problem.id f.id f.filename %}" title="{% trans 'Download' %}">{% bootstrap_icon 'download-alt' %}</a><!--
-                        --><a href="{% url 'problems:source_file_edit' problem.id f.id %}{{ navigator.query_string }}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a><!--
-                        --><a href="{% url 'problems:source_file_delete' problem.id f.id %}{{ navigator.query_string }}" title="{% trans 'Delete' %}">{% bootstrap_icon 'trash' %}</a>
+                        -->{% if permissions.can_edit %}<a href="{% url 'problems:source_file_edit' problem.id f.id %}{{ navigator.query_string }}" title="{% trans 'Edit' %}">{% bootstrap_icon 'pencil' %}</a><!--
+                        --><a href="{% url 'problems:source_file_delete' problem.id f.id %}{{ navigator.query_string }}" title="{% trans 'Delete' %}">{% bootstrap_icon 'trash' %}</a>{% endif %}
                     </span>
                 </td>
             </tr>
@@ -83,9 +85,11 @@
         </tbody>
     </table>
 
+    {% if permissions.can_edit %}
     {% buttons %}
         <a href="{% url 'problems:source_file_new' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New file' %}</span>
         </a>
     {% endbuttons %}
+    {% endif %}
 {% endblock %}

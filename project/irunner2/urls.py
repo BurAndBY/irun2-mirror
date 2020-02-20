@@ -44,3 +44,4 @@ if settings.DEBUG:
     ] + urlpatterns
 
 handler403 = 'home.views.error403'
+handler404 = 'home.views.error404'

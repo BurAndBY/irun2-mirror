@@ -1,6 +1,7 @@
 import inspect
 
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 
 FUNC_PREFIX = 'can_'
 
@@ -83,7 +84,7 @@ class PermissionCheckMixin(object):
     def dispatch(self, request, *args, **kwargs):
         self.permissions = self._make_permissions(request.user)
         if self.permissions is None:
-            raise PermissionDenied
+            raise Http404('Object does not exist or access is denied')
         self._check_permissions(self.permissions, request)
         return super(PermissionCheckMixin, self).dispatch(request, *args, **kwargs)
 

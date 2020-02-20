@@ -7,11 +7,13 @@
 {% load irunner_users %}
 
 {% block main %}
+    {% if permissions.can_challenge %}
     <p>
         <a href="{% url 'problems:new_challenge' problem.id %}{{ navigator.query_string }}" class="btn btn-default">
             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New challenge' %}</span>
         </a>
     </p>
+    {% endif %}
 
     {% if object_list %}
         <table class="table table-condensed">

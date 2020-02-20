@@ -1,17 +1,30 @@
 from collections import namedtuple
 
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 
-from cauth.mixins import StaffMemberRequiredMixin
+from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from storage.storage import create_storage
 
 from solutions.mixins import TestCaseResultMixin
-from solutions.models import Judgement, TestCaseResult, JudgementLog
+from solutions.models import Solution, Judgement, TestCaseResult, JudgementLog
 from solutions.permissions import SolutionPermissions
+from solutions.solution.calcpermissions import calculate_permissions
 
 
-class JudgementView(StaffMemberRequiredMixin, generic.View):
+class JudgementMixin(LoginRequiredMixin):
+    def dispatch(self, request, judgement_id, *args, **kwargs):
+        solution = Solution.objects.filter(judgement__id=judgement_id).first()
+        if solution is None:
+            raise Http404('Judjement not found')
+        permissions, _ = calculate_permissions(solution, self.request.user)
+        if not permissions.judgements:
+            raise Http404('Access denied')
+        return super().dispatch(request, judgement_id, *args, **kwargs)
+
+
+class JudgementView(JudgementMixin, generic.View):
     template_name = 'solutions/judgement.html'
 
     def get(self, request, judgement_id):
@@ -64,7 +77,7 @@ class JudgementStorageView(StaffMemberRequiredMixin, generic.View):
         return redirect('solutions:show_judgement', judgement_id)
 
 
-class JudgementTestCaseResultView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
+class JudgementTestCaseResultView(JudgementMixin, TestCaseResultMixin, generic.View):
     template_name = 'solutions/testcaseresult.html'
 
     def get(self, request, judgement_id, testcaseresult_id):
@@ -72,13 +85,13 @@ class JudgementTestCaseResultView(StaffMemberRequiredMixin, TestCaseResultMixin,
         return self.serve_testcaseresult_page(testcaseresult, 'solutions:judgement_testdata', 'solutions:judgement_testimage', judgement_id)
 
 
-class JudgementTestCaseResultDataView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
+class JudgementTestCaseResultDataView(JudgementMixin, TestCaseResultMixin, generic.View):
     def get(self, request, judgement_id, testcaseresult_id, mode):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
         return self.serve_testcaseresult_data(mode, testcaseresult)
 
 
-class JudgementTestCaseResultImageView(StaffMemberRequiredMixin, TestCaseResultMixin, generic.View):
+class JudgementTestCaseResultImageView(JudgementMixin, TestCaseResultMixin, generic.View):
     def get(self, request, judgement_id, testcaseresult_id, filename):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
         return self.serve_testcaseresult_image(filename, testcaseresult)

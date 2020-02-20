@@ -16,7 +16,7 @@
         <dd>{{ rejudge.creation_time }}</dd>
 
         <dt>{% trans 'Author' %}</dt>
-        <dd>{% irunner_users_show rejudge.author %}</dd>
+        <dd>{% irunner_users_card rejudge.author %}</dd>
 
         {% if problem %}
             <dt>{% trans 'Problem' %}</dt>
@@ -50,6 +50,7 @@
                 <td>
                     {{ forloop.counter }}
                 </td>
+                {% if info.is_available %}
                 <td>
                     <a href="{% url 'solutions:main' info.solution.id %}">{{ info.solution.id }}</a>
                 </td>
@@ -62,7 +63,7 @@
                     <small><tt><a href="{{ source_url }}">{{ info.solution.source_code.filename }}</a></tt></small>
                 </td>
                 <td>
-                    {% irunner_users_show info.solution.author %}
+                    {% irunner_users_card info.solution.author %}
                 </td>
                 <td>
                     {% if info.before %}
@@ -85,6 +86,14 @@
                         </a>
                     {% endif %}
                 </td>
+                {% else %}
+                <td class="text-muted">
+                    {{ info.solution.id }}
+                </td>
+                <td class="text-muted" colspan="6">
+                    <i>{% trans 'No access' %}</i>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -93,18 +102,24 @@
     <div class="ir-absence">{% trans 'No solutions' %}</div>
     {% endif %}
 
+    {% if permissions.can_commit or permissions.can_clone %}
     <form method="post">
         {% csrf_token %}
         {% buttons %}
-            {% if rejudge.committed == None %}
+            {% if permissions.can_commit and rejudge.committed == None %}
                 <button type="submit" name="commit" class="btn btn-primary">{% bootstrap_icon 'ok' %} <span class="ir-icon-label">{% trans 'Commit' %}</span></button>
                 <button type="submit" name="rollback" class="btn btn-default">{% bootstrap_icon 'remove' %} <span class="ir-icon-label">{% trans 'Rollback' %}</span></button>
             {% endif %}
+            {% if permissions.can_clone %}
             <button type="submit" name="clone" class="btn btn-default">{% bootstrap_icon 'duplicate' %} <span class="ir-icon-label">{% trans 'Clone' %}</span></button>
+            {% endif %}
         {% endbuttons %}
     </form>
+    {% endif %}
 
+    {% if request.user.is_staff %}
     <p>
         <a href="{% url 'solutions:rejudge_list' %}">{% trans 'To the list of rejudges' %}</a>
     </p>
+    {% endif %}
 {% endblock %}
