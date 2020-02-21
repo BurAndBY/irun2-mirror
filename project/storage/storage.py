@@ -60,7 +60,7 @@ class ResourceIdField(models.BinaryField):
     description = "Data storage resource identifier"
 
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 20
+        kwargs['max_length'] = HASH_SIZE
         super(ResourceIdField, self).__init__(*args, **kwargs)
 
     def deconstruct(self):
@@ -94,6 +94,12 @@ class ResourceIdField(models.BinaryField):
             value = value.get_binary()
 
         return super(ResourceIdField, self).get_db_prep_value(value, connection, prepared)
+
+    def db_type(self, connection):
+        if connection.settings_dict['ENGINE'] == 'django.db.backends.mysql':
+            return 'VARBINARY({})'.format(HASH_SIZE)
+        else:
+            return super().db_type(connection)
 
 
 def _get_data_directly(resource_id):
