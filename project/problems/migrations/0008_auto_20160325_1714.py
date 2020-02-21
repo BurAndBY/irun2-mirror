@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='TestCaseValidation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('input_resource_id', storage.storage.ResourceIdField()),
+                ('input_resource_id', storage.storage.ResourceIdFieldDeprecated()),
                 ('is_valid', models.BooleanField()),
                 ('validator_message', models.CharField(max_length=255, blank=True)),
             ],

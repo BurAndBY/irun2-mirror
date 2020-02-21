@@ -102,6 +102,11 @@ class ResourceIdField(models.BinaryField):
             return super().db_type(connection)
 
 
+# Fake class to force migration
+class ResourceIdFieldDeprecated(ResourceIdField):
+    pass
+
+
 def _get_data_directly(resource_id):
     blob = resource_id.get_binary()
     return blob if len(blob) < HASH_SIZE else None

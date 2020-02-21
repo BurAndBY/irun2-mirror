@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='photo',
-            field=storage.storage.ResourceIdField(null=True),
+            field=storage.storage.ResourceIdFieldDeprecated(null=True),
         ),
         migrations.AddField(
             model_name='userprofile',
             name='photo_thumbnail',
-            field=storage.storage.ResourceIdField(null=True),
+            field=storage.storage.ResourceIdFieldDeprecated(null=True),
         ),
     ]

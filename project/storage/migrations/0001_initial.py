@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('filename', models.CharField(max_length=255)),
                 ('size', models.IntegerField()),
-                ('resource_id', storage.storage.ResourceIdField()),
+                ('resource_id', storage.storage.ResourceIdFieldDeprecated()),
             ],
             options={
                 'abstract': False,
