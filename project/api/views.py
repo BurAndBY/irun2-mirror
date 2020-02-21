@@ -130,7 +130,7 @@ class JobTakeView(WorkerAPIView):
 
         obj = dequeue(greeting.name, greeting.tag)
         if obj is None:
-            raise Http404('Nothing to test')
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         job = obj.get_job()
         job.id = obj.get_db_obj_id()
