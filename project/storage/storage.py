@@ -104,7 +104,9 @@ class ResourceIdField(models.BinaryField):
 
 # Fake class to force migration
 class ResourceIdFieldDeprecated(ResourceIdField):
-    pass
+    def db_type(self, connection):
+        # Uses 'LONGBLOB' in MySQL by default
+        return models.BinaryField(self, connection)
 
 
 def _get_data_directly(resource_id):
