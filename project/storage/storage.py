@@ -106,7 +106,7 @@ class ResourceIdField(models.BinaryField):
 class ResourceIdFieldDeprecated(ResourceIdField):
     def db_type(self, connection):
         # Uses 'LONGBLOB' in MySQL by default
-        return models.BinaryField(self, connection)
+        return models.BinaryField.db_type(self, connection)
 
 
 def _get_data_directly(resource_id):
