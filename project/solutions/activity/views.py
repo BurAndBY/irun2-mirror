@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 
 import datetime
 
+from django.db.models.functions import TruncDay
+from django.db.models import Count, F, Q
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
@@ -47,16 +49,24 @@ def _make_chart(queryset, start_date, end_date, chart_height):
         today += day
 
     db_start_date = start_date - day
-    for ts, outcome in queryset.\
+    tzinfo = timezone.get_current_timezone()
+    for day, num_accepted, num_rejected in queryset.\
             filter(reception_time__gte=db_start_date, best_judgement__status=Judgement.DONE).\
-            values_list('reception_time', 'best_judgement__outcome'):
-        loc = timezone.localtime(ts)
-        info = mp.get(loc.date())
+            annotate(
+                day=TruncDay('reception_time', tzinfo=tzinfo),
+                outcome=F('best_judgement__outcome')
+            ).\
+            values_list('day').\
+            annotate(
+                num_accepted=Count('pk', filter=Q(outcome=Outcome.ACCEPTED)),
+                num_rejected=Count('pk', filter=~Q(outcome=Outcome.ACCEPTED))
+            ).\
+            values_list('day', 'num_accepted', 'num_rejected'):
+
+        info = mp.get(day.date())
         if info is not None:
-            if outcome == Outcome.ACCEPTED:
-                info.accepted += 1
-            else:
-                info.rejected += 1
+            info.accepted += num_accepted
+            info.rejected += num_rejected
 
     max_value = 0
     for info in results:
