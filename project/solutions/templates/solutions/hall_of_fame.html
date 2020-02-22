@@ -8,15 +8,23 @@
 {% block content %}
     <h1>{% block title %}{% trans 'Hall of fame' %}{% endblock %}</h1>
 
-    <h3>{% trans 'Leaders in number of attempts' %}</h3>
-    <ul>
+    <h2>{% trans 'Leaders in number of attempts' %}</h2>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>{% trans 'Attempts' %}</th>
+                <th>{% trans 'User' %}</th>
+                <th>{% trans 'Problem' %}</th>
+            </tr>
+        </thead>
+        <tbody>
     {% for cnt, user, problem in top_attempts %}
-        <li>
-            {{ cnt }}&nbsp;&mdash;
-            <a href="{% url 'solutions:list' %}?user={{ user.id }}&amp;problem={{ problem.id }}">{% irunner_users_show user %}</a>
-            {% trans 'on problem' %}
-            <a href="{% url 'problems:statement' problem.id %}">{{ problem.numbered_full_name }}</a>
-        </li>
+            <tr>
+                <td><a href="{% url 'solutions:list' %}?user={{ user.id }}&amp;problem={{ problem.id }}">{{ cnt }}</a></td>
+                <td>{% irunner_users_card user %}</td>
+                <td>{% irunner_problems_difficulty problem.difficulty %} <a href="{% url 'problems:statement' problem.id %}">{{ problem.numbered_full_name }}</a></td>
+            </tr>
     {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 {% endblock %}
