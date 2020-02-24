@@ -12,6 +12,7 @@ from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.outcome import Outcome
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
+from problems.calcpermissions import get_problem_ids_queryset, has_limited_problems_queryset
 from problems.models import Problem
 from problems.problem.permissions import calc_problems_permissions
 
@@ -21,11 +22,14 @@ from solutions.utils import bulk_rejudge
 from .permissions import RejudgePermissions
 
 
-class RejudgeListView(StaffMemberRequiredMixin, IRunnerListView):
+class RejudgeListView(LoginRequiredMixin, IRunnerListView):
     template_name = 'solutions/rejudge/rejudge_list.html'
 
     def get_queryset(self):
-        return Rejudge.objects.all().annotate(num_judgements=Count('judgement')).order_by('-creation_time', '-id')
+        qs = Rejudge.objects.all()
+        if has_limited_problems_queryset(self.request.user):
+            qs = qs.filter(judgement__isnull=False, judgement__solution__problem_id__in=get_problem_ids_queryset(self.request.user))
+        return qs.annotate(num_judgements=Count('judgement')).prefetch_related('author').order_by('-id')
 
 
 class CreateRejudgeView(StaffMemberRequiredMixin, MassOperationView):

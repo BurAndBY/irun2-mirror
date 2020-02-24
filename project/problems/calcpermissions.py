@@ -1,9 +1,33 @@
 from collections import namedtuple
+from six.moves import reduce
+import operator
 
-from problems.models import Problem, ProblemAccess
+from django.db.models import Q
+
+from problems.models import Problem, ProblemAccess, ProblemFolder
 from solutions.permissions import SolutionAccessLevel
 
 InProblemAccessLevel = namedtuple('InProblemAccessLevel', 'has_problem level')
+
+
+def _get_group_owned_problems():
+    clauses = []
+    # TODO
+    for tree_id, lft, rght in ProblemFolder.objects.\
+            none().\
+            values_list('tree_id', 'lft', 'rght'):
+        clauses.append(Q(folders__tree_id=tree_id) & Q(folders__lft__gte=lft) & Q(folders__rght__lte=rght))
+    if not clauses:
+        return Problem.objects.none()
+    return Problem.objects.filter(reduce(operator.or_, clauses))
+
+
+def _get_personally_shared_problems(user):
+    return Problem.objects.filter(problemaccess__user=user)
+
+
+def has_limited_problems_queryset(user):
+    return not (user.is_authenticated and user.is_staff)
 
 
 def get_problems_queryset(user):
@@ -11,9 +35,14 @@ def get_problems_queryset(user):
         return Problem.objects.none()
 
     if not user.is_staff:
-        return Problem.objects.filter(problemaccess__user=user)
+        qs = _get_personally_shared_problems(user).order_by()  # .union(_get_group_owned_problems().order_by())
+        return qs
 
     return Problem.objects.all()
+
+
+def get_problem_ids_queryset(user):
+    return get_problems_queryset(user).values_list('id')
 
 
 def calculate_problem_solution_access_level(solution, user):

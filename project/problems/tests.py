@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
 
+from django.db.models.manager import BaseManager
 from django.test import TestCase
 
 from problems.description import IDescriptionImageLoader, render_description
+from problems.models import Problem, ProblemFolder
 
 
 class SimpleDescriptionImageLoader(IDescriptionImageLoader):

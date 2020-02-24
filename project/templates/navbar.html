@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load irunner_users %}
+{% load irunner_cauth %}
 
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
@@ -16,15 +17,15 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">                
-                {% if user.is_staff %}
-                    <li><a href="{% url 'courses:index' %}">{% trans 'Courses' %}</a></li>
+            <ul class="nav navbar-nav">
+                {% irunner_cauth_show_admin_menu as admin_menu %}
+                {% if admin_menu %}
+                    <li><a href="{% if user.is_staff %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
+                    {% if user.is_staff %}
                     <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
-                {% endif %}
-                {% if user.is_staff or user.userprofile.has_access_to_problems %}
+                    {% endif %}
                     <li><a href="{% url 'problems:show_folder' 'root' %}">{% trans 'Problems' %}</a></li>
-                {% endif %}
-                {% if user.is_staff %}
+
                     <li><a href="{% url 'solutions:list' %}">{% trans 'Solutions' %}</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Administration' %} <span class="caret"></span></a>
@@ -32,25 +33,33 @@
                             <li><a href="{% url 'solutions:challenge_list' %}">{% trans 'Challenges' %}</a></li>
                             <li><a href="{% url 'solutions:rejudge_list' %}">{% trans 'Rejudges' %}</a></li>
                             <li><a href="{% url 'solutions:judgement_list' %}">{% trans 'Runs' %}</a></li>
+                            {% if user.is_staff %}
                             <li><a href="{% url 'api:queue' %}">{% trans 'Queue' %}</a></li>
-                            <li><a href="{% url 'feedback:list' %}">{% trans 'View Feedback' %}</a></li>
                             <li><a href="{% url 'proglangs:index' %}">{% trans 'Compilers' %}</a></li>
                             <li><a href="{% url 'courses:criterion_index' %}">{% trans 'Criteria' %}</a></li>
+                            {% endif %}
+
+                            <li role="separator" class="divider"></li>
+
+                            <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
+                            <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
+                            {% if user.is_staff %}
+                            <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
+                            <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
+                            <li><a href="{% url 'feedback:list' %}">{% trans 'Feedback' %}</a></li>
+                            {% endif %}
+
+                            <li role="separator" class="divider"></li>
+
+                            <li><a href="{% url 'solutions:activity' %}">{% trans 'Activity' %}</a></li>
+                            {% if user.is_staff %}
+                            <li><a href="{% url 'solutions:hall_of_fame' %}">{% trans 'Hall of fame' %}</a></li>
                             <li><a href="{% url 'storage:index' %}">{% trans 'File storage' %}</a></li>
                             <li><a href="{% url 'problems:tex_playground' %}">{% trans 'TeX editor' %}</a></li>
+                            {% endif %}
                             <li><a href="{% url 'solutions:compare' %}">{% trans 'Comparison of solutions' %}</a></li>
-                            <li><a href="{% url 'solutions:hall_of_fame' %}">{% trans 'Hall of fame' %}</a></li>
-                            <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
-                            <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
-                            <li><a href="{% url 'solutions:activity' %}">{% trans 'Activity' %}</a></li>
-                            <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
-                            <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
                         </ul>
                     </li>
-                {% else %}
-                    {% if user.userprofile.has_access_to_quizzes %}
-                    <li><a href="{% url 'quizzes:categories:list' %}">{% trans 'Quizzes' %}</a></li>
-                    {% endif %}
                 {% endif %}
                 {% for name, url in external_links %}
                     <li><a href="{{ url }}" target="_blank">{{ name }}</a></li>

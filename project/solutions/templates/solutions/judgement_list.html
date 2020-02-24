@@ -6,10 +6,13 @@
 {% load irunner_solutions %}
 {% load irunner_time %}
 
-{% block title %}{% trans 'Runs' %}{% endblock %}
-
 {% block content %}
+    <h1>{% block title %}{% trans 'Runs' %}{% endblock %}</h1>
+
+    {% irunner_solutions_limited %}
+
     {% irunner_pagination pagination_context %}
+    {% if object_list %}
     <table class="table table-condensed table-hover">
         <thead>
             <tr>
@@ -59,4 +62,7 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="ir-absence">{% trans 'No runs' %}</div>
+    {% endif %}
 {% endblock %}

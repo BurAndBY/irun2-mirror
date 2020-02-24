@@ -9,6 +9,7 @@ from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from common.pagination import paginate
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
+from problems.calcpermissions import get_problem_ids_queryset, has_limited_problems_queryset
 
 from .compare import fetch_solution
 from .filters import apply_state_filter, apply_compiler_filter, apply_difficulty_filter
@@ -21,7 +22,7 @@ All solutions list
 '''
 
 
-class SolutionListView(StaffMemberRequiredMixin, generic.View):
+class SolutionListView(LoginRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/solution_list.html'
 
@@ -37,6 +38,9 @@ class SolutionListView(StaffMemberRequiredMixin, generic.View):
             prefetch_related('aggregatedresult').\
             defer('ip_address', 'stop_on_fail', 'source_code__resource_id', 'best_judgement__rejudge_id', 'best_judgement__judgement_before_id').\
             order_by('-id')
+
+        if has_limited_problems_queryset(request.user):
+            queryset = queryset.filter(problem_id__in=get_problem_ids_queryset(request.user))
 
         if form.is_valid():
             queryset = apply_state_filter(queryset, form.cleaned_data['state'])
@@ -64,12 +68,15 @@ Judgement
 '''
 
 
-class JudgementListView(StaffMemberRequiredMixin, generic.View):
+class JudgementListView(LoginRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/judgement_list.html'
 
     def get(self, request):
         queryset = Judgement.objects.select_related('extra_info').order_by('-id')
+        if has_limited_problems_queryset(request.user):
+            queryset = queryset.filter(solution__problem_id__in=get_problem_ids_queryset(request.user))
+
         context = paginate(request, queryset, self.paginate_by, allow_all=False)
         return render(request, self.template_name, context)
 
@@ -144,12 +151,15 @@ Global challenges list
 '''
 
 
-class ChallengeListView(StaffMemberRequiredMixin, IRunnerListView):
+class ChallengeListView(LoginRequiredMixin, IRunnerListView):
     template_name = 'solutions/challenge_list.html'
 
     def get_queryset(self):
-        return Challenge.objects.\
+        qs = Challenge.objects.\
             annotate(num_solutions=Count('challengedsolution')).\
             select_related('problem').\
             order_by('-creation_time', '-id').\
             all()
+        if has_limited_problems_queryset(self.request.user):
+            qs = qs.filter(problem_id__in=get_problem_ids_queryset(self.request.user))
+        return qs

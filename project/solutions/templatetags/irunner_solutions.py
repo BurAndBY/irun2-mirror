@@ -12,9 +12,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from common.outcome import Outcome
+from problems.calcpermissions import has_limited_problems_queryset
 from solutions.models import Judgement
 from solutions.permissions import SolutionPermissions
-
 
 register = template.Library()
 
@@ -315,4 +315,12 @@ def irunner_solutions_checkfailed(extra_info):
 def irunner_solutions_sourcelink(solution):
     return {
         'solution': solution,
+    }
+
+
+@register.inclusion_tag('solutions/irunner_solutions_limited_tag.html', takes_context=True)
+def irunner_solutions_limited(context):
+    user = context['user']
+    return {
+        'limited_access': has_limited_problems_queryset(user)
     }

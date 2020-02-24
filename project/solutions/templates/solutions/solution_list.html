@@ -28,11 +28,14 @@
         </div>
     </form>
 
+    {% irunner_solutions_limited %}
+
     {% irunner_pagination pagination_context %}
+    {% if object_list %}
     <table class="table table-condensed table-hover">
         <thead>
             <tr>
-                <th><input type="checkbox" id="selectall"></th>
+                {% if user.is_staff %}<th><input type="checkbox" id="selectall"></th>{% endif %}
                 <th>{% trans 'Problem' %}</th>
                 <th>{% trans 'Author' %}</th>
                 <th>{% trans 'Time' %}</th>
@@ -44,7 +47,7 @@
         <tbody>
             {% for solution in object_list %}
             <tr>
-                <td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td>
+                {% if user.is_staff %}<td><input type="checkbox" class="ir-checkbox" name="{{ solution.id }}"></td>{% endif %}
                 <td>{% irunner_problems_difficulty solution.problem.difficulty %} <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a></td>
                 <td class="text-nowrap">{% irunner_users_card solution.author %}</td>
                 <td class="text-nowrap">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
@@ -64,7 +67,11 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="ir-absence">{% trans 'No solutions' %}</div>
+    {% endif %}
 
+    {% if user.is_staff %}
     <div class="form-group">
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default dropdown-toggle ir-checkbox-driven" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
@@ -77,6 +84,7 @@
             </ul>
         </div>
     </div>
+    {% endif %}
 
     <script>
     $(document).ready(function () {

@@ -117,9 +117,7 @@
     </form>
     {% endif %}
 
-    {% if request.user.is_staff %}
     <p>
         <a href="{% url 'solutions:rejudge_list' %}">{% trans 'To the list of rejudges' %}</a>
     </p>
-    {% endif %}
 {% endblock %}

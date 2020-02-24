@@ -9,8 +9,10 @@
 {% block content %}
     <h1>{% block title %}{% trans 'Challenges' %}{% endblock %}</h1>
 
-    {% irunner_pagination pagination_context %}
+    {% irunner_solutions_limited %}
 
+    {% irunner_pagination pagination_context %}
+    {% if object_list %}
     <table class="table table-condensed">
         <thead>
             <tr>
@@ -25,7 +27,7 @@
             {% for challenge in object_list %}
                 <tr>
                     <td><a href="{% url 'problems:challenge' challenge.problem_id challenge.id %}">{{ challenge.id }}</a></td>
-                    <td>{% irunner_users_show challenge.author %}</td>
+                    <td>{% irunner_users_card challenge.author %}</td>
                     <td>{{ challenge.creation_time }}</td>
                     <td>{% irunner_problems_difficulty challenge.problem.difficulty %} <a href="{% url 'problems:statement' challenge.problem_id %}">{{ challenge.problem.numbered_full_name }}</a></td>
                     <td>{{ challenge.num_solutions }}</td>
@@ -33,4 +35,7 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="ir-absence">{% trans 'No challenges' %}</div>
+    {% endif %}
 {% endblock %}

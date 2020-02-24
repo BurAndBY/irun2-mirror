@@ -9,8 +9,11 @@
 {% block content %}
 <h1>{% block title %}{% trans 'Rejudges' %}{% endblock %}</h1>
 
+{% irunner_solutions_limited %}
+
 {% irunner_pagination pagination_context %}
 
+{% if object_list %}
 <table class="table table-condensed">
     <thead>
         <tr>
@@ -25,7 +28,7 @@
         {% for rejudge in object_list %}
             <tr>
                 <td><a href="{% url 'solutions:rejudge' rejudge.id %}">{{ rejudge.id }}</a></td>
-                <td>{% irunner_users_show rejudge.author %}</td>
+                <td>{% irunner_users_card rejudge.author %}</td>
                 <td>{{ rejudge.creation_time }}</td>
                 <td>{{ rejudge.num_judgements }}</td>
                 <td>
@@ -40,5 +43,8 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<div class="ir-absence">{% trans 'No rejudges' %}</div>
+{% endif %}
 
 {% endblock %}

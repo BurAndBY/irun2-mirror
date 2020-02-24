@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-22 22:05+0300\n"
-"PO-Revision-Date: 2020-01-13 01:03+0300\n"
+"POT-Creation-Date: 2020-02-24 03:38+0300\n"
+"PO-Revision-Date: 2020-02-24 03:58+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.2\n"
 
 msgid "Waiting"
 msgstr "Ожидание"
@@ -284,6 +284,12 @@ msgstr ""
 
 msgid "Change my password"
 msgstr "Изменить мой пароль"
+
+msgid "Read"
+msgstr "Чтение"
+
+msgid "Write"
+msgstr "Запись"
 
 msgid "standard input"
 msgstr "стандартный ввод"
@@ -1014,6 +1020,24 @@ msgstr "Студенты"
 msgid "Teachers"
 msgstr "Преподаватели"
 
+#, python-format
+msgid "You have %(count)d attempt remaining for the problem during the day."
+msgid_plural ""
+"You have %(count)d attempts remaining for the problem during the day."
+msgstr[0] "Осталась %(count)d попытка по задаче в течение суток."
+msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
+msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
+
+msgid "You have no attempts remaining for the problem."
+msgstr "Доступные попытки по задаче закончились."
+
+#, python-format
+msgid "Please try again after %(ts)s."
+msgstr "Попробуйте отправить решение после %(ts)s."
+
+msgid "The number of attempts is not limited."
+msgstr "Число попыток не ограничено."
+
 msgid "Problem folder"
 msgstr "Папка с задачами"
 
@@ -1488,6 +1512,9 @@ msgstr "Ошибка получения данных с сервера."
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
+msgid "Solution"
+msgstr "Решение"
+
 # There should be some way to write here 1st, 2nd etc.
 #, python-format
 msgid "%(year)d year"
@@ -1495,24 +1522,6 @@ msgstr "%(year)d-й курс"
 
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
-
-#, python-format
-msgid "You have %(count)d attempt remaining for the problem during the day."
-msgid_plural ""
-"You have %(count)d attempts remaining for the problem during the day."
-msgstr[0] "Осталась %(count)d попытка по задаче в течение суток."
-msgstr[1] "Осталось %(count)d попытки по задаче в течение суток."
-msgstr[2] "Осталось %(count)d попыток по задаче в течение суток."
-
-msgid "You have no attempts remaining for the problem."
-msgstr "Доступные попытки по задаче закончились."
-
-#, python-format
-msgid "Please try again after %(ts)s."
-msgstr "Попробуйте отправить решение после %(ts)s."
-
-msgid "The number of attempts is not limited."
-msgstr "Число попыток не ограничено."
 
 msgid "name for URL"
 msgstr "название для URL"
@@ -1776,12 +1785,6 @@ msgstr "Контролёр тестов"
 msgid "compiler"
 msgstr "компилятор"
 
-msgid "Read"
-msgstr "Чтение"
-
-msgid "Write"
-msgstr "Запись"
-
 msgid "Time limit cannot be negative."
 msgstr "Ограничение по времени не может быть отрицательным."
 
@@ -1921,6 +1924,90 @@ msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
 
+msgid "Input file name"
+msgstr "Имя входного файла"
+
+msgid "Output file name"
+msgstr "Имя выходного файла"
+
+msgid "Short name"
+msgstr "Короткое название"
+
+msgid "No problems available"
+msgstr "Доступных задач нет"
+
+msgid "There is no statement for this problem"
+msgstr "В системе нет условия для этой задачи"
+
+msgid "MB"
+msgstr "МБ"
+
+msgid "Use F2 key to switch view"
+msgstr "Используйте клавишу F2 для переключения вида"
+
+msgid "Source code"
+msgstr "Исходный код"
+
+msgid "one example"
+msgstr "один пример"
+
+msgid "two examples"
+msgstr "два примера"
+
+msgid "three examples"
+msgstr "три примера"
+
+msgid "Loading..."
+msgstr "Загрузка..."
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "New problem"
+msgstr "Новая задача"
+
+msgid "Import from Polygon"
+msgstr "Импорт из Polygon"
+
+msgid "Delete folder"
+msgstr "Удалить папку"
+
+msgid ""
+"The folder or its subfolders are currently used in the following courses and "
+"cannot be deleted."
+msgstr ""
+"Папка или её подпапки в настоящий момент используются в следующих курсах и "
+"не могут быть удалены."
+
+msgid ""
+"The folder is going to be deleted together with its subfolders. The problems "
+"they contain will not be deleted."
+msgstr ""
+"Папка будет удалена вместе с подпапками. Задачи, которые в них содержатся, "
+"не будут удалены."
+
+#, python-format
+msgid "inside ‘%(nn)s’"
+msgstr "в папке «%(nn)s»"
+
+msgid "in the root folder"
+msgstr "в корневой папке"
+
+msgid "Import error"
+msgstr "Ошибка импорта"
+
+msgid "Import a problem from Polygon"
+msgstr "Импортировать задачу из Polygon"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "Problem search"
+msgstr "Поиск задач"
+
+msgid "Search for..."
+msgstr "Искать..."
+
 msgid "Grant access"
 msgstr "Выдать доступ"
 
@@ -2038,90 +2125,6 @@ msgid ""
 msgstr ""
 "Задача может располагаться в нескольких папках. Используйте клавишу "
 "<kbd>Ctrl</kbd> для выбора папок."
-
-msgid "Input file name"
-msgstr "Имя входного файла"
-
-msgid "Output file name"
-msgstr "Имя выходного файла"
-
-msgid "Short name"
-msgstr "Короткое название"
-
-msgid "No problems available"
-msgstr "Доступных задач нет"
-
-msgid "There is no statement for this problem"
-msgstr "В системе нет условия для этой задачи"
-
-msgid "MB"
-msgstr "МБ"
-
-msgid "Use F2 key to switch view"
-msgstr "Используйте клавишу F2 для переключения вида"
-
-msgid "Source code"
-msgstr "Исходный код"
-
-msgid "one example"
-msgstr "один пример"
-
-msgid "two examples"
-msgstr "два примера"
-
-msgid "three examples"
-msgstr "три примера"
-
-msgid "Loading..."
-msgstr "Загрузка..."
-
-msgid "Search"
-msgstr "Поиск"
-
-msgid "New problem"
-msgstr "Новая задача"
-
-msgid "Import from Polygon"
-msgstr "Импорт из Polygon"
-
-msgid "Delete folder"
-msgstr "Удалить папку"
-
-msgid ""
-"The folder or its subfolders are currently used in the following courses and "
-"cannot be deleted."
-msgstr ""
-"Папка или её подпапки в настоящий момент используются в следующих курсах и "
-"не могут быть удалены."
-
-msgid ""
-"The folder is going to be deleted together with its subfolders. The problems "
-"they contain will not be deleted."
-msgstr ""
-"Папка будет удалена вместе с подпапками. Задачи, которые в них содержатся, "
-"не будут удалены."
-
-#, python-format
-msgid "inside ‘%(nn)s’"
-msgstr "в папке «%(nn)s»"
-
-msgid "in the root folder"
-msgstr "в корневой папке"
-
-msgid "Import error"
-msgstr "Ошибка импорта"
-
-msgid "Import a problem from Polygon"
-msgstr "Импортировать задачу из Polygon"
-
-msgid "Import"
-msgstr "Импорт"
-
-msgid "Problem search"
-msgstr "Поиск задач"
-
-msgid "Search for..."
-msgstr "Искать..."
 
 msgid "Main properties"
 msgstr "Основные свойства"
@@ -2827,11 +2830,18 @@ msgstr "просмотр деталей тестирования с сообще
 msgid "view testing details and test data"
 msgstr "просмотр деталей тестирования и данных тестов"
 
+msgctxt "verb"
+msgid "rejudge"
+msgstr "перетестировать"
+
 msgid "Activity"
 msgstr "Активность"
 
 msgid "Submission count during the year"
 msgstr "Число посылок в течение года"
+
+msgid "Rejected"
+msgstr "Отклонено"
 
 msgid "Statistics of courses during the current term"
 msgstr "Статистика курсов в текущем семестре"
@@ -2863,9 +2873,6 @@ msgstr "Сравнить"
 msgid "Unable to compare solutions."
 msgstr "Не удаётся сравнить решения."
 
-msgid "Solution"
-msgstr "Решение"
-
 msgid "The files are identical."
 msgstr "Файлы одинаковые."
 
@@ -2888,11 +2895,11 @@ msgstr "Зал славы"
 msgid "Leaders in number of attempts"
 msgstr "Лидеры по числу попыток"
 
-msgid "on problem"
-msgstr "по задаче"
-
 msgid "Check failed"
 msgstr "Ошибка тестирования"
+
+msgid "The list is limited to the problems you have access to."
+msgstr "Список ограничивается задачами, к которым у вас есть доступ."
 
 msgid "KB"
 msgstr "КБ"
@@ -2950,6 +2957,9 @@ msgstr "Запуски"
 
 msgid "In queue"
 msgstr "В очереди"
+
+msgid "No runs"
+msgstr "Запусков нет"
 
 msgid "Standard output (stdout)"
 msgstr "Стандартный вывод (stdout)"
@@ -3037,10 +3047,6 @@ msgstr "ошибка компиляции контролёра тестов"
 
 msgid "compiler is not available for the testing module"
 msgstr "компилятор недоступен для модуля тестирования"
-
-msgctxt "verb"
-msgid "rejudge"
-msgstr "перетестировать"
 
 msgid "Enter text here"
 msgstr "Введите текст здесь"
@@ -3157,9 +3163,6 @@ msgstr "Курсы"
 
 msgid "Administration"
 msgstr "Администрирование"
-
-msgid "View Feedback"
-msgstr "Просмотр сообщений обратной связи"
 
 #, python-format
 msgid "User %(username)s not found."
@@ -3302,12 +3305,35 @@ msgstr "пользователю явно выдан доступ к отдел�
 msgid "user was explicitly granted access to certain quiz categories"
 msgstr "пользователю явно выдан доступ к отдельным категориям тестов"
 
+msgid "user has access to administrative sections"
+msgstr "у пользователя есть доступ к административным разделам"
+
 msgid "The image cannot be opened and identified."
 msgstr "Изображение не может быть открыто и опознано."
 
 #, python-format
 msgid "The image format %(format)s is not supported."
 msgstr "Формат изображения %(format)s не поддерживается."
+
+msgid "Administrator groups"
+msgstr "Группы администраторов"
+
+msgid "Are you sure you want to delete the administrator group?"
+msgstr "Вы уверены, что хотите удалить группу администраторов?"
+
+msgid ""
+"An administrator group is a group of users that is granted to perform "
+"administrative tasks (create problems, set up contests, etc.)."
+msgstr ""
+"Группа администраторов — это группа пользователей, которым предоставлено "
+"право выполнять административные действия (создавать задачи, организовывать "
+"соревнования и т. д.)."
+
+msgid "Only the groups you belong to are shown."
+msgstr "Показаны только группы, в которые вы входите."
+
+msgid "No groups"
+msgstr "Групп нет"
 
 msgid "No users selected"
 msgstr "Пользователи не выбраны"
@@ -3429,6 +3455,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "on problem"
+#~ msgstr "по задаче"
+
+#~ msgid "View Feedback"
+#~ msgstr "Просмотр сообщений обратной связи"
 
 #~ msgid "Default time limit"
 #~ msgstr "Ограничение по времени по умолчанию"
