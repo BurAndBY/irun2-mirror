@@ -86,7 +86,7 @@ class QuizTemplate(models.Model):
     score_policy = models.IntegerField(_('score policy'), choices=ScorePolicy.CHOICES,
                                        default=ScorePolicy.STRICT)
     question_groups = models.ManyToManyField(QuestionGroup, through='GroupQuizRelation')
-    attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
+    attempts = models.IntegerField(_('attempts'), default=1, null=True, blank=True)
     time_limit = models.DurationField(_('time limit'), null=False, default=timedelta(minutes=30))
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
@@ -115,7 +115,7 @@ class QuizInstance(models.Model):
     time_limit = models.DurationField(_('time limit'), null=False)
     tag = models.CharField(_('tag'), max_length=100, null=False, blank=True)
     attempts = models.IntegerField(_('attempts'), default=None, null=True, blank=True)
-    show_answers = models.BooleanField(_('show answers'), default=True)
+    show_answers = models.BooleanField(_('show answers'), default=False)
     enable_discussion = models.BooleanField(_('enable discussion'), default=False)
     disable_time_limit = models.BooleanField(_('disable time limit'), default=False)
     deadline = models.DateTimeField(null=True, blank=True, default=None)
