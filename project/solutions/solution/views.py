@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -283,7 +284,7 @@ class SolutionStatusJsonView(BaseSolutionView):
             }
             if final:
                 if complete or (judgement.sample_tests_passed is False):
-                    data['color'] = 'green' if (judgement.outcome == Outcome.ACCEPTED) else 'red'
+                    data['color'] = 'green' if (judgement.outcome == Outcome.ACCEPTED) ^ settings.APRIL_FOOLS_DAY_MODE else 'red'
                 else:
                     data['color'] = 'yellow'
                 if request.GET.get('table') == '1':
