@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 
 from problems import views
 from problems.problem import views as pviews
+from .folders.urls import urlpatterns as folders_urlpatterns
 
 app_name = 'problems'
 
@@ -77,19 +78,9 @@ urlpatterns = [
     url(r'^tree/$', views.ShowTreeView.as_view(), name='show_tree'),
     url(r'^tree/(?P<folder_id>[0-9]+)/$', views.ShowTreeFolderView.as_view(), name='show_tree_folder'),
     url(r'^tree/(?P<folder_id>[0-9]+)/json/$', views.ShowTreeFolderJsonView.as_view(), name='show_tree_folder_json'),
-
     url(r'^(?P<problem_id>[0-9]+)/', include(problem_urlpatterns)),
-
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/$', views.ShowFolderView.as_view(), name='show_folder'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/problem/$', views.CreateProblemView.as_view(), name='create_problem'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/properties/$', views.UpdateFolderView.as_view(), name='folder_properties'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/access/$', views.FolderAccessView.as_view(), name='folder_access'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/delete/$', views.DeleteFolderView.as_view(), name='delete_folder'),
-    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/import-from-polygon/$', views.ImportFromPolygonView.as_view(), name='import_from_polygon'),
-
+    url(r'^folders/', include(folders_urlpatterns)),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
-
     url(r'^tex/$', views.TeXView.as_view(), name='tex_playground'),
     url(r'^tex/render/$', views.TeXRenderView.as_view(), name='tex_playground_render'),
 ]

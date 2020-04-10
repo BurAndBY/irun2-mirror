@@ -49,6 +49,7 @@ from problems.problem.forms import (
     ProblemExtraInfoForm,
     ProblemFoldersForm,
     ProblemForm,
+    ProblemNameForm,
     ProblemRelatedDataFileForm,
     ProblemRelatedDataFileNewForm,
     ProblemRelatedSourceFileForm,
@@ -67,10 +68,7 @@ from problems.problem.validation import revalidate_testset
 from problems.problem.zipsaver import ZipSaver
 
 from problems.description import IDescriptionImageLoader, render_description
-from problems.forms import (
-    SimpleProblemForm,
-    TeXForm,
-)
+from problems.forms import TeXForm
 from problems.models import (
     Problem,
     ProblemAccess,
@@ -1229,7 +1227,7 @@ class ProblemNameView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = SimpleProblemForm(instance=problem)
+        form = ProblemNameForm(instance=problem)
 
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
@@ -1237,7 +1235,7 @@ class ProblemNameView(BaseProblemView):
     def post(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = SimpleProblemForm(request.POST, instance=problem)
+        form = ProblemNameForm(request.POST, instance=problem)
         if form.is_valid():
             form.save()
             if form.has_changed():
