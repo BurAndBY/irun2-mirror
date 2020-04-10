@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block title %}{% trans 'Delete' %} {{ object.handle }}{% endblock %}
+
+{% block content %}
+
+<form method="post" class="form">
+    {% csrf_token %}
+
+    <p>{% blocktrans with id=object.handle %}The compiler {{ id }} is going to be deleted. Choose a compiler that will be used instead.{% endblocktrans %}</p>
+
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+        <a href="{% url 'proglangs:update' object.id %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

@@ -1,6 +1,3 @@
-from django.utils.translation import ugettext_lazy as _
-
-
 class ProgrammingLanguage(object):
     UNKNOWN = ''
     C = 'c'
@@ -13,7 +10,7 @@ class ProgrammingLanguage(object):
     SHELL = 'sh'
 
     CHOICES = (
-        (UNKNOWN, _('Unknown')),
+        (UNKNOWN, 'N/A'),
         (C, 'C'),
         (CPP, 'C++'),
         (JAVA, 'Java'),

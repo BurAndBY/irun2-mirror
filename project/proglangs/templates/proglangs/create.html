@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_proglangs %}
+
+{% block title %}{% trans 'New compiler' %}{% endblock %}
+
+{% block content %}
+
+<form method="post" class="form">
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
+        <a href="{% url 'proglangs:index' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

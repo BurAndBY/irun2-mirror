@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load irunner_proglangs %}
 
-{% block title %}{{ page_title }}{% endblock %}
+{% block title %}{% trans 'Compiler' %} {{ object.handle }} ({{ object.description }}){% endblock %}
 
 {% block content %}
 
@@ -12,12 +12,13 @@
     {% csrf_token %}
 
     {% if object %}
-    	{% irunner_proglangs_commandlines object expanded=True %}
+        {% irunner_proglangs_commandlines object expanded=True %}
     {% endif %}
 
     {% bootstrap_form form %}
     {% buttons %}
         <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+        <a href="{% url 'proglangs:delete' object.id %}" class="btn btn-default">{% trans 'Delete' %}</a>
         <a href="{% url 'proglangs:index' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
     {% endbuttons %}
 </form>
