@@ -8,7 +8,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, smart_text
 
-from common.accessmode import BaseAccess
+from cauth.acl.models import BaseAccess
 from courses.models import Course
 
 

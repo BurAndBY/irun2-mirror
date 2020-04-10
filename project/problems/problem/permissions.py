@@ -1,5 +1,5 @@
 from common.access import Permissions
-from common.accessmode import AccessMode
+from cauth.acl.accessmode import AccessMode
 
 from problems.models import ProblemAccess
 

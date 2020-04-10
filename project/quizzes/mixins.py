@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from cauth.mixins import UserPassesTestMixin
 from common.access import Permissions, PermissionCheckMixin
 
-from common.accessmode import AccessMode
+from cauth.acl.accessmode import AccessMode
 from quizzes.constants import NO_CATEGORY_SLUG
 from quizzes.tabs import Tabs
 from quizzes.models import (

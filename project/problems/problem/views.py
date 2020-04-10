@@ -23,8 +23,8 @@ from django.utils.translation import ungettext
 from api.queue import enqueue, bulk_enqueue
 from api.objectinqueue import ValidationInQueue, ChallengedSolutionInQueue
 from cauth.mixins import LoginRequiredMixin
+from cauth.acl.forms import ShareWithUserForm
 from common.access import PermissionCheckMixin
-from common.accessmode import AccessMode
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
 from common.folderutils import ROOT
@@ -55,7 +55,6 @@ from problems.problem.forms import (
     ProblemRelatedSourceFileNewForm,
     ProblemRelatedTeXFileForm,
     ProblemTestArchiveUploadForm,
-    ShareProblemForm,
     TestDescriptionForm,
     TestUploadForm,
     TestUploadOrTextForm,
@@ -1596,7 +1595,7 @@ class ProblemAccessView(BaseProblemView):
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
-        share_form = ShareProblemForm()
+        share_form = ShareWithUserForm()
         context = self._make_context(problem, {
             'share_form': share_form,
             'acl': self._load_access_control_list(problem)
@@ -1605,11 +1604,11 @@ class ProblemAccessView(BaseProblemView):
 
     def post(self, request, problem_id):
         problem = self._load(problem_id)
-        share_form = ShareProblemForm()
+        share_form = ShareWithUserForm()
         success = False
 
         if 'grant' in request.POST:
-            share_form = ShareProblemForm(request.POST)
+            share_form = ShareWithUserForm(request.POST)
 
             if share_form.is_valid():
                 user_id = share_form.cleaned_data['user']

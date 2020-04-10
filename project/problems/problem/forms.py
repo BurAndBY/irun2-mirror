@@ -6,7 +6,7 @@ from django import forms
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 
-from common.accessmode import AccessMode
+from cauth.acl.accessmode import AccessMode
 from common.constants import EMPTY_SELECT
 from common.tree.mptt_fields import OrderedTreeNodeMultipleChoiceField
 from users.fields import UsernameField

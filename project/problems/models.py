@@ -10,7 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from common.accessmode import BaseAccess
+from cauth.acl.models import BaseAccess
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField

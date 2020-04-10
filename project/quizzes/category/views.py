@@ -4,11 +4,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from common.accessmode import AccessMode
+from cauth.acl.accessmode import AccessMode
 from common.cast import make_int_list_quiet
 from users.models import UserProfile
 
-from quizzes.forms import ShareCategoryForm
+from cauth.acl.forms import ShareWithUserForm
 from quizzes.models import (
     Category,
     CategoryAccess,
@@ -82,7 +82,7 @@ class CategoryAccessView(QuizAdminMixin, CategoryMixin, generic.base.ContextMixi
         return CategoryAccess.objects.filter(category=self.category).order_by('id').all()
 
     def get(self, request):
-        share_form = ShareCategoryForm()
+        share_form = ShareWithUserForm()
         context = self.get_context_data(
             share_form=share_form,
             acl=self._load_access_control_list(),
@@ -90,11 +90,11 @@ class CategoryAccessView(QuizAdminMixin, CategoryMixin, generic.base.ContextMixi
         return render(request, self.template_name, context)
 
     def post(self, request):
-        share_form = ShareCategoryForm()
+        share_form = ShareWithUserForm()
         success = False
 
         if 'grant' in request.POST:
-            share_form = ShareCategoryForm(request.POST)
+            share_form = ShareWithUserForm(request.POST)
 
             if share_form.is_valid():
                 user_id = share_form.cleaned_data['user']
