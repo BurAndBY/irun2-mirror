@@ -90,7 +90,7 @@ def irunner_quizzes_mark(result, is_finished=True, pending_manual_check=False, f
 
 
 @register.inclusion_tag('quizzes/irunner_quizzes_breadcrumbs.html', takes_context=True)
-def irunner_quizzes_breadcrumbs(context, question=False):
+def irunner_quizzes_breadcrumbs(context, section=None):
     if 'category' in context:
         category = context['category']  # may be None
         return {
@@ -98,7 +98,7 @@ def irunner_quizzes_breadcrumbs(context, question=False):
             'category': category,
             'category_slug': category.slug if category is not None else NO_CATEGORY_SLUG,
             'group': context.get('group'),
-            'question': question,
+            'section': section,
         }
     return {}
 

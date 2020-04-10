@@ -23,3 +23,12 @@ def irunner_cauth_show_admin_menu(context):
         return True
 
     return False
+
+
+@register.inclusion_tag('cauth/irunner_cauth_share_user.html')
+def irunner_cauth_share_user(share_form, acl, can_edit=False):
+    return {
+        'share_form': share_form,
+        'acl': acl,
+        'can_edit': can_edit,
+    }

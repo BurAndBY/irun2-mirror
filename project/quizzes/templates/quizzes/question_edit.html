@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main %}
-    {% irunner_quizzes_breadcrumbs question=True %}
+    {% irunner_quizzes_breadcrumbs section='question' %}
 
     <input id="questionData" type="hidden" value="{{ object }}" />
     <input id="languageTags" type="hidden" value="{{ languageTags }}"/>

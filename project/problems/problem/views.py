@@ -23,7 +23,7 @@ from django.utils.translation import ungettext
 from api.queue import enqueue, bulk_enqueue
 from api.objectinqueue import ValidationInQueue, ChallengedSolutionInQueue
 from cauth.mixins import LoginRequiredMixin
-from cauth.acl.forms import ShareWithUserForm
+from cauth.acl.mixins import ShareWithUserMixin
 from common.access import PermissionCheckMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
@@ -1585,54 +1585,22 @@ Access
 '''
 
 
-class ProblemAccessView(BaseProblemView):
+class ProblemAccessView(ShareWithUserMixin, BaseProblemView):
     tab = 'access'
     template_name = 'problems/problem/access.html'
     requirements_to_post = SingleProblemPermissions.EDIT
-
-    def _load_access_control_list(self, problem):
-        return ProblemAccess.objects.filter(problem=problem).order_by('id').all()
+    access_model = ProblemAccess
+    access_model_object_field = 'problem'
+    userprofile_model_field = 'has_access_to_problems'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
-        share_form = ShareWithUserForm()
-        context = self._make_context(problem, {
-            'share_form': share_form,
-            'acl': self._load_access_control_list(problem)
-        })
-        return render(request, self.template_name, context)
+        context = self._get(request, problem)
+        return render(request, self.template_name, self._make_context(problem, context))
 
     def post(self, request, problem_id):
         problem = self._load(problem_id)
-        share_form = ShareWithUserForm()
-        success = False
-
-        if 'grant' in request.POST:
-            share_form = ShareWithUserForm(request.POST)
-
-            if share_form.is_valid():
-                user_id = share_form.cleaned_data['user']
-                ProblemAccess.objects.update_or_create(
-                    problem_id=problem.id,
-                    user_id=user_id,
-                    defaults={
-                        'mode': share_form.cleaned_data['mode'],
-                        'who_granted': self.request.user,
-                    }
-                )
-                UserProfile.objects.filter(pk=user_id).update(has_access_to_problems=True)
-                success = True
-
-        elif 'revoke' in request.POST:
-            access_ids = make_int_list_quiet(request.POST.getlist('id'))
-            ProblemAccess.objects.filter(problem=problem).filter(pk__in=access_ids).delete()
-            success = True
-
+        success, context = self._post(request, problem)
         if success:
             return redirect_with_query_string(request, 'problems:access', problem.id)
-
-        context = self._make_context(problem, {
-            'share_form': share_form,
-            'acl': self._load_access_control_list(problem)
-        })
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, self._make_context(problem, context))

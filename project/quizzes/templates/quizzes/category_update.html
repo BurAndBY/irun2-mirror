@@ -5,7 +5,7 @@
 {% load irunner_quizzes %}
 
 {% block main %}
-    {% irunner_quizzes_breadcrumbs %}    
+    {% irunner_quizzes_breadcrumbs section='edit' %}
 
     <form method="post">
         {% csrf_token %}

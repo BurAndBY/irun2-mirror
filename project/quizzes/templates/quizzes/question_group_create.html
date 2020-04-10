@@ -2,12 +2,10 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_quizzes %}
 
 {% block main %}
-    <ol class="breadcrumb">
-        <li><a href="{% url 'quizzes:categories:list' %}">{% trans 'Categories' %}</a></li>
-        <li class="active">{% if category %}{{ category }}{% else %}<i>{% trans 'No category' %}</i>{% endif %}</li>
-    </ol>
+    {% irunner_quizzes_breadcrumbs section='new_group' %}
 
     <form method="post">
         {% csrf_token %}

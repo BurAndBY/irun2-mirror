@@ -3,13 +3,25 @@
 <ol class="breadcrumb">
     {% if has_category %}
         <li><a href="{% url 'quizzes:categories:list' %}">{% trans 'Categories' %}</a></li>
-        {% if group %}
+        {% if group or section %}
             <li><a href="{% url 'quizzes:categories:groups:list' category_slug %}">{% if category %}{{ category }}{% else %}<i>{% trans 'No category' %}</i>{% endif %}</a></li>
-            {% if question %}
-                <li><a href="{% url 'quizzes:categories:groups:browse' category_slug group.id %}">{{ group }}</a></li>
-                <li class="active">{% trans 'Question' %}</li>
+            {% if group %}
+                {% if section %}
+                    <li><a href="{% url 'quizzes:categories:groups:browse' category_slug group.id %}">{{ group }}</a></li>
+                    {% if section == 'question' %}
+                        <li class="active">{% trans 'Question' %}</li>
+                    {% endif %}
+                {% else %}
+                    <li class="active">{{ group }}</li>
+                {% endif %}
             {% else %}
-                <li class="active">{{ group }}</li>
+                {% if section == 'new_group' %}
+                    <li class="active">{% trans 'New question group' %}</li>
+                {% elif section == 'edit' %}
+                    <li class="active">{% trans 'Edit' %}</li>
+                {% elif section == 'access' %}
+                    <li class="active">{% trans 'Access' %}</li>
+                {% endif %}
             {% endif %}
         {% else %}
             <li class="active">{% if category %}{{ category }}{% else %}<i>{% trans 'No category' %}</i>{% endif %}</li>
