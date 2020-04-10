@@ -7,8 +7,6 @@
 
 {% block main %}
 
-<p><em>{% trans 'Note: administators have full access to all problems.' %}</em></p>
-
 {% irunner_cauth_share_user share_form acl can_edit=permissions.can_edit %}
 
 {% endblock %}

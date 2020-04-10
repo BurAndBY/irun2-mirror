@@ -1,21 +1,16 @@
 from common.cast import make_int_list_quiet
 from users.models import UserProfile
 
-from .forms import ShareWithUserForm
+from .forms import ShareWithUserForm, ShareWithGroupForm
 
 
-class ShareWithUserMixin(object):
+class BaseShareWithMixin(object):
     access_model = None
     access_model_object_field = None
-    userprofile_model_field = None
-
-    def _load_access_control_list(self, obj):
-        return self.access_model.objects.filter(**{
-            self.access_model_object_field: obj
-        }).order_by('id').all()
+    _share_form_class = None
 
     def _get(self, request, obj):
-        share_form = ShareWithUserForm()
+        share_form = self._share_form_class()
         context = {
             'share_form': share_form,
             'acl': self._load_access_control_list(obj),
@@ -23,26 +18,14 @@ class ShareWithUserMixin(object):
         return context
 
     def _post(self, request, obj):
-        share_form = ShareWithUserForm()
+        share_form = self._share_form_class()
         success = False
 
         if 'grant' in request.POST:
-            share_form = ShareWithUserForm(request.POST)
+            share_form = self._share_form_class(request.POST)
 
             if share_form.is_valid():
-                user_id = share_form.cleaned_data['user']
-                self.access_model.objects.update_or_create(**{
-                    self.access_model_object_field: obj,
-                    'user_id': user_id,
-                    'defaults': {
-                        'mode': share_form.cleaned_data['mode'],
-                        'who_granted': request.user,
-                    }
-                })
-                if self.userprofile_model_field is not None:
-                    UserProfile.objects.filter(pk=user_id).update(**{
-                        self.userprofile_model_field: True
-                    })
+                self._grant_form_valid(request, obj, share_form)
                 success = True
 
         elif 'revoke' in request.POST:
@@ -57,3 +40,51 @@ class ShareWithUserMixin(object):
             'acl': self._load_access_control_list(obj),
         }
         return success, context
+
+    def _grant_form_valid(self, request, obj, share_form):
+        raise NotImplementedError()
+
+
+class ShareWithUserMixin(BaseShareWithMixin):
+    userprofile_model_field = None
+    _share_form_class = ShareWithUserForm
+
+    def _load_access_control_list(self, obj):
+        return self.access_model.objects.filter(**{
+            self.access_model_object_field: obj
+        }).order_by('id').all().select_related('who_granted', 'user')
+
+    def _grant_form_valid(self, request, obj, share_form):
+        user_id = share_form.cleaned_data['user']
+        self.access_model.objects.update_or_create(**{
+            self.access_model_object_field: obj,
+            'user_id': user_id,
+            'defaults': {
+                'mode': share_form.cleaned_data['mode'],
+                'who_granted': request.user,
+            }
+        })
+        if self.userprofile_model_field is not None:
+            UserProfile.objects.filter(pk=user_id).update(**{
+                self.userprofile_model_field: True
+            })
+
+
+class ShareWithGroupMixin(BaseShareWithMixin):
+    _share_form_class = ShareWithGroupForm
+
+    def _load_access_control_list(self, obj):
+        return self.access_model.objects.filter(**{
+            self.access_model_object_field: obj
+        }).order_by('id').all().select_related('who_granted', 'group')
+
+    def _grant_form_valid(self, request, obj, share_form):
+        group = share_form.cleaned_data['group']
+        self.access_model.objects.update_or_create(**{
+            self.access_model_object_field: obj,
+            'group': group,
+            'defaults': {
+                'mode': share_form.cleaned_data['mode'],
+                'who_granted': request.user,
+            }
+        })

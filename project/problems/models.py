@@ -14,6 +14,7 @@ from cauth.acl.models import BaseAccess
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
+from users.models import AdminGroup
 
 DEFAULT_TIME_LIMIT = 1000  # 1 s
 DEFAULT_MEMORY_LIMIT = 1 * 1024 * 1024 * 1024  # 1 GB
@@ -235,3 +236,11 @@ class ProblemAccess(BaseAccess):
 
     class Meta:
         unique_together = ('problem', 'user')
+
+
+class ProblemFolderAccess(BaseAccess):
+    folder = models.ForeignKey(ProblemFolder, on_delete=models.CASCADE)
+    group = models.ForeignKey(AdminGroup, on_delete=models.CASCADE, related_name='+')
+
+    class Meta:
+        unique_together = ('folder', 'group')

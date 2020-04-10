@@ -84,6 +84,7 @@ urlpatterns = [
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/new/problem/$', views.CreateProblemView.as_view(), name='create_problem'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/properties/$', views.UpdateFolderView.as_view(), name='folder_properties'),
+    url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/access/$', views.FolderAccessView.as_view(), name='folder_access'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/delete/$', views.DeleteFolderView.as_view(), name='delete_folder'),
     url(r'^folders/(?P<folder_id_or_root>[0-9]+|root)/import-from-polygon/$', views.ImportFromPolygonView.as_view(), name='import_from_polygon'),
 

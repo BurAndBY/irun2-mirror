@@ -20,6 +20,7 @@ from mptt.templatetags.mptt_tags import cache_tree_children
 from django.core.exceptions import PermissionDenied
 
 from cauth.mixins import StaffMemberRequiredMixin, LoginRequiredMixin
+from cauth.acl.mixins import ShareWithGroupMixin
 from common.access import Permissions, PermissionCheckMixin
 from common.folderutils import lookup_node_ex, cast_id, ROOT, _fancytree_recursive_node_to_dict
 from common.pagination import paginate
@@ -38,7 +39,7 @@ from problems.forms import (
     PolygonImportForm,
     SimpleProblemForm,
 )
-from problems.models import Problem, ProblemRelatedFile, ProblemFolder
+from problems.models import Problem, ProblemRelatedFile, ProblemFolder, ProblemFolderAccess
 from problems.navigator import make_folder_query_string
 from problems.polygon import import_full_package
 from problems.statement import StatementRepresentation
@@ -254,6 +255,29 @@ class UpdateFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.Up
             return ProblemFolder.objects.get(pk=folder_id)
         else:
             raise Http404('no folder found')
+
+
+class FolderAccessView(BrowseProblemsAccessMixin, ProblemFolderMixin, ShareWithGroupMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'problems/list_folder_access.html'
+    form_class = ProblemFolderForm
+    requirements = ProblemPermissions.MANAGE_FOLDERS
+
+    access_model = ProblemFolderAccess
+    access_model_object_field = 'folder'
+
+    def get(self, request, folder_id_or_root):
+        folder_id = cast_id(folder_id_or_root)
+        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+        context = self._get(request, folder)
+        return render(request, self.template_name, self.get_context_data(**context))
+
+    def post(self, request, folder_id_or_root):
+        folder_id = cast_id(folder_id_or_root)
+        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+        success, context = self._post(request, folder)
+        if success:
+            return redirect('problems:folder_access', folder_id if folder_id is not None else ROOT)
+        return render(request, self.template_name, self.get_context_data(**context))
 
 
 class DeleteFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):

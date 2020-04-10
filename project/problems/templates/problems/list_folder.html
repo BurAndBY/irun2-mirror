@@ -44,6 +44,11 @@
                                 {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{% irunner_folders_url 'problems:folder_access' folder_id %}">
+                                {% bootstrap_icon 'lock' %} <span class="ir-icon-label">{% trans 'Access' %}</span>
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
