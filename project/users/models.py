@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from cauth.acl.models import BaseAccess
 from proglangs.models import Compiler
 from storage.storage import ResourceIdField
 
@@ -28,6 +29,14 @@ class AdminGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserFolderAccess(BaseAccess):
+    folder = models.ForeignKey(UserFolder, on_delete=models.CASCADE)
+    group = models.ForeignKey(AdminGroup, on_delete=models.CASCADE, related_name='+')
+
+    class Meta:
+        unique_together = ('folder', 'group')
 
 
 class UserProfile(models.Model):
