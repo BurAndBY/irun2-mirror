@@ -5,13 +5,11 @@
 {% load irunner_folders %}
 
 {% block sidebar %}
-    {% trans "Users" as root_name %}
-    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+    {% irunner_folders_tree inmemory_tree 'users:show_folder' folder_id %}
 {% endblock %}
 
 {% block main %}
-    {% trans "Users" as root_name %}
-    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+    {% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' folder_id %}
 
     <h3>{% trans 'Delete folder' %}</h3>
 

@@ -22,7 +22,7 @@ class ProblemInfoManager(object):
         problems: queryset
         '''
 
-        problem_ids = list(problems.values_list('pk', flat=True))
+        problem_ids = list(problem.id for problem in problems)
         problems = Problem.objects.filter(pk__in=problem_ids).order_by()
 
         qs = problems.\

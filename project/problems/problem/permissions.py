@@ -1,7 +1,14 @@
 from common.access import Permissions
 from cauth.acl.accessmode import AccessMode
+from cauth.acl.checker import FolderAccessChecker
 
-from problems.models import ProblemAccess
+from problems.models import ProblemAccess, ProblemFolder, ProblemFolderAccess
+
+
+class ProblemFolderAccessChecker(FolderAccessChecker):
+    folder_model = ProblemFolder
+    folder_access_model = ProblemFolderAccess
+    folder_model_object_field = 'problem'
 
 
 class SingleProblemPermissions(Permissions):
@@ -19,12 +26,16 @@ def calc_problem_permissions(user, problem_id):
     if user.is_staff:
         return SingleProblemPermissions.all()
 
-    access = ProblemAccess.objects.filter(problem_id=problem_id, user=user).first()
-    if access is not None:
-        if access.mode == AccessMode.READ:
-            return SingleProblemPermissions()
-        elif access.mode == AccessMode.WRITE:
-            return SingleProblemPermissions(SingleProblemPermissions.EDIT | SingleProblemPermissions.CHALLENGE | SingleProblemPermissions.REJUDGE)
+    res_mode = 0
+    for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode'):
+        res_mode = max(res_mode, mode)
+
+    res_mode = max(res_mode, ProblemFolderAccessChecker.check(user, problem_id))
+
+    if res_mode == AccessMode.READ:
+        return SingleProblemPermissions()
+    elif res_mode == AccessMode.WRITE:
+        return SingleProblemPermissions(SingleProblemPermissions.EDIT | SingleProblemPermissions.CHALLENGE | SingleProblemPermissions.REJUDGE)
 
 
 def calc_problems_permissions(user, problem_ids):

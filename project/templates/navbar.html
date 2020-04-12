@@ -22,9 +22,9 @@
                 {% if admin_menu %}
                     <li><a href="{% if user.is_staff %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
                     {% if user.is_staff %}
-                    <li><a href="{% url 'users:show_folder' 'root' %}">{% trans 'Users' %}</a></li>
+                    <li><a href="{% url 'users:show_folder' root_folder %}">{% trans 'Users' %}</a></li>
                     {% endif %}
-                    <li><a href="{% url 'problems:show_folder' 'root' %}">{% trans 'Problems' %}</a></li>
+                    <li><a href="{% url 'problems:show_folder' root_folder %}">{% trans 'Problems' %}</a></li>
 
                     <li><a href="{% url 'solutions:list' %}">{% trans 'Solutions' %}</a></li>
                     <li class="dropdown">
@@ -41,6 +41,7 @@
 
                             <li role="separator" class="divider"></li>
 
+                            <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
                             <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
                             <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
                             {% if user.is_staff %}

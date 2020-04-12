@@ -10,13 +10,12 @@ from solutions.permissions import SolutionAccessLevel
 InProblemAccessLevel = namedtuple('InProblemAccessLevel', 'has_problem level')
 
 
-def _get_group_owned_problems():
+def _get_group_owned_problems(user):
     clauses = []
-    # TODO
     for tree_id, lft, rght in ProblemFolder.objects.\
-            none().\
+            filter(problemfolderaccess__group__users=user).\
             values_list('tree_id', 'lft', 'rght'):
-        clauses.append(Q(folders__tree_id=tree_id) & Q(folders__lft__gte=lft) & Q(folders__rght__lte=rght))
+        clauses.append(Q(folders__tree_id=tree_id) & Q(folders__lft__gte=lft) & Q(folders__lft__lte=rght))
     if not clauses:
         return Problem.objects.none()
     return Problem.objects.filter(reduce(operator.or_, clauses))
@@ -34,11 +33,10 @@ def get_problems_queryset(user):
     if user is None or not user.is_authenticated:
         return Problem.objects.none()
 
-    if not user.is_staff:
-        qs = _get_personally_shared_problems(user).order_by()  # .union(_get_group_owned_problems().order_by())
-        return qs
+    if user.is_staff:
+        return Problem.objects.all()
 
-    return Problem.objects.all()
+    return _get_personally_shared_problems(user) | _get_group_owned_problems(user)
 
 
 def get_problem_ids_queryset(user):

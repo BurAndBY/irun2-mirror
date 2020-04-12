@@ -176,7 +176,7 @@ class SearchView(LoginRequiredMixin, generic.View):
             terms = query.split()
             if terms:
                 queryset = queryset.filter(functools.reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
-        return queryset
+        return queryset.distinct().order_by('id')
 
     def get(self, request):
         form = ProblemSearchForm(request.GET)
@@ -189,6 +189,11 @@ class SearchView(LoginRequiredMixin, generic.View):
         context['active_tab'] = 'search'
         context['form'] = form
         return render(request, self.template_name, context)
+
+
+class DefaultView(generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('problems:search')
 
 
 '''

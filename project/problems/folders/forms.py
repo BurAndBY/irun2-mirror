@@ -19,6 +19,9 @@ class ProblemFolderForm(forms.ModelForm):
     class Meta:
         model = ProblemFolder
         fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
+        }
 
 
 class PolygonImportForm(forms.Form):

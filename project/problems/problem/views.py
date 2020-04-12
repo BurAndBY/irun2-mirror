@@ -27,10 +27,10 @@ from cauth.acl.mixins import ShareWithUserMixin
 from common.access import PermissionCheckMixin
 from common.cast import make_int_list_quiet
 from common.constants import CHANGES_HAVE_BEEN_SAVED
-from common.folderutils import ROOT
 from common.networkutils import redirect_with_query_string
 from common.outcome import Outcome
 from common.pagination import paginate
+from common.tree.key import FolderId
 from proglangs.langlist import split_language_codes
 from solutions.filters import apply_state_filter, apply_compiler_filter
 from solutions.forms import SolutionForm, AllSolutionsFilterForm
@@ -1550,7 +1550,7 @@ class ProblemDeleteView(BaseProblemView):
             pass
 
         if deleted:
-            return redirect('problems:show_folder', ROOT)
+            return redirect('problems:show_folder', FolderId.to_string(None))
         else:
             context = self._make_context(problem, {'error': True})
             return render(request, self.template_name, context)

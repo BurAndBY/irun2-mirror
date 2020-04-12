@@ -2,42 +2,42 @@ from __future__ import unicode_literals
 
 import json
 import operator
-from collections import namedtuple
 from six.moves import reduce
 
-from django.contrib import auth, messages
-from django.contrib.auth.hashers import make_password
-from django.core.files.base import ContentFile
-from django.urls import reverse
+from django.contrib import auth
 from django.db import transaction
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404, render, redirect
-from django.utils.encoding import smart_text
+from django.urls import reverse
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ungettext
 from django.views import generic
-from django.http import HttpResponse, HttpResponseForbidden, Http404
 
 from django_otp import devices_for_user, user_has_device
 
 from cauth.mixins import StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.fakefile import FakeFile
-from common.folderutils import lookup_node_ex, cast_id, ROOT
 from common.pagination import paginate
-from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
 from courses.models import Membership
 from problems.models import ProblemAccess
 from solutions.models import Solution
 from storage.utils import create_storage, parse_resource_id, serve_resource
 
-from users import forms
-from users.models import UserFolder, UserProfile
-import users.intranetbsu as intranetbsu
-import users.intranetbsu.photos as intranetbsuphotos
-import users.photo as photo
+from users.forms import (
+    UserSearchForm,
+    MoveUsersForm,
+    UserMainForm,
+    UserForm,
+    UserProfileMainForm,
+    UserProfileForm,
+    UserPermissionsForm,
+    UserProfilePermissionsForm,
+    PhotoForm,
+)
+from users.models import UserProfile
 
 
 class IndexView(StaffMemberRequiredMixin, generic.View):
@@ -63,7 +63,7 @@ class IndexView(StaffMemberRequiredMixin, generic.View):
         return queryset
 
     def get(self, request):
-        form = forms.UserSearchForm(request.GET)
+        form = UserSearchForm(request.GET)
         if form.is_valid():
             queryset = self.get_queryset(form.cleaned_data['query'], form.cleaned_data['staff'])
         else:
@@ -73,301 +73,6 @@ class IndexView(StaffMemberRequiredMixin, generic.View):
         context['active_tab'] = 'search'
         context['form'] = form
         return render(request, self.template_name, context)
-
-
-class UserFolderMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(UserFolderMixin, self).get_context_data(**kwargs)
-        cached_trees = UserFolder.objects.all().get_cached_trees()
-        node_ex = lookup_node_ex(self.kwargs['folder_id_or_root'], cached_trees)
-
-        context['cached_trees'] = cached_trees
-        context['folder'] = node_ex.object
-        context['folder_id'] = node_ex.folder_id
-        context['active_tab'] = 'folders'
-        return context
-
-
-class ShowFolderView(StaffMemberRequiredMixin, UserFolderMixin, IRunnerListView):
-    template_name = 'users/folder.html'
-    paginate_by = 50
-
-    def get_context_data(self, **kwargs):
-        context = super(ShowFolderView, self).get_context_data(**kwargs)
-
-        folder = context['folder']
-
-        has_users = (self.get_queryset().count() > 0)
-        can_delete_folder = (not has_users) and (folder is not None) and (folder.get_descendant_count() == 0)
-
-        context['has_users'] = has_users
-        context['can_delete_folder'] = can_delete_folder
-        return context
-
-    def get_queryset(self):
-        folder_id = cast_id(self.kwargs['folder_id_or_root'])
-        return auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
-
-
-class DeleteFolderView(StaffMemberRequiredMixin, UserFolderMixin, generic.base.ContextMixin, generic.View):
-    template_name = 'users/folder_confirm_delete.html'
-
-    def get(self, request, folder_id_or_root):
-        context = self.get_context_data()
-        return render(request, self.template_name, context)
-
-    def post(self, request, folder_id_or_root):
-        folder_id = cast_id(folder_id_or_root)
-        folder = get_object_or_404(UserFolder, pk=folder_id)
-        parent_id = folder.parent_id
-        with transaction.atomic():
-            # TODO: check that it is empty, ...
-            if (folder.get_descendant_count() == 0) and (not folder.userprofile_set.exists()):
-                folder.delete()
-        return redirect('users:show_folder', parent_id if parent_id is not None else ROOT)
-
-
-class CreateFolderView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.CreateFolderForm
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateFolderView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Create folder')
-        return context
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-        UserFolder.objects.create(name=form.cleaned_data['name'], parent_id=folder_id)
-        return redirect('users:show_folder', folder_id_or_root)
-
-
-class CreateUserView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.CreateUserForm
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateUserView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Create user')
-        return context
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-        with transaction.atomic():
-            user = form.save()
-            profile = user.userprofile
-            profile.folder_id = folder_id
-            profile.save()
-        return redirect('users:show_folder', folder_id_or_root)
-
-
-class CreateUsersMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.CreateUsersMassForm
-    initial = {'password': '11111'}
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateUsersMassView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Bulk sign-up')
-        return context
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-        pairs = form.cleaned_data['pairs']
-        counter = 0
-        with transaction.atomic():
-            for user, userprofile in pairs:
-                user.save()
-                userprofile.user = user
-                userprofile.folder_id = folder_id
-                userprofile.save()
-                counter += 1
-
-        msg = ungettext('%(count)d user was added.', '%(count)d users were added.', counter) % {'count': counter}
-        messages.add_message(self.request, messages.INFO, msg)
-        return redirect('users:show_folder', folder_id_or_root)
-
-
-class UpdateProfileMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.UpdateProfileMassForm
-
-    def get_context_data(self, **kwargs):
-        context = super(UpdateProfileMassView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Bulk profile update')
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super(UpdateProfileMassView, self).get_form_kwargs()
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-        kwargs['folder_id'] = folder_id
-        return kwargs
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        pairs = form.cleaned_data['tsv']
-        counter = 0
-        field = form.cleaned_data['field']
-        with transaction.atomic():
-            if field == 'password':
-                for user_id, password in pairs:
-                    # use weak hashing algorithm for better performance
-                    hashed_password = make_password(password, None, 'md5')
-                    counter += auth.get_user_model().objects.filter(pk=user_id).update(password=hashed_password)
-                    UserProfile.objects.filter(pk=user_id).update(needs_change_password=False)
-
-            elif field == 'team_name':
-                for user_id, name in pairs:
-                    UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM)
-                    counter += auth.get_user_model().objects.filter(pk=user_id).update(first_name=name, last_name='')
-
-            elif field == 'team_members':
-                for user_id, members in pairs:
-                    counter += UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.TEAM, members=members)
-
-            elif field == 'full_name':
-                for user_id, full_name in pairs:
-                    tokens = full_name.split(None, 2)
-                    while len(tokens) < 3:
-                        tokens.append('')
-
-                    counter += UserProfile.objects.filter(pk=user_id).update(kind=UserProfile.PERSON, patronymic=tokens[2])
-                    auth.get_user_model().objects.filter(pk=user_id).update(last_name=tokens[0], first_name=tokens[1])
-
-        msg = ungettext('%(count)d profile has been updated.', '%(count)d profiles have been updated.', counter) % {'count': counter}
-        messages.add_message(self.request, messages.INFO, msg)
-        return redirect('users:show_folder', folder_id_or_root)
-
-
-class UploadPhotoMassView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.UploadPhotoMassForm
-
-    def get_context_data(self, **kwargs):
-        context = super(UploadPhotoMassView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Bulk photo upload')
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super(UploadPhotoMassView, self).get_form_kwargs()
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-        kwargs['folder_id'] = folder_id
-        return kwargs
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        upload = form.cleaned_data['upload']
-        counter = 0
-        storage = create_storage()
-
-        with transaction.atomic():
-            for user_id, photos in upload.items():
-                photo, photo_thumbnail = photos
-                photo_id = storage.save(ContentFile(photo))
-                photo_thumbnail_id = storage.save(ContentFile(photo_thumbnail))
-                counter += UserProfile.objects.filter(pk=user_id).update(photo=photo_id, photo_thumbnail=photo_thumbnail_id)
-
-        msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}
-        messages.add_message(self.request, messages.INFO, msg)
-        return redirect('users:show_folder', folder_id_or_root)
-
-
-class ObtainPhotosFromIntranetBsuView(StaffMemberRequiredMixin, UserFolderMixin, generic.FormView):
-    template_name = 'users/create_form.html'
-    form_class = forms.IntranetBsuForm
-
-    UserError = namedtuple('UserError', 'user type message')
-    PhotoIds = namedtuple('PhotoIds', 'photo photo_thumbnail')
-
-    def get_context_data(self, **kwargs):
-        context = super(ObtainPhotosFromIntranetBsuView, self).get_context_data(**kwargs)
-        context['form_name'] = _('Photos from intranet.bsu')
-        return context
-
-    def _get_initial_group(self):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        if folder_id_or_root is None:
-            return
-        folder = UserFolder.objects.filter(pk=folder_id_or_root).first()
-        if folder is None:
-            return
-        return intranetbsu.extract_group(folder.name)
-
-    def get_initial(self):
-        initial = {}
-        group = self._get_initial_group()
-        if group is not None:
-            initial['group'] = group
-        return initial
-
-    def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
-
-        counter = 0
-        photo_ids = {}
-        storage = create_storage()
-
-        errors = []
-        skip_errors = form.cleaned_data['skip_errors']
-
-        for user in auth.get_user_model().objects.filter(userprofile__folder_id=folder_id).select_related('userprofile'):
-            if user.userprofile.photo is not None:
-                continue
-
-            request = intranetbsuphotos.Request(
-                form.cleaned_data['faculty'],
-                user.first_name,
-                user.last_name,
-                user.userprofile.patronymic
-            )
-            request.admission_year = form.cleaned_data['admission_year']
-            request.include_archive = form.cleaned_data['include_archive']
-            request.group = form.cleaned_data['group']
-
-            photo_blob = None
-            photo_thumbnail_blob = None
-
-            try:
-                # photo.generate_thumbnail_blob(None)
-                photo_blob = intranetbsuphotos.download_photo(request)
-                if photo_blob is not None:
-                    photo_thumbnail_blob = photo.generate_thumbnail_blob(photo_blob)
-            except Exception as e:
-                message = getattr(e, 'message', None)
-                if not message:
-                    message = smart_text(e)
-                errors.append(self.UserError(user, type(e).__name__, message))
-                if not skip_errors:
-                    return self.error_page(errors)
-
-            if photo_blob is not None and photo_thumbnail_blob is not None:
-                photo_ids[user.id] = self.PhotoIds(
-                    storage.save(ContentFile(photo_blob)),
-                    storage.save(ContentFile(photo_thumbnail_blob))
-                )
-
-        with transaction.atomic():
-            for user_id, ids in photo_ids.items():
-                counter += UserProfile.objects.filter(pk=user_id).update(photo=ids.photo, photo_thumbnail=ids.photo_thumbnail)
-
-        msg = ungettext('%(count)d photo has been uploaded.', '%(count)d photos have been uploaded.', counter) % {'count': counter}
-        messages.add_message(self.request, messages.INFO, msg)
-
-        if errors:
-            return self.error_page(errors)
-        else:
-            return redirect('users:show_folder', folder_id_or_root)
-
-    def error_page(self, errors):
-        template_name = 'users/intranetbsu_errors.html'
-        context = self.get_context_data(errors=errors)
-        return render(self.request, template_name, context)
 
 
 class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):
@@ -384,7 +89,7 @@ class DeleteUsersView(StaffMemberRequiredMixin, MassOperationView):
 class MoveUsersView(StaffMemberRequiredMixin, MassOperationView):
     template_name = 'users/bulk_operation.html'
     question = _('Are you sure you want to move the users to another folder?')
-    form_class = forms.MoveUsersForm
+    form_class = MoveUsersForm
 
     def get_queryset(self):
         return UserProfile.objects.select_related('user')
@@ -484,16 +189,16 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
 class ProfileMainView(ProfileTwoFormsView):
     tab = 'main'
     template_name = 'users/profile_update.html'
-    user_form_class = forms.UserMainForm
-    userprofile_form_class = forms.UserProfileMainForm
+    user_form_class = UserMainForm
+    userprofile_form_class = UserProfileMainForm
     page_title = _('Main properties')
 
 
 class ProfileUpdateView(ProfileTwoFormsView):
     tab = 'update'
     template_name = 'users/profile_update.html'
-    user_form_class = forms.UserForm
-    userprofile_form_class = forms.UserProfileForm
+    user_form_class = UserForm
+    userprofile_form_class = UserProfileForm
     page_title = _('Update profile')
 
 
@@ -517,8 +222,8 @@ class ProfilePasswordView(BaseProfileView, generic.View):
 class ProfilePermissionsView(ProfileTwoFormsView):
     tab = 'permissions'
     template_name = 'users/profile_update.html'
-    user_form_class = forms.UserPermissionsForm
-    userprofile_form_class = forms.UserProfilePermissionsForm
+    user_form_class = UserPermissionsForm
+    userprofile_form_class = UserProfilePermissionsForm
     page_title = _('Permissions')
 
 
@@ -534,7 +239,7 @@ class ProfilePhotoView(BaseProfileView, generic.View):
             f = FakeFile(url, name)
         else:
             f = None
-        form = forms.PhotoForm(data=data, files=files, initial={'upload': f})
+        form = PhotoForm(data=data, files=files, initial={'upload': f})
         return form
 
     def get(self, request, user):

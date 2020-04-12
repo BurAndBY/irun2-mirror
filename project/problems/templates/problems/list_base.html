@@ -10,7 +10,7 @@
         <div class="col-md-3">
             <div class="ir-folders-search">
                 <div class="btn-group" role="group" aria-label="...">
-                    <a class="btn btn-default{% if active_tab == 'folders' %} active {% endif %}" href="{% url 'problems:show_folder' 'root' %}">
+                    <a class="btn btn-default{% if active_tab == 'folders' %} active {% endif %}" href="{% url 'problems:show_folder' root_folder %}">
                         {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folders' %}</span>
                     </a>
                     <a class="btn btn-default{% if active_tab == 'search' %} active {% endif %}" href="{% url 'problems:search' %}">

@@ -2,23 +2,13 @@ from django.conf.urls import include, url
 
 from . import views
 from .admingroups.urls import admingroups_urlpatterns
+from .folders.urls import urlpatterns as folders_urlpatterns
 
 app_name = 'users'
 
-folders_urlpatterns = [
-    url(r'^$', views.ShowFolderView.as_view(), name='show_folder'),
-    url(r'^new/folder/$', views.CreateFolderView.as_view(), name='create_folder'),
-    url(r'^delete/$', views.DeleteFolderView.as_view(), name='delete_folder'),
-    url(r'^new/user/$', views.CreateUserView.as_view(), name='create_user'),
-    url(r'^bulk/sign-up/$', views.CreateUsersMassView.as_view(), name='create_users_mass'),
-    url(r'^bulk/update-profile/$', views.UpdateProfileMassView.as_view(), name='update_profile_mass'),
-    url(r'^bulk/upload-photo/$', views.UploadPhotoMassView.as_view(), name='upload_photo_mass'),
-    url(r'^bulk/obtain-photos-from-intranet-bsu/$', views.ObtainPhotosFromIntranetBsuView.as_view(), name='obtain_intranet_bsu_photos'),
-]
-
 urlpatterns = [
     url(r'^list/$', views.IndexView.as_view(), name='index'),
-    url(r'^folders/(?P<folder_id_or_root>root|[0-9]+)/', include(folders_urlpatterns)),
+    url(r'^folders/(?P<folder_id_or_root>[^/]+)/', include(folders_urlpatterns)),
     url(r'^delete/$', views.DeleteUsersView.as_view(), name='delete'),
     url(r'^move/$', views.MoveUsersView.as_view(), name='move'),
     url(r'^export\.json$', views.ExportView.as_view(), name='export'),

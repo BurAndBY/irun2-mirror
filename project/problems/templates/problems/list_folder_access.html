@@ -6,13 +6,17 @@
 {% load irunner_cauth %}
 
 {% block sidebar %}
-    {% trans "Problems" as root_name %}
-    {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
+    {% irunner_folders_tree inmemory_tree 'problems:show_folder' folder_id %}
 {% endblock %}
 
 {% block main %}
-    {% trans "Problems" as root_name %}
-    {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
+    {% irunner_folders_breadcrumbs inmemory_tree 'problems:show_folder' folder_id %}
 
-    {% irunner_cauth_share_group share_form acl can_edit=True %}
+    {% irunner_cauth_share_group share_form acl inherited_acl can_edit=permissions.can_grant_access %}
+
+    <div class="form-group">
+        <a href="{% irunner_folders_url 'problems:show_folder' folder_id %}" class="btn btn-link">
+            {% trans 'Back' %}
+        </a>
+    </div>
 {% endblock %}

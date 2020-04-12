@@ -4,173 +4,159 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
-from cauth.acl.mixins import ShareWithGroupMixin
+from cauth.acl.accessmode import AccessMode
+from cauth.acl.mixins import ShareFolderWithGroupMixin
 from cauth.mixins import LoginRequiredMixin
 from common.access import Permissions, PermissionCheckMixin
-from common.folderutils import lookup_node_ex, cast_id, ROOT
 from common.pagination.views import IRunnerListView
+from common.tree.key import FolderId
+from common.tree.mixins import FolderMixin
 from courses.models import Course
 from proglangs.models import Compiler
 
-from problems.calcpermissions import get_problems_queryset
-from problems.models import ProblemFolder, ProblemFolderAccess
+from problems.models import Problem, ProblemFolder, ProblemFolderAccess
 from problems.navigator import make_folder_query_string
-from .forms import (
-    ProblemFolderForm,
-    PolygonImportForm,
-    SimpleProblemForm,
-)
-from .polygon import import_full_package
+
+from problems.folders.forms import ProblemFolderForm, PolygonImportForm, SimpleProblemForm
+from problems.folders.polygon import import_full_package
 
 
-class ProblemPermissions(Permissions):
-    VIEW_ALL_PROBLEMS = 1 << 0
-    CREATE_PROBLEMS = 1 << 1
-    MANAGE_FOLDERS = 1 << 2
-    ALL = VIEW_ALL_PROBLEMS | CREATE_PROBLEMS | MANAGE_FOLDERS
+class FolderPermissions(Permissions):
+    VIEW_PROBLEMS = 1 << 0
+    MANAGE_FOLDERS = 1 << 1
+    GRANT_ACCESS = 1 << 2
 
 
-class ProblemPermissionCheckMixin(PermissionCheckMixin):
-    def _make_permissions(self, user):
-        if user.is_staff:
-            return ProblemPermissions(ProblemPermissions.ALL)
-        if user.userprofile.has_access_to_problems:
-            return ProblemPermissions()
+class ProblemFolderMixin(FolderMixin):
+    root_name = _('Problems')
+    folder_model = ProblemFolder
+    folder_access_model = ProblemFolderAccess
 
-
-class BrowseProblemsAccessMixin(LoginRequiredMixin, ProblemPermissionCheckMixin):
-    pass
-
-
-class ProblemFolderMixin(object):
     def get_context_data(self, **kwargs):
-        context = super(ProblemFolderMixin, self).get_context_data(**kwargs)
-        cached_trees = ProblemFolder.objects.all().get_cached_trees()
-        node_ex = lookup_node_ex(self.kwargs['folder_id_or_root'], cached_trees)
-
-        context['cached_trees'] = cached_trees
-        context['folder'] = node_ex.object
-        context['folder_id'] = node_ex.folder_id
+        context = super().get_context_data(**kwargs)
         context['active_tab'] = 'folders'
-        context['editable_folder'] = node_ex.object is not None
         return context
 
 
-class ShowFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, IRunnerListView):
+class FolderPermissionCheckMixin(PermissionCheckMixin):
+    def _make_permissions(self, user):
+        if user.is_staff:
+            return FolderPermissions.all()
+        if self.node.access == AccessMode.WRITE:
+            return FolderPermissions.allow_view_problems() & FolderPermissions.allow_manage_folders()
+        if self.node.access == AccessMode.READ:
+            return FolderPermissions.allow_view_problems()
+        return FolderPermissions.basic()
+
+
+class CombinedMixin(LoginRequiredMixin, ProblemFolderMixin, FolderPermissionCheckMixin):
+    pass
+
+
+class ShowFolderView(CombinedMixin, IRunnerListView):
     template_name = 'problems/list_folder.html'
     paginate_by = 100
 
     def get_context_data(self, **kwargs):
-        context = super(ShowFolderView, self).get_context_data(**kwargs)
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        if folder_id_or_root:
-            context['query_string'] = make_folder_query_string(folder_id_or_root)
+        context = super().get_context_data(**kwargs)
+        context['query_string'] = make_folder_query_string(self.node.id)
         return context
 
     def get_queryset(self):
-        folder_id = cast_id(self.kwargs['folder_id_or_root'])
-        return get_problems_queryset(self.request.user).filter(folders__id=folder_id)
+        if self.permissions.can_view_problems:
+            return Problem.objects.filter(folders__id=self.node.id)
+        return Problem.objects.none()
 
 
-class CreateFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.FormView):
+class CreateFolderView(CombinedMixin, generic.FormView):
     template_name = 'problems/list_folder_form.html'
     form_class = ProblemFolderForm
-    requirements = ProblemPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.MANAGE_FOLDERS
+    needs_real_folder = False
 
     def get_context_data(self, **kwargs):
-        context = super(CreateFolderView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['form_name'] = _('Create folder')
         context['show_parent'] = True
         return context
 
     def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
         obj = form.save(commit=False)
-        obj.parent_id = cast_id(folder_id_or_root)
+        obj.parent_id = self.node.id
         obj.save()
-        return redirect('problems:show_folder', folder_id_or_root)
+        return redirect('problems:show_folder', FolderId.to_string(self.node.id))
 
 
-class UpdateFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.UpdateView):
+class UpdateFolderView(CombinedMixin, generic.UpdateView):
     template_name = 'problems/list_folder_form.html'
     form_class = ProblemFolderForm
-    requirements = ProblemPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.MANAGE_FOLDERS
+    needs_real_folder = True
 
     def get_context_data(self, **kwargs):
-        context = super(UpdateFolderView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['form_name'] = _('Folder properties')
         context['show_parent'] = False
         return context
 
     def get_success_url(self):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        return reverse('problems:show_folder', kwargs={'folder_id_or_root': folder_id_or_root})
+        return reverse('problems:show_folder', kwargs={'folder_id_or_root': FolderId.to_string(self.node.id)})
 
     def get_object(self):
-        folder_id = cast_id(self.kwargs['folder_id_or_root'])
-        if folder_id is not None:
-            return ProblemFolder.objects.get(pk=folder_id)
-        else:
-            raise Http404('no folder found')
+        return self.node.instance
 
 
-class FolderAccessView(BrowseProblemsAccessMixin, ProblemFolderMixin, ShareWithGroupMixin, generic.base.ContextMixin, generic.View):
+class FolderAccessView(CombinedMixin, ShareFolderWithGroupMixin, generic.base.ContextMixin, generic.View):
     template_name = 'problems/list_folder_access.html'
     form_class = ProblemFolderForm
-    requirements = ProblemPermissions.MANAGE_FOLDERS
-
+    requirements = FolderPermissions.VIEW_PROBLEMS
+    requirements_to_post = FolderPermissions.MANAGE_FOLDERS
     access_model = ProblemFolderAccess
-    access_model_object_field = 'folder'
+    needs_real_folder = True
 
-    def get(self, request, folder_id_or_root):
-        folder_id = cast_id(folder_id_or_root)
-        folder = get_object_or_404(ProblemFolder, pk=folder_id)
-        context = self._get(request, folder)
+    def get(self, request):
+        context = self._get(request, self.node.instance)
         return render(request, self.template_name, self.get_context_data(**context))
 
-    def post(self, request, folder_id_or_root):
-        folder_id = cast_id(folder_id_or_root)
-        folder = get_object_or_404(ProblemFolder, pk=folder_id)
-        success, context = self._post(request, folder)
+    def post(self, request):
+        success, context = self._post(request, self.node.instance)
         if success:
-            return redirect('problems:folder_access', folder_id if folder_id is not None else ROOT)
+            return redirect('problems:folder_access', FolderId.to_string(self.node.id))
         return render(request, self.template_name, self.get_context_data(**context))
 
 
-class DeleteFolderView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+class DeleteFolderView(CombinedMixin, generic.base.ContextMixin, generic.View):
     template_name = 'problems/list_folder_confirm_delete.html'
-    requirements = ProblemPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.MANAGE_FOLDERS
+    needs_real_folder = True
 
     def list_courses(self, folder):
         subfolder_ids = folder.get_descendants(include_self=True).values_list('id', flat=True)
         return list(Course.objects.filter(topic__problem_folder_id__in=subfolder_ids).distinct())
 
-    def get(self, request, folder_id_or_root):
-        folder_id = cast_id(folder_id_or_root)
-        folder = get_object_or_404(ProblemFolder, pk=folder_id)
-        context = self.get_context_data(course_list=self.list_courses(folder))
+    def get(self, request):
+        context = self.get_context_data(course_list=self.list_courses(self.node.instance))
         return render(request, self.template_name, context)
 
-    def post(self, request, folder_id_or_root):
-        folder_id = cast_id(folder_id_or_root)
-        folder = get_object_or_404(ProblemFolder, pk=folder_id)
+    def post(self, request):
+        folder = self.node.instance
         parent_id = folder.parent_id
         with transaction.atomic():
             folder.delete()
-        return redirect('problems:show_folder', parent_id if parent_id is not None else ROOT)
+        return redirect('problems:show_folder', FolderId.to_string(parent_id))
 
 
-class ImportFromPolygonView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.base.ContextMixin, generic.View):
+class ImportFromPolygonView(CombinedMixin, generic.base.ContextMixin, generic.View):
     template_name = 'problems/list_import_from_polygon.html'
-    requirements = ProblemPermissions.CREATE_PROBLEMS
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
-    def get(self, request, folder_id_or_root):
+    def get(self, request):
         # TODO: better way to select default compiler (remember last used?)
         compiler = Compiler.objects.filter(description__contains='GNU C++', default_for_courses=True).first()
         form = PolygonImportForm(initial={'compiler': compiler})
@@ -178,7 +164,7 @@ class ImportFromPolygonView(BrowseProblemsAccessMixin, ProblemFolderMixin, gener
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def post(self, request, folder_id_or_root):
+    def post(self, request):
         form = PolygonImportForm(request.POST, request.FILES)
         has_error = False
         validation_error = None
@@ -186,10 +172,15 @@ class ImportFromPolygonView(BrowseProblemsAccessMixin, ProblemFolderMixin, gener
         exception_type = None
 
         if form.is_valid():
-            folder_id = cast_id(folder_id_or_root)
             try:
                 with transaction.atomic():
-                    import_full_package(form.cleaned_data['upload'], form.cleaned_data['language'], form.cleaned_data['compiler'], request.user, folder_id)
+                    import_full_package(
+                        form.cleaned_data['upload'],
+                        form.cleaned_data['language'],
+                        form.cleaned_data['compiler'],
+                        request.user,
+                        self.node.id
+                    )
             except ValidationError as e:
                 has_error = True
                 validation_error = e
@@ -199,31 +190,29 @@ class ImportFromPolygonView(BrowseProblemsAccessMixin, ProblemFolderMixin, gener
                 exception_type = type(e).__name__
 
             if not has_error:
-                return redirect('problems:show_folder', folder_id if folder_id is not None else ROOT)
+                return redirect('problems:show_folder', FolderId.to_string(self.node.id))
 
         context = self.get_context_data(form=form, has_error=has_error, validation_error=validation_error, exception=exception, exception_type=exception_type)
         return render(request, self.template_name, context)
 
 
-class CreateProblemView(BrowseProblemsAccessMixin, ProblemFolderMixin, generic.FormView):
+class CreateProblemView(CombinedMixin, generic.FormView):
     template_name = 'problems/list_folder_form.html'
     form_class = SimpleProblemForm
-    requirements = ProblemPermissions.CREATE_PROBLEMS
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
-        context = super(CreateProblemView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['form_name'] = _('New problem')
         context['show_parent'] = True
         return context
 
     def form_valid(self, form):
-        folder_id_or_root = self.kwargs['folder_id_or_root']
-        folder_id = cast_id(folder_id_or_root)
         with transaction.atomic():
             problem = form.save()
-            if folder_id is not None:
-                problem.folders.add(folder_id)
+            if self.node.id is not None:
+                problem.folders.add(self.node.id)
 
         url = reverse('problems:properties', kwargs={'problem_id': problem.id})
-        url += make_folder_query_string(folder_id_or_root)
+        url += make_folder_query_string(self.node.id)
         return HttpResponseRedirect(url)

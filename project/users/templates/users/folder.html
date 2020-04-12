@@ -7,13 +7,11 @@
 {% load irunner_users %}
 
 {% block sidebar %}
-    {% trans "Users" as root_name %}
-    {% irunner_folders_tree cached_trees 'users:show_folder' folder_id root_name %}
+    {% irunner_folders_tree inmemory_tree 'users:show_folder' folder_id %}
 {% endblock %}
 
 {% block main %}
-    {% trans "Users" as root_name %}
-    {% irunner_folders_breadcrumbs cached_trees 'users:show_folder' folder_id root_name %}
+    {% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' folder_id %}
 
     <div class="form-group">
         <div class="btn-toolbar" role="toolbar">
@@ -74,7 +72,7 @@
 
     {% bootstrap_messages %}
 
-    {% irunner_folders_subfolders cached_trees 'users:show_folder' folder_id %}
+    {% irunner_folders_subfolders inmemory_tree 'users:show_folder' folder_id %}
 
     <div class="panel panel-default">
         <div class="panel-body">

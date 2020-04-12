@@ -8,42 +8,41 @@
 {% load irunner_problems %}
 
 {% block sidebar %}
-    {% trans "Problems" as root_name %}
-
-    {% irunner_folders_tree cached_trees 'problems:show_folder' folder_id root_name %}
+    {% irunner_folders_tree inmemory_tree 'problems:show_folder' folder_id %}
 {% endblock %}
 
 {% block main %}
-    {% trans "Problems" as root_name %}
+    {% irunner_folders_breadcrumbs inmemory_tree 'problems:show_folder' folder_id %}
 
-    {% irunner_folders_breadcrumbs cached_trees 'problems:show_folder' folder_id root_name %}
-
-    {% if permissions.can_manage_folders or permissions.can_create_problems %}
+    {% if permissions.can_view_problems or permissions.can_manage_folders %}
     <div class="form-group">
         <div class="btn-toolbar" role="toolbar">
-            {% if permissions.can_manage_folders %}
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% bootstrap_icon 'folder-open' %} <span class="ir-icon-label">{% trans 'Folder' %}</span>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
+                    {% if permissions.can_manage_folders %}
                     <li>
                         <a href="{% irunner_folders_url 'problems:create_folder' folder_id %}">
                             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span>
                         </a>
                     </li>
-                    {% if editable_folder %}
-                        <li>
-                            <a href="{% irunner_folders_url 'problems:folder_properties' folder_id %}">
-                                {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Properties' %}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% irunner_folders_url 'problems:delete_folder' folder_id %}">
-                                {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
-                            </a>
-                        </li>
+                    {% if folder_id != None %}
+                    <li>
+                        <a href="{% irunner_folders_url 'problems:folder_properties' folder_id %}">
+                            {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Properties' %}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% irunner_folders_url 'problems:delete_folder' folder_id %}">
+                            {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% if permissions.can_view_problems and folder_id != None %}
                         <li>
                             <a href="{% irunner_folders_url 'problems:folder_access' folder_id %}">
                                 {% bootstrap_icon 'lock' %} <span class="ir-icon-label">{% trans 'Access' %}</span>
@@ -52,9 +51,8 @@
                     {% endif %}
                 </ul>
             </div>
-            {% endif %}
 
-            {% if permissions.can_create_problems %}
+            {% if permissions.can_manage_folders %}
             <div class="btn-group btn-group-sm" role="group">
                 <a class="btn btn-default" href="{% irunner_folders_url 'problems:create_problem' folder_id %}">
                     {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New problem' %}</span>
@@ -68,9 +66,9 @@
     </div>
     {% endif %}
 
-    {% irunner_folders_subfolders cached_trees 'problems:show_folder' folder_id %}
+    {% irunner_folders_subfolders inmemory_tree 'problems:show_folder' folder_id %}
 
-    {% irunner_problems_list problems=object_list pagination_context=pagination_context list_is_complete=permissions.can_view_all_problems query_string=query_string %}
+    {% irunner_problems_list problems=object_list pagination_context=pagination_context list_is_complete=permissions.can_view_problems query_string=query_string %}
 
     <script>
     $(document).ready(function () {

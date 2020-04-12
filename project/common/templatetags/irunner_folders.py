@@ -3,7 +3,9 @@ from collections import namedtuple
 
 from django import template
 
-from common.folderutils import ROOT, ensure_trees, cast_id, make_fancytree_json, find_in_tree
+from common.folderutils import make_fancytree_json
+from common.tree.key import FolderId
+from common.tree.inmemory import Tree
 
 register = template.Library()
 
@@ -14,57 +16,59 @@ BreadcrumbItem = namedtuple('BreadcrumbItem', 'folder_id_or_root name is_link')
 SubfolderItem = namedtuple('SubfolderItem', 'folder_id_or_root name')
 TemplateTreeItem = namedtuple('TemplateTreeItem', 'kind breadcrumb')
 
+
 def _name_extractor(f):
     return f.name
 
+
+def ensure_trees(value):
+    if not isinstance(value, Tree):
+        raise TypeError('Type {} expected, {} found'.format(Tree.__name__, type(value).__name__))
+
+
+def _make_breadcrumb(node, link):
+    return BreadcrumbItem(FolderId.to_string(node.id), node.name, link)
+
+
 @register.inclusion_tag('common/irunner_folders_tree_tag.html')
-def irunner_folders_tree(cached_trees, url_pattern, folder_id, root_name, mode='irunner'):
+def irunner_folders_tree(tree, url_pattern, folder_id, mode='irunner'):
     '''
     args:
-        cached_trees:
-            list of roots returned by mptt.get_cached_trees()
+        tree:
+            inmemory.Tree instance
         url_pattern:
             pattern to use to resolve links to folders, must have single parameter
         folder_id:
             current folder id (integer, 'root', None)
-        root_name:
-            human-readable name of the root node
         mode:
             display mode to use
     '''
-    ensure_trees(cached_trees)
-    folder_id = cast_id(folder_id)
+    ensure_trees(tree)
 
     if mode == 'fancy':
-        context = _fill_fancytree_data(cached_trees, root_name)
+        context = _fill_fancytree_data(tree)
     elif mode == 'irunner':
-        context = _fill_irunnertree_data(cached_trees, folder_id, root_name)
+        context = _fill_irunnertree_data(tree, folder_id)
     else:
         raise ValueError('unsupported mode')
 
-    context['folder_id_or_root'] = folder_id if folder_id is not None else ROOT
+    context['folder_id_or_root'] = FolderId.to_string(folder_id)
     context['url_pattern'] = url_pattern
     return context
 
 
 @register.inclusion_tag('common/irunner_folders_breadcrumbs_tag.html')
-def irunner_folders_breadcrumbs(cached_trees, url_pattern, folder_id, root_name):
+def irunner_folders_breadcrumbs(tree, url_pattern, folder_id):
     '''
     args: the same as above
     '''
-    ensure_trees(cached_trees)
-    folder_id = cast_id(folder_id)
+    ensure_trees(tree)
 
     breadcrumbs = []
-    if folder_id is None:
-        breadcrumbs.append(BreadcrumbItem(ROOT, root_name, False))
-    else:
-        current = find_in_tree(cached_trees, folder_id)
-
-        breadcrumbs.append(BreadcrumbItem(ROOT, root_name, True))
-        for node in current.get_ancestors():
-            breadcrumbs.append(BreadcrumbItem(node.id, node.name, True))
-        breadcrumbs.append(BreadcrumbItem(current.id, current.name, False))
+    current = tree.find(folder_id)
+    for node in tree.get_ancestors(current):
+        breadcrumbs.append(_make_breadcrumb(node, True))
+    breadcrumbs.append(_make_breadcrumb(current, False))
 
     return {
         'breadcrumbs': breadcrumbs,
@@ -73,24 +77,16 @@ def irunner_folders_breadcrumbs(cached_trees, url_pattern, folder_id, root_name)
 
 
 @register.inclusion_tag('common/irunner_folders_subfolders_tag.html')
-def irunner_folders_subfolders(cached_trees, url_pattern, folder_id):
+def irunner_folders_subfolders(tree, url_pattern, folder_id):
     '''
     args: the same as above
     '''
-    ensure_trees(cached_trees)
-    folder_id = cast_id(folder_id)
+    ensure_trees(tree)
 
     subfolders = []
-
-    if folder_id is None:
-        for node in cached_trees:
-            subfolders.append(SubfolderItem(node.id, node.name))
-    else:
-        current = find_in_tree(cached_trees, folder_id)
-
-        for node in current.get_children():
-            subfolders.append(SubfolderItem(node.id, node.name))
-
+    current = tree.find(folder_id)
+    for node in current.children:
+        subfolders.append(SubfolderItem(node.id, node.name))
     subfolders.sort(key=_name_extractor)
 
     return {
@@ -103,7 +99,7 @@ def irunner_folders_subfolders(cached_trees, url_pattern, folder_id):
 def irunner_folders_url(url_pattern, folder_id):
     return {
         'url_pattern': url_pattern,
-        'folder_id': folder_id if folder_id is not None else ROOT
+        'folder_id': FolderId.to_string(folder_id)
     }
 
 
@@ -112,29 +108,23 @@ Implementation details follow...
 '''
 
 
-def _fill_fancytree_data(cached_trees, root_name):
+def _fill_fancytree_data(tree):
     return {
-        'ft_data': make_fancytree_json(cached_trees, root_name),
+        'ft_data': make_fancytree_json(tree),
         'uid': uuid.uuid1().hex
     }
 
 
-def _fill_irunnertree_data(cached_trees, folder_id, root_name):
+def _fill_irunnertree_data(tree, folder_id):
     output = []
-
-    output.append(TemplateTreeItem('-', BreadcrumbItem(ROOT, root_name, folder_id is not None)))
-    for root in sorted(cached_trees, key=_name_extractor):
-        output.append(TemplateTreeItem('(', None))
-        _irunnertree_traverse(root, folder_id, output)
-        output.append(TemplateTreeItem(')', None))
-
+    _irunnertree_traverse(tree.root, folder_id, output)
     return {
         'it_data': output
     }
 
 
 def _irunnertree_traverse(node, target_id, output):
-    children = node.get_children()
+    children = node.children
 
     target = None
     temp_output = []
@@ -146,21 +136,21 @@ def _irunnertree_traverse(node, target_id, output):
     if node.id == target_id:
         target = node
         if children:
-            output.append(TemplateTreeItem('-', BreadcrumbItem(node.id, node.name, False)))
+            output.append(TemplateTreeItem('-', _make_breadcrumb(node, False)))
             output.append(TemplateTreeItem('(', None))
             output.extend(temp_output)
             output.append(TemplateTreeItem(')', None))
         else:
-            output.append(TemplateTreeItem('.', BreadcrumbItem(node.id, node.name, False)))
+            output.append(TemplateTreeItem('.', _make_breadcrumb(node, False)))
     else:
         if target is not None:
-            output.append(TemplateTreeItem('-', BreadcrumbItem(node.id, node.name, True)))
+            output.append(TemplateTreeItem('-', _make_breadcrumb(node, True)))
             output.append(TemplateTreeItem('(', None))
             output.extend(temp_output)
             output.append(TemplateTreeItem(')', None))
         else:
             if children:
-                output.append(TemplateTreeItem('+', BreadcrumbItem(node.id, node.name, True)))
+                output.append(TemplateTreeItem('+', _make_breadcrumb(node, True)))
             else:
-                output.append(TemplateTreeItem('.', BreadcrumbItem(node.id, node.name, True)))
+                output.append(TemplateTreeItem('.', _make_breadcrumb(node, True)))
     return target

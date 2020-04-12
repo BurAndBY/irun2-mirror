@@ -14,6 +14,7 @@ class BaseShareWithMixin(object):
         context = {
             'share_form': share_form,
             'acl': self._load_access_control_list(obj),
+            'inherited_acl': self._load_inherited_access_control_list(obj),
         }
         return context
 
@@ -38,8 +39,15 @@ class BaseShareWithMixin(object):
         context = {
             'share_form': share_form,
             'acl': self._load_access_control_list(obj),
+            'inherited_acl': self._load_inherited_access_control_list(obj),
         }
         return success, context
+
+    def _load_access_control_list(self, obj):
+        raise NotImplementedError()
+
+    def _load_inherited_access_control_list(self, obj):
+        return None
 
     def _grant_form_valid(self, request, obj, share_form):
         raise NotImplementedError()
@@ -88,3 +96,14 @@ class ShareWithGroupMixin(BaseShareWithMixin):
                 'who_granted': request.user,
             }
         })
+
+
+class ShareFolderWithGroupMixin(ShareWithGroupMixin):
+    access_model_object_field = 'folder'
+
+    def _load_inherited_access_control_list(self, obj):
+        return self.access_model.objects.filter(**{
+            '{}__tree_id'.format(self.access_model_object_field): obj.tree_id,
+            '{}__lft__lt'.format(self.access_model_object_field): obj.lft,
+            '{}__rght__gt'.format(self.access_model_object_field): obj.rght,
+        }).order_by('id').all().select_related(self.access_model_object_field, 'who_granted', 'group')

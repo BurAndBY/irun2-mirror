@@ -36,10 +36,11 @@ def irunner_cauth_share_user(share_form, acl, can_edit=False):
 
 
 @register.inclusion_tag('cauth/irunner_cauth_share_user.html')
-def irunner_cauth_share_group(share_form, acl, can_edit=False):
+def irunner_cauth_share_group(share_form, acl, inherited_acl, can_edit=False):
     return {
         'share_form': share_form,
         'acl': acl,
+        'inherited_acl': inherited_acl,
         'can_edit': can_edit,
         'user_mode': False,
     }

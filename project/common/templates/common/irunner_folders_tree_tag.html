@@ -9,18 +9,8 @@
             </ul></li>
         {% else %}
             <li>
-                <span class="ir-bullet">
-                {% if item.kind == '+' %}
-                    +
-                {% elif item.kind == '-' %}
-                    &minus;
-                {% else %}
-                    &middot;
-                {% endif %}
-                </span>
-                {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id_or_root %}">{% else %}<strong>{% endif %}
-                    {{ item.breadcrumb.name }}
-                {% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
+                <span class="ir-bullet">{% if item.kind == '+' %}+{% elif item.kind == '-' %}&minus;{% else %}&middot;{% endif %}</span>
+                {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id_or_root %}">{% else %}<strong>{% endif %}{{ item.breadcrumb.name }}{% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
             </li>
         {% endif %}
     {% endfor %}

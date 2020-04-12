@@ -75,6 +75,7 @@ problem_urlpatterns = [
 ]
 
 urlpatterns = [
+    url(r'^$', views.DefaultView.as_view(), name='default'),
     url(r'^tree/$', views.ShowTreeView.as_view(), name='show_tree'),
     url(r'^tree/(?P<folder_id>[0-9]+)/$', views.ShowTreeFolderView.as_view(), name='show_tree_folder'),
     url(r'^tree/(?P<folder_id>[0-9]+)/json/$', views.ShowTreeFolderJsonView.as_view(), name='show_tree_folder_json'),

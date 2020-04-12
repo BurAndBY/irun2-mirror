@@ -2,12 +2,11 @@
 
 from __future__ import unicode_literals
 
-from problems.models import Problem, ProblemFolder
+from problems.models import ProblemFolder
 from problems.calcpermissions import get_problems_queryset
 
-from common.folderutils import ROOT, cast_id
+from common.tree.key import FolderId
 from django.urls import reverse
-from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 
@@ -18,8 +17,8 @@ def _create_query_string(params):
     return '?' + urlencode(params)
 
 
-def make_folder_query_string(folder_id_or_root):
-    return _create_query_string([(PARAM, folder_id_or_root)])
+def make_folder_query_string(folder_id):
+    return _create_query_string([(PARAM, FolderId.to_string(folder_id))])
 
 
 class NavigatorImpl(object):
@@ -30,7 +29,7 @@ class NavigatorImpl(object):
         self._query_string = _create_query_string(self.iterate_query_params())
 
     def get_folder_url(self):
-        return reverse('problems:show_folder', kwargs={'folder_id_or_root': self.folder.id if self.folder is not None else ROOT})
+        return reverse('problems:show_folder', kwargs={'folder_id_or_root': FolderId.to_string(self.folder.id if self.folder is not None else None)})
 
     def get_folder_name(self):
         return self.folder.name if self.folder is not None else _('Problems')
@@ -47,7 +46,7 @@ class NavigatorImpl(object):
         return self._query_string
 
     def iterate_query_params(self):
-        folder_id_or_root = force_text(self.folder.id) if self.folder is not None else ROOT
+        folder_id_or_root = FolderId.to_string(self.folder.id if self.folder is not None else None)
         return [(PARAM, folder_id_or_root)]
 
     def get_current_index(self):
@@ -61,8 +60,8 @@ def init(problem_id, request_user, request_get):
     if PARAM not in request_get:
         return
     try:
-        folder_id = cast_id(request_get[PARAM])
-    except:
+        folder_id = FolderId.from_string(request_get[PARAM])
+    except (KeyError, ValueError):
         return
 
     if folder_id is None:
