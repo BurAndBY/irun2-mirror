@@ -241,7 +241,7 @@ class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View
         statistics = get_statistics(pk)
         context['statistics'] = json.dumps(statistics)
         context['has_data'] = statistics is not None
-        context['has_previous_year'] = 'by-stud-group-prev' in statistics
+        context['has_previous_year'] = statistics is not None and 'by-stud-group-prev' in statistics
         return render(request, self.template_name, context)
 
 
