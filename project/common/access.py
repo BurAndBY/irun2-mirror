@@ -1,18 +1,32 @@
-import inspect
+from itertools import chain
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
-FUNC_PREFIX = 'can_'
+
+class PermissionsType(type):
+    def __new__(cls, name, bases, dct):
+        x = super().__new__(cls, name, bases, dct)
+        items = []
+        for key, value in dct.items():
+            if name.startswith('__') or not isinstance(value, int):
+                continue
+            setattr(x, 'allow_{}'.format(key.lower()), classmethod(lambda cls, v=value: cls(v)))
+            setattr(x, 'can_{}'.format(key.lower()), property(lambda self, v=value: self._value & v == v))
+            items.append((key, value))
+
+        x._ITEMS_ = tuple(chain(x._ITEMS_, items))
+        return x
 
 
-class Permissions(object):
+class Permissions(metaclass=PermissionsType):
     '''
     example:
     class MyPermissions(Permissions):
         FOO = 1 << 0
         BAR = 1 << 1
     '''
+    _ITEMS_ = ()
 
     def __init__(self, mask=0):
         Permissions._validate(mask)
@@ -26,23 +40,16 @@ class Permissions(object):
         return cls(mask)
 
     @classmethod
+    def basic(cls):
+        return cls(0)
+
+    @classmethod
     def items(cls):
-        for name, value in inspect.getmembers(cls):
-            if not name.startswith('__') and not callable(value):
-                yield name, value
+        return cls._ITEMS_
 
     def set(self, mask):
         Permissions._validate(mask)
         self._value |= mask
-
-    def __getattr__(self, name):
-        if name.startswith(FUNC_PREFIX):
-            name = name[len(FUNC_PREFIX):].upper()
-            cls = type(self)
-            ref_value = getattr(cls, name)
-            cur_value = self._value
-            return (cur_value & ref_value) == ref_value
-        return super(Permissions, self).__getattr__(name)
 
     def check(self, mask):
         '''
@@ -50,6 +57,11 @@ class Permissions(object):
         '''
         Permissions._validate(mask)
         return (self._value & mask) == mask
+
+    def __and__(self, other):
+        if type(self) is not type(other):
+            raise TypeError('permissions of different types cannot be combined')
+        return type(self)(self._value | other._value)
 
     @staticmethod
     def _validate(mask):

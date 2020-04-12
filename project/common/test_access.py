@@ -25,8 +25,15 @@ class PermissionsTests(TestCase):
         assert not f.can_write
         assert not f.can_execute
 
+    def test_basic(self):
+        f = BarPermissions.basic()
+        assert not f.can_read
+        assert not f.can_write
+        assert not f.can_execute
+
     def test_all(self):
         f = BarPermissions.all()
+        assert f._value == 7
         assert f.can_read
         assert f.can_write
         assert f.can_execute
@@ -35,3 +42,22 @@ class PermissionsTests(TestCase):
         BarPermissions(100500)
         with self.assertRaises(TypeError):
             BarPermissions('a')
+
+    def test_predefined(self):
+        f = BarPermissions.allow_write()
+        assert not f.can_read
+        assert f.can_write
+
+        f = BarPermissions.allow_read()
+        assert f.can_read
+        assert not f.can_write
+
+    def test_predefined_combine(self):
+        f = BarPermissions.allow_read() & BarPermissions.allow_execute()
+        assert f.can_read
+        assert not f.can_write
+        assert f.can_execute
+
+    def test_values(self):
+        assert len(FooPermissions.items()) == 1
+        assert len(BarPermissions.items()) == 3
