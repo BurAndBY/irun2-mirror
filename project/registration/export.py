@@ -18,7 +18,7 @@ def make_teams_csv(event):
         for field in ['email', 'first_name', 'last_name', 'date_of_birth', 'study_program', 'program_start_year', 'graduation_year', 'sex']:
             fields.append('contestant_{}_{}'.format(i + 1, field))
 
-    si = six.BytesIO()
+    si = six.StringIO()
     writer = csv.DictWriter(si, fields)
     writer.writeheader()
 
@@ -52,7 +52,7 @@ def make_teams_csv(event):
 
         recoded_row = {}
         for k, v in row.items():
-            recoded_row[k] = six.text_type(v).encode('utf-8')
+            recoded_row[k] = six.text_type(v)
 
         writer.writerow(recoded_row)
 

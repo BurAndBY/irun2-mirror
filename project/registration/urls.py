@@ -2,8 +2,6 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'registration'
-
 urlpatterns = [
     url(r'^register/$', views.RegisterCoachView.as_view(), name='register_coach'),
     url(r'^register/(?P<coach_id>[^/]+)/$', views.ListTeamsView.as_view(), name='list_teams'),
