@@ -12,12 +12,13 @@ from django.urls import reverse
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils.translation import ugettext_lazy as _
 from django.views import generic
-from mptt.templatetags.mptt_tags import cache_tree_children
 
 from cauth.mixins import StaffMemberRequiredMixin, LoginRequiredMixin
-from common.folderutils import _fancytree_recursive_node_to_dict
+from common.folderutils import make_fancytree_json
 from common.pagination import paginate
+from common.tree.inmemory import Tree
 
 from storage.storage import create_storage
 from storage.utils import serve_resource
@@ -105,13 +106,9 @@ Alternative folder tree
 
 class FancyTreeMixin(object):
     @staticmethod
-    def _list_folders():
-        root_nodes = cache_tree_children(ProblemFolder.objects.all())
-        dicts = []
-        for n in root_nodes:
-            dicts.append(_fancytree_recursive_node_to_dict(n))
-
-        return json.dumps(dicts)
+    def _list_folders(user):
+        tree = Tree.load(_('Problems'), ProblemFolder, None, user)
+        return make_fancytree_json(tree)
 
     @staticmethod
     def _list_folder_contents(folder_id):
@@ -122,7 +119,7 @@ class FancyTreeMixin(object):
 
 class ShowTreeView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
     def get(self, request):
-        tree_data = self._list_folders()
+        tree_data = self._list_folders(request.user)
         return render(request, 'problems/tree.html', {
             'tree_data': tree_data
         })
@@ -131,7 +128,7 @@ class ShowTreeView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
 class ShowTreeFolderView(StaffMemberRequiredMixin, FancyTreeMixin, generic.View):
     def get(self, request, folder_id):
         folder = get_object_or_404(ProblemFolder, pk=folder_id)
-        tree_data = self._list_folders()
+        tree_data = self._list_folders(request.user)
         return render(request, 'problems/tree.html', {
             'tree_data': tree_data,
             'cur_folder_id': folder.id,
