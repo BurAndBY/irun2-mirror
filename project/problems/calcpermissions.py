@@ -4,7 +4,8 @@ import operator
 
 from django.db.models import Q
 
-from problems.models import Problem, ProblemAccess, ProblemFolder
+from problems.models import Problem, ProblemFolder
+from problems.problem.permissions import calc_problem_permissions
 from solutions.permissions import SolutionAccessLevel
 
 InProblemAccessLevel = namedtuple('InProblemAccessLevel', 'has_problem level')
@@ -45,7 +46,7 @@ def get_problem_ids_queryset(user):
 
 def calculate_problem_solution_access_level(solution, user):
     if solution.problem_id is not None:
-        if ProblemAccess.objects.filter(problem_id=solution.problem_id, user=user).exists():
+        if calc_problem_permissions(user, solution.problem_id) is not None:
             return InProblemAccessLevel(True, SolutionAccessLevel.FULL)
 
     return InProblemAccessLevel(False, SolutionAccessLevel.NO_ACCESS)
