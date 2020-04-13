@@ -32,5 +32,5 @@ class FolderAccessChecker(object):
         if not clauses:
             return 0
 
-        res = cls.folder_access_model.objects.filter(reduce(operator.or_, clauses)).aggregate(Max('mode'))
+        res = cls.folder_access_model.objects.filter(group__users=user).filter(reduce(operator.or_, clauses)).aggregate(Max('mode'))
         return res.get('mode__max') or 0
