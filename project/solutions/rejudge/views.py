@@ -28,7 +28,8 @@ class RejudgeListView(LoginRequiredMixin, IRunnerListView):
     def get_queryset(self):
         qs = Rejudge.objects.all()
         if has_limited_problems_queryset(self.request.user):
-            qs = qs.filter(judgement__isnull=False, judgement__solution__problem_id__in=get_problem_ids_queryset(self.request.user))
+            problem_ids = get_problem_ids_queryset(self.request.user)
+            qs = qs.filter(judgement__isnull=False, judgement__solution__problem_id__in=list(problem_ids))
         return qs.annotate(num_judgements=Count('judgement')).prefetch_related('author').order_by('-id')
 
 
