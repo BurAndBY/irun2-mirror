@@ -62,11 +62,16 @@ class RegisterCoachView(EventMixin, generic.CreateView):
     template_name = 'registration/new_coach.html'
     result_template_name = 'registration/new_coach_result.html'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'instance': self.model(event=self.event)
+        })
+        return kwargs
+
     def form_valid(self, form):
-        coach = form.save(commit=False)
+        coach = form.save()
         self.object = coach
-        coach.event = self.event
-        coach.save()
         link = _create_coach_dashboard_link(self.request, self.event, coach)
 
         sent = False

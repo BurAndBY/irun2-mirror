@@ -43,7 +43,7 @@ SEX_CHOICES = [
 class IcpcCoach(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(_('e-mail'), unique=True, max_length=MAX_EMAIL_LENGTH)
+    email = models.EmailField(_('e-mail'), max_length=MAX_EMAIL_LENGTH)
     first_name = models.CharField(_('first name'), max_length=MAX_NAME_LENGTH)
     last_name = models.CharField(_('last name'), max_length=MAX_NAME_LENGTH)
     university = models.CharField(_('university'), max_length=MAX_NAME_LENGTH)
@@ -56,6 +56,9 @@ class IcpcCoach(models.Model):
     @property
     def human_readable_id(self):
         return shortuuid.encode(self.id)
+
+    class Meta:
+        unique_together = ('event', 'email')
 
 
 class IcpcTeam(models.Model):

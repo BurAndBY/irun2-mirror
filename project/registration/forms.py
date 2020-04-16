@@ -5,6 +5,7 @@ import datetime
 import six
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -55,6 +56,13 @@ class IcpcCoachForm(forms.ModelForm):
             'last_name': _ex('Ivanov'),
             'university': _ex('Bytelandian State University'),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if IcpcCoach.objects.filter(email=cleaned_data['email'], event=self.instance.event).exists():
+            msg = _('This email has already been registered for this event.')
+            self.add_error('email', msg)
+        return cleaned_data
 
 
 class IcpcCoachUpdateForm(forms.ModelForm):
