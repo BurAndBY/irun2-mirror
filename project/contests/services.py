@@ -13,6 +13,7 @@ from common.constants import EMPTY_SELECT, make_empty_select
 from common.outcome import Outcome
 from problems.models import Problem
 from solutions.models import Judgement
+from solutions.permissions import SolutionAccessLevel
 
 from .models import Contest, ContestSolution, Membership
 from .utils.problemstats import ProblemStats
@@ -477,6 +478,9 @@ class IOIUserResult(UserResultBase):
 
 
 class IContestService(object):
+    def __init__(self, contest):
+        pass
+
     def get_no_standings_yet_message(self):
         raise NotImplementedError()
 
@@ -495,9 +499,9 @@ class IContestService(object):
 
 def create_contest_service(contest):
     if contest.rules == Contest.ACM:
-        return ACMContestService()
+        return ACMContestService(contest)
     if contest.rules == Contest.IOI:
-        return IOIContestService()
+        return IOIContestService(contest)
 
 
 class ACMContestService(IContestService):
@@ -520,6 +524,13 @@ class ACMContestService(IContestService):
 
 
 class IOIContestService(IContestService):
+    def __init__(self, contest):
+        self._own_solutions_access = contest.contestant_own_solutions_access in (
+            SolutionAccessLevel.TESTING_DETAILS,
+            SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES,
+            SolutionAccessLevel.TESTING_DETAILS_TEST_DATA
+        )
+
     def get_no_standings_yet_message(self):
         return _('The scoreboard is hidden')
 
@@ -532,7 +543,7 @@ class IOIContestService(IContestService):
         return False
 
     def should_show_my_solutions_completely(self, timing):
-        return (timing.get() == ContestTiming.AFTER) and (not timing.is_freeze_applicable())
+        return self._own_solutions_access or ((timing.get() == ContestTiming.AFTER) and (not timing.is_freeze_applicable()))
 
     def make_contest_results(self, contest, frozen, user_regex=None):
         if frozen:
