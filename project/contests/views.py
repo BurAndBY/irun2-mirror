@@ -110,6 +110,7 @@ class GeneralView(BaseContestView):
 
 AUTOREFRESH = 'autorefresh'
 FILTER = 'filter'
+USERNAMES = 'usernames'
 
 
 class StandingsView(BaseContestView):
@@ -175,8 +176,11 @@ class StandingsView(BaseContestView):
             frozen = (self.timing.is_freeze_applicable()) and (not self.permissions.always_unfrozen_standings)
             contest_results = self.service.make_contest_results(contest, frozen=frozen, user_regex=user_regex)
 
+        show_usernames = request.GET.get(USERNAMES) == '1'
+
         context = self.get_context_data(results=contest_results, my_id=my_id, user_url=user_url,
-                                        autorefresh=autorefresh, filters=filters, cur_filter_id=cur_filter_id)
+                                        autorefresh=autorefresh, filters=filters, cur_filter_id=cur_filter_id,
+                                        show_usernames=show_usernames)
 
         template_name = self.get_template_name()
         return render(request, template_name, context)
