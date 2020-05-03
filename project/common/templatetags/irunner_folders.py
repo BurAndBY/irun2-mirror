@@ -31,7 +31,7 @@ def _make_breadcrumb(node, link):
 
 
 @register.inclusion_tag('common/irunner_folders_tree_tag.html')
-def irunner_folders_tree(tree, url_pattern, folder_id, mode='irunner'):
+def irunner_folders_tree(tree, url_pattern, folder_id, mode='irunner_dynamic'):
     '''
     args:
         tree:
@@ -48,7 +48,9 @@ def irunner_folders_tree(tree, url_pattern, folder_id, mode='irunner'):
     if mode == 'fancy':
         context = _fill_fancytree_data(tree)
     elif mode == 'irunner':
-        context = _fill_irunnertree_data(tree, folder_id)
+        context = _fill_irunnertree_data(tree, folder_id, dynamic=False)
+    elif mode == 'irunner_dynamic':
+        context = _fill_irunnertree_data(tree, folder_id, dynamic=True)
     else:
         raise ValueError('unsupported mode')
 
@@ -115,21 +117,23 @@ def _fill_fancytree_data(tree):
     }
 
 
-def _fill_irunnertree_data(tree, folder_id):
+def _fill_irunnertree_data(tree, folder_id, dynamic):
     output = []
-    _irunnertree_traverse(tree.root, folder_id, output)
+    _irunnertree_traverse(tree.root, folder_id, dynamic, output)
     return {
-        'it_data': output
+        'it_data': output,
+        'uid': uuid.uuid1().hex,
+        'dynamic': dynamic,
     }
 
 
-def _irunnertree_traverse(node, target_id, output):
+def _irunnertree_traverse(node, target_id, dynamic, output):
     children = node.children
 
     target = None
     temp_output = []
     for child in sorted(children, key=_name_extractor):
-        result = _irunnertree_traverse(child, target_id, temp_output)
+        result = _irunnertree_traverse(child, target_id, dynamic, temp_output)
         if result is not None:
             target = result
 
@@ -153,4 +157,8 @@ def _irunnertree_traverse(node, target_id, output):
                 output.append(TemplateTreeItem('+', _make_breadcrumb(node, True)))
             else:
                 output.append(TemplateTreeItem('.', _make_breadcrumb(node, True)))
+            if dynamic:
+                output.append(TemplateTreeItem('(*', None))
+                output.extend(temp_output)
+                output.append(TemplateTreeItem(')', None))
     return target

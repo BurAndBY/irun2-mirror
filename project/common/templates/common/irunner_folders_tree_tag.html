@@ -1,21 +1,49 @@
 {% if it_data %}
     {# irunner-like tree #}
-    <div class="ir-folder-tree">
+    {% spaceless %}
+    <div class="ir-folder-tree" id="{{ uid }}">
         <ul>
     {% for item in it_data %}
         {% if item.kind == '(' %}
             <li><ul>
+        {% elif item.kind == '(*' %}
+            <li style="display: none"><ul>
         {% elif item.kind == ')' %}
             </ul></li>
         {% else %}
             <li>
-                <span class="ir-bullet">{% if item.kind == '+' %}+{% elif item.kind == '-' %}&minus;{% else %}&middot;{% endif %}</span>
+                {% if item.kind == '.' %}
+                    <span class="ir-bullet">&middot;</span>
+                {% else %}
+                    <span class="ir-bullet{% if dynamic %} ir-bullet-dyn{% endif %}">{% if item.kind == '+' %}+{% else %}−{% endif %}</span>
+                {% endif %}
                 {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id_or_root %}">{% else %}<strong>{% endif %}{{ item.breadcrumb.name }}{% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
             </li>
         {% endif %}
     {% endfor %}
         </ul>
     </div>
+    {% endspaceless %}
+
+    {% if dynamic %}
+    <script>
+        function onClick_{{ uid }}() {
+            var parent = $(this).parent();
+            var bullet = parent.find(".ir-bullet");
+
+            if (bullet.text() === "+") {
+                bullet.text("−");
+                parent.next().show();
+            } else if (bullet.text() === "−") {
+                bullet.text("+");
+                parent.next().hide();
+            }
+        }
+        $(document).ready(function() {
+            $("#{{ uid }} .ir-bullet").click(onClick_{{ uid }});
+        });
+    </script>
+    {% endif %}
 {% endif %}
 
 {% if ft_data %}
