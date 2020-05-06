@@ -27,11 +27,10 @@ RECENT_CHANGES_WINDOW = timezone.timedelta(minutes=30)
 
 def make_letter(x):
     result = []
-    while True:
-        result.append(LETTERS[x % len(LETTERS)])
-        x //= len(LETTERS)
-        if x == 0:
-            break
+    while x >= 0:
+        x, r = divmod(x, len(LETTERS))
+        result.append(LETTERS[r])
+        x -= 1
     return ''.join(reversed(result))
 
 
