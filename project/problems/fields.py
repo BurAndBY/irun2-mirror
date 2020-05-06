@@ -14,15 +14,12 @@ class ThreePanelGenericProblemMultipleChoiceField(ThreePanelModelMultipleChoiceF
     @classmethod
     def build_pk2folders(cls, pks):
         pk2folders = {}
-        for pk, folder_id in Problem.folders.through.objects.\
-                filter(problem_id__in=pks).\
-                values_list('problem_id', 'problemfolder_id').\
+        # Use LEFT OUTER JOIN to validate that problem pks are correct
+        for pk, folder_id in Problem.objects.\
+                filter(pk__in=pks).\
+                values_list('pk', 'folders__id').\
                 order_by():
             pk2folders.setdefault(pk, []).append(folder_id)
-
-        # Put root folder
-        for pk in pks:
-            pk2folders.setdefault(pk, [None])
 
         return pk2folders
 

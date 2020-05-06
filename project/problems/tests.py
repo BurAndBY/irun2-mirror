@@ -109,6 +109,9 @@ class ProblemFoldersTests(TestCase):
         f = run(user, {'problems': 100500})
         self.assertFalse(f.is_valid())
 
+        f = run(admin, {'problems': 100500})
+        self.assertFalse(f.is_valid())
+
         f = run(user, {'problems': 'abacaba'})
         self.assertFalse(f.is_valid())
 
