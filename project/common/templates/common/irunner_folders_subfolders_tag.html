@@ -1,4 +1,5 @@
 {% load bootstrap3 %}
+{% load irunner_folders %}
 
 {% if subfolders %}
 <div class="panel panel-default">
@@ -7,7 +8,7 @@
             {% for item in subfolders %}
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <small>
-                        {% url url_pattern item.folder_id_or_root as the_url %}
+                        {% irunner_folders_url url_pattern item.folder_id as the_url %}
                     <a href="{{ the_url }}">{% bootstrap_icon 'folder-close' %}</a> <span class="ir-icon-label"><a href="{{ the_url }}">{{ item.name }}</a></span>
                     </small>
                 </div>

@@ -1,3 +1,4 @@
+{% load irunner_folders %}
 {% if it_data %}
     {# irunner-like tree #}
     {% spaceless %}
@@ -17,15 +18,13 @@
                 {% else %}
                     <span class="ir-bullet{% if dynamic %} ir-bullet-dyn{% endif %}">{% if item.kind == '+' %}+{% else %}−{% endif %}</span>
                 {% endif %}
-                {% if item.breadcrumb.is_link %}<a href="{% url url_pattern item.breadcrumb.folder_id_or_root %}">{% else %}<strong>{% endif %}{{ item.breadcrumb.name }}{% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
+                {% if item.breadcrumb.is_link %}<a {% if url_pattern %}href="{% irunner_folders_url url_pattern item.breadcrumb.folder_id %}"{% else %}href="#" data-id="{{ item.breadcrumb.folder_id_or_root }}"{% endif %}>{% else %}<strong>{% endif %}{{ item.breadcrumb.name }}{% if item.breadcrumb.is_link %}</a>{% else %}</strong>{% endif %}
             </li>
         {% endif %}
     {% endfor %}
         </ul>
     </div>
-    {% endspaceless %}
-
-    {% if dynamic %}
+    {% endspaceless %}{% if dynamic %}
     <script>
         function onClick_{{ uid }}() {
             var parent = $(this).parent();
@@ -40,12 +39,11 @@
             }
         }
         $(document).ready(function() {
-            $("#{{ uid }} .ir-bullet").click(onClick_{{ uid }});
+            $("#{{ uid }}").on("click", ".ir-bullet", onClick_{{ uid }});
         });
     </script>
     {% endif %}
 {% endif %}
-
 {% if ft_data %}
     {# FancyTree tree #}
     <div id="{{ uid }}"></div>

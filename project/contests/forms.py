@@ -5,14 +5,13 @@ import re
 from collections import OrderedDict
 
 from django import forms
-from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
 from common.tree.fields import TwoPanelModelMultipleChoiceField
-from problems.models import Problem, ProblemFolder
+from problems.fields import ThreePanelGenericProblemMultipleChoiceField
 from solutions.forms import SolutionForm
-from users.models import UserFolder
+from users.fields import ThreePanelUserMultipleChoiceField
 
 from contests.printing import check_size_limits
 from contests.models import Contest, Message, Printout, UserFilter
@@ -57,17 +56,15 @@ class PrintingForm(forms.ModelForm):
         fields = ['enable_printing', 'rooms']
 
 
-class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
+class ThreePanelProblemMultipleChoiceField(ThreePanelGenericProblemMultipleChoiceField):
     @classmethod
     def label_from_instance(cls, obj):
         return obj.numbered_full_name()
 
 
 class ProblemsForm(forms.Form):
-    problems = TwoPanelProblemMultipleChoiceField(label=_('Problems'), required=False,
-                                                  help_text=_('Order of problem addition is significant.'),
-                                                  model=Problem, folder_model=ProblemFolder, clean_to_list=True,
-                                                  url_pattern='contests:settings_problems_json_list')
+    problems = ThreePanelProblemMultipleChoiceField(label=_('Problems'), required=False,
+                                                    help_text=_('Order of problem addition is significant.'))
 
 
 class StatementsForm(forms.Form):
@@ -82,9 +79,7 @@ class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
 
 
 class UsersForm(forms.Form):
-    users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
-                                            model=auth.get_user_model(), folder_model=UserFolder,
-                                            url_pattern='contests:settings_users_json_list')
+    users = ThreePanelUserMultipleChoiceField(label=_('Users'), required=False)
 
 
 class SolutionListUserForm(forms.Form):

@@ -1,6 +1,6 @@
 from django.http import Http404
 
-from common.tree.key import FolderId
+from common.tree.key import folder_id_or_404
 from common.tree.inmemory import Tree
 
 
@@ -19,10 +19,7 @@ class FolderMixin(object):
 
     @staticmethod
     def _parse_folder_id(value, needs_real_folder):
-        try:
-            fid = FolderId.from_string(value)
-        except ValueError:
-            raise Http404('invalid folder id')
+        fid = folder_id_or_404(value)
         if fid is None and needs_real_folder:
             raise Http404('operation may not be applied to the root folder')
         return fid

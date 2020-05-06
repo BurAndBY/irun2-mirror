@@ -1,3 +1,5 @@
+from django.http import Http404
+
 ROOT = 'root'
 
 
@@ -9,3 +11,10 @@ class FolderId(object):
     @staticmethod
     def from_string(value):
         return None if value == ROOT else int(value)
+
+
+def folder_id_or_404(value):
+    try:
+        return FolderId.from_string(value)
+    except ValueError:
+        raise Http404('invalid folder id')

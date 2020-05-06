@@ -10,13 +10,16 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from common.cacheutils import AllObjectsCache
+from common.tree.fields import FOLDER_ID_PLACEHOLDER
+from common.tree.key import folder_id_or_404
+from common.bulk.update import change_rowset_3p, notify_users_changed
 from problems.models import Problem
 from proglangs.models import Compiler
 from storage.utils import store_with_metadata
 
 from .forms import PropertiesForm, AccessForm, LimitsForm, CompilersForm
 from .forms import ProblemsForm, StatementsForm, UsersForm, PrintingForm, UserFilterForm
-from .forms import TwoPanelProblemMultipleChoiceField, TwoPanelUserMultipleChoiceField
+from .forms import ThreePanelProblemMultipleChoiceField, ThreePanelUserMultipleChoiceField
 from .models import Contest, Membership, ContestProblem, UserFilter
 from .views import BaseContestView
 
@@ -115,11 +118,12 @@ class ProblemsView(ContestSettingsView):
     template_name = 'contests/settings_problems.html'
 
     def _make_form(self, contest, data=None):
-        qs = contest.get_problems()
-        form = ProblemsForm(data, initial={'problems': qs})
-        form.fields['problems'].widget.url_params = [contest.id]
-        if data is None:
-            form.fields['problems'].queryset = qs
+        form = ProblemsForm(data)
+        form.fields['problems'].configure(
+            initial=contest.get_problems(),
+            user=self.request.user,
+            url_template=reverse('contests:settings_problems_json_list', args=(contest.id, FOLDER_ID_PLACEHOLDER))
+        )
         return form
 
     def get(self, request, contest):
@@ -132,8 +136,8 @@ class ProblemsView(ContestSettingsView):
 
         if form.is_valid():
             objs = []
-            for i, problem in enumerate(form.cleaned_data['problems']):
-                objs.append(ContestProblem(contest=contest, problem=problem, ordinal_number=i+1))
+            for i, problem_id in enumerate(form.cleaned_data['problems'].pks):
+                objs.append(ContestProblem(contest=contest, problem_id=problem_id, ordinal_number=i+1))
 
             with transaction.atomic():
                 ContestProblem.objects.filter(contest=contest).delete()
@@ -145,9 +149,8 @@ class ProblemsView(ContestSettingsView):
 
 
 class ProblemsJsonListView(ContestSettingsView):
-    def get(self, request, course, folder_id):
-        problems = Problem.objects.filter(folders__id=folder_id)
-        return TwoPanelProblemMultipleChoiceField.ajax(problems)
+    def get(self, request, contest, folder_id):
+        return ThreePanelProblemMultipleChoiceField.ajax(request.user, folder_id)
 
 
 @python_2_unicode_compatible
@@ -249,8 +252,12 @@ class UserRoleView(ContestSettingsView):
         return role
 
     def _make_form(self, contest, present_users, data=None):
-        form = UsersForm(data, initial={'users': present_users})
-        form.fields['users'].widget.url_params = [contest.id]
+        form = UsersForm(data)
+        form.fields['users'].configure(
+            initial=present_users,
+            user=self.request.user,
+            url_template=reverse('contests:settings_users_json_list', args=(contest.id, FOLDER_ID_PLACEHOLDER))
+        )
         return form
 
     def get(self, request, contest, tag):
@@ -267,17 +274,9 @@ class UserRoleView(ContestSettingsView):
         form = self._make_form(contest, present_users, request.POST)
 
         if form.is_valid():
-            present_ids = set(user.id for user in present_users)
-            target_users = form.cleaned_data['users']
-            target_ids = set(user.id for user in target_users)
             with transaction.atomic():
-                for user in present_users:
-                    if user.id not in target_ids:
-                        Membership.objects.filter(role=role, contest=contest, user=user).delete()
-                for user in target_users:
-                    if user.id not in present_ids:
-                        Membership.objects.create(role=role, contest=contest, user=user)
-
+                diff = change_rowset_3p(form.cleaned_data['users'], Membership, 'user_id', {'role': role, 'contest': contest})
+            notify_users_changed(request, diff)
             return redirect('contests:settings_users', contest.id)
 
         context = self.get_context_data(form=form, name_plural=TAG_TO_NAME[tag])
@@ -286,8 +285,7 @@ class UserRoleView(ContestSettingsView):
 
 class UsersJsonListView(ContestSettingsView):
     def get(self, request, contest, folder_id):
-        users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
-        return TwoPanelUserMultipleChoiceField.ajax(users)
+        return ThreePanelUserMultipleChoiceField.ajax(request.user, folder_id)
 
 
 class UsersFilterVew(ContestSettingsView):

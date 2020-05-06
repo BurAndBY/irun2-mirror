@@ -147,6 +147,119 @@ function irSetUpTwoPanel(divId, urlResolver) {
 }
 
 /**
+ * New three-panel multi-select widget
+ */
+function irSetUpThreePanel(divId, fieldName, urlPattern, localizedMessages) {
+    var root = $("#" + divId);
+
+    var curFolderName = null;
+    var controls = {
+        folders: root.find(".ir-folder-tree").first(),
+        src: root.find(".ir-threepanel-src").first(),
+        dst: root.find(".ir-threepanel-dst").first(),
+        message: root.find(".ir-threepanel-message").first()
+    };
+
+    var createAddButton = function() {
+        return $('<span class="glyphicon glyphicon-plus">');
+    };
+    var createRemoveButton = function() {
+        return $('<span class="glyphicon glyphicon-remove">');
+    };
+    var setButton = function(row, button) {
+        row.find("td").first().empty().append(button);
+    };
+    var createSrcRow = function(id, label) {
+        return $("<tr>").data("id", id).append(
+            $("<td>").append(createAddButton())
+        ).append(
+            $("<td>").text(label)
+        )
+    };
+    var getDstChosenSet = function() {
+        var set = Object.create(null);
+        controls.dst.children().each(function() {
+            var id = $(this).data("id");
+            set[id] = true;
+        });
+        return set;
+    };
+    var resetActiveSrcRows = function() {
+        var chosenSet = getDstChosenSet();
+        controls.src.children().each(function() {
+            var id = $(this).data("id");
+            $(this).toggleClass("ir-active", !chosenSet[id]);
+        });
+    };
+    var loadFolder = function(folderId) {
+        var url = urlPattern.replace("__FOLDER_ID__", folderId);
+        controls.message.empty();
+        $.getJSON(url).done(function(json) {
+            curFolderName = json.name;
+            controls.src.empty();
+            if (json.items) {
+                $.each(json.items, function() {
+                    controls.src.append(createSrcRow(this.id, this.name));
+                });
+            }
+            resetActiveSrcRows();
+        }).fail(function() {
+            controls.src.empty();
+            controls.message.text(localizedMessages.error);
+        });
+    };
+
+    var doAddRows = function(srcRows) {
+        srcRows.filter(".ir-active").each(function() {
+            var newRow = $(this).clone();
+            $(this).removeClass("ir-active");
+            newRow.data("id", $(this).data("id"));
+            if (curFolderName) {
+                newRow.attr("title", curFolderName);
+            }
+            setButton(newRow, createRemoveButton());
+            controls.dst.append(newRow);
+        });
+    };
+    var doRemoveRows = function(dstRows) {
+        dstRows.remove();
+        resetActiveSrcRows();
+    };
+
+    controls.folders.on("click", "a", function(e) {
+        e.preventDefault();
+        var folderId = $(this).data("id");
+        loadFolder(folderId);
+    });
+
+    root.find(".ir-threepanel-add-all").click(function() {
+        doAddRows(controls.src.children());
+    });
+    root.find(".ir-threepanel-remove-all").click(function() {
+        doRemoveRows(controls.dst.children());
+    });
+    controls.src.on("click", ".ir-active", function() {
+        doAddRows($(this));
+    });
+    controls.dst.on("click", ".ir-active", function() {
+        doRemoveRows($(this));
+    });
+
+    // select items before form submit
+    root.parents("form").first().submit(function() {
+        var form = $(this);
+        controls.dst.children().each(function() {
+            form.append($("<input>", {
+                type: "hidden",
+                name: fieldName,
+                value: $(this).data("id")
+            }));
+        });
+        return true;
+    });
+}
+
+/**
  * TeX editor
  */
 function irInsertAtCursor(textAreaControl, myValue) {

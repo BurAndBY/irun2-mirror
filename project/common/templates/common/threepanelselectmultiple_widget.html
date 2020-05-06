@@ -1,0 +1,36 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+<div id="{{ widget.attrs.id }}">
+    <div class="row">
+        <div class="col-sm-4 ir-threepanel-tab">
+            <h4>{% trans 'Folders' %}</h4>
+            {% irunner_folders_tree inmemory_tree url_pattern=None %}
+        </div>
+        <div class="col-sm-4 ir-threepanel-tab ir-threepanel-tab-src">
+            <button type="button" class="btn btn-default btn-xs pull-right ir-threepanel-add-all"><span class="text-success">{% bootstrap_icon 'plus' %}</span><span class="ir-icon-label">Add all</span></button>
+            <h4>{% trans 'Available' %}</h4>
+            <span class="ir-threepanel-message text-muted"></span>
+            <table>
+                <tbody class="ir-threepanel-src">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4 ir-threepanel-tab ir-threepanel-tab-dst">
+            <button type="button" class="btn btn-default btn-xs pull-right ir-threepanel-remove-all"><span class="text-danger">{% bootstrap_icon 'remove' %}</span><span class="ir-icon-label">Remove all</span></button>
+            <h4>{% trans 'Selected' %}</h4>
+            <table>
+                <tbody class="ir-threepanel-dst">{% for option_value, option_label, option_folders in widget.value %}
+                    <tr data-id="{{ option_value }}" class="ir-active"{% if option_folders %} title="{{ option_folders|join:'\n' }}"{% endif %}><td>{% bootstrap_icon 'remove' %}</td><td>{{ option_label }}</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    irSetUpThreePanel("{{ widget.attrs.id }}", "{{ widget.name }}", "{{ url_template }}", {
+        error: "{% trans 'Error while getting data from server.' %}"
+    });
+});
+</script>

@@ -2,6 +2,7 @@ import uuid
 from collections import namedtuple
 
 from django import template
+from django.urls import reverse
 
 from common.folderutils import make_fancytree_json
 from common.tree.key import FolderId
@@ -12,8 +13,8 @@ register = template.Library()
 '''
 Helper types
 '''
-BreadcrumbItem = namedtuple('BreadcrumbItem', 'folder_id_or_root name is_link')
-SubfolderItem = namedtuple('SubfolderItem', 'folder_id_or_root name')
+BreadcrumbItem = namedtuple('BreadcrumbItem', 'folder_id folder_id_or_root name is_link')
+SubfolderItem = namedtuple('SubfolderItem', 'folder_id name')
 TemplateTreeItem = namedtuple('TemplateTreeItem', 'kind breadcrumb')
 
 
@@ -27,11 +28,14 @@ def ensure_trees(value):
 
 
 def _make_breadcrumb(node, link):
-    return BreadcrumbItem(FolderId.to_string(node.id), node.name, link)
+    return BreadcrumbItem(node.id, FolderId.to_string(node.id), node.name, link)
+
+
+__marker = object()
 
 
 @register.inclusion_tag('common/irunner_folders_tree_tag.html')
-def irunner_folders_tree(tree, url_pattern, folder_id, mode='irunner_dynamic'):
+def irunner_folders_tree(tree, url_pattern=None, folder_id=__marker, mode='irunner_dynamic'):
     '''
     args:
         tree:
@@ -97,12 +101,9 @@ def irunner_folders_subfolders(tree, url_pattern, folder_id):
     }
 
 
-@register.inclusion_tag('common/irunner_folders_url_tag.html')
+@register.simple_tag
 def irunner_folders_url(url_pattern, folder_id):
-    return {
-        'url_pattern': url_pattern,
-        'folder_id': FolderId.to_string(folder_id)
-    }
+    return reverse(url_pattern, args=(FolderId.to_string(folder_id),))
 
 
 '''
