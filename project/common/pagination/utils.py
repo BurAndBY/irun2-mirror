@@ -20,14 +20,40 @@ class IRunnerPaginationContext(object):
         self.allow_all = False
 
 
+class SimplePage(object):
+    def __init__(self, object_list, size, number):
+        self.object_list = object_list
+        self.number = number
+        self._size = size
+
+    def has_previous(self):
+        return self.number > 1
+
+    def has_next(self):
+        return True
+
+    def previous_page_number(self):
+        return self.number - 1
+
+    def next_page_number(self):
+        return self.number + 1
+
+    def start_index(self):
+        return self._size * (self.number - 1) + 1
+
+    def end_index(self):
+        return self._size * self.number
+
+
 class IRunnerPaginator(object):
-    def __init__(self, default_page_size, allow_all):
+    def __init__(self, default_page_size, allow_all, show_total_count):
         self.default_page_size = default_page_size
         self.allow_all = allow_all
         self.page_size_constants = [7, 12, 25, 50, 100]
+        self.show_total_count = show_total_count
 
     @staticmethod
-    def _get_int_param(request, name, special={}):
+    def _get_int_param(request, name, default=None, special={}):
         '''
         Gets non-negative integer from request GET-params.
         Returns None if no value is present.
@@ -36,7 +62,7 @@ class IRunnerPaginator(object):
         '''
         value = request.GET.get(name)
         if value is None:
-            return None
+            return default
 
         if value in special:
             return special[value]
@@ -61,7 +87,7 @@ class IRunnerPaginator(object):
             if not self.allow_all:
                 raise ImproperlyConfigured('You must specify valid default page size if you do not allow to list all objects.')
         else:
-            if not self.default_page_size in self.page_size_constants:
+            if self.default_page_size not in self.page_size_constants:
                 raise ImproperlyConfigured('Default page size must occur in predefined page size choices.')
 
         if not all(x > 0 for x in self.page_size_constants):
@@ -72,14 +98,14 @@ class IRunnerPaginator(object):
         Parses size param from query string and ensures it is valid.
         Always returns a non-negative integer.
         '''
-        page_size = IRunnerPaginator._get_int_param(request, SIZE)
-        if page_size is None:
-            return self.default_page_size
-        else:
-            if not self.allow_all:
-                if (page_size == 0) or (page_size > max(self.page_size_constants)):
-                    raise Http404('Too large page requested')
-            return page_size
+        page_size = IRunnerPaginator._get_int_param(request, SIZE, default=self.default_page_size)
+        if not self.allow_all:
+            if (page_size == 0) or (page_size > max(self.page_size_constants)):
+                raise Http404('Too large page requested')
+        return page_size
+
+    def _parse_page_number(self, request, special={}):
+        return IRunnerPaginator._get_int_param(request, PAGE, default=1, special=special)
 
     def _list_page_sizes(self, size):
         '''
@@ -105,10 +131,8 @@ class IRunnerPaginator(object):
         params that are not related to pagination.
         '''
         params = request.GET.copy()
-        if SIZE in params:
-            params.pop(SIZE)
-        if PAGE in params:
-            params.pop(PAGE)
+        params.pop(SIZE, None)
+        params.pop(PAGE, None)
         result = params.urlencode()
         if result:
             result = '&' + result
@@ -128,8 +152,8 @@ class IRunnerPaginator(object):
         page_size = self._parse_page_size(request)
         assert page_size >= 0
 
-        actual_queryset = None
         pc = IRunnerPaginationContext()
+        pc.per_page_count = page_size
         pc.page_size_constants = self._list_page_sizes(page_size)
         pc.query_param_size = self._get_size_query_param(page_size)
         pc.query_params_other = self._get_other_query_params(request)
@@ -141,15 +165,24 @@ class IRunnerPaginator(object):
 
             # create fake paginator to get total object list
             paginator = Paginator(queryset, 1)
+
             pc.object_count = paginator.count
+            pc.page_obj = None
+
+        elif not self.show_total_count:
+            # fast pagination: don't know the total object and page count
+            page_number = self._parse_page_number(request)
+
+            bottom = (page_number - 1) * page_size
+            top = bottom + page_size
+            actual_queryset = queryset[bottom:top]
+
+            pc.object_count = None
+            pc.page_obj = SimplePage(actual_queryset, page_size, page_number)
 
         else:
             paginator = Paginator(queryset, page_size, orphans=0, allow_empty_first_page=True)
-
-            page_number = IRunnerPaginator._get_int_param(request, PAGE, special={'last': paginator.num_pages})
-            if page_number is None:
-                page_number = 1
-
+            page_number = self._parse_page_number(request, special={'last': paginator.num_pages})
             page = None
             try:
                 page = paginator.page(page_number)
@@ -160,9 +193,8 @@ class IRunnerPaginator(object):
                 })
             actual_queryset = page.object_list
 
-            pc.page_obj = page
             pc.object_count = paginator.count
-            pc.per_page_count = paginator.per_page
+            pc.page_obj = page
 
         return {
             'pagination_context': pc,

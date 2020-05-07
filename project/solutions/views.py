@@ -58,7 +58,7 @@ class SolutionListView(LoginRequiredMixin, generic.View):
             if difficulty is not None:
                 queryset = apply_difficulty_filter(queryset, difficulty)
 
-        context = paginate(request, queryset, self.paginate_by, allow_all=False)
+        context = paginate(request, queryset, self.paginate_by, allow_all=False, show_total_count=request.user.is_staff)
         context['form'] = form
         return render(request, self.template_name, context)
 
@@ -77,7 +77,7 @@ class JudgementListView(LoginRequiredMixin, generic.View):
         if has_limited_problems_queryset(request.user):
             queryset = queryset.filter(solution__problem_id__in=get_problem_ids_queryset(request.user))
 
-        context = paginate(request, queryset, self.paginate_by, allow_all=False)
+        context = paginate(request, queryset, self.paginate_by, allow_all=True, show_total_count=request.user.is_staff)
         return render(request, self.template_name, context)
 
 

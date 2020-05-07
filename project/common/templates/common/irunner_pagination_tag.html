@@ -3,7 +3,7 @@
 
 <nav>
     <ul class="pagination pagination-sm ir-pagination">
-        {% if ctxt.page_obj and ctxt.page_obj.has_previous %}
+        {% if ctxt.page_obj != None and ctxt.page_obj.has_previous %}
             <li>
                 <a href="?page=1{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
                     {% bootstrap_icon 'fast-backward' %}
@@ -27,10 +27,16 @@
             </li>
         {% endif %}
 
-        {% if ctxt.object_count > 0 %}
+        {% if ctxt.object_count == None and ctxt.page_obj != None %}
         <li>
             <span class="ir-info">
-                {% if ctxt.page_obj %}
+                <strong>{% trans 'Page' %} {{ ctxt.page_obj.number }}</strong>: {{ ctxt.page_obj.start_index }}–{{ ctxt.page_obj.end_index }}
+            </span>
+        </li>
+        {% elif ctxt.object_count > 0 %}
+        <li>
+            <span class="ir-info">
+                {% if ctxt.page_obj != None %}
                     <strong>{% trans 'Page' %} {{ ctxt.page_obj.number }}</strong>: {{ ctxt.page_obj.start_index }}–{{ ctxt.page_obj.end_index }} {% trans 'of' %} {{ ctxt.object_count }}
                 {% else %}
                     1–{{ ctxt.object_count }}
@@ -39,17 +45,25 @@
         </li>
         {% endif %}
 
-        {% if ctxt.page_obj and ctxt.page_obj.has_next %}
-        <li>
-            <a href="?page={{ ctxt.page_obj.next_page_number }}{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
-                {% bootstrap_icon 'step-forward' %}
-            </a>
-        </li>
-        <li>
-            <a href="?page=last{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
-                {% bootstrap_icon 'fast-forward' %}
-            </a>
-        </li>
+        {% if ctxt.page_obj != None and ctxt.page_obj.has_next %}
+            <li>
+                <a href="?page={{ ctxt.page_obj.next_page_number }}{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                    {% bootstrap_icon 'step-forward' %}
+                </a>
+            </li>
+            {% if ctxt.object_count != None %}
+            <li>
+                <a href="?page=last{{ ctxt.query_param_size }}{{ ctxt.query_params_other }}">
+                    {% bootstrap_icon 'fast-forward' %}
+                </a>
+            </li>
+            {% else %}
+            <li>
+                <span>
+                    {% bootstrap_icon 'fast-forward' %}
+                </span>
+            </li>
+            {% endif %}
         {% else %}
             <li>
                 <span>
