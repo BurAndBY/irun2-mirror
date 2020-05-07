@@ -38,6 +38,8 @@ class Event(models.Model):
     is_registration_available = models.BooleanField(_('registration is available'), default=False, blank=True)
     registration_mode = models.IntegerField(_('registration mode'), choices=RegistrationMode.CHOICES, default=RegistrationMode.COACH_AND_TEAMS)
 
+    fill_forms_in_en = models.BooleanField(_('the forms are filled in English'), default=True, blank=False)
+
     @property
     def name(self):
         return _localize_string(self.local_name, self.en_name)

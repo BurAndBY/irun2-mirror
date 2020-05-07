@@ -13,7 +13,7 @@ from registration.models import IcpcCoach
 from registration.export import make_teams_csv, make_contestants_csv
 
 EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'local_description', 'en_description',
-                'is_registration_available', 'registration_mode']
+                'is_registration_available', 'registration_mode', 'fill_forms_in_en']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):

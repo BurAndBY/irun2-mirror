@@ -77,9 +77,12 @@ class RegisterCoachView(EventMixin, generic.CreateView):
     result_template_name = 'registration/new_coach_result.html'
 
     def get_form_class(self):
-        if self.event.registering_coaches:
-            return IcpcCoachForm
-        return IcpcCoachAsContestantForm
+        kls = IcpcCoachForm if self.event.registering_coaches else IcpcCoachAsContestantForm
+
+        class PatchedForm(kls):
+            fill_in_en = self.event.fill_forms_in_en
+
+        return PatchedForm
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -115,9 +118,12 @@ class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
     template_name = 'registration/update_coach.html'
 
     def get_form_class(self):
-        if self.event.registering_coaches:
-            return IcpcCoachUpdateForm
-        return IcpcCoachAsContestantUpdateForm
+        kls = IcpcCoachUpdateForm if self.event.registering_coaches else IcpcCoachAsContestantUpdateForm
+
+        class PatchedForm(kls):
+            fill_in_en = self.event.fill_forms_in_en
+
+        return PatchedForm
 
     def get_object(self):
         return self.coach
@@ -156,14 +162,20 @@ class ConfirmView(EventMixin, CoachMixin, generic.View):
         return redirect('events:list_teams', self.event.slug, self.coach_id_str)
 
 
-def _make_forms(data, instance=None):
-    team_form = IcpcTeamForm(data=data, instance=instance)
+def _make_forms(data, instance=None, fill_forms_in_en=True):
+    class PatchedTeamForm(IcpcTeamForm):
+        fill_in_en = fill_forms_in_en
+
+    class PatchedContestantForm(IcpcContestantForm):
+        fill_in_en = fill_forms_in_en
+
+    team_form = PatchedTeamForm(data=data, instance=instance)
     if instance is None:
         qs = IcpcContestant.objects.none()
     else:
         qs = IcpcContestant.objects.filter(team=instance).order_by('id')
 
-    FormSet = forms.modelformset_factory(IcpcContestant, form=IcpcContestantForm,
+    FormSet = forms.modelformset_factory(IcpcContestant, form=PatchedContestantForm,
                                          min_num=CONTESTANTS_PER_TEAM, validate_min=True,
                                          max_num=CONTESTANTS_PER_TEAM, validate_max=True,
                                          extra=max(CONTESTANTS_PER_TEAM - len(qs), 0))
@@ -175,12 +187,12 @@ class CreateTeamView(EventMixin, CoachMixin, generic.base.ContextMixin, generic.
     template_name = 'registration/team.html'
 
     def get(self, request, *args, **kwargs):
-        team_form, contestant_formset = _make_forms(None)
+        team_form, contestant_formset = _make_forms(None, fill_forms_in_en=self.event.fill_forms_in_en)
         context = self.get_context_data(team_form=team_form, contestant_formset=contestant_formset)
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        team_form, contestant_formset = _make_forms(request.POST)
+        team_form, contestant_formset = _make_forms(request.POST, fill_forms_in_en=self.event.fill_forms_in_en)
         if team_form.is_valid() and contestant_formset.is_valid():
             with transaction.atomic():
                 team = team_form.save(commit=False)
@@ -204,13 +216,13 @@ class UpdateTeamView(EventMixin, CoachMixin, generic.base.ContextMixin, generic.
 
     def get(self, request, slug, coach_id, team_id):
         team = self._get_team(team_id)
-        team_form, contestant_formset = _make_forms(None, team)
+        team_form, contestant_formset = _make_forms(None, team, fill_forms_in_en=self.event.fill_forms_in_en)
         context = self.get_context_data(team_form=team_form, contestant_formset=contestant_formset)
         return render(request, self.template_name, context)
 
     def post(self, request, slug, coach_id, team_id):
         team = self._get_team(team_id)
-        team_form, contestant_formset = _make_forms(request.POST, team)
+        team_form, contestant_formset = _make_forms(request.POST, team, fill_forms_in_en=self.event.fill_forms_in_en)
         if team_form.is_valid() and contestant_formset.is_valid():
             with transaction.atomic():
                 team.save()
