@@ -2,6 +2,7 @@ import csv
 import six
 
 from .models import (
+    IcpcCoach,
     IcpcContestant,
     IcpcTeam,
 )
@@ -55,5 +56,32 @@ def make_teams_csv(event):
             recoded_row[k] = six.text_type(v)
 
         writer.writerow(recoded_row)
+
+    return si.getvalue()
+
+
+def make_contestants_csv(event):
+    contestants_per_team = {}
+
+    for contestant in IcpcContestant.objects.filter(team__coach__event=event):
+        contestants_per_team.setdefault(contestant.team_id, []).append(contestant)
+
+    fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
+
+    si = six.StringIO()
+    writer = csv.DictWriter(si, fields)
+    writer.writeheader()
+
+    for contestant in IcpcCoach.objects.filter(event=event, is_confirmed=True):
+        row = {
+            'email': contestant.email,
+            'first_name': contestant.first_name,
+            'last_name': contestant.last_name,
+            'university': contestant.university,
+            'faculty': contestant.faculty,
+            'year_of_study': contestant.year_of_study,
+            'group': contestant.group,
+        }
+        writer.writerow(row)
 
     return si.getvalue()

@@ -10,9 +10,10 @@ from cauth.mixins import StaffMemberRequiredMixin
 
 from .models import Event
 from registration.models import IcpcCoach
-from registration.export import make_teams_csv
+from registration.export import make_teams_csv, make_contestants_csv
 
-EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'local_description', 'en_description', 'is_registration_available']
+EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'local_description', 'en_description',
+                'is_registration_available', 'registration_mode']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
@@ -55,3 +56,11 @@ class TeamsCsvView(StaffMemberRequiredMixin, generic.detail.SingleObjectMixin, g
     def get(self, request, slug):
         event = self.get_object()
         return HttpResponse(make_teams_csv(event), content_type='text/csv; charset=utf-8')
+
+
+class ContestantsCsvView(StaffMemberRequiredMixin, generic.detail.SingleObjectMixin, generic.View):
+    model = Event
+
+    def get(self, request, slug):
+        event = self.get_object()
+        return HttpResponse(make_contestants_csv(event), content_type='text/csv; charset=utf-8')

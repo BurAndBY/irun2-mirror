@@ -7,7 +7,7 @@
 {% block content %}
 
 <h4>{{ event.name }}</h4>
-<h1>{% block title %}{% trans 'Coach registration' %}{% endblock %}</h1>
+<h1>{% block title %}{% if event.registering_coaches %}{% trans 'Coach registration' %}{% else %}{% trans 'Сontestant registration' %}{% endif %}{% endblock %}</h1>
 
 <p>{% trans 'Please fill the form in English.' %}</p>
 <p>{% trans 'A letter will be sent to confirm your e-mail address.' %}</p>

@@ -11,7 +11,8 @@ manage_urlpatterns = ([
     url(r'^new/$', manageviews.CreateEventView.as_view(), name='new'),
     url(r'^(?P<slug>.*)/update/$', manageviews.UpdateEventView.as_view(), name='update'),
     url(r'^(?P<slug>.*)/registration/$', manageviews.EventRegistrationView.as_view(), name='registration'),
-    url(r'^(?P<slug>.*)/registration/teams\.csv$', manageviews.TeamsCsvView.as_view(), name='registration_csv'),
+    url(r'^(?P<slug>.*)/registration/teams\.csv$', manageviews.TeamsCsvView.as_view(), name='team_registration_csv'),
+    url(r'^(?P<slug>.*)/registration/contestants\.csv$', manageviews.ContestantsCsvView.as_view(), name='contestant_registration_csv'),
 ], 'manage')
 
 event_urlpatterns = [

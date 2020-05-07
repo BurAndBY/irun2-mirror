@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+
+<h4>{{ event.name }}</h4>
+<h1>{% block title %}{{ coach.full_name }}{% endblock %}
+<small>{{ coach.email }}</small></h1>
+
+{% if coach.is_confirmed %}
+<div class="alert alert-success" role="alert">{% bootstrap_icon 'ok' %}<span class="ir-icon-label">{% trans 'Participation is confirmed' %}</span></div>
+{% endif %}
+
+<dl class="dl-horizontal">
+    <dt>{% trans 'First name' %}</dt><dd>{{ coach.first_name }}</dd>
+    <dt>{% trans 'Last name' %}</dt><dd>{{ coach.last_name }}</dd>
+    <dt>{% trans 'University' %}</dt><dd>{{ coach.university }}</dd>
+    <dt>{% trans 'Faculty' %}</dt><dd>{{ coach.faculty }}</dd>
+    {% if coach.year_of_study %}<dt>{% trans 'Year of study' %}</dt><dd>{{ coach.year_of_study }}</dd>{% endif %}
+    {% if coach.group %}<dt>{% trans 'Group' %}</dt><dd>{{ coach.group }}</dd>{% endif %}
+</dl>
+
+<p>
+    <a href="{% url 'events:update_coach' slug coach_id %}" class="btn btn-default">
+        {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
+    </a>
+</p>
+
+{% if not coach.is_confirmed %}
+<form method="post" action="{% url 'events:confirm' event.slug coach.human_readable_id %}">
+    {% csrf_token %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary btn-lg">{% trans 'Confirm participation' %}</button>
+    {% endbuttons %}
+</form>
+{% endif %}
+
+{% endblock %}

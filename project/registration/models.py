@@ -47,6 +47,10 @@ class IcpcCoach(models.Model):
     first_name = models.CharField(_('first name'), max_length=MAX_NAME_LENGTH)
     last_name = models.CharField(_('last name'), max_length=MAX_NAME_LENGTH)
     university = models.CharField(_('university'), max_length=MAX_NAME_LENGTH)
+    faculty = models.CharField(_('faculty'), max_length=MAX_TITLE_LENGTH, blank=True)
+    year_of_study = models.PositiveIntegerField(_('Year of study'), null=True, blank=True)
+    group = models.PositiveIntegerField(_('Group number'), null=True, blank=True)
+    is_confirmed = models.BooleanField(_('Confirmed'), null=False, blank=True, default=True)
 
     @property
     def full_name(self):

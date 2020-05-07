@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.encoding import smart_text
 
 from common.constants import EMPTY_SELECT
+from common.education.year import make_year_of_study_choices
 
 from .models import (
     IcpcCoach,
@@ -46,17 +47,20 @@ def _year_choices(lower_bound, upper_bound):
     return [(None, EMPTY_SELECT)] + [(r, r) for r in range(cur + lower_bound, cur + upper_bound + 1)]
 
 
-class IcpcCoachForm(forms.ModelForm):
+class BaseCoachForm(forms.ModelForm):
     class Meta:
         model = IcpcCoach
-        fields = ['email', 'first_name', 'last_name', 'university']
+        fields = []
         help_texts = {
             'email': _ex('coach@example.com'),
             'first_name': _ex('Ivan'),
             'last_name': _ex('Ivanov'),
             'university': _ex('Bytelandian State University'),
+            'faculty': _ex('Faculty of Information Technologies'),
         }
 
+
+class CheckEmailMixin(object):
     def clean(self):
         cleaned_data = super().clean()
         if IcpcCoach.objects.filter(email=cleaned_data['email'], event=self.instance.event).exists():
@@ -65,15 +69,30 @@ class IcpcCoachForm(forms.ModelForm):
         return cleaned_data
 
 
-class IcpcCoachUpdateForm(forms.ModelForm):
-    class Meta:
-        model = IcpcCoach
+class IcpcCoachForm(CheckEmailMixin, BaseCoachForm):
+    class Meta(BaseCoachForm.Meta):
+        fields = ['email', 'first_name', 'last_name', 'university']
+
+
+class IcpcCoachAsContestantForm(CheckEmailMixin, BaseCoachForm):
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+
+    class Meta(BaseCoachForm.Meta):
+        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
+
+
+class IcpcCoachUpdateForm(BaseCoachForm):
+    class Meta(BaseCoachForm.Meta):
         fields = ['first_name', 'last_name', 'university']
-        help_texts = {
-            'first_name': _ex('Ivan'),
-            'last_name': _ex('Ivanov'),
-            'university': _ex('Bytelandian State University'),
-        }
+
+
+class IcpcCoachAsContestantUpdateForm(BaseCoachForm):
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+
+    class Meta(BaseCoachForm.Meta):
+        fields = ['first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
 
 
 class IcpcTeamForm(forms.ModelForm):

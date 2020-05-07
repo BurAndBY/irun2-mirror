@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^register/(?P<coach_id>[^/]+)/edit/$', views.UpdateCoachView.as_view(), name='update_coach'),
     url(r'^register/(?P<coach_id>[^/]+)/teams/new/$', views.CreateTeamView.as_view(), name='create_team'),
     url(r'^register/(?P<coach_id>[^/]+)/teams/(?P<team_id>[0-9]+)/$', views.UpdateTeamView.as_view(), name='update_team'),
+    url(r'^register/(?P<coach_id>[^/]+)/confirm/$', views.ConfirmView.as_view(), name='confirm'),
 ]

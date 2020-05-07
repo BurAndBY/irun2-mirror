@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-24 03:38+0300\n"
-"PO-Revision-Date: 2020-02-24 03:58+0300\n"
+"POT-Creation-Date: 2020-05-07 17:35+0300\n"
+"PO-Revision-Date: 2020-05-07 17:45+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -68,11 +68,60 @@ msgstr "Последние завершённые задания"
 msgid "Clear"
 msgstr "Очистить"
 
+msgid "Read"
+msgstr "Чтение"
+
+msgid "Write"
+msgstr "Запись"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Access mode"
+msgstr "Режим доступа"
+
+msgid "Group"
+msgstr "Группа"
+
 msgid "Remember me"
 msgstr "Запомнить меня"
 
 msgid "Token"
 msgstr "Токен"
+
+msgid "Access is granted for individual users."
+msgstr "Доступ выдаётся отдельным пользователям."
+
+msgid "Access is granted for groups."
+msgstr "Доступ выдаётся группам."
+
+msgid "Manage the groups."
+msgstr "Управлять группами."
+
+msgid "Grant access"
+msgstr "Выдать доступ"
+
+msgid "Access control list"
+msgstr "Список управления доступом"
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "Mode"
+msgstr "Режим"
+
+#, python-format
+msgid "Permission was granted on %(when)s by user %(who)s"
+msgstr "Разрешение было выдано %(when)s пользователем %(who)s"
+
+msgid "Revoke access"
+msgstr "Отозвать доступ"
+
+msgid "Inherited permissions"
+msgstr "Унаследованные разрешения"
+
+msgid "Parent folder"
+msgstr "Родительская папка"
 
 msgid "Edit profile"
 msgstr "Редактировать профиль"
@@ -285,11 +334,19 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-msgid "Read"
-msgstr "Чтение"
+#, python-format
+msgid "%(count)d user was added."
+msgid_plural "%(count)d users were added."
+msgstr[0] "Добавлен %(count)d пользователь."
+msgstr[1] "Добавлены %(count)d пользователя."
+msgstr[2] "Добавлено %(count)d пользователей."
 
-msgid "Write"
-msgstr "Запись"
+#, python-format
+msgid "%(count)d user was removed."
+msgid_plural "%(count)d users were removed."
+msgstr[0] "Удалён %(count)d пользователь."
+msgstr[1] "Удалены %(count)d пользователя."
+msgstr[2] "Удалено %(count)d пользователей."
 
 msgid "standard input"
 msgstr "стандартный ввод"
@@ -305,6 +362,11 @@ msgstr "Ваши изменения сохранены."
 
 msgid "Accepted for testing"
 msgstr "Принято на тестирование"
+
+# There should be some way to write here 1st, 2nd etc.
+#, python-format
+msgid "%(year)d year"
+msgstr "%(year)d-й курс"
 
 msgid "N/A"
 msgstr "N/A"
@@ -350,6 +412,18 @@ msgstr "из"
 
 msgid "All"
 msgstr "Все"
+
+msgid "Folders"
+msgstr "Папки"
+
+msgid "Available"
+msgstr "Доступно"
+
+msgid "Selected"
+msgstr "Выбрано"
+
+msgid "Error while getting data from server."
+msgstr "Ошибка получения данных с сервера."
 
 msgid "Loading"
 msgstr "Загрузка"
@@ -408,6 +482,9 @@ msgctxt "time"
 msgid ", "
 msgstr " "
 
+msgid "Got an invalid value."
+msgstr "Получено неверное значение."
+
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
@@ -429,9 +506,6 @@ msgstr ""
 
 msgid "Users"
 msgstr "Пользователи"
-
-msgid "User"
-msgstr "Пользователь"
 
 msgid "Problem"
 msgstr "Задача"
@@ -1062,20 +1136,6 @@ msgstr "Студент"
 msgid "Teacher"
 msgstr "Преподаватель"
 
-#, python-format
-msgid "%(count)d user was added."
-msgid_plural "%(count)d users were added."
-msgstr[0] "Добавлен %(count)d пользователь."
-msgstr[1] "Добавлены %(count)d пользователя."
-msgstr[2] "Добавлено %(count)d пользователей."
-
-#, python-format
-msgid "%(count)d user was removed."
-msgid_plural "%(count)d users were removed."
-msgstr[0] "Удалён %(count)d пользователь."
-msgstr[1] "Удалены %(count)d пользователя."
-msgstr[2] "Удалено %(count)d пользователей."
-
 msgid "Level"
 msgstr "Уровень"
 
@@ -1472,9 +1532,6 @@ msgstr "Подгрупп нет"
 msgid "New subgroup"
 msgstr "Новая подгруппа"
 
-msgid "Username"
-msgstr "Имя пользователя"
-
 msgid "No users are set."
 msgstr "Пользователи не заданы."
 
@@ -1506,22 +1563,20 @@ msgstr "Индивидуальные задачи"
 msgid "until"
 msgstr "до"
 
-msgid "Error while getting data from server."
-msgstr "Ошибка получения данных с сервера."
-
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
 msgid "Solution"
 msgstr "Решение"
 
-# There should be some way to write here 1st, 2nd etc.
-#, python-format
-msgid "%(year)d year"
-msgstr "%(year)d-й курс"
-
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
+
+msgid "Coach and teams"
+msgstr "Тренер и команды"
+
+msgid "Individual"
+msgstr "Индивидуальная"
 
 msgid "name for URL"
 msgstr "название для URL"
@@ -1544,8 +1599,14 @@ msgstr "описание на английском"
 msgid "registration is available"
 msgstr "доступна регистрация"
 
+msgid "registration mode"
+msgstr "режим регистрации"
+
 msgid "Register as Coach"
 msgstr "Зарегистрироваться как тренер"
+
+msgid "Register as Сontestant"
+msgstr "Зарегистрироваться как участник"
 
 msgid "Edit event"
 msgstr "Редактировать событие"
@@ -1567,6 +1628,9 @@ msgstr "Регистрация"
 
 msgid "Coaches"
 msgstr "Тренеры"
+
+msgid "Confirmed"
+msgstr "Подтверждён"
 
 msgid "E-mail"
 msgstr "E-mail"
@@ -1703,6 +1767,15 @@ msgstr "Язык условия задачи"
 
 msgid "Compiler for checker and validator"
 msgstr "Компилятор для программы проверки и контролёра тестов"
+
+msgid "Create folder"
+msgstr "Создать папку"
+
+msgid "Folder properties"
+msgstr "Свойства папки"
+
+msgid "New problem"
+msgstr "Новая задача"
 
 msgid "number"
 msgstr "номер"
@@ -1856,9 +1929,6 @@ msgstr "Формат архива не поддерживается."
 msgid "No test files found in the archive."
 msgstr "Тестовые файлы в архиве не найдены."
 
-msgid "Access mode"
-msgstr "Режим доступа"
-
 #, python-format
 msgid "Unknown file found in the archive: %(name)s"
 msgstr "В архиве обнаружен неизвестный файл: %(name)s"
@@ -1866,9 +1936,6 @@ msgstr "В архиве обнаружен неизвестный файл: %(na
 #, python-format
 msgid "File not found in the archive: %(name)s"
 msgstr "Файл не найден в архиве: %(name)s"
-
-msgid "Folders"
-msgstr "Папки"
 
 msgid "Tests"
 msgstr "Тесты"
@@ -1963,9 +2030,6 @@ msgstr "Загрузка..."
 msgid "Search"
 msgstr "Поиск"
 
-msgid "New problem"
-msgstr "Новая задача"
-
 msgid "Import from Polygon"
 msgstr "Импорт из Polygon"
 
@@ -2007,25 +2071,6 @@ msgstr "Поиск задач"
 
 msgid "Search for..."
 msgstr "Искать..."
-
-msgid "Grant access"
-msgstr "Выдать доступ"
-
-msgid "Access control list"
-msgstr "Список управления доступом"
-
-msgid "Note: administators have full access to all problems."
-msgstr "Замечание: у администраторов есть полный доступ ко всем задачам."
-
-msgid "Mode"
-msgstr "Режим"
-
-#, python-format
-msgid "Permission was granted on %(when)s by user %(who)s"
-msgstr "Разрешение было выдано %(when)s пользователем %(who)s"
-
-msgid "Revoke access"
-msgstr "Отозвать доступ"
 
 msgid "Batch deteting"
 msgstr "Массовое удаление"
@@ -2303,12 +2348,6 @@ msgctxt "section"
 msgid "Note"
 msgstr "Замечание"
 
-msgid "Create folder"
-msgstr "Создать папку"
-
-msgid "Folder properties"
-msgstr "Свойства папки"
-
 msgid "Possible choices"
 msgstr "Возможные варианты"
 
@@ -2316,8 +2355,8 @@ msgstr "Возможные варианты"
 msgid "Unknown programming language code: %(code)s"
 msgstr "Неизвестный код языка программирования: %(code)s"
 
-msgid "Unknown"
-msgstr "Неизвестно"
+msgid "Compiler for replacement"
+msgstr "Компилятор на замену"
 
 msgid "string identifier"
 msgstr "строковый идентификатор"
@@ -2339,6 +2378,14 @@ msgstr "команда запуска"
 
 msgid "New compiler"
 msgstr "Новый компилятор"
+
+#, python-format
+msgid ""
+"The compiler %(id)s is going to be deleted. Choose a compiler that will be "
+"used instead."
+msgstr ""
+"Компилятор %(id)s будет удалён. Выберите компилятор, который будет "
+"использоваться вместо него."
 
 msgid "String identifier"
 msgstr "Строковый идентификатор"
@@ -2430,9 +2477,6 @@ msgstr "Категории вопросов"
 msgid "Quiz templates"
 msgstr "Шаблоны тестов"
 
-msgid "Grant access to the category"
-msgstr "Выдать доступ к категории"
-
 msgid "New category"
 msgstr "Новая категория"
 
@@ -2441,6 +2485,9 @@ msgstr "Доступных категорий нет"
 
 msgid "Categories"
 msgstr "Категории"
+
+msgid "New question group"
+msgstr "Новая группа вопросов"
 
 msgid "Enter new mark"
 msgstr "Введите новую оценку"
@@ -2456,9 +2503,6 @@ msgstr "Новый вопрос"
 
 msgid "Upload from file"
 msgstr "Загрузить из файла"
-
-msgid "New question group"
-msgstr "Новая группа вопросов"
 
 msgid "Question count"
 msgstr "Число вопросов"
@@ -2591,6 +2635,9 @@ msgstr "Пр."
 msgid "Format"
 msgstr "Формат"
 
+msgid "This email has already been registered for this event."
+msgstr "Этот адрес уже зарегистрирован на данное событие."
+
 msgid "Program start year"
 msgstr "Год начала обучения"
 
@@ -2645,6 +2692,9 @@ msgstr "фамилия"
 msgid "university"
 msgstr "университет"
 
+msgid "faculty"
+msgstr "факультет"
+
 msgid "team name"
 msgstr "название команды"
 
@@ -2669,8 +2719,26 @@ msgstr "планируемый год окончания обучения"
 msgid "sex"
 msgstr "пол"
 
+msgid "Participation is confirmed"
+msgstr "Участие подтверждено"
+
+msgid "First name"
+msgstr "Имя"
+
+msgid "Last name"
+msgstr "Фамилия"
+
+msgid "Faculty"
+msgstr "Факультет"
+
+msgid "Confirm participation"
+msgstr "Подтвердить участие"
+
 msgid "Coach registration"
 msgstr "Регистрация тренера"
+
+msgid "Сontestant registration"
+msgstr "Регистрация участника"
 
 msgid "Please fill the form in English."
 msgstr "Пожалуйста, заполните форму на английском."
@@ -2717,6 +2785,30 @@ msgstr ""
 "Вы зарегистрированы в качестве тренера. Чтобы редактировать данные команд, "
 "перейдите по ссылке:\n"
 "%(link)s\n"
+"\n"
+"--\n"
+"iRunner 2\n"
+
+#, python-format
+msgid ""
+"%(full_name)s,\n"
+"\n"
+"You have been registered as a contestant. To confirm your data and edit your "
+"profile, use the following link:\n"
+"%(link)s\n"
+"\n"
+"The link contains a personal key, do not share it with others.\n"
+"\n"
+"--\n"
+"iRunner 2\n"
+msgstr ""
+"%(full_name)s,\n"
+"\n"
+"Вы зарегистрированы как участник соревнования. Чтобы подтвердить ваши данные "
+"и отредактировать профиль, перейдите по ссылке:\n"
+"%(link)s\n"
+"\n"
+"Ссылка содержит персональный ключ, не делитесь ею с другими.\n"
 "\n"
 "--\n"
 "iRunner 2\n"
@@ -3164,6 +3256,9 @@ msgstr "Курсы"
 msgid "Administration"
 msgstr "Администрирование"
 
+msgid "Administrator groups"
+msgstr "Группы администраторов"
+
 #, python-format
 msgid "User %(username)s not found."
 msgstr "Пользователь %(username)s не найден."
@@ -3234,14 +3329,8 @@ msgstr "Факультет прикладной математики и инфо
 msgid "Faculty of Radiophysics and Computer Technologies (RFE)"
 msgstr "Факультет радиофизики и компьютерных технологий (РФЭ)"
 
-msgid "Faculty"
-msgstr "Факультет"
-
 msgid "Include archive"
 msgstr "Включая архив"
-
-msgid "Group"
-msgstr "Группа"
 
 msgid "Admission year"
 msgstr "Год поступления"
@@ -3251,6 +3340,35 @@ msgstr "Пропускать ошибки"
 
 msgid "On error, continue fetching photos for next users."
 msgstr "При ошибке продолжать загрузку фотографий для следующих пользователей."
+
+msgid "Create user"
+msgstr "Создать пользователя"
+
+msgid "Bulk sign-up"
+msgstr "Массовая регистрация"
+
+msgid "Bulk profile update"
+msgstr "Массовое обновление профилей"
+
+#, python-format
+msgid "%(count)d profile has been updated."
+msgid_plural "%(count)d profiles have been updated."
+msgstr[0] "Обновлён %(count)d профиль."
+msgstr[1] "Обновлено %(count)d профиля."
+msgstr[2] "Обновлено %(count)d профилей."
+
+msgid "Bulk photo upload"
+msgstr "Массовая загрузка фотографий"
+
+#, python-format
+msgid "%(count)d photo has been uploaded."
+msgid_plural "%(count)d photos have been uploaded."
+msgstr[0] "Добавлена %(count)d фотография."
+msgstr[1] "Добавлено %(count)d фотографии."
+msgstr[2] "Добавлено %(count)d фотографий."
+
+msgid "Photos from intranet.bsu"
+msgstr "Фотографии из intranet.bsu"
 
 msgid "Destination folder"
 msgstr "Папка назначения"
@@ -3314,9 +3432,6 @@ msgstr "Изображение не может быть открыто и опо
 #, python-format
 msgid "The image format %(format)s is not supported."
 msgstr "Формат изображения %(format)s не поддерживается."
-
-msgid "Administrator groups"
-msgstr "Группы администраторов"
 
 msgid "Are you sure you want to delete the administrator group?"
 msgstr "Вы уверены, что хотите удалить группу администраторов?"
@@ -3396,14 +3511,8 @@ msgid "The user belongs to staff and has extended access permissions."
 msgstr ""
 "Пользователь входит в число сотрудников и обладает расширенными правами."
 
-msgid "First name"
-msgstr "Имя"
-
 msgid "Patronymic"
 msgstr "Отчество"
-
-msgid "Last name"
-msgstr "Фамилия"
 
 msgid "Email address"
 msgstr "Адрес электронной почты"
@@ -3417,35 +3526,6 @@ msgstr "Предложить изменить пароль"
 msgid "Permissions"
 msgstr "Права доступа"
 
-msgid "Create user"
-msgstr "Создать пользователя"
-
-msgid "Bulk sign-up"
-msgstr "Массовая регистрация"
-
-msgid "Bulk profile update"
-msgstr "Массовое обновление профилей"
-
-#, python-format
-msgid "%(count)d profile has been updated."
-msgid_plural "%(count)d profiles have been updated."
-msgstr[0] "Обновлён %(count)d профиль."
-msgstr[1] "Обновлено %(count)d профиля."
-msgstr[2] "Обновлено %(count)d профилей."
-
-msgid "Bulk photo upload"
-msgstr "Массовая загрузка фотографий"
-
-#, python-format
-msgid "%(count)d photo has been uploaded."
-msgid_plural "%(count)d photos have been uploaded."
-msgstr[0] "Добавлена %(count)d фотография."
-msgstr[1] "Добавлено %(count)d фотографии."
-msgstr[2] "Добавлено %(count)d фотографий."
-
-msgid "Photos from intranet.bsu"
-msgstr "Фотографии из intranet.bsu"
-
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
 
@@ -3455,6 +3535,15 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Note: administators have full access to all problems."
+#~ msgstr "Замечание: у администраторов есть полный доступ ко всем задачам."
+
+#~ msgid "Unknown"
+#~ msgstr "Неизвестно"
+
+#~ msgid "Grant access to the category"
+#~ msgstr "Выдать доступ к категории"
 
 #~ msgid "on problem"
 #~ msgstr "по задаче"

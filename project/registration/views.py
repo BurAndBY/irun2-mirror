@@ -23,6 +23,8 @@ from .models import (
 from .forms import (
     IcpcCoachForm,
     IcpcCoachUpdateForm,
+    IcpcCoachAsContestantForm,
+    IcpcCoachAsContestantUpdateForm,
     IcpcTeamForm,
     IcpcContestantForm,
 )
@@ -46,10 +48,22 @@ You have been registered as a coach. To edit your team data, use the following l
 iRunner 2
 ''')
 
+INDIVIDUAL_LETTER = gettext_lazy('''%(full_name)s,
+
+You have been registered as a contestant. To confirm your data and edit your profile, use the following link:
+%(link)s
+
+The link contains a personal key, do not share it with others.
+
+--
+iRunner 2
+''')
+
 
 def _send_link_to_email(event, coach, link):
     subject = '{}: {}'.format(force_text(gettext('Registration')), event.name)
-    message = force_text(LETTER) % {
+    letter = LETTER if event.registering_coaches else INDIVIDUAL_LETTER
+    message = force_text(letter) % {
         'full_name': coach.full_name,
         'link': link,
     }
@@ -62,6 +76,11 @@ class RegisterCoachView(EventMixin, generic.CreateView):
     template_name = 'registration/new_coach.html'
     result_template_name = 'registration/new_coach_result.html'
 
+    def get_form_class(self):
+        if self.event.registering_coaches:
+            return IcpcCoachForm
+        return IcpcCoachAsContestantForm
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({
@@ -70,7 +89,9 @@ class RegisterCoachView(EventMixin, generic.CreateView):
         return kwargs
 
     def form_valid(self, form):
-        coach = form.save()
+        coach = form.save(commit=False)
+        coach.is_confirmed = self.event.registering_coaches
+        coach.save()
         self.object = coach
         link = _create_coach_dashboard_link(self.request, self.event, coach)
 
@@ -93,6 +114,11 @@ class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
     form_class = IcpcCoachUpdateForm
     template_name = 'registration/update_coach.html'
 
+    def get_form_class(self):
+        if self.event.registering_coaches:
+            return IcpcCoachUpdateForm
+        return IcpcCoachAsContestantUpdateForm
+
     def get_object(self):
         return self.coach
 
@@ -101,10 +127,12 @@ class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
 
 
 class ListTeamsView(EventMixin, CoachMixin, generic.TemplateView):
-    template_name = 'registration/teams.html'
+    def get_template_names(self):
+        if self.event.registering_coaches:
+            return ['registration/teams.html']
+        return ['registration/individual_profile.html']
 
-    def get_context_data(self, **kwargs):
-        context = super(ListTeamsView, self).get_context_data(**kwargs)
+    def _get_teams(self):
         team_participants = {}
         for team_id, last_name in IcpcContestant.objects.order_by('id').values_list('team_id', 'last_name'):
             team_participants.setdefault(team_id, []).append(last_name)
@@ -113,8 +141,19 @@ class ListTeamsView(EventMixin, CoachMixin, generic.TemplateView):
         for team in self.coach.icpcteam_set.order_by('id').all():
             team.participants = ', '.join(filter(None, team_participants.get(team.id, [])))
             teams.append(team)
-        context['teams'] = teams
+        return teams
+
+    def get_context_data(self, **kwargs):
+        context = super(ListTeamsView, self).get_context_data(**kwargs)
+        context['teams'] = self._get_teams()
         return context
+
+
+class ConfirmView(EventMixin, CoachMixin, generic.View):
+    def post(self, *args, **kwargs):
+        self.coach.is_confirmed = True
+        self.coach.save()
+        return redirect('events:list_teams', self.event.slug, self.coach_id_str)
 
 
 def _make_forms(data, instance=None):

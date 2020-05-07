@@ -16,6 +16,16 @@ def _localize_string(local_value, en_value):
     return en_value if (get_language() == 'en') else local_value
 
 
+class RegistrationMode(object):
+    COACH_AND_TEAMS = 1
+    INDIVIDUAL = 2
+
+    CHOICES = (
+        (COACH_AND_TEAMS, _('Coach and teams')),
+        (INDIVIDUAL, _('Individual')),
+    )
+
+
 class Event(models.Model):
     slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
 
@@ -26,6 +36,7 @@ class Event(models.Model):
     en_description = models.TextField(_('descripion in English'), blank=True)
 
     is_registration_available = models.BooleanField(_('registration is available'), default=False, blank=True)
+    registration_mode = models.IntegerField(_('registration mode'), choices=RegistrationMode.CHOICES, default=RegistrationMode.COACH_AND_TEAMS)
 
     @property
     def name(self):
@@ -34,3 +45,7 @@ class Event(models.Model):
     @property
     def description(self):
         return _localize_string(self.local_description, self.en_description)
+
+    @property
+    def registering_coaches(self):
+        return self.registration_mode == RegistrationMode.COACH_AND_TEAMS
