@@ -73,7 +73,7 @@ class JudgementListView(LoginRequiredMixin, generic.View):
     template_name = 'solutions/judgement_list.html'
 
     def get(self, request):
-        queryset = Judgement.objects.select_related('extra_info').order_by('-id')
+        queryset = Judgement.objects.prefetch_related('extra_info').order_by('-id')
         if has_limited_problems_queryset(request.user):
             queryset = queryset.filter(solution__problem_id__in=get_problem_ids_queryset(request.user))
 
