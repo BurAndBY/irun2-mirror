@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy
 from django.views import generic
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
-from common.orm.join import join_to
 from common.pagination import paginate
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
@@ -41,9 +40,7 @@ class SolutionListView(LoginRequiredMixin, generic.View):
             order_by('-id')
 
         if has_limited_problems_queryset(request.user):
-            # queryset = queryset.filter(problem_id__in=get_problem_ids_queryset(request.user))
-            sq = get_problem_ids_queryset(request.user)
-            queryset = join_to(Solution, sq, 'problem_id', 'id', queryset, 'fake')
+            queryset = queryset.filter(problem_id__in=get_problem_ids_queryset(request.user))
 
         if form.is_valid():
             queryset = apply_state_filter(queryset, form.cleaned_data['state'])
