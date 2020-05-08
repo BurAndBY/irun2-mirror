@@ -37,11 +37,11 @@ def get_problems_queryset(user):
     if user.is_staff:
         return Problem.objects.all()
 
-    return _get_personally_shared_problems(user) | _get_group_owned_problems(user)
+    return _get_personally_shared_problems(user).order_by().union(_get_group_owned_problems(user).order_by())
 
 
 def get_problem_ids_queryset(user):
-    return get_problems_queryset(user).values_list('id')
+    return set(get_problems_queryset(user).values_list('id', flat=True))
 
 
 def calculate_problem_solution_access_level(solution, user):
