@@ -13,6 +13,7 @@ from .resourceid import (
 from .iface import (
     TestingJob,
     TestCase,
+    IStateCallback,
 )
 
 
@@ -53,6 +54,7 @@ class IRunnerApiClient:
         job = TestingJob(job_id)
 
         job.solution_resource_id = self._fetch_resource(cache, jsonjob['solution'])
+        job.solution_compiler = jsonjob['solution'].get('compiler')
         job.checker_resource_id = self._fetch_resource(cache, jsonchecker['source'])
         job.default_time_limit = jsonproblem.get('defaultTimeLimit', job.default_time_limit)
         job.solution_filename = jsonjob['solution'].get('filename', job.solution_filename)
@@ -65,6 +67,9 @@ class IRunnerApiClient:
             job.test_cases.append(tc)
 
         return job
+
+    def set_compiling_state(self, job_id):
+        self._session.put(self._url('jobs/{}/state'.format(job_id)), json={'status': 'COMPILING'})
 
     def set_testing_state(self, job_id):
         self._session.put(self._url('jobs/{}/state'.format(job_id)), json={'status': 'TESTING'})
@@ -86,9 +91,16 @@ class IRunnerApiClient:
                 tcr['inputResourceId'] = tojson(test.test_case.input_resource_id)
                 tcr['answerResourceId'] = tojson(test.test_case.answer_resource_id)
             jsontests.append(tcr)
+        logs = []
+        if report.compilation_log is not None:
+            logs.append({
+                'kind': 'SOLUTION_COMPILATION',
+                'resourceId': tojson(self._push_resource(report.compilation_log))
+            })
         jsonreport = {
             'outcome': report.outcome.name,
             'tests': jsontests,
+            'logs': logs,
         }
         logging.info(jsonreport)
         r = self._session.put(self._url('jobs/{}/result'.format(job_id)), json=jsonreport)
@@ -140,3 +152,15 @@ class IRunnerApiClient:
         if string is None:
             return None
         return self.fs_upload_data(string)
+
+
+class IRunnerApiStateCallback(IStateCallback):
+    def __init__(self, client, job_id):
+        self._client = client
+        self._job_id = job_id
+
+    def set_compiling(self):
+        self._client.set_compiling_state(self._job_id)
+
+    def set_testing(self):
+        self._client.set_testing_state(self._job_id)

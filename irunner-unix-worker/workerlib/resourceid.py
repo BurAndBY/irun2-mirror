@@ -11,6 +11,6 @@ class ResourceId(namedtuple('ResourceId', ['hexstr'])):
 
 def tojson(resource_id):
     if resource_id is not None:
-        if resource_id.hexstr:
+        if resource_id.hexstr is not None:
             return resource_id.hexstr
     return None

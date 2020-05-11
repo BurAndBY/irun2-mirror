@@ -1,55 +1,52 @@
-import os
-import re
-import json
 import errno
+import json
+import os
 import shutil
-import logging
-import pathlib
-import tempfile
-import subprocess
-import xml.etree.ElementTree as ET
 
+from pathlib import Path
 from collections import namedtuple
 
-from .iface import (
-    Outcome,
-    TestCaseResult,
-    TestingReport,
-)
+from workerlib.iface import TestingReport
+
+from .junitxml import parse_junitxml, extract_tests
+from .buildjson import parse_buildjson, extract_compilation_log
 
 JUNIT_XML = 'junit.xml'
 
 SrcRelativePaths = namedtuple('SrcRelativePaths', ['checkerfile', 'testsdir', 'solutionfile'])
-DstRelativePaths = namedtuple('DstRelativePaths', ['junitxmlfile'])
+DstRelativePaths = namedtuple('DstRelativePaths', ['builddir', 'junitxmlfile'])
 
 
 class BaseTester:
-    def __init__(self, sandbox_dir, cache):
-        self._sandbox_dir = pathlib.Path(sandbox_dir)
+    def __init__(self, cache):
         self._cache = cache
 
-    def run(self, job):
-        self._cleanup()
-        self._sandbox_dir.mkdir()
-        workdir = self._sandbox_dir
+    def run(self, job, sandbox_dir, callback):
+        workdir = Path(sandbox_dir)
+        self._cleanup(workdir)
         srcpaths = self._create_src_environment(job, workdir)
         dstpaths = self._declare_dst_environment()
 
+        callback.set_compiling()
+        self._build(job, workdir, srcpaths, dstpaths)
+        buildjson = parse_buildjson(workdir / dstpaths.builddir / 'build.json')
+        compiled, log = extract_compilation_log(buildjson)
+        if not compiled:
+            return TestingReport.compilation_error(log)
+
+        callback.set_testing()
         self._execute(job, workdir, srcpaths, dstpaths)
+        junitxml = parse_junitxml(workdir / dstpaths.junitxmlfile)
+        return self._make_report(job, log, junitxml)
 
+    @staticmethod
+    def _cleanup(workdir):
         try:
-            junitxml = ET.parse(workdir / dstpaths.junitxmlfile)
-        except (IOError, ET.ParseError):
-            logging.exception('Unable to parse JUnit XML')
-            return TestingReport.check_failed()
-        return self._make_report(job, junitxml)
-
-    def _cleanup(self):
-        try:
-            shutil.rmtree(self._sandbox_dir)
+            shutil.rmtree(workdir)
         except OSError as e:
             if e.errno != errno.ENOENT:
                 raise
+        workdir.mkdir()
 
     def _create_src_environment(self, job, workdir):
         return SrcRelativePaths(
@@ -59,9 +56,13 @@ class BaseTester:
         )
 
     def _declare_dst_environment(self):
-        return DstRelativePaths(junitxmlfile='junit.xml')
+        return DstRelativePaths(
+            builddir='build',
+            junitxmlfile='junit.xml'
+        )
 
-    def _create_dir(self, workdir, name):
+    @staticmethod
+    def _create_dir(workdir, name):
         d = workdir / name
         d.mkdir()
         return d
@@ -107,8 +108,10 @@ class BaseTester:
 
     def _write_checker(self, job, workdir):
         checkerdir = self._create_dir(workdir, 'checker')
-        conftest = pathlib.Path(__file__).parent / 'conftest.py'
-        shutil.copy(conftest, checkerdir / 'conftest.py')
+        for fn in ['conftest.py', 'build.py']:
+            src = Path(__file__).parent / 'sandboxed' / fn
+            shutil.copy(src, checkerdir / fn)
+
         checkerfile = checkerdir / 'test.py'
         shutil.copy(self._cache[job.checker_resource_id], checkerfile)
         return os.path.join('checker', 'test.py')
@@ -126,12 +129,24 @@ class BaseTester:
         self._copy_converting_newlines(self._cache[job.solution_resource_id], solutiondir / job.solution_filename)
         return os.path.join('solution', job.solution_filename)
 
-    def _make_command(self, job, srcdir, srcpaths, dstdir, dstpaths):
+    def _make_build_command(self, job, srcdir, srcpaths, dstdir, dstpaths):
+        cmd = [
+            'python3', (srcdir / srcpaths.checkerfile).parent / 'build.py',
+            srcdir / srcpaths.solutionfile,
+            '--checker', srcdir / srcpaths.checkerfile,
+            '--output-dir', dstdir / dstpaths.builddir,
+        ]
+        if job.solution_compiler:
+            cmd.extend(['--compiler', job.solution_compiler])
+        return [str(s) for s in cmd]
+
+    def _make_execute_command(self, job, srcdir, srcpaths, dstdir, dstpaths):
         cmd = [
             'python3', '-m', 'pytest',
             srcdir / srcpaths.checkerfile,
             '--solution', srcdir / srcpaths.solutionfile,
             '--tests-dir', srcdir / srcpaths.testsdir,
+            '--build-dir', srcdir / dstpaths.builddir,
             '--junitxml', dstdir / dstpaths.junitxmlfile,
             '--tb', 'short',
             '--timeout', str(job.default_time_limit / 1000),
@@ -143,60 +158,19 @@ class BaseTester:
         env['PYTHONDONTWRITEBYTECODE'] = '1'
         return env
 
-    def _make_report(self, job, junitxml):
+    def _make_report(self, job, log, junitxml):
         '''
         Receives parsed junitxml, returns TestingReport
         '''
-        tests = []
-        test_suite = junitxml.getroot()
-        logging.info('JUnit XML: %s', ET.tostring(test_suite, encoding='unicode'))
+        tests = extract_tests(job, junitxml)
+        return TestingReport.from_tests(tests, log)
 
-        for test_case in test_suite.findall('testcase'):
-            if test_case.find('skipped') is not None:
-                continue
-
-            traceback = None
-            outcome = Outcome.ACCEPTED
-
-            if test_case.find('failure') is not None:
-                outcome = Outcome.FAILED
-                traceback = test_case.find('failure').text
-                if traceback:
-                    tblines = traceback.splitlines()
-                    if len(tblines) > 0 and tblines[-1].startswith('E   Failed: Timeout >'):
-                        outcome = Outcome.TIME_LIMIT_EXCEEDED
-
-            if test_case.find('error') is not None:
-                outcome = Outcome.CHECK_FAILED
-                traceback = test_case.find('error').text
-
-            test_name = test_case.attrib.get('name', '')
-
-            original_test = None
-            m = re.search(r'\bcase#(?P<num>\d+)\b', test_name)
-            if m is not None:
-                idx = int(m.group('num')) - 1
-                if 0 <= idx and idx < len(job.test_cases):
-                    original_test = job.test_cases[idx]
-
-            time_ms = int(float(test_case.attrib['time']) * 1000)
-
-            def _gettext(name):
-                node = test_case.find(name)
-                if node is not None:
-                    return node.text
-
-            tests.append(TestCaseResult(
-                original_test,
-                outcome,
-                time_ms,
-                job.default_time_limit,
-                test_name,
-                traceback,
-                _gettext('system-out'),
-                _gettext('system-err')
-            ))
-        return TestingReport.from_tests(tests)
+    def _build(self, job, workdir, srcpaths, dstpaths):
+        '''
+        Implementation should create in workdir
+        files and directories specified in dstpaths.
+        '''
+        raise NotImplementedError()
 
     def _execute(self, job, workdir, srcpaths, dstpaths):
         '''
@@ -204,14 +178,3 @@ class BaseTester:
         files and directories specified in dstpaths.
         '''
         raise NotImplementedError()
-
-
-class LocalTester(BaseTester):
-    def _execute(self, job, workdir, srcpaths, dstpaths):
-        absworkdir = workdir.resolve()
-        cmd = self._make_command(job, absworkdir, srcpaths, absworkdir, dstpaths)
-
-        with tempfile.TemporaryDirectory() as tempdir:
-            logging.info(cmd)
-            p = subprocess.Popen(cmd, cwd=tempdir, env=self._make_env(os.environ.copy()))
-            p.wait()

@@ -3,11 +3,12 @@ import configparser
 import logging
 import random
 import string
-import sys
 
-from workerlib.apiclient import IRunnerApiClient
+from workerlib.apiclient import IRunnerApiClient, IRunnerApiStateCallback
+from workerlib.iface import CheckFailed, TestingReport
 from workerlib.cache import Cache
 from workerlib.sleeper import Sleeper
+from workerlib.tester import create_tester
 
 
 def set_up_logging():
@@ -52,21 +53,9 @@ def main():
         float(config['Server']['interval'])
     )
 
-    mode = config['Tester']['mode']
-    if mode == 'LOCAL':
-        from workerlib.tester import LocalTester
-        tester = LocalTester('sandbox', cache)
-
-    elif mode == 'DOCKER':
-        from workerlib.dockertester import DockerTester
-        tester = DockerTester('sandbox', cache)
-
-    else:
-        logging.error('Unsupported mode: %s', mode)
-        sys.exit(1)
+    tester = create_tester(config['Tester']['mode'], cache)
 
     need_sleep = False
-
     while True:
         if need_sleep:
             try:
@@ -81,8 +70,11 @@ def main():
             need_sleep = True
             continue
 
-        api_client.set_testing_state(job.job_id)
-        report = tester.run(job)
+        callback = IRunnerApiStateCallback(api_client, job.job_id)
+        try:
+            report = tester.run(job, 'sandbox', callback)
+        except CheckFailed:
+            report = TestingReport.check_failed()
         api_client.put_report(job.job_id, report)
         need_sleep = False
 
