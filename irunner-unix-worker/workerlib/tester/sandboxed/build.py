@@ -76,7 +76,7 @@ class GccCompiler(IBuilder):
         if configuration not in self.args:
             configuration = self.default_configuration
 
-        cmd = ['gcc', source_name, '-o', exe_name, '-fno-omit-frame-pointer', '-g', '-Wall', '-Wextra']
+        cmd = ['gcc', '-o', exe_name, '-fno-omit-frame-pointer', '-g', '-Wall', '-Wextra', '-pthread', source_name]
         cmd.extend(self.args[configuration])
         return cmd
 
