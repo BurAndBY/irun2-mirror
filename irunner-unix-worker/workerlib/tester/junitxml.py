@@ -17,11 +17,7 @@ def parse_junitxml(path):
         raise CheckFailed()
 
 
-def extract_tests(job, junitxml):
-    tests = []
-    test_suite = junitxml.getroot()
-    logging.info('JUnit XML: %s', ET.tostring(test_suite, encoding='unicode'))
-
+def _do_extract_tests(job, test_suite, tests):
     for test_case in test_suite.findall('testcase'):
         if test_case.find('skipped') is not None:
             continue
@@ -69,4 +65,17 @@ def extract_tests(job, junitxml):
             _gettext('system-out'),
             _gettext('system-err')
         ))
+
+
+def extract_tests(job, junitxml):
+    root = junitxml.getroot()
+    logging.info('JUnit XML: %s', ET.tostring(root, encoding='unicode'))
+
+    tests = []
+    if root.tag == 'testsuite':
+        # the format depends on pytest version
+        _do_extract_tests(job, root, tests)
+    elif root.tag == 'testsuites':
+        for test_suite in root.findall('testsuite'):
+            _do_extract_tests(job, test_suite, tests)
     return tests

@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
     bc
 
 RUN pip3 install \
-    pytest==4.2.0 \
-    pytest-timeout==1.3.3
+    pytest==5.4.2 \
+    pytest-timeout==1.3.4
 
 RUN groupadd --gid 999 bsu && \
     useradd --uid 999 --gid bsu --create-home --shell /bin/bash student && \
