@@ -8,6 +8,11 @@ from workerlib.iface import (
     TestCaseResult,
 )
 
+PREFIXES = [
+    '--------------------------------- Captured Out ---------------------------------\n',
+    '--------------------------------- Captured Err ---------------------------------\n',
+]
+
 
 def parse_junitxml(path):
     try:
@@ -53,7 +58,13 @@ def _do_extract_tests(job, test_suite, tests):
         def _gettext(name):
             node = test_case.find(name)
             if node is not None:
-                return node.text
+                result = node.text
+                for pref in PREFIXES:
+                    if result.startswith(pref):
+                        result = result[len(pref):]
+                if result.endswith('\n\n') or result == '\n':
+                    result = result[:-1]
+                return result
 
         tests.append(TestCaseResult(
             original_test,

@@ -54,7 +54,7 @@ class BashScriptPatcher(BaseScriptPatcher):
 
 
 class PythonScriptPatcher(BaseScriptPatcher):
-    interpreter = 'python'
+    interpreter = 'python3'
 
 
 class GccCompiler(IBuilder):

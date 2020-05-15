@@ -108,7 +108,7 @@ class BaseTester:
 
     def _write_checker(self, job, workdir):
         checkerdir = self._create_dir(workdir, 'checker')
-        for fn in ['conftest.py', 'build.py']:
+        for fn in ['conftest.py', 'build.py', 'pytest.ini']:
             src = Path(__file__).parent / 'sandboxed' / fn
             shutil.copy(src, checkerdir / fn)
 
