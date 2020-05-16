@@ -27,7 +27,7 @@ def calc_problem_permissions(user, problem_id):
         return SingleProblemPermissions.all()
 
     res_mode = 0
-    for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode'):
+    for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode', flat=True):
         res_mode = max(res_mode, mode)
 
     res_mode = max(res_mode, ProblemFolderAccessChecker.check(user, problem_id))
