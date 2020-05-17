@@ -168,6 +168,12 @@ class JobPutStateView(WorkerAPIView):
         return Response(['ok'])
 
 
+class JobCancelView(WorkerAPIView):
+    def put(self, request, job_id, format=None):
+        DbObjectInQueue.objects.filter(pk=job_id, state=DbObjectInQueue.EXECUTING).update(state=DbObjectInQueue.WAITING)
+        return Response(['ok'])
+
+
 class CompilerSettingsView(WorkerAPIView):
     def post(self, request, format=None):
         for info in request.data:
