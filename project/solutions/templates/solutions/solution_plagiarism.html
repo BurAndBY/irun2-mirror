@@ -10,6 +10,12 @@
 {% block subtitle %}{% trans 'Plagiarism' %}{% endblock %}
 
 {% block main %}
+{% if aggregated_result %}
+<div class="form-group">
+    {% trans 'Result' %}: {% irunner_plagiarism_box aggregated_result solution.id %}
+</div>
+{% endif %}
+
 {% if object_list %}
     {% irunner_pagination pagination_context %}
     <table class="table table-condensed">

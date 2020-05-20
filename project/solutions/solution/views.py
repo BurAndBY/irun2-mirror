@@ -13,7 +13,7 @@ from cauth.mixins import LoginRequiredMixin
 from common.highlight import list_highlight_styles, get_highlight_style, update_highlight_style
 from common.outcome import Outcome
 from common.pagination import paginate
-from plagiarism.models import JudgementResult
+from plagiarism.models import AggregatedResult, JudgementResult
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata
 
@@ -383,6 +383,8 @@ class SolutionPlagiarismView(BaseSolutionView):
             select_related('solution_to_compare__author').\
             order_by('-similarity', '-solution_to_compare__reception_time')
 
+        aggregated_result = AggregatedResult.objects.filter(id=solution.id).first()
+
         context = paginate(request, plagiarism_judgements, self.paginate_by)
-        context = self.get_context_data(**context)
+        context = self.get_context_data(aggregated_result=aggregated_result, **context)
         return render(request, self.template_name, context)
