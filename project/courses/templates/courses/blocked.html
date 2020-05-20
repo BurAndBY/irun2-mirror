@@ -1,0 +1,21 @@
+{% extends 'courses/base.html' %}
+
+{% load irunner_messagebox %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{{ course }}{% endblock %}
+
+{% block main %}
+    {% irunner_messagebox 'danger' wide=False %}
+        <p>
+            {% trans 'Permission denied.' %} 
+        </p>
+
+        {% if user.is_authenticated and user.userprofile and user.userprofile.needs_change_password %}
+        <p>
+            {% trans 'Please set up a new password instead of default one.' %} <a href="{% url 'password_change' %}">{% trans 'Change password' %}.</a>
+        </p>
+        {% endif %}
+    {% irunner_endmessagebox %}
+{% endblock %}

@@ -71,6 +71,7 @@ single_course_urlpatterns = [
     url(r'^my/problems/$', views.CourseMyProblemsView.as_view(), name='my_problems'),
 
     url(r'^my/attempts/$', views.CourseMyAttemptsView.as_view(), name='my_attempts'),
+    url(r'^blocked/$', views.CourseBlockedView.as_view(), name='blocked'),
 
     # Messages
 

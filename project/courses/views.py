@@ -92,6 +92,7 @@ EditorialFile = namedtuple('EditorialFile', 'filename description')
 class BaseCourseView(generic.View):
     tab = None
     subtab = None
+    allow_nonchanged_password = False
 
     def __init__(self, *args, **kwargs):
         super(BaseCourseView, self).__init__(*args, **kwargs)
@@ -118,6 +119,9 @@ class BaseCourseView(generic.View):
         self._user_cache = UserCache(self.course)
         return self._user_cache
 
+    def _needs_change_password(self, user):
+        return user.is_authenticated and user.userprofile and user.userprofile.needs_change_password
+
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         self.course = get_object_or_404(Course, pk=course_id)
@@ -127,6 +131,10 @@ class BaseCourseView(generic.View):
 
         if not self.is_allowed(self.permissions):
             raise PermissionDenied()
+
+        if not self.allow_nonchanged_password and self._needs_change_password(request.user):
+            return redirect('courses:blocked', self.course.id)
+
         return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
 
 
@@ -934,4 +942,16 @@ class CourseCompilersView(BaseCourseView):
     def get(self, request, course):
         compilers = course.compilers.select_related('compilerdetails').order_by('description')
         context = self.get_context_data(compilers=compilers)
+        return render(request, self.template_name, context)
+
+
+class CourseBlockedView(BaseCourseView):
+    template_name = 'courses/blocked.html'
+    allow_nonchanged_password = True
+
+    def is_allowed(self, permissions):
+        return True
+
+    def get(self, request, course):
+        context = self.get_context_data()
         return render(request, self.template_name, context)
