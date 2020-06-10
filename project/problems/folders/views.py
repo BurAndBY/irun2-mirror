@@ -12,7 +12,7 @@ from django.views import generic
 
 from cauth.acl.accessmode import AccessMode
 from cauth.acl.mixins import ShareFolderWithGroupMixin
-from cauth.mixins import LoginRequiredMixin
+from cauth.mixins import ProblemEditorMemberRequiredMixin
 from common.access import Permissions, PermissionCheckMixin
 from common.pagination.views import IRunnerListView
 from common.tree.key import FolderId
@@ -20,6 +20,7 @@ from common.tree.mixins import FolderMixin
 from courses.models import Course
 from proglangs.models import Compiler
 
+from problems.loader import ProblemFolderLoader
 from problems.models import Problem, ProblemFolder, ProblemFolderAccess
 from problems.navigator import make_folder_query_string
 
@@ -34,9 +35,7 @@ class FolderPermissions(Permissions):
 
 
 class ProblemFolderMixin(FolderMixin):
-    root_name = _('Problems')
-    folder_model = ProblemFolder
-    folder_access_model = ProblemFolderAccess
+    loader_cls = ProblemFolderLoader
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,7 +54,7 @@ class FolderPermissionCheckMixin(PermissionCheckMixin):
         return FolderPermissions.basic()
 
 
-class CombinedMixin(LoginRequiredMixin, ProblemFolderMixin, FolderPermissionCheckMixin):
+class CombinedMixin(ProblemEditorMemberRequiredMixin, ProblemFolderMixin, FolderPermissionCheckMixin):
     pass
 
 
@@ -69,9 +68,7 @@ class ShowFolderView(CombinedMixin, IRunnerListView):
         return context
 
     def get_queryset(self):
-        if self.permissions.can_view_problems:
-            return Problem.objects.filter(folders__id=self.node.id)
-        return Problem.objects.none()
+        return self.loader_cls.get_folder_content(self.request.user, self.node)
 
 
 class CreateFolderView(CombinedMixin, generic.FormView):

@@ -22,6 +22,7 @@ from users.models import UserFolder, UserProfile
 import users.intranetbsu as intranetbsu
 import users.intranetbsu.photos as intranetbsuphotos
 import users.photo as photo
+from users.loader import UserFolderLoader
 from users.folders.forms import (
     CreateFolderForm,
     CreateUserForm,
@@ -33,6 +34,7 @@ from users.folders.forms import (
 
 
 class UserFolderMixin(FolderMixin):
+    loader_cls = UserFolderLoader
     root_name = _('Users')
     folder_model = UserFolder
     folder_access_model = None  # TODO

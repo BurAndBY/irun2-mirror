@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from common.tree.fields import ThreePanelModelMultipleChoiceField
 
-from users.models import UserFolder, UserFolderAccess
+from users.loader import UserFolderLoader
 
 
 class UsernameField(forms.CharField):
@@ -26,10 +26,7 @@ class UsernameField(forms.CharField):
 
 
 class ThreePanelUserMultipleChoiceField(ThreePanelModelMultipleChoiceField):
-    root_name = _('Users')
-    model = get_user_model()
-    folder_model = UserFolder
-    folder_access_model = UserFolderAccess
+    loader_cls = UserFolderLoader
 
     @classmethod
     def label_from_instance(cls, obj):
@@ -44,7 +41,3 @@ class ThreePanelUserMultipleChoiceField(ThreePanelModelMultipleChoiceField):
                 order_by():
             pk2folders.setdefault(pk, [folder_id])
         return pk2folders
-
-    @classmethod
-    def load_folder(cls, folder_id):
-        return get_user_model().objects.filter(userprofile__folder_id=folder_id)

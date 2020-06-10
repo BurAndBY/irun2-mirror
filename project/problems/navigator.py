@@ -2,13 +2,11 @@
 
 from __future__ import unicode_literals
 
-from problems.models import ProblemFolder
-from problems.calcpermissions import get_problems_queryset
-
-from common.tree.key import FolderId
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.utils.translation import ugettext_lazy as _
+
+from common.tree.key import FolderId
+from problems.loader import ProblemFolderLoader
 
 PARAM = 'nav-folder'
 
@@ -22,17 +20,17 @@ def make_folder_query_string(folder_id):
 
 
 class NavigatorImpl(object):
-    def __init__(self, folder, problem_id, problems_list):
-        self.folder = folder
+    def __init__(self, node, problem_id, problems_list):
+        self.node = node
         self.pos = problems_list.index(problem_id)
         self.problems_list = problems_list
         self._query_string = _create_query_string(self.iterate_query_params())
 
     def get_folder_url(self):
-        return reverse('problems:show_folder', kwargs={'folder_id_or_root': FolderId.to_string(self.folder.id if self.folder is not None else None)})
+        return reverse('problems:show_folder', kwargs={'folder_id_or_root': FolderId.to_string(self.node.id)})
 
     def get_folder_name(self):
-        return self.folder.name if self.folder is not None else _('Problems')
+        return self.node.name
 
     def get_prev(self):
         n = self.get_total_count()
@@ -46,7 +44,7 @@ class NavigatorImpl(object):
         return self._query_string
 
     def iterate_query_params(self):
-        folder_id_or_root = FolderId.to_string(self.folder.id if self.folder is not None else None)
+        folder_id_or_root = FolderId.to_string(self.node.id)
         return [(PARAM, folder_id_or_root)]
 
     def get_current_index(self):
@@ -64,21 +62,16 @@ def init(problem_id, request_user, request_get):
     except (KeyError, ValueError):
         return
 
-    if folder_id is None:
-        # fake root folder
-        folder = None
-    else:
-        folder = ProblemFolder.objects.filter(pk=folder_id).first()
-        if folder is None:
-            return
-
-    qs = get_problems_queryset(request_user)
-    problems_list = qs.filter(folders__id=folder_id).values_list('id', flat=True)
+    node = ProblemFolderLoader.load_node(request_user, folder_id)
+    if node is None:
+        return
+    qs = ProblemFolderLoader.get_folder_content(request_user, node)
+    problems_list = qs.values_list('id', flat=True)
     problems_list = list(problems_list)
     if problem_id not in problems_list:
         return
 
-    return NavigatorImpl(folder, problem_id, problems_list)
+    return NavigatorImpl(node, problem_id, problems_list)
 
 
 class Navigator(object):

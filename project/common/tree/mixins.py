@@ -5,9 +5,7 @@ from common.tree.inmemory import Tree
 
 
 class FolderMixin(object):
-    root_name = ''
-    folder_model = object
-    folder_access_model = object
+    loader_cls = object
     needs_real_folder = False
 
     def get_context_data(self, **kwargs):
@@ -33,6 +31,6 @@ class FolderMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         folder_id = self._parse_folder_id(kwargs.pop('folder_id_or_root'), self.needs_real_folder)
-        self.inmemory_tree = Tree.load(self.root_name, self.folder_model, self.folder_access_model, request.user)
+        self.inmemory_tree = self.loader_cls.load_tree(request.user)
         self.node = self._find_node(self.inmemory_tree, folder_id)
         return super().dispatch(request, *args, **kwargs)

@@ -1,14 +1,11 @@
-from django.utils.translation import ugettext_lazy as _
-
 from common.tree.fields import ThreePanelModelMultipleChoiceField
 
-from problems.models import Problem, ProblemFolder, ProblemFolderAccess
+from problems.loader import ProblemFolderLoader
+from problems.models import Problem, ProblemFolderAccess
 
 
 class ThreePanelGenericProblemMultipleChoiceField(ThreePanelModelMultipleChoiceField):
-    root_name = _('Problems')
-    model = Problem
-    folder_model = ProblemFolder
+    loader_cls = ProblemFolderLoader
     folder_access_model = ProblemFolderAccess
 
     @classmethod

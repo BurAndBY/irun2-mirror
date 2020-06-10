@@ -56,17 +56,14 @@ class Value(object):
 class ThreePanelModelMultipleChoiceField(forms.Field):
     '''
     In order to use the form field, you need to:
-      * inherit from this class, create your own Field class and define `root_name`, `model`, ... at class scope;
-      * override `label_from_instance()`, `build_pk2folders()`, `load_folder()`;
+      * inherit from this class, create your own Field class and define `loader_cls` at class scope;
+      * override `label_from_instance()`, `build_pk2folders()`;
       * use your Field class in a Form;
       * after constructing the Form, call `configure()`.
     '''
 
     # override this settings in your class
-    root_name = None
-    model = object
-    folder_model = object
-    folder_access_model = object
+    loader_cls = object
 
     @classmethod
     def label_from_instance(cls, obj):
@@ -75,10 +72,6 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
 
     @classmethod
     def build_pk2folders(cls, pks):
-        raise NotImplementedError()
-
-    @classmethod
-    def load_folder(cls, folder_id):
         raise NotImplementedError()
 
     # Implementation
@@ -94,36 +87,33 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
     def configure(self, initial, user, url_template):
         self.initial = initial
         self.widget.url_template = url_template
-        self._inmemory_tree = self.widget.inmemory_tree = self._load_tree(user)
-
-    @classmethod
-    def _load_tree(cls, user):
-        return Tree.load(cls.root_name, cls.folder_model, cls.folder_access_model, user)
+        self._inmemory_tree = self.widget.inmemory_tree = self.loader_cls.load_tree(user)
+        self._extra_pks_set = set(self.loader_cls.get_extra_object_pks(user))
 
     @classmethod
     def ajax(cls, user, folder_id_or_root):
         folder_id = folder_id_or_404(folder_id_or_root)
         # TODO: may be slow, optimize?
         # We actually need a single folder here, not the whole tree.
-        inmemory_tree = cls._load_tree(user)
+        inmemory_tree = cls.loader_cls.load_tree(user)
         try:
             node = inmemory_tree.find(folder_id)
         except KeyError:
             raise Http404('folder not found or no access')
-        response = {'name': node.name}
-        if node.access:  # if no access, only folder name is given, without children
-            response['items'] = [{
+        response = {
+            'name': node.name,
+            'items': [{
                 'id': obj.pk,
                 'name': cls.label_from_instance(obj)
-            } for obj in cls.load_folder(folder_id)]
-
+            } for obj in cls.loader_cls.get_folder_content(user, node)]
+        }
         return JsonResponse(response, json_dumps_params={'ensure_ascii': False})
 
     def _extract_pks(self, value, label_cache):
         if value is None:
             return
         for v in value:
-            if isinstance(v, self.model):
+            if isinstance(v, self.loader_cls.model):
                 label_cache.setdefault(v.pk, self.label_from_instance(v))
                 yield v.pk
             elif isinstance(v, int):
@@ -151,7 +141,6 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
 
         pk2folders = self.build_pk2folders(pks)
         tmp = []
-        pks_missing_labels = []  # collect pks for which we still do not know a label
         for pk in pks:
             access = 0
             folder_names = []
@@ -163,24 +152,26 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
                 folder_names.append(node.name)
                 access = max(access, node.access)
 
-            if (access == 0) and not (pk in initial_pks_set):
+            if (access == 0) and (pk not in initial_pks_set) and (pk not in self._extra_pks_set):
                 # the form contains an instance which is missing or forbidden
                 result.valid = False
                 continue
             # not able to generate Choice here because a label may be not known
             tmp.append((pk, folder_names))
-            result.pks.append(pk)
-            if pk not in label_cache:
-                pks_missing_labels.append(pk)
 
+        self._populate_label_cache(label_cache, (pk for pk, _ in tmp))
+        for pk, folder_names in tmp:
+            result.pks.append(pk)
+            result.choices.append(Choice(pk, label_cache.get(pk, '<#{}>'.format(pk)), folder_names))
+        return result
+
+    def _populate_label_cache(self, label_cache, pks):
+        # collect pks for which we still do not know a label
+        pks_missing_labels = [pk for pk in pks if pk not in label_cache]
         if pks_missing_labels:
             # fetch complete objects for fillng the labels that are missing
-            for pk, v in self.model.objects.in_bulk(pks_missing_labels).items():
+            for pk, v in self.loader_cls.model.objects.in_bulk(pks_missing_labels).items():
                 label_cache.setdefault(pk, self.label_from_instance(v))
-
-        for pk, folder_names in tmp:
-            result.choices.append(Choice(pk, label_cache.get(pk, ''), folder_names))
-        return result
 
     def to_python(self, value):
         # Don't know where it is used...

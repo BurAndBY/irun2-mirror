@@ -15,7 +15,8 @@ def _get_group_owned_problems(user):
     clauses = []
     for tree_id, lft, rght in ProblemFolder.objects.\
             filter(problemfolderaccess__group__users=user).\
-            values_list('tree_id', 'lft', 'rght'):
+            values_list('tree_id', 'lft', 'rght').\
+            order_by():
         clauses.append(Q(folders__tree_id=tree_id) & Q(folders__lft__gte=lft) & Q(folders__lft__lte=rght))
     if not clauses:
         return Problem.objects.none()

@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
-from cauth.mixins import StaffMemberRequiredMixin, LoginRequiredMixin
+from cauth.mixins import StaffMemberRequiredMixin, ProblemEditorMemberRequiredMixin
 from common.folderutils import make_fancytree_json
 from common.pagination import paginate
 from common.tree.inmemory import Tree
@@ -23,7 +23,7 @@ from common.tree.inmemory import Tree
 from storage.storage import create_storage
 from storage.utils import serve_resource
 
-from problems.calcpermissions import get_problems_queryset
+from problems.calcpermissions import get_problem_ids_queryset
 from problems.forms import (
     ProblemSearchForm,
     TeXForm,
@@ -150,7 +150,7 @@ All problems: search
 '''
 
 
-class SearchView(LoginRequiredMixin, generic.View):
+class SearchView(ProblemEditorMemberRequiredMixin, generic.View):
     template_name = 'problems/list_search.html'
     paginate_by = 12
     number_regex = re.compile(r'^(?P<number>\d+)(\.(?P<subnumber>\d+))?$')
@@ -168,12 +168,12 @@ class SearchView(LoginRequiredMixin, generic.View):
         return posfilter
 
     def get_queryset(self, query=None):
-        queryset = get_problems_queryset(self.request.user)
+        queryset = Problem.objects.filter(id__in=get_problem_ids_queryset(self.request.user))
         if query is not None:
             terms = query.split()
             if terms:
                 queryset = queryset.filter(functools.reduce(operator.and_, (self._create_posfilter(term) for term in terms)))
-        return queryset.distinct().order_by('id')
+        return queryset.order_by('id')
 
     def get(self, request):
         form = ProblemSearchForm(request.GET)

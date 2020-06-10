@@ -18,14 +18,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {% irunner_cauth_show_admin_menu as admin_menu %}
-                {% if admin_menu %}
-                    <li><a href="{% if user.is_staff %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
-                    {% if user.is_staff %}
+                <li><a href="{% if user.is_staff %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
+                {% if user.is_admin %}
                     <li><a href="{% url 'users:show_folder' root_folder %}">{% trans 'Users' %}</a></li>
-                    {% endif %}
+                {% endif %}
+                {% if user.is_problem_editor %}
                     <li><a href="{% url 'problems:show_folder' root_folder %}">{% trans 'Problems' %}</a></li>
-
                     <li><a href="{% url 'solutions:list' %}">{% trans 'Solutions' %}</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Administration' %} <span class="caret"></span></a>
@@ -34,29 +32,31 @@
                             <li><a href="{% url 'solutions:rejudge_list' %}">{% trans 'Rejudges' %}</a></li>
                             <li><a href="{% url 'solutions:judgement_list' %}">{% trans 'Runs' %}</a></li>
                             {% if user.is_staff %}
-                            <li><a href="{% url 'api:queue' %}">{% trans 'Queue' %}</a></li>
-                            <li><a href="{% url 'proglangs:index' %}">{% trans 'Compilers' %}</a></li>
-                            <li><a href="{% url 'courses:criterion_index' %}">{% trans 'Criteria' %}</a></li>
+                                <li><a href="{% url 'api:queue' %}">{% trans 'Queue' %}</a></li>
+                                <li><a href="{% url 'proglangs:index' %}">{% trans 'Compilers' %}</a></li>
+                                <li><a href="{% url 'courses:criterion_index' %}">{% trans 'Criteria' %}</a></li>
+                            {% endif %}
+
+                            {% if user.is_admin %}
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
+                                <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
+                                <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
+                                {% if user.is_staff %}
+                                    <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
+                                    <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
+                                    <li><a href="{% url 'feedback:list' %}">{% trans 'Feedback' %}</a></li>
+                                {% endif %}
                             {% endif %}
 
                             <li role="separator" class="divider"></li>
-
-                            <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
-                            <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
-                            <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
-                            {% if user.is_staff %}
-                            <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
-                            <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
-                            <li><a href="{% url 'feedback:list' %}">{% trans 'Feedback' %}</a></li>
-                            {% endif %}
-
-                            <li role="separator" class="divider"></li>
-
-                            <li><a href="{% url 'solutions:activity' %}">{% trans 'Activity' %}</a></li>
-                            {% if user.is_staff %}
-                            <li><a href="{% url 'solutions:hall_of_fame' %}">{% trans 'Hall of fame' %}</a></li>
-                            <li><a href="{% url 'storage:index' %}">{% trans 'File storage' %}</a></li>
-                            <li><a href="{% url 'problems:tex_playground' %}">{% trans 'TeX editor' %}</a></li>
+                            {% if user.is_admin %}
+                                <li><a href="{% url 'solutions:activity' %}">{% trans 'Activity' %}</a></li>
+                                {% if user.is_staff %}
+                                    <li><a href="{% url 'solutions:hall_of_fame' %}">{% trans 'Hall of fame' %}</a></li>
+                                    <li><a href="{% url 'storage:index' %}">{% trans 'File storage' %}</a></li>
+                                    <li><a href="{% url 'problems:tex_playground' %}">{% trans 'TeX editor' %}</a></li>
+                                {% endif %}
                             {% endif %}
                             <li><a href="{% url 'solutions:compare' %}">{% trans 'Comparison of solutions' %}</a></li>
                         </ul>

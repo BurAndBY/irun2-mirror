@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'common.middleware.LogRemoteUserMiddleware',
+    'cauth.middleware.AdminMiddleware',
 ]
 
 ROOT_URLCONF = 'irunner2.urls'

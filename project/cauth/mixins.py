@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 
@@ -20,6 +21,11 @@ class StaffMemberRequiredMixin(object):
     @method_decorator(user_passes_test(_is_staff))
     def dispatch(self, request, *args, **kwargs):
         return super(StaffMemberRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class ProblemEditorMemberRequiredMixin(PermissionRequiredMixin):
+    def has_permission(self):
+        return self.request.user.is_problem_editor
 
 
 class UserPassesTestMixin(object):

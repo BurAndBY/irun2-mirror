@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.utils.translation import ugettext_lazy
 from django.views import generic
 
-from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
+from cauth.mixins import StaffMemberRequiredMixin, ProblemEditorMemberRequiredMixin
 from common.pagination import paginate
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
@@ -22,7 +22,7 @@ All solutions list
 '''
 
 
-class SolutionListView(LoginRequiredMixin, generic.View):
+class SolutionListView(ProblemEditorMemberRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/solution_list.html'
 
@@ -68,7 +68,7 @@ Judgement
 '''
 
 
-class JudgementListView(LoginRequiredMixin, generic.View):
+class JudgementListView(ProblemEditorMemberRequiredMixin, generic.View):
     paginate_by = 25
     template_name = 'solutions/judgement_list.html'
 
@@ -106,7 +106,7 @@ Compare two solutions
 '''
 
 
-class CompareSolutionsView(LoginRequiredMixin, generic.View):
+class CompareSolutionsView(ProblemEditorMemberRequiredMixin, generic.View):
     template_name = 'solutions/compare.html'
 
     def _get_compare_context(self, first_id, second_id, contextual_diff):
@@ -151,7 +151,7 @@ Global challenges list
 '''
 
 
-class ChallengeListView(LoginRequiredMixin, IRunnerListView):
+class ChallengeListView(ProblemEditorMemberRequiredMixin, IRunnerListView):
     template_name = 'solutions/challenge_list.html'
 
     def get_queryset(self):
