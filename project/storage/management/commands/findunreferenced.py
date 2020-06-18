@@ -55,6 +55,7 @@ class Command(BaseCommand):
         broken = 0
         for resource_id in db:
             if resource_id not in fs:
+                logger.info('broken %s', resource_id)
                 broken += 1
 
         logger.info('%d links in DB are broken', broken)

@@ -6,7 +6,7 @@ from django.core.files.base import ContentFile
 def connect_irunner_db():
     db = MySQLdb.connect(user='irunner_user', passwd='irunner_localhost',
                          host='127.0.0.1',
-                         port=3307,
+                         port=3308,
                          db='irunner',
                          charset='utf8')
     return db
