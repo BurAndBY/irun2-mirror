@@ -7,13 +7,19 @@
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}
 
+        {% if not can_post_form %}<fieldset disabled>{% endif %}
+
         {% bootstrap_form user_form layout='horizontal' %}
         {% bootstrap_form userprofile_form layout='horizontal' %}
 
+        {% if not can_post_form %}</fieldset>{% endif %}
+
+        {% if can_post_form %}
         {% buttons layout='horizontal' %}
             <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
         {% endbuttons %}
+        {% endif %}
     </form>
 {% endblock %}

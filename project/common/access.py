@@ -84,20 +84,23 @@ class PermissionCheckMixin(object):
         '''
         raise NotImplementedError
 
-    def _check_permissions(self, permissions, request):
-        if (self.requirements_to_post is not None) and (request.method == 'POST'):
-            reqs_to_check = self.requirements_to_post
-        else:
-            reqs_to_check = self.requirements
+    def _can_handle_request(self):
+        return self.permissions.check(self.requirements)
 
-        if not permissions.check(reqs_to_check):
-            raise PermissionDenied
+    def _can_handle_post_request(self):
+        if self.requirements_to_post is not None:
+            return self.permissions.check(self.requirements_to_post)
+        return self._can_handle_request()
 
     def dispatch(self, request, *args, **kwargs):
         self.permissions = self._make_permissions(request.user)
         if self.permissions is None:
             raise Http404('Object does not exist or access is denied')
-        self._check_permissions(self.permissions, request)
+
+        check = self._can_handle_post_request() if (request.method == 'POST') else self._can_handle_request()
+        if not check:
+            raise PermissionDenied
+
         return super(PermissionCheckMixin, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

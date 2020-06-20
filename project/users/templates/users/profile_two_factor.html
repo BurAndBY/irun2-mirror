@@ -6,7 +6,7 @@
 
 {% block main %}
     <h2>{% trans 'Two-factor authentication' %}: {% irunner_yesno enabled %}</h2>
-    {% if enabled %}
+    {% if enabled and permissions.can_edit %}
         <form method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">{% trans 'Disable 2FA' %}</button>

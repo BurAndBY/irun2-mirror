@@ -10,11 +10,12 @@ from django.views import generic
 
 from django_otp import devices_for_user, user_has_device
 
-from cauth.mixins import StaffMemberRequiredMixin
 from common.fakefile import FakeFile
 from solutions.models import Solution
 from storage.utils import create_storage
 
+from users.profile.permissions import ProfilePermissions
+from users.profile.mixins import ProfilePermissionCheckMixin
 from users.profile.forms import (
     UserMainForm,
     UserForm,
@@ -26,16 +27,16 @@ from users.profile.forms import (
 )
 
 
-class BaseProfileView(StaffMemberRequiredMixin):
+class BaseProfileView(ProfilePermissionCheckMixin, generic.base.ContextMixin):
     tab = None
     page_title = None
 
     def get_context_data(self, **kwargs):
-        context = {
+        context = super().get_context_data(**{
             'edited_user': self.user,
             'edited_profile': self.user.userprofile,
             'active_tab': self.tab,
-        }
+        })
         if self.page_title is not None:
             context['page_title'] = self.page_title
         context.update(kwargs)
@@ -61,6 +62,11 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
     user_form_class = None
     userprofile_form_class = None
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['can_post_form'] = self._can_handle_post_request()
+        return context
+
     def get(self, request, user):
         user_form = self.user_form_class(instance=user)
         userprofile_form = self.userprofile_form_class(instance=user.userprofile)
@@ -85,6 +91,7 @@ class ProfileMainView(ProfileTwoFormsView):
     user_form_class = UserMainForm
     userprofile_form_class = UserProfileMainForm
     page_title = _('Main properties')
+    requirements_to_post = ProfilePermissions.EDIT
 
 
 class ProfileUpdateView(ProfileTwoFormsView):
@@ -93,12 +100,14 @@ class ProfileUpdateView(ProfileTwoFormsView):
     user_form_class = UserForm
     userprofile_form_class = UserProfileForm
     page_title = _('Update profile')
+    requirements_to_post = ProfilePermissions.EDIT
 
 
 class ProfilePasswordView(BaseProfileView, generic.View):
     tab = 'password'
     template_name = 'users/profile_password.html'
     page_title = _('Change password')
+    requirements = ProfilePermissions.EDIT
 
     def get(self, request, user):
         form = auth.forms.AdminPasswordChangeForm(user)
@@ -118,12 +127,14 @@ class ProfilePermissionsView(ProfileTwoFormsView):
     user_form_class = UserPermissionsForm
     userprofile_form_class = UserProfilePermissionsForm
     page_title = _('Permissions')
+    requirements_to_post = ProfilePermissions.JOIN_TO_STAFF
 
 
 class ProfilePhotoView(BaseProfileView, generic.View):
     tab = 'photo'
     template_name = 'users/profile_photo.html'
     page_title = _('Photo')
+    requirements = ProfilePermissions.EDIT
 
     def _make_form(self, profile, data=None, files=None):
         if profile.photo is not None:
@@ -169,6 +180,7 @@ class ProfileTwoFactorView(BaseProfileView, generic.View):
     tab = 'two_factor'
     template_name = 'users/profile_two_factor.html'
     page_title = _('Two-factor authentication')
+    requirements_to_post = ProfilePermissions.EDIT
 
     def get(self, request, user):
         return render(request, self.template_name,

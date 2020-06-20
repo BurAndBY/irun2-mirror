@@ -16,10 +16,14 @@
         {% bootstrap_icon 'pencil' %}
         <span class="ir-icon-label">{% trans 'Update profile' %}</span>
     </a>
+
+    {% if permissions.can_edit %}
     <a href="{% url 'users:profile_password' edited_user.id %}" class="list-group-item{% if active_tab == 'password' %} active{% endif %}">
         {% bootstrap_icon 'asterisk' %}
         <span class="ir-icon-label">{% trans 'Change password' %}</span>
     </a>
+    {% endif %}
+
     <a href="{% url 'users:profile_two_factor' edited_user.id %}" class="list-group-item{% if active_tab == 'two_factor' %} active{% endif %}">
         {% bootstrap_icon 'star' %}
         <span class="ir-icon-label">{% trans 'Two-factor authentication' %}</span>
@@ -28,8 +32,11 @@
         {% bootstrap_icon 'lock' %}
         <span class="ir-icon-label">{% trans 'Permissions' %}</span>
     </a>
+
+    {% if permissions.can_edit %}
     <a href="{% url 'users:profile_photo' edited_user.id %}" class="list-group-item{% if active_tab == 'photo' %} active{% endif %}">
         {% bootstrap_icon 'camera' %}
         <span class="ir-icon-label">{% trans 'Photo' %}</span>
     </a>
+    {% endif %}
 </div>
