@@ -32,9 +32,11 @@ class AdminMiddleware(object):
             if user.is_staff:
                 return Flags(True, True)
 
-            profile = UserProfile.objects.filter(pk=user.id).values_list('has_access_to_problems', 'has_access_to_admin').first()
-            if profile is not None:
+            try:
+                profile = UserProfile.objects.filter(pk=user.id).values_list('has_access_to_problems', 'has_access_to_admin').get()
                 return Flags(*profile)
+            except UserProfile.DoesNotExist:
+                pass
 
         return Flags(False, False)
 
