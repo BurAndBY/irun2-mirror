@@ -1,20 +1,25 @@
-{% extends 'users/profile_base.html' %}
+{% extends 'users/profile/base.html' %}
 
 {% load bootstrap3 %}
 {% load i18n %}
 
 {% block main %}
-    <p>{% trans "Raw passwords are not stored, so there is no way to see this user's password, but you can set a new password." %}</p>
-
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}
 
-        {% bootstrap_form form layout='horizontal' %}
+        {% if not can_post_form %}<fieldset disabled>{% endif %}
 
+        {% bootstrap_form user_form layout='horizontal' %}
+        {% bootstrap_form userprofile_form layout='horizontal' %}
+
+        {% if not can_post_form %}</fieldset>{% endif %}
+
+        {% if can_post_form %}
         {% buttons layout='horizontal' %}
             <button type="submit" class="btn btn-primary">
                 {% trans 'Save' %}
             </button>
         {% endbuttons %}
+        {% endif %}
     </form>
 {% endblock %}

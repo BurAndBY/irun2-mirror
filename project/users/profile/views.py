@@ -61,7 +61,7 @@ class BaseProfileView(AdminMemberRequiredMixin, SingleUserMixin, ProfilePermissi
 
 class ProfileShowView(BaseProfileView, generic.View):
     tab = 'show'
-    template_name = 'users/profile_show.html'
+    template_name = 'users/profile/show.html'
 
     def get(self, request, user):
         context = self.get_context_data(
@@ -100,7 +100,7 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
 
 class ProfileMainView(ProfileTwoFormsView):
     tab = 'main'
-    template_name = 'users/profile_update.html'
+    template_name = 'users/profile/update.html'
     user_form_class = UserMainForm
     userprofile_form_class = UserProfileMainForm
     page_title = _('Main properties')
@@ -109,7 +109,7 @@ class ProfileMainView(ProfileTwoFormsView):
 
 class ProfileUpdateView(ProfileTwoFormsView):
     tab = 'update'
-    template_name = 'users/profile_update.html'
+    template_name = 'users/profile/update.html'
     user_form_class = UserForm
     userprofile_form_class = UserProfileForm
     page_title = _('Update profile')
@@ -118,7 +118,7 @@ class ProfileUpdateView(ProfileTwoFormsView):
 
 class ProfilePasswordView(BaseProfileView, generic.View):
     tab = 'password'
-    template_name = 'users/profile_password.html'
+    template_name = 'users/profile/password.html'
     page_title = _('Change password')
     requirements = ProfilePermissions.EDIT
 
@@ -136,7 +136,7 @@ class ProfilePasswordView(BaseProfileView, generic.View):
 
 class ProfilePermissionsView(ProfileTwoFormsView):
     tab = 'permissions'
-    template_name = 'users/profile_update.html'
+    template_name = 'users/profile/update.html'
     user_form_class = UserPermissionsForm
     userprofile_form_class = UserProfilePermissionsForm
     page_title = _('Permissions')
@@ -145,7 +145,7 @@ class ProfilePermissionsView(ProfileTwoFormsView):
 
 class ProfilePhotoView(BaseProfileView, generic.View):
     tab = 'photo'
-    template_name = 'users/profile_photo.html'
+    template_name = 'users/profile/photo.html'
     page_title = _('Photo')
     requirements = ProfilePermissions.EDIT
 
@@ -191,7 +191,7 @@ class ProfilePhotoView(BaseProfileView, generic.View):
 
 class ProfileTwoFactorView(BaseProfileView, generic.View):
     tab = 'two_factor'
-    template_name = 'users/profile_two_factor.html'
+    template_name = 'users/profile/two_factor.html'
     page_title = _('Two-factor authentication')
     requirements_to_post = ProfilePermissions.EDIT
 
