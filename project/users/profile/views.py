@@ -10,12 +10,16 @@ from django.views import generic
 
 from django_otp import devices_for_user, user_has_device
 
+from cauth.mixins import AdminMemberRequiredMixin
+from common.access import PermissionCheckMixin
 from common.fakefile import FakeFile
 from solutions.models import Solution
 from storage.utils import create_storage
 
+from users.loader import UserFolderLoader
+
 from users.profile.permissions import ProfilePermissions
-from users.profile.mixins import ProfilePermissionCheckMixin
+from users.profile.permissions import ProfilePermissionCalcer
 from users.profile.forms import (
     UserMainForm,
     UserForm,
@@ -27,7 +31,19 @@ from users.profile.forms import (
 )
 
 
-class BaseProfileView(ProfilePermissionCheckMixin, generic.base.ContextMixin):
+class SingleUserMixin(object):
+    def dispatch(self, request, user_id, *args, **kwargs):
+        user = get_object_or_404(auth.get_user_model(), pk=user_id)
+        self.user = user
+        return super().dispatch(request, user, *args, **kwargs)
+
+
+class ProfilePermissionCheckMixin(PermissionCheckMixin):
+    def _make_permissions(self, request_user):
+        return ProfilePermissionCalcer(request_user).calc(self.user.id)
+
+
+class BaseProfileView(AdminMemberRequiredMixin, SingleUserMixin, ProfilePermissionCheckMixin, generic.base.ContextMixin):
     tab = None
     page_title = None
 
@@ -42,19 +58,16 @@ class BaseProfileView(ProfilePermissionCheckMixin, generic.base.ContextMixin):
         context.update(kwargs)
         return context
 
-    def dispatch(self, request, user_id, *args, **kwargs):
-        user = get_object_or_404(auth.get_user_model(), pk=user_id)
-        self.user = user
-        return super(BaseProfileView, self).dispatch(request, user, *args, **kwargs)
-
 
 class ProfileShowView(BaseProfileView, generic.View):
     tab = 'show'
     template_name = 'users/profile_show.html'
 
     def get(self, request, user):
-        num_solutions = Solution.objects.filter(author=user).count()
-        context = self.get_context_data(num_solutions=num_solutions)
+        context = self.get_context_data(
+            num_solutions=Solution.objects.filter(author=user).count(),
+            inmemory_tree=UserFolderLoader.load_tree(None),
+        )
         return render(request, self.template_name, context)
 
 

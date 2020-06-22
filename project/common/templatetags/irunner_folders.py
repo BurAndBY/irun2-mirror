@@ -64,7 +64,7 @@ def irunner_folders_tree(tree, url_pattern=None, folder_id=__marker, mode='irunn
 
 
 @register.inclusion_tag('common/irunner_folders_breadcrumbs_tag.html')
-def irunner_folders_breadcrumbs(tree, url_pattern, folder_id):
+def irunner_folders_breadcrumbs(tree, url_pattern, folder_id, last_link=False):
     '''
     args: the same as above
     '''
@@ -74,7 +74,7 @@ def irunner_folders_breadcrumbs(tree, url_pattern, folder_id):
     current = tree.find(folder_id)
     for node in tree.get_ancestors(current):
         breadcrumbs.append(_make_breadcrumb(node, True))
-    breadcrumbs.append(_make_breadcrumb(current, False))
+    breadcrumbs.append(_make_breadcrumb(current, last_link))
 
     return {
         'breadcrumbs': breadcrumbs,

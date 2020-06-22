@@ -12,13 +12,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.views import generic
 
-from cauth.mixins import StaffMemberRequiredMixin
+from cauth.acl.accessmode import AccessMode
+from cauth.acl.mixins import ShareFolderWithGroupMixin
+from cauth.mixins import AdminMemberRequiredMixin
+from common.access import Permissions, PermissionCheckMixin
 from common.pagination.views import IRunnerListView
 from common.tree.key import FolderId
 from common.tree.mixins import FolderMixin
 from storage.utils import create_storage
 
-from users.models import UserFolder, UserProfile
+from users.models import UserFolder, UserProfile, UserFolderAccess
 import users.intranetbsu as intranetbsu
 import users.intranetbsu.photos as intranetbsuphotos
 import users.photo as photo
@@ -33,11 +36,14 @@ from users.folders.forms import (
 )
 
 
+class FolderPermissions(Permissions):
+    VIEW_USERS = 1 << 0
+    MANAGE_FOLDERS = 1 << 1
+    GRANT_ACCESS = 1 << 2
+
+
 class UserFolderMixin(FolderMixin):
     loader_cls = UserFolderLoader
-    root_name = _('Users')
-    folder_model = UserFolder
-    folder_access_model = None  # TODO
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +51,18 @@ class UserFolderMixin(FolderMixin):
         return context
 
 
-class CombinedMixin(StaffMemberRequiredMixin, UserFolderMixin):
+class FolderPermissionCheckMixin(PermissionCheckMixin):
+    def _make_permissions(self, user):
+        if user.is_staff:
+            return FolderPermissions.all()
+        if self.node.access == AccessMode.WRITE:
+            return FolderPermissions.allow_view_users() & FolderPermissions.allow_manage_folders()
+        if self.node.access == AccessMode.READ:
+            return FolderPermissions.allow_view_users()
+        return FolderPermissions.basic()
+
+
+class CombinedMixin(AdminMemberRequiredMixin, UserFolderMixin, FolderPermissionCheckMixin):
     pass
 
 
@@ -56,20 +73,22 @@ class ShowFolderView(CombinedMixin, IRunnerListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        has_users = self.get_queryset().exists()
-        can_delete_folder = (not has_users) and (self.node.id is not None) and (len(self.node.children) == 0)
-
-        context['has_users'] = has_users
-        context['can_delete_folder'] = can_delete_folder
+        context['can_delete_folder'] = (
+            self.permissions.can_manage_folders and
+            self.node.id is not None and
+            len(self.node.children) == 0 and
+            not UserProfile.objects.filter(folder_id=self.node.id).exists()
+        )
         return context
 
     def get_queryset(self):
-        return auth.get_user_model().objects.filter(userprofile__folder_id=self.node.id)
+        return self.loader_cls.get_folder_content(self.request.user, self.node)
 
 
 class DeleteFolderView(CombinedMixin, generic.base.ContextMixin, generic.View):
     template_name = 'users/folder_confirm_delete.html'
     needs_real_folder = True
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get(self, request):
         context = self.get_context_data()
@@ -88,6 +107,7 @@ class DeleteFolderView(CombinedMixin, generic.base.ContextMixin, generic.View):
 class CreateFolderView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = CreateFolderForm
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,6 +122,7 @@ class CreateFolderView(CombinedMixin, generic.FormView):
 class CreateUserView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = CreateUserForm
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -121,6 +142,7 @@ class CreateUsersMassView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = CreateUsersMassForm
     initial = {'password': '11111'}
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,6 +168,7 @@ class CreateUsersMassView(CombinedMixin, generic.FormView):
 class UpdateProfileMassView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = UpdateProfileMassForm
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -195,6 +218,7 @@ class UpdateProfileMassView(CombinedMixin, generic.FormView):
 class UploadPhotoMassView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = UploadPhotoMassForm
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -226,6 +250,7 @@ class UploadPhotoMassView(CombinedMixin, generic.FormView):
 class ObtainPhotosFromIntranetBsuView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = IntranetBsuForm
+    requirements = FolderPermissions.MANAGE_FOLDERS
 
     UserError = namedtuple('UserError', 'user type message')
     PhotoIds = namedtuple('PhotoIds', 'photo photo_thumbnail')
@@ -302,3 +327,22 @@ class ObtainPhotosFromIntranetBsuView(CombinedMixin, generic.FormView):
         template_name = 'users/intranetbsu_errors.html'
         context = self.get_context_data(errors=errors)
         return render(self.request, template_name, context)
+
+
+class FolderAccessView(CombinedMixin, ShareFolderWithGroupMixin, generic.base.ContextMixin, generic.View):
+    template_name = 'users/folders/access.html'
+    # form_class = ProblemFolderForm
+    requirements = FolderPermissions.VIEW_USERS
+    requirements_to_post = FolderPermissions.MANAGE_FOLDERS
+    access_model = UserFolderAccess
+    needs_real_folder = True
+
+    def get(self, request):
+        context = self._get(request, self.node.instance)
+        return render(request, self.template_name, self.get_context_data(**context))
+
+    def post(self, request):
+        success, context = self._post(request, self.node.instance)
+        if success:
+            return redirect('users:folder_access', FolderId.to_string(self.node.id))
+        return render(request, self.template_name, self.get_context_data(**context))

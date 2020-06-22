@@ -30,10 +30,15 @@ class FolderLoader(object):
     @classmethod
     def load_tree(cls, user):
         tree = Tree(cls.root_name)
-
         for folder in cls.folder_model.objects.all():
             tree._add(folder)
 
+        if user is not None:
+            cls._limit_visible_tree_part(tree, user)
+        return tree
+
+    @classmethod
+    def _limit_visible_tree_part(cls, tree, user):
         if user.is_staff:
             _enforce_acl(tree.root, {}, AccessMode.WRITE)
         else:
@@ -49,7 +54,6 @@ class FolderLoader(object):
             _enforce_acl(tree.root, acl, 0)  # root is always shown
 
         tree._reindex()
-        return tree
 
     @classmethod
     def load_node(cls, user, folder_id):

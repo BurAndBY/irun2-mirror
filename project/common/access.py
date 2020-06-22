@@ -25,6 +25,12 @@ class Permissions(metaclass=PermissionsType):
     class MyPermissions(Permissions):
         FOO = 1 << 0
         BAR = 1 << 1
+
+    To get an instance of MyPermissions class
+    that contains a permission mask, you may use:
+    * MyPermissions.basic() or MyPermissions.all();
+    * MyPermissions.allow_foo(), ...;
+    * an &-combination of permissions.
     '''
     _ITEMS_ = ()
 
@@ -63,6 +69,17 @@ class Permissions(metaclass=PermissionsType):
             raise TypeError('permissions of different types cannot be combined')
         return type(self)(self._value | other._value)
 
+    def __or__(self, other):
+        if type(self) is not type(other):
+            raise TypeError('permissions of different types cannot be combined')
+        return type(self)(self._value | other._value)
+
+    def __le__(self, other):
+        if type(self) is not type(other):
+            raise TypeError('permissions of different types cannot be compared')
+        return (self._value & other._value) == self._value
+
+
     @staticmethod
     def _validate(mask):
         if not isinstance(mask, int):
@@ -78,7 +95,7 @@ class PermissionCheckMixin(object):
     requirements = 0
     requirements_to_post = None
 
-    def _make_permissions(self, user):
+    def _make_permissions(self, request_user):
         '''
         If the function returns None, access is denied.
         '''
@@ -107,3 +124,74 @@ class PermissionCheckMixin(object):
         context = super(PermissionCheckMixin, self).get_context_data(**kwargs)
         context['permissions'] = self.permissions
         return context
+
+
+class PermissionMap(object):
+    '''
+    {pk -> Permissions}
+    '''
+    def __init__(self, pks):
+        self._map = {pk: None for pk in pks}
+
+    @staticmethod
+    def _update(current_perms, new_perms):
+        return new_perms if current_perms is None else (current_perms | new_perms)
+
+    def grant(self, pk, new_perms):
+        if pk not in self._map:
+            return
+        self._map[pk] = PermissionMap._update(self._map.get(pk), new_perms)
+
+    def grant_all(self, new_perms):
+        for pk, current_perms in self._map.items():
+            self._map[pk] = PermissionMap._update(current_perms, new_perms)
+
+    def find_pks_for_granting(self, possible_perms):
+        pks = []
+        for pk, current_perms in self._map.items():
+            if (current_perms is None) or not (possible_perms <= current_perms):
+                pks.append(pk)
+        return pks
+
+    def map(self):
+        return self._map
+
+
+class PermissionCalcer(object):
+    permissions_cls = None
+
+    def __init__(self, request_user):
+        self.user = request_user
+
+    def calc(self, object_id):
+        pm = PermissionMap([object_id])
+        self.fill_permission_map(pm)
+        return pm.map().get(object_id)
+
+    def calc_in_bulk(self, object_ids):
+        pm = PermissionMap(object_ids)
+        self.fill_permission_map(pm)
+        return pm.map()
+
+    def filter_objects(self, object_ids, requirement=0):
+        object_ids = list(object_ids)
+        permissions = self.calc_in_bulk(object_ids)
+        result = []
+        for object_id in object_ids:
+            p = permissions.get(object_id)
+            if (p is not None) and (p.check(requirement)):
+                result.append(object_id)
+        return result
+
+    def fill_permission_map(self, pm):
+        if not self.user.is_authenticated:
+            return
+
+        if self.user.is_staff:
+            pm.grant_all(self.permissions_cls.all())
+            return
+
+        self._do_fill_permission_map(pm)
+
+    def _do_fill_permission_map(self, pm):
+        raise NotImplementedError()

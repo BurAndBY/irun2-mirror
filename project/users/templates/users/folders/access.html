@@ -1,0 +1,22 @@
+{% extends "users/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_folders %}
+{% load irunner_cauth %}
+
+{% block sidebar %}
+    {% irunner_folders_tree inmemory_tree 'users:show_folder' folder_id %}
+{% endblock %}
+
+{% block main %}
+    {% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' folder_id %}
+
+    {% irunner_cauth_share_group share_form acl inherited_acl can_edit=permissions.can_grant_access %}
+
+    <div class="form-group">
+        <a href="{% irunner_folders_url 'users:show_folder' folder_id %}" class="btn btn-default">
+            {% trans 'Back' %}
+        </a>
+    </div>
+{% endblock %}

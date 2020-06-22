@@ -13,6 +13,7 @@
 {% block main %}
     {% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' folder_id %}
 
+    {% if permissions.can_view_users or permissions.can_manage_folders %}
     <div class="form-group">
         <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm" role="group">
@@ -21,27 +22,39 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
+                    {% if permissions.can_manage_folders %}
                     <li>
                         <a href="{% irunner_folders_url 'users:create_folder' folder_id %}">
                             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Create' %}</span>
                         </a>
                     </li>
-                    {% if can_delete_folder %}
+                    {% endif %}
+                    {% if permissions.can_manage_folders and can_delete_folder %}
                         <li>
                             <a href="{% irunner_folders_url 'users:delete_folder' folder_id %}">
                                 {% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span>
                             </a>
                         </li>
                     {% endif %}
+                    {% if permissions.can_view_users and folder_id != None %}
+                        <li>
+                            <a href="{% irunner_folders_url 'users:folder_access' folder_id %}">
+                                {% bootstrap_icon 'lock' %} <span class="ir-icon-label">{% trans 'Access' %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
 
+            {% if permissions.can_manage_folders %}
             <div class="btn-group btn-group-sm" role="group">
                 <a class="btn btn-default" href="{% irunner_folders_url 'users:create_user' folder_id %}">
                     {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New user' %}</span>
                 </a>
             </div>
+            {% endif %}
 
+            {% if permissions.can_manage_folders %}
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Bulk operations' %}</span>
@@ -54,6 +67,7 @@
                     <li><a href="{% irunner_folders_url 'users:obtain_intranet_bsu_photos' folder_id %}">{% bootstrap_icon 'film' %} <span class="ir-icon-label">{% trans 'Obtain photos from intranet.bsu' %}</span></a></li>
                 </ul>
             </div>
+            {% endif %}
 
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle ir-checkbox-driven" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
@@ -61,14 +75,17 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
+                    {% if permissions.can_manage_folders %}
                     <li><a href="#" id="ir_move">{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span></a></li>
                     <li><a href="#" id="ir_delete">{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span></a></li>
                     <li><a href="#" id="ir_swap">{% bootstrap_icon 'random' %} <span class="ir-icon-label">{% trans 'Swap first and last name' %}</span></a></li>
+                    {% endif %}
                     <li><a href="#" id="ir_export">{% bootstrap_icon 'export' %} <span class="ir-icon-label">{% trans 'Export as JSON' %}</span></a></li>
                 </ul>
             </div>
         </div>
     </div>
+    {% endif %}
 
     {% bootstrap_messages %}
 
@@ -89,10 +106,10 @@
     $(document).ready(function () {
         irSetUpSelectAll();
         var here = '{{ request.path }}';
-        $("#ir_move").click(function() { irPerformActionOnSelected('{% url "users:move" %}', here); });
-        $("#ir_delete").click(function() { irPerformActionOnSelected('{% url "users:delete" %}', here); });
-        $("#ir_swap").click(function() { irPerformActionOnSelected('{% url "users:swap_first_last_name" %}', here); });
-        $("#ir_export").click(function() { irPerformActionOnSelected('{% url "users:export" %}'); });
+        $("#ir_move").click(function(event) { event.preventDefault(); irPerformActionOnSelected('{% url "users:move" %}', here); });
+        $("#ir_delete").click(function(event) { event.preventDefault(); irPerformActionOnSelected('{% url "users:delete" %}', here); });
+        $("#ir_swap").click(function(event) { event.preventDefault(); irPerformActionOnSelected('{% url "users:swap_first_last_name" %}', here); });
+        $("#ir_export").click(function(event) { event.preventDefault(); irPerformActionOnSelected('{% url "users:export" %}'); });
     });
     </script>
 {% endblock %}

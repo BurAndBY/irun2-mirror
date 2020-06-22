@@ -5,10 +5,10 @@ from cauth.acl.checker import FolderAccessChecker
 from problems.models import ProblemAccess, ProblemFolder, ProblemFolderAccess
 
 
-class ProblemFolderAccessChecker(FolderAccessChecker):
+class _ProblemFolderAccessChecker(FolderAccessChecker):
     folder_model = ProblemFolder
     folder_access_model = ProblemFolderAccess
-    folder_model_object_field = 'problem'
+    folder_model_object_field = 'problem__id'
 
 
 class SingleProblemPermissions(Permissions):
@@ -27,7 +27,7 @@ def calc_problem_permissions(user, problem_id):
         return SingleProblemPermissions.all()
 
     # group access
-    res_mode = ProblemFolderAccessChecker.check(user, problem_id)
+    res_mode = _ProblemFolderAccessChecker.check(user, problem_id)
     # individual access
     if res_mode != AccessMode.WRITE:
         for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode', flat=True):

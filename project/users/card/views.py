@@ -6,10 +6,10 @@ from django.shortcuts import get_object_or_404, render
 from django.views import generic
 
 from courses.models import Membership
-from problems.models import ProblemAccess
 from storage.utils import parse_resource_id, serve_resource
 
 from users.models import UserProfile
+from users.profile.permissions import ProfilePermissionCalcer
 
 
 def is_allowed(request_user, target_user):
@@ -20,13 +20,13 @@ def is_allowed(request_user, target_user):
     if request_user.is_staff or target_user.is_staff:
         return True
 
+    if ProfilePermissionCalcer(request_user).calc(target_user.id) is not None:
+        return True
+
     def get_courses(user):
         return set(Membership.objects.filter(user=user).values_list('course_id', flat=True))
 
     if get_courses(request_user) & get_courses(target_user):
-        return True
-
-    if ProblemAccess.objects.filter(user=request_user, problem__solution__author=target_user).exists():
         return True
 
     return False

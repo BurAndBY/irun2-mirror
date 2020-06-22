@@ -2,11 +2,14 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_folders %}
 {% load irunner_users %}
 
 {% block title %}{{ edited_user.username }}{% endblock %}
 
 {% block main %}
+
+{% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' edited_profile.folder_id last_link=True %}
 
 <dl class="dl-horizontal">
     <dt>
