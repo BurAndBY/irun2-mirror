@@ -23,6 +23,11 @@ class StaffMemberRequiredMixin(object):
         return super(StaffMemberRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
+class AdminMemberRequiredMixin(PermissionRequiredMixin):
+    def has_permission(self):
+        return self.request.user.is_admin
+
+
 class ProblemEditorMemberRequiredMixin(PermissionRequiredMixin):
     def has_permission(self):
         return self.request.user.is_problem_editor
