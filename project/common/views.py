@@ -37,6 +37,11 @@ class MassOperationView(generic.View):
         context = self.get_context_data(**context)
         return context
 
+    def _ids(self, values):
+        ids = MassOperationView._make_int_list(values)
+        ids = self.filter_objects(ids)
+        return ids
+
     def _redirect(self, response):
         if response is not None:
             return response
@@ -47,8 +52,7 @@ class MassOperationView(generic.View):
         return redirect(next)
 
     def get(self, request, *args, **kwargs):
-        ids = MassOperationView._make_int_list(request.GET.getlist('id'))
-
+        ids = self._ids(request.GET.getlist('id'))
         queryset = self.get_queryset().filter(pk__in=ids)
 
         context = self._make_context(request.GET, queryset)
@@ -60,8 +64,7 @@ class MassOperationView(generic.View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        ids = MassOperationView._make_int_list(request.POST.getlist('id'))
-
+        ids = self._ids(request.POST.getlist('id'))
         queryset = self.get_queryset().filter(pk__in=ids)
 
         if self.form_class is not None:
@@ -90,3 +93,6 @@ class MassOperationView(generic.View):
 
     def prepare_to_display(self, obj):
         return obj
+
+    def filter_objects(self, ids):
+        return ids
