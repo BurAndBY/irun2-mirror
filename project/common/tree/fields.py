@@ -53,6 +53,10 @@ class Value(object):
     def is_valid(self):
         return self.valid
 
+    def __iter__(self):
+        for pk in self.pks:
+            yield pk
+
 
 class ThreePanelModelMultipleChoiceField(forms.Field):
     '''

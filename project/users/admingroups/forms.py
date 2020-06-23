@@ -3,10 +3,12 @@
 from __future__ import unicode_literals
 
 from django import forms
-from django.contrib import auth
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from users.models import UserFolder, AdminGroup
+from users.fields import ThreePanelUserMultipleChoiceField
+from users.models import AdminGroup
+from common.tree.fields import FOLDER_ID_PLACEHOLDER
 from common.tree.fields import TwoPanelModelMultipleChoiceField
 
 
@@ -21,6 +23,13 @@ class AdminGroupForm(forms.ModelForm):
         model = AdminGroup
         fields = ['name', 'users']
 
-    users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
-                                            model=auth.get_user_model(), folder_model=UserFolder,
-                                            url_pattern='users:admingroups:users_json_list')
+    users = ThreePanelUserMultipleChoiceField(label=_('Users'), required=False)
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['users'].configure(
+            initial=None,
+            user=user,
+            url_template=reverse('users:admingroups:users_json_list', kwargs={'folder_id_or_root': FOLDER_ID_PLACEHOLDER}),
+        )

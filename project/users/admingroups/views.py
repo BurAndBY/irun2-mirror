@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.views import generic
 from django.urls import reverse
-from django.contrib import auth
-
+from django.views import generic
 
 from cauth.mixins import (
-    LoginRequiredMixin,
+    AdminMemberRequiredMixin,
     StaffMemberRequiredMixin
 )
+from users.fields import ThreePanelUserMultipleChoiceField
 from users.models import AdminGroup
 
 from .forms import AdminGroupForm
-from .forms import (
-    TwoPanelUserMultipleChoiceField,
-)
 
 
-class ListView(LoginRequiredMixin, generic.ListView):
+class ListView(AdminMemberRequiredMixin, generic.ListView):
     template_name = 'users/admingroups/list.html'
 
     @property
@@ -55,6 +51,11 @@ class UpdateView(StaffMemberRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse('users:admingroups:list')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 class DeleteView(StaffMemberRequiredMixin, generic.DeleteView):
     model = AdminGroup
@@ -65,6 +66,5 @@ class DeleteView(StaffMemberRequiredMixin, generic.DeleteView):
 
 
 class UsersJsonView(StaffMemberRequiredMixin, generic.View):
-    def get(self, request, folder_id):
-        users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
-        return TwoPanelUserMultipleChoiceField.ajax(users)
+    def get(self, request, folder_id_or_root):
+        return ThreePanelUserMultipleChoiceField.ajax(request.user, folder_id_or_root)

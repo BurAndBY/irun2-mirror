@@ -632,6 +632,10 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-twopanel-tab > option:disabled {
     color: #ccc;
 }
+.ir-threepanel-row {
+    margin-left: 0;
+    margin-right: 0;
+}
 .ir-threepanel-tab {
     height: 480px;
     font-size: 12px;

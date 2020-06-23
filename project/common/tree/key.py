@@ -18,3 +18,13 @@ def folder_id_or_404(value):
         return FolderId.from_string(value)
     except ValueError:
         raise Http404('invalid folder id')
+
+
+class FolderIdConverter(object):
+    regex = r'\d+|%s' % (ROOT,)
+
+    def to_python(self, value):
+        return FolderId.from_string(value)
+
+    def to_url(self, value):
+        return FolderId.to_string(value)
