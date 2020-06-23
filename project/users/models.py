@@ -15,7 +15,6 @@ from storage.storage import ResourceIdField
 class UserFolder(MPTTModel):
     name = models.CharField(_('name'), max_length=64)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True)
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     description = models.CharField(_('description'), max_length=255, blank=True)
 
     def __str__(self):
