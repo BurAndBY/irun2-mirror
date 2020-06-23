@@ -27,7 +27,9 @@ def calc_problem_permissions(user, problem_id):
         return SingleProblemPermissions.all()
 
     # group access
-    res_mode = _ProblemFolderAccessChecker.check(user, problem_id)
+    res_mode = 0
+    if user.is_admin:
+        res_mode = _ProblemFolderAccessChecker.check(user, problem_id)
     # individual access
     if res_mode != AccessMode.WRITE:
         for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode', flat=True):

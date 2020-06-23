@@ -31,7 +31,7 @@ class FolderLoader(object):
     root_name = None
     model = object
     folder_model = object
-    folder_access_model = None
+    folder_access_model = object
 
     @classmethod
     def load_tree(cls, user):
@@ -54,7 +54,7 @@ class FolderLoader(object):
             for folder_id, in cls.get_extra_folders(user).values_list('id').order_by():
                 acl[folder_id] = 0
 
-            if cls.folder_access_model is not None:
+            if user.is_admin:
                 if user.is_authenticated:
                     for folder_id, mode in cls.folder_access_model.objects.filter(group__users=user).values_list('folder_id', 'mode'):
                         acl[folder_id] = mode
