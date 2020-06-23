@@ -1343,6 +1343,7 @@ class ProblemChallengesView(BaseProblemView):
         challenges = Challenge.objects.\
             filter(problem=problem).\
             annotate(num_solutions=Count('challengedsolution')).\
+            prefetch_related('author').\
             order_by('-creation_time').all()
 
         context = self._make_context(problem, {'object_list': challenges})
@@ -1432,7 +1433,11 @@ class ProblemChallengeView(BaseProblemView):
         # output_resource_id -> [challenged_solutions]
         outputs = {}
 
-        for cs in ChallengedSolution.objects.filter(challenge=challenge).order_by('-solution__reception_time'):
+        for cs in ChallengedSolution.objects.\
+                filter(challenge=challenge).\
+                select_related('solution', 'solution__author', 'solution__source_code').\
+                prefetch_related('solution__compiler').\
+                order_by('-solution__reception_time'):
             resource_id = None
             if cs.outcome == Outcome.ACCEPTED and cs.output_resource_id is not None:
                 resource_id = cs.output_resource_id
@@ -1572,6 +1577,7 @@ class ProblemRejudgesView(BaseProblemView):
             filter(judgement__solution__problem=problem).\
             annotate(num_solutions=Count('judgement')).\
             order_by('-creation_time', '-id').\
+            prefetch_related('author').\
             distinct()
 
         context = self._make_context(problem, {'object_list': rejudges})
