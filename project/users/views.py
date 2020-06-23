@@ -97,6 +97,9 @@ class MoveUsersView(AdminMemberRequiredMixin, MassOperationView):
     def prepare_to_display(self, userprofile):
         return userprofile.user
 
+    def get_form_kwargs(self):
+        return {'user': self.request.user}
+
 
 class ExportView(AdminMemberRequiredMixin, generic.View):
     def get(self, request):

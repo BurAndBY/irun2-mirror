@@ -80,15 +80,17 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
         context['can_post_form'] = self._can_handle_post_request()
         return context
 
+    def _create_forms(self, user, data=None):
+        user_form = self.user_form_class(data=data, instance=user, **self.get_user_form_kwargs())
+        userprofile_form = self.userprofile_form_class(data=data, instance=user.userprofile, **self.get_userprofile_form_kwargs())
+        return user_form, userprofile_form
+
     def get(self, request, user):
-        user_form = self.user_form_class(instance=user)
-        userprofile_form = self.userprofile_form_class(instance=user.userprofile)
+        user_form, userprofile_form = self._create_forms(user)
         return render(request, self.template_name, self.get_context_data(user_form=user_form, userprofile_form=userprofile_form))
 
     def post(self, request, user):
-        user_form = self.user_form_class(request.POST, instance=user)
-        userprofile_form = self.userprofile_form_class(request.POST, instance=user.userprofile)
-
+        user_form, userprofile_form = self._create_forms(user, request.POST)
         if user_form.is_valid() and userprofile_form.is_valid():
             with transaction.atomic():
                 user_form.save()
@@ -96,6 +98,12 @@ class ProfileTwoFormsView(BaseProfileView, generic.View):
             return redirect('users:profile_show', user.id)
 
         return render(request, self.template_name, self.get_context_data(user_form=user_form, userprofile_form=userprofile_form))
+
+    def get_user_form_kwargs(self):
+        return {}
+
+    def get_userprofile_form_kwargs(self):
+        return {}
 
 
 class ProfileMainView(ProfileTwoFormsView):
@@ -105,6 +113,9 @@ class ProfileMainView(ProfileTwoFormsView):
     userprofile_form_class = UserProfileMainForm
     page_title = _('Main properties')
     requirements_to_post = ProfilePermissions.EDIT
+
+    def get_userprofile_form_kwargs(self):
+        return {'user': self.request.user}
 
 
 class ProfileUpdateView(ProfileTwoFormsView):

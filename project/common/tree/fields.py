@@ -5,8 +5,9 @@ from django.http import JsonResponse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext_lazy as _
 
+from cauth.acl.accessmode import AccessMode
+
 from .widgets import TwoPanelSelectMultiple, ThreePanelSelectMultiple, Choice
-from .inmemory import Tree
 from .key import folder_id_or_404
 
 
@@ -186,3 +187,47 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
             raise ValidationError(self.error_messages['invalid_value'], code='invalid_value')
         self.run_validators(value)
         return value
+
+
+class FolderChoiceField(forms.ChoiceField):
+    default_error_messages = {
+        'read_only_folder': _('You do not have permission to add entries to this folder.')
+    }
+
+    def __init__(self, *args, **kwargs):
+        self._loader_cls = kwargs.pop('loader_cls')
+        self._user = None
+        self._inmemory_tree = None
+        super().__init__(*args, **kwargs)
+
+    @property
+    def user(self):
+        return self._user
+
+    @user.setter
+    def user(self, value):
+        self._user = value
+        self._inmemory_tree = self._loader_cls.load_tree(self._user)
+        self.choices = self._inmemory_tree.as_choices()
+
+    def _get_pk(self, value):
+        if value in self.empty_values:
+            return None
+        return int(value)
+
+    def clean(self, value):
+        value = super().clean(value)
+        try:
+            node = self._inmemory_tree.find(self._get_pk(value))
+        except (TypeError, KeyError, ValueError):
+            raise ValidationError(
+                self.error_messages['invalid_choice'],
+                code='invalid_choice',
+                params={'value': value},
+            )
+        if node.access != AccessMode.WRITE:
+            raise ValidationError(
+                self.error_messages['read_only_folder'],
+                code='read_only_folder',
+            )
+        return node.instance

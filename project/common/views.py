@@ -58,7 +58,7 @@ class MassOperationView(generic.View):
         context = self._make_context(request.GET, queryset)
 
         if self.form_class is not None:
-            form = self.form_class()
+            form = self.form_class(**self.get_form_kwargs())
             context['form'] = form
 
         return render(request, self.template_name, context)
@@ -68,7 +68,7 @@ class MassOperationView(generic.View):
         queryset = self.get_queryset().filter(pk__in=ids)
 
         if self.form_class is not None:
-            form = self.form_class(request.POST)
+            form = self.form_class(data=request.POST, **self.get_form_kwargs())
             if form.is_valid():
                 response = self.perform(queryset, form)
                 return self._redirect(response)
@@ -96,3 +96,6 @@ class MassOperationView(generic.View):
 
     def filter_objects(self, ids):
         return ids
+
+    def get_form_kwargs(self):
+        return {}

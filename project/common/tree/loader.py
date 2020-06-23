@@ -17,6 +17,12 @@ def _enforce_acl(node, acl, mode):
     return node.access >= 0
 
 
+def _sort_levels(node):
+    node.children.sort(key=lambda child: child.name)
+    for child in node.children:
+        _sort_levels(child)
+
+
 def _make_node_visible(node):
     node.access = max(node.access, 0)
 
@@ -35,6 +41,8 @@ class FolderLoader(object):
 
         if user is not None:
             cls._limit_visible_tree_part(tree, user)
+
+        _sort_levels(tree.root)
         return tree
 
     @classmethod

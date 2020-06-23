@@ -5,17 +5,18 @@ from __future__ import unicode_literals
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from common.tree.mptt_fields import OrderedTreeNodeChoiceField
+from common.tree.fields import FolderChoiceField
 
-from users.models import UserFolder
+from users.loader import UserFolderLoader
 
 
 class MoveUsersForm(forms.Form):
-    folder = OrderedTreeNodeChoiceField(label=_('Destination folder'), queryset=None, required=False)
+    folder = FolderChoiceField(label=_('Destination folder'), loader_cls=UserFolderLoader, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(MoveUsersForm, self).__init__(*args, **kwargs)
-        self.fields['folder'].queryset = UserFolder.objects.all()
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['folder'].user = user
 
 
 '''

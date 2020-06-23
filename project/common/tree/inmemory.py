@@ -24,7 +24,7 @@ class RootNode(Node):
 
     @property
     def name(self):
-        return self._custom_name
+        return str(self._custom_name)
 
     @property
     def id(self):
@@ -58,3 +58,15 @@ class Tree(object):
 
     def _reindex(self):
         self._key2node = {k: v for k, v in self._key2node.items() if v.access >= 0}
+
+    def as_choices(self):
+        choices = []
+
+        def _dfs(node, level):
+            choices.append((node.id, ('— ' * level) + node.name))
+            for child in node.children:
+                _dfs(child, level + 1)
+
+        _dfs(self.root, 0)
+
+        return choices

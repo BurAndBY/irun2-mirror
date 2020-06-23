@@ -8,8 +8,9 @@ from django.contrib import auth
 from django.core.files.base import ContentFile
 
 from common.fakefile import FakeFile
-from common.tree.mptt_fields import OrderedTreeNodeChoiceField
+from common.tree.fields import FolderChoiceField
 
+from users.loader import UserFolderLoader
 from users.models import UserFolder, UserProfile
 from users.photo import generate_thumbnail_file
 
@@ -26,15 +27,16 @@ class UserMainForm(forms.ModelForm):
 
 
 class UserProfileMainForm(forms.ModelForm):
-    folder = OrderedTreeNodeChoiceField(label=_('Folder'), queryset=None, required=False)
+    folder = FolderChoiceField(label=_('Folder'), loader_cls=UserFolderLoader, required=False)
 
     class Meta:
         model = UserProfile
         fields = ['folder']
 
     def __init__(self, *args, **kwargs):
-        super(UserProfileMainForm, self).__init__(*args, **kwargs)
-        self.fields['folder'].queryset = UserFolder.objects.all()
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['folder'].user = user
 
 
 '''
