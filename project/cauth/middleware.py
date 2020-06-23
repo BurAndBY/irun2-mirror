@@ -1,9 +1,11 @@
 import functools
 from collections import namedtuple
 
+from django.db import connection
 from django.utils.functional import SimpleLazyObject
 
-from users.models import UserProfile
+from users.models import AdminGroup
+from problems.models import ProblemAccess
 
 Flags = namedtuple('Flags', ['has_access_to_problems', 'has_access_to_admin'])
 
@@ -32,11 +34,15 @@ class AdminMiddleware(object):
             if user.is_staff:
                 return Flags(True, True)
 
-            try:
-                profile = UserProfile.objects.filter(pk=user.id).values_list('has_access_to_problems', 'has_access_to_admin').get()
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT '
+                               '(SELECT 1 FROM {problems_problemaccess} WHERE user_id = %s) AS has_access_to_problems, '
+                               '(SELECT 1 FROM {users_admingroup_users} WHERE user_id = %s) AS has_access_to_admin'.format(
+                                    problems_problemaccess=ProblemAccess._meta.db_table,
+                                    users_admingroup_users=AdminGroup.users.through._meta.db_table
+                                ), [user.id, user.id])
+                profile = cursor.fetchone()
                 return Flags(*profile)
-            except UserProfile.DoesNotExist:
-                pass
 
         return Flags(False, False)
 
