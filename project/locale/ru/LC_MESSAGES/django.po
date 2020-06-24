@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-07 17:35+0300\n"
-"PO-Revision-Date: 2020-05-07 17:45+0300\n"
+"POT-Creation-Date: 2020-06-24 17:32+0300\n"
+"PO-Revision-Date: 2020-06-24 17:36+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -92,11 +92,14 @@ msgstr "Токен"
 msgid "Access is granted for individual users."
 msgstr "Доступ выдаётся отдельным пользователям."
 
-msgid "Access is granted for groups."
-msgstr "Доступ выдаётся группам."
+msgid "Access is granted for administrator groups."
+msgstr "Доступ выдаётся группам администраторов."
 
 msgid "Manage the groups."
 msgstr "Управлять группами."
+
+msgid "Folder permissions are recursively propagated to subfolders."
+msgstr "Права доступа к папкам рекурсивно распространяются на подпапки."
 
 msgid "Grant access"
 msgstr "Выдать доступ"
@@ -416,8 +419,14 @@ msgstr "Все"
 msgid "Folders"
 msgstr "Папки"
 
+msgid "Add all"
+msgstr "Добавить всё"
+
 msgid "Available"
 msgstr "Доступно"
+
+msgid "Remove all"
+msgstr "Удалить всё"
 
 msgid "Selected"
 msgstr "Выбрано"
@@ -431,14 +440,8 @@ msgstr "Загрузка"
 msgid "Add"
 msgstr "Добавить"
 
-msgid "Add all"
-msgstr "Добавить всё"
-
 msgid "Remove"
 msgstr "Удалить"
-
-msgid "Remove all"
-msgstr "Удалить всё"
 
 msgid "s"
 msgstr "с"
@@ -484,6 +487,9 @@ msgstr " "
 
 msgid "Got an invalid value."
 msgstr "Получено неверное значение."
+
+msgid "You do not have permission to add entries to this folder."
+msgstr "У вас нет разрешения на добавление записей в эту папку."
 
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
@@ -1160,6 +1166,12 @@ msgstr "Удалить дополнительную задачу"
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
 
+msgid "Permission denied."
+msgstr "Доступ запрещён."
+
+msgid "Please set up a new password instead of default one."
+msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
+
 msgid "Delete course"
 msgstr "Удалить курс"
 
@@ -1174,6 +1186,9 @@ msgstr "Новый курс"
 
 msgid "Show all"
 msgstr "Показать все"
+
+msgid "Showing the courses that you have access to."
+msgstr "Показаны только курсы, к которым у вас есть доступ."
 
 msgid "Solutions"
 msgstr "Решения"
@@ -1602,6 +1617,9 @@ msgstr "доступна регистрация"
 msgid "registration mode"
 msgstr "режим регистрации"
 
+msgid "the forms are filled in English"
+msgstr "формы заполняются на английском"
+
 msgid "Register as Coach"
 msgstr "Зарегистрироваться как тренер"
 
@@ -1713,9 +1731,6 @@ msgstr "Главная"
 
 msgid "Automatic testing system"
 msgstr "Система автоматического тестирования"
-
-msgid "Please set up a new password instead of default one."
-msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
 msgid "Interface language"
 msgstr "Язык интерфейса"
@@ -3376,19 +3391,8 @@ msgstr "Папка назначения"
 msgid "Staff only"
 msgstr "Только сотрудники"
 
-msgid ""
-"User will see a warning message until he sets a new password. This prevents "
-"usage of insecure default passwords."
-msgstr ""
-"Пользователь будет видеть предупреждение, пока не установит новый пароль. "
-"Таким образом предотвращается использование небезопасных паролей по "
-"умолчанию."
-
-msgid "Photo"
-msgstr "Фотография"
-
-msgid "Select JPEG image."
-msgstr "Выберите изображение в формате JPEG."
+msgid "owner"
+msgstr "владелец"
 
 msgid "Person"
 msgstr "Человек"
@@ -3417,21 +3421,32 @@ msgstr "пользователь может изменить имя"
 msgid "user is allowed to change password"
 msgstr "пользователь может изменить пароль"
 
-msgid "user was explicitly granted access to certain problems"
-msgstr "пользователю явно выдан доступ к отдельным задачам"
-
-msgid "user was explicitly granted access to certain quiz categories"
-msgstr "пользователю явно выдан доступ к отдельным категориям тестов"
-
-msgid "user has access to administrative sections"
-msgstr "у пользователя есть доступ к административным разделам"
-
 msgid "The image cannot be opened and identified."
 msgstr "Изображение не может быть открыто и опознано."
 
 #, python-format
 msgid "The image format %(format)s is not supported."
 msgstr "Формат изображения %(format)s не поддерживается."
+
+msgid ""
+"User will see a warning message until he sets a new password. This prevents "
+"usage of insecure default passwords."
+msgstr ""
+"Пользователь будет видеть предупреждение, пока не установит новый пароль. "
+"Таким образом предотвращается использование небезопасных паролей по "
+"умолчанию."
+
+msgid "Photo"
+msgstr "Фотография"
+
+msgid "Select JPEG image."
+msgstr "Выберите изображение в формате JPEG."
+
+msgid "Update profile"
+msgstr "Обновить профиль"
+
+msgid "Permissions"
+msgstr "Права доступа"
 
 msgid "Are you sure you want to delete the administrator group?"
 msgstr "Вы уверены, что хотите удалить группу администраторов?"
@@ -3497,9 +3512,6 @@ msgstr "Полное имя"
 msgid "Last login"
 msgstr "Последний вход"
 
-msgid "Update profile"
-msgstr "Обновить профиль"
-
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user's "
 "password, but you can set a new password."
@@ -3523,11 +3535,13 @@ msgstr "Дата регистрации"
 msgid "Prompt to change password"
 msgstr "Предложить изменить пароль"
 
-msgid "Permissions"
-msgstr "Права доступа"
-
 msgid "Are you sure you want to delete the users?"
 msgstr "Вы уверены, что хотите удалить этих пользователей?"
+
+msgid "Unable to delete the users because they have related solutions."
+msgstr ""
+"Невозможно удалить пользователей, потому что в системе есть решения, которые "
+"были ими отправлены."
 
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Вы уверены, что хотите переместить пользователей в другую папку?"
@@ -3535,6 +3549,15 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "user was explicitly granted access to certain problems"
+#~ msgstr "пользователю явно выдан доступ к отдельным задачам"
+
+#~ msgid "user was explicitly granted access to certain quiz categories"
+#~ msgstr "пользователю явно выдан доступ к отдельным категориям тестов"
+
+#~ msgid "user has access to administrative sections"
+#~ msgstr "у пользователя есть доступ к административным разделам"
 
 #~ msgid "Note: administators have full access to all problems."
 #~ msgstr "Замечание: у администраторов есть полный доступ ко всем задачам."
