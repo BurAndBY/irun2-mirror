@@ -12,24 +12,45 @@ from users.models import UserProfile
 from users.profile.permissions import ProfilePermissionCalcer
 
 
-def is_allowed(request_user, target_user):
-    if not request_user.is_authenticated:
-        return False
-    if request_user == target_user:
-        return True
-    if request_user.is_staff or target_user.is_staff:
-        return True
+class Access(object):
+    def __init__(self, is_allowed):
+        self.is_allowed = is_allowed
+        self.show_profile_link = False
 
+    @staticmethod
+    def allow():
+        return Access(True)
+
+    @staticmethod
+    def deny():
+        return Access(False)
+
+    def with_profile_link(self):
+        self.show_profile_link = True
+        return self
+
+
+def _calc_access(request_user, target_user):
+    if not request_user.is_authenticated:
+        return Access.deny()
+
+    if request_user.is_staff:
+        return Access.allow().with_profile_link()
     if ProfilePermissionCalcer(request_user).calc(target_user.id) is not None:
-        return True
+        return Access.allow().with_profile_link()
+
+    if request_user == target_user:
+        return Access.allow()
+    if target_user.is_staff:
+        return Access.allow()
 
     def get_courses(user):
         return set(Membership.objects.filter(user=user).values_list('course_id', flat=True))
 
     if get_courses(request_user) & get_courses(target_user):
-        return True
+        return Access.allow()
 
-    return False
+    return Access.deny()
 
 
 class UserCardView(generic.View):
@@ -38,8 +59,10 @@ class UserCardView(generic.View):
 
     def get(self, request, user_id):
         user = get_object_or_404(auth.get_user_model(), pk=user_id)
-        if not is_allowed(request.user, user):
-            return HttpResponseForbidden()
+        access = _calc_access(request.user, user)
+        if not access.is_allowed:
+            raise Http404('No access to the user')
+
         profile = user.userprofile
         course_memberships = Membership.objects.filter(user=user, role=Membership.STUDENT).\
             select_related('course', 'subgroup').\
@@ -48,6 +71,7 @@ class UserCardView(generic.View):
         context = {
             'user': user,
             'profile': profile,
+            'show_profile_link': access.show_profile_link,
             'course_memberships': course_memberships,
         }
         return render(request, self.template_name, context)

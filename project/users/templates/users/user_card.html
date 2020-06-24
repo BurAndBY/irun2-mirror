@@ -20,7 +20,7 @@
             {% else %}
                 {% bootstrap_icon 'user' %}
             {% endif %}
-            <span class="ir-icon-label ir-monospace">{% if request.user.is_admin %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}{{ user.username }}{% if request.user.is_staff %}</a>{% endif %}</span>
+            <span class="ir-icon-label ir-monospace">{% if show_profile_link %}<a href="{% url 'users:profile_show' user.id %}">{% endif %}{{ user.username }}{% if show_profile_link %}</a>{% endif %}</span>
         </p>
 
         {% if user.email and request.user.is_staff %}
