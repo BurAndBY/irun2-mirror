@@ -80,7 +80,6 @@ class CategoryAccessView(QuizAdminMixin, CategoryMixin, ShareWithUserMixin, gene
     requirements = CategoryPermissions.MANAGE_ACCESS
     access_model = CategoryAccess
     access_model_object_field = 'category'
-    userprofile_model_field = 'has_access_to_quizzes'
 
     def get(self, request):
         context = self._get(request, self.category)

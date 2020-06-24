@@ -1595,7 +1595,6 @@ class ProblemAccessView(ShareWithUserMixin, BaseProblemView):
     requirements_to_post = SingleProblemPermissions.EDIT
     access_model = ProblemAccess
     access_model_object_field = 'problem'
-    userprofile_model_field = 'has_access_to_problems'
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)

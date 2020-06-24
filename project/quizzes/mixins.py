@@ -68,7 +68,7 @@ class CategoryPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
         if user.is_staff:
             return CategoryPermissions(CategoryPermissions.ALL)
-        if user.userprofile.has_access_to_quizzes:
+        if user.is_quiz_editor:
             access = CategoryAccess.objects.filter(category=self.category, user=user).first()
             if access is not None:
                 if access.mode == AccessMode.READ:

@@ -81,9 +81,6 @@ class UserProfilePermissionsForm(forms.ModelForm):
         fields = [
             'can_change_name',
             'can_change_password',
-            'has_access_to_problems',
-            'has_access_to_quizzes',
-            'has_access_to_admin',
         ]
 
 

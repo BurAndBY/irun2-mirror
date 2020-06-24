@@ -54,7 +54,6 @@ class BaseShareWithMixin(object):
 
 
 class ShareWithUserMixin(BaseShareWithMixin):
-    userprofile_model_field = None
     _share_form_class = ShareWithUserForm
 
     def _load_access_control_list(self, obj):
@@ -72,10 +71,6 @@ class ShareWithUserMixin(BaseShareWithMixin):
                 'who_granted': request.user,
             }
         })
-        if self.userprofile_model_field is not None:
-            UserProfile.objects.filter(pk=user_id).update(**{
-                self.userprofile_model_field: True
-            })
 
 
 class ShareWithGroupMixin(BaseShareWithMixin):
