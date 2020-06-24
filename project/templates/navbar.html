@@ -18,7 +18,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{% if user.is_staff %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
+                <li><a href="{% if user.is_admin %}{% url 'courses:index' %}{% else %}{% url 'courses:my' %}{% endif %}">{% trans 'Courses' %}</a></li>
                 {% if user.is_admin %}
                     <li><a href="{% url 'users:show_folder' root_folder %}">{% trans 'Users' %}</a></li>
                 {% endif %}

@@ -41,10 +41,15 @@ class PropertiesForm(forms.ModelForm):
 class AccessForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['student_own_solutions_access', 'student_all_solutions_access']
+        fields = ['student_own_solutions_access', 'student_all_solutions_access', 'owner']
         help_texts = {
             'student_own_solutions_access': _('Each access level includes all the previous onces.')
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['owner'].user = user
 
 
 class CompilersForm(forms.ModelForm):

@@ -53,7 +53,12 @@ class NewCourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ['name', 'year_of_study', 'group', 'academic_year']
+        fields = ['name', 'year_of_study', 'group', 'academic_year', 'owner']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['owner'].user = user
 
 
 class ProblemModelChoiceField(forms.ModelChoiceField):

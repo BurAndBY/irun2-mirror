@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils import timezone
 from django.views import generic
 from django.utils.encoding import smart_text
@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from cauth.mixins import (
     LoginRequiredMixin,
-    StaffMemberRequiredMixin,
+    AdminMemberRequiredMixin,
 )
 from proglangs.models import Compiler
 
@@ -33,6 +33,13 @@ CourseListItem = namedtuple('CourseListItem', 'id name my student_count solution
 
 class BaseCourseListView(generic.TemplateView):
     template_name = 'courses/course_list.html'
+
+    def _all_courses_queryset(self, user):
+        if user.is_staff:
+            return Course.objects.all()
+        if user.is_admin:
+            return Course.objects.filter(Q(owner__users=user) | Q(membership__user=user)).distinct()
+        return Course.objects.none()
 
     def _count_for_courses(self, qs):
         # {course_id -> count}
@@ -80,24 +87,26 @@ class BaseCourseListView(generic.TemplateView):
         raise NotImplementedError()
 
 
-class ActiveCourseListView(StaffMemberRequiredMixin, BaseCourseListView):
+class ActiveCourseListView(AdminMemberRequiredMixin, BaseCourseListView):
     def get_queryset(self):
-        return Course.objects.filter(status=CourseStatus.RUNNING)
+        return self._all_courses_queryset(self.request.user).filter(status=CourseStatus.RUNNING)
 
     def get_context_data(self, **kwargs):
         context = super(ActiveCourseListView, self).get_context_data(**kwargs)
         context['title'] = _('Active courses')
         context['link_to_all'] = True
+        context['access_warning'] = True
         return context
 
 
-class AllCourseListView(StaffMemberRequiredMixin, BaseCourseListView):
+class AllCourseListView(AdminMemberRequiredMixin, BaseCourseListView):
     def get_queryset(self):
-        return Course.objects.all()
+        return self._all_courses_queryset(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(AllCourseListView, self).get_context_data(**kwargs)
         context['title'] = _('All courses')
+        context['access_warning'] = True
         return context
 
 
@@ -111,9 +120,14 @@ class MyCourseListView(LoginRequiredMixin, BaseCourseListView):
         return context
 
 
-class CourseCreateView(StaffMemberRequiredMixin, generic.CreateView):
+class CourseCreateView(AdminMemberRequiredMixin, generic.CreateView):
     model = Course
     form_class = NewCourseForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         with transaction.atomic():

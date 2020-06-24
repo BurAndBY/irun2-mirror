@@ -1,3 +1,4 @@
+from users.admingroups.utils import user_belongs_to_group
 from solutions.permissions import SolutionAccessLevel
 
 from .models import Membership, Course, CourseStatus
@@ -21,6 +22,9 @@ def calculate_course_permissions(course, user, memberships):
 
     if user.is_staff:
         permissions.set_admin()
+    elif user.is_admin and (course.owner_id is not None):
+        if user_belongs_to_group(user, course.owner_id):
+            permissions.set_admin()
 
     if not course.enable_sheet:
         permissions.sheet = False

@@ -17,6 +17,7 @@ from solutions.permissions import SolutionAccessLevel
 from storage.models import FileMetadata
 
 from courses.utils import make_year_of_study_string, make_academic_year_string
+from users.modelfields import OwnerGroupField
 
 
 @python_2_unicode_compatible
@@ -62,6 +63,7 @@ class Course(models.Model):
     academic_year = models.PositiveIntegerField(_('Academic year'), null=True, blank=True)
 
     status = models.IntegerField(_('status'), choices=CourseStatus.CHOICES, default=CourseStatus.RUNNING)
+    owner = OwnerGroupField()
 
     def get_absolute_url(self):
         return reverse('courses:show_course_info', kwargs={'course_id': self.id})

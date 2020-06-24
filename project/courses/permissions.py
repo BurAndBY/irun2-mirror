@@ -67,7 +67,6 @@ class CoursePermissions(object):
         self.plagiarism = True
         self.quizzes_admin = True
         self.queue_admin = True
-        self.settings = True
 
     def set_admin(self):
         self.set_common()

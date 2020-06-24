@@ -4,16 +4,22 @@
 {% load i18n %}
 
 {% block content %}
+    {% if user.is_admin %}
     <div class="pull-right">
         <a href="{% url 'courses:new' %}" class="btn btn-default">
             {% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'New course' %}</span>
         </a>
     </div>
-
+    {% endif %}
     <h1>
         {% block title %}{{ title }}{% endblock %}
         {% if link_to_all %}<small><a href="{% url 'courses:index_all' %}">{% trans 'Show all' %}</a></small>{% endif %}
     </h1>
+
+    {% if access_warning and not user.is_staff %}
+        <p class="help-block">{% trans 'Showing the courses that you have access to.' %}</p>
+    {% endif %}
+
     {% if pairs %}
         <div class="row">
         {% for year, courses in pairs %}

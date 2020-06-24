@@ -72,13 +72,13 @@ class CourseSettingsAccessView(CourseSettingsView):
     template_name = 'courses/settings_properties.html'
 
     def get(self, request, course):
-        form = AccessForm(instance=course)
+        form = AccessForm(instance=course, user=request.user)
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, course):
-        form = AccessForm(request.POST, instance=course)
+        form = AccessForm(request.POST, instance=course, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('courses:settings:access', course_id=course.id)

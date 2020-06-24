@@ -2,9 +2,11 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
+from common.constants import EMPTY_SELECT
 from common.tree.fields import ThreePanelModelMultipleChoiceField
 
 from users.loader import UserFolderLoader
+from users.models import AdminGroup
 
 
 class UsernameField(forms.CharField):
@@ -23,6 +25,31 @@ class UsernameField(forms.CharField):
             raise forms.ValidationError(self.error_messages['does_not_exist'], params={'username': value})
 
         return user_id
+
+
+class OwnerGroupField(forms.ModelChoiceField):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._user = None
+
+    @property
+    def user(self):
+        return self._user
+
+    @user.setter
+    def user(self, value):
+        self._user = value
+        self._set_up_queryset()
+
+    def _set_up_queryset(self):
+        if self._user.is_staff:
+            self.required = False
+            self.empty_label = EMPTY_SELECT
+            self.queryset = AdminGroup.objects.all()
+        else:
+            self.required = True
+            self.empty_label = None
+            self.queryset = AdminGroup.objects.filter(users=self._user)
 
 
 class ThreePanelUserMultipleChoiceField(ThreePanelModelMultipleChoiceField):
