@@ -25,12 +25,16 @@
                 {% if user.is_problem_editor %}
                     <li><a href="{% url 'problems:show_folder' root_folder %}">{% trans 'Problems' %}</a></li>
                     <li><a href="{% url 'solutions:list' %}">{% trans 'Solutions' %}</a></li>
+                {% endif %}
+                {% if user.is_problem_editor or user.is_quiz_editor %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Administration' %} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'solutions:challenge_list' %}">{% trans 'Challenges' %}</a></li>
-                            <li><a href="{% url 'solutions:rejudge_list' %}">{% trans 'Rejudges' %}</a></li>
-                            <li><a href="{% url 'solutions:judgement_list' %}">{% trans 'Runs' %}</a></li>
+                            {% if user.is_problem_editor %}
+                                <li><a href="{% url 'solutions:challenge_list' %}">{% trans 'Challenges' %}</a></li>
+                                <li><a href="{% url 'solutions:rejudge_list' %}">{% trans 'Rejudges' %}</a></li>
+                                <li><a href="{% url 'solutions:judgement_list' %}">{% trans 'Runs' %}</a></li>
+                            {% endif %}
                             {% if user.is_staff %}
                                 <li><a href="{% url 'api:queue' %}">{% trans 'Queue' %}</a></li>
                                 <li><a href="{% url 'proglangs:index' %}">{% trans 'Compilers' %}</a></li>
@@ -41,16 +45,17 @@
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{% url 'users:admingroups:list' %}">{% trans 'Administrator groups' %}</a></li>
                                 <li><a href="{% url 'contests:index' %}">{% trans 'Contests' %}</a></li>
-                                <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
-                                {% if user.is_staff %}
-                                    <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
-                                    <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
-                                    <li><a href="{% url 'feedback:list' %}">{% trans 'Feedback' %}</a></li>
-                                {% endif %}
                             {% endif %}
-
-                            <li role="separator" class="divider"></li>
+                            {% if user.is_quiz_editor %}
+                                <li><a href="{% url 'quizzes:empty' %}">{% trans 'Quizzes' %}</a></li>
+                            {% endif %}
+                            {% if user.is_staff %}
+                                <li><a href="{% url 'news:list' %}">{% trans 'News' %}</a></li>
+                                <li><a href="{% url 'events:manage:list' %}">{% trans 'Events' %}</a></li>
+                                <li><a href="{% url 'feedback:list' %}">{% trans 'Feedback' %}</a></li>
+                            {% endif %}
                             {% if user.is_admin %}
+                                <li role="separator" class="divider"></li>
                                 <li><a href="{% url 'solutions:activity' %}">{% trans 'Activity' %}</a></li>
                                 {% if user.is_staff %}
                                     <li><a href="{% url 'solutions:hall_of_fame' %}">{% trans 'Hall of fame' %}</a></li>
@@ -58,7 +63,9 @@
                                     <li><a href="{% url 'problems:tex_playground' %}">{% trans 'TeX editor' %}</a></li>
                                 {% endif %}
                             {% endif %}
-                            <li><a href="{% url 'solutions:compare' %}">{% trans 'Comparison of solutions' %}</a></li>
+                            {% if user.is_problem_editor %}
+                                <li><a href="{% url 'solutions:compare' %}">{% trans 'Comparison of solutions' %}</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                 {% endif %}

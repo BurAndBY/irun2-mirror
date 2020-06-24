@@ -9,6 +9,7 @@ from quizzes.models import (
     Category,
     CategoryAccess,
     QuestionGroup,
+    QuizTemplate,
 )
 
 
@@ -24,9 +25,14 @@ class QuizAdminMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
         if user.is_authenticated:
-            if user.is_staff or user.userprofile.has_access_to_quizzes:
+            if user.is_staff or user.is_quiz_editor:
                 return True
         return False
+
+
+'''
+Category
+'''
 
 
 class CategoryPermissions(Permissions):
@@ -73,6 +79,45 @@ class CategoryPermissionCheckMixin(PermissionCheckMixin):
 
 class CategoryMixin(FetchCategoryMixin, CategoryPermissionCheckMixin):
     pass
+
+
+'''
+Quiz template
+'''
+
+
+class QuizTemplatePermissions(Permissions):
+    EDIT = 1 << 0
+
+
+class FetchQuizTemplateMixin(object):
+    def dispatch(self, request, pk, *args, **kwargs):
+        self.quiz_template = get_object_or_404(QuizTemplate, pk=pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['quiz_template'] = self.quiz_template
+        return context
+
+
+class QuizTemplatePermissionCheckMixin(PermissionCheckMixin):
+    '''
+    Must be placed afer FetchQuizTemplateMixin
+    '''
+    def _make_permissions(self, user):
+        if user.is_staff:
+            return QuizTemplatePermissions.all()
+        return None
+
+
+class QuizTemplateMixin(FetchQuizTemplateMixin, QuizTemplatePermissionCheckMixin):
+    pass
+
+
+'''
+Question group
+'''
 
 
 class FetchQuestionGroupMixin(object):
