@@ -54,10 +54,9 @@ class FolderLoader(object):
             for folder_id, in cls.get_extra_folders(user).values_list('id').order_by():
                 acl[folder_id] = 0
 
-            if user.is_admin:
-                if user.is_authenticated:
-                    for folder_id, mode in cls.folder_access_model.objects.filter(group__users=user).values_list('folder_id', 'mode'):
-                        acl[folder_id] = mode
+            if user.is_authenticated and getattr(user, 'is_admin', True):
+                for folder_id, mode in cls.folder_access_model.objects.filter(group__users=user).values_list('folder_id', 'mode'):
+                    acl[folder_id] = mode
 
             _enforce_acl(tree.root, acl, 0)  # root is always shown
 
