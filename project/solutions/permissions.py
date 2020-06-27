@@ -10,13 +10,13 @@ class SolutionAccessLevel(object):
     Helper class to use in course/contest settings to set up access level of students/contestants.
     '''
     NO_ACCESS = 0
-    STATE = 1
-    COMPILATION_LOG = 2
-    SOURCE_CODE = 3
-    TESTING_DETAILS_ON_SAMPLE_TESTS = 7
-    TESTING_DETAILS = 4
-    TESTING_DETAILS_CHECKER_MESSAGES = 5
-    TESTING_DETAILS_TEST_DATA = 6
+    STATE = 10
+    COMPILATION_LOG = 20
+    SOURCE_CODE = 30
+    TESTING_DETAILS_ON_SAMPLE_TESTS = 40
+    TESTING_DETAILS = 50
+    TESTING_DETAILS_CHECKER_MESSAGES = 60
+    TESTING_DETAILS_TEST_DATA = 70
 
     FULL = TESTING_DETAILS_TEST_DATA
 
@@ -51,10 +51,6 @@ class SolutionPermissions(object):
         self.ip_address = False
 
     def update(self, level):
-        if level == SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS:
-            self.sample_results = True
-            level = SolutionAccessLevel.SOURCE_CODE
-
         if level >= SolutionAccessLevel.STATE:
             self.state_on_samples = True
             self.state = True
@@ -65,6 +61,9 @@ class SolutionPermissions(object):
         if level >= SolutionAccessLevel.SOURCE_CODE:
             self.attempts = True
             self.source_code = True
+
+        if level >= SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS:
+            self.sample_results = True
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
             self.results = True
