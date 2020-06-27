@@ -11,7 +11,7 @@ class PermissionsType(type):
         for key, value in dct.items():
             if name.startswith('__') or not isinstance(value, int):
                 continue
-            setattr(x, 'allow_{}'.format(key.lower()), classmethod(lambda cls, v=value: cls(v)))
+            setattr(x, 'allow_{}'.format(key.lower()), lambda self, v=value: self._set_bits(v))
             setattr(x, 'can_{}'.format(key.lower()), property(lambda self, v=value: self._value & v == v))
             items.append((key, value))
 
@@ -28,9 +28,10 @@ class Permissions(metaclass=PermissionsType):
 
     To get an instance of MyPermissions class
     that contains a permission mask, you may use:
-    * MyPermissions.basic() or MyPermissions.all();
-    * MyPermissions.allow_foo(), ...;
-    * an &-combination of permissions.
+    * MyPermissions();
+    * MyPermissions().allow_all();
+    * MyPermissions().allow_foo().allow_bar(), ...;
+    * an |-combination of permission masks.
     '''
     _ITEMS_ = ()
 
@@ -38,24 +39,25 @@ class Permissions(metaclass=PermissionsType):
         Permissions._validate(mask)
         self._value = mask
 
-    @classmethod
-    def all(cls):
-        mask = 0
-        for _, value in cls.items():
-            mask |= value
-        return cls(mask)
+    def clone(self):
+        return type(self)(self._value)
 
-    @classmethod
-    def basic(cls):
-        return cls(0)
+    def _set_bits(self, value):
+        self._value |= value
+        return self
+
+    def allow_all(self):
+        for _, value in type(self).items():
+            self._value |= value
+        return self
+
+    def deny_all(self):
+        self._value = 0
+        return self
 
     @classmethod
     def items(cls):
         return cls._ITEMS_
-
-    def set(self, mask):
-        Permissions._validate(mask)
-        self._value |= mask
 
     def check(self, mask):
         '''
@@ -64,10 +66,10 @@ class Permissions(metaclass=PermissionsType):
         Permissions._validate(mask)
         return (self._value & mask) == mask
 
-    def __and__(self, other):
+    def __ior__(self, other):
         if type(self) is not type(other):
             raise TypeError('permissions of different types cannot be combined')
-        return type(self)(self._value | other._value)
+        self._value |= other._value
 
     @property
     def mask(self):
@@ -130,28 +132,32 @@ class PermissionMap(object):
                 raise TypeError('primary keys are expected to be integers')
             self._map[pk] = None
 
-    @staticmethod
-    def _update(current_perms, new_perms):
-        return new_perms if current_perms is None else (current_perms & new_perms)
-
     def grant(self, pk, new_perms):
-        if pk not in self._map:
+        try:
+            current_perms = self._map[pk]
+        except KeyError:
             return
-        self._map[pk] = PermissionMap._update(self._map.get(pk), new_perms)
+        self._update(pk, current_perms, new_perms)
 
     def grant_all(self, new_perms):
         for pk, current_perms in self._map.items():
-            self._map[pk] = PermissionMap._update(current_perms, new_perms)
+            self._update(pk, current_perms, new_perms)
 
     def find_pks_for_granting(self, possible_perms):
         pks = []
         for pk, current_perms in self._map.items():
-            if (current_perms is None) or ((current_perms.mask | possible_perms.mask) != current_perms.mask):
+            if (current_perms is None) or (not current_perms.check(possible_perms.mask)):
                 pks.append(pk)
         return pks
 
     def map(self):
         return self._map
+
+    def _update(self, pk, current_perms, new_perms):
+        if current_perms is not None:
+            current_perms |= new_perms
+        else:
+            self._map[pk] = new_perms.clone()
 
 
 class PermissionCalcer(object):
@@ -185,7 +191,7 @@ class PermissionCalcer(object):
             return
 
         if self.user.is_staff:
-            pm.grant_all(self.permissions_cls.all())
+            pm.grant_all(self.permissions_cls().allow_all())
             return
 
         self._do_fill_permission_map(pm)

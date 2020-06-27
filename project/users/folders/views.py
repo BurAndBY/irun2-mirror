@@ -54,12 +54,12 @@ class UserFolderMixin(FolderMixin):
 class FolderPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
         if user.is_staff:
-            return FolderPermissions.all()
+            return FolderPermissions().allow_all()
         if self.node.access == AccessMode.WRITE:
-            return FolderPermissions.allow_view_users() & FolderPermissions.allow_manage_folders()
+            return FolderPermissions().allow_view_users().allow_manage_folders()
         if self.node.access == AccessMode.READ:
-            return FolderPermissions.allow_view_users()
-        return FolderPermissions.basic()
+            return FolderPermissions().allow_view_users()
+        return FolderPermissions()
 
 
 class CombinedMixin(AdminMemberRequiredMixin, UserFolderMixin, FolderPermissionCheckMixin):

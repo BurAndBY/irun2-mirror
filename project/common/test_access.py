@@ -25,14 +25,8 @@ class PermissionsTests(TestCase):
         assert not f.can_write
         assert not f.can_execute
 
-    def test_basic(self):
-        f = BarPermissions.basic()
-        assert not f.can_read
-        assert not f.can_write
-        assert not f.can_execute
-
     def test_all(self):
-        f = BarPermissions.all()
+        f = BarPermissions().allow_all()
         assert f._value == 7
         assert f.can_read
         assert f.can_write
@@ -44,16 +38,16 @@ class PermissionsTests(TestCase):
             BarPermissions('a')
 
     def test_predefined(self):
-        f = BarPermissions.allow_write()
+        f = BarPermissions().allow_write()
         assert not f.can_read
         assert f.can_write
 
-        f = BarPermissions.allow_read()
+        f = BarPermissions().allow_read()
         assert f.can_read
         assert not f.can_write
 
     def test_predefined_combine(self):
-        f = BarPermissions.allow_read() & BarPermissions.allow_execute()
+        f = BarPermissions().allow_read().allow_execute()
         assert f.can_read
         assert not f.can_write
         assert f.can_execute

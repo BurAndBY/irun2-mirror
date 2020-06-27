@@ -33,20 +33,20 @@ class ProfilePermissionCalcer(PermissionCalcer):
 
     def _do_fill_permission_map(self, pm):
         if self.user.is_admin:
-            pm.grant(self.user.id, ProfilePermissions.allow_edit())
+            pm.grant(self.user.id, ProfilePermissions().allow_edit())
 
-            pks = pm.find_pks_for_granting(ProfilePermissions.allow_edit())
+            pks = pm.find_pks_for_granting(ProfilePermissions().allow_edit())
             if pks:
                 for pk, mode in _UserFolderAccessChecker.bulk_check(self.user, pks).items():
                     if mode == AccessMode.WRITE:
-                        pm.grant(pk, ProfilePermissions.allow_edit())
+                        pm.grant(pk, ProfilePermissions().allow_edit())
                     elif mode == AccessMode.READ:
-                        pm.grant(pk, ProfilePermissions.basic())
+                        pm.grant(pk, ProfilePermissions())
 
-            pks = pm.find_pks_for_granting(ProfilePermissions.basic())
+            pks = pm.find_pks_for_granting(ProfilePermissions())
             if pks:
                 for user_id in _list_my_admin_group_user_ids(self.user):
-                    pm.grant(user_id, ProfilePermissions.basic())
+                    pm.grant(user_id, ProfilePermissions())
 
 
 def get_user_queryset(user):

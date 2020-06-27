@@ -23,8 +23,8 @@ class ProblemPermissionCalcer(PermissionCalcer):
     permissions_cls = SingleProblemPermissions
 
     def _do_fill_permission_map(self, pm):
-        read = SingleProblemPermissions.basic()
-        write = SingleProblemPermissions.allow_edit() & SingleProblemPermissions.allow_challenge() & SingleProblemPermissions.allow_rejudge()
+        read = SingleProblemPermissions()
+        write = SingleProblemPermissions().allow_edit().allow_challenge().allow_rejudge()
 
         if getattr(self.user, 'is_admin', True):
             # group access
