@@ -39,7 +39,6 @@ from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata, parse_resource_id
 import solutions.utils
 from solutions.utils import bulk_rejudge
-from users.models import UserProfile
 
 from problems.problem.forms import (
     ChallengeForm,
@@ -215,6 +214,7 @@ class ProblemSolutionsProcessView(BaseProblemView):
                 return self._rejudge(problem, problem.solution_set.filter(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.ACCEPTED))
 
         return redirect_with_query_string(request, 'problems:solutions', problem.id)
+
 
 '''
 Statement
@@ -403,7 +403,7 @@ class ProblemReorderTestsView(BaseProblemView):
         new_numbering = None
         try:
             new_numbering = self._parse_new_numbering(request.POST.get('tests'))
-        except:
+        except (TypeError, ValueError):
             pass
             # TODO: better error handling
         if new_numbering is not None:
@@ -807,6 +807,7 @@ class ProblemTestsUploadArchiveView(BaseProblemView):
         context = self._make_context(problem, {'form': form, 'description_form': description_form})
         return render(request, self.template_name, context)
 
+
 '''
 Problem files
 '''
@@ -966,6 +967,7 @@ class ProblemFilesDataFileDeleteView(ProblemFilesBaseFileDeleteView):
 class ProblemFilesSourceFileDeleteView(ProblemFilesBaseFileDeleteView):
     def get_queryset(self, problem, file_id):
         return problem.problemrelatedsourcefile_set.filter(pk=file_id)
+
 
 '''
 Submit
