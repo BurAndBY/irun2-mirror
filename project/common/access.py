@@ -69,16 +69,9 @@ class Permissions(metaclass=PermissionsType):
             raise TypeError('permissions of different types cannot be combined')
         return type(self)(self._value | other._value)
 
-    def __or__(self, other):
-        if type(self) is not type(other):
-            raise TypeError('permissions of different types cannot be combined')
-        return type(self)(self._value | other._value)
-
-    def __le__(self, other):
-        if type(self) is not type(other):
-            raise TypeError('permissions of different types cannot be compared')
-        return (self._value & other._value) == self._value
-
+    @property
+    def mask(self):
+        return self._value
 
     @staticmethod
     def _validate(mask):
@@ -135,7 +128,7 @@ class PermissionMap(object):
 
     @staticmethod
     def _update(current_perms, new_perms):
-        return new_perms if current_perms is None else (current_perms | new_perms)
+        return new_perms if current_perms is None else (current_perms & new_perms)
 
     def grant(self, pk, new_perms):
         if pk not in self._map:
@@ -149,7 +142,7 @@ class PermissionMap(object):
     def find_pks_for_granting(self, possible_perms):
         pks = []
         for pk, current_perms in self._map.items():
-            if (current_perms is None) or not (possible_perms <= current_perms):
+            if (current_perms is None) or ((current_perms.mask | possible_perms.mask) != current_perms.mask):
                 pks.append(pk)
         return pks
 
