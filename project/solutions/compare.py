@@ -28,7 +28,7 @@ class SourceCodeToCompare(object):
 
         self.permissions, self.environment = calculate_permissions(self.solution, user)
 
-        if not self.permissions.source_code:
+        if not self.permissions.can_view_source_code:
             self.error = _('access denied')
             return
 

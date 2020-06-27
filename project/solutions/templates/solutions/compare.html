@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <h2>
-                    {% irunner_solutions_judgementbox first.solution.best_judgement complete=first.permissions.state %}
+                    {% irunner_solutions_judgementbox first.solution.best_judgement complete=first.permissions.can_view_state %}
                     <a href="{% url 'solutions:main' first.solution_id %}">{% trans 'Solution' %} {{ first.solution_id }}</a>
                 </h2>
                 <dl class="dl-horizontal">
@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-6">
                 <h2>
-                    {% irunner_solutions_judgementbox second.solution.best_judgement complete=second.permissions.state %}
+                    {% irunner_solutions_judgementbox second.solution.best_judgement complete=second.permissions.can_view_state %}
                     <a href="{% url 'solutions:main' second.solution_id %}">{% trans 'Solution' %} {{ second.solution_id }}</a>
                 </h2>
                 <dl class="dl-horizontal">
