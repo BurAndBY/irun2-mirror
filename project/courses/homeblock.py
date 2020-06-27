@@ -17,12 +17,12 @@ class CourseBlockFactory(HomePageBlockFactory):
 
     def create_blocks(self, request):
         if request.user.is_authenticated:
-            my_courses = Course.objects.filter(membership__user=request.user).distinct()
-            my_course_count = my_courses.count()
+            manager = MessageCountManager(request.user)
+            my_courses = Course.objects.filter(pk__in=manager.my_course_ids())
+            my_course_count = len(manager.my_course_ids())
 
             if my_course_count > 0:
                 active_courses_with_unread = []
-                manager = MessageCountManager(request.user)
                 for course in my_courses.filter(status=CourseStatus.RUNNING):  # default ordering
                     active_courses_with_unread.append((course, manager.get(course.id).unread))
 

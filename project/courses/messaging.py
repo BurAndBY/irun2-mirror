@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from storage.utils import store_with_metadata
 from courses.models import (
+    Course,
     Membership,
     MailThread,
     MailUserThreadVisit,
@@ -104,10 +105,11 @@ class MessageCountManager(object):
     def __init__(self, user):
         self._user_is_staff = user.is_staff
         self._my_courses = self._fetch_my_courses(user)
+        self._group_owned_course_ids = self._fetch_group_owned_courses(user)
 
         mail_threads = MailThread.objects.all()
         if not self._user_is_staff:  # optimization
-            mail_threads = mail_threads.filter(course_id__in=self._my_courses.keys())
+            mail_threads = mail_threads.filter(course_id__in=set(self.my_course_ids()) | self._group_owned_course_ids)
 
         self._all_threads, self._all_read_threads = self._count_threads(mail_threads, user)
 
@@ -136,6 +138,7 @@ class MessageCountManager(object):
         return result
 
     def _fetch_my_courses(self, user):
+        # Load courses where the user is a direct member.
         # {course_id -> flag 'user can manage all messages'}
         result = {}
         for course_id, role in Membership.objects.filter(user=user).values_list('course_id', 'role'):
@@ -145,9 +148,14 @@ class MessageCountManager(object):
                 result.setdefault(course_id, False)
         return result
 
+    def _fetch_group_owned_courses(self, user):
+        if user.is_admin and not user.is_staff:
+            return set(Course.objects.filter(owner__in=user.admingroup_ids).values_list('pk', flat=True).order_by())
+        return set()
+
     def get(self, course_id):
         is_my_course = self._my_courses.get(course_id)  # False, True or None
-        can_manage_messages = self._user_is_staff or is_my_course
+        can_manage_messages = self._user_is_staff or is_my_course or (course_id in self._group_owned_course_ids)
 
         if can_manage_messages:
             return MessageCounts(
@@ -161,3 +169,6 @@ class MessageCountManager(object):
                 self._my_threads.get(course_id, 0) - self._my_read_threads.get(course_id, 0),
                 None,
             )
+
+    def my_course_ids(self):
+        return self._my_courses.keys()

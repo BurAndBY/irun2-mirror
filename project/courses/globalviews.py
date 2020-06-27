@@ -49,8 +49,8 @@ class BaseCourseListView(generic.TemplateView):
         return result
 
     def get(self, request):
-        my_courses = set(Membership.objects.filter(user=request.user).values_list('course_id', flat=True))
         message_count_manager = MessageCountManager(user=request.user)
+        my_courses = message_count_manager.my_course_ids()
         students_per_course = self._count_for_courses(Membership.objects.filter(role=Membership.STUDENT))
         solutions_per_course = self._count_for_courses(CourseSolution.objects.all())
 

@@ -48,10 +48,11 @@ class AdminMiddleware(object):
         if user.is_staff:
             return True
 
-        user.admingroup_ids = AdminGroup.users.through.objects.\
+        admingroup_ids = AdminGroup.users.through.objects.\
             filter(user_id=user.id).\
             values_list('admingroup_id', flat=True)
-        if len(user.admingroup_ids) > 0:
+        if len(admingroup_ids) > 0:
+            user.admingroup_ids = set(admingroup_ids)
             return True
 
         return False
