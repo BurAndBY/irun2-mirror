@@ -4,6 +4,8 @@ from collections import namedtuple
 
 from django.utils.translation import ugettext_lazy as _
 
+from common.access import Permissions
+
 
 class SolutionAccessLevel(object):
     '''
@@ -32,61 +34,48 @@ class SolutionAccessLevel(object):
     )
 
 
-class SolutionPermissions(object):
-    def __init__(self):
-        self.state_on_samples = False
-        self.state = False
-        self.compilation_log = False
-        self.source_code = False
-        self.sample_results = False  # includes the full sample test data and outputs
-        self.results = False
-        self.exit_codes = False
-        self.checker_messages = False
-        self.tests_data = False
-        self.attempts = False
+class SolutionPermissions(Permissions):
+    VIEW_STATE_ON_SAMPLES = 1 << 0
+    VIEW_STATE = 1 << 1
+    VIEW_COMPILATION_LOG = 1 << 2
+    VIEW_SOURCE_CODE = 1 << 3
+    VIEW_SAMPLE_RESULTS = 1 << 4  # includes the full sample test data and outputs
+    VIEW_RESULTS = 1 << 5
+    VIEW_EXIT_CODES = 1 << 6
+    VIEW_CHECKER_MESSAGES = 1 << 7
+    VIEW_TESTS_DATA = 1 << 8
+    VIEW_ATTEMPTS = 1 << 9
 
-        # special permissions that are not included into the levels above
-        self.plagiarism = False
-        self.judgements = False
-        self.ip_address = False
+    # special permissions that are not included into the levels above
+    VIEW_PLAGIARISM = 1 << 10
+    VIEW_JUDGEMENTS = 1 << 11
+    VIEW_IP_ADDRESS = 1 << 12
 
     def update(self, level):
         if level >= SolutionAccessLevel.STATE:
-            self.state_on_samples = True
-            self.state = True
+            self.allow_view_state_on_samples()
+            self.allow_view_state()
 
         if level >= SolutionAccessLevel.COMPILATION_LOG:
-            self.compilation_log = True
+            self.allow_view_compilation_log()
 
         if level >= SolutionAccessLevel.SOURCE_CODE:
-            self.attempts = True
-            self.source_code = True
+            self.allow_view_attempts()
+            self.allow_view_source_code()
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS:
-            self.sample_results = True
+            self.allow_view_sample_results()
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
-            self.results = True
-            self.sample_results = True
+            self.allow_view_results()
+            self.allow_view_sample_results()
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES:
-            self.exit_codes = True
-            self.checker_messages = True
+            self.allow_view_exit_codes()
+            self.allow_view_checker_messages()
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_TEST_DATA:
-            self.tests_data = True
-
-    def set_all(self):
-        self.update(SolutionAccessLevel.FULL)
-        self.judgements = True
-        self.ip_address = True
-        self.plagiarism = True
-
-    @staticmethod
-    def all():
-        permissions = SolutionPermissions()
-        permissions.set_all()
-        return permissions
+            self.allow_view_tests_data()
 
 
 # course/contest the solution belongs to

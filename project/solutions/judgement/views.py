@@ -19,7 +19,7 @@ class JudgementMixin(LoginRequiredMixin):
         if solution is None:
             raise Http404('Judjement not found')
         permissions, _ = calculate_permissions(solution, self.request.user)
-        if not permissions.judgements:
+        if not permissions.can_view_judgements:
             raise Http404('Access denied')
         return super().dispatch(request, judgement_id, *args, **kwargs)
 
@@ -34,7 +34,7 @@ class JudgementView(JudgementMixin, generic.View):
         storage = create_storage()
         logs = [storage.represent(log.resource_id) for log in JudgementLog.objects.filter(judgement_id=judgement.id)]
 
-        permissions = SolutionPermissions.all()
+        permissions = SolutionPermissions().allow_all()
 
         return render(request, self.template_name, {
             'judgement': judgement,

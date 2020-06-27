@@ -220,18 +220,18 @@ def irunner_solutions_testresults(test_results, permissions, url_pattern=None, f
 
     pairs = []
     for test in test_results:
-        if not (permissions.results or (permissions.sample_results and test.is_sample)):
+        if not (permissions.can_view_results or (permissions.can_view_sample_results and test.is_sample)):
             some_tests_hidden = True
             continue
-        toggleable = (url_pattern is not None) and (permissions.tests_data or test.is_sample)
+        toggleable = (url_pattern is not None) and (permissions.can_view_tests_data or test.is_sample)
         any_toggleable |= toggleable
         pairs.append((test, toggleable))
 
     columns = TestResultColumns(
-        verbose_outcome=(not compact and not permissions.exit_codes and not permissions.checker_messages),
-        exit_code=(not compact and permissions.exit_codes),
-        checker_message=(not compact and permissions.exit_codes),
-        tooltip=(compact or permissions.exit_codes or permissions.checker_messages),
+        verbose_outcome=(not compact and not permissions.can_view_exit_codes and not permissions.can_view_checker_messages),
+        exit_code=(not compact and permissions.can_view_exit_codes),
+        checker_message=(not compact and permissions.can_view_exit_codes),
+        tooltip=(compact or permissions.can_view_exit_codes or permissions.can_view_checker_messages),
         score=(not compact),
     )
     span_columns_cnt = (

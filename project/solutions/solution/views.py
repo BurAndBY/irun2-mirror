@@ -48,7 +48,7 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
         context = {
             'solution': self.solution,
             'solution_environment': self.environment,
-            'solution_permissions': self.permissions,
+            'permissions': self.permissions,
             'active_tab': self.tab,
         }
         best = self.solution.best_judgement
@@ -89,7 +89,7 @@ class SolutionEmptyView(BaseSolutionView):
     template_name = 'solutions/solution.html'
 
     def is_allowed(self, permissions):
-        return permissions.state_on_samples
+        return permissions.can_view_state_on_samples
 
     def do_get(self, request, solution):
         return render(request, self.template_name, self.get_context_data())
@@ -100,7 +100,7 @@ class SolutionSourceView(BaseSolutionView):
     template_name = 'solutions/solution_source.html'
 
     def is_allowed(self, permissions):
-        return permissions.source_code
+        return permissions.can_view_source_code
 
     def do_get(self, request, solution):
         update_highlight_style(request)
@@ -121,7 +121,7 @@ class SolutionTestsView(BaseSolutionView):
     template_name = 'solutions/solution_tests.html'
 
     def is_allowed(self, permissions):
-        return permissions.sample_results or permissions.results
+        return permissions.can_view_sample_results or permissions.can_view_results
 
     def do_get(self, request, solution):
         test_results = _get_plain_testcaseresults(solution.best_judgement)
@@ -134,7 +134,7 @@ class SolutionJudgementsView(BaseSolutionView):
     template_name = 'solutions/solution_judgements.html'
 
     def is_allowed(self, permissions):
-        return permissions.judgements
+        return permissions.can_view_judgements
 
     def do_get(self, request, solution):
         judgements = solution.judgement_set.order_by('-id').select_related('extra_info').all()
@@ -164,7 +164,7 @@ class SolutionLogView(BaseSolutionView):
     template_name = 'solutions/solution_log.html'
 
     def is_allowed(self, permissions):
-        return permissions.compilation_log
+        return permissions.can_view_compilation_log
 
     def do_get(self, request, solution):
         log_repr = None
@@ -182,7 +182,7 @@ class SolutionAttemptsView(BaseSolutionView):
     template_name = 'solutions/solution_attempts.html'
 
     def is_allowed(self, permissions):
-        return permissions.attempts
+        return permissions.can_view_attempts
 
     def _calc_visual_space(self, seconds):
         days = seconds / (60. * 60. * 24.)
@@ -224,7 +224,7 @@ class SolutionAttemptsView(BaseSolutionView):
 class SolutionMainView(BaseSolutionView):
     def _get_class(self, request, solution, permissions):
         judgement = solution.best_judgement
-        if permissions.sample_results or permissions.results:
+        if permissions.can_view_sample_results or permissions.can_view_results:
             if judgement is not None:
                 test_results_count = judgement.testcaseresult_set.count()
                 if test_results_count > 0:
@@ -232,14 +232,14 @@ class SolutionMainView(BaseSolutionView):
                 if judgement.outcome == Outcome.CHECK_FAILED:
                     return SolutionTestsView
 
-        if permissions.compilation_log:
+        if permissions.can_view_compilation_log:
             if judgement is not None:
                 return SolutionLogView
 
-        if permissions.source_code:
+        if permissions.can_view_source_code:
             return SolutionSourceView
 
-        if permissions.state_on_samples:
+        if permissions.can_view_state_on_samples:
             return SolutionEmptyView
 
     def do_checked_get(self, *args, **kwargs):
@@ -263,7 +263,7 @@ class SolutionStatusJsonView(BaseSolutionView):
     template_name = 'solutions/solution_status.html'
 
     def is_allowed(self, permissions):
-        return permissions.state_on_samples or permissions.state
+        return permissions.can_view_state_on_samples or permissions.can_view_state
 
     def _render_report(self, request, judgement):
         if judgement.outcome == Outcome.COMPILATION_ERROR:
@@ -277,7 +277,7 @@ class SolutionStatusJsonView(BaseSolutionView):
 
         if judgement is not None:
             final = (judgement.status == Judgement.DONE)
-            complete = self.permissions.state
+            complete = self.permissions.can_view_state
             data = {
                 'text': force_text(judgement.show_status(complete)),
                 'final': final
@@ -304,7 +304,7 @@ class BaseSolutionSourceCodeView(BaseSolutionView):
     with_related = False
 
     def is_allowed(self, permissions):
-        return permissions.source_code
+        return permissions.can_view_source_code
 
 
 class SolutionSourceOpenView(BaseSolutionSourceCodeView):
@@ -330,9 +330,9 @@ class BaseSolutionTestDataView(BaseSolutionView):
     with_related = False
 
     def is_allowed(self, permissions):
-        if permissions.tests_data:
+        if permissions.can_view_tests_data:
             return True
-        if permissions.sample_results:
+        if permissions.can_view_sample_results:
             testcaseresult_id = self.kwargs.get('testcaseresult_id')
             if testcaseresult_id is not None:
                 is_sample = TestCaseResult.objects.filter(pk=testcaseresult_id).values_list('is_sample', flat=True).first()
@@ -374,7 +374,7 @@ class SolutionPlagiarismView(BaseSolutionView):
     paginate_by = 25
 
     def is_allowed(self, permissions):
-        return permissions.plagiarism
+        return permissions.can_view_plagiarism
 
     def do_get(self, request, solution):
         plagiarism_judgements = JudgementResult.\

@@ -12,6 +12,7 @@ class PermissionsType(type):
             if name.startswith('__') or not isinstance(value, int):
                 continue
             setattr(x, 'allow_{}'.format(key.lower()), lambda self, v=value: self._set_bits(v))
+            setattr(x, 'deny_{}'.format(key.lower()), lambda self, v=value: self._unset_bits(v))
             setattr(x, 'can_{}'.format(key.lower()), property(lambda self, v=value: self._value & v == v))
             items.append((key, value))
 
@@ -44,6 +45,10 @@ class Permissions(metaclass=PermissionsType):
 
     def _set_bits(self, value):
         self._value |= value
+        return self
+
+    def _unset_bits(self, value):
+        self._value &= ~value
         return self
 
     def allow_all(self):

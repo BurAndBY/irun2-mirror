@@ -24,9 +24,9 @@ def calculate_permissions(solution, user):
     permissions.update(level)
 
     if in_contest.contest is not None and in_contest.samples_only_state:
-        permissions.state = False
+        permissions.deny_view_state()
 
     if user.is_staff or in_problem.has_problem:
-        permissions.set_all()
+        permissions.allow_all()
 
     return (permissions, SolutionEnvironment(in_course.course, in_contest.contest, in_problem.has_problem))

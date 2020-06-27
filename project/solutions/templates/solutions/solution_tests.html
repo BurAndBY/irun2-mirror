@@ -7,5 +7,5 @@
 
 {% block main %}
     {% irunner_solutions_checkfailed extra_info %}
-    {% irunner_solutions_testresults test_results solution_permissions 'solutions:test_case_result' solution.id %}
+    {% irunner_solutions_testresults test_results permissions 'solutions:test_case_result' solution.id %}
 {% endblock %}

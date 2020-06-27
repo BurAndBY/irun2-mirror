@@ -14,16 +14,16 @@
 <div class="panel panel-default ir-solution-panel">
     <div class="panel-body">
         <h2>
-            {% irunner_solutions_judgementbox solution.best_judgement tooltip=True complete=solution_permissions.state %}
+            {% irunner_solutions_judgementbox solution.best_judgement tooltip=True complete=permissions.can_view_state %}
             {% trans 'Solution' %} {{ solution.id }}
         </h2>
         <div class="row">
             <div class="col-md-6">
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Result' %}</dt>
-                    <dd>{% irunner_solutions_judgementtext solution.best_judgement complete=solution_permissions.state %}</dd>
+                    <dd>{% irunner_solutions_judgementtext solution.best_judgement complete=permissions.can_view_state %}</dd>
 
-                    {% if solution_permissions.state and solution.best_judgement and not solution.stop_on_fail %}
+                    {% if permissions.can_view_state and solution.best_judgement and not solution.stop_on_fail %}
                         <dt>{% trans 'Score' %}</dt>
                         <dd>{{ solution.best_judgement.score }} {% trans 'of' %} {{ solution.best_judgement.max_score }}</dd>
                     {% endif %}
@@ -78,7 +78,7 @@
                         <dd>{{ extra_info.finish_testing_time }}</dd>
                     {% endif %}
 
-                    {% if solution_permissions.ip_address and solution.ip_address %}
+                    {% if permissions.can_view_ip_address and solution.ip_address %}
                         <dt>{% trans 'IP address' %}</dt>
                         <dd><span class="ir-monospace">{{ solution.ip_address }}</span></dd>
                     {% endif %}
@@ -97,37 +97,37 @@
         <div class="row">
             <div class="span12 text-center">
                 <ul class="nav nav-pills ir-solution-nav-pills">
-                    {% if solution_permissions.attempts %}
+                    {% if permissions.can_view_attempts %}
                         <li role="presentation"{% if active_tab == 'attempts' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:attempts' solution.id %}">{% trans 'Attempts' %} ({{ attempt_count }})</a>
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.judgements %}
+                    {% if permissions.can_view_judgements %}
                         <li role="presentation"{% if active_tab == 'judgements' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:judgements' solution.id %}">{% trans 'Judgements' %} ({{ judgement_count }})</a>
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.source_code %}
+                    {% if permissions.can_view_source_code %}
                         <li role="presentation"{% if active_tab == 'source' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:source' solution.id %}">{% trans 'Source code' %}</a>
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.compilation_log %}
+                    {% if permissions.can_view_compilation_log %}
                         <li role="presentation"{% if active_tab == 'log' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:log' solution.id %}">{% trans 'Compilation log' %}</a>
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.sample_results or solution_permissions.results %}
+                    {% if permissions.can_view_sample_results or permissions.can_view_results %}
                         <li role="presentation"{% if active_tab == 'tests' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:tests' solution.id %}">{% trans 'Test results' %}</a>
                         </li>
                     {% endif %}
 
-                    {% if solution_permissions.plagiarism %}
+                    {% if permissions.can_view_plagiarism %}
                         <li role="presentation"{% if active_tab == 'plagiarism' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:plagiarism' solution.id %}">{% trans 'Plagiarism' %}</a>
                         </li>

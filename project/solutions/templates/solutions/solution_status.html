@@ -3,7 +3,7 @@
 {% load irunner_storage %}
 
 {% if mode == 'test_results' %}
-    {% irunner_solutions_testresults test_results solution_permissions 'solutions:test_case_result' solution.id compact=True %}
+    {% irunner_solutions_testresults test_results permissions 'solutions:test_case_result' solution.id compact=True %}
 {% elif mode == 'compilation_log' %}
     <div class="panel-body">
     {% if log_repr %}
