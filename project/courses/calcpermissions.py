@@ -58,7 +58,7 @@ def calculate_course_solution_access_level(solution, user):
             else:
                 level = max(level, course.student_all_solutions_access)
         elif role == Membership.TEACHER:
-            level = max(level, SolutionAccessLevel.FULL)
+            level = max(level, course.teacher_all_solutions_access)
 
     # level remains NO_ACCESS if user is not a member of the course
 

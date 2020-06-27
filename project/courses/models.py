@@ -47,9 +47,10 @@ class Course(models.Model):
 
     student_own_solutions_access = models.IntegerField(_('student’s access to his own solutions'),
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS)
-
     student_all_solutions_access = models.IntegerField(_('student’s access to all solutions of the course'),
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.STATE)
+    teacher_all_solutions_access = models.IntegerField(_('teacher’s access to all solutions of the course'),
+                                                       choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES)
 
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
     enable_queues = models.BooleanField(_('enable electronic queues'), default=False, blank=True)
