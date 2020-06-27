@@ -95,7 +95,7 @@ Single problem management
 
 class SingleProblemPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
-        problem_id = int(self.kwargs['problem_id'])
+        problem_id = self.kwargs['problem_id']
         return ProblemPermissionCalcer(self.request.user).calc(problem_id)
 
 

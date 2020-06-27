@@ -1,4 +1,5 @@
 from django.conf.urls import include, url
+from django.urls import path
 
 from problems.problem import views as pviews
 
@@ -71,5 +72,5 @@ problem_urlpatterns = [
 ]
 
 urlpatterns = [
-    url(r'^(?P<problem_id>[0-9]+)/', include(problem_urlpatterns)),
+    path('<int:problem_id>/', include(problem_urlpatterns)),
 ]
