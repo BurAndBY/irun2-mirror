@@ -86,7 +86,7 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
 
 
 class SolutionEmptyView(BaseSolutionView):
-    template_name = 'solutions/solution.html'
+    template_name = 'solutions/solution/main.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_state_on_samples
@@ -97,7 +97,7 @@ class SolutionEmptyView(BaseSolutionView):
 
 class SolutionSourceView(BaseSolutionView):
     tab = 'source'
-    template_name = 'solutions/solution_source.html'
+    template_name = 'solutions/solution/source.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_source_code
@@ -118,7 +118,7 @@ class SolutionSourceView(BaseSolutionView):
 
 class SolutionTestsView(BaseSolutionView):
     tab = 'tests'
-    template_name = 'solutions/solution_tests.html'
+    template_name = 'solutions/solution/tests.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_sample_results or permissions.can_view_results
@@ -131,7 +131,7 @@ class SolutionTestsView(BaseSolutionView):
 
 class SolutionJudgementsView(BaseSolutionView):
     tab = 'judgements'
-    template_name = 'solutions/solution_judgements.html'
+    template_name = 'solutions/solution/judgements.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_judgements
@@ -161,7 +161,7 @@ def _get_plain_testcaseresults(judgement):
 
 class SolutionLogView(BaseSolutionView):
     tab = 'log'
-    template_name = 'solutions/solution_log.html'
+    template_name = 'solutions/solution/log.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_compilation_log
@@ -179,7 +179,7 @@ AttemptInfo = namedtuple('AttemptInfo', 'number solution active delta pair space
 
 class SolutionAttemptsView(BaseSolutionView):
     tab = 'attempts'
-    template_name = 'solutions/solution_attempts.html'
+    template_name = 'solutions/solution/attempts.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_attempts
@@ -260,7 +260,7 @@ class SolutionMainView(BaseSolutionView):
 
 class SolutionStatusJsonView(BaseSolutionView):
     with_related = False
-    template_name = 'solutions/solution_status.html'
+    template_name = 'solutions/solution/status.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_state_on_samples or permissions.can_view_state
@@ -370,7 +370,7 @@ class SolutionTestCaseResultImageView(TestCaseResultMixin, BaseSolutionTestDataV
 
 class SolutionPlagiarismView(BaseSolutionView):
     tab = 'plagiarism'
-    template_name = 'solutions/solution_plagiarism.html'
+    template_name = 'solutions/solution/plagiarism.html'
     paginate_by = 25
 
     def is_allowed(self, permissions):
