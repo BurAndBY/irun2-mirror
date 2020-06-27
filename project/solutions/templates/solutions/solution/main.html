@@ -14,7 +14,9 @@
 <div class="panel panel-default ir-solution-panel">
     <div class="panel-body">
         <h2>
-            {% irunner_solutions_judgementbox solution.best_judgement tooltip=True complete=permissions.can_view_state %}
+            {% if permissions.can_view_state_on_samples or permissions.can_view_state %}
+                {% irunner_solutions_judgementbox solution.best_judgement tooltip=True complete=permissions.can_view_state %}
+            {% endif %}
             {% trans 'Solution' %} {{ solution.id }}
         </h2>
         <div class="row">

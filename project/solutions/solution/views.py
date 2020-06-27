@@ -40,10 +40,6 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
 
         return get_object_or_404(queryset, pk=solution_id)
 
-    def _require(self, value):
-        if not value:
-            raise PermissionDenied()
-
     def get_context_data(self, **kwargs):
         context = {
             'solution': self.solution,
@@ -89,7 +85,7 @@ class SolutionEmptyView(BaseSolutionView):
     template_name = 'solutions/solution/main.html'
 
     def is_allowed(self, permissions):
-        return permissions.can_view_state_on_samples
+        return permissions.can_view_state_on_samples or permissions.can_view_state
 
     def do_get(self, request, solution):
         return render(request, self.template_name, self.get_context_data())
@@ -239,7 +235,10 @@ class SolutionMainView(BaseSolutionView):
         if permissions.can_view_source_code:
             return SolutionSourceView
 
-        if permissions.can_view_state_on_samples:
+        if permissions.can_view_attempts:
+            return SolutionAttemptsView
+
+        if permissions.can_view_state_on_samples or permissions.can_view_state:
             return SolutionEmptyView
 
     def do_checked_get(self, *args, **kwargs):
