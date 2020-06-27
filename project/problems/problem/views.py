@@ -61,7 +61,7 @@ from problems.problem.forms import (
     TestUploadOrTextForm,
     ValidatorForm,
 )
-from problems.problem.permissions import SingleProblemPermissions, calc_problem_permissions
+from problems.problem.permissions import SingleProblemPermissions, ProblemPermissionCalcer
 from problems.problem.utils import register_new_test
 from problems.problem.tabs import PROBLEM_TABS, TabManager
 from problems.problem.validation import revalidate_testset
@@ -96,8 +96,8 @@ Single problem management
 
 class SingleProblemPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
-        problem_id = self.kwargs['problem_id']
-        return calc_problem_permissions(self.request.user, problem_id)
+        problem_id = int(self.kwargs['problem_id'])
+        return ProblemPermissionCalcer(self.request.user).calc(problem_id)
 
 
 class BaseProblemView(LoginRequiredMixin, SingleProblemPermissionCheckMixin, generic.View):

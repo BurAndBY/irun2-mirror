@@ -14,7 +14,7 @@ from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
 from problems.calcpermissions import get_problem_ids_queryset, has_limited_problems_queryset
 from problems.models import Problem
-from problems.problem.permissions import calc_problems_permissions
+from problems.problem.permissions import ProblemPermissionCalcer
 
 from solutions.models import Solution, Judgement, Rejudge
 from solutions.utils import bulk_rejudge
@@ -87,7 +87,7 @@ class RejudgeMixin(LoginRequiredMixin):
         self.problems_available = set()
 
         problem_ids = self.rejudge.judgement_set.all().values_list('solution__problem_id', flat=True).distinct()
-        problem_perms = calc_problems_permissions(request.user, problem_ids)
+        problem_perms = ProblemPermissionCalcer(request.user).calc_in_bulk(problem_ids)
 
         any_problem_available = False
         can_rejudge_all = True

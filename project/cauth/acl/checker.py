@@ -3,6 +3,8 @@ from six.moves import reduce
 from collections import namedtuple
 import operator
 
+from users.admingroups.utils import filter_admingroups
+
 SimpleFolder = namedtuple('SimpleFolder', ['tree_id', 'lft', 'rght', 'mode'])
 
 
@@ -39,8 +41,7 @@ class FolderAccessChecker(object):
         # Get all folder access records that belong to our user's admin groups
         # and to folders that contain the folders listed above
         # TODO: this query generates three JOIN's, but two JOIN's are enough
-        res = cls.folder_access_model.objects.\
-            filter(group__users=user).\
+        res = filter_admingroups(cls.folder_access_model.objects, user).\
             filter(reduce(operator.or_, clauses)).\
             aggregate(Max('mode'))
         return res.get('mode__max') or 0
@@ -51,8 +52,7 @@ class FolderAccessChecker(object):
 
         # Get folders we have directly have access to
         my_folders = []
-        for values in cls.folder_access_model.objects.\
-                filter(group__users=user).\
+        for values in filter_admingroups(cls.folder_access_model.objects, user).\
                 values_list('folder__tree_id', 'folder__lft', 'folder__rght', 'mode').\
                 order_by():
             my_folders.append(SimpleFolder(*values))

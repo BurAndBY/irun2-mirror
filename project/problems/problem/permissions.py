@@ -1,4 +1,4 @@
-from common.access import Permissions
+from common.access import Permissions, PermissionCalcer
 from cauth.acl.accessmode import AccessMode
 from cauth.acl.checker import FolderAccessChecker
 
@@ -17,29 +17,30 @@ class SingleProblemPermissions(Permissions):
     CHALLENGE = 1 << 2
     MOVE = 1 << 3
     DELETE = 1 << 4
-    ALL = EDIT | REJUDGE | CHALLENGE | MOVE | DELETE
 
 
-def calc_problem_permissions(user, problem_id):
-    if not user.is_authenticated:
-        return None
-    if user.is_staff:
-        return SingleProblemPermissions.all()
+class ProblemPermissionCalcer(PermissionCalcer):
+    permissions_cls = SingleProblemPermissions
 
-    # group access
-    res_mode = 0
-    if user.is_admin:
-        res_mode = _ProblemFolderAccessChecker.check(user, problem_id)
-    # individual access
-    if res_mode != AccessMode.WRITE:
-        for mode in ProblemAccess.objects.filter(problem_id=problem_id, user=user).values_list('mode', flat=True):
-            res_mode = max(res_mode, mode)
+    def _do_fill_permission_map(self, pm):
+        read = SingleProblemPermissions.basic()
+        write = SingleProblemPermissions.allow_edit() & SingleProblemPermissions.allow_challenge() & SingleProblemPermissions.allow_rejudge()
 
-    if res_mode == AccessMode.READ:
-        return SingleProblemPermissions()
-    elif res_mode == AccessMode.WRITE:
-        return SingleProblemPermissions(SingleProblemPermissions.EDIT | SingleProblemPermissions.CHALLENGE | SingleProblemPermissions.REJUDGE)
+        if getattr(self.user, 'is_admin', True):
+            # group access
+            pks = pm.find_pks_for_granting(write)
+            if pks:
+                for pk, mode in _ProblemFolderAccessChecker.bulk_check(self.user, pks).items():
+                    if mode == AccessMode.WRITE:
+                        pm.grant(pk, write)
+                    elif mode == AccessMode.READ:
+                        pm.grant(pk, read)
 
-
-def calc_problems_permissions(user, problem_ids):
-    return {problem_id: calc_problem_permissions(user, problem_id) for problem_id in set(problem_ids)}
+        # individual access
+        pks = pm.find_pks_for_granting(write)
+        if pks:
+            for pk, mode in ProblemAccess.objects.filter(user=self.user, problem_id__in=pks).values_list('problem_id', 'mode'):
+                if mode == AccessMode.WRITE:
+                    pm.grant(pk, write)
+                elif mode == AccessMode.READ:
+                    pm.grant(pk, read)

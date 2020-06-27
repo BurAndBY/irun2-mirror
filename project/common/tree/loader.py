@@ -1,4 +1,5 @@
 from cauth.acl.accessmode import AccessMode
+from users.admingroups.utils import filter_admingroups
 from common.tree.inmemory import Tree
 
 
@@ -55,7 +56,7 @@ class FolderLoader(object):
                 acl[folder_id] = 0
 
             if user.is_authenticated and getattr(user, 'is_admin', True):
-                for folder_id, mode in cls.folder_access_model.objects.filter(group__users=user).values_list('folder_id', 'mode'):
+                for folder_id, mode in filter_admingroups(cls.folder_access_model.objects, user).values_list('folder_id', 'mode'):
                     acl[folder_id] = mode
 
             _enforce_acl(tree.root, acl, 0)  # root is always shown

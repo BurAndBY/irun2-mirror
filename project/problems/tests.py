@@ -10,8 +10,9 @@ from cauth.acl.accessmode import AccessMode
 from users.models import AdminGroup
 
 from problems.description import IDescriptionImageLoader, render_description
-from problems.models import Problem, ProblemFolder, ProblemFolderAccess
+from problems.models import Problem, ProblemAccess, ProblemFolder, ProblemFolderAccess
 from problems.fields import ThreePanelGenericProblemMultipleChoiceField
+from problems.problem.permissions import ProblemPermissionCalcer
 
 
 class SimpleDescriptionImageLoader(IDescriptionImageLoader):
@@ -67,10 +68,12 @@ class ProblemFoldersTests(TestCase):
         fake.folders.add(removed)
         new = Problem.objects.create(full_name='Secret problem', short_name='Secret', number=42)
         new.folders.add(year_2020)
+        new2 = Problem.objects.create(full_name='Non-secret problem', short_name='Non-secret', number=42)
+        new2.folders.add(year_2020)
         orphan = Problem.objects.create(full_name='Orphan problem')  # in the root dir
 
         # Test
-        self.assertEqual(Problem.objects.count(), 6)
+        self.assertEqual(Problem.objects.count(), 7)
         self.assertEqual(ProblemFolder.objects.count(), 7)
         self.assertEqual(graphs.problem_set.count(), 3)
         self.assertEqual(removed.problem_set.count(), 1)
@@ -86,6 +89,18 @@ class ProblemFoldersTests(TestCase):
         admingroup.users.add(user)
 
         ProblemFolderAccess.objects.create(folder=algo, group=admingroup, mode=AccessMode.WRITE)
+        ProblemAccess.objects.create(problem=new2, user=user, mode=AccessMode.READ)
+
+        # Test ProblemPermissionCalcer
+        access = ProblemPermissionCalcer(user).calc_in_bulk([bfs.id, new.id, new2.id])
+        self.assertTrue(access.get(bfs.id).can_edit)
+        self.assertIsNone(access.get(new.id))
+        self.assertIsNotNone(access.get(new2.id))
+        self.assertFalse(access.get(new2.id).can_edit)
+        access = ProblemPermissionCalcer(admin).calc_in_bulk([bfs.id, new.id, new2.id])
+        self.assertTrue(access.get(bfs.id).can_edit)
+        self.assertTrue(access.get(new.id).can_edit)
+        self.assertTrue(access.get(new2.id).can_edit)
 
         rf = RequestFactory()
 

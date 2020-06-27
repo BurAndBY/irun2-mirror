@@ -124,7 +124,11 @@ class PermissionMap(object):
     {pk -> Permissions}
     '''
     def __init__(self, pks):
-        self._map = {pk: None for pk in pks}
+        self._map = {}
+        for pk in pks:
+            if not isinstance(pk, int):
+                raise TypeError('primary keys are expected to be integers')
+            self._map[pk] = None
 
     @staticmethod
     def _update(current_perms, new_perms):
