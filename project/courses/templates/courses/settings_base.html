@@ -7,7 +7,7 @@
 {% block main %}
 
 <div>
-    <ul class="nav nav-tabs ir-nav-tabs-narrow">
+    <ul class="nav nav-tabs">
         <li role="presentation"{% if active_subtab == 'properties' %} class="active"{% endif %}>
             <a href="{% url 'courses:settings:properties' course.id %}">{% trans 'Properties' %}</a>
         </li>
