@@ -49,7 +49,7 @@ class CourseSettingsView(BaseCourseView):
 
 class CourseSettingsPropertiesView(CourseSettingsView):
     subtab = 'properties'
-    template_name = 'courses/settings_properties.html'
+    template_name = 'courses/settings/properties.html'
 
     def get(self, request, course):
         form = PropertiesForm(instance=course)
@@ -69,7 +69,7 @@ class CourseSettingsPropertiesView(CourseSettingsView):
 
 class CourseSettingsAccessView(CourseSettingsView):
     subtab = 'access'
-    template_name = 'courses/settings_properties.html'
+    template_name = 'courses/settings/properties.html'
 
     def get(self, request, course):
         form = AccessForm(instance=course, user=request.user)
@@ -89,7 +89,7 @@ class CourseSettingsAccessView(CourseSettingsView):
 
 class CourseSettingsCompilersView(CourseSettingsView):
     subtab = 'compilers'
-    template_name = 'courses/settings_compilers.html'
+    template_name = 'courses/settings/compilers.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsCompilersView, self).get_context_data(**kwargs)
@@ -122,7 +122,7 @@ RoleUsersViewModel = namedtuple('RoleUsersViewModel', 'name_singular name_plural
 
 class CourseSettingsUsersView(CourseSettingsView):
     subtab = 'users'
-    template_name = 'courses/settings_users.html'
+    template_name = 'courses/settings/users.html'
 
     def _make_view_model(self, role, name_singular, name_plural, url_pattern, data, subgroups):
         queryset = Membership.objects.filter(course=self.course, role=role).\
@@ -161,7 +161,7 @@ class CourseSettingsUsersView(CourseSettingsView):
 
 class CourseSettingsUsersCommonView(CourseSettingsView):
     subtab = 'users'
-    template_name = 'courses/settings_users_edit.html'
+    template_name = 'courses/settings/users_edit.html'
 
     def get_role(self):
         raise NotImplementedError()
@@ -288,7 +288,7 @@ class CourseSettingsBaseCreateView(CourseSettingsView):
     * set form_class
     * set list_url_name
     '''
-    template_name = 'courses/settings_component.html'
+    template_name = 'courses/settings/component.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsBaseCreateView, self).get_context_data(**kwargs)
@@ -329,7 +329,7 @@ class CourseSettingsBaseUpdateView(CourseSettingsView):
     * set form_class
     * set list_url_name
     '''
-    template_name = 'courses/settings_component.html'
+    template_name = 'courses/settings/component.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsBaseUpdateView, self).get_context_data(**kwargs)
@@ -405,7 +405,7 @@ class TopicMixin(object):
 
 
 class CourseSettingsProblemsView(TopicMixin, CourseSettingsBaseListView):
-    template_name = 'courses/settings_problems.html'
+    template_name = 'courses/settings/problems.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsProblemsView, self).get_context_data(**kwargs)
@@ -430,7 +430,7 @@ Common problems
 
 
 class CourseSettingsCommonProblemsView(CourseSettingsView):
-    template_name = 'courses/settings_common_problems_edit.html'
+    template_name = 'courses/settings/common_problems_edit.html'
 
     def get(self, request, course):
         form = CourseCommonProblemsForm(instance=course)
@@ -455,7 +455,7 @@ class CourseSettingsProblemsJsonListView(CourseSettingsView):
 
 
 class CourseSettingsTopicCommonProblemsView(CourseSettingsView):
-    template_name = 'courses/settings_common_problems_edit.html'
+    template_name = 'courses/settings/common_problems_edit.html'
 
     def _create_form(self, course, topic_id, data=None):
         topic = get_object_or_404(course.topic_set, pk=topic_id)
@@ -501,7 +501,7 @@ class SheetMixin(object):
 
 
 class CourseSettingsSheetActivityListView(SheetMixin, CourseSettingsBaseListView):
-    template_name = 'courses/settings_sheet.html'
+    template_name = 'courses/settings/sheet.html'
 
     def get_queryset(self, course):
         return course.activity_set.all()
@@ -551,7 +551,7 @@ class SubroupMixin(object):
 
 
 class CourseSettingsSubgroupListView(SubroupMixin, CourseSettingsBaseListView):
-    template_name = 'courses/settings_subgroups.html'
+    template_name = 'courses/settings/subgroups.html'
 
     def get_queryset(self, course):
         return course.subgroup_set.all()
@@ -599,7 +599,7 @@ class QuizMixin(object):
 
 
 class CourseSettingsQuizzesView(QuizMixin, CourseSettingsView):
-    template_name = 'courses/settings_quizzes.html'
+    template_name = 'courses/settings/quizzes.html'
 
     def _make_view_model(self, data=None):
         formset_class = modelformset_factory(QuizInstance, fields=('is_available',))
@@ -624,7 +624,7 @@ class CourseSettingsQuizzesView(QuizMixin, CourseSettingsView):
 
 
 class CourseSettingsQuizzesCreateView(QuizMixin, CourseSettingsView):
-    template_name = 'courses/settings_component.html'
+    template_name = 'courses/settings/component.html'
 
     def get(self, request, course):
         form = QuizInstanceCreateForm()
@@ -647,7 +647,7 @@ class CourseSettingsQuizzesCreateView(QuizMixin, CourseSettingsView):
 
 class CourseSettingsQuizzesUpdateView(QuizMixin, CourseSettingsView):
     form_class = QuizInstanceUpdateForm
-    template_name = 'courses/settings_quiz_edit.html'
+    template_name = 'courses/settings/quiz_edit.html'
 
     def _load_instance(self, instance_id):
         instance = QuizInstance.objects.filter(pk=instance_id, course=self.course).\
@@ -698,7 +698,7 @@ class QueueMixin(object):
 
 
 class CourseSettingsQueuesView(QueueMixin, CourseSettingsBaseListView):
-    template_name = 'courses/settings_queues.html'
+    template_name = 'courses/settings/queues.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsQueuesView, self).get_context_data(**kwargs)
