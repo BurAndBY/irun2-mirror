@@ -6,7 +6,7 @@
 
 {% if sum_is_bad %}
     <div class="alert alert-warning" role="alert">
-        {% blocktrans %}<strong>Warning!</strong> Sum of weights is {{ sum_actual }}, but {{ sum_expected }} is required.{% endblocktrans %}
+        {% blocktrans with sum_actual=sum_actual|floatformat sum_expected=sum_expected|floatformat %}<strong>Warning!</strong> Sum of weights is {{ sum_actual }}, but {{ sum_expected }} is required.{% endblocktrans %}
     </div>
 {% endif %}
 
@@ -15,7 +15,7 @@
     <ul>
     {% for activity in main_activities %}
         <li>
-            <a href="{% url 'courses:settings:sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {% trans 'weight' %} <strong>{{ activity.weight }}</strong>: {{ activity.get_kind_display }}
+            <a href="{% url 'courses:settings:sheet_activity_update' course.id activity.id %}">{{ activity.name }}</a>&nbsp;&mdash; {% trans 'weight' %} <strong>{{ activity.weight|floatformat }}</strong>: {{ activity.get_kind_display }}
         </li>
     {% endfor %}
     </ul>
