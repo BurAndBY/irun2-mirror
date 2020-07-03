@@ -446,11 +446,18 @@ class CourseDescr(object):
         for topic in course.topic_set.\
                 prefetch_related('criteria').\
                 prefetch_related('slot_set').\
-                prefetch_related('common_problems').\
                 all():
             descr = TopicDescr(topic)
             self._topic_id_to_index[topic.id] = len(self.topic_descrs)
             self.topic_descrs.append(descr)
+
+        for tcp in TopicCommonProblem.objects.\
+                filter(topic__course=course).\
+                select_related('problem').\
+                order_by('pk'):
+            topic_index = self._topic_id_to_index.get(tcp.topic_id)
+            if topic_index is not None:
+                self.topic_descrs[topic_index].common_problems.append(tcp.problem)
 
         self.activities = []
         self._activity_id_to_index = {}
@@ -509,7 +516,7 @@ class TopicDescr(object):
             self._id_to_index[slot.id] = len(self.slots)
             self.slots.append(slot)
 
-        self.common_problems = [problem for problem in topic.common_problems.all()]
+        self.common_problems = []
 
     @property
     def slot_count(self):

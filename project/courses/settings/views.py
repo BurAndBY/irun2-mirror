@@ -12,7 +12,6 @@ from django.utils.translation import ungettext
 from common.bulk.update import change_rowset_ordered_3p
 from common.cacheutils import AllObjectsCache
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
-from problems.models import Problem
 from proglangs.models import Compiler
 from quizzes.models import QuizInstance
 
@@ -28,11 +27,9 @@ from courses.settings.forms import (
     QuizInstanceUpdateForm,
     SubgroupForm,
     TopicForm,
-    TopicCommonProblemsForm,
 )
 from courses.settings.forms import (
     ThreePanelProblemMultipleChoiceField,
-    TwoPanelProblemMultipleChoiceField,
     TwoPanelUserMultipleChoiceField,
 )
 from courses.settings.forms import create_member_subgroup_formset_class
@@ -456,6 +453,7 @@ class CourseSettingsCommonProblemsView(CourseSettingsView):
                 change_rowset_ordered_3p(form.cleaned_data['common_problems'], Through, 'problem_id', {'course': course})
 
             return redirect('courses:settings:problems', course_id=course.id)
+
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
@@ -470,11 +468,12 @@ class CourseSettingsTopicCommonProblemsView(CourseSettingsView):
 
     def _create_form(self, course, topic_id, data=None):
         topic = get_object_or_404(course.topic_set, pk=topic_id)
-        qs = topic.get_common_problems()
-        form = TopicCommonProblemsForm(data, initial={'common_problems': qs})
-        form.fields['common_problems'].widget.url_params = [course.id]
-        if data is None:
-            form.fields['common_problems'].queryset = qs
+        form = CourseCommonProblemsForm(data)
+        form.fields['common_problems'].configure(
+            initial=topic.get_common_problems(),
+            user=self.request.user,
+            url_template=reverse('courses:settings:problems_json_list', args=(course.id, FOLDER_ID_PLACEHOLDER))
+        )
         return form
 
     def get(self, request, course, topic_id):
@@ -485,14 +484,10 @@ class CourseSettingsTopicCommonProblemsView(CourseSettingsView):
     def post(self, request, course, topic_id):
         form = self._create_form(course, topic_id, request.POST)
         if form.is_valid():
-            relations = [
-                TopicCommonProblem(topic_id=topic_id, problem=problem)
-                for problem in form.cleaned_data['common_problems']
-            ]
             with transaction.atomic():
-                TopicCommonProblem.objects.filter(topic_id=topic_id).delete()
-                TopicCommonProblem.objects.bulk_create(relations)
+                change_rowset_ordered_3p(form.cleaned_data['common_problems'], TopicCommonProblem, 'problem_id', {'topic_id': topic_id})
             return redirect('courses:settings:problems', course_id=course.id)
+
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
