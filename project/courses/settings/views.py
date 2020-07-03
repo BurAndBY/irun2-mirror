@@ -37,6 +37,7 @@ from courses.models import (
     Membership,
     TopicCommonProblem,
 )
+from courses.services import CourseDescr
 from courses.views import BaseCourseView
 
 
@@ -404,16 +405,13 @@ class TopicMixin(object):
         form.fields['num_problems'].initial = obj.slot_set.count()
 
 
-class CourseSettingsProblemsView(TopicMixin, CourseSettingsBaseListView):
+class CourseSettingsProblemsView(TopicMixin, CourseSettingsView):
     template_name = 'courses/settings/problems.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(CourseSettingsProblemsView, self).get_context_data(**kwargs)
-        context['common_problems'] = list(self.course.common_problems.all())
-        return context
-
-    def get_queryset(self, course):
-        return course.topic_set.all().prefetch_related('slot_set')
+    def get(self, request, course):
+        course_descr = CourseDescr(course)
+        context = self.get_context_data(course_descr=course_descr)
+        return render(request, self.template_name, context)
 
 
 class CourseSettingsTopicsCreateView(TopicMixin, CourseSettingsBaseCreateView):

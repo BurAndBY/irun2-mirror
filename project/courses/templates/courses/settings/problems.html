@@ -7,9 +7,9 @@
 
 {% block submain %}
     <h3>{% trans 'Topics' %}</h3>
-    {% if object_list %}
+    {% if course_descr.topic_descrs %}
         <ul>
-        {% for topic in object_list %}
+        {% for topic_descr in course_descr.topic_descrs %}{% with topic=topic_descr.topic %}
             <li>
                 <a href="{% url 'courses:settings:topics_update' course.id topic.id %}">{{ topic.name }}</a>
                 <dl class="dl-horizontal">
@@ -28,7 +28,7 @@
 
                     <dt>{% trans 'Criteria' %}</dt>
                     <dd>
-                        {% for criterion in topic.criteria.all %}
+                        {% for criterion in topic_descr.criteria %}
                             {% irunner_courses_criterion criterion True tooltip=True %}
                         {% endfor %}
                     </dd>
@@ -36,7 +36,7 @@
                     <dt>{% trans 'Common problems' %}</dt>
                     <dd>
                         <ul class="list-unstyled">
-                            {% for problem in topic.get_common_problems %}
+                            {% for problem in topic_descr.common_problems %}
                             <li>
                                 {% irunner_problems_difficulty problem.difficulty %}
                                 <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_full_name }}</a>
@@ -52,7 +52,7 @@
                     {% endif %}
                 </dl>
             </li>
-        {% endfor %}
+        {% endwith %}{% endfor %}
         </ul>
     {% else %}
         {% trans 'No topics' %}
@@ -67,7 +67,7 @@
     </p>
 
     <ul>
-        {% for problem in common_problems %}
+        {% for problem in course_descr.common_problems %}
             <li>
                 {% irunner_problems_difficulty problem.difficulty %}
                 <a href="{% url 'courses:course_problems_problem' course.id problem.id %}">{{ problem.numbered_full_name }}</a>
