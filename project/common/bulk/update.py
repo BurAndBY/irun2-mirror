@@ -17,7 +17,7 @@ def _change_rowset(pks_before, pks_after, model, keyname, extra_args):
 
     to_remove = before - after
     if to_remove:
-        model.objects.filter(**{'{}__in'.format(keyname): to_remove}).delete()
+        model.objects.filter(**{'{}__in'.format(keyname): to_remove}, **extra_args).delete()
 
     return Diff(len(to_add), len(to_remove))
 
