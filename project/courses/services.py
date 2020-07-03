@@ -30,6 +30,7 @@ from courses.models import (
     ActivityRecord,
     Assignment,
     AssignmentCriteriaIntermediate,
+    Course,
     Membership,
     Subgroup,
     TopicCommonProblem,
@@ -458,7 +459,7 @@ class CourseDescr(object):
             self.activities.append(activity)
 
         self.common_problems = []
-        for problem in course.common_problems.all():
+        for problem in course.get_common_problems():
             self.common_problems.append(problem)
 
         self.subgroups = list(course.subgroup_set.order_by('id'))

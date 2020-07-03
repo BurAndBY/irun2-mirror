@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
 from common.cacheutils import AllObjectsCache
+from common.tree.fields import FOLDER_ID_PLACEHOLDER
 from problems.models import Problem
 from proglangs.models import Compiler
 from quizzes.models import QuizInstance
@@ -29,11 +30,13 @@ from courses.settings.forms import (
     TopicCommonProblemsForm,
 )
 from courses.settings.forms import (
+    ThreePanelProblemMultipleChoiceField,
     TwoPanelProblemMultipleChoiceField,
     TwoPanelUserMultipleChoiceField,
 )
 from courses.settings.forms import create_member_subgroup_formset_class
 from courses.models import (
+    Course,
     Membership,
     TopicCommonProblem,
 )
@@ -430,17 +433,32 @@ Common problems
 class CourseSettingsCommonProblemsView(CourseSettingsView):
     template_name = 'courses/settings/common_problems_edit.html'
 
+    def _make_form(self, course, data=None):
+        form = CourseCommonProblemsForm(data)
+        form.fields['common_problems'].configure(
+            initial=course.get_common_problems(),
+            user=self.request.user,
+            url_template=reverse('courses:settings:problems_json_list', args=(course.id, FOLDER_ID_PLACEHOLDER))
+        )
+        return form
+
     def get(self, request, course):
-        form = CourseCommonProblemsForm(instance=course)
-        form.fields['common_problems'].widget.url_params = [course.id]
+        form = self._make_form(course)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, course):
-        form = CourseCommonProblemsForm(request.POST, instance=course)
+        form = self._make_form(course, request.POST)
         if form.is_valid():
+            Through = Course.common_problems.through
+            objs = []
+            for problem_id in form.cleaned_data['common_problems'].pks:
+                objs.append(Through(course=course, problem_id=problem_id))
+
             with transaction.atomic():
-                form.save()
+                Through.objects.filter(course=course).delete()
+                Through.objects.bulk_create(objs)
+
             return redirect('courses:settings:problems', course_id=course.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
@@ -448,8 +466,7 @@ class CourseSettingsCommonProblemsView(CourseSettingsView):
 
 class CourseSettingsProblemsJsonListView(CourseSettingsView):
     def get(self, request, course, folder_id):
-        problems = Problem.objects.filter(folders__id=folder_id)
-        return TwoPanelProblemMultipleChoiceField.ajax(problems)
+        return ThreePanelProblemMultipleChoiceField.ajax(request.user, folder_id)
 
 
 class CourseSettingsTopicCommonProblemsView(CourseSettingsView):

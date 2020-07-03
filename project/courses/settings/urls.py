@@ -15,7 +15,7 @@ settings_urlpatterns = ([
     url(r'^problems/topics/(?P<pk>[0-9]+)/$', settingsviews.CourseSettingsTopicsUpdateView.as_view(), name='topics_update'),
     url(r'^problems/topics/(?P<topic_id>[0-9]+)/common/$', settingsviews.CourseSettingsTopicCommonProblemsView.as_view(), name='topic_common_problems'),
     url(r'^problems/common/$', settingsviews.CourseSettingsCommonProblemsView.as_view(), name='common_problems'),
-    url(r'^problems/list/(?P<folder_id>[0-9]+)/$', settingsviews.CourseSettingsProblemsJsonListView.as_view(), name='problems_json_list'),
+    url(r'^problems/list/(?P<folder_id>[^/]+)/$', settingsviews.CourseSettingsProblemsJsonListView.as_view(), name='problems_json_list'),
 
     url(r'^sheet/$', settingsviews.CourseSettingsSheetActivityListView.as_view(), name='sheet'),
     url(r'^sheet/activities/create/$', settingsviews.CourseSettingsSheetActivityCreateView.as_view(), name='sheet_activity_create'),

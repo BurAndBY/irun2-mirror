@@ -73,6 +73,12 @@ class Course(models.Model):
         if (len(self.name) == 0) and (self.year_of_study is None) and (self.group is None) and (self.academic_year is None):
             raise ValidationError(_('No information is given to identify the course.'))
 
+    def get_common_problems(self):
+        return [thr.problem for thr in Course.common_problems.through.objects.
+                filter(course=self).
+                select_related('problem').
+                order_by('pk')]
+
     def __str__(self):
         tokens = []
         if self.year_of_study is not None:

@@ -6,6 +6,7 @@ from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
+from problems.fields import ThreePanelGenericProblemMultipleChoiceField
 from problems.models import Problem, ProblemFolder
 from quizzes.models import QuizInstance
 from users.models import UserFolder
@@ -135,14 +136,15 @@ class TwoPanelProblemMultipleChoiceField(TwoPanelModelMultipleChoiceField):
         return obj.numbered_full_name_difficulty()
 
 
-class CourseCommonProblemsForm(forms.ModelForm):
-    common_problems = TwoPanelProblemMultipleChoiceField(label=_('Problems'), required=False,
-                                                         model=Problem, folder_model=ProblemFolder,
-                                                         url_pattern='courses:settings:problems_json_list')
+class ThreePanelProblemMultipleChoiceField(ThreePanelGenericProblemMultipleChoiceField):
+    @classmethod
+    def label_from_instance(cls, obj):
+        return obj.numbered_full_name_difficulty()
 
-    class Meta:
-        model = Course
-        fields = ['common_problems']
+
+class CourseCommonProblemsForm(forms.Form):
+    common_problems = ThreePanelProblemMultipleChoiceField(label=_('Problems'), required=False,
+                                                           help_text=_('Order of problem addition is significant.'))
 
 
 class TopicCommonProblemsForm(forms.Form):
