@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 
+from common.bulk.update import change_rowset_ordered_3p
 from common.cacheutils import AllObjectsCache
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
 from problems.models import Problem
@@ -451,13 +452,8 @@ class CourseSettingsCommonProblemsView(CourseSettingsView):
         form = self._make_form(course, request.POST)
         if form.is_valid():
             Through = Course.common_problems.through
-            objs = []
-            for problem_id in form.cleaned_data['common_problems'].pks:
-                objs.append(Through(course=course, problem_id=problem_id))
-
             with transaction.atomic():
-                Through.objects.filter(course=course).delete()
-                Through.objects.bulk_create(objs)
+                change_rowset_ordered_3p(form.cleaned_data['common_problems'], Through, 'problem_id', {'course': course})
 
             return redirect('courses:settings:problems', course_id=course.id)
         context = self.get_context_data(form=form)
