@@ -12,6 +12,7 @@ from django.utils.translation import ungettext
 from common.bulk.update import change_rowset_ordered_3p
 from common.cacheutils import AllObjectsCache
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
+from problems.models import ProblemFolder
 from proglangs.models import Compiler
 from quizzes.models import QuizInstance
 
@@ -95,7 +96,7 @@ class CourseSettingsCompilersView(CourseSettingsView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseSettingsCompilersView, self).get_context_data(**kwargs)
-        context['compiler_cache'] = AllObjectsCache(Compiler)
+        context['compiler_cache'] = AllObjectsCache(Compiler.objects.all())
         return context
 
     def get(self, request, course):
@@ -389,6 +390,9 @@ class TopicMixin(object):
     form_class = TopicForm
     list_url_name = 'courses:settings:problems'
 
+    def _extra_form_kwargs(self):
+        return {'user': self.request.user}
+
     def _do_save(self, course, form, obj):
         target_num_problems = form.cleaned_data['num_problems']
         topic = obj
@@ -411,7 +415,10 @@ class CourseSettingsProblemsView(TopicMixin, CourseSettingsView):
 
     def get(self, request, course):
         course_descr = CourseDescr(course)
-        context = self.get_context_data(course_descr=course_descr)
+        folder_cache = AllObjectsCache(ProblemFolder.objects.annotate(problem_count=Count('problem')).all(), set(
+            t.topic.problem_folder_id for t in course_descr.topic_descrs if t.topic.problem_folder_id is not None
+        ))
+        context = self.get_context_data(course_descr=course_descr, folder_cache=folder_cache)
         return render(request, self.template_name, context)
 
 

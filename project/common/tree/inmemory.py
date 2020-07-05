@@ -59,7 +59,7 @@ class Tree(object):
     def _reindex(self):
         self._key2node = {k: v for k, v in self._key2node.items() if v.access >= 0}
 
-    def as_choices(self):
+    def as_choices(self, show_root=True):
         choices = []
 
         def _dfs(node, level):
@@ -67,6 +67,10 @@ class Tree(object):
             for child in node.children:
                 _dfs(child, level + 1)
 
-        _dfs(self.root, 0)
+        if show_root:
+            _dfs(self.root, 0)
+        else:
+            for child in self.root.children:
+                _dfs(child, 0)
 
         return choices

@@ -195,11 +195,14 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
 
 class FolderChoiceField(forms.ChoiceField):
     default_error_messages = {
-        'read_only_folder': _('You do not have permission to add entries to this folder.')
+        'read_only_folder': _('You do not have permission to add entries to this folder.'),
+        'not_readable_folder': _('You do not have permission to list entries of this folder.'),
     }
 
     def __init__(self, *args, **kwargs):
         self._loader_cls = kwargs.pop('loader_cls')
+        self._required_mode = kwargs.pop('required_mode', AccessMode.WRITE)
+        self._none_means_not_set = kwargs.pop('none_means_not_set', False)
         self._user = None
         self._inmemory_tree = None
         super().__init__(*args, **kwargs)
@@ -212,7 +215,14 @@ class FolderChoiceField(forms.ChoiceField):
     def user(self, value):
         self._user = value
         self._inmemory_tree = self._loader_cls.load_tree(self._user)
-        self.choices = self._inmemory_tree.as_choices()
+
+        if self._none_means_not_set:
+            not_set_label = '[{}]'.format(_('Not set'))
+            choices = [(None, not_set_label)] + self._inmemory_tree.as_choices(show_root=False)
+        else:
+            choices = self._inmemory_tree.as_choices(show_root=True)
+
+        self.choices = choices
 
     def _get_pk(self, value):
         if value in self.empty_values:
@@ -221,17 +231,31 @@ class FolderChoiceField(forms.ChoiceField):
 
     def clean(self, value):
         value = super().clean(value)
+        pk = self._get_pk(value)
+
+        if self._none_means_not_set:
+            if pk is None:
+                return None
+
         try:
-            node = self._inmemory_tree.find(self._get_pk(value))
+            node = self._inmemory_tree.find(pk)
         except (TypeError, KeyError, ValueError):
             raise ValidationError(
                 self.error_messages['invalid_choice'],
                 code='invalid_choice',
                 params={'value': value},
             )
-        if node.access != AccessMode.WRITE:
-            raise ValidationError(
-                self.error_messages['read_only_folder'],
-                code='read_only_folder',
-            )
+
+        if self._required_mode == AccessMode.WRITE:
+            if node.access != AccessMode.WRITE:
+                raise ValidationError(
+                    self.error_messages['read_only_folder'],
+                    code='read_only_folder',
+                )
+        if self._required_mode == AccessMode.READ:
+            if node.access == 0:
+                raise ValidationError(
+                    self.error_messages['not_readable_folder'],
+                    code='not_readable_folder',
+                )
         return node.instance

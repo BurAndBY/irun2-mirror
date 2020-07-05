@@ -101,10 +101,10 @@ class Course(models.Model):
 class Topic(models.Model):
     name = models.CharField(_('name'), max_length=64)
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
-    problem_folder = models.ForeignKey(ProblemFolder, null=True, on_delete=models.SET_NULL, verbose_name=_('problem folder'))
+    problem_folder = models.ForeignKey(ProblemFolder, null=True, blank=True, on_delete=models.SET_NULL, verbose_name=_('problem folder'))
     criteria = models.ManyToManyField(Criterion, blank=True, verbose_name=_('criteria'))
     common_problems = models.ManyToManyField(Problem, blank=True, through='TopicCommonProblem')
-    deadline = models.DateTimeField(null=True, blank=True)
+    deadline = models.DateTimeField(_('deadline'), null=True, blank=True)
 
     def __str__(self):
         return self.name

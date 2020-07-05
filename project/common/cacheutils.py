@@ -7,9 +7,16 @@ def fetch_objects(model_objects, ids):
 
 
 class AllObjectsCache(object):
-    def __init__(self, model):
+    def __init__(self, qs, pks=None):
         self._data = {}
-        for obj in model.objects.all():
+
+        if pks is not None:
+            if len(pks) > 0:
+                qs = qs.filter(pk__in=pks)
+            else:
+                qs = qs.none()
+
+        for obj in qs.order_by():
             self._data[force_text(obj.pk)] = obj
 
     def get(self, pk, default=None):

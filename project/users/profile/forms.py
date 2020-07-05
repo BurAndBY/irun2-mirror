@@ -10,6 +10,8 @@ from django.core.files.base import ContentFile
 from common.fakefile import FakeFile
 from common.tree.fields import FolderChoiceField
 
+from cauth.acl.accessmode import AccessMode
+
 from users.loader import UserFolderLoader
 from users.models import UserFolder, UserProfile
 from users.photo import generate_thumbnail_file
@@ -27,7 +29,8 @@ class UserMainForm(forms.ModelForm):
 
 
 class UserProfileMainForm(forms.ModelForm):
-    folder = FolderChoiceField(label=_('Folder'), loader_cls=UserFolderLoader, required=False)
+    folder = FolderChoiceField(label=_('Folder'), loader_cls=UserFolderLoader,
+                               required=False, required_mode=AccessMode.WRITE, none_means_not_set=False)
 
     class Meta:
         model = UserProfile

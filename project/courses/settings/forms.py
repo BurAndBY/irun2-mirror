@@ -6,12 +6,16 @@ from django import forms
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
+from cauth.acl.accessmode import AccessMode
 from problems.fields import ThreePanelGenericProblemMultipleChoiceField
+from problems.loader import ProblemFolderLoader
 from problems.models import Problem, ProblemFolder
 from quizzes.models import QuizInstance
 from users.models import UserFolder
+
 from common.constants import EMPTY_SELECT
 from common.tree.fields import TwoPanelModelMultipleChoiceField
+from common.tree.fields import FolderChoiceField
 from common.tree.mptt_fields import OrderedTreeNodeChoiceField
 
 from courses.models import (
@@ -66,7 +70,8 @@ class CompilersForm(forms.ModelForm):
 
 
 class TopicForm(forms.ModelForm):
-    problem_folder = OrderedTreeNodeChoiceField(label=_('Problem folder'), queryset=None)
+    problem_folder = FolderChoiceField(label=_('Problem folder'), loader_cls=ProblemFolderLoader,
+                                       required=False, required_mode=AccessMode.READ, none_means_not_set=True)
     num_problems = forms.IntegerField(label=_('Problems to assign per student in the course'),
                                       min_value=0, max_value=10, initial=1)
 
@@ -78,8 +83,9 @@ class TopicForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(TopicForm, self).__init__(*args, **kwargs)
-        self.fields['problem_folder'].queryset = ProblemFolder.objects.order_by('name')
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['problem_folder'].user = user
 
 
 class ActivityForm(forms.ModelForm):

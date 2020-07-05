@@ -1,6 +1,7 @@
 {% extends 'courses/settings/base.html' %}
 
 {% load i18n %}
+{% load irunner_cache %}
 {% load irunner_courses %}
 {% load irunner_problems %}
 {% load bootstrap3 %}
@@ -11,13 +12,14 @@
         <ul>
         {% for topic_descr in course_descr.topic_descrs %}{% with topic=topic_descr.topic %}
             <li>
-                <a href="{% url 'courses:settings:topics_update' course.id topic.id %}">{{ topic.name }}</a>
+                <a href="{% url 'courses:settings:topics_update' course.id topic.id %}"><strong>{{ topic.name }}</strong></a>
                 <dl class="dl-horizontal">
                     <dt>{% trans 'Folder' %}</dt>
                     <dd>
-                        {% if topic.problem_folder %}
-                            &laquo;{{ topic.problem_folder }}&raquo;
-                            ({% blocktrans count counter=topic.problem_folder.problem_set.count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %})
+                        {% if topic.problem_folder_id != None %}
+                            {% irunner_cache_lookup folder_cache topic.problem_folder_id as folder %}
+                            <a href="{% url 'problems:show_folder' topic.problem_folder_id %}">{{ folder }}</a>
+                            <span class="text-muted">({% blocktrans count counter=folder.problem_count %}{{ counter }} problem{% plural %}{{ counter }} problems{% endblocktrans %})</span>
                         {% else %}
                             &mdash;
                         {% endif %}
@@ -30,6 +32,8 @@
                     <dd>
                         {% for criterion in topic_descr.criteria %}
                             {% irunner_courses_criterion criterion True tooltip=True %}
+                        {% empty %}
+                            &mdash;
                         {% endfor %}
                     </dd>
 
