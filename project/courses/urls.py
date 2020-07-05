@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
+from django.urls import path
 
 from courses.settings.urls import settings_urlpatterns
-from . import views, globalviews, assignviews, quizviews, queueviews
+from . import views, globalviews, assignviews, problemviews, quizviews, queueviews
 
 app_name = 'courses'
 
@@ -45,6 +46,16 @@ assignment_urlpatterns = ([
         assignviews.ListTopicProblemsApiView.as_view()),
 ], 'assignment')
 
+problem_urlpatterns = [
+    url(r'^problemset/$', problemviews.EmptyView.as_view(), name='course_problems'),
+    url(r'^problemset/(?P<topic_id>[0-9]+)/$', problemviews.FullTopicListView.as_view(), name='course_problems_topic'),
+    url(r'^problemset/(?P<topic_id>[0-9]+)/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', problemviews.TopicItemView.as_view(), name='course_problems_topic_problem'),
+    url(r'^problemset/(?P<topic_id>[0-9]+)/common/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', problemviews.TopicCommonProblemsItemView.as_view(), name='course_problems_topic_common_problem'),
+    url(r'^problemset/common/$', problemviews.CommonProblemsListView.as_view(), name='course_common_problems'),
+    url(r'^problemset/common/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', problemviews.CommonProblemsItemView.as_view(), name='course_common_problems_problem'),
+    url(r'^problems/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$', problemviews.AnyProblemView.as_view(), name='course_problems_problem'),
+]
+
 single_course_urlpatterns = [
     url(r'^$', views.CourseInfoView.as_view(), name='show_course_info'),
     url(r'^standings/$', views.CourseStandingsView.as_view(), name='course_standings'),
@@ -57,13 +68,6 @@ single_course_urlpatterns = [
 
     url(r'^submit/$', views.CourseSubmit2View.as_view(), name='course_submit'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.CourseSubmissionView.as_view(), name='course_submission'),
-
-    url(r'^problemset/$', views.CourseProblemsView.as_view(), name='course_problems'),
-    url(r'^problemset/(?P<topic_id>[0-9]+)/$', views.CourseProblemsTopicView.as_view(), name='course_problems_topic'),
-    url(r'^problemset/(?P<topic_id>[0-9]+)/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$',
-        views.CourseProblemsTopicProblemView.as_view(), name='course_problems_topic_problem'),
-    url(r'^problems/(?P<problem_id>[0-9]+)/(?P<filename>.+)?$',
-        views.CourseProblemsProblemView.as_view(), name='course_problems_problem'),
 
     url(r'^solutions/$', views.CourseAllSolutionsView.as_view(), name='all_solutions'),
     url(r'^my/solutions/$', views.CourseMySolutionsView.as_view(), name='my_solutions'),
@@ -87,6 +91,8 @@ single_course_urlpatterns = [
     url(r'^queues/', include(queue_urlpatterns)),
     url(r'^settings/', include(settings_urlpatterns)),
     url(r'^assign/', include(assignment_urlpatterns)),
+
+    path('', include(problem_urlpatterns)),
 ]
 
 urlpatterns = [

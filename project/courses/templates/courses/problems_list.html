@@ -1,14 +1,28 @@
 {% extends 'courses/problems_base.html' %}
 
+{% load i18n %}
 {% load irunner_problems %}
 
 {% block submain %}
 <ul class="list-unstyled">
-    {% for problem, assigned in problems %}
+    {% for problem, assigned, url in problems %}
         <li{% if assigned %} class="ir-problem-used"{% endif %}>
             {% irunner_problems_difficulty problem.difficulty %}
-            <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id problem.id %}">{{ problem.numbered_full_name }}</a>
+            <a href="{{ url }}">{{ problem.numbered_full_name }}</a>
         </li>
     {% endfor %}
 </ul>
+
+{% if common_problems %}
+<h3>{% trans 'Common problems' %}</h3>
+<ul class="list-unstyled">
+    {% for problem, assigned, url in common_problems %}
+        <li{% if assigned %} class="ir-problem-used"{% endif %}>
+            {% irunner_problems_difficulty problem.difficulty %}
+            <a href="{{ url }}">{{ problem.numbered_full_name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}

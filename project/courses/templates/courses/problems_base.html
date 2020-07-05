@@ -6,30 +6,33 @@
 
 {% block main %}
 <div>
-    {% if navigate_topics %}
+    {% if topic_header %}
     <div class="ir-float-parent">
         <ul class="nav nav-pills ir-inline-block ir-condensed-pills">
-            {% for topic in topics %}
-            <li role="presentation"{% if active_topic == topic %} class="active"{% endif %}>
+            {% for topic in topic_header.topics %}
+            <li role="presentation"{% if topic_header.active_topic_id == topic.id %} class="active"{% endif %}>
                 <a href="{% url 'courses:course_problems_topic' course.id topic.id %}">{{ topic.name }}</a>
             </li>
             {% endfor %}
+            <li role="presentation"{% if topic_header.is_common_topic_active %} class="active"{% endif %}>
+                <a href="{% url 'courses:course_common_problems' course.id %}">{% trans 'Common problems' %}</a>
+            </li>
         </ul>
 
-        {% if prev_next %}
+        {% if location %}
         <ul class="pagination navbar-right ir-pagination-no-margin">
             <li>
-                <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id prev_problem_id %}" aria-label="Previous">
+                <a href="{{ location.prev_url }}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li>
-                <a href="{% url 'courses:course_problems_topic' course.id active_topic.id %}">
-                    {{ cur_position }} {% trans 'of' %} {{ total_positions }}
+                <a href="{{ location.folder_url }}">
+                    {{ location.cur_position }} {% trans 'of' %} {{ location.total_positions }}
                 </a>
             </li>
             <li>
-                <a href="{% url 'courses:course_problems_topic_problem' course.id active_topic.id next_problem_id %}" aria-label="Next">
+                <a href="{{ location.next_url }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -42,7 +45,7 @@
         {% block submain %}
             {% trans 'Select a topic to view problems.' %}
         {% endblock %}
-    {% if navigate_topics %}
+    {% if topic_header %}
     </div>
     {% endif %}
 </div>

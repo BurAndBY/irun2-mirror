@@ -23,12 +23,7 @@ from common.constants import make_empty_select
 from common.pagination import paginate
 from common.outcome import Outcome
 from common.statutils import build_proglangbars
-from problems.models import (
-    Problem,
-    ProblemFolder,
-    ProblemRelatedFile,
-)
-from problems.views import ProblemStatementMixin
+
 from proglangs.utils import get_ace_mode
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
@@ -53,15 +48,12 @@ from courses.forms import (
 from courses.models import (
     Activity,
     ActivityRecord,
-    Assignment,
     Course,
     CourseSolution,
     CourseStatus,
     Criterion,
     MailMessage,
     Membership,
-    Topic,
-    TopicCommonProblem,
 )
 from courses.services import (
     UserCache,
@@ -72,8 +64,6 @@ from courses.services import (
     make_course_single_result,
 )
 from courses.services import (
-    get_assigned_problem_set,
-    get_simple_assignments,
     get_attempt_quota,
     get_attempt_message,
 )
@@ -362,184 +352,8 @@ class CourseSubmissionView(BaseCourseView):
 
 
 '''
-Problems
+Standings
 '''
-
-
-class CourseProblemsView(BaseCourseView):
-    tab = 'problems'
-    template_name = 'courses/problems_base.html'
-
-    def is_allowed(self, permissions):
-        return permissions.problems
-
-    def get(self, request, course):
-        topics = course.topic_set.all()
-
-        context = self.get_context_data(topics=topics, navigate_topics=True)
-        return render(request, self.template_name, context)
-
-
-class CourseProblemsTopicView(BaseCourseView):
-    tab = 'problems'
-    template_name = 'courses/problems_list.html'
-
-    def is_allowed(self, permissions):
-        return permissions.problems
-
-    def get(self, request, course, topic_id):
-        topic = course.topic_set.filter(id=topic_id).first()
-        if topic is None:
-            return redirect('courses:course_problems', course_id=course.id)
-
-        assigned_problems = get_assigned_problem_set(course)
-
-        problems_with_assign_flag = []
-        for problem in topic.list_problems():
-            assigned = (problem.id in assigned_problems)
-            problems_with_assign_flag.append((problem, assigned))
-
-        context = self.get_context_data()
-        topics = course.topic_set.all()
-        context['navigate_topics'] = True
-        context['topics'] = topics
-        context['active_topic'] = topic
-        context['problems'] = problems_with_assign_flag
-        return render(request, self.template_name, context)
-
-
-def _locate_in_list(lst, x):
-    try:
-        pos = lst.index(x)
-    except ValueError:
-        return None
-    length = len(lst)
-    return ((pos + length - 1) % length, pos, (pos + 1) % length)
-
-
-class CourseStatementMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(CourseStatementMixin, self).get_context_data(**kwargs)
-        can_submit = False
-
-        simple_assignments = get_simple_assignments(self.course, self.problem)
-
-        if self.permissions.submit_all_problems:
-            can_submit = True
-        else:
-            me = self.request.user.id
-            can_submit = any((x.user_id == me) for x in simple_assignments)
-            if not can_submit:
-                can_submit |= self.course.common_problems.filter(pk=self.problem.id).exists()
-            if not can_submit:
-                can_submit |= TopicCommonProblem.objects.filter(topic__course=self.course, problem=self.problem).exists()
-
-        if self.permissions.editorials:
-            context['editorial_files'] = [
-                EditorialFile(prf.filename, prf.description)
-                for prf in self.problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.SOLUTION_DESCRIPTION)
-            ]
-
-        if simple_assignments:
-            context['simple_assignments'] = simple_assignments
-            context['user_cache'] = self.get_user_cache()
-        context['can_submit'] = can_submit
-        return context
-
-
-class CourseProblemsTopicProblemView(ProblemStatementMixin, CourseStatementMixin, BaseCourseView):
-    tab = 'problems'
-    template_name = 'courses/problems_statement.html'
-
-    def is_allowed(self, permissions):
-        return permissions.problems
-
-    def get(self, request, course, topic_id, problem_id, filename):
-        topic = get_object_or_404(Topic, pk=topic_id, course_id=course.id)
-        if topic.problem_folder is None:
-            return redirect('courses:course_problems', course_id=course.id)
-
-        problem = topic.problem_folder.problem_set.filter(pk=problem_id).first()
-        if problem is None:
-            return redirect('courses:course_problems_topic', course_id=course.id, topic_id=topic.id)
-        self.problem = problem
-
-        if self.is_aux_file(filename):
-            return self.serve_aux_file(request, problem.id, filename)
-
-        problem_ids = topic.problem_folder.problem_set.order_by('number', 'subnumber').values_list('id', flat=True)
-        problem_ids = list(problem_ids)  # evaluate the queryset
-        problem_id = int(problem_id)  # safe because of regexp in urls.py
-
-        positions = _locate_in_list(problem_ids, problem_id)
-        if positions is not None:
-            context = self.get_context_data()
-            prev, cur, next = positions
-
-            context['navigate_topics'] = True
-            context['prev_next'] = True
-            context['prev_problem_id'] = problem_ids[prev]
-            context['cur_position'] = cur + 1  # 1-based
-            context['total_positions'] = len(problem_ids)
-            context['next_problem_id'] = problem_ids[next]
-            context['problem'] = problem
-            context['statement'] = self.make_statement(problem)
-
-            context['topics'] = course.topic_set.all()
-            context['active_topic'] = topic
-            return render(request, self.template_name, context)
-
-        # fallback
-        return redirect('courses:course_problems', course_id=course.id)
-
-
-class CourseProblemsProblemView(ProblemStatementMixin, CourseStatementMixin, BaseCourseView):
-    tab = 'problems'
-    template_name = 'courses/problems_statement.html'
-
-    def is_allowed(self, permissions):
-        if not permissions.problems:
-            return False
-
-        # We show the statement if the problem belongs to the set of problems that can be assigned now
-        course_id = self.kwargs['course_id']
-        problem_id = self.kwargs['problem_id']
-
-        course_folders = ProblemFolder.objects.filter(topic__course_id=course_id)
-        problem_folders = ProblemFolder.objects.filter(problem__id=problem_id)
-
-        if (course_folders & problem_folders).exists():
-            return True
-
-        # We show the problem if it has already been assigned
-        if Assignment.objects.filter(membership__course_id=course_id, problem_id=problem_id).exists():
-            return True
-
-        # We show the problem if it has already been submitted in the course
-        if CourseSolution.objects.filter(course_id=course_id, solution__problem_id=problem_id).exists():
-            return True
-
-        # We show the problem if it is present in the list of common problems for course.
-        if self.course.common_problems.filter(pk=problem_id).exists():
-            return True
-
-        if TopicCommonProblem.objects.filter(topic__course_id=course_id, problem_id=problem_id).exists():
-            return True
-
-        return False
-
-    def get(self, request, course, problem_id, filename):
-        problem = get_object_or_404(Problem, pk=problem_id)
-        self.problem = problem
-
-        if self.is_aux_file(filename):
-            return self.serve_aux_file(request, problem.id, filename)
-
-        context = self.get_context_data()
-        context['navigate_topics'] = False
-        context['problem'] = problem
-        context['statement'] = self.make_statement(problem)
-        return render(request, self.template_name, context)
 
 
 class CourseStandingsView(UserCacheMixinMixin, BaseCourseView):
