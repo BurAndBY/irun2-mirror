@@ -28,7 +28,7 @@ settings_urlpatterns = ([
     url(r'^users/$', settingsviews.CourseSettingsUsersView.as_view(), name='users'),
     url(r'^users/students/$', settingsviews.CourseSettingsUsersStudentsView.as_view(), name='users_students'),
     url(r'^users/teachers/$', settingsviews.CourseSettingsUsersTeachersView.as_view(), name='users_teachers'),
-    url(r'^users/list/(?P<folder_id>[0-9]+)/$', settingsviews.CourseSettingsUsersJsonListView.as_view(), name='users_json_list'),
+    url(r'^users/list/(?P<folder_id>[^/]+)/$', settingsviews.CourseSettingsUsersJsonListView.as_view(), name='users_json_list'),
 
     url(r'^compilers/$', settingsviews.CourseSettingsCompilersView.as_view(), name='compilers'),
 

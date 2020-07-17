@@ -11,6 +11,7 @@ from problems.fields import ThreePanelGenericProblemMultipleChoiceField
 from problems.loader import ProblemFolderLoader
 from problems.models import Problem, ProblemFolder
 from quizzes.models import QuizInstance
+from users.fields import ThreePanelUserMultipleChoiceField
 from users.models import UserFolder
 
 from common.constants import EMPTY_SELECT
@@ -131,9 +132,7 @@ class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
 
 
 class CourseUsersForm(forms.Form):
-    users = TwoPanelUserMultipleChoiceField(label=_('Users'), required=False,
-                                            model=auth.get_user_model(), folder_model=UserFolder,
-                                            url_pattern='courses:settings:users_json_list')
+    users = ThreePanelUserMultipleChoiceField(label=_('Users'), required=False)
 
 
 class ThreePanelProblemMultipleChoiceField(ThreePanelGenericProblemMultipleChoiceField):

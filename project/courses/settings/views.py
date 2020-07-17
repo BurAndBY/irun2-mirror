@@ -1,15 +1,13 @@
 from collections import namedtuple
 
-from django.contrib import auth, messages
 from django.urls import reverse
 from django.db import transaction
 from django.db.models import Count
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ungettext
 
-from common.bulk.update import change_rowset_ordered_3p
+from common.bulk.update import change_rowset_3p, change_rowset_ordered_3p, notify_users_changed
 from common.cacheutils import AllObjectsCache
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
 from problems.models import ProblemFolder
@@ -31,7 +29,7 @@ from courses.settings.forms import (
 )
 from courses.settings.forms import (
     ThreePanelProblemMultipleChoiceField,
-    TwoPanelUserMultipleChoiceField,
+    ThreePanelUserMultipleChoiceField,
 )
 from courses.settings.forms import create_member_subgroup_formset_class
 from courses.models import (
@@ -170,63 +168,29 @@ class CourseSettingsUsersCommonView(CourseSettingsView):
         raise NotImplementedError()
 
     def _list_users(self, course):
-        return list(course.members.filter(membership__role=self.get_role()))
+        return list(course.members.filter(membership__role=self.get_role()).order_by('last_name'))
+
+    def _make_form(self, course, data=None):
+        form = CourseUsersForm(data)
+        form.fields['users'].configure(
+            initial=self._list_users(course),
+            user=self.request.user,
+            url_template=reverse('courses:settings:users_json_list', args=(course.id, FOLDER_ID_PLACEHOLDER))
+        )
+        return form
 
     def get(self, request, course):
-        form = CourseUsersForm(initial={'users': self._list_users(course)})
-        form.fields['users'].widget.url_params = [course.id]
-
+        form = self._make_form(course)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
-    def _put_message(self, request, users_added, users_removed):
-        msgs = []
-        if users_added > 0:
-            msg = ungettext(
-                '%(count)d user was added.',
-                '%(count)d users were added.',
-                users_added) % {
-                'count': users_added,
-                }
-            msgs.append(msg)
-        if users_removed > 0:
-            msg = ungettext(
-                '%(count)d user was removed.',
-                '%(count)d users were removed.',
-                users_removed) % {
-                'count': users_removed,
-                }
-            msgs.append(msg)
-        if msgs:
-            messages.add_message(request, messages.INFO, ' '.join(msgs))
-
     def post(self, request, course):
-        role = self.get_role()
-        present_users = self._list_users(course)
-        present_ids = set(user.id for user in present_users)
-
-        form = CourseUsersForm(request.POST, initial={'users': present_users})
+        form = self._make_form(course, request.POST)
         if form.is_valid():
-            target_users = form.cleaned_data['users']
-            target_ids = set(user.id for user in target_users)
-
-            users_added = 0
-            users_removed = 0
-
             with transaction.atomic():
-                for user in present_users:
-                    if user.id not in target_ids:
-                        Membership.objects.filter(role=role, course=course, user=user).delete()
-                        users_removed += 1
-
-                for user in target_users:
-                    if user.id not in present_ids:
-                        Membership.objects.create(role=role, course=course, user=user)
-                        users_added += 1
-
-            self._put_message(request, users_added, users_removed)
+                diff = change_rowset_3p(form.cleaned_data['users'], Membership, 'user_id', {'role': self.get_role(), 'course': course})
+            notify_users_changed(request, diff)
             return redirect('courses:settings:users', course.id)
-
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
@@ -253,8 +217,7 @@ class CourseSettingsUsersTeachersView(CourseSettingsUsersCommonView):
 
 class CourseSettingsUsersJsonListView(CourseSettingsView):
     def get(self, request, course, folder_id):
-        users = auth.get_user_model().objects.filter(userprofile__folder_id=folder_id)
-        return TwoPanelUserMultipleChoiceField.ajax(users)
+        return ThreePanelUserMultipleChoiceField.ajax(request.user, folder_id)
 
 
 '''
