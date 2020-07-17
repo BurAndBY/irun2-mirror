@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from common.cacheutils import AllObjectsCache
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
 from common.tree.key import folder_id_or_404
-from common.bulk.update import change_rowset_3p, notify_users_changed
+from common.bulk.update import change_rowset_3p, change_rowset_numbered_3p, notify_users_changed
 from problems.models import Problem
 from proglangs.models import Compiler
 from storage.utils import store_with_metadata
@@ -133,16 +133,9 @@ class ProblemsView(ContestSettingsView):
 
     def post(self, request, contest):
         form = self._make_form(contest, request.POST)
-
         if form.is_valid():
-            objs = []
-            for i, problem_id in enumerate(form.cleaned_data['problems'].pks):
-                objs.append(ContestProblem(contest=contest, problem_id=problem_id, ordinal_number=i+1))
-
             with transaction.atomic():
-                ContestProblem.objects.filter(contest=contest).delete()
-                ContestProblem.objects.bulk_create(objs)
-
+                change_rowset_numbered_3p(form.cleaned_data['problems'], ContestProblem, 'problem_id', 'ordinal_number', {'contest': contest})
             return redirect('contests:settings_problems', contest_id=contest.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
