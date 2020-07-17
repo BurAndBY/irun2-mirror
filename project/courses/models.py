@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
+from django.utils.translation import pgettext, ugettext
 
 from problems.models import ProblemFolder, Problem
 from proglangs.models import Compiler
@@ -16,7 +16,11 @@ from solutions.models import Solution
 from solutions.permissions import SolutionAccessLevel
 from storage.models import FileMetadata
 
-from courses.utils import make_year_of_study_string, make_academic_year_string
+from common.education.year import (
+    make_year_of_study_string,
+    make_group_string,
+    make_academic_year_string,
+)
 from users.modelfields import OwnerGroupField
 
 
@@ -84,14 +88,16 @@ class Course(models.Model):
         if self.year_of_study is not None:
             tokens.append(make_year_of_study_string(self.year_of_study))
         if self.group is not None:
-            tokens.append(ugettext('%(group)d group') % {'group': self.group})
+            tokens.append(make_group_string(self.group))
         if len(self.name) > 0:
             tokens.append(self.name)
         if self.academic_year is not None:
             tokens.append(make_academic_year_string(self.academic_year))
         if len(tokens) == 0:
             tokens.append('<...>')
-        return ' '.join(tokens)
+
+        delim = pgettext('course name delimiter', ', ')
+        return delim.join(tokens)
 
     class Meta:
         ordering = ['academic_year', 'year_of_study', 'group', 'name']
