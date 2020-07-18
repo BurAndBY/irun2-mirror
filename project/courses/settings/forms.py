@@ -3,21 +3,16 @@
 from __future__ import unicode_literals
 
 from django import forms
-from django.contrib import auth
 from django.utils.translation import ugettext_lazy as _
 
 from cauth.acl.accessmode import AccessMode
 from problems.fields import ThreePanelGenericProblemMultipleChoiceField
 from problems.loader import ProblemFolderLoader
-from problems.models import Problem, ProblemFolder
 from quizzes.models import QuizInstance
 from users.fields import ThreePanelUserMultipleChoiceField
-from users.models import UserFolder
 
 from common.constants import EMPTY_SELECT
-from common.tree.fields import TwoPanelModelMultipleChoiceField
 from common.tree.fields import FolderChoiceField
-from common.tree.mptt_fields import OrderedTreeNodeChoiceField
 
 from courses.models import (
     Activity,
@@ -123,12 +118,6 @@ class QuizInstanceUpdateForm(forms.ModelForm):
     class Meta:
         model = QuizInstance
         fields = ['tag', 'attempts', 'time_limit', 'deadline', 'disable_time_limit', 'show_answers', 'enable_discussion']
-
-
-class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
-    @classmethod
-    def label_from_instance(cls, obj):
-        return obj.get_full_name()
 
 
 class CourseUsersForm(forms.Form):

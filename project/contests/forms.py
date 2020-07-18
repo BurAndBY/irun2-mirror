@@ -8,7 +8,6 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
-from common.tree.fields import TwoPanelModelMultipleChoiceField
 from problems.fields import ThreePanelGenericProblemMultipleChoiceField
 from solutions.forms import SolutionForm
 from users.fields import ThreePanelUserMultipleChoiceField
@@ -70,12 +69,6 @@ class ProblemsForm(forms.Form):
 class StatementsForm(forms.Form):
     upload = forms.FileField(label=_('Statements file'), required=False,
                              help_text=_('You can upload a single file containing statements of all problems (usually in PDF format).'))
-
-
-class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
-    @classmethod
-    def label_from_instance(cls, obj):
-        return obj.get_full_name()
 
 
 class UsersForm(forms.Form):

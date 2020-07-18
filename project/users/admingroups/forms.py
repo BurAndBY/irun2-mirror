@@ -9,13 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 from users.fields import ThreePanelUserMultipleChoiceField
 from users.models import AdminGroup
 from common.tree.fields import FOLDER_ID_PLACEHOLDER
-from common.tree.fields import TwoPanelModelMultipleChoiceField
-
-
-class TwoPanelUserMultipleChoiceField(TwoPanelModelMultipleChoiceField):
-    @classmethod
-    def label_from_instance(cls, obj):
-        return obj.get_full_name()
 
 
 class AdminGroupForm(forms.ModelForm):
