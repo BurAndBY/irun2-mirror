@@ -173,6 +173,30 @@ TEX_EXAMPLES = [
         (
             'Некоторые выражения можно брать в <<кавычки>>.'
         )
+    ],
+    [
+        'Исходный код',
+        (
+            '\\begin{verbatim}\n'
+            '      1\n'
+            '    1   1\n'
+            '  1   2   1\n'
+            '1   3   3   1\n'
+            '\\end{verbatim}'
+        ),
+        (
+            '\\begin{minted}{cpp}\n'
+            'int main(int argc, char* argv[]) {\n'
+            '    return 0;\n'
+            '}\n'
+            '\\end{minted}'
+        ),
+        'Директива \\mintinline{cpp}{#include}',
+    ],
+    [
+        'Гиперссылки',
+        'Материалы доступны по ссылке: \\url{http://example.com/}',
+        'Материалы доступны \\href{http://example.com/}{по ссылке}.',
     ]
 ]
 
