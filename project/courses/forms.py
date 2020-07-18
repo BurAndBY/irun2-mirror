@@ -8,6 +8,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
+from common.education.year import (
+    make_year_of_study_string, make_academic_year_string
+)
 import solutions.forms
 
 from courses.models import (
@@ -16,9 +19,6 @@ from courses.models import (
     MailMessage,
     MailThread,
     QueueEntry,
-)
-from courses.utils import (
-    make_year_of_study_string, make_academic_year_string
 )
 from problems.models import (
     ProblemExtraInfo,

@@ -11,6 +11,7 @@ from cauth.mixins import (
     LoginRequiredMixin,
     AdminMemberRequiredMixin,
 )
+from common.education.year import make_academic_year_string
 from proglangs.models import Compiler
 
 from courses.models import (
@@ -20,7 +21,6 @@ from courses.models import (
     Membership,
 )
 from courses.forms import NewCourseForm
-from courses.utils import make_academic_year_string
 from courses.messaging import MessageCountManager
 
 
