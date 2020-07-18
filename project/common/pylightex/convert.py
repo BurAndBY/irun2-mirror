@@ -32,6 +32,8 @@ VERBATIM_CHAR: /./s
 verbatim_content: VERBATIM_CHAR*
 verb_cmd: ("\\verb{" inline_verbatim_block "}") | ("\\verb|" /[^|]+/ "|") | ("\\verb!" /[^!]+/ "!")
 path_cmd: "\\path{" inline_verbatim_block "}"
+url_cmd: "\\url{" inline_verbatim_block "}"
+href_cmd: "\\href{" inline_verbatim_block "}" "{" phrase "}"
 mintinline_cmd: "\\mintinline{" CNAME "}{" inline_verbatim_block "}"
 verbatim_env: "\\begin{verbatim}" verbatim_content "\\end{verbatim}"
 minted_env: "\\begin{minted}{" CNAME "}" verbatim_content "\\end{minted}"
@@ -73,7 +75,7 @@ example_env: "\\begin{example}" (exmp_cmd | _WHITESPACE | _COMMENT)* "\\end{exam
 
 // Document structure
 multiple_newlines: /\n{2,}/
-_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | mintinline_cmd | includegraphics_cmd | _text_style_cmd | mbox_cmd
+_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | url_cmd | href_cmd | mintinline_cmd | includegraphics_cmd | _text_style_cmd | mbox_cmd
 _text_phrasing_element: _COMMENT | _plain_text | multiple_newlines
 
 phrase: _phrasing_element*
@@ -185,6 +187,15 @@ class TreeToHtml(Transformer):
     @v_args(inline=True)
     def path_cmd(self, block):
         return '<span class="path">{}</span>'.format(html_escape(block))
+
+    @v_args(inline=True)
+    def url_cmd(self, block):
+        escaped = html_escape(block)
+        return '<a href="{}" class="monospace">{}</a>'.format(escaped, escaped)
+
+    @v_args(inline=True)
+    def href_cmd(self, link, *children):
+        return '<a href="{}">{}</a>'.format(html_escape(link), ''.join(children))
 
     @v_args(inline=True)
     def mintinline_cmd(self, language, block):

@@ -193,6 +193,17 @@ class TestVerbatim(unittest.TestCase):
                          '<div class="paragraph"><div class="verbatim">#!/bin/bash\n\necho "Hello, world!"\n</div></div>')
 
 
+class TestHyperlinks(unittest.TestCase):
+    def test_url(self):
+        self.assertEqual(tex2html('\\url{aba}', inline=True), '<a href="aba" class="monospace">aba</a>')
+        self.assertEqual(tex2html('Follow: \\url{http://example.com/cgi_bin?foo=1&bar=2}', inline=True),
+                         'Follow: <a href="http://example.com/cgi_bin?foo=1&amp;bar=2" class="monospace">http://example.com/cgi_bin?foo=1&amp;bar=2</a>')
+
+    def test_href(self):
+        self.assertEqual(tex2html('Follow \\href{https://example.com}{the \\textbf{link}}', inline=True),
+                         'Follow <a href="https://example.com">the <b>link</b></a>')
+
+
 class TestPygments(unittest.TestCase):
     def test_inline_false(self):
         self.assertEqual(do_highlight('int x;\nfoo();', 'cpp'),
