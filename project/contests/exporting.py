@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 from django.utils.encoding import smart_text
 from django.utils import timezone
 
-from common.cacheutils import fetch_objects
 from common.outcome import Outcome
 from solutions.models import Solution, Judgement
 from proglangs.models import Compiler
@@ -82,7 +81,7 @@ def export_to_ejudge_xml(contest, results):
     languages = ET.SubElement(root, 'languages')
     runs = ET.SubElement(root, 'runs')
 
-    solutions = fetch_objects(Solution.objects.select_related('best_judgement'), [run.solution_id for run in results.all_runs])
+    solutions = Solution.objects.select_related('best_judgement').filter(contestsolution__contest=contest).in_bulk()
     compiler_ids = set()
 
     for run in results.all_runs:

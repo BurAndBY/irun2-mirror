@@ -1,11 +1,6 @@
 from django.utils.encoding import force_text
 
 
-def fetch_objects(model_objects, ids):
-    # TODO: split in parts and fetch sequentially if ids is too long
-    return {obj.pk: obj for obj in model_objects.filter(pk__in=ids)}
-
-
 class AllObjectsCache(object):
     def __init__(self, qs, pks=None):
         self._data = {}
