@@ -50,6 +50,8 @@ class SolutionPermissions(Permissions):
     VIEW_PLAGIARISM = 1 << 10
     VIEW_JUDGEMENTS = 1 << 11
     VIEW_IP_ADDRESS = 1 << 12
+    REJUDGE = 1 << 13
+    REFER_TO_PROBLEM = 1 << 14
 
     def update(self, level):
         if level >= SolutionAccessLevel.STATE:
@@ -68,7 +70,6 @@ class SolutionPermissions(Permissions):
 
         if level >= SolutionAccessLevel.TESTING_DETAILS:
             self.allow_view_results()
-            self.allow_view_sample_results()
 
         if level >= SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES:
             self.allow_view_exit_codes()
@@ -79,4 +80,4 @@ class SolutionPermissions(Permissions):
 
 
 # course/contest the solution belongs to
-SolutionEnvironment = namedtuple('SolutionEnvironment', 'course contest has_problem')
+SolutionEnvironment = namedtuple('SolutionEnvironment', 'course contest')

@@ -37,10 +37,11 @@
                         <dt>{% trans 'Problem' %}</dt>
                         {# What link to the problem is the best? #}
                         <dd>
-                            {% if solution.problem.difficulty != None %}
+                            {% if solution.problem.difficulty != None and solution_environment.contest == None %}
+                                {# Difficulties are not shown for contests #}
                                 {% irunner_problems_difficulty solution.problem.difficulty %}
                             {% endif %}
-                            {% if user.is_staff or solution_environment.has_problem %}
+                            {% if permissions.can_refer_to_problem %}
                                 <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
                             {% elif solution_environment.course %}
                                 <a href="{% url 'courses:course_problems_problem' solution_environment.course.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>

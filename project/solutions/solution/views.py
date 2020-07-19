@@ -2,8 +2,9 @@ from collections import namedtuple
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.timesince import timesince
@@ -19,6 +20,7 @@ from storage.utils import serve_resource, serve_resource_metadata
 
 from solutions.mixins import TestCaseResultMixin
 from solutions.models import Solution, Judgement, TestCaseResult, JudgementLog
+from solutions.utils import bulk_rejudge
 
 from .calcpermissions import calculate_permissions
 
@@ -346,7 +348,7 @@ class SolutionTestCaseResultView(TestCaseResultMixin, BaseSolutionTestDataView):
             raise Http404('Solution is not judged')
 
         testcaseresult = get_object_or_404(TestCaseResult, id=testcaseresult_id, judgement_id=solution.best_judgement_id)
-        return self.serve_testcaseresult_page(testcaseresult, 'solutions:test_data', 'solutions:test_image', solution.id)
+        return self.serve_testcaseresult_page(testcaseresult, 'solutions:test_data', 'solutions:test_image', solution.id, self.permissions.can_refer_to_problem)
 
 
 class SolutionTestCaseResultDataView(TestCaseResultMixin, BaseSolutionTestDataView):
@@ -387,3 +389,17 @@ class SolutionPlagiarismView(BaseSolutionView):
         context = paginate(request, plagiarism_judgements, self.paginate_by)
         context = self.get_context_data(aggregated_result=aggregated_result, **context)
         return render(request, self.template_name, context)
+
+
+class SolutionRejudgeView(LoginRequiredMixin, generic.View):
+    def post(self, request, solution_id):
+        solution = get_object_or_404(Solution, pk=solution_id)
+        permissions, _ = calculate_permissions(solution, request.user)
+
+        if not permissions.can_rejudge:
+            raise Http404('Not allowed to rejudge')
+
+        with transaction.atomic():
+            notifier, rejudge = bulk_rejudge(Solution.objects.filter(pk=solution_id), self.request.user)
+        notifier.notify()
+        return redirect('solutions:rejudge', rejudge.id)

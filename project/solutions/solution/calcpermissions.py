@@ -29,4 +29,4 @@ def calculate_permissions(solution, user):
     if user.is_staff or in_problem.has_problem:
         permissions.allow_all()
 
-    return (permissions, SolutionEnvironment(in_course.course, in_contest.contest, in_problem.has_problem))
+    return (permissions, SolutionEnvironment(in_course.course, in_contest.contest))

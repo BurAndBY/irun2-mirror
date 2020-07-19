@@ -97,7 +97,7 @@ class JudgementTestCaseResultView(JudgementMixin, TestCaseResultMixin, generic.V
 
     def get(self, request, judgement_id, testcaseresult_id):
         testcaseresult = get_object_or_404(TestCaseResult, judgement_id=judgement_id, id=testcaseresult_id)
-        return self.serve_testcaseresult_page(testcaseresult, 'solutions:judgement_testdata', 'solutions:judgement_testimage', judgement_id)
+        return self.serve_testcaseresult_page(testcaseresult, 'solutions:judgement_testdata', 'solutions:judgement_testimage', judgement_id, True)
 
 
 class JudgementTestCaseResultDataView(JudgementMixin, TestCaseResultMixin, generic.View):

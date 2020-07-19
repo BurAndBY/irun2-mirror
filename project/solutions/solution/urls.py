@@ -8,6 +8,7 @@ single_solution_urlpatterns = [
     url(r'^log/$', views.SolutionLogView.as_view(), name='log'),
     url(r'^tests/$', views.SolutionTestsView.as_view(), name='tests'),
     url(r'^runs/$', views.SolutionJudgementsView.as_view(), name='judgements'),
+    url(r'^rejudge/$', views.SolutionRejudgeView.as_view(), name='perform_rejudge'),
     url(r'^attempts/$', views.SolutionAttemptsView.as_view(), name='attempts'),
     url(r'^plagiarism/$', views.SolutionPlagiarismView.as_view(), name='plagiarism'),
     url(r'^status/json/$', views.SolutionStatusJsonView.as_view(), name='status_json'),

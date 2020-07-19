@@ -19,7 +19,7 @@ class DescriptionImageLoader(IDescriptionImageLoader):
 
 
 class TestCaseResultMixin(object):
-    def serve_testcaseresult_page(self, testcaseresult, data_url_pattern, image_url_pattern, item_id):
+    def serve_testcaseresult_page(self, testcaseresult, data_url_pattern, image_url_pattern, item_id, refer_to_problem):
         limit = 2**12
         max_lines = 32
         max_line_length = None
@@ -36,6 +36,7 @@ class TestCaseResultMixin(object):
             'stdout_repr': storage.represent(testcaseresult.stdout_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
             'stderr_repr': storage.represent(testcaseresult.stderr_resource_id, limit=limit, max_lines=max_lines, max_line_length=max_line_length),
             'wide': not (self.request.GET.get('c') == '1'),
+            'can_refer_to_problem': refer_to_problem,
         }
 
         test_case = testcaseresult.test_case

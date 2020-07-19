@@ -56,16 +56,16 @@
         <div class="ir-test-description">
             {% if test_case %}
                 <h5>
-                    {% if user.is_staff %}
+                    {% if can_refer_to_problem %}
                         <a href="{% url 'problems:show_test' problem_id=test_case.problem_id test_number=test_case.ordinal_number %}" target="_blank">
                     {% endif %}
                         {% trans 'Test' %}&nbsp;{{ test_case.ordinal_number }}
-                    {% if user.is_staff %}
+                    {% if can_refer_to_problem %}
                         </a>
                     {% endif %}
                 </h5>
 
-                {% if user.is_staff %}
+                {% if can_refer_to_problem %}
                     {% if test_case.author != None %}
                         <p>{% bootstrap_icon 'user' %} {% irunner_users_show test_case.author %}</p>
                     {% endif %}
