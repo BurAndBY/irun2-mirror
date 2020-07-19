@@ -28,7 +28,7 @@ from problems.forms import (
     ProblemSearchForm,
     TeXForm,
 )
-from problems.models import Problem, ProblemRelatedFile, ProblemFolder
+from problems.models import Problem, ProblemRelatedFile, ProblemFolder, ProblemAccess, ProblemFolderAccess
 from problems.statement import StatementRepresentation
 from problems.texrenderer import render_tex
 
@@ -235,3 +235,14 @@ class TeXRenderView(StaffMemberRequiredMixin, generic.View):
     def post(self, request):
         form = TeXForm(request.POST)
         return JsonResponse(get_tex_preview(form), json_dumps_params={'ensure_ascii': False})
+
+
+class AccessBrowserView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'problems/access_browser.html'
+
+    def get(self, request):
+        context = {
+            'individual_access_records': ProblemAccess.objects.all().select_related('problem', 'user'),
+            'group_access_records': ProblemFolderAccess.objects.all().select_related('folder', 'group'),
+        }
+        return render(request, self.template_name, context)

@@ -1,0 +1,53 @@
+{% extends "problems/list_base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_problems %}
+{% load irunner_users %}
+
+{% block main %}
+<ol class="breadcrumb">
+    <li>{% trans 'Access browser' %}</li>
+</ol>
+
+<h3>{% trans 'Individual access' %}</h3>
+<table class="table table-bordered table-condensed ir-table-nonfluid">
+<thead>
+    <th>{% trans 'Problem' %}</th>
+    <th>{% trans 'User' %}</th>
+    <th>{% trans 'Mode' %}</th>
+    <th></th>
+</thead>
+<tbody>
+{% for entry in individual_access_records %}
+    <tr>
+        <td>{% irunner_problems_difficulty entry.problem.difficulty %} <a href="{% url 'problems:overview' entry.problem.id %}">{{ entry.problem.numbered_full_name }}</a></td>
+        <td>{% irunner_users_card entry.user %}</td>
+        <td><span class="badge">{{ entry.get_mode_display }}</span></td>
+        <td><a href="{% url 'problems:access' entry.problem.id %}">{% trans 'Edit' %}</a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h3>{% trans 'Group access' %}</h3>
+<table class="table table-bordered table-condensed ir-table-nonfluid">
+<thead>
+    <th>{% trans 'Folder' %}</th>
+    <th>{% trans 'Group' %}</th>
+    <th>{% trans 'Mode' %}</th>
+    <th></th>
+</thead>
+<tbody>
+{% for entry in group_access_records %}
+    <tr>
+        <td><a href="{% url 'problems:show_folder' entry.folder.id %}">{{ entry.folder }}</a></td>
+        <td>{{ entry.group }}</td>
+        <td><span class="badge">{{ entry.get_mode_display }}</span></td>
+        <td><a href="{% url 'problems:folder_access' entry.folder.id %}">{% trans 'Edit' %}</a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

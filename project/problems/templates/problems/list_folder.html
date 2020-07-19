@@ -62,6 +62,14 @@
                 </a>
             </div>
             {% endif %}
+
+            {% if user.is_staff and folder_id == None %}
+            <div class="btn-group btn-group-sm" role="group">
+                <a class="btn btn-default" href="{% url 'problems:access_browser' %}">
+                    {% bootstrap_icon 'globe' %} <span class="ir-icon-label">{% trans 'Access browser' %}</span>
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}

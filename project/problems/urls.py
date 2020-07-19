@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^', include(problem_urlpatterns)),
     url(r'^folders/', include(folders_urlpatterns)),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
+    url(r'^access-browser/$', views.AccessBrowserView.as_view(), name='access_browser'),
     url(r'^tex/$', views.TeXView.as_view(), name='tex_playground'),
     url(r'^tex/render/$', views.TeXRenderView.as_view(), name='tex_playground_render'),
 ]
