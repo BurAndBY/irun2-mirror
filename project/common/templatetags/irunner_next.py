@@ -14,7 +14,9 @@ def irunner_next(context):
 
     '''
     request = context['request']
-    path = request.get_full_path()
+    path = request.GET.get('next')
+    if not path:
+        path = request.get_full_path()
     if not path:
         path = reverse('home')
 
