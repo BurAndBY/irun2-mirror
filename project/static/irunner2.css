@@ -43,10 +43,6 @@ body {
     margin-right: 8px;
 }
 
-.ir-nav-tabs-narrow > li > a {
-    padding: 10px 8px;
-}
-
 /**
  * Jumbotron
  */
@@ -548,13 +544,6 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 /**
- * Mass reg
- */
-.ir-mass-field {
-}
-
-
-/**
  * Feedback messages list
  */
 .ir-float-right {
@@ -623,15 +612,6 @@ h3 { font-size: 20px; line-height: 32px; }
 /**
  * Two-panel multi choose
  */
-.ir-twopanel-tab {
-    min-height: 320px;
-}
-.ir-twopanel-tab > option {
-    color: #000;
-}
-.ir-twopanel-tab > option:disabled {
-    color: #ccc;
-}
 .ir-threepanel-row {
     margin-left: 0;
     margin-right: 0;
@@ -1032,10 +1012,6 @@ span.ir-absence {
     background-color: white;
 }
 
-.ir-penalty-p {
-    padding: 10px;
-    margin-bottom: 10px;
-}
 .ir-problem-used a {
     color: #ddd;
 }
@@ -1315,14 +1291,6 @@ tr:hover .ir-appear-on-hover {
 .ir-test-info {
     margin-bottom: 16px;
     margin-top: 16px;
-}
-
-
-/**
- * Tests list
- */
-.ir-clickable-row {
-    cursor: pointer;
 }
 
 /**
