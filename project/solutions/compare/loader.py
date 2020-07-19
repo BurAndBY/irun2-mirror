@@ -2,8 +2,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from storage.storage import create_storage
 
-from .models import Solution
-from .solution.calcpermissions import calculate_permissions
+from solutions.models import Solution
+from solutions.solution.calcpermissions import calculate_permissions
 
 
 class SourceCodeToCompare(object):

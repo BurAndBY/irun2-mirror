@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.utils.translation import pgettext_lazy
 from django.views import generic
 
-from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
+from cauth.mixins import ProblemEditorMemberRequiredMixin, StaffMemberRequiredMixin
 from common.outcome import Outcome
 from common.pagination.views import IRunnerListView
 from common.views import MassOperationView
@@ -22,7 +22,7 @@ from solutions.utils import bulk_rejudge
 from .permissions import RejudgePermissions
 
 
-class RejudgeListView(LoginRequiredMixin, IRunnerListView):
+class RejudgeListView(ProblemEditorMemberRequiredMixin, IRunnerListView):
     template_name = 'solutions/rejudge/rejudge_list.html'
 
     def get_queryset(self):
@@ -65,20 +65,19 @@ def fetch_rejudge_stats(rejudge_id):
 
 def calc_permissions(user, rejudge, any_problem_available, can_rejudge_all):
     if user.is_staff:
-        return RejudgePermissions.all()
+        return RejudgePermissions().allow_all()
 
     if any_problem_available:
+        res = RejudgePermissions()
         if can_rejudge_all:
-            mask = RejudgePermissions.CLONE
+            res.allow_clone()
             if rejudge.author == user:
-                mask |= RejudgePermissions.COMMIT
-            return RejudgePermissions(mask)
-        else:
-            return RejudgePermissions()
+                res.allow_commit()
+        return res
     return None
 
 
-class RejudgeMixin(LoginRequiredMixin):
+class RejudgeMixin(ProblemEditorMemberRequiredMixin):
     def dispatch(self, request, rejudge_id, *args, **kwargs):
         self.rejudge = Rejudge.objects.filter(pk=rejudge_id).first()
         if self.rejudge is None:

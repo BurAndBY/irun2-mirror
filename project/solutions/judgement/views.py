@@ -4,7 +4,9 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 
-from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
+from cauth.mixins import ProblemEditorMemberRequiredMixin, StaffMemberRequiredMixin
+from common.pagination import paginate
+from problems.calcpermissions import get_problem_ids_queryset, has_limited_problems_queryset
 from storage.storage import create_storage
 
 from solutions.mixins import TestCaseResultMixin
@@ -13,7 +15,20 @@ from solutions.permissions import SolutionPermissions
 from solutions.solution.calcpermissions import calculate_permissions
 
 
-class JudgementMixin(LoginRequiredMixin):
+class JudgementListView(ProblemEditorMemberRequiredMixin, generic.View):
+    paginate_by = 25
+    template_name = 'solutions/judgement_list.html'
+
+    def get(self, request):
+        queryset = Judgement.objects.prefetch_related('extra_info').order_by('-id')
+        if has_limited_problems_queryset(request.user):
+            queryset = queryset.filter(solution__problem_id__in=get_problem_ids_queryset(request.user))
+
+        context = paginate(request, queryset, self.paginate_by, allow_all=True, show_total_count=request.user.is_staff)
+        return render(request, self.template_name, context)
+
+
+class JudgementMixin(ProblemEditorMemberRequiredMixin):
     def dispatch(self, request, judgement_id, *args, **kwargs):
         solution = Solution.objects.filter(judgement__id=judgement_id).first()
         if solution is None:

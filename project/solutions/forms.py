@@ -12,12 +12,6 @@ from proglangs.utils import guess_filename
 from storage.validators import validate_filename
 
 
-class AdHocForm(forms.Form):
-    source_code = forms.CharField(widget=forms.Textarea)
-    input_data = forms.CharField(widget=forms.Textarea)
-    compiler = forms.ModelChoiceField(queryset=Compiler.objects.all().order_by('description'))
-
-
 class SolutionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.file_size_limit = kwargs.pop('file_size_limit', None)
@@ -145,9 +139,3 @@ class AllSolutionsFilterForm(forms.Form):
         )), )
 
         self.fields['compiler'].choices = self.DEFAULT_COMPILER_CHOICES + present_compiler_choices
-
-
-class CompareSolutionsForm(forms.Form):
-    first = forms.IntegerField(min_value=0, label=_('First solution'), required=True)
-    second = forms.IntegerField(min_value=0, label=_('Second solution'), required=True)
-    diff = forms.BooleanField(label=_('Show only contextual differences, else show full files'), required=False)

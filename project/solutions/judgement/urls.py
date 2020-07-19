@@ -11,5 +11,6 @@ single_judgement_urlpatterns = [
 ]
 
 urlpatterns = [
+    url(r'^$', views.JudgementListView.as_view(), name='judgement_list'),
     url(r'^(?P<judgement_id>[0-9]+)/', include(single_judgement_urlpatterns))
 ]
