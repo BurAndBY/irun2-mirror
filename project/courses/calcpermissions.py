@@ -37,11 +37,14 @@ def calculate_course_permissions(course, member_flags):
     permissions = CoursePermissions()
 
     if member_flags.is_student:
-        permissions.set_student(course.student_own_solutions_access, course.student_all_solutions_access)
+        permissions.set_student()
     if member_flags.is_teacher:
         permissions.set_teacher()
     if member_flags.is_admin:
         permissions.set_admin()
+
+    permissions.my_solutions_permissions = _calculate_course_solution_permissions(course, member_flags, True)
+    permissions.all_solutions_permissions = _calculate_course_solution_permissions(course, member_flags, False)
 
     if not course.enable_sheet:
         permissions.sheet = False
@@ -68,30 +71,34 @@ def _calculate_course_solution_level(course, member_flags, i_am_author):
     if member_flags.is_teacher:
         level = max(level, course.teacher_all_solutions_access)
 
-    if course.status == CourseStatus.ARCHIVED:
-        level = min(level, SolutionAccessLevel.STATE)
-
     if member_flags.is_admin:
         level = max(level, SolutionAccessLevel.FULL)
+
     return level
 
 
-def calculate_course_solution_permissions_ex(solution, user):
+def _calculate_course_solution_permissions(course, member_flags, i_am_author):
+    level = _calculate_course_solution_level(course, member_flags, i_am_author)
     permissions = SolutionPermissions()
-
-    course = Course.objects.filter(coursesolution__solution_id=solution.id).first()
-    if course is None:
-        # the solution does not belong to any course
-        return InCourseAccessPermissions(None, permissions)
-
-    member_flags = CourseMemberFlags.load(course, user)
-    level = _calculate_course_solution_level(course, member_flags, solution.author_id == user.id)
     permissions.update(level)
+
+    if (course.status == CourseStatus.ARCHIVED) and (not member_flags.is_admin):
+        # avoid cheating: students get into old student accounts and steal their solutions
+        permissions.deny_view_source_code()
 
     if member_flags.is_teacher or member_flags.is_admin:
         permissions.allow_view_ip_address()
         permissions.allow_view_plagiarism_score()
-    if member_flags.is_admin:
-        permissions.allow_rejudge()
 
+    return permissions
+
+
+def calculate_course_solution_permissions_ex(solution, user):
+    course = Course.objects.filter(coursesolution__solution_id=solution.id).order_by().first()
+    if course is None:
+        # the solution does not belong to any course
+        return InCourseAccessPermissions(None, SolutionPermissions())
+
+    member_flags = CourseMemberFlags.load(course, user)
+    permissions = _calculate_course_solution_permissions(course, member_flags, solution.author_id == user.id)
     return InCourseAccessPermissions(course, permissions)

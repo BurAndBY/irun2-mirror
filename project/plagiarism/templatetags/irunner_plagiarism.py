@@ -7,14 +7,14 @@ register = template.Library()
 
 
 @register.inclusion_tag('plagiarism/irunner_plagiarism_box_tag.html')
-def irunner_plagiarism_box(aggregated_result, solution_id):
+def irunner_plagiarism_box(aggregated_result, solution_id, link=True):
     '''
     Displays plagiarism aggregated result.
 
     args:
         aggregated_result(plagiarism.models.JudgementResult)
     '''
-    context = {}
+    context = {'link': link}
     if aggregated_result:
         context['relevance'] = aggregated_result.relevance
         context['solution_id'] = solution_id

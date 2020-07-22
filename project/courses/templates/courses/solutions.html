@@ -5,6 +5,7 @@
 {% load irunner_courses %}
 {% load irunner_pagination %}
 {% load irunner_plagiarism %}
+{% load irunner_problems %}
 {% load irunner_proglangs %}
 {% load irunner_solutions %}
 {% load widget_tweaks %}
@@ -42,7 +43,7 @@
                 <th>{% trans 'Time' %}</th>
                 <th>{% trans 'File' %}</th>
                 <th>{% trans 'Status' %}</th>
-                {% if permissions.plagiarism %}
+                {% if solution_permissions.can_view_plagiarism_score %}
                 <th>{% trans 'Plagiarism' %}</th>
                 {% endif %}
             </tr>
@@ -55,18 +56,28 @@
                 {% endif %}
                 <td>
                     {% if solution.problem %}
+                        {% irunner_problems_difficulty solution.problem.difficulty %}
                         <a href="{% url 'courses:course_problems_problem' course.id solution.problem.id %}">{{ solution.problem.numbered_full_name }}</a>
                     {% else %}
                         &mdash;
                     {% endif %}
                 </td>
-                <td class="text-nowrap">{{ solution.reception_time|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td class="text-nowrap">{{ solution.reception_time|date:"DATETIME_FORMAT" }}</td>
                 <td class="text-nowrap">
-                    {% if show_compilerbox %}
-                        <a href="{% url 'solutions:source' solution.id %}">{% irunner_proglangs_compilerbox solution.compiler tooltip=True %}</a>
-                    {% endif %}
-                    {% if show_filename %}
-                        <a href="{% url 'solutions:source' solution.id %}"><span class="small ir-monospace">{{ solution.source_code.filename|truncatechars:14 }}</span></a>
+                    {% if solution_permissions.can_view_source_code %}
+                        {% if show_compilerbox %}
+                            <a href="{% url 'solutions:source' solution.id %}">{% irunner_proglangs_compilerbox solution.compiler tooltip=True %}</a>
+                        {% endif %}
+                        {% if show_filename %}
+                            <a href="{% url 'solutions:source' solution.id %}"><span class="small ir-monospace">{{ solution.source_code.filename|truncatechars:14 }}</span></a>
+                        {% endif %}
+                    {% else %}
+                        {% if show_compilerbox %}
+                            {% irunner_proglangs_compilerbox solution.compiler tooltip=True %}
+                        {% endif %}
+                        {% if show_filename %}
+                            <span class="small ir-monospace">{{ solution.source_code.filename|truncatechars:14 }}</span>
+                        {% endif %}
                     {% endif %}
                 </td>
                 <td class="text-nowrap">
@@ -75,10 +86,10 @@
                     <a href="{{ solution_url }}">{% irunner_solutions_scorebox solution.best_judgement %}</a>
 
                     {% if show_verbose_outcome and solution.best_judgement %}
-                        <a href="{{ solution_url }}">{{ solution.best_judgement.show_status }}</a>
+                        <span class="hidden-md hidden-sm hidden-xs">{{ solution.best_judgement.show_status }}</span>
                     {% endif %}
                 </td>
-                {% if permissions.plagiarism %}
+                {% if solution_permissions.can_view_plagiarism_score %}
                     <td>{% irunner_plagiarism_box solution.aggregatedresult solution.id %}</td>
                 {% endif %}
             </tr>

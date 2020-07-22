@@ -495,6 +495,7 @@ class CourseAllSolutionsView(BaseCourseView):
 
         context = paginate(request, solutions, self.paginate_by)
 
+        context['solution_permissions'] = self.permissions.all_solutions_permissions
         context['user_form'] = user_form
         context['problem_form'] = problem_form
         context['filter_form'] = filter_form
@@ -539,6 +540,7 @@ class CourseMySolutionsView(BaseCourseView):
             solutions = solutions.filter(problem_id=problem_id)
 
         context = paginate(request, solutions, self.paginate_by)
+        context['solution_permissions'] = self.permissions.my_solutions_permissions
         context['problem_form'] = problem_form
         context['page_title'] = _('My solutions')
 

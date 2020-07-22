@@ -54,8 +54,10 @@ class BaseSolutionView(LoginRequiredMixin, generic.View):
             if hasattr(best, 'extra_info'):
                 context['extra_info'] = best.extra_info
 
-        context['attempt_count'] = Solution.objects.filter(problem_id=self.solution.problem_id, author_id=self.solution.author_id).count()
-        context['judgement_count'] = Judgement.objects.filter(solution_id=self.solution.id).count()
+        if self.permissions.can_view_attempts:
+            context['attempt_count'] = Solution.objects.filter(problem_id=self.solution.problem_id, author_id=self.solution.author_id).count()
+        if self.permissions.can_view_judgements:
+            context['judgement_count'] = Judgement.objects.filter(solution_id=self.solution.id).count()
 
         context.update(**kwargs)
         return context

@@ -149,7 +149,8 @@ class CourseAssignProblemApiView(BaseCourseMemberAssignView):
         user_result = make_course_single_result(course, membership)
         context = {
             'slot_result': user_result.get_slot_result(assignment),
-            'course_id': course.id
+            'course_id': course.id,
+            'permissions': self.permissions,
         }
         return render(request, self.template_name, context)
 

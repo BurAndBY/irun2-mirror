@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from solutions.permissions import SolutionAccessLevel
+from solutions.permissions import SolutionPermissions
 
 
 class CoursePermissions(object):
@@ -16,20 +16,27 @@ class CoursePermissions(object):
         self.editorials = False
         self.settings = False
         self.assign = False
-        self.my_solutions = False
-        self.all_solutions = False
-        self.all_solutions_source_codes = False
         self.messages = False
         self.messages_all = False
         self.messages_send_any = False
         self.messages_send_own = False
         self.messages_delete_thread = False
         self.messages_resolve = False
-        self.plagiarism = False
         self.quizzes = False
         self.quizzes_admin = False
         self.queue = False
         self.queue_admin = False
+
+        self.my_solutions_permissions = SolutionPermissions()
+        self.all_solutions_permissions = SolutionPermissions()
+
+    @property
+    def my_solutions(self):
+        return self.my_solutions_permissions.can_view_state
+
+    @property
+    def all_solutions(self):
+        return self.all_solutions_permissions.can_view_state
 
     def set_common(self):
         self.info = True
@@ -39,13 +46,11 @@ class CoursePermissions(object):
         self.messages = True
         self.queue = True
 
-    def set_student(self, own_solutions_access, all_solutions_access):
+    def set_student(self):
         self.set_common()
 
         self.submit = True
         self.my_problems = True
-        self.my_solutions |= (own_solutions_access != SolutionAccessLevel.NO_ACCESS)
-        self.all_solutions |= (all_solutions_access != SolutionAccessLevel.NO_ACCESS)
         self.messages_send_own = True
         self.quizzes = True
 
@@ -57,14 +62,10 @@ class CoursePermissions(object):
         self.editorials = True
         self.sheet_edit = True
         self.assign = True
-        self.my_solutions = True
-        self.all_solutions = True
-        self.all_solutions_source_codes = False
         self.messages_all = True
         self.messages_send_any = True
         self.messages_delete_thread = True
         self.messages_resolve = True
-        self.plagiarism = True
         self.quizzes_admin = True
         self.queue_admin = True
 
@@ -74,13 +75,10 @@ class CoursePermissions(object):
         self.sheet_edit = True
         self.assign = True
         self.settings = True
-        self.all_solutions = True
-        self.all_solutions_source_codes = True
         self.messages_all = True
         self.messages_send_any = True
         self.messages_delete_thread = True
         self.messages_resolve = True
-        self.plagiarism = True
         self.quizzes_admin = True
         self.queue_admin = True
 

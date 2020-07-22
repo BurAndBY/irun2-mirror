@@ -29,13 +29,17 @@
                 {% endif %}
             </div>
             {% if problem_result %}
-                {% if problem_result.best_solution %}
+                {% if problem_result.best_solution and solution_permissions.can_view_state %}
                     <div class="ir-best-solution">
                         {% url 'solutions:main' problem_result.best_solution.id as s_url %}
                         {% url 'solutions:source' problem_result.best_solution.id as c_url %}
                         <a href="{{ s_url }}">{% irunner_solutions_judgementbox problem_result.best_solution.best_judgement tooltip=True %}</a>
                         <a href="{{ s_url }}">{% irunner_solutions_scorebox problem_result.best_solution.best_judgement %}</a>
-                        <a href="{{ c_url }}">{% irunner_proglangs_compilerbox problem_result.best_solution.compiler tooltip=True %}</a>
+                        {% if solution_permissions.can_view_source_code %}
+                            <a href="{{ c_url }}">{% irunner_proglangs_compilerbox problem_result.best_solution.compiler tooltip=True %}</a>
+                        {% else %}
+                            {% irunner_proglangs_compilerbox problem_result.best_solution.compiler tooltip=True %}
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endif %}
@@ -53,8 +57,10 @@
             <div>
                 <div class="ir-box ir-criterion ir-criterion-{{ problem_result.is_ok|yesno:"yes,no" }}"><span class="invisible">&nbsp;</span></div>
                 {% if problem_result.solutions %}
+                    {% with solution_permissions.can_view_state as make_link %}
                     {% with problem_result.solutions|length as cnt %}
-                        <a href="{% if user_id %}{% url 'courses:all_solutions' course_id %}?user={{ user_id }}&amp;problem={{ problem_result.problem.id }}{% else %}{% url 'courses:my_solutions' course_id %}?problem={{ problem_result.problem.id }}{% endif %}">{{ cnt }}&nbsp;{% blocktrans count counter=cnt %}solution{% plural %}solutions{% endblocktrans %}</a>
+                        {% if make_link %}<a href="{% if user_id %}{% url 'courses:all_solutions' course_id %}?user={{ user_id }}&amp;problem={{ problem_result.problem.id }}{% else %}{% url 'courses:my_solutions' course_id %}?problem={{ problem_result.problem.id }}{% endif %}">{% endif %}{{ cnt }}&nbsp;{% blocktrans count counter=cnt %}solution{% plural %}solutions{% endblocktrans %}{% if make_link %}</a>{% endif %}
+                    {% endwith %}
                     {% endwith %}
                 {% else %}
                     {% trans 'No solutions' %}

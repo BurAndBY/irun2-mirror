@@ -20,25 +20,27 @@ def irunner_courses_criterion(criterion, value, tooltip=False, editable=False):
 
 
 @register.inclusion_tag('courses/irunner_courses_slotresult_tag.html')
-def irunner_courses_slotresult(slot_result, course_id, user_id=None, editable=False):
+def irunner_courses_slotresult(slot_result, course_id, solution_permissions, user_id=None, editable=False):
     return {
         'course_id': course_id,  # for links to problem statements
         'user_id': user_id,  # for links to the list of solutions
         'slot_result': slot_result,
         'problem_result': slot_result.problem_result,
         'editable': editable,
+        'solution_permissions': solution_permissions,
         'uid': uuid.uuid1().hex
     }
 
 
 @register.inclusion_tag('courses/irunner_courses_slotresult_tag.html')
-def irunner_courses_problemresult(problem_result, course_id, user_id=None):
+def irunner_courses_problemresult(problem_result, course_id, solution_permissions, user_id=None):
     return {
         'course_id': course_id,  # for links to problem statements
         'user_id': user_id,  # for links to the list of solutions
         'slot_result': None,
         'problem_result': problem_result,
         'editable': False,
+        'solution_permissions': solution_permissions,
         'uid': uuid.uuid1().hex
     }
 

@@ -36,7 +36,7 @@
             </td>
             <td>
                 {% irunner_proglangs_compilerbox info.solution.compiler tooltip=True %}
-                <a href="{% url 'solutions:source' info.solution.id %}"><span class="ir-monospace">{{ info.solution.source_code.filename }}</span></a>
+                {% if permissions.can_view_source_code %}<a href="{% url 'solutions:source' info.solution.id %}">{% endif %}<span class="ir-monospace">{{ info.solution.source_code.filename }}</span>{% if permissions.can_view_source_code %}</a>{% endif %}
                 <span class="ir-file-size">({{ info.solution.source_code.size|filesizeformat }})</span>
             </td>
             <td class="text-nowrap">

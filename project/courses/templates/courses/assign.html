@@ -56,7 +56,7 @@
                         {% endif %}
 
                         <td class="ir-slot-cell {% if slot_result.is_penalty %} ir-slot-penalty-cell{% endif %}" data-topic="{{ slot_result.topic_descr.topic.id }}">
-                            {% irunner_courses_slotresult slot_result course.id user_id=user_id editable=True %}
+                            {% irunner_courses_slotresult slot_result course.id permissions.all_solutions_permissions user_id=user_id editable=True %}
 
                             {# List of problems for topic to choose from #}
                             <div class="collapse ir-slider" id="problems_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
@@ -123,7 +123,7 @@
                         </td>
                     {% endif %}
                     <td class="ir-slot-cell">
-                        {% irunner_courses_problemresult problem_result course.id %}
+                        {% irunner_courses_problemresult problem_result course.id permissions.all_solutions_permissions %}
                     </td>
                 </tr>
             {% endfor %}
@@ -144,7 +144,7 @@
                         </td>
                     {% endif %}
                     <td>
-                        {% irunner_courses_problemresult problem_result course.id user_id=user_id %}
+                        {% irunner_courses_problemresult problem_result course.id permissions.all_solutions_permissions user_id=user_id %}
                     </td>
                 </tr>
             {% endfor %}

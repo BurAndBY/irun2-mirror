@@ -36,11 +36,12 @@ class ProblemPermissionCalcer(PermissionCalcer):
                     elif mode == AccessMode.READ:
                         pm.grant(pk, read)
 
-        # individual access
-        pks = pm.find_pks_for_granting(write)
-        if pks:
-            for pk, mode in ProblemAccess.objects.filter(user=self.user, problem_id__in=pks).values_list('problem_id', 'mode'):
-                if mode == AccessMode.WRITE:
-                    pm.grant(pk, write)
-                elif mode == AccessMode.READ:
-                    pm.grant(pk, read)
+        if getattr(self.user, 'is_problem_editor', True):
+            # individual access
+            pks = pm.find_pks_for_granting(write)
+            if pks:
+                for pk, mode in ProblemAccess.objects.filter(user=self.user, problem_id__in=pks).values_list('problem_id', 'mode'):
+                    if mode == AccessMode.WRITE:
+                        pm.grant(pk, write)
+                    elif mode == AccessMode.READ:
+                        pm.grant(pk, read)

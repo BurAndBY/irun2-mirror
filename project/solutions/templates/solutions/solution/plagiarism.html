@@ -11,11 +11,12 @@
 
 {% block main %}
 
-<div class="form-group">
-    {% trans 'Result' %}: {% if aggregated_result %}{% irunner_plagiarism_box aggregated_result solution.id %}{% else %}{% trans 'No data' %}{% endif %}
-</div>
+<dl class="dl">
+    <dt>{% trans 'Result' %}:</dt>
+    <dd>{% if aggregated_result %}{% irunner_plagiarism_box aggregated_result solution.id link=False %}{% else %}{% trans 'No data' %}{% endif %}</dd>
+</dl>
 
-{% if permissions.view_plagiarism_details %}
+{% if permissions.can_view_plagiarism_details %}
 {% if object_list %}
     {% irunner_pagination pagination_context %}
     <table class="table table-condensed">
@@ -45,6 +46,8 @@
         </tbody>
     </table>
 {% endif %}
+{% else %}
+<div class="ir-absence">{% trans 'No access to other solutions.' %}</div>
 {% endif %}
 
 {% endblock %}
