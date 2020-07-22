@@ -67,6 +67,7 @@ from courses.services import (
     get_attempt_quota,
     get_attempt_message,
 )
+from courses.calcpermissions import CourseMemberFlags
 from courses.calcpermissions import calculate_course_permissions
 from courses.messaging import (
     list_mail_threads,
@@ -115,9 +116,8 @@ class BaseCourseView(generic.View):
     @method_decorator(auth.decorators.login_required)
     def dispatch(self, request, course_id, *args, **kwargs):
         self.course = get_object_or_404(Course, pk=course_id)
-        self.permissions = calculate_course_permissions(
-            self.course, request.user, Membership.objects.filter(course_id=course_id, user=request.user)
-        )
+        self.member_flags = CourseMemberFlags.load(self.course, request.user)
+        self.permissions = calculate_course_permissions(self.course, self.member_flags)
 
         if not self.is_allowed(self.permissions):
             raise PermissionDenied()

@@ -89,4 +89,4 @@ class CoursePermissions(object):
         self.sheet_edit = False
 
 
-InCourseAccessLevel = namedtuple('InCourseAccessLevel', 'course level')
+InCourseAccessPermissions = namedtuple('InCourseAccessPermissions', 'course permissions')

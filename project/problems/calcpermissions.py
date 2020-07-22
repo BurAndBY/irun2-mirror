@@ -6,9 +6,10 @@ from django.db.models import Q
 
 from problems.models import Problem, ProblemFolder
 from problems.problem.permissions import ProblemPermissionCalcer
-from solutions.permissions import SolutionAccessLevel
+from solutions.permissions import SolutionAccessLevel, SolutionPermissions
 
-InProblemAccessLevel = namedtuple('InProblemAccessLevel', 'has_problem level')
+
+InProblemAccessPermissions = namedtuple('InProblemAccessLevel', 'has_problem permissions')
 
 
 def _get_group_owned_problems(user):
@@ -46,9 +47,19 @@ def get_problem_ids_queryset(user):
     return set(get_problems_queryset(user).values_list('id', flat=True))
 
 
-def calculate_problem_solution_access_level(solution, user):
-    if solution.problem_id is not None:
-        if ProblemPermissionCalcer(user).calc(solution.problem_id) is not None:
-            return InProblemAccessLevel(True, SolutionAccessLevel.FULL)
+def calculate_problem_solution_permissions(solution, user):
+    permissions = SolutionPermissions()
 
-    return InProblemAccessLevel(False, SolutionAccessLevel.NO_ACCESS)
+    if solution.problem_id is not None:
+        pp = ProblemPermissionCalcer(user).calc(solution.problem_id)
+        if pp is not None:
+            permissions.update(SolutionAccessLevel.FULL)
+            permissions.allow_refer_to_problem()
+            permissions.allow_view_plagiarism_score()
+            permissions.allow_view_plagiarism_details()
+            permissions.allow_view_judgements()
+
+            if pp.can_rejudge:
+                permissions.allow_rejudge()
+
+    return permissions

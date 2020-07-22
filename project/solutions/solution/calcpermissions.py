@@ -1,32 +1,25 @@
-from contests.calcpermissions import calculate_contest_solution_access_level
-from courses.calcpermissions import calculate_course_solution_access_level
-from problems.calcpermissions import calculate_problem_solution_access_level
+from contests.calcpermissions import calculate_contest_solution_permissions_ex
+from courses.calcpermissions import calculate_course_solution_permissions_ex
+from problems.calcpermissions import calculate_problem_solution_permissions
 
-from solutions.permissions import SolutionAccessLevel, SolutionPermissions, SolutionEnvironment
+from solutions.permissions import SolutionPermissions, SolutionEnvironment
 
 
 def calculate_permissions(solution, user):
-    level = SolutionAccessLevel.NO_ACCESS
+    permissions = SolutionPermissions()
 
     # course
-    in_course = calculate_course_solution_access_level(solution, user)
-    level = max(level, in_course.level)
+    in_course = calculate_course_solution_permissions_ex(solution, user)
+    permissions |= in_course.permissions
 
     # contest
-    in_contest = calculate_contest_solution_access_level(solution, user)
-    level = max(level, in_contest.level)
+    in_contest = calculate_contest_solution_permissions_ex(solution, user)
+    permissions |= in_contest.permissions
 
     # problem
-    in_problem = calculate_problem_solution_access_level(solution, user)
-    level = max(level, in_problem.level)
+    permissions |= calculate_problem_solution_permissions(solution, user)
 
-    permissions = SolutionPermissions()
-    permissions.update(level)
-
-    if in_contest.contest is not None and in_contest.samples_only_state:
-        permissions.deny_view_state()
-
-    if user.is_staff or in_problem.has_problem:
-        permissions.allow_all()
+    if user.is_staff:
+        permissions.allow_view_ip_address()
 
     return (permissions, SolutionEnvironment(in_course.course, in_contest.contest))

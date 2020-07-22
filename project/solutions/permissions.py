@@ -47,11 +47,12 @@ class SolutionPermissions(Permissions):
     VIEW_ATTEMPTS = 1 << 9
 
     # special permissions that are not included into the levels above
-    VIEW_PLAGIARISM = 1 << 10
-    VIEW_JUDGEMENTS = 1 << 11
-    VIEW_IP_ADDRESS = 1 << 12
-    REJUDGE = 1 << 13
-    REFER_TO_PROBLEM = 1 << 14
+    VIEW_PLAGIARISM_SCORE = 1 << 10
+    VIEW_PLAGIARISM_DETAILS = 1 << 11
+    VIEW_JUDGEMENTS = 1 << 12
+    VIEW_IP_ADDRESS = 1 << 13
+    REJUDGE = 1 << 14
+    REFER_TO_PROBLEM = 1 << 15
 
     def update(self, level):
         if level >= SolutionAccessLevel.STATE:

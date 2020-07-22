@@ -75,6 +75,7 @@ class Permissions(metaclass=PermissionsType):
         if type(self) is not type(other):
             raise TypeError('permissions of different types cannot be combined')
         self._value |= other._value
+        return self
 
     @property
     def mask(self):

@@ -24,11 +24,11 @@ from solutions.utils import new_solution, judge
 from storage.utils import serve_resource_metadata
 from users.models import UserProfile
 
-from .calcpermissions import calculate_contest_permissions
+from .calcpermissions import ContestMemberFlags, calculate_contest_permissions
 from .exporting import export_to_s4ris_json, export_to_ejudge_xml
 from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutionForm, MessageForm, AnswerForm, QuestionForm
 from .forms import PrintoutForm, EditPrintoutForm
-from .models import Contest, Membership, ContestSolution, Message, MessageUser, Printout, ContestUserRoom, ContestProblem
+from .models import Contest, ContestSolution, Message, MessageUser, Printout, ContestUserRoom, ContestProblem
 from .services import make_contestant_choices, make_problem_choices, make_letter
 from .services import ProblemResolver, ContestTiming
 from .services import create_contest_service
@@ -83,10 +83,8 @@ class BaseContestView(generic.View):
         self.contest = get_object_or_404(Contest, pk=contest_id)
         self.service = create_contest_service(self.contest)
         self.timing = ContestTiming(self.contest)
-        if request.user.is_authenticated:
-            self.permissions = calculate_contest_permissions(self.contest, request.user, Membership.objects.filter(contest_id=contest_id, user=request.user))
-        else:
-            self.permissions = calculate_contest_permissions(self.contest, None, [])
+        member_flags = ContestMemberFlags.load(self.contest, request.user)
+        self.permissions = calculate_contest_permissions(self.contest, member_flags)
 
         if not self.is_allowed(self.permissions):
             raise PermissionDenied()

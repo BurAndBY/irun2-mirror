@@ -59,4 +59,5 @@ class ContestPermissions(object):
         self.printing = False
         self.manage_printing = False
 
-InContestAccessLevel = namedtuple('InContestAccessLevel', 'contest level samples_only_state')
+
+InContestAccessPermissions = namedtuple('InContestAccessPermissions', 'contest permissions')

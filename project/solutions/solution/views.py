@@ -375,7 +375,7 @@ class SolutionPlagiarismView(BaseSolutionView):
     paginate_by = 25
 
     def is_allowed(self, permissions):
-        return permissions.can_view_plagiarism
+        return permissions.can_view_plagiarism_score or permissions.can_view_plagiarism_details
 
     def do_get(self, request, solution):
         plagiarism_judgements = JudgementResult.\

@@ -130,7 +130,7 @@
                         </li>
                     {% endif %}
 
-                    {% if permissions.can_view_plagiarism %}
+                    {% if permissions.can_view_plagiarism_score or permissions.can_view_plagiarism_details %}
                         <li role="presentation"{% if active_tab == 'plagiarism' %} class="active"{% endif %}>
                             <a href="{% url 'solutions:plagiarism' solution.id %}">{% trans 'Plagiarism' %}</a>
                         </li>
