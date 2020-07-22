@@ -26,7 +26,7 @@ from common.statutils import build_proglangbars
 
 from proglangs.utils import get_ace_mode
 from solutions.filters import apply_state_filter
-from solutions.forms import AllSolutionsFilterForm
+from solutions.forms import StateFilterForm
 from solutions.models import Solution
 from solutions.utils import (
     judge,
@@ -472,7 +472,7 @@ class CourseAllSolutionsView(BaseCourseView):
 
         # State filter
 
-        filter_form = AllSolutionsFilterForm(request.GET)
+        filter_form = StateFilterForm(request.GET)
         if filter_form.is_valid():
             state = filter_form.cleaned_data['state']
 

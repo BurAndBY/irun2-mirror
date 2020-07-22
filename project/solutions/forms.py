@@ -83,7 +83,7 @@ class SolutionForm(forms.Form):
         return cleaned_data
 
 
-class AllSolutionsFilterForm(forms.Form):
+class StateFilterForm(forms.Form):
     STATE_CHOICES = (
         ('', make_empty_select(_('Status'))),
         (_('outcome'), (
@@ -110,6 +110,8 @@ class AllSolutionsFilterForm(forms.Form):
     )
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
 
+
+class AllSolutionsFilterForm(StateFilterForm):
     DEFAULT_COMPILER_CHOICES = (
         ('', make_empty_select(_('Language'))),
         (_('language'), ProgrammingLanguage.CHOICES[1:]),
