@@ -44,10 +44,11 @@ def irunner_courses_problemresult(problem_result, course_id, user_id=None):
 
 
 @register.inclusion_tag('courses/irunner_courses_standings_tag.html')
-def irunner_courses_standings(course_id, user_cache, can_assign_problems, course_descr, results, wide=False):
+def irunner_courses_standings(course_id, user_cache, user, can_assign_problems, course_descr, results, wide=False):
     return {
         'course_id': course_id,
         'user_cache': user_cache,
+        'user': user,
         'can_assign_problems': can_assign_problems,
         'course_descr': course_descr,
         'results': results,

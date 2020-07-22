@@ -17,5 +17,5 @@
 {% endblock %}
 
 {% block main %}
-{% irunner_courses_standings course.id user_cache permissions.assign course_descr results wide=False %}
+{% irunner_courses_standings course.id user_cache request.user permissions.assign course_descr results wide=False %}
 {% endblock %}

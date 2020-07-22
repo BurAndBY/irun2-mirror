@@ -12,7 +12,7 @@
 <div class="container-fluid">
     <h2>{% trans 'Standings' context 'course' %}: {{ course }}</h2>
 
-    {% irunner_courses_standings course.id user_cache permissions.assign course_descr results wide=True %}
+    {% irunner_courses_standings course.id user_cache request.user permissions.assign course_descr results wide=True %}
 
     <p>
         {#<a href="{% url 'courses:course_standings' course.id %}">{% trans 'Back' %}</a>#}
