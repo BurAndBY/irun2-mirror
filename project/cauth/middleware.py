@@ -34,8 +34,8 @@ class AdminMiddleware(object):
     def _get_access(self, user):
         with connection.cursor() as cursor:
             cursor.execute('SELECT '
-                           '(SELECT 1 FROM {problems_problemaccess} WHERE user_id = %s) AS has_access_to_problems, '
-                           '(SELECT 1 FROM {quizzes_categoryaccess} WHERE user_id = %s) AS has_access_to_quizzes'.format(
+                           '(SELECT 1 FROM {problems_problemaccess} WHERE user_id = %s LIMIT 1) AS has_access_to_problems, '
+                           '(SELECT 1 FROM {quizzes_categoryaccess} WHERE user_id = %s LIMIT 1) AS has_access_to_quizzes'.format(
                                 problems_problemaccess=ProblemAccess._meta.db_table,
                                 quizzes_categoryaccess=CategoryAccess._meta.db_table,
                             ), [user.id, user.id])
