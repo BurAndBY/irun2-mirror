@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 17:32+0300\n"
-"PO-Revision-Date: 2020-06-24 17:36+0300\n"
+"POT-Creation-Date: 2020-07-22 22:42+0300\n"
+"PO-Revision-Date: 2020-07-23 00:01+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -371,6 +371,11 @@ msgstr "Принято на тестирование"
 msgid "%(year)d year"
 msgstr "%(year)d-й курс"
 
+# There should be some way to write here 1st, 2nd etc.
+#, python-format
+msgid "group #%(group)d"
+msgstr "%(group)d-я группа"
+
 msgid "N/A"
 msgstr "N/A"
 
@@ -434,15 +439,6 @@ msgstr "Выбрано"
 msgid "Error while getting data from server."
 msgstr "Ошибка получения данных с сервера."
 
-msgid "Loading"
-msgstr "Загрузка"
-
-msgid "Add"
-msgstr "Добавить"
-
-msgid "Remove"
-msgstr "Удалить"
-
 msgid "s"
 msgstr "с"
 
@@ -490,6 +486,12 @@ msgstr "Получено неверное значение."
 
 msgid "You do not have permission to add entries to this folder."
 msgstr "У вас нет разрешения на добавление записей в эту папку."
+
+msgid "You do not have permission to list entries of this folder."
+msgstr "У вас нет разрешения на просмотр записей в этой папке."
+
+msgid "Not set"
+msgstr "Не указано"
 
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
@@ -547,9 +549,6 @@ msgstr "Просмотр результатов"
 
 msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
-
-msgid "Not set"
-msgstr "Не указано"
 
 msgid "Official contest"
 msgstr "Официальное соревнование"
@@ -992,6 +991,9 @@ msgstr "доступ студента к его собственным реше�
 msgid "student’s access to all solutions of the course"
 msgstr "доступ студента ко всем решениям курса"
 
+msgid "teacher’s access to all solutions of the course"
+msgstr "доступ преподавателя ко всем решениям курса"
+
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
 
@@ -1007,16 +1009,18 @@ msgstr "Номер группы"
 msgid "No information is given to identify the course."
 msgstr "Нет данных, чтобы идентифицировать курс."
 
-# There should be some way to write here 1st, 2nd etc.
-#, python-format
-msgid "%(group)d group"
-msgstr "%(group)d-я группа"
+msgctxt "course name delimiter"
+msgid ", "
+msgstr " "
 
 msgid "problem folder"
 msgstr "папка с задачами"
 
 msgid "criteria"
 msgstr "критерии"
+
+msgid "deadline"
+msgstr "крайний срок"
 
 msgid "solving problems within the course"
 msgstr "решение задач в рамках курса"
@@ -1166,6 +1170,9 @@ msgstr "Удалить дополнительную задачу"
 msgid "Extra problems"
 msgstr "Дополнительные задачи"
 
+msgid "Add"
+msgstr "Добавить"
+
 msgid "Permission denied."
 msgstr "Доступ запрещён."
 
@@ -1252,6 +1259,18 @@ msgid_plural "solutions"
 msgstr[0] "решение"
 msgstr[1] "решения"
 msgstr[2] "решений"
+
+msgid "Individual problems"
+msgstr "Индивидуальные задачи"
+
+msgid "Result"
+msgstr "Итог"
+
+msgid "until"
+msgstr "до"
+
+msgid "Points"
+msgstr "Баллы"
 
 msgid "Compose"
 msgstr "Написать"
@@ -1418,9 +1437,6 @@ msgstr "Верно, но не выбрано"
 msgid "Reviewer"
 msgstr "Проверяющий"
 
-msgid "Points"
-msgstr "Баллы"
-
 msgid "Finish time"
 msgstr "Время завершения"
 
@@ -1444,9 +1460,6 @@ msgstr "Нет завершённых сессий"
 
 msgid "Average mark"
 msgstr "Средняя оценка"
-
-msgid "Result"
-msgstr "Итог"
 
 msgid "Attempts"
 msgstr "Попытки"
@@ -1571,12 +1584,6 @@ msgstr "Журнал"
 
 msgid "Plagiarism"
 msgstr "Плагиат"
-
-msgid "Individual problems"
-msgstr "Индивидуальные задачи"
-
-msgid "until"
-msgstr "до"
 
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
@@ -2005,6 +2012,15 @@ msgid_plural "%(count)d tests have been added."
 msgstr[0] "Добавлен %(count)d тест."
 msgstr[1] "Добавлено %(count)d теста."
 msgstr[2] "Добавлено %(count)d тестов."
+
+msgid "Access browser"
+msgstr "Обзор доступов"
+
+msgid "Individual access"
+msgstr "Индивидуальный доступ"
+
+msgid "Group access"
+msgstr "Групповой доступ"
 
 msgid "Input file name"
 msgstr "Имя входного файла"
@@ -2828,6 +2844,15 @@ msgstr ""
 "--\n"
 "iRunner 2\n"
 
+msgid "First solution"
+msgstr "Первое решение"
+
+msgid "Second solution"
+msgstr "Второе решение"
+
+msgid "Show only contextual differences, else show full files"
+msgstr "Показать только различия с контекстом, иначе показать полные файлы"
+
 msgid "not found"
 msgstr "не найдено"
 
@@ -2900,15 +2925,6 @@ msgstr "ID задачи"
 
 msgid "User ID"
 msgstr "ID пользователя"
-
-msgid "First solution"
-msgstr "Первое решение"
-
-msgid "Second solution"
-msgstr "Второе решение"
-
-msgid "Show only contextual differences, else show full files"
-msgstr "Показать только различия с контекстом, иначе показать полные файлы"
 
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
@@ -3095,6 +3111,18 @@ msgstr "Клонировать"
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"
 
+msgid "Changes"
+msgstr "Изменения"
+
+msgid "Compare the soluton with the previous one"
+msgstr "Сравнить решение с предыдущим"
+
+msgid "Judgements"
+msgstr "Запуски"
+
+msgid "Compilation log is not available"
+msgstr "Журнал компиляции недоступен"
+
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
 
@@ -3110,17 +3138,8 @@ msgstr "Протестировано"
 msgid "IP address"
 msgstr "IP-адрес"
 
-msgid "Judgements"
-msgstr "Запуски"
-
-msgid "Changes"
-msgstr "Изменения"
-
-msgid "Compare the soluton with the previous one"
-msgstr "Сравнить решение с предыдущим"
-
-msgid "Compilation log is not available"
-msgstr "Журнал компиляции недоступен"
+msgid "No data"
+msgstr "Нет данных"
 
 msgid "Algo"
 msgstr "Алгоритм"
@@ -3131,8 +3150,8 @@ msgstr "Похожесть"
 msgid "Verdict"
 msgstr "Вердикт"
 
-msgid "No data"
-msgstr "Нет данных"
+msgid "No access to other solutions."
+msgstr "Нет доступа к другим решениям."
 
 msgid "Select all"
 msgstr "Выделить всё"
@@ -3549,6 +3568,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Loading"
+#~ msgstr "Загрузка"
+
+#~ msgid "Remove"
+#~ msgstr "Удалить"
 
 #~ msgid "user was explicitly granted access to certain problems"
 #~ msgstr "пользователю явно выдан доступ к отдельным задачам"
