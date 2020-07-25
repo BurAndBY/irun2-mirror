@@ -83,6 +83,14 @@
                     <li><a href="#" id="ir_export">{% bootstrap_icon 'export' %} <span class="ir-icon-label">{% trans 'Export as JSON' %}</span></a></li>
                 </ul>
             </div>
+
+            {% if user.is_staff and folder_id == None %}
+            <div class="btn-group btn-group-sm" role="group">
+                <a class="btn btn-default" href="{% url 'users:access_browser' %}">
+                    {% bootstrap_icon 'globe' %} <span class="ir-icon-label">{% trans 'Access browser' %}</span>
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}

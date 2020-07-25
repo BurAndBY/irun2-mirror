@@ -13,7 +13,7 @@ from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
-from cauth.mixins import AdminMemberRequiredMixin
+from cauth.mixins import AdminMemberRequiredMixin, StaffMemberRequiredMixin
 from common.cast import make_int_list_quiet
 from common.pagination import paginate
 from common.views import MassOperationView
@@ -22,7 +22,7 @@ from users.forms import (
     UserSearchForm,
     MoveUsersForm,
 )
-from users.models import UserProfile
+from users.models import UserProfile, UserFolderAccess
 from users.profile.permissions import ProfilePermissions, ProfilePermissionCalcer
 from users.profile.permissions import get_user_queryset
 
@@ -134,3 +134,13 @@ class SwapFirstLastNameView(AdminMemberRequiredMixin, MassOperationView):
             for user in queryset:
                 user.first_name, user.last_name = user.last_name, user.first_name
                 user.save()
+
+
+class AccessBrowserView(StaffMemberRequiredMixin, generic.View):
+    template_name = 'users/access_browser.html'
+
+    def get(self, request):
+        context = {
+            'group_access_records': UserFolderAccess.objects.all().select_related('folder', 'group'),
+        }
+        return render(request, self.template_name, context)

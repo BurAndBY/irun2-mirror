@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^export\.json$', views.ExportView.as_view(), name='export'),
     url(r'^swap-first-last-name/$', views.SwapFirstLastNameView.as_view(), name='swap_first_last_name'),
     url(r'^admin-groups/', include(admingroups_urlpatterns)),
+    url(r'^access-browser/$', views.AccessBrowserView.as_view(), name='access_browser'),
     url(r'', include(card_urlpatterns)),
     url(r'', include(profile_urlpatterns)),
 ]
