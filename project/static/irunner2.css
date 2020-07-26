@@ -189,10 +189,7 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-table-more-condensed > thead > tr > td,
 .ir-table-more-condensed > tbody > tr > td,
 .ir-table-more-condensed > tfoot > tr > td {
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 2px;
 }
 
 .ir-compact-form .form-group {
