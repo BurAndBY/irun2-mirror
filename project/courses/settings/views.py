@@ -548,7 +548,7 @@ Delete course
 
 class CourseSettingsDeleteView(CourseSettingsView):
     subtab = 'properties'
-    template_name = 'courses/course_confirm_delete.html'
+    template_name = 'courses/settings/course_confirm_delete.html'
 
     def get(self, request, course):
         context = self.get_context_data()
