@@ -18,7 +18,7 @@
     {% bootstrap_form form %}
     {% buttons %}
         <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
-        <a href="{% url 'proglangs:delete' object.id %}" class="btn btn-default">{% trans 'Delete' %}</a>
+        {% if object %}<a href="{% url 'proglangs:delete' object.id %}" class="btn btn-default">{% trans 'Delete' %}</a>{% endif %}
         <a href="{% url 'proglangs:index' %}" class="btn btn-link">{% trans 'Cancel' %}</a>
     {% endbuttons %}
 </form>
