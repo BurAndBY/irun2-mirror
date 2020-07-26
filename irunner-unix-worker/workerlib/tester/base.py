@@ -117,7 +117,17 @@ class BaseTester:
         return os.path.join('checker', 'test.py')
 
     @staticmethod
+    def _is_binary(filename):
+        for ext in ['.zip', '.tar', '.tar.gz', '.tgz']:
+            if filename.endswith(ext):
+                return True
+        return False
+
+    @staticmethod
     def _copy_converting_newlines(src, dst):
+        if BaseTester._is_binary(dst.name):
+            shutil.copyfile(src, dst)
+            return
         with src.open('rU') as infile:
             with dst.open('w', newline='\n') as outfile:
                 for line in infile:
