@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 from common.tree.loader import FolderLoader
 
-from users.models import UserFolder, UserFolderAccess, AdminGroup
+from users.models import UserFolder, UserFolderAccess
 
 
 class UserFolderLoader(FolderLoader):
@@ -22,11 +22,13 @@ class UserFolderLoader(FolderLoader):
 
     @staticmethod
     def _my_admin_groups(user):
-        return AdminGroup.objects.filter(users=user)
+        if user.is_admin:
+            return user.admingroup_ids
+        return set()
 
     @classmethod
-    def get_extra_object_pks(cls, user):
-        return [user.id]
+    def get_extra_objects(cls, user):
+        return get_user_model().objects.filter(admingroup__in=UserFolderLoader._my_admin_groups(user))
 
     @classmethod
     def get_extra_folders(cls, user):

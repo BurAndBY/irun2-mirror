@@ -12,8 +12,8 @@ class ProblemFolderLoader(FolderLoader):
     folder_access_model = ProblemFolderAccess
 
     @classmethod
-    def get_extra_object_pks(cls, user):
-        return Problem.objects.filter(problemaccess__user=user).values_list('id', flat=True)
+    def get_extra_objects(cls, user):
+        return Problem.objects.filter(problemaccess__user=user)
 
     @classmethod
     def get_extra_folders(cls, user):

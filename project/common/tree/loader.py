@@ -73,8 +73,8 @@ class FolderLoader(object):
         raise NotImplementedError()
 
     @classmethod
-    def get_extra_object_pks(cls, user):
-        return []
+    def get_extra_objects(cls, user):
+        return cls.model.objects.none()
 
     @classmethod
     def get_extra_folders(cls, user):

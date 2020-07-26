@@ -63,7 +63,7 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
         self.initial = initial
         self.widget.url_template = url_template
         self._inmemory_tree = self.widget.inmemory_tree = self.loader_cls.load_tree(user)
-        self._extra_pks_set = set(self.loader_cls.get_extra_object_pks(user))
+        self._extra_pks_set = set(self.loader_cls.get_extra_objects(user).values_list('pk', flat=True))
 
     @classmethod
     def ajax(cls, user, folder_id_or_root):
