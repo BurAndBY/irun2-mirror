@@ -22,6 +22,7 @@ class WorkerProblem(object):
         self.output_file_name = ''
         self.tests = []
         self.checker = None
+        self.libraries = []
         self.validator = None
         self.default_time_limit = None
 
@@ -63,6 +64,11 @@ class WorkerChecker(object):
     def __init__(self, source=None, kind=IRUNNER):
         self.source = source
         self.kind = kind
+
+
+class WorkerLibrary(object):
+    def __init__(self, source=None):
+        self.source = source
 
 
 class WorkerValidator(object):

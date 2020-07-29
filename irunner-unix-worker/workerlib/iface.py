@@ -17,6 +17,8 @@ class Outcome(Enum):
 
 TestCaseResult = namedtuple('TestCaseResult', ['test_case', 'outcome', 'time_used', 'time_limit', 'message', 'traceback', 'stdout', 'stderr'])
 
+LibraryFile = namedtuple('LibraryFile', ['resource_id', 'filename'])
+
 
 class TestCase:
     def __init__(self):
@@ -31,6 +33,7 @@ class TestingJob:
         self.solution_resource_id = None
         self.solution_compiler = None
         self.checker_resource_id = None
+        self.libraries = []
         self.default_time_limit = 1000
         self.solution_filename = 'solution'
         self.test_cases = []

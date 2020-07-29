@@ -11,6 +11,7 @@ from .resourceid import (
     tojson,
 )
 from .iface import (
+    LibraryFile,
     TestingJob,
     TestCase,
     IStateCallback,
@@ -58,6 +59,12 @@ class IRunnerApiClient:
         job.checker_resource_id = self._fetch_resource(cache, jsonchecker['source'])
         job.default_time_limit = jsonproblem.get('defaultTimeLimit', job.default_time_limit)
         job.solution_filename = jsonjob['solution'].get('filename', job.solution_filename)
+
+        for lib in jsonproblem['libraries']:
+            job.libraries.append(LibraryFile(
+                resource_id=self._fetch_resource(cache, lib['source']),
+                filename=lib['source']['filename']
+            ))
 
         for jsontest in jsonproblem['tests']:
             tc = TestCase()
