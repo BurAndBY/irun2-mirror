@@ -32,11 +32,15 @@ class TestCase:
 
 
 class TestingJob:
+    PYTEST = 'PYTEST'
+    GTEST = 'GTEST'
+
     def __init__(self, job_id):
         self.job_id = job_id
         self.solution_resource_id = None
         self.solution_compiler = None
         self.checker_resource_id = None
+        self.checker_kind = None
         self.libraries = []
         self.default_time_limit = 1000
         self.solution_filename = 'solution'

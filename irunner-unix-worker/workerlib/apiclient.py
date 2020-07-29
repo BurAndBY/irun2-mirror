@@ -49,7 +49,7 @@ class IRunnerApiClient:
         jsonjob = r.json()
         jsonproblem = jsonjob['problem']
         jsonchecker = jsonproblem['checker']
-        assert jsonchecker['kind'] == 'PYTEST'
+        assert jsonchecker['kind'] == TestingJob.PYTEST or jsonchecker['kind'] == TestingJob.GTEST
 
         job_id = jsonjob['id']
         job = TestingJob(job_id)
@@ -57,6 +57,7 @@ class IRunnerApiClient:
         job.solution_resource_id = self._fetch_resource(cache, jsonjob['solution'])
         job.solution_compiler = jsonjob['solution'].get('compiler')
         job.checker_resource_id = self._fetch_resource(cache, jsonchecker['source'])
+        job.checker_kind = jsonchecker['kind']
         job.default_time_limit = jsonproblem.get('defaultTimeLimit', job.default_time_limit)
         job.solution_filename = jsonjob['solution'].get('filename', job.solution_filename)
 
