@@ -93,6 +93,10 @@ class IRunnerApiClient:
                 'stdoutResourceId': tojson(self._push_resource(test.stdout)),
                 'stderrResourceId': tojson(self._push_resource(test.stderr)),
             }
+            if test.score is not None:
+                tcr['score'] = test.score
+            if test.score is not None:
+                tcr['max_score'] = test.max_score
             if test.test_case is not None:
                 tcr['id'] = test.test_case.test_case_id
                 tcr['inputResourceId'] = tojson(test.test_case.input_resource_id)
@@ -109,6 +113,12 @@ class IRunnerApiClient:
             'tests': jsontests,
             'logs': logs,
         }
+        if report.score is not None:
+            jsonreport['score'] = report.score
+        if report.max_score is not None:
+            jsonreport['max_score'] = report.max_score
+        if report.first_failed_test is not None:
+            jsonreport['first_failed_test'] = report.first_failed_test
         logging.info(jsonreport)
         r = self._session.put(self._url('jobs/{}/result'.format(job_id)), json=jsonreport)
         print(r.text)

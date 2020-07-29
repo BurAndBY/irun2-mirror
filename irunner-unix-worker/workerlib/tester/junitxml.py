@@ -69,6 +69,8 @@ def _do_extract_tests(job, test_suite, tests):
         tests.append(TestCaseResult(
             original_test,
             outcome,
+            None,
+            None,
             time_ms,
             job.default_time_limit,
             test_name,
