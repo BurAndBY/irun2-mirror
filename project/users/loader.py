@@ -22,6 +22,8 @@ class UserFolderLoader(FolderLoader):
 
     @staticmethod
     def _my_admin_groups(user):
+        if user.is_staff:
+            return set()
         if user.is_admin:
             return user.admingroup_ids
         return set()
