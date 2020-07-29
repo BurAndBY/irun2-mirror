@@ -8,6 +8,7 @@ class ProgrammingLanguage(object):
     PYTHON = 'py'
     CSHARP = 'cs'
     SHELL = 'sh'
+    ZIP = 'zip'
 
     CHOICES = (
         (UNKNOWN, 'N/A'),
@@ -19,6 +20,7 @@ class ProgrammingLanguage(object):
         (PYTHON, 'Python'),
         (CSHARP, 'C#'),
         (SHELL, 'Shell'),
+        (ZIP, 'ZIP'),
     )
 
 

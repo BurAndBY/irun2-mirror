@@ -198,6 +198,7 @@ class JudgementInQueue(IObjectInQueue):
             kind = {
                 ProgrammingLanguage.CPP: WorkerChecker.TESTLIB_H,
                 ProgrammingLanguage.PYTHON: WorkerChecker.PYTEST,
+                ProgrammingLanguage.ZIP: WorkerChecker.GTEST,
             }.get(checker.compiler.language, WorkerChecker.IRUNNER)
             wproblem.checker = WorkerChecker(checker, kind)
 

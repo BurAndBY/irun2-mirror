@@ -60,6 +60,7 @@ class WorkerChecker(object):
     TESTLIB_H = 'TESTLIB_H'
     ACCEPT_ALL = 'ACCEPT_ALL'
     PYTEST = 'PYTEST'
+    GTEST = 'GTEST'
 
     def __init__(self, source=None, kind=IRUNNER):
         self.source = source

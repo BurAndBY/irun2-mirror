@@ -27,11 +27,17 @@ def choose_workers(objs):
         filter(solution__problem__problemrelatedsourcefile__compiler__language=ProgrammingLanguage.PYTHON).
         distinct().values_list('id', flat=True)
     )
+    gtest_judgement_ids = set(
+        Judgement.objects.
+        filter(solution__problem__problemrelatedsourcefile__file_type=ProblemRelatedSourceFile.CHECKER).
+        filter(solution__problem__problemrelatedsourcefile__compiler__language=ProgrammingLanguage.ZIP).
+        distinct().values_list('id', flat=True)
+    )
 
     for obj in objs:
         worker = DefaultWorker
         if isinstance(obj, JudgementInQueue):
-            if obj.judgement_id in unix_judgement_ids:
+            if obj.judgement_id in unix_judgement_ids or obj.judgement_id in gtest_judgement_ids:
                 worker = UnixWorker
 
         yield ChosenWorker(obj, worker)
