@@ -62,9 +62,10 @@ class IRunnerApiClient:
         job.solution_filename = jsonjob['solution'].get('filename', job.solution_filename)
 
         for lib in jsonproblem['libraries']:
+            source = lib['source']
             job.libraries.append(LibraryFile(
-                resource_id=self._fetch_resource(cache, lib['source']),
-                filename=lib['source']['filename']
+                resource_id=self._fetch_resource(cache, source),
+                filename=source['filename']
             ))
 
         for jsontest in jsonproblem['tests']:
@@ -96,7 +97,7 @@ class IRunnerApiClient:
             }
             if test.score is not None:
                 tcr['score'] = test.score
-            if test.score is not None:
+            if test.max_score is not None:
                 tcr['max_score'] = test.max_score
             if test.test_case is not None:
                 tcr['id'] = test.test_case.test_case_id
