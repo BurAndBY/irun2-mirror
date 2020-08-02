@@ -38,6 +38,12 @@ def main():
         log, _ = p.communicate()
         success = (p.returncode == 0)
 
+        log = log.replace(tmp, '')
+        log = log.replace(args.source, '')
+        log = log.replace(args.tests, '')
+        log = log.replace(args.build_script, '')
+        log = log.replace(args.output_dir, '')
+
     result = {
         'success': success,
         'results': [{
