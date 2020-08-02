@@ -172,7 +172,7 @@ class BaseTester:
             cmd.extend(['--checker', checkerdir / TEST_PY])
         else:
             cmd.extend(['--tests', checkerdir / 'package.zip'])
-            cmd.extend(['--build_script', checkerdir / 'build.sh'])
+            cmd.extend(['--build-script', checkerdir / 'build.sh'])
 
         if job.solution_compiler:
             cmd.extend(['--compiler', job.solution_compiler])

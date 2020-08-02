@@ -1,9 +1,6 @@
 import argparse
-import importlib.util
 import json
 import os
-import re
-import shutil
 import subprocess
 
 from collections import namedtuple
@@ -19,7 +16,7 @@ def main():
     parser.add_argument('--compiler', help='compiler selected by participant')
     parser.add_argument('--tests', help='path to tests package (zip-archive)',
                         default=os.path.join(os.curdir, 'package.zip'))
-    parser.add_argument('--build_script', help='user-defined build logic',
+    parser.add_argument('--build-script', help='user-defined build logic',
                         default=os.path.join(os.curdir, 'build.sh'))
     parser.add_argument('--output-dir', help='output directory',
                         default=os.curdir)
