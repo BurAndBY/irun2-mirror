@@ -196,7 +196,6 @@ class BaseTester:
             cmd = [
                 'python3', dstdir / dstpaths.builddir / 'runner.py',
                 '--build-dir', dstdir / dstpaths.builddir,
-                '--mode=irunner',
                 '--irunner-report-json', dstdir / dstpaths.reportfile,
             ]
 
