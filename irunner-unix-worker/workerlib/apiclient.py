@@ -65,7 +65,8 @@ class IRunnerApiClient:
             source = lib['source']
             job.libraries.append(LibraryFile(
                 resource_id=self._fetch_resource(cache, source),
-                filename=source['filename']
+                filename=source['filename'],
+                compiler=source['compiler']
             ))
 
         for jsontest in jsonproblem['tests']:

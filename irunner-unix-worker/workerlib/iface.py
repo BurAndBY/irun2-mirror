@@ -21,7 +21,7 @@ TestCaseResult = namedtuple(
     ['test_case', 'outcome', 'score', 'max_score', 'time_used', 'time_limit',
      'message', 'traceback', 'stdout', 'stderr'])
 
-LibraryFile = namedtuple('LibraryFile', ['resource_id', 'filename'])
+LibraryFile = namedtuple('LibraryFile', ['resource_id', 'filename', 'compiler'])
 
 
 class TestCase:

@@ -127,6 +127,8 @@ class BaseTester:
 
         for lib in job.libraries:
             shutil.copy(self._cache[lib.resource_id], checker_dir / lib.filename)
+            if lib.compiler == 'SHELL':
+                os.chmod(checker_dir / lib.filename, 0o555)
 
         if job.checker_kind == TestingJob.PYTEST:
             shutil.copy(scripts_src_dir / 'build-pytest.py', checker_dir / BUILD_PY)
