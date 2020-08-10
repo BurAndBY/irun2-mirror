@@ -329,6 +329,10 @@ h3 { font-size: 20px; line-height: 32px; }
     background-color: #777;
     color: #0e0;
 }
+.ir-langbox-zip {
+    background-color: #777;
+    color: #FFFFFF;
+}
 
 /**
  * Language Select

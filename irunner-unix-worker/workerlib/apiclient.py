@@ -49,7 +49,7 @@ class IRunnerApiClient:
         jsonjob = r.json()
         jsonproblem = jsonjob['problem']
         jsonchecker = jsonproblem['checker']
-        assert jsonchecker['kind'] == TestingJob.PYTEST or jsonchecker['kind'] == TestingJob.GTEST
+        assert jsonchecker['kind'] in (TestingJob.PYTEST, TestingJob.GTEST)
 
         job_id = jsonjob['id']
         job = TestingJob(job_id)
