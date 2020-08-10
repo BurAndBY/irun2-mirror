@@ -1,10 +1,11 @@
 from collections import namedtuple
 from enum import Enum
-from json import load as json_load
+from json import load as json_load, JSONDecodeError
 
 
 class CheckFailed(Exception):
-    pass
+    def __init__(self, message=''):
+        self.message = message
 
 
 class Outcome(Enum):
@@ -57,9 +58,10 @@ class TestingReport:
         self.tests = []
 
     @staticmethod
-    def check_failed():
+    def check_failed(log):
         report = TestingReport()
         report.outcome = Outcome.CHECK_FAILED
+        report.compilation_log = log
         return report
 
     @staticmethod
@@ -82,34 +84,37 @@ class TestingReport:
 
     @staticmethod
     def from_json(job, compilation_log, test_results):
+        try:
+            with open(test_results, 'r') as json_file:
+                data = json_load(json_file)
+        except (IOError, JSONDecodeError):
+            raise CheckFailed('Unable to parse report JSON')
+
         report = TestingReport()
         report.compilation_log = compilation_log
         report.first_failed_test = 0
 
-        with open(test_results, 'r') as json_file:
-            data = json_load(json_file)
+        if data['verdict'] == 'ACCEPTED':
+            report.outcome = Outcome.ACCEPTED
+        else:
+            report.outcome = Outcome.FAILED
 
-            if data['verdict'] == 'ACCEPTED':
-                report.outcome = Outcome.ACCEPTED
-            else:
-                report.outcome = Outcome.FAILED
+        report.score = data['score']
+        report.max_score = data['max_score']
 
-            report.score = data['score']
-            report.max_score = data['max_score']
-
-            for test in data['tests']:
-                report.tests.append(TestCaseResult(
-                    None,
-                    Outcome.ACCEPTED if test['verdict'] else Outcome.FAILED,
-                    test['score'],
-                    test['max_score'],
-                    test['time_ms'],
-                    test['time_limit_ms'],
-                    test['comment'],
-                    test['output'],
-                    test['stdout'],
-                    test['stderr'],
-                ))
+        for test in data['tests']:
+            report.tests.append(TestCaseResult(
+                None,
+                Outcome.ACCEPTED if test['verdict'] else Outcome.FAILED,
+                test['score'],
+                test['max_score'],
+                test['time_ms'],
+                test['time_limit_ms'],
+                test['comment'],
+                test['output'],
+                test['stdout'],
+                test['stderr'],
+            ))
 
         return report
 

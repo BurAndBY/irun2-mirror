@@ -1,5 +1,4 @@
 import json
-import logging
 
 from workerlib.iface import CheckFailed
 
@@ -9,8 +8,7 @@ def parse_buildjson(path):
         with path.open() as fd:
             return json.load(fd)
     except (IOError, json.JSONDecodeError):
-        logging.exception('Unable to parse build JSON')
-        raise CheckFailed()
+        raise CheckFailed('Unable to parse build JSON')
 
 
 def extract_compilation_log(buildjson):

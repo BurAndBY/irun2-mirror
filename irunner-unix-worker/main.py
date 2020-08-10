@@ -73,8 +73,9 @@ def main():
         callback = IRunnerApiStateCallback(api_client, job.job_id)
         try:
             report = tester.run(job, 'sandbox', callback)
-        except CheckFailed:
-            report = TestingReport.check_failed()
+        except CheckFailed as e:
+            logging.exception(e.message)
+            report = TestingReport.check_failed(e.message)
         api_client.put_report(job.job_id, report)
         need_sleep = False
 
