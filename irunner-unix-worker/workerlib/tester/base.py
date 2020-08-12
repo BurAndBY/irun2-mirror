@@ -188,7 +188,7 @@ class BaseTester:
                 srcdir / srcpaths.checkerdir / TEST_PY,
                 '--solution', srcdir / srcpaths.solutionfile,
                 '--tests-dir', srcdir / srcpaths.testsdir,
-                '--build-dir', dstdir / dstpaths.builddir,
+                '--build-dir', srcdir / dstpaths.builddir,
                 '--junitxml', dstdir / dstpaths.junitxmlfile,
                 '--tb', 'short',
                 '--timeout', str(job.default_time_limit / 1000),
@@ -196,8 +196,8 @@ class BaseTester:
             ]
         else:
             cmd = [
-                'python3', dstdir / dstpaths.builddir / 'runner.py',
-                '--build-dir', dstdir / dstpaths.builddir,
+                'python3', srcdir / dstpaths.builddir / 'runner.py',
+                '--build-dir', srcdir / dstpaths.builddir,
                 '--irunner-report-json', dstdir / dstpaths.reportfile,
             ]
 
