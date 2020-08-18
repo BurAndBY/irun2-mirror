@@ -69,4 +69,9 @@ class DockerTester(BaseTester):
     def _execute(self, job, workdir, srcpaths, dstpaths):
         c = Container(self._client)
         cmd = self._make_execute_command(job, c.rodir, srcpaths, c.rwdir, dstpaths)
-        c.run_and_get_results(cmd, self._make_env({}), workdir, dstpaths.junitxmlfile)
+        if dstpaths.reportfile is not None:
+            report_path = dstpaths.reportfile
+        else:
+            assert dstpaths.junitxmlfile is not None
+            report_path = dstpaths.junitxmlfile
+        c.run_and_get_results(cmd, self._make_env({}), workdir, report_path)

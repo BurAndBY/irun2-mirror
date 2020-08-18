@@ -99,6 +99,10 @@ class WorkerCheckerSerializer(serializers.Serializer):
     kind = serializers.CharField()
 
 
+class WorkerLibrarySerializer(serializers.Serializer):
+    source = ProblemRelatedSourceFileSerializer()
+
+
 class WorkerValidatorSerializer(serializers.Serializer):
     source = ProblemRelatedSourceFileSerializer()
 
@@ -110,6 +114,7 @@ class WorkerProblemSerializer(serializers.Serializer):
     output_file_name = serializers.CharField()
     tests = WorkerTestCaseSerializer(many=True)
     checker = WorkerCheckerSerializer()
+    libraries = WorkerLibrarySerializer(many=True)
     validator = WorkerValidatorSerializer()
     default_time_limit = serializers.IntegerField()
 

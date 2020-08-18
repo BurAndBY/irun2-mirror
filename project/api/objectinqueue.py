@@ -21,6 +21,7 @@ from solutions.models import (
 from api.workerstructs import (
     WorkerChecker,
     WorkerFile,
+    WorkerLibrary,
     WorkerProblem,
     WorkerTestCase,
     WorkerTestingJob,
@@ -197,8 +198,12 @@ class JudgementInQueue(IObjectInQueue):
             kind = {
                 ProgrammingLanguage.CPP: WorkerChecker.TESTLIB_H,
                 ProgrammingLanguage.PYTHON: WorkerChecker.PYTEST,
+                ProgrammingLanguage.ZIP: WorkerChecker.GTEST,
             }.get(checker.compiler.language, WorkerChecker.IRUNNER)
             wproblem.checker = WorkerChecker(checker, kind)
+
+        for lib in problem.problemrelatedsourcefile_set.filter(file_type=ProblemRelatedSourceFile.LIBRARY):
+            wproblem.libraries.append(WorkerLibrary(lib))
 
         return wproblem
 

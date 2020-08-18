@@ -27,13 +27,13 @@ Now create a new virtual environment and activate it.
 
 On UNIX-like systems:
 
-    sobols@magellan:~/irunner2$ virtualenv venv --no-site-packages
+    sobols@magellan:~/irunner2$ virtualenv venv
     sobols@magellan:~/irunner2$ source venv/bin/activate
     (venv)sobols@magellan:~/irunner2$
 
 On Windows:
 
-    C:\work\irunner2>virtualenv venv --no-site-packages
+    C:\work\irunner2>virtualenv venv
     C:\work\irunner2>venv\Scripts\activate.bat
     (venv) C:\work\irunner2>
 
@@ -65,18 +65,20 @@ On Windows:
 
     (venv) C:\work\irunner2>set DJANGO_SETTINGS_MODULE=irunner2.settings_dev
 
-Now create tables in the development database and start the development server.
+Now initialize the development database, create the first user and start the development server.
 
 On UNIX-like systems:
 
     (venv)sobols@magellan:~/irunner2$ cd project
     (venv)sobols@magellan:~/irunner2/project$ ./manage.py migrate
+    (venv)sobols@magellan:~/irunner2/project$ ./manage.py createsuperuser
     (venv)sobols@magellan:~/irunner2/project$ ./manage.py runserver
 
 On Windows:
 
     (venv) C:\work\irunner2>cd project
-    (venv) C:\work\irunner2>python manage.py migrate
-    (venv) C:\work\irunner2>python manage.py runserver
+    (venv) C:\work\irunner2\project>python manage.py migrate
+    (venv) C:\work\irunner2\project>python manage.py createsuperuser
+    (venv) C:\work\irunner2\project>python manage.py runserver
 
 By default, the server starts on port 8000. Open your browser and check.

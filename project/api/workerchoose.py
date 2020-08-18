@@ -23,8 +23,10 @@ def choose_workers(objs):
     # TODO: XXX find better way
     unix_judgement_ids = set(
         Judgement.objects.
+        filter(id__in=judgement_ids).
         filter(solution__problem__problemrelatedsourcefile__file_type=ProblemRelatedSourceFile.CHECKER).
-        filter(solution__problem__problemrelatedsourcefile__compiler__language=ProgrammingLanguage.PYTHON).
+        filter(solution__problem__problemrelatedsourcefile__compiler__language__in=(
+            ProgrammingLanguage.PYTHON, ProgrammingLanguage.ZIP)).
         distinct().values_list('id', flat=True)
     )
 

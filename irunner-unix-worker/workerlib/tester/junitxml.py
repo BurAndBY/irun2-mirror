@@ -18,8 +18,7 @@ def parse_junitxml(path):
     try:
         return ET.parse(path)
     except (IOError, ET.ParseError):
-        logging.exception('Unable to parse JUnit XML')
-        raise CheckFailed()
+        raise CheckFailed('Unable to parse JUnit XML')
 
 
 def _do_extract_tests(job, test_suite, tests):
@@ -69,6 +68,8 @@ def _do_extract_tests(job, test_suite, tests):
         tests.append(TestCaseResult(
             original_test,
             outcome,
+            None,
+            None,
             time_ms,
             job.default_time_limit,
             test_name,

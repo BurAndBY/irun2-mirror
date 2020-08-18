@@ -11,6 +11,7 @@ from .resourceid import (
     tojson,
 )
 from .iface import (
+    LibraryFile,
     TestingJob,
     TestCase,
     IStateCallback,
@@ -48,7 +49,7 @@ class IRunnerApiClient:
         jsonjob = r.json()
         jsonproblem = jsonjob['problem']
         jsonchecker = jsonproblem['checker']
-        assert jsonchecker['kind'] == 'PYTEST'
+        assert jsonchecker['kind'] in (TestingJob.PYTEST, TestingJob.GTEST)
 
         job_id = jsonjob['id']
         job = TestingJob(job_id)
@@ -56,8 +57,17 @@ class IRunnerApiClient:
         job.solution_resource_id = self._fetch_resource(cache, jsonjob['solution'])
         job.solution_compiler = jsonjob['solution'].get('compiler')
         job.checker_resource_id = self._fetch_resource(cache, jsonchecker['source'])
+        job.checker_kind = jsonchecker['kind']
         job.default_time_limit = jsonproblem.get('defaultTimeLimit', job.default_time_limit)
         job.solution_filename = jsonjob['solution'].get('filename', job.solution_filename)
+
+        for lib in jsonproblem['libraries']:
+            source = lib['source']
+            job.libraries.append(LibraryFile(
+                resource_id=self._fetch_resource(cache, source),
+                filename=source['filename'],
+                compiler=source['compiler']
+            ))
 
         for jsontest in jsonproblem['tests']:
             tc = TestCase()
@@ -86,6 +96,10 @@ class IRunnerApiClient:
                 'stdoutResourceId': tojson(self._push_resource(test.stdout)),
                 'stderrResourceId': tojson(self._push_resource(test.stderr)),
             }
+            if test.score is not None:
+                tcr['score'] = test.score
+            if test.max_score is not None:
+                tcr['max_score'] = test.max_score
             if test.test_case is not None:
                 tcr['id'] = test.test_case.test_case_id
                 tcr['inputResourceId'] = tojson(test.test_case.input_resource_id)
@@ -102,6 +116,12 @@ class IRunnerApiClient:
             'tests': jsontests,
             'logs': logs,
         }
+        if report.score is not None:
+            jsonreport['score'] = report.score
+        if report.max_score is not None:
+            jsonreport['max_score'] = report.max_score
+        if report.first_failed_test is not None:
+            jsonreport['first_failed_test'] = report.first_failed_test
         logging.info(jsonreport)
         r = self._session.put(self._url('jobs/{}/result'.format(job_id)), json=jsonreport)
         print(r.text)
