@@ -5,7 +5,12 @@
 {% load staticfiles %}
 
 {% block content %}
-    <img class="img-responsive" src="{% static 'icpc-logo.png' %}"></img>
+    {% if object.logo_style == 1 and object.logo_file != None %}
+    <img class="img-responsive center-block" src="{% url 'events:logo' object.slug object.logo_file.filename %}">
+    {% elif object.logo_style == 2 %}
+    <img class="img-responsive center-block" src="{% static 'icpc-logo.png' %}">
+    {% endif %}
+
     <h1>{% block title %}{{ object.name }}{% endblock %}</h1>
     {{ object.description|urlize|linebreaks }}
 

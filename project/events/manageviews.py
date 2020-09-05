@@ -8,12 +8,12 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
 
+from .forms import PageDesignForm
 from .models import Event
 from registration.models import IcpcCoach
 from registration.export import make_teams_csv, make_contestants_csv
 
-EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'local_description', 'en_description',
-                'is_registration_available', 'registration_mode', 'fill_forms_in_en']
+EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'is_registration_available', 'registration_mode', 'fill_forms_in_en']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
@@ -34,6 +34,20 @@ class UpdateEventView(StaffMemberRequiredMixin, generic.UpdateView):
     model = Event
     template_name = 'events/manage/edit.html'
     fields = EVENT_FIELDS
+
+    def get_success_url(self):
+        return reverse('events:manage:list')
+
+
+class EventPageDesignView(StaffMemberRequiredMixin, generic.UpdateView):
+    model = Event
+    form_class = PageDesignForm
+    template_name = 'events/manage/edit.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['logo_file'].urlmaker = lambda fm: reverse('events:logo', args=(self.object.slug, fm.filename))
+        return form
 
     def get_success_url(self):
         return reverse('events:manage:list')

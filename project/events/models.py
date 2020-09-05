@@ -5,6 +5,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
 
+from storage.models import FileMetadata
+
 MAX_TITLE_LENGTH = 100
 
 
@@ -26,6 +28,16 @@ class RegistrationMode(object):
     )
 
 
+class LogoStyle(object):
+    FILE = 1
+    ICPC = 2
+
+    CHOICES = (
+        (FILE, _('File')),
+        (ICPC, 'ICPC'),
+    )
+
+
 class Event(models.Model):
     slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
 
@@ -39,6 +51,9 @@ class Event(models.Model):
     registration_mode = models.IntegerField(_('registration mode'), choices=RegistrationMode.CHOICES, default=RegistrationMode.COACH_AND_TEAMS)
 
     fill_forms_in_en = models.BooleanField(_('the forms are filled in English'), default=True, blank=False)
+
+    logo_style = models.IntegerField(_('logo style'), choices=LogoStyle.CHOICES, default=None, null=True, blank=True)
+    logo_file = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL, verbose_name=_('image file'))
 
     @property
     def name(self):
