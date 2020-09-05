@@ -7,7 +7,6 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from common.constants import EMPTY_SELECT
-from common.education.year import make_year_of_study_choices
 
 from .models import (
     IcpcCoach,
@@ -24,6 +23,13 @@ def _current_year():
 def _year_choices(lower_bound, upper_bound):
     cur = _current_year()
     return [(None, EMPTY_SELECT)] + [(r, r) for r in range(cur + lower_bound, cur + upper_bound + 1)]
+
+
+def _year_of_study_choices():
+    return [('', '')] + [
+        (year, '{}'.format(year))
+        for year in range(1, 12)
+    ]
 
 
 class BaseCoachForm(LocalizeMixin, forms.ModelForm):
@@ -55,7 +61,7 @@ class IcpcCoachForm(CheckEmailMixin, BaseCoachForm):
 
 class IcpcCoachAsContestantForm(CheckEmailMixin, BaseCoachForm):
     year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
-                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+                                           choices=_year_of_study_choices, coerce=int, empty_value=None)
 
     class Meta(BaseCoachForm.Meta):
         fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
@@ -72,7 +78,7 @@ class IcpcCoachUpdateForm(BaseCoachForm):
 
 class IcpcCoachAsContestantUpdateForm(BaseCoachForm):
     year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
-                                           choices=make_year_of_study_choices, coerce=int, empty_value=None)
+                                           choices=_year_of_study_choices, coerce=int, empty_value=None)
 
     class Meta(BaseCoachForm.Meta):
         fields = ['first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
