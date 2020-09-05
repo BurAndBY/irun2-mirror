@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-22 22:42+0300\n"
-"PO-Revision-Date: 2020-07-23 00:01+0300\n"
+"POT-Creation-Date: 2020-09-05 05:00+0300\n"
+"PO-Revision-Date: 2020-09-05 05:04+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1179,15 +1179,6 @@ msgstr "Доступ запрещён."
 msgid "Please set up a new password instead of default one."
 msgstr "Пожалуйста, установите новый пароль вместо пароля по умолчанию."
 
-msgid "Delete course"
-msgstr "Удалить курс"
-
-msgid "Are you sure you want to permanently delete the course?"
-msgstr "Вы уверены, что хотите удалить этот курс?"
-
-msgid "This action cannot be undone."
-msgstr "Это действие не может быть отменено."
-
 msgid "New course"
 msgstr "Новый курс"
 
@@ -1473,6 +1464,15 @@ msgstr "Очереди"
 msgid "Edit common problems list"
 msgstr "Редактирование списка общих задач"
 
+msgid "Delete course"
+msgstr "Удалить курс"
+
+msgid "Are you sure you want to permanently delete the course?"
+msgstr "Вы уверены, что хотите удалить этот курс?"
+
+msgid "This action cannot be undone."
+msgstr "Это действие не может быть отменено."
+
 msgid "Topics"
 msgstr "Темы"
 
@@ -1594,6 +1594,9 @@ msgstr "Решение"
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
 
+msgid "Logo image file"
+msgstr "Файл с изображением логотипа"
+
 msgid "Coach and teams"
 msgstr "Тренер и команды"
 
@@ -1627,6 +1630,12 @@ msgstr "режим регистрации"
 msgid "the forms are filled in English"
 msgstr "формы заполняются на английском"
 
+msgid "logo style"
+msgstr "стиль логотипа"
+
+msgid "image file"
+msgstr "файл с изображением"
+
 msgid "Register as Coach"
 msgstr "Зарегистрироваться как тренер"
 
@@ -1647,6 +1656,9 @@ msgstr "Событие"
 
 msgid "External link"
 msgstr "Внешняя ссылка"
+
+msgid "Page design"
+msgstr "Дизайн страницы"
 
 msgid "Registration"
 msgstr "Регистрация"
@@ -2668,6 +2680,12 @@ msgstr "Формат"
 
 msgid "This email has already been registered for this event."
 msgstr "Этот адрес уже зарегистрирован на данное событие."
+
+msgid "Institution (university, school)"
+msgstr "Учебное заведение (университет, школа)"
+
+msgid "Faculty (if any)"
+msgstr "Факультет (если есть)"
 
 msgid "Program start year"
 msgstr "Год начала обучения"
