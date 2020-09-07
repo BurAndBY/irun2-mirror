@@ -70,7 +70,7 @@ class DeleteUsersView(AdminMemberRequiredMixin, MassOperationView):
         return auth.get_user_model().objects
 
     def filter_objects(self, ids):
-        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT)
+        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT_MAIN_PROPS)
 
     def perform(self, queryset, form):
         try:
@@ -88,7 +88,7 @@ class MoveUsersView(AdminMemberRequiredMixin, MassOperationView):
         return UserProfile.objects.select_related('user')
 
     def filter_objects(self, ids):
-        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT)
+        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT_MAIN_PROPS)
 
     def perform(self, queryset, form):
         folder = form.cleaned_data['folder']
@@ -127,7 +127,7 @@ class SwapFirstLastNameView(AdminMemberRequiredMixin, MassOperationView):
         return auth.get_user_model().objects
 
     def filter_objects(self, ids):
-        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT)
+        return ProfilePermissionCalcer(self.request.user).filter_objects(ids, ProfilePermissions.EDIT_AUX_PROPS)
 
     def perform(self, queryset, form):
         with transaction.atomic():

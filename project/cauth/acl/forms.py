@@ -10,9 +10,9 @@ from .accessmode import AccessMode
 
 class ShareWithUserForm(forms.Form):
     user = UsernameField(label=_('Username'), required=True)
-    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.CHOICES, initial=AccessMode.MODIFY)
+    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.OBJECT_CHOICES, initial=AccessMode.MODIFY)
 
 
 class ShareWithGroupForm(forms.Form):
     group = forms.ModelChoiceField(label=_('Group'), queryset=AdminGroup.objects.all(), required=True, empty_label=EMPTY_SELECT)
-    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.CHOICES, initial=AccessMode.MODIFY)
+    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.FOLDER_CHOICES, initial=AccessMode.WRITE)

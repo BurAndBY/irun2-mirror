@@ -112,7 +112,7 @@ class ProfileMainView(ProfileTwoFormsView):
     user_form_class = UserMainForm
     userprofile_form_class = UserProfileMainForm
     page_title = _('Main properties')
-    requirements_to_post = ProfilePermissions.EDIT
+    requirements_to_post = ProfilePermissions.EDIT_MAIN_PROPS
 
     def get_userprofile_form_kwargs(self):
         return {'user': self.request.user}
@@ -124,14 +124,14 @@ class ProfileUpdateView(ProfileTwoFormsView):
     user_form_class = UserForm
     userprofile_form_class = UserProfileForm
     page_title = _('Update profile')
-    requirements_to_post = ProfilePermissions.EDIT
+    requirements_to_post = ProfilePermissions.EDIT_AUX_PROPS
 
 
 class ProfilePasswordView(BaseProfileView, generic.View):
     tab = 'password'
     template_name = 'users/profile/password.html'
     page_title = _('Change password')
-    requirements = ProfilePermissions.EDIT
+    requirements = ProfilePermissions.EDIT_AUX_PROPS
 
     def get(self, request, user):
         form = auth.forms.AdminPasswordChangeForm(user)
@@ -158,7 +158,7 @@ class ProfilePhotoView(BaseProfileView, generic.View):
     tab = 'photo'
     template_name = 'users/profile/photo.html'
     page_title = _('Photo')
-    requirements = ProfilePermissions.EDIT
+    requirements = ProfilePermissions.EDIT_AUX_PROPS
 
     def _make_form(self, profile, data=None, files=None):
         if profile.photo is not None:
@@ -204,7 +204,7 @@ class ProfileTwoFactorView(BaseProfileView, generic.View):
     tab = 'two_factor'
     template_name = 'users/profile/two_factor.html'
     page_title = _('Two-factor authentication')
-    requirements_to_post = ProfilePermissions.EDIT
+    requirements_to_post = ProfilePermissions.EDIT_AUX_PROPS
 
     def get(self, request, user):
         return render(request, self.template_name,

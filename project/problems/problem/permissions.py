@@ -31,7 +31,7 @@ class ProblemPermissionCalcer(PermissionCalcer):
             pks = pm.find_pks_for_granting(write)
             if pks:
                 for pk, mode in _ProblemFolderAccessChecker.bulk_check(self.user, pks).items():
-                    if mode == AccessMode.MODIFY:
+                    if mode in (AccessMode.MODIFY, AccessMode.WRITE):
                         pm.grant(pk, write)
                     elif mode == AccessMode.READ:
                         pm.grant(pk, read)
@@ -41,7 +41,7 @@ class ProblemPermissionCalcer(PermissionCalcer):
             pks = pm.find_pks_for_granting(write)
             if pks:
                 for pk, mode in ProblemAccess.objects.filter(user=self.user, problem_id__in=pks).values_list('problem_id', 'mode'):
-                    if mode == AccessMode.MODIFY:
+                    if mode in (AccessMode.MODIFY, AccessMode.WRITE):
                         pm.grant(pk, write)
                     elif mode == AccessMode.READ:
                         pm.grant(pk, read)

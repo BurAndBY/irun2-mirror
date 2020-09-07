@@ -38,8 +38,9 @@ from users.folders.forms import (
 
 class FolderPermissions(Permissions):
     VIEW_USERS = 1 << 0
-    MANAGE_FOLDERS = 1 << 1
-    GRANT_ACCESS = 1 << 2
+    EDIT_USERS = 1 << 1
+    MANAGE_FOLDERS = 1 << 2
+    GRANT_ACCESS = 1 << 3
 
 
 class UserFolderMixin(FolderMixin):
@@ -55,8 +56,10 @@ class FolderPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
         if user.is_staff:
             return FolderPermissions().allow_all()
+        if self.node.access == AccessMode.WRITE:
+            return FolderPermissions().allow_view_users().allow_edit_users().allow_manage_folders()
         if self.node.access == AccessMode.MODIFY:
-            return FolderPermissions().allow_view_users().allow_manage_folders()
+            return FolderPermissions().allow_view_users().allow_edit_users()
         if self.node.access == AccessMode.READ:
             return FolderPermissions().allow_view_users()
         return FolderPermissions()
@@ -168,7 +171,7 @@ class CreateUsersMassView(CombinedMixin, generic.FormView):
 class UpdateProfileMassView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = UpdateProfileMassForm
-    requirements = FolderPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.EDIT_USERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -218,7 +221,7 @@ class UpdateProfileMassView(CombinedMixin, generic.FormView):
 class UploadPhotoMassView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = UploadPhotoMassForm
-    requirements = FolderPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.EDIT_USERS
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -250,7 +253,7 @@ class UploadPhotoMassView(CombinedMixin, generic.FormView):
 class ObtainPhotosFromIntranetBsuView(CombinedMixin, generic.FormView):
     template_name = 'users/create_form.html'
     form_class = IntranetBsuForm
-    requirements = FolderPermissions.MANAGE_FOLDERS
+    requirements = FolderPermissions.EDIT_USERS
 
     UserError = namedtuple('UserError', 'user type message')
     PhotoIds = namedtuple('PhotoIds', 'photo photo_thumbnail')
@@ -333,7 +336,7 @@ class FolderAccessView(CombinedMixin, ShareFolderWithGroupMixin, generic.base.Co
     template_name = 'users/folders/access.html'
     # form_class = ProblemFolderForm
     requirements = FolderPermissions.VIEW_USERS
-    requirements_to_post = FolderPermissions.MANAGE_FOLDERS
+    requirements_to_post = FolderPermissions.GRANT_ACCESS
     access_model = UserFolderAccess
     needs_real_folder = True
 

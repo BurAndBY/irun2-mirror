@@ -47,8 +47,10 @@ class FolderPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
         if user.is_staff:
             return FolderPermissions().allow_all()
-        if self.node.access == AccessMode.MODIFY:
+        if self.node.access == AccessMode.WRITE:
             return FolderPermissions().allow_view_problems().allow_manage_folders()
+        if self.node.access == AccessMode.MODIFY:
+            return FolderPermissions().allow_view_problems()
         if self.node.access == AccessMode.READ:
             return FolderPermissions().allow_view_problems()
         return FolderPermissions()
@@ -113,7 +115,7 @@ class FolderAccessView(CombinedMixin, ShareFolderWithGroupMixin, generic.base.Co
     template_name = 'problems/list_folder_access.html'
     form_class = ProblemFolderForm
     requirements = FolderPermissions.VIEW_PROBLEMS
-    requirements_to_post = FolderPermissions.MANAGE_FOLDERS
+    requirements_to_post = FolderPermissions.GRANT_ACCESS
     access_model = ProblemFolderAccess
     needs_real_folder = True
 

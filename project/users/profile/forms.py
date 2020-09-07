@@ -25,12 +25,12 @@ User profile: main
 class UserMainForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['is_active', 'username']
+        fields = ['username']
 
 
 class UserProfileMainForm(forms.ModelForm):
     folder = FolderChoiceField(label=_('Folder'), loader_cls=UserFolderLoader,
-                               required=False, required_mode=AccessMode.MODIFY, none_means_not_set=False)
+                               required=False, required_mode=AccessMode.WRITE, none_means_not_set=False)
 
     class Meta:
         model = UserProfile
@@ -50,7 +50,7 @@ User profile: update
 class UserForm(forms.ModelForm):
     class Meta:
         model = auth.get_user_model()
-        fields = ['email', 'last_name', 'first_name']
+        fields = ['is_active', 'email', 'last_name', 'first_name']
 
 
 class UserProfileForm(forms.ModelForm):

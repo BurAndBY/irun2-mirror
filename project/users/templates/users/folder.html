@@ -13,7 +13,7 @@
 {% block main %}
     {% irunner_folders_breadcrumbs inmemory_tree 'users:show_folder' folder_id %}
 
-    {% if permissions.can_view_users or permissions.can_manage_folders %}
+    {% if permissions.can_view_users or permissions.can_edit_users or permissions.can_manage_folders %}
     <div class="form-group">
         <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm" role="group">
@@ -54,17 +54,21 @@
             </div>
             {% endif %}
 
-            {% if permissions.can_manage_folders %}
+            {% if permissions.can_manage_folders or permissions.can_edit_users %}
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% bootstrap_icon 'list' %} <span class="ir-icon-label">{% trans 'Bulk operations' %}</span>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
+                {% if permissions.can_manage_folders %}
                     <li><a href="{% irunner_folders_url 'users:create_users_mass' folder_id %}">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Sign-up' %}</span></a></li>
+                {% endif %}
+                {% if permissions.can_edit_users %}
                     <li><a href="{% irunner_folders_url 'users:update_profile_mass' folder_id %}">{% bootstrap_icon 'asterisk' %} <span class="ir-icon-label">{% trans 'Update profiles' context 'noun' %}</span></a></li>
                     <li><a href="{% irunner_folders_url 'users:upload_photo_mass' folder_id %}">{% bootstrap_icon 'camera' %} <span class="ir-icon-label">{% trans 'Upload photo' %}</span></a></li>
                     <li><a href="{% irunner_folders_url 'users:obtain_intranet_bsu_photos' folder_id %}">{% bootstrap_icon 'film' %} <span class="ir-icon-label">{% trans 'Obtain photos from intranet.bsu' %}</span></a></li>
+                {% endif %}
                 </ul>
             </div>
             {% endif %}
@@ -75,11 +79,13 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    {% if permissions.can_manage_folders %}
+                {% if permissions.can_manage_folders %}
                     <li><a href="#" id="ir_move">{% bootstrap_icon 'transfer' %} <span class="ir-icon-label">{% trans 'Move' %}</span></a></li>
                     <li><a href="#" id="ir_delete">{% bootstrap_icon 'trash' %} <span class="ir-icon-label">{% trans 'Delete' %}</span></a></li>
+                {% endif %}
+                {% if permissions.can_edit_users %}
                     <li><a href="#" id="ir_swap">{% bootstrap_icon 'random' %} <span class="ir-icon-label">{% trans 'Swap first and last name' %}</span></a></li>
-                    {% endif %}
+                {% endif %}
                     <li><a href="#" id="ir_export">{% bootstrap_icon 'export' %} <span class="ir-icon-label">{% trans 'Export as JSON' %}</span></a></li>
                 </ul>
             </div>

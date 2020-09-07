@@ -5,8 +5,12 @@
 {% load irunner_yesno %}
 
 {% block main %}
-    <h2>{% trans 'Two-factor authentication' %}: {% irunner_yesno enabled %}</h2>
-    {% if enabled and permissions.can_edit %}
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Two-factor authentication' %}</dt>
+        <dd>{% irunner_yesno enabled %}</dd>
+    </dl>
+
+    {% if enabled and permissions.can_edit_aux_props %}
         <form method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">{% trans 'Disable 2FA' %}</button>

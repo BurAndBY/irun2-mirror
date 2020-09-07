@@ -12,8 +12,9 @@ from users.models import AdminGroup, UserFolder, UserFolderAccess
 
 
 class ProfilePermissions(Permissions):
-    EDIT = 1 << 0
-    JOIN_TO_STAFF = 1 << 1
+    EDIT_AUX_PROPS = 1 << 0  # name, password, photo...
+    EDIT_MAIN_PROPS = 1 << 1  # username, folder...
+    JOIN_TO_STAFF = 1 << 2
 
 
 class _UserFolderAccessChecker(FolderAccessChecker):
@@ -33,13 +34,15 @@ class ProfilePermissionCalcer(PermissionCalcer):
 
     def _do_fill_permission_map(self, pm):
         if self.user.is_admin:
-            pm.grant(self.user.id, ProfilePermissions().allow_edit())
+            pm.grant(self.user.id, ProfilePermissions().allow_edit_aux_props())
 
-            pks = pm.find_pks_for_granting(ProfilePermissions().allow_edit())
+            pks = pm.find_pks_for_granting(ProfilePermissions().allow_edit_aux_props().allow_edit_main_props())
             if pks:
                 for pk, mode in _UserFolderAccessChecker.bulk_check(self.user, pks).items():
-                    if mode == AccessMode.MODIFY:
-                        pm.grant(pk, ProfilePermissions().allow_edit())
+                    if mode == AccessMode.WRITE:
+                        pm.grant(pk, ProfilePermissions().allow_edit_aux_props().allow_edit_main_props())
+                    elif mode == AccessMode.MODIFY:
+                        pm.grant(pk, ProfilePermissions().allow_edit_aux_props())
                     elif mode == AccessMode.READ:
                         pm.grant(pk, ProfilePermissions())
 

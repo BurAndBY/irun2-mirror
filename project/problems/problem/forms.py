@@ -278,13 +278,3 @@ Challenge
 class ChallengeForm(forms.Form):
     time_limit = TimeLimitField(label=_('Time limit'), required=True)
     memory_limit = MemoryLimitField(label=_('Memory limit'), required=False)
-
-
-'''
-Share a problem
-'''
-
-
-class ShareProblemForm(forms.Form):
-    user = UsernameField(label=_('Username'), required=True)
-    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.CHOICES, initial=AccessMode.MODIFY)

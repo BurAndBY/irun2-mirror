@@ -49,7 +49,7 @@ class FolderLoader(object):
     @classmethod
     def _limit_visible_tree_part(cls, tree, user):
         if user.is_staff:
-            _enforce_acl(tree.root, {}, AccessMode.MODIFY)
+            _enforce_acl(tree.root, {}, AccessMode.WRITE)
         else:
             acl = {}
             for folder_id, in cls.get_extra_folders(user).values_list('id').order_by():

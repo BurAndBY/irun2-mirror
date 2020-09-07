@@ -8,6 +8,7 @@
     <p>{% trans 'Access is granted for administrator groups.' %}
     <a href="{% url 'users:admingroups:list' %}">{% trans 'Manage the groups.' %}</a></p>
     <p>{% trans 'Folder permissions are recursively propagated to subfolders.' %}</p>
+    <p>{% trans '"Modify" access allows to change existing objects, "Write" access also permits to create new ones.' %}</p>
 {% endif %}
 
 {% if can_edit %}
