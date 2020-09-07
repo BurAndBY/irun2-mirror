@@ -47,7 +47,7 @@ class FolderPermissionCheckMixin(PermissionCheckMixin):
     def _make_permissions(self, user):
         if user.is_staff:
             return FolderPermissions().allow_all()
-        if self.node.access == AccessMode.WRITE:
+        if self.node.access == AccessMode.MODIFY:
             return FolderPermissions().allow_view_problems().allow_manage_folders()
         if self.node.access == AccessMode.READ:
             return FolderPermissions().allow_view_problems()

@@ -38,7 +38,7 @@ class ProfilePermissionCalcer(PermissionCalcer):
             pks = pm.find_pks_for_granting(ProfilePermissions().allow_edit())
             if pks:
                 for pk, mode in _UserFolderAccessChecker.bulk_check(self.user, pks).items():
-                    if mode == AccessMode.WRITE:
+                    if mode == AccessMode.MODIFY:
                         pm.grant(pk, ProfilePermissions().allow_edit())
                     elif mode == AccessMode.READ:
                         pm.grant(pk, ProfilePermissions())

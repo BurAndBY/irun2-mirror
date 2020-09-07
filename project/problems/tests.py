@@ -88,7 +88,7 @@ class ProblemFoldersTests(TestCase):
         admingroup = AdminGroup.objects.create(name='TA')
         admingroup.users.add(user)
 
-        ProblemFolderAccess.objects.create(folder=algo, group=admingroup, mode=AccessMode.WRITE)
+        ProblemFolderAccess.objects.create(folder=algo, group=admingroup, mode=AccessMode.MODIFY)
         ProblemAccess.objects.create(problem=new2, user=user, mode=AccessMode.READ)
 
         # Test ProblemPermissionCalcer

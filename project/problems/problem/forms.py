@@ -287,4 +287,4 @@ Share a problem
 
 class ShareProblemForm(forms.Form):
     user = UsernameField(label=_('Username'), required=True)
-    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.CHOICES, initial=AccessMode.WRITE)
+    mode = forms.ChoiceField(label=_('Access mode'), required=True, choices=AccessMode.CHOICES, initial=AccessMode.MODIFY)

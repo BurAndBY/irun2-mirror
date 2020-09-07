@@ -73,7 +73,7 @@ class CategoryPermissionCheckMixin(PermissionCheckMixin):
             if access is not None:
                 if access.mode == AccessMode.READ:
                     return CategoryPermissions()
-                elif access.mode == AccessMode.WRITE:
+                elif access.mode == AccessMode.MODIFY:
                     return CategoryPermissions(CategoryPermissions.EDIT_PROPERTIES | CategoryPermissions.EDIT_QUESTIONS)
 
 

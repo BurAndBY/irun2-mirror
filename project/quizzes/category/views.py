@@ -55,7 +55,7 @@ class CategoryCreateView(QuizAdminMixin, generic.CreateView):
     def form_valid(self, form):
         with transaction.atomic():
             self.object = form.save()
-            CategoryAccess.objects.create(category=self.object, user=self.request.user, mode=AccessMode.WRITE)
+            CategoryAccess.objects.create(category=self.object, user=self.request.user, mode=AccessMode.MODIFY)
         return HttpResponseRedirect(self.get_success_url())
 
 

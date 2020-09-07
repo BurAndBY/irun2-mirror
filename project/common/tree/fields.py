@@ -171,7 +171,7 @@ class FolderChoiceField(forms.ChoiceField):
 
     def __init__(self, *args, **kwargs):
         self._loader_cls = kwargs.pop('loader_cls')
-        self._required_mode = kwargs.pop('required_mode', AccessMode.WRITE)
+        self._required_mode = kwargs.pop('required_mode', AccessMode.MODIFY)
         self._none_means_not_set = kwargs.pop('none_means_not_set', False)
         self._user = None
         self._inmemory_tree = None
@@ -216,8 +216,8 @@ class FolderChoiceField(forms.ChoiceField):
                 params={'value': value},
             )
 
-        if self._required_mode == AccessMode.WRITE:
-            if node.access != AccessMode.WRITE:
+        if self._required_mode == AccessMode.MODIFY:
+            if node.access != AccessMode.MODIFY:
                 raise ValidationError(
                     self.error_messages['read_only_folder'],
                     code='read_only_folder',

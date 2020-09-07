@@ -30,7 +30,7 @@ class UserMainForm(forms.ModelForm):
 
 class UserProfileMainForm(forms.ModelForm):
     folder = FolderChoiceField(label=_('Folder'), loader_cls=UserFolderLoader,
-                               required=False, required_mode=AccessMode.WRITE, none_means_not_set=False)
+                               required=False, required_mode=AccessMode.MODIFY, none_means_not_set=False)
 
     class Meta:
         model = UserProfile
