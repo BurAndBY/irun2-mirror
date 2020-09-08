@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-05 05:00+0300\n"
-"PO-Revision-Date: 2020-09-05 05:04+0300\n"
+"POT-Creation-Date: 2020-09-08 21:20+0300\n"
+"PO-Revision-Date: 2020-09-08 21:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -71,6 +71,9 @@ msgstr "Очистить"
 msgid "Read"
 msgstr "Чтение"
 
+msgid "Modify"
+msgstr "Изменение"
+
 msgid "Write"
 msgstr "Запись"
 
@@ -100,6 +103,13 @@ msgstr "Управлять группами."
 
 msgid "Folder permissions are recursively propagated to subfolders."
 msgstr "Права доступа к папкам рекурсивно распространяются на подпапки."
+
+msgid ""
+"\"Modify\" access allows to change existing objects, \"Write\" access also "
+"permits to create new ones."
+msgstr ""
+"Доступ на изменение позволяет менять существующие объекты, в то время как "
+"доступ на запись также позволяет создавать новые."
 
 msgid "Grant access"
 msgstr "Выдать доступ"
@@ -1140,6 +1150,18 @@ msgstr "Студенты могут записываться в очередь."
 msgid "Subgroup"
 msgstr "Подгруппа"
 
+msgid "Subgroups"
+msgstr "Подгруппы"
+
+msgid "Queues"
+msgstr "Очереди"
+
+msgid "Quizzes"
+msgstr "Тесты"
+
+msgid "Sheet"
+msgstr "Ведомость"
+
 msgid "Student"
 msgstr "Студент"
 
@@ -1342,9 +1364,6 @@ msgstr "Некоторые вопросы остались без ответа."
 msgid "OK"
 msgstr "OK"
 
-msgid "Quizzes"
-msgstr "Тесты"
-
 msgid "Your browser is out-of-date."
 msgstr "Вы используете устаревший браузер."
 
@@ -1401,9 +1420,6 @@ msgstr "Выключить"
 msgid "Turn on"
 msgstr "Включить"
 
-msgid "Sheet"
-msgstr "Ведомость"
-
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -1455,14 +1471,14 @@ msgstr "Средняя оценка"
 msgid "Attempts"
 msgstr "Попытки"
 
-msgid "Subgroups"
-msgstr "Подгруппы"
-
-msgid "Queues"
-msgstr "Очереди"
-
 msgid "Edit common problems list"
 msgstr "Редактирование списка общих задач"
+
+msgid "Clone"
+msgstr "Клонировать"
+
+msgid "Check the components to be copied to a new course."
+msgstr "Отметьте компоненты, которые нужно скопировать в новый курс."
 
 msgid "Delete course"
 msgstr "Удалить курс"
@@ -3122,9 +3138,6 @@ msgstr "Фиксировать"
 
 msgid "Rollback"
 msgstr "Откатить"
-
-msgid "Clone"
-msgstr "Клонировать"
 
 msgid "To the list of rejudges"
 msgstr "К списку перетестирований"

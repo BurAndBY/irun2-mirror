@@ -1,0 +1,16 @@
+{% extends "courses/settings/base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block submain %}
+    <h3>{% trans 'Clone' %}</h3>
+    <p>{% trans 'Check the components to be copied to a new course.' %}</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <input type="submit" class="btn btn-primary" value="{% trans 'Confirm' %}" />
+        {% endbuttons %}
+    </form>
+{% endblock %}

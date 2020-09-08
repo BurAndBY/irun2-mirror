@@ -194,3 +194,12 @@ class QueueForm(forms.ModelForm):
 class QuizMarkFakeForm(forms.Form):
     value = forms.FloatField(required=True, localize=True)
     pk = forms.IntegerField(required=True)
+
+
+class CloneCourseForm(forms.Form):
+    copy_problems = forms.BooleanField(label=_('Problems'), required=False)
+    copy_subgroups = forms.BooleanField(label=_('Subgroups'), required=False)
+    copy_users = forms.BooleanField(label=_('Users'), required=False)
+    copy_queues = forms.BooleanField(label=_('Queues'), required=False)
+    copy_quizzes = forms.BooleanField(label=_('Quizzes'), required=False)
+    copy_sheet = forms.BooleanField(label=_('Sheet'), required=False)

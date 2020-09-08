@@ -17,6 +17,7 @@ from quizzes.models import QuizInstance
 from courses.settings.forms import (
     AccessForm,
     ActivityForm,
+    CloneCourseForm,
     CompilersForm,
     CourseCommonProblemsForm,
     CourseUsersForm,
@@ -32,6 +33,7 @@ from courses.settings.forms import (
     ThreePanelUserMultipleChoiceField,
 )
 from courses.settings.forms import create_member_subgroup_formset_class
+from courses.settings.operations import clone
 from courses.models import (
     Course,
     Membership,
@@ -555,8 +557,33 @@ class CourseSettingsDeleteView(CourseSettingsView):
         return render(request, self.template_name, context)
 
     def post(self, request, course):
-        course.delete()
+        with transaction.atomic():
+            course.delete()
         return redirect('courses:index')
+
+
+'''
+Delete course
+'''
+
+
+class CourseSettingsCloneView(CourseSettingsView):
+    subtab = 'properties'
+    template_name = 'courses/settings/course_confirm_clone.html'
+
+    def get(self, request, course):
+        form = CloneCourseForm()
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request, course):
+        form = CloneCourseForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                new_id = clone(course, form)
+            return redirect('courses:settings:properties', new_id)
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
 
 
 '''

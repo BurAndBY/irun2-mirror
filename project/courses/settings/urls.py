@@ -7,6 +7,7 @@ settings_urlpatterns = ([
     url(r'^$', settingsviews.CourseSettingsPropertiesView.as_view(), name='properties'),
 
     url(r'^delete/$', settingsviews.CourseSettingsDeleteView.as_view(), name='delete'),
+    url(r'^clone/$', settingsviews.CourseSettingsCloneView.as_view(), name='clone'),
 
     url(r'^access/$', settingsviews.CourseSettingsAccessView.as_view(), name='access'),
 

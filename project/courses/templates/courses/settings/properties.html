@@ -12,6 +12,9 @@
         <button type="submit" class="btn btn-primary">
             {% trans 'Save' %}
         </button>
+        <a href="{% url 'courses:settings:clone' course.id %}" class="btn btn-link">
+            {% trans 'Clone' %}
+        </a>
         {% if can_delete %}
             <a href="{% url 'courses:settings:delete' course.id %}" class="btn btn-link">
                 {% trans 'Delete the course' %}
