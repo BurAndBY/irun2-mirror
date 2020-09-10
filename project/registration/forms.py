@@ -33,6 +33,8 @@ def _year_of_study_choices():
 
 
 class BaseCoachForm(LocalizeMixin, forms.ModelForm):
+    required_css_class = 'ir-required'
+
     class Meta:
         model = IcpcCoach
         fields = []

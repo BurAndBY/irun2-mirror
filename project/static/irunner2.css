@@ -2250,3 +2250,8 @@ Green menu
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.form-group.ir-required .control-label:after {
+    content: "*";
+    color: #d00;
+}
