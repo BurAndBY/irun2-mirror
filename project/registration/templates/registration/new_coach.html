@@ -19,6 +19,28 @@
         <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
         <a href="{% url 'events:home' event.slug %}" class="btn btn-link">{% trans 'Cancel' %}</a>
     {% endbuttons %}
+
+    <datalist id="universities">
+    {% if event.fill_forms_in_en %}
+        <option value="Baranovichi State University">
+        <option value="Belarusian National Technical University">
+        <option value="Belarusian State Technological University">
+        <option value="Belarusian State University">
+        <option value="Belarusian State University of Transport">
+        <option value="Belarusian State University of Informatics and Radioelectronics">
+        <option value="Branch of the Naval Academy in Kaliningrad">
+        <option value="Brest State A. S. Pushkin University">
+        <option value="Brest State Technical University">
+        <option value="Gomel State Technical University">
+        <option value="Immanuel Kant Baltic Federal University">
+        <option value="Lviv National University">
+        <option value="Sukhoi State Technical University of Gomel">
+        <option value="Vilnius University">
+        <option value="Vitebsk State University named after P. M. Masherov">
+        <option value="Yanka Kupala State University of Grodno">
+        <option value="Lyceum BSU">
+    {% endif %}
+    </datalist>
 </form>
 
 {% endblock %}

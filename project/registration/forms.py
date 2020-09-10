@@ -43,6 +43,9 @@ class BaseCoachForm(LocalizeMixin, forms.ModelForm):
             'university': Example('Bytelandian State University', 'Байтландский государственный университет'),
             'faculty': Example('Faculty of Information Technologies', 'Факультет информационных технологий'),
         }
+        widgets = {
+            'university': forms.TextInput(attrs={'list': 'universities'}),
+        }
 
 
 class CheckEmailMixin(object):
