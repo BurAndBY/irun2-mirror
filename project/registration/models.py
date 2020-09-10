@@ -15,6 +15,7 @@ MAX_NAME_LENGTH = 50
 MAX_ENUM_LENGTH = 16
 MAX_TITLE_LENGTH = 255
 MAX_EMAIL_LENGTH = 100
+MAX_UNIVERSITY_LENGTH = 120
 
 PARTICIPATION_VENUE_CHOICES = [
     ('OWN', _('Own university')),
@@ -46,8 +47,8 @@ class IcpcCoach(models.Model):
     email = models.EmailField(_('e-mail'), max_length=MAX_EMAIL_LENGTH)
     first_name = models.CharField(_('first name'), max_length=MAX_NAME_LENGTH)
     last_name = models.CharField(_('last name'), max_length=MAX_NAME_LENGTH)
-    university = models.CharField(_('university'), max_length=MAX_NAME_LENGTH)
-    faculty = models.CharField(_('faculty'), max_length=MAX_TITLE_LENGTH, blank=True)
+    university = models.CharField(_('university'), max_length=MAX_UNIVERSITY_LENGTH)
+    faculty = models.CharField(_('faculty'), max_length=MAX_UNIVERSITY_LENGTH, blank=True)
     year_of_study = models.PositiveIntegerField(_('Year of study'), null=True, blank=True)
     group = models.PositiveIntegerField(_('Group number'), null=True, blank=True)
     is_confirmed = models.BooleanField(_('Confirmed'), null=False, blank=True, default=True)
