@@ -20,8 +20,8 @@
             <button type="button" class="btn btn-default btn-xs pull-right ir-threepanel-remove-all"><span class="text-danger">{% bootstrap_icon 'remove' %}</span><span class="ir-icon-label">{% trans 'Remove all' %}</span></button>
             <h4>{% trans 'Selected' %}</h4>
             <table>
-                <tbody class="ir-threepanel-dst">{% for option_value, option_label, option_folders in widget.value %}
-                    <tr data-id="{{ option_value }}" class="ir-active"{% if option_folders %} title="{{ option_folders|join:'\n' }}"{% endif %}><td>{% bootstrap_icon 'remove' %}</td><td>{{ option_label }}</td></tr>{% endfor %}
+                <tbody class="ir-threepanel-dst">{% for option_value, option_label, option_aux_label, option_folders in widget.value %}
+                    <tr data-id="{{ option_value }}" class="ir-active"{% if option_folders %} title="{{ option_folders|join:'\n' }}"{% endif %}><td>{% bootstrap_icon 'remove' %}</td><td>{{ option_label }}{% if option_aux_label %} <span class="ir-aux-label">{{ option_aux_label }}</span>{% endif %}</td></tr>{% endfor %}
                 </tbody>
             </table>
         </div>

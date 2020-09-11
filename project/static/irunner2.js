@@ -75,12 +75,14 @@ function irSetUpThreePanel(divId, fieldName, urlPattern, localizedMessages) {
     var setButton = function(row, button) {
         row.find("td").first().empty().append(button);
     };
-    var createSrcRow = function(id, label) {
+    var createSrcRow = function(id, label, auxLabel) {
+        var cell = $("<td>").text(label + (auxLabel ? " " : ""));
+        if (auxLabel) {
+            cell.append($('<span class="ir-aux-label">').text(auxLabel));
+        }
         return $("<tr>").data("id", id).append(
             $("<td>").append(createAddButton())
-        ).append(
-            $("<td>").text(label)
-        )
+        ).append(cell);
     };
     var getDstChosenSet = function() {
         var set = Object.create(null);
@@ -105,7 +107,7 @@ function irSetUpThreePanel(divId, fieldName, urlPattern, localizedMessages) {
             controls.src.empty();
             if (json.items) {
                 $.each(json.items, function() {
-                    controls.src.append(createSrcRow(this.id, this.name));
+                    controls.src.append(createSrcRow(this.id, this.name, this.auxName));
                 });
             }
             resetActiveSrcRows();

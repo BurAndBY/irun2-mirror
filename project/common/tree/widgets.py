@@ -4,7 +4,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.forms import Widget
 
 
-Choice = namedtuple('Choice', 'pk label folders')
+Choice = namedtuple('Choice', 'pk label aux_label folders')
 
 
 class ThreePanelSelectMultiple(Widget):

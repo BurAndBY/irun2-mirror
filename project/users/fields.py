@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
-from common.tree.fields import ThreePanelModelMultipleChoiceField
+from common.tree.fields import ThreePanelModelMultipleChoiceField, Label
 
 from users.loader import UserFolderLoader
 from users.models import AdminGroup
@@ -57,7 +57,7 @@ class ThreePanelUserMultipleChoiceField(ThreePanelModelMultipleChoiceField):
 
     @classmethod
     def label_from_instance(cls, obj):
-        return obj.get_full_name()
+        return Label(obj.get_full_name(), obj.username)
 
     @classmethod
     def build_pk2folders(cls, pks):

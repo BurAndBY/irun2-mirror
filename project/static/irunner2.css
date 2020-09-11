@@ -663,7 +663,10 @@ h3 { font-size: 20px; line-height: 32px; }
 .ir-threepanel-tab tr.ir-active:hover {
     background: #f5f5f5;
 }
-
+.ir-threepanel-tab .ir-aux-label {
+    color: #aaa;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
 /**
  *
  */
@@ -2157,6 +2160,10 @@ Green menu
 
 .ir-username {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.ir-username-aux {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    color: #aaa;
 }
 
 .ir-col-shrink {

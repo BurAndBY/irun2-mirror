@@ -28,6 +28,12 @@ class Value(object):
             yield pk
 
 
+class Label(object):
+    def __init__(self, name, aux_name=None):
+        self.name = name
+        self.aux_name = aux_name
+
+
 class ThreePanelModelMultipleChoiceField(forms.Field):
     '''
     In order to use the form field, you need to:
@@ -44,6 +50,13 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
     def label_from_instance(cls, obj):
         # Override it to customize the label.
         return str(obj)
+
+    @classmethod
+    def _label_from_instance_impl(cls, obj):
+        value = cls.label_from_instance(obj)
+        if isinstance(value, Label):
+            return value
+        return Label(value)
 
     @classmethod
     def build_pk2folders(cls, pks):
@@ -75,12 +88,20 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
             node = inmemory_tree.find(folder_id)
         except KeyError:
             raise Http404('folder not found or no access')
+
+        items = []
+        for obj in cls.loader_cls.get_folder_content(user, node):
+            label = cls._label_from_instance_impl(obj)
+            item = {}
+            item['id'] = obj.pk
+            item['name'] = label.name
+            if label.aux_name:
+                item['auxName'] = label.aux_name
+            items.append(item)
+
         response = {
             'name': node.name,
-            'items': [{
-                'id': obj.pk,
-                'name': cls.label_from_instance(obj)
-            } for obj in cls.loader_cls.get_folder_content(user, node)]
+            'items': items,
         }
         return JsonResponse(response, json_dumps_params={'ensure_ascii': False})
 
@@ -89,7 +110,7 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
             return
         for v in value:
             if isinstance(v, self.loader_cls.model):
-                label_cache.setdefault(v.pk, self.label_from_instance(v))
+                label_cache.setdefault(v.pk, self._label_from_instance_impl(v))
                 yield v.pk
             elif isinstance(v, int):
                 yield v
@@ -137,7 +158,8 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
         self._populate_label_cache(label_cache, (pk for pk, _ in tmp))
         for pk, folder_names in tmp:
             result.pks.append(pk)
-            result.choices.append(Choice(pk, label_cache.get(pk, '<#{}>'.format(pk)), folder_names))
+            label = label_cache.get(pk, Label('<#{}>'.format(pk)))
+            result.choices.append(Choice(pk, label.name, label.aux_name, folder_names))
         return result
 
     def _populate_label_cache(self, label_cache, pks):
@@ -146,7 +168,7 @@ class ThreePanelModelMultipleChoiceField(forms.Field):
         if pks_missing_labels:
             # fetch complete objects for fillng the labels that are missing
             for pk, v in self.loader_cls.model.objects.in_bulk(pks_missing_labels).items():
-                label_cache.setdefault(pk, self.label_from_instance(v))
+                label_cache.setdefault(pk, self._label_from_instance_impl(v))
 
     def to_python(self, value):
         # Don't know where it is used...
