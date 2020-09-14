@@ -534,9 +534,13 @@ class IOIContestService(IContestService):
         return _('The scoreboard is hidden')
 
     def are_standings_available(self, permissions, timing):
-        if timing.get() in (ContestTiming.BEFORE, ContestTiming.IN_PROGRESS):
+        t = timing.get()
+        if t == ContestTiming.BEFORE:
             return permissions.standings_before
-        return True
+        elif t == ContestTiming.IN_PROGRESS:
+            return permissions.standings_before or self._own_solutions_access
+        else:
+            return True
 
     def should_stop_on_fail(self):
         return False
