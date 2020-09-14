@@ -367,20 +367,14 @@ class ACMProblemResult(ProblemResultBase):
         return mark_safe(result)
 
 
-class IOIProblemResult(ProblemResultBase):
+class IOIProblemResultBase(ProblemResultBase):
     def __init__(self):
-        super(IOIProblemResult, self).__init__()
+        super(IOIProblemResultBase, self).__init__()
         self._score = None
         self._max_score = None
 
     def get_score(self):
         return self._score
-
-    def register_solution(self, kind, penalty_time, score):
-        if score is not None:
-            self._score, self._max_score = score
-            return True
-        return False
 
     def as_html(self):
         if self._score is None:
@@ -393,6 +387,24 @@ class IOIProblemResult(ProblemResultBase):
             else:
                 result = '<span class="ir-rejected">{0}</span>'.format(self._score)
         return mark_safe(result)
+
+
+class IOIProblemResultLast(IOIProblemResultBase):
+    def register_solution(self, kind, penalty_time, score):
+        if score is not None:
+            self._score, self._max_score = score
+            return True
+        return False
+
+
+class IOIProblemResultMax(IOIProblemResultBase):
+    def register_solution(self, kind, penalty_time, score):
+        if score is not None:
+            s, ms = score
+            if (self._score is None) or (self._score <= s):
+                self._score, self._max_score = s, ms
+            return True
+        return False
 
 
 class UserResultBase(object):
@@ -457,9 +469,11 @@ class ACMUserResult(UserResultBase):
         return self._solved_problem_count
 
 
-class IOIUserResult(UserResultBase):
+class IOIUserResultBase(UserResultBase):
+    problem_result_class = None
+
     def __init__(self, contest_descr, user):
-        super(IOIUserResult, self).__init__(user, [IOIProblemResult() for _ in contest_descr.labeled_problems])
+        super().__init__(user, [self.problem_result_class() for _ in contest_descr.labeled_problems])
 
         self._total_score = 0
 
@@ -474,6 +488,14 @@ class IOIUserResult(UserResultBase):
 
     def get_tag_key(self):
         return self.get_key()
+
+
+class IOIUserResultLast(IOIUserResultBase):
+    problem_result_class = IOIProblemResultLast
+
+
+class IOIUserResultMax(IOIUserResultBase):
+    problem_result_class = IOIProblemResultMax
 
 
 class IContestService(object):
@@ -551,4 +573,5 @@ class IOIContestService(IContestService):
     def make_contest_results(self, contest, frozen, user_regex=None):
         if frozen:
             return None
-        return _make_contest_results(contest, False, IOIUserResult, ColumnPresence(False, False, True), user_regex)
+        user_result_cls = IOIUserResultLast if not self._own_solutions_access else IOIUserResultMax
+        return _make_contest_results(contest, False, user_result_cls, ColumnPresence(False, False, True), user_regex)
