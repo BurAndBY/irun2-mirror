@@ -27,7 +27,8 @@
                     <td>
                         <a href="{% url 'events:manage:update' event.slug %}">{% trans 'Edit' %}</a><br>
                         <a href="{% url 'events:manage:page_design' event.slug %}">{% trans 'Page design' %}</a><br>
-                        <a href="{% url 'events:manage:registration' event.slug %}">{% trans 'Registration' %}</a>
+                        <a href="{% url 'events:manage:registration' event.slug %}">{% trans 'Registration' %}</a><br>
+                        <a href="{% url 'events:manage:pages' event.slug %}">{% trans 'Pages' %}</a><br>
                     </td>
                     <td>{{ event.local_name }}</td>
                     <td>{{ event.en_name }}</td>

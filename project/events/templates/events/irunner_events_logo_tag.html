@@ -1,0 +1,6 @@
+{% load staticfiles %}
+{% if event.logo_style == 1 and event.logo_file != None %}
+<img class="img-responsive center-block" src="{% url 'events:logo' event.slug event.logo_file.filename %}">
+{% elif event.logo_style == 2 %}
+<img class="img-responsive center-block" src="{% static 'icpc-logo.png' %}">
+{% endif %}

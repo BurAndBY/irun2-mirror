@@ -3,13 +3,10 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load staticfiles %}
+{% load irunner_events %}
 
 {% block content %}
-    {% if object.logo_style == 1 and object.logo_file != None %}
-    <img class="img-responsive center-block" src="{% url 'events:logo' object.slug object.logo_file.filename %}">
-    {% elif object.logo_style == 2 %}
-    <img class="img-responsive center-block" src="{% static 'icpc-logo.png' %}">
-    {% endif %}
+    {% irunner_events_logo object %}
 
     <h1>{% block title %}{{ object.name }}{% endblock %}</h1>
     {{ object.description|urlize|linebreaks }}
@@ -18,5 +15,17 @@
         <a href="{% url 'events:register_coach' object.slug %}" class="btn btn-primary btn-lg">
             {% if object.registering_coaches %}{% trans 'Register as Coach' %}{% else %}{% trans 'Register as Сontestant' %}{% endif %}
         </a>
+    {% endif %}
+
+    {% if materials %}
+    <h2>{% trans 'Materials' %}</h2>
+    <ul class="list-unstyled">
+    {% for page in event.page_set.all %}
+        <li>
+            <strong>{{ page.when|date:"DATE_FORMAT" }}</strong>
+            <p><a href="{% url 'events:page' object.slug page.slug %}">{{ page.name }}</a></p>
+        </li>
+    {% endfor %}
+    </ul>
     {% endif %}
 {% endblock %}

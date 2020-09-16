@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_events %}
+
+{% block content %}
+    {% irunner_events_logo event %}
+
+    <h2>{{ event.name }}</h2>
+    <h1>{% block title %}{{ page.name }}{% endblock %}</h1>
+
+    <div style="font-size: 16px">{{ content|safe }}</div>
+
+    <p class="text-right"><a href="{% url 'events:home' event.slug %}" class="btn btn-link">{% trans 'Back' %}</a></p>
+
+{% endblock %}

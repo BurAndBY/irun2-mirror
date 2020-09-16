@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
 
@@ -66,3 +67,25 @@ class Event(models.Model):
     @property
     def registering_coaches(self):
         return self.registration_mode == RegistrationMode.COACH_AND_TEAMS
+
+
+class Page(models.Model):
+    event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE)
+    slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
+
+    when = models.DateTimeField(_('Time'), default=timezone.now)
+    is_public = models.BooleanField(_('show on the main page'), default=True, blank=True)
+
+    local_name = models.CharField(_('name in local language'), max_length=MAX_TITLE_LENGTH, blank=True)
+    en_name = models.CharField(_('name in English'), max_length=MAX_TITLE_LENGTH, blank=True)
+
+    local_content = models.TextField(_('descripion in local language'), blank=True)
+    en_content = models.TextField(_('descripion in English'), blank=True)
+
+    @property
+    def name(self):
+        return _localize_string(self.local_name, self.en_name)
+
+    @property
+    def content(self):
+        return _localize_string(self.local_content, self.en_content)

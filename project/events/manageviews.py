@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.urls import reverse
 from django.db.models import Count
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
 
 from .forms import PageDesignForm
-from .models import Event
+from .models import Event, Page
 from registration.models import IcpcCoach
 from registration.export import make_teams_csv, make_contestants_csv
 
 EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'is_registration_available', 'registration_mode', 'fill_forms_in_en']
+PAGE_FIELDS = ['slug', 'when', 'is_public', 'local_name', 'en_name', 'local_content', 'en_content']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
@@ -62,6 +64,49 @@ class EventRegistrationView(StaffMemberRequiredMixin, generic.DetailView):
         event = self.object
         context['coaches'] = IcpcCoach.objects.filter(event=event).annotate(num_teams=Count('icpcteam'))
         return context
+
+
+class EventMixin(object):
+    def dispatch(self, request, slug, *args, **kwargs):
+        self.event = get_object_or_404(Event, slug=slug)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['event'] = self.event
+        return context
+
+
+class ListEventPagesView(StaffMemberRequiredMixin, EventMixin, generic.ListView):
+    template_name = 'events/manage/pages/index.html'
+
+    def get_queryset(self):
+        return self.event.page_set.order_by('when')
+
+
+class CreatePageView(StaffMemberRequiredMixin, EventMixin, generic.CreateView):
+    model = Page
+    template_name = 'events/manage/pages/new.html'
+    fields = PAGE_FIELDS
+
+    def get_success_url(self):
+        return reverse('events:manage:pages', kwargs={'slug': self.event.slug})
+
+    def form_valid(self, form):
+        form.instance.event = self.event
+        return super().form_valid(form)
+
+
+class UpdatePageView(StaffMemberRequiredMixin, EventMixin, generic.UpdateView):
+    model = Page
+    template_name = 'events/manage/pages/edit.html'
+    fields = PAGE_FIELDS
+
+    def get_success_url(self):
+        return reverse('events:manage:pages', kwargs={'slug': self.event.slug})
+
+    def get_object(self):
+        return get_object_or_404(self.event.page_set, id=self.kwargs['id'])
 
 
 class TeamsCsvView(StaffMemberRequiredMixin, generic.detail.SingleObjectMixin, generic.View):
