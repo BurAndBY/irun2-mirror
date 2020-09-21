@@ -2,6 +2,11 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block title %}{% trans 'News' %}{% endblock %}
 
@@ -9,9 +14,10 @@
     <h4>{{ object.when }}</h4>
     <h3>{{ object.subject }}</h3>
     <hr>
-    {{ object.body|urlize|linebreaks }}
+    {{ rendered|safe }}
     <hr>
     <p>
         <a href="{% url 'home' %}">{% trans 'Back' %}</a>
     </p>
+    {% irunner_pylightex_body %}
 {% endblock %}

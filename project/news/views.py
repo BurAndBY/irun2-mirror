@@ -2,8 +2,10 @@ from django.views import generic
 from django.urls import reverse
 
 from cauth.mixins import StaffMemberRequiredMixin
+from common.pylightex import tex2html
 
-from .models import NewsMessage
+from news.models import NewsMessage
+from news.forms import MessageForm
 
 
 class ListMessagesView(StaffMemberRequiredMixin, generic.ListView):
@@ -16,7 +18,7 @@ class ListMessagesView(StaffMemberRequiredMixin, generic.ListView):
 class CreateMessageView(StaffMemberRequiredMixin, generic.CreateView):
     model = NewsMessage
     template_name = 'news/new.html'
-    fields = ['subject', 'body', 'is_public']
+    form_class = MessageForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -29,7 +31,7 @@ class CreateMessageView(StaffMemberRequiredMixin, generic.CreateView):
 class UpdateMessageView(StaffMemberRequiredMixin, generic.UpdateView):
     model = NewsMessage
     template_name = 'news/update.html'
-    fields = ['subject', 'body', 'is_public']
+    form_class = MessageForm
 
     def get_success_url(self):
         return reverse('news:list')
@@ -37,6 +39,11 @@ class UpdateMessageView(StaffMemberRequiredMixin, generic.UpdateView):
 
 class ShowMessageView(generic.DetailView):
     template_name = 'news/show.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rendered'] = tex2html(self.object.body)
+        return context
 
     def get_queryset(self):
         return NewsMessage.objects.filter(is_public=True)
