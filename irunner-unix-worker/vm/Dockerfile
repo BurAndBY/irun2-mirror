@@ -1,11 +1,16 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 RUN apt-get update && apt-get install -y \
     python3-pip \
     sudo \
     psmisc \
     gawk \
-    bc
+    bc \
+    unzip \
+    clang-10
+
+RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100 && \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100
 
 RUN pip3 install \
     pytest==5.4.2 \
