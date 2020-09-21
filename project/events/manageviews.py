@@ -9,13 +9,12 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
 
-from .forms import PageDesignForm
+from .forms import PageDesignForm, PageForm
 from .models import Event, Page
 from registration.models import IcpcCoach
 from registration.export import make_teams_csv, make_contestants_csv
 
 EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'is_registration_available', 'registration_mode', 'fill_forms_in_en']
-PAGE_FIELDS = ['slug', 'when', 'is_public', 'local_name', 'en_name', 'local_content', 'en_content']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
@@ -87,7 +86,7 @@ class ListEventPagesView(StaffMemberRequiredMixin, EventMixin, generic.ListView)
 class CreatePageView(StaffMemberRequiredMixin, EventMixin, generic.CreateView):
     model = Page
     template_name = 'events/manage/pages/new.html'
-    fields = PAGE_FIELDS
+    form_class = PageForm
 
     def get_success_url(self):
         return reverse('events:manage:pages', kwargs={'slug': self.event.slug})
@@ -100,7 +99,7 @@ class CreatePageView(StaffMemberRequiredMixin, EventMixin, generic.CreateView):
 class UpdatePageView(StaffMemberRequiredMixin, EventMixin, generic.UpdateView):
     model = Page
     template_name = 'events/manage/pages/edit.html'
-    fields = PAGE_FIELDS
+    form_class = PageForm
 
     def get_success_url(self):
         return reverse('events:manage:pages', kwargs={'slug': self.event.slug})

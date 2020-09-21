@@ -21,6 +21,7 @@ from django.views.decorators.cache import cache_page
 urlpatterns = [
     url(r'', include('cauth.urls')),
     url(r'', include('home.urls')),
+    url(r'', include('tex.urls')),
     url(r'', include('solutions.urls', namespace='solutions')),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^compilers/', include('proglangs.urls', namespace='proglangs')),

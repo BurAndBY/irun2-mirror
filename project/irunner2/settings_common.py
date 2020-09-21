@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'registration',
     'solutions',
     'storage',
+    'tex',
     'users',
     'quizzes',
 )

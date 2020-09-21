@@ -1,0 +1,53 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load staticfiles %}
+
+<div class="ir-tex-editor" id="{{ widget.attrs.id }}_block">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#{{ widget.attrs.id }}_tab_source" role="tab" data-toggle="tab">{% trans 'Source code' %}</a></li>
+        <li role="presentation"><a href="#{{ widget.attrs.id }}_tab_result" role="tab" data-toggle="tab">{% trans 'Result' %}</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="{{ widget.attrs.id }}_tab_source">
+            <textarea name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="{{ widget.attrs.id }}_tab_result">
+            <div id="{{ widget.attrs.id }}_output"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var editorBlock = $("#{{ widget.attrs.id }}_block").first();
+        var textarea = editorBlock.find("textarea").get(0);
+
+        editorBlock.find("a[data-toggle='tab']").on("show.bs.tab", function (e) {
+            //e.target // newly activated tab
+            //e.relatedTarget // previous active tab
+            var target = $(e.target).attr("href");
+            if (target === "#{{ widget.attrs.id }}_tab_result") {
+                editorBlock.find("#{{ widget.attrs.id }}_output").text("{% trans 'Loading...' %}");
+                $.ajax({
+                    url: "{% url 'tex:render' %}",
+                    type: 'POST',
+                    data: $(textarea).val(),
+                    headers: {
+                        'Content-Type': 'application/x-tex',
+                    },
+                    dataType: "html"
+                }).done(function(data) {
+                    var dom = $('<div>').append($.parseHTML(data));
+                    $("span.math", dom).katex({ displayMode: false });
+                    $("div.math", dom).katex({ displayMode: true });
+                    editorBlock.find("#{{ widget.attrs.id }}_output").html($(dom).html());
+                }).fail(function(data) {
+                    editorBlock.find("#{{ widget.attrs.id }}_output").text("{% trans 'Error while getting data from server.' %}");
+                });
+            }
+        });
+    });
+</script>
