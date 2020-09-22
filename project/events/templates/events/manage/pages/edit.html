@@ -2,6 +2,11 @@
 
 {% load bootstrap3 %}
 {% load i18n %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block content %}
     <h1>{% block title %}{% trans 'Page' %}{% endblock %} <small>{{ event.name }}</small></h1>
@@ -14,4 +19,5 @@
             <a href="{% url 'events:manage:pages' event.slug %}" class="btn btn-link">{% trans 'Cancel' %}</a>
         {% endbuttons %}
     </form>
+    {% irunner_pylightex_body %}
 {% endblock %}

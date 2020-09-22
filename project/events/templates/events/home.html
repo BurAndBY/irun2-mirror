@@ -4,23 +4,31 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load irunner_events %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block content %}
     {% irunner_events_logo object %}
 
     <h1>{% block title %}{{ object.name }}{% endblock %}</h1>
-    {{ object.description|urlize|linebreaks }}
+    <div style="font-size: 16px">{{ content|safe }}</div>
+    <br>
 
     {% if object.is_registration_available %}
+    <div class="form-group">
         <a href="{% url 'events:register_coach' object.slug %}" class="btn btn-primary btn-lg">
             {% if object.registering_coaches %}{% trans 'Register as Coach' %}{% else %}{% trans 'Register as Сontestant' %}{% endif %}
         </a>
+    </div>
     {% endif %}
 
     {% if materials %}
     <h2>{% trans 'Materials' %}</h2>
     <ul class="list-unstyled">
-    {% for page in event.page_set.all %}
+    {% for page in materials %}
         <li>
             <strong>{{ page.when|date:"DATE_FORMAT" }}</strong>
             <p><a href="{% url 'events:page' object.slug page.slug %}">{{ page.name }}</a></p>
@@ -28,4 +36,5 @@
     {% endfor %}
     </ul>
     {% endif %}
+    {% irunner_pylightex_body %}
 {% endblock %}

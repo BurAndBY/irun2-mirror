@@ -19,6 +19,10 @@ class PageDesignForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['local_description', 'en_description', 'logo_style', 'logo_file']
+        widgets = {
+            'local_description': TeXTextarea(),
+            'en_description': TeXTextarea(),
+        }
 
     logo_file = FileMetadataField(label=_('Logo image file'), required=False)
 

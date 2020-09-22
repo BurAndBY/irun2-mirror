@@ -21,6 +21,7 @@ class HomeView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         event = self.object
         context['materials'] = event.page_set.order_by('when')
+        context['content'] = tex2html(event.description)
         return context
 
 

@@ -3,6 +3,11 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load irunner_events %}
+{% load irunner_pylightex %}
+
+{% block head %}
+    {% irunner_pylightex_head %}
+{% endblock %}
 
 {% block content %}
     {% irunner_events_logo event %}
@@ -13,5 +18,5 @@
     <div style="font-size: 16px">{{ content|safe }}</div>
 
     <p class="text-right"><a href="{% url 'events:home' event.slug %}" class="btn btn-link">{% trans 'Back' %}</a></p>
-
+    {% irunner_pylightex_body %}
 {% endblock %}
