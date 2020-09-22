@@ -10,7 +10,29 @@
 <small>{{ coach.email }}</small></h1>
 
 {% if coach.is_confirmed %}
-<div class="alert alert-success" role="alert">{% bootstrap_icon 'ok' %}<span class="ir-icon-label">{% trans 'Participation is confirmed' %}</span></div>
+<div class="alert alert-success" role="alert">
+    <p>{% bootstrap_icon 'ok' %}<span class="ir-icon-label">{% trans 'Participation is confirmed' %}</span></p>
+    {% if created_user %}
+    <p>{% trans 'A new iRunner account has been created for you. Use the username and password to log in.' %}</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if created_user %}
+<dl class="dl-horizontal">
+    <dt>{% trans 'Username' %}</dt><dd><span class="ir-monospace">{{ username }}</span></dd>
+    <dt>{% trans 'Password' %}</dt><dd><span class="ir-monospace">{{ password }}</span></dd>
+</dl>
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="hidden" name="login_view-current_step" value="auth">
+    <input type="hidden" name="auth-username" value="{{ username }}">
+    <input type="hidden" name="auth-password" value="{{ password }}">
+    <button type="submit" class="btn btn-default">
+        {% bootstrap_icon 'user' %} <span class="ir-icon-label">{% trans 'Login' %}</span>
+    </button>
+</form>
 {% endif %}
 
 <dl class="dl-horizontal">

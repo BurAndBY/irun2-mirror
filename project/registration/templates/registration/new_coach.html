@@ -39,6 +39,32 @@
         <option value="Vitebsk State University named after P. M. Masherov">
         <option value="Yanka Kupala State University of Grodno">
         <option value="Lyceum BSU">
+    {% else %}
+        <option value="Белорусский государственный университет">
+        <option value="Белорусский государственный университет информатики и радиоэлектроники">
+        <option value="Белорусский государственный университет транспорта">
+        <option value="Белорусский национальный технический университет">
+        <option value="Гомельский государственный университет им. Ф. Скорины">
+        <option value="Гродненский государственный университет им. Я. Купалы">
+    {% endif %}
+    </datalist>
+
+    <datalist id="faculties">
+    {% if event.fill_forms_in_en %}
+    {% else %}
+        <option value="Факультет бизнеса и технологий">
+        <option value="Факультет информационных технологий">
+        <option value="Факультет информационных технологий и робототехники">
+        <option value="Факультет компьютерного проектирования">
+        <option value="Факультет компьютерных наук">
+        <option value="Факультет компьютерных систем и сетей">
+        <option value="Факультет математики и информатики">
+        <option value="Факультет математики и информационных технологий">
+        <option value="Факультет прикладной математики">
+        <option value="Факультет прикладной математики и информатики">
+        <option value="Факультет экономики и технологий управления">
+        <option value="Факультет экономики и управления">
+        <option value="Электротехнический факультет">
     {% endif %}
     </datalist>
 </form>

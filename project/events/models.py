@@ -6,7 +6,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
 
+from contests.models import Contest
 from storage.models import FileMetadata
+from users.models import UserFolder
 
 MAX_TITLE_LENGTH = 100
 
@@ -55,6 +57,13 @@ class Event(models.Model):
 
     logo_style = models.IntegerField(_('logo style'), choices=LogoStyle.CHOICES, default=None, null=True, blank=True)
     logo_file = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL, verbose_name=_('image file'))
+
+    auto_create_users = models.BooleanField(_('create users automatically'), default=False, blank=True)
+    user_folder = models.ForeignKey(UserFolder, verbose_name=_('user folder'), on_delete=models.SET_NULL, null=True, blank=True)
+    username_pattern = models.CharField(_('username pattern'), max_length=30, blank=True)
+    password_generation_algo = models.CharField(max_length=16, blank=True)
+    last_created_number = models.IntegerField(default=0)
+    contest = models.ForeignKey(Contest, verbose_name=_('Contest'), on_delete=models.SET_NULL, null=True, blank=True)
 
     @property
     def name(self):

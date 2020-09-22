@@ -5,6 +5,8 @@ import logging
 import smtplib
 
 from django import forms
+from django.contrib import auth
+from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.db import transaction
@@ -13,11 +15,16 @@ from django.utils.encoding import force_text
 from django.utils.translation import gettext, gettext_lazy
 from django.views import generic
 
+from common.password.gen import get_algo
+
+from contests.models import Membership
+
 from .mixins import CoachMixin
 from .models import (
     IcpcCoach,
     IcpcTeam,
     IcpcContestant,
+    CreatedUser,
     CONTESTANTS_PER_TEAM,
 )
 from .forms import (
@@ -152,13 +159,64 @@ class ListTeamsView(EventMixin, CoachMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ListTeamsView, self).get_context_data(**kwargs)
         context['teams'] = self._get_teams()
+
+        created_user = CreatedUser.objects.filter(event=self.event, coach=self.coach).select_related('user').first()
+        if created_user is not None:
+            context['created_user'] = True
+            context['username'] = created_user.user.username
+            context['password'] = created_user.password
+
         return context
 
 
 class ConfirmView(EventMixin, CoachMixin, generic.View):
+    def _do_create_user(self, folder_id, username, password):
+        user = auth.get_user_model().objects.create(
+            username=username,
+            password=password,
+            email=self.coach.email,
+            first_name=self.coach.first_name,
+            last_name=self.coach.last_name,
+        )
+        user.userprofile.folder_id = folder_id
+        user.userprofile.save()
+        return user
+
+    def _create_user(self, folder_id, password):
+        number = self.event.last_created_number
+        attempt = 0
+        while attempt < 100:
+            number += 1
+            username = self.event.username_pattern % (number,)
+            if auth.get_user_model().objects.filter(username=username).exists():
+                attempt += 1
+                continue
+
+            user = self._do_create_user(folder_id, username, password)
+            self.event.last_created_number = number
+            self.event.save(update_fields=['last_created_number'])
+            return user
+
+    def _confirm(self):
+        with transaction.atomic():
+            if self.coach.is_confirmed:
+                return
+            self.coach.is_confirmed = True
+            self.coach.save(update_fields=['is_confirmed'])
+
+            if (not self.event.registering_coaches and
+                    self.event.auto_create_users and
+                    self.event.user_folder_id is not None):
+                password = get_algo(self.event.password_generation_algo).gen()
+                # use weak hashing algorithm for better performance
+                hashed_password = make_password(password, None, 'md5')
+                user = self._create_user(self.event.user_folder_id, hashed_password)
+                CreatedUser.objects.create(event=self.event, coach=self.coach, user=user, password=password)
+                if self.event.contest_id is not None:
+                    Membership.objects.create(user=user, contest_id=self.event.contest_id, role=Membership.CONTESTANT)
+
     def post(self, *args, **kwargs):
-        self.coach.is_confirmed = True
-        self.coach.save()
+        self._confirm()
         return redirect('events:list_teams', self.event.slug, self.coach_id_str)
 
 

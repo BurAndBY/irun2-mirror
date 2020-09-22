@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import uuid
 import shortuuid
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -83,3 +84,11 @@ class IcpcContestant(models.Model):
     program_start_year = models.IntegerField(_('program start year'))
     graduation_year = models.IntegerField(_('graduation year'))
     sex = models.CharField(_('sex'), max_length=MAX_ENUM_LENGTH, choices=SEX_CHOICES)
+
+
+class CreatedUser(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    coach = models.ForeignKey(IcpcCoach, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(IcpcTeam, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    password = models.CharField(max_length=100)

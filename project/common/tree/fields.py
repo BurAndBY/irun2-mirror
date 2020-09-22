@@ -197,7 +197,11 @@ class FolderChoiceField(forms.ChoiceField):
         self._none_means_not_set = kwargs.pop('none_means_not_set', False)
         self._user = None
         self._inmemory_tree = None
+        user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
+        if user is not None:
+            self.user = user
 
     @property
     def user(self):

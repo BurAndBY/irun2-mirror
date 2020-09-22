@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-16 23:01+0300\n"
-"PO-Revision-Date: 2020-09-16 23:02+0300\n"
+"POT-Creation-Date: 2020-09-22 22:49+0300\n"
+"PO-Revision-Date: 2020-09-22 22:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1613,6 +1613,18 @@ msgstr "Редактировать критерий"
 msgid "Logo image file"
 msgstr "Файл с изображением логотипа"
 
+msgid "Invalid format string"
+msgstr "Неверная форматная строка"
+
+msgid "Password generation algorithm"
+msgstr "Алгоритм генерации паролей"
+
+msgid "Destination folder"
+msgstr "Папка назначения"
+
+msgid "If the user creation is on, this field is required"
+msgstr "Если включено создание пользователей, это поле обязательно"
+
 msgid "Coach and teams"
 msgstr "Тренер и команды"
 
@@ -1651,6 +1663,18 @@ msgstr "стиль логотипа"
 
 msgid "image file"
 msgstr "файл с изображением"
+
+msgid "create users automatically"
+msgstr "создавать пользователей автоматически"
+
+msgid "user folder"
+msgstr "папка с пользователями"
+
+msgid "username pattern"
+msgstr "шаблон имени пользователя"
+
+msgid "Contest"
+msgstr "Соревнование"
 
 msgid "show on the main page"
 msgstr "показывать на главной странице"
@@ -2796,6 +2820,16 @@ msgstr "пол"
 msgid "Participation is confirmed"
 msgstr "Участие подтверждено"
 
+msgid ""
+"A new iRunner account has been created for you. Use the username and "
+"password to log in."
+msgstr ""
+"Создана новая учётная запись в iRunner. Используйте указанное имя и пароль "
+"для входа в систему."
+
+msgid "Password"
+msgstr "Пароль"
+
 msgid "First name"
 msgstr "Имя"
 
@@ -3166,9 +3200,6 @@ msgstr "Журнал компиляции недоступен"
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Ввод&thinsp;/&thinsp;вывод"
 
-msgid "Contest"
-msgstr "Соревнование"
-
 msgid "Submitted"
 msgstr "Отправлено"
 
@@ -3356,9 +3387,6 @@ msgstr "Данные о пользователях"
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
 
-msgid "Password"
-msgstr "Пароль"
-
 #, python-format
 msgid "Line %(number)s does not match the template."
 msgstr "Строка %(number)s не соответствует шаблону."
@@ -3443,9 +3471,6 @@ msgstr[2] "Добавлено %(count)d фотографий."
 
 msgid "Photos from intranet.bsu"
 msgstr "Фотографии из intranet.bsu"
-
-msgid "Destination folder"
-msgstr "Папка назначения"
 
 msgid "Staff only"
 msgstr "Только сотрудники"
@@ -3769,9 +3794,6 @@ msgstr ""
 
 #~ msgid "Complexity level"
 #~ msgstr "Уровень сложности"
-
-#~ msgid "username"
-#~ msgstr "имя пользователя"
 
 #~ msgctxt "human"
 #~ msgid "full name"

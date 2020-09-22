@@ -47,6 +47,7 @@ class BaseCoachForm(LocalizeMixin, forms.ModelForm):
         }
         widgets = {
             'university': forms.TextInput(attrs={'list': 'universities'}),
+            'faculty': forms.TextInput(attrs={'list': 'faculties'}),
         }
 
 

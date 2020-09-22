@@ -9,12 +9,10 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin
 
-from .forms import PageDesignForm, PageForm
+from .forms import PageDesignForm, PageForm, EventForm
 from .models import Event, Page
 from registration.models import IcpcCoach
 from registration.export import make_teams_csv, make_contestants_csv
-
-EVENT_FIELDS = ['slug', 'local_name', 'en_name', 'is_registration_available', 'registration_mode', 'fill_forms_in_en']
 
 
 class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
@@ -22,22 +20,26 @@ class ListEventsView(StaffMemberRequiredMixin, generic.ListView):
     template_name = 'events/manage/index.html'
 
 
-class CreateEventView(StaffMemberRequiredMixin, generic.CreateView):
+class EventFormMixin(object):
+    form_class = EventForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('events:manage:list')
+
+
+class CreateEventView(StaffMemberRequiredMixin, EventFormMixin, generic.CreateView):
     model = Event
     template_name = 'events/manage/new.html'
-    fields = EVENT_FIELDS
-
-    def get_success_url(self):
-        return reverse('events:manage:list')
 
 
-class UpdateEventView(StaffMemberRequiredMixin, generic.UpdateView):
+class UpdateEventView(StaffMemberRequiredMixin, EventFormMixin, generic.UpdateView):
     model = Event
     template_name = 'events/manage/edit.html'
-    fields = EVENT_FIELDS
-
-    def get_success_url(self):
-        return reverse('events:manage:list')
 
 
 class EventPageDesignView(StaffMemberRequiredMixin, generic.UpdateView):
