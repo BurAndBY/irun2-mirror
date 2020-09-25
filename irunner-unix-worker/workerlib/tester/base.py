@@ -153,10 +153,13 @@ class BaseTester:
         if BaseTester._is_binary(dst.name):
             shutil.copyfile(src, dst)
             return
-        with src.open('rU') as infile:
-            with dst.open('w', newline='\n') as outfile:
-                for line in infile:
-                    outfile.write(line)
+        try:
+            with src.open('r') as infile:
+                with dst.open('w', newline='\n') as outfile:
+                    for line in infile:
+                        outfile.write(line)
+        except UnicodeDecodeError:
+            shutil.copyfile(src, dst)
 
     def _write_solution(self, job, workdir):
         solutiondir = self._create_dir(workdir, 'solution')
