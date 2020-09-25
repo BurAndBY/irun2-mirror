@@ -149,17 +149,24 @@ class BaseTester:
         return False
 
     @staticmethod
+    def _do_copy(src, dst, encoding):
+        with src.open('r', encoding=encoding) as infile:
+            with dst.open('w', newline='\n') as outfile:
+                for line in infile:
+                    outfile.write(line)
+
+    @staticmethod
     def _copy_converting_newlines(src, dst):
         if BaseTester._is_binary(dst.name):
             shutil.copyfile(src, dst)
             return
-        try:
-            with src.open('r') as infile:
-                with dst.open('w', newline='\n') as outfile:
-                    for line in infile:
-                        outfile.write(line)
-        except UnicodeDecodeError:
-            shutil.copyfile(src, dst)
+        for enc in ('utf-8', 'cp1251'):
+            try:
+                BaseTester._do_copy(src, dst, enc)
+                return
+            except UnicodeDecodeError:
+                pass
+        shutil.copyfile(src, dst)
 
     def _write_solution(self, job, workdir):
         solutiondir = self._create_dir(workdir, 'solution')
