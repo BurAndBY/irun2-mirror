@@ -141,14 +141,14 @@ body {
     color: #aa6708;
 }
 
-.ir-stripe > .ir-box {
+.ir-stripe > .ir-box, .ir-stripe > a > .ir-box {
     border-radius: 0;
 }
-.ir-stripe > .ir-box:first-child {
+.ir-stripe > .ir-box:first-child, .ir-stripe > a:first-child > .ir-box {
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
 }
-.ir-stripe > .ir-box:last-child {
+.ir-stripe > .ir-box:last-child, .ir-stripe > a:last-child > .ir-box {
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }

@@ -65,7 +65,7 @@
                                     {% endfor %}
                                     {% with slot_result.problem_result as pr %}
                                         {% if pr and pr.was_submitted %}
-                                            {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=hide_score_if_accepted %}
+                                            <a href="{% url 'solutions:main' pr.best_solution.id %}">{% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=hide_score_if_accepted %}</a>
                                         {% else %}
                                             {% irunner_solutions_scorebox %}
                                         {% endif %}
@@ -161,7 +161,7 @@
                 {% for pr in user_result.get_all_common_problem_results %}
                     <td>
                     {% if pr and pr.was_submitted %}
-                        {% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=hide_score_if_accepted accepted_before_deadline=pr.accepted_before_deadline %}
+                        <a href="{% url 'solutions:main' pr.best_solution.id %}">{% irunner_solutions_scorebox pr.best_solution.best_judgement hide_score_if_accepted=hide_score_if_accepted accepted_before_deadline=pr.accepted_before_deadline %}</a>
                     {% else %}
                         {% irunner_solutions_scorebox %}
                     {% endif %}
