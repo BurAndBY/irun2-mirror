@@ -74,7 +74,7 @@ class ProblemExtraInfoForm(forms.ModelForm):
     class Meta:
         model = ProblemExtraInfo
         fields = ['sample_test_count', 'default_time_limit', 'default_memory_limit',
-                  'description', 'allowed_programming_languages']
+                  'description', 'allowed_programming_languages', 'check_plagiarism']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }

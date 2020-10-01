@@ -111,6 +111,7 @@ class ProblemExtraInfo(models.Model):
     default_memory_limit = models.IntegerField(default=DEFAULT_MEMORY_LIMIT)
     sample_test_count = models.IntegerField(_('number of sample tests'), default=0)
     allowed_programming_languages = models.CharField(_('allowed programming languages'), max_length=255, null=False, blank=True)
+    check_plagiarism = models.BooleanField(_('Check plagiarism'), default=True, blank=True)
 
 
 class ProblemRelatedFile(FileMetadataBase):

@@ -1,5 +1,7 @@
 from common.outcome import Outcome
 from solutions.models import Solution
+from problems.models import ProblemExtraInfo
+
 from plagiarism.models import JudgementResult, AggregatedResult
 from plagiarism.plagiarismstructs import PlagiarismSubJob, PlagiarismTestingJob
 from django.db import transaction
@@ -16,11 +18,13 @@ def _make_job(solution, solutions):
 
 
 def get_testing_job():
+    excluded_problems = set(ProblemExtraInfo.objects.filter(check_plagiarism=False).values_list('problem_id', flat=True))
     last_solution_id = AggregatedResult.objects.values_list('id', flat=True).order_by('-id').first()
 
-    qs = Solution.objects.filter(
-        judgement__outcome=Outcome.ACCEPTED,
-        aggregatedresult__isnull=True)
+    qs = Solution.objects.\
+        filter(judgement__outcome=Outcome.ACCEPTED).\
+        filter(aggregatedresult__isnull=True).\
+        exclude(problem_id__in=excluded_problems)
     if last_solution_id is not None:
         qs = qs.filter(id__gt=last_solution_id)
 
