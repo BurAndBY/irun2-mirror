@@ -307,7 +307,7 @@ class AnyProblemView(CourseStatementMixin, ProblemStatementMixin, BaseCourseView
 
         return False
 
-    def get(self, request, course, problem_id, filename):
+    def get(self, request, course, problem_id, filename=None):
         problem = get_object_or_404(Problem, pk=problem_id)
         self.problem = problem
 

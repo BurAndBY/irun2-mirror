@@ -256,7 +256,7 @@ class ProblemFileView(ProblemStatementMixin, ContestProblemsetMixin, BaseContest
     def is_allowed(self, permissions):
         return permissions.problems
 
-    def get(self, request, contest, problem_id, filename):
+    def get(self, request, contest, problem_id, filename=None):
         if not self.is_problemset_available():
             raise Http404('no access to statements')
 
