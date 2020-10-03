@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel, TreeForeignKey
@@ -11,7 +10,6 @@ from proglangs.models import Compiler
 from storage.storage import ResourceIdField
 
 
-@python_2_unicode_compatible
 class UserFolder(MPTTModel):
     name = models.CharField(_('name'), max_length=64)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True)
@@ -21,7 +19,6 @@ class UserFolder(MPTTModel):
         return self.name
 
 
-@python_2_unicode_compatible
 class AdminGroup(models.Model):
     name = models.CharField(_('name'), max_length=64)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)

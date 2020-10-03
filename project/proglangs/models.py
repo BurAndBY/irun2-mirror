@@ -1,11 +1,9 @@
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from proglangs.langlist import ProgrammingLanguage
 
 
-@python_2_unicode_compatible
 class Compiler(models.Model):
     handle = models.CharField(_('string identifier'), max_length=30, unique=True)
     language = models.CharField(_('language'), max_length=8, choices=ProgrammingLanguage.CHOICES, default=ProgrammingLanguage.UNKNOWN, blank=True)

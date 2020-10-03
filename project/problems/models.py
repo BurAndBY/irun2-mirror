@@ -6,7 +6,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from django.utils.encoding import python_2_unicode_compatible
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -20,7 +19,6 @@ DEFAULT_TIME_LIMIT = 1000  # 1 s
 DEFAULT_MEMORY_LIMIT = 1 * 1024 * 1024 * 1024  # 1 GB
 
 
-@python_2_unicode_compatible
 class ProblemFolder(MPTTModel):
     name = models.CharField(_('name'), max_length=64)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', db_index=True)

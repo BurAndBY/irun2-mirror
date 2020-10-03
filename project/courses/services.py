@@ -11,7 +11,6 @@ from django.db.models import F
 from django.template import defaultfilters
 from django.utils.encoding import (
     force_text,
-    python_2_unicode_compatible,
     smart_text,
 )
 from django.utils.html import format_html
@@ -41,7 +40,6 @@ Cache of Course Users
 '''
 
 
-@python_2_unicode_compatible
 class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup')):
     def __str__(self):
         '''

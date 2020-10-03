@@ -14,14 +14,13 @@ from wsgiref.util import FileWrapper
 from django.conf import settings
 from django.core.files.base import File
 from django.db import models
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 
 from .representation import represent_blob
 
 HASH_SIZE = 20
 
 
-@python_2_unicode_compatible
 class ResourceId(object):
     def __init__(self, binary=b''):
         if not isinstance(binary, six.binary_type):

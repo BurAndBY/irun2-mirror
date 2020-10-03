@@ -8,7 +8,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from problems.models import Problem
@@ -53,7 +52,6 @@ def _default_contest_start_time():
     return ts
 
 
-@python_2_unicode_compatible
 class Contest(models.Model):
     ACM = 1
     IOI = 2

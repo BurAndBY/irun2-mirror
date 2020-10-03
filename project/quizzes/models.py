@@ -6,13 +6,12 @@ from django.conf import settings
 from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible, smart_text
+from django.utils.encoding import smart_text
 
 from cauth.acl.models import BaseAccess
 from courses.models import Course
 
 
-@python_2_unicode_compatible
 class Category(models.Model):
     name = models.CharField(_('name'), max_length=100)
     slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
@@ -24,7 +23,6 @@ class Category(models.Model):
         verbose_name = _('Category')
 
 
-@python_2_unicode_compatible
 class QuestionGroup(models.Model):
     name = models.CharField(_('name'), max_length=100, unique=True)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name=_('category'))
@@ -36,7 +34,6 @@ class QuestionGroup(models.Model):
         verbose_name = _('Question group')
 
 
-@python_2_unicode_compatible
 class Question(models.Model):
     SINGLE_ANSWER = 0
     MULTIPLE_ANSWERS = 1
@@ -59,7 +56,6 @@ class Question(models.Model):
         return self.text
 
 
-@python_2_unicode_compatible
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
@@ -79,7 +75,6 @@ class ScorePolicy(object):
     )
 
 
-@python_2_unicode_compatible
 class QuizTemplate(models.Model):
     name = models.CharField(_('name'), max_length=100, unique=True)
     shuffle_questions = models.BooleanField(_('shuffle questions'), default=True)
@@ -107,7 +102,6 @@ class GroupQuizRelation(models.Model):
         ordering = ['order']
 
 
-@python_2_unicode_compatible
 class QuizInstance(models.Model):
     quiz_template = models.ForeignKey(QuizTemplate, on_delete=models.CASCADE, verbose_name=_('quiz template'))
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=_('course'))
@@ -127,7 +121,6 @@ class QuizInstance(models.Model):
             return smart_text(self.quiz_template)
 
 
-@python_2_unicode_compatible
 class QuizSession(models.Model):
     quiz_instance = models.ForeignKey(QuizInstance, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -144,7 +137,6 @@ class QuizSession(models.Model):
         return '{}: {}'.format(self.quiz_instance, self.start_time)
 
 
-@python_2_unicode_compatible
 class SessionQuestion(models.Model):
     quiz_session = models.ForeignKey(QuizSession, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
@@ -156,7 +148,6 @@ class SessionQuestion(models.Model):
         return smart_text(self.question)
 
 
-@python_2_unicode_compatible
 class SessionQuestionAnswer(models.Model):
     session_question = models.ForeignKey(SessionQuestion, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.PROTECT, null=True)

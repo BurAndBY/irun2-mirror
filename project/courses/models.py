@@ -6,7 +6,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext, ugettext
 
@@ -24,7 +23,6 @@ from common.education.year import (
 from users.modelfields import OwnerGroupField
 
 
-@python_2_unicode_compatible
 class Criterion(models.Model):
     label = models.CharField(_('criterion label'), max_length=8, unique=True)
     name = models.CharField(_('name'), max_length=64)
@@ -43,7 +41,6 @@ class CourseStatus(object):
     )
 
 
-@python_2_unicode_compatible
 class Course(models.Model):
     name = models.CharField(_('name'), max_length=64, blank=True)
     compilers = models.ManyToManyField(Compiler, blank=True)
@@ -103,7 +100,6 @@ class Course(models.Model):
         ordering = ['academic_year', 'year_of_study', 'group', 'name']
 
 
-@python_2_unicode_compatible
 class Topic(models.Model):
     name = models.CharField(_('name'), max_length=64)
     course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
@@ -158,7 +154,6 @@ class Activity(models.Model):
     quiz_instance = models.ForeignKey('quizzes.QuizInstance', verbose_name=_('quiz'), null=True, blank=True, on_delete=models.SET_NULL)
 
 
-@python_2_unicode_compatible
 class Subgroup(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(_('name'), max_length=16, blank=False)
@@ -265,7 +260,6 @@ Electronic Queues
 '''
 
 
-@python_2_unicode_compatible
 class Queue(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     is_active = models.BooleanField(_('queue is active'), blank=True, default=True)
