@@ -226,7 +226,7 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
     template_name = 'problems/problem/statement.html'
     template_name_print = 'problems/problem/statement_print.html'
 
-    def get(self, request, problem_id, filename):
+    def get(self, request, problem_id, filename=None):
         problem = self._load(problem_id)
 
         if self.is_aux_file(filename):
