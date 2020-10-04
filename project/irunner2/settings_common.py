@@ -142,6 +142,8 @@ TWO_FACTOR_PATCH_ADMIN = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 182 * 24 * 60 * 60  # half year
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
