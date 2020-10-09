@@ -1609,3 +1609,23 @@ class ProblemAccessView(ShareWithUserMixin, BaseProblemView):
         if success:
             return redirect_with_query_string(request, 'problems:access', problem.id)
         return render(request, self.template_name, self._make_context(problem, context))
+
+
+'''
+General edit view
+'''
+
+
+class ProblemEditView(BaseProblemView):
+    tab = 'access'
+
+    def get(self, request, problem_id):
+        problem = self._load(problem_id)
+
+        if self.permissions.can_edit:
+            tex_file = problem.problemrelatedfile_set.filter(file_type__in=ProblemRelatedFile.TEX_FILE_TYPES).first()
+            if tex_file is not None:
+                return redirect_with_query_string(request, 'problems:edit_tex', problem.id, tex_file.id)
+            return redirect_with_query_string(request, 'problems:files', problem.id)
+        else:
+            return redirect_with_query_string(request, 'problems:statement', problem.id)

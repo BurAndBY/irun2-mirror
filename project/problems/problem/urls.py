@@ -69,6 +69,7 @@ problem_urlpatterns = [
     url(r'^validator/$', pviews.ProblemValidatorView.as_view(), name='validator'),
     url(r'^delete/$', pviews.ProblemDeleteView.as_view(), name='delete'),
     url(r'^access/$', pviews.ProblemAccessView.as_view(), name='access'),
+    url(r'^edit/$', pviews.ProblemEditView.as_view(), name='edit'),
 ]
 
 urlpatterns = [

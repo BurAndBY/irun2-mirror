@@ -54,7 +54,7 @@
         {% endif %}
 
         {% if user.is_staff or user.is_admin %}
-            <a href="{% url 'problems:overview' problem.id %}" class="list-group-item" target="_blank">
+            <a href="{% url 'problems:edit' problem.id %}" class="list-group-item" target="_blank">
                 {% bootstrap_icon 'pencil' %} <span class="ir-icon-label">{% trans 'Edit' %}</span>
             </a>
         {% endif %}

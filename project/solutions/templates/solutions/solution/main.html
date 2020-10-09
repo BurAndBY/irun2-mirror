@@ -49,7 +49,7 @@
                                     <a href="{% url 'contests:problem' solution_environment.contest.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
                                 {% endif %}
                                 {% if permissions.can_refer_to_problem %}
-                                    (<a href="{% url 'problems:statement' solution.problem_id %}">{% bootstrap_icon 'pencil' %}</a>)
+                                    (<a href="{% url 'problems:edit' solution.problem_id %}">{% bootstrap_icon 'pencil' %}</a>)
                                 {% endif %}
                             {% elif permissions.can_refer_to_problem %}
                                 <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
