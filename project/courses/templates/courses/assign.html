@@ -123,7 +123,7 @@
                         </td>
                     {% endif %}
                     <td class="ir-slot-cell">
-                        {% irunner_courses_problemresult problem_result course.id permissions.all_solutions_permissions %}
+                        {% irunner_courses_problemresult problem_result course.id permissions.all_solutions_permissions user_id=user_id %}
                     </td>
                 </tr>
             {% endfor %}
