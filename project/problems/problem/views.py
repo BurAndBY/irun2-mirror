@@ -67,7 +67,7 @@ from problems.problem.validation import revalidate_testset
 from problems.problem.zipsaver import ZipSaver
 
 from problems.description import IDescriptionImageLoader, render_description
-from problems.forms import TeXForm
+from problems.forms import TeXTechForm, TeXRelatedFileForm
 from problems.models import (
     Problem,
     ProblemAccess,
@@ -1034,7 +1034,7 @@ class ProblemTeXView(BaseProblemView):
 class ProblemTeXRenderView(BaseProblemView):
     def post(self, request, problem_id):
         problem = self._load(problem_id)
-        form = TeXForm(request.POST)
+        form = TeXTechForm(request.POST)
         return JsonResponse(get_tex_preview(form, problem), json_dumps_params={'ensure_ascii': False})
 
 
@@ -1051,12 +1051,12 @@ class ProblemTeXEditView(BaseProblemView):
 
     def get(self, request, problem_id, file_id):
         problem = self._load(problem_id)
-        related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
+        related_file = get_object_or_404(problem.problemrelatedfile_set, file_type__in=ProblemRelatedFile.TEX_FILE_TYPES, pk=file_id)
 
         storage = create_storage()
         tex_data = storage.represent(related_file.resource_id)
         if tex_data is not None and tex_data.complete_text is not None:
-            form = TeXForm(initial={'source': tex_data.complete_text})
+            form = TeXRelatedFileForm(initial={'source': tex_data.complete_text, 'file_type': related_file.file_type})
             context = self._make_tex_context(problem, form)
         else:
             context = self._make_context(problem)
@@ -1065,11 +1065,12 @@ class ProblemTeXEditView(BaseProblemView):
 
     def post(self, request, problem_id, file_id):
         problem = self._load(problem_id)
-        related_file = get_object_or_404(problem.problemrelatedfile_set, pk=file_id)
-        form = TeXForm(request.POST)
+        related_file = get_object_or_404(problem.problemrelatedfile_set, file_type__in=ProblemRelatedFile.TEX_FILE_TYPES, pk=file_id)
+        form = TeXRelatedFileForm(request.POST)
         if form.is_valid():
             f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
             store_and_fill_metadata(f, related_file)
+            related_file.file_type = form.cleaned_data['file_type']
             related_file.save()
             return redirect_with_query_string(request, 'problems:tex', problem_id)
 
@@ -1083,11 +1084,10 @@ def _new_related_file(problem, related_file, f):
     related_file.save()
 
 
-class BaseProblemTeXNewView(BaseProblemView):
+class ProblemTeXNewStatementView(BaseProblemView):
     tab = 'tex'
     template_name = 'problems/problem/edit_tex.html'
-    filename = None
-    file_type = None
+    filename = 'statement.tex'
     requirements = SingleProblemPermissions.EDIT
 
     def get_initial_data(self, problem):
@@ -1103,7 +1103,7 @@ class BaseProblemTeXNewView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = TeXForm(initial={'source': self.get_initial_data(problem)})
+        form = TeXRelatedFileForm(initial={'source': self.get_initial_data(problem)})
         meta_form = ProblemRelatedTeXFileForm(initial={'filename': self.filename})
 
         context = self._make_tex_context(problem, form, meta_form)
@@ -1112,25 +1112,21 @@ class BaseProblemTeXNewView(BaseProblemView):
     def post(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = TeXForm(request.POST)
+        form = TeXRelatedFileForm(request.POST)
 
-        related_file = ProblemRelatedFile(problem_id=problem_id, file_type=self.file_type)
+        related_file = ProblemRelatedFile(problem_id=problem_id)
         meta_form = ProblemRelatedTeXFileForm(request.POST, instance=related_file)
 
         if form.is_valid() and meta_form.is_valid():
             meta_form.save(commit=False)
             f = ContentFile(form.cleaned_data['source'].encode('utf-8'))
             store_and_fill_metadata(f, related_file)
+            related_file.file_type = form.cleaned_data['file_type']
             related_file.save()
             return redirect_with_query_string(request, 'problems:tex', problem_id)
 
         context = self._make_tex_context(problem, form, meta_form)
         return render(request, self.template_name, context)
-
-
-class ProblemTeXNewStatementView(BaseProblemTeXNewView):
-    filename = 'statement.tex'
-    file_type = ProblemRelatedFile.STATEMENT_TEX_TEX2HTML
 
 
 class ProblemTeXEditorRelatedFileView(BaseProblemView):

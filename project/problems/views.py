@@ -26,7 +26,8 @@ from storage.utils import serve_resource
 from problems.calcpermissions import get_problem_ids_queryset
 from problems.forms import (
     ProblemSearchForm,
-    TeXForm,
+    TeXTechForm,
+    TeXRelatedFileForm,
 )
 from problems.models import Problem, ProblemRelatedFile, ProblemFolder, ProblemAccess, ProblemFolderAccess
 from problems.statement import StatementRepresentation
@@ -202,7 +203,7 @@ class TeXView(StaffMemberRequiredMixin, generic.View):
     template_name = 'problems/tex_playground.html'
 
     def get(self, request):
-        form = TeXForm()
+        form = TeXRelatedFileForm()
         context = {
             'form': form,
             'render_url': reverse('problems:tex_playground_render'),
@@ -233,7 +234,7 @@ def get_tex_preview(form, problem=None):
 
 class TeXRenderView(StaffMemberRequiredMixin, generic.View):
     def post(self, request):
-        form = TeXForm(request.POST)
+        form = TeXTechForm(request.POST)
         return JsonResponse(get_tex_preview(form), json_dumps_params={'ensure_ascii': False})
 
 
