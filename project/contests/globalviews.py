@@ -1,7 +1,9 @@
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, reverse
 from django.views import generic
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from cauth.mixins import LoginRequiredMixin, StaffMemberRequiredMixin
 from proglangs.models import Compiler
@@ -97,3 +99,19 @@ class ContestCreateView(StaffMemberRequiredMixin, generic.CreateView):
             contest = form.save(commit=True)
             contest.compilers.set(Compiler.objects.filter(default_for_contests=True))
         return redirect('contests:settings_properties', contest.id)
+
+
+class ContestsApiView(generic.View):
+    def get(self, request):
+        contests = _fetch_contests(ContestSet.PUBLIC, None).order_by('id')
+
+        json = {
+            'contests': [{
+                'id': contest.id,
+                'name': str(contest),
+                'startTime': timezone.localtime(contest.start_time),
+                'endTime': timezone.localtime(contest.start_time + contest.duration),
+                'link': reverse('contests:standings', kwargs={'contest_id': contest.id}),
+            } for contest in contests]
+        }
+        return JsonResponse(json, json_dumps_params={'ensure_ascii': False})
