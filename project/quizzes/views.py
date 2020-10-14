@@ -8,7 +8,6 @@ from django.utils.encoding import force_text
 import json
 from collections import Counter
 
-from cauth.mixins import StaffMemberRequiredMixin
 from common.pagination import paginate
 
 from quizzes.serializers import QuestionDataSerializer, RelationsDataSerializer
@@ -70,7 +69,7 @@ class QuestionGroupBrowseView(QuizAdminMixin, QuestionGroupMixin, generic.Templa
         return context
 
 
-class QuizTemplateListView(StaffMemberRequiredMixin, QuizAdminMixin, generic.ListView):
+class QuizTemplateListView(QuizAdminMixin, generic.ListView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_list.html'
     model = QuizTemplate
@@ -79,7 +78,7 @@ class QuizTemplateListView(StaffMemberRequiredMixin, QuizAdminMixin, generic.Lis
         return QuizTemplate.objects.annotate(num_sessions=models.Count('quizinstance__quizsession'))
 
 
-class QuizTemplateCreateView(StaffMemberRequiredMixin, QuizAdminMixin, generic.CreateView):
+class QuizTemplateCreateView(QuizAdminMixin, generic.CreateView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_create.html'
     model = QuizTemplate
@@ -89,7 +88,7 @@ class QuizTemplateCreateView(StaffMemberRequiredMixin, QuizAdminMixin, generic.C
         return reverse('quizzes:templates:list')
 
 
-class QuizTemplateUpdateView(StaffMemberRequiredMixin, QuizAdminMixin, generic.UpdateView):
+class QuizTemplateUpdateView(QuizAdminMixin, generic.UpdateView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_update.html'
     model = QuizTemplate
@@ -99,7 +98,7 @@ class QuizTemplateUpdateView(StaffMemberRequiredMixin, QuizAdminMixin, generic.U
         return reverse('quizzes:templates:detail', kwargs={'pk': self.object.id})
 
 
-class QuizTemplateDetailView(StaffMemberRequiredMixin, QuizAdminMixin, generic.DetailView):
+class QuizTemplateDetailView(QuizAdminMixin, generic.DetailView):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_detail.html'
     model = QuizTemplate
@@ -110,7 +109,7 @@ class QuizTemplateDetailView(StaffMemberRequiredMixin, QuizAdminMixin, generic.D
         return context
 
 
-class QuizTemplateReEvaluateView(StaffMemberRequiredMixin, QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class QuizTemplateReEvaluateView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_reevaluate.html'
     model = QuizTemplate
@@ -142,7 +141,7 @@ class QuizTemplateReEvaluateView(StaffMemberRequiredMixin, QuizAdminMixin, gener
         return render(request, self.template_name, context)
 
 
-class QuizTemplateEditGroupsView(StaffMemberRequiredMixin, QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class QuizTemplateEditGroupsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     tab = Tabs.TEMPLATES
     template_name = 'quizzes/quiz_template_edit_groups.html'
     model = QuizTemplate
@@ -203,7 +202,7 @@ class QuizTemplateEditGroupsView(StaffMemberRequiredMixin, QuizAdminMixin, gener
         return redirect('quizzes:templates:detail', pk)
 
 
-class QuizSessionListView(StaffMemberRequiredMixin, QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class QuizSessionListView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     tab = Tabs.TEMPLATES
     paginate_by = 25
     template_name = 'quizzes/quiz_template_sessions.html'
@@ -230,7 +229,7 @@ class QuizSessionListView(StaffMemberRequiredMixin, QuizAdminMixin, generic.base
         return render(request, self.template_name, context)
 
 
-class QuizStatisticsView(StaffMemberRequiredMixin, QuizAdminMixin, generic.base.ContextMixin, generic.View):
+class QuizStatisticsView(QuizAdminMixin, generic.base.ContextMixin, generic.View):
     template_name = 'quizzes/quiz_template_statistics.html'
 
     def get(self, request, pk):
