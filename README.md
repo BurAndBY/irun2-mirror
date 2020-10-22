@@ -15,7 +15,7 @@ On UNIX-like systems, this is done with git:
 
 ### Setting up the environment ###
 
-Ensure that Python 2.7 is installed. iRunner should also work with Python 3.6, but it is not well-tested, use it at your own risk. 64-bit version is recommended.
+Ensure that Python 3 is installed. iRunner is tested with Python 3.6+. 64-bit version is recommended. Python 2 is not supported: the compatibility was broken on 1 Feb 2020 (because Django has dropped its support).
 
 You will also need pip and virtualenv tools. Follow official guides to set them up. pip is shipped together with recent Python distributions downloaded from python.org. Then, virtualenv is installed with pip:
 
