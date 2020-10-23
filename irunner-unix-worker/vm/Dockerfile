@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y \
     gawk \
     bc \
     unzip \
-    clang-10
+    clang-10 \
+    libc++-10-dev \
+    libc++abi-10-dev
 
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100 && \
     update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100
