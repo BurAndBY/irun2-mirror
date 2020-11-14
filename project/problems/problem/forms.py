@@ -211,6 +211,7 @@ class ProblemTestArchiveUploadForm(forms.Form):
     ARCHIVE_SCHEME_CHOICES = (
         ('/a', 'X / X.a'),
         ('in/out', 'X.in / X.out'),
+        ('i/o', 'X.i / X.o'),
     )
 
     upload = forms.FileField(label=_('ZIP-archive'), required=True, widget=forms.FileInput,
@@ -236,6 +237,8 @@ class ProblemTestArchiveUploadForm(forms.Form):
                 tests = extract_tests(filenames, None, 'a')
             elif scheme == 'in/out':
                 tests = extract_tests(filenames, 'in', 'out')
+            elif scheme == 'i/o':
+                tests = extract_tests(filenames, 'i', 'o')
             else:
                 tests = []
 
