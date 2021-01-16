@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-22 22:49+0300\n"
-"PO-Revision-Date: 2020-09-22 22:55+0300\n"
+"POT-Creation-Date: 2021-01-16 03:01+0300\n"
+"PO-Revision-Date: 2021-01-16 03:03+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1616,6 +1616,9 @@ msgstr "Файл с изображением логотипа"
 msgid "Invalid format string"
 msgstr "Неверная форматная строка"
 
+msgid "Ex."
+msgstr "Пр."
+
 msgid "Password generation algorithm"
 msgstr "Алгоритм генерации паролей"
 
@@ -1896,6 +1899,9 @@ msgstr "число тестов-примеров"
 msgid "allowed programming languages"
 msgstr "разрешённые языки программирования"
 
+msgid "Check plagiarism"
+msgstr "Проверять на плагиат"
+
 msgid "TeX statement (TeXtoHTML)"
 msgstr "Условие в формате TeX (TeXtoHTML)"
 
@@ -1907,6 +1913,9 @@ msgstr "Условие в формате HTML"
 
 msgid "Additional statement file"
 msgstr "Дополнительный файл условия"
+
+msgid "Problem tutorial (pylightex)"
+msgstr "Разбор в формате TeX (pylightex)"
 
 msgid "Sample input file"
 msgstr "Пример входного файла"
@@ -2020,6 +2029,9 @@ msgstr "В архиве обнаружен неизвестный файл: %(na
 msgid "File not found in the archive: %(name)s"
 msgstr "Файл не найден в архиве: %(name)s"
 
+msgid "Tutorial"
+msgstr "Разбор"
+
 msgid "Tests"
 msgstr "Тесты"
 
@@ -2118,6 +2130,9 @@ msgstr "три примера"
 
 msgid "Loading..."
 msgstr "Загрузка..."
+
+msgid "There is no tutorial for this problem"
+msgstr "В системе нет разбора для этой задачи"
 
 msgid "Search"
 msgstr "Поиск"
@@ -2720,9 +2735,6 @@ msgid "Single option left for the question that allows multiple options."
 msgstr ""
 "Задан только один вариант ответа для вопроса, в котором нужно выбирать "
 "вариант."
-
-msgid "Ex."
-msgstr "Пр."
 
 msgid "Format"
 msgstr "Формат"

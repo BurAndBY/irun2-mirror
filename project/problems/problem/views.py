@@ -241,6 +241,26 @@ class ProblemStatementView(ProblemStatementMixin, BaseProblemView):
 
 
 '''
+Tutorial
+'''
+
+
+class ProblemTutorialView(ProblemStatementMixin, BaseProblemView):
+    tab = 'tutorial'
+    template_name = 'problems/problem/tutorial.html'
+
+    def get(self, request, problem_id, filename=None):
+        problem = self._load(problem_id)
+
+        if self.is_aux_file(filename):
+            return self.serve_aux_file(request, problem_id, filename)
+
+        context = self._make_context(problem)
+        context['tutorial'] = self.make_tutorial(problem)
+        return render(request, self.template_name, context)
+
+
+'''
 Tests
 '''
 ValidatedTestCase = collections.namedtuple('ValidatedTestCase', 'test_case is_valid validator_message has_default_limits is_sample')
@@ -1084,11 +1104,11 @@ def _new_related_file(problem, related_file, f):
     related_file.save()
 
 
-class ProblemTeXNewStatementView(BaseProblemView):
+class _BaseTeXNewView(BaseProblemView):
     tab = 'tex'
     template_name = 'problems/problem/edit_tex.html'
-    filename = 'statement.tex'
     requirements = SingleProblemPermissions.EDIT
+    filename = None
 
     def get_initial_data(self, problem):
         return ''
@@ -1103,7 +1123,7 @@ class ProblemTeXNewStatementView(BaseProblemView):
     def get(self, request, problem_id):
         problem = self._load(problem_id)
 
-        form = TeXRelatedFileForm(initial={'source': self.get_initial_data(problem)})
+        form = TeXRelatedFileForm(initial={'source': self.get_initial_data(problem), 'file_type': self.initial_type})
         meta_form = ProblemRelatedTeXFileForm(initial={'filename': self.filename})
 
         context = self._make_tex_context(problem, form, meta_form)
@@ -1127,6 +1147,16 @@ class ProblemTeXNewStatementView(BaseProblemView):
 
         context = self._make_tex_context(problem, form, meta_form)
         return render(request, self.template_name, context)
+
+
+class ProblemTeXNewStatementView(_BaseTeXNewView):
+    filename = 'statement.tex'
+    initial_type = ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX
+
+
+class ProblemTeXNewTutorialView(_BaseTeXNewView):
+    filename = 'tutorial.tex'
+    initial_type = ProblemRelatedFile.TUTORIAL_TEX_PYLIGHTEX
 
 
 class ProblemTeXEditorRelatedFileView(BaseProblemView):

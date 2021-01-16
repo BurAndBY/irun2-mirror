@@ -33,6 +33,7 @@ PROBLEM_TABS = [
     Tab('access', _('Access'), 'lock', 'problems:access'),
     Tab('folders', _('Folders'), 'folder-open', 'problems:folders', permissions=SPP.MOVE),
     Tab('statement', _('Statement'), 'file', 'problems:statement'),
+    Tab('tutorial', _('Tutorial'), 'education', 'problems:tutorial'),
     Tab('tests', _('Tests'), 'list-alt', 'problems:tests'),
     Tab('validator', _('Validator'), 'ok', 'problems:validator', permissions=SPP.EDIT),
     Tab('solutions', _('Solutions'), 'tasks', 'problems:solutions'),

@@ -121,12 +121,14 @@ class ProblemRelatedFile(FileMetadataBase):
     SAMPLE_OUTPUT_FILE = 221
     USER_FILE = 222
     STATEMENT_TEX_PYLIGHTEX = 224
+    TUTORIAL_TEX_PYLIGHTEX = 225
 
     FILE_TYPE_CHOICES = (
         (STATEMENT_TEX_TEX2HTML, _('TeX statement (TeXtoHTML)')),
         (STATEMENT_TEX_PYLIGHTEX, _('TeX statement (pylightex)')),
         (STATEMENT_HTML, _('HTML statement')),
         (ADDITIONAL_STATEMENT_FILE, _('Additional statement file')),
+        (TUTORIAL_TEX_PYLIGHTEX, _('Problem tutorial (pylightex)')),
         (SOLUTION_DESCRIPTION, _('Solution description')),
         (SAMPLE_INPUT_FILE, _('Sample input file')),
         (SAMPLE_OUTPUT_FILE, _('Sample output file')),
@@ -142,6 +144,7 @@ class ProblemRelatedFile(FileMetadataBase):
     TEX_FILE_TYPES = (
         STATEMENT_TEX_TEX2HTML,
         STATEMENT_TEX_PYLIGHTEX,
+        TUTORIAL_TEX_PYLIGHTEX,
     )
 
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)

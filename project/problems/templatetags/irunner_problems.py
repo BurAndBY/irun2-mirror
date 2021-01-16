@@ -22,6 +22,11 @@ def irunner_problems_statement(statement, letter=None):
     return {'statement': statement, 'letter': letter}
 
 
+@register.inclusion_tag('problems/irunner_problems_tutorial_tag.html')
+def irunner_problems_tutorial(tutorial):
+    return {'tutorial': tutorial}
+
+
 @register.inclusion_tag('problems/irunner_problems_list_tag.html')
 def irunner_problems_list(problems, pagination_context=None, list_is_complete=False, show_checkbox=False, query_string=''):
     manager = ProblemInfoManager(problems)

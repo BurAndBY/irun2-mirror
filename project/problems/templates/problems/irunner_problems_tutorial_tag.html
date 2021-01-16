@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% load irunner_problems %}
+
+{% if tutorial.content %}
+<div class="ir-problem-statement">
+{{ tutorial.content|safe }}
+</div>
+{% endif %}
+
+{% if tutorial.is_empty %}
+<div class="ir-absence">{% trans 'There is no tutorial for this problem' %}</div>
+{% endif %}

@@ -99,6 +99,19 @@ class ProblemStatementMixin(object):
 
         return st
 
+    def make_tutorial(self, problem):
+        file = problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.TUTORIAL_TEX_PYLIGHTEX).first()
+        st = StatementRepresentation(problem)
+
+        # TeX
+        if file is not None:
+            storage = create_storage()
+            tex_data = storage.represent(file.resource_id)
+            if tex_data is not None and tex_data.complete_text is not None:
+                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename, renderer='pylightex')
+                st.content = render_result.output
+        return st
+
 
 '''
 Alternative folder tree

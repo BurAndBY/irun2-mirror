@@ -6,6 +6,7 @@ from problems.problem import views as pviews
 problem_urlpatterns = [
     url(r'^$', pviews.ProblemOverviewView.as_view(), name='overview'),
     url(r'^statement/(?P<filename>.+)?$', pviews.ProblemStatementView.as_view(), name='statement'),
+    url(r'^tutorial/(?P<filename>.+)?$', pviews.ProblemTutorialView.as_view(), name='tutorial'),
 
     url(r'^tests/$', pviews.ProblemTestsView.as_view(), name='tests'),
     url(r'^tests/browse/$', pviews.ProblemBrowseTestsView.as_view(), name='browse_tests'),
@@ -47,6 +48,8 @@ problem_urlpatterns = [
     url(r'^tex/render/$', pviews.ProblemTeXRenderView.as_view(), name='tex_render'),
     url(r'^tex/new/statement/$', pviews.ProblemTeXNewStatementView.as_view(), name='tex_new_statement'),
     url(r'^tex/new/statement/(?P<filename>.+)$', pviews.ProblemTeXEditorRelatedFileView.as_view()),
+    url(r'^tex/new/tutorial/$', pviews.ProblemTeXNewTutorialView.as_view(), name='tex_new_tutorial'),
+    url(r'^tex/new/tutorial/(?P<filename>.+)$', pviews.ProblemTeXEditorRelatedFileView.as_view()),
     url(r'^tex/(?P<file_id>[0-9]+)/$', pviews.ProblemTeXEditView.as_view(), name='edit_tex'),
     url(r'^tex/([0-9]+)/(?P<filename>.+)$', pviews.ProblemTeXEditorRelatedFileView.as_view()),
 

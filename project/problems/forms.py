@@ -9,10 +9,7 @@ class ProblemSearchForm(forms.Form):
     query = forms.CharField(required=False)
 
 
-TYPE_CHOICES = [
-    (ProblemRelatedFile.STATEMENT_TEX_TEX2HTML, 'TeXtoHTML'),
-    (ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX, 'pylightex'),
-]
+TYPE_CHOICES = [(t, s) for t, s in ProblemRelatedFile.FILE_TYPE_CHOICES if t in ProblemRelatedFile.TEX_FILE_TYPES]
 
 
 class TeXTechForm(forms.Form):
