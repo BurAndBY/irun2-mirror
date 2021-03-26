@@ -315,9 +315,9 @@ class FileSystemStorage(IDataStorage):
     def list_all(self):
         for subdir in FileSystemStorage._list_subdirectory_names(self._directory):
             assert os.path.isdir(subdir)
-            for filename in os.listdir(subdir):
-                path = os.path.join(subdir, filename)
-                yield (ResourceId.parse(filename), os.path.getsize(path))
+            with os.scandir(subdir) as it:
+                for entry in it:
+                    yield (ResourceId.parse(entry.name), entry.stat().st_size)
 
 
 def create_storage():
