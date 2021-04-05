@@ -353,6 +353,13 @@ class ListTest(unittest.TestCase):
                          '</ol></div>')
 
 
+class IframeTest(unittest.TestCase):
+    def test_iframe(self):
+        iframe = tex2html('\\iframe{640}{480}{https://example.com/?haha=da}', inline=True)
+        self.assertTrue(iframe.startswith('<iframe width="640" height="480" src="https://example.com/?haha=da"'))
+        self.assertTrue(iframe.endswith('></iframe>'))
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     unittest.main()

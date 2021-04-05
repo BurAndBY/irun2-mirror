@@ -69,13 +69,16 @@ subsection_cmd: "\\subsection{" phrase "}"
 // Images
 includegraphics_cmd: "\\includegraphics{" text_phrase "}"
 
+// Iframe
+iframe_cmd: "\\iframe{" NUMBER "}{" NUMBER "}{" text_phrase "}"
+
 // Olymp environments
 exmp_cmd: "\\exmp{" text_phrase "}{" text_phrase "}"
 example_env: "\\begin{example}" (exmp_cmd | _WHITESPACE | _COMMENT)* "\\end{example}"
 
 // Document structure
 multiple_newlines: /\n{2,}/
-_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | url_cmd | href_cmd | mintinline_cmd | includegraphics_cmd | _text_style_cmd | mbox_cmd
+_phrasing_element: _COMMENT | _plain_text | inline_math | verb_cmd | path_cmd | url_cmd | href_cmd | mintinline_cmd | includegraphics_cmd | iframe_cmd | _text_style_cmd | mbox_cmd
 _text_phrasing_element: _COMMENT | _plain_text | multiple_newlines
 
 phrase: _phrasing_element*
@@ -90,6 +93,7 @@ paragraphs: _WHITESPACE? ((_breaker* paragraph (_breaker+ paragraph)* _breaker*)
 document: paragraphs
 
 %import common.CNAME
+%import common.NUMBER
 '''
 
 CHARACTER_MAP = {
@@ -249,6 +253,11 @@ class TreeToHtml(Transformer):
     @v_args(inline=True)
     def includegraphics_cmd(self, url):
         return '<img src="{}">'.format(url.replace('"', '&quot;'))
+
+    @v_args(inline=True)
+    def iframe_cmd(self, width, height, url):
+        return '<iframe width="{}" height="{}" src="{}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'.\
+            format(width, height, url.replace('"', '&quot;'))
 
     @v_args(inline=True)
     def exmp_cmd(self, inp, outp):
