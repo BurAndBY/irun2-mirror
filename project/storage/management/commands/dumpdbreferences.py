@@ -6,6 +6,7 @@ import logging
 from collections import defaultdict, Counter
 
 from django.core.management.base import BaseCommand
+from django.db.models import Count
 
 from storage.storage import HASH_SIZE
 from users.models import UserProfile
@@ -19,7 +20,7 @@ class ResourceCollector(object):
         self._count = Counter()
         self._stat = defaultdict(Counter) if not simple else None
 
-    def add(self, resource_id, tag):
+    def add(self, resource_id, tag, cnt=1):
         if resource_id is None:
             return
 
@@ -28,9 +29,9 @@ class ResourceCollector(object):
             return
 
         key = str(resource_id)
-        self._count[key] += 1
+        self._count[key] += cnt
         if self._stat is not None:
-            self._stat[str(resource_id)][tag] += 1
+            self._stat[str(resource_id)][tag] += cnt
 
     @property
     def size(self):
@@ -90,20 +91,22 @@ class Command(BaseCommand):
             collector.add(r, 'log')
         log_new()
 
-        logger.info('> TestCaseResult')
-        for inf, ouf, ans, stdout, stderr in TestCaseResult.objects.values_list(
-                'input_resource_id',
-                'output_resource_id',
-                'answer_resource_id',
-                'stdout_resource_id',
-                'stderr_resource_id',
-                ).iterator():
-            collector.add(inf, 'testcaseresult_input')
-            collector.add(ouf, 'testcaseresult_output')
-            collector.add(ans, 'testcaseresult_answer')
-            collector.add(stdout, 'testcaseresult_stdout')
-            collector.add(stderr, 'testcaseresult_stderr')
-        log_new()
+        FIELDS = [
+            ('input_resource_id', 'testcaseresult_input'),
+            ('output_resource_id', 'testcaseresult_output'),
+            ('answer_resource_id', 'testcaseresult_answer'),
+            ('stdout_resource_id', 'testcaseresult_stdout'),
+            ('stderr_resource_id', 'testcaseresult_stderr'),
+        ]
+        for fn, stat in FIELDS:
+            logger.info('> TestCaseResult (%s)', fn)
+            for resource_id, cnt in TestCaseResult.objects.\
+                    filter(**{'{}__isnull'.format(fn): False}).\
+                    annotate(cnt=Count(fn)).values_list(fn, 'cnt').\
+                    order_by().\
+                    iterator():
+                collector.add(resource_id, stat, cnt)
+            log_new()
 
         logger.info('> Challenge')
         for inp, in Challenge.objects.values_list('input_resource_id'):

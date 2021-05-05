@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from collections import defaultdict
 
 from django.core.management.base import BaseCommand
 
+from problems.models import Problem
 from solutions.models import TestCaseResult
 from storage.storage import create_storage
 
@@ -52,27 +52,31 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger = logging.getLogger('irunner_import')
 
-        logger.info('> TestCaseResult')
-        collectors = defaultdict(ResourceCollector)
-        n = 0
-        for inf, ouf, ans, stdout, stderr, problem_id in TestCaseResult.objects.values_list(
-                'input_resource_id',
-                'output_resource_id',
-                'answer_resource_id',
-                'stdout_resource_id',
-                'stderr_resource_id',
-                'judgement__solution__problem_id'
-                ):
-            collector = collectors[problem_id]
-            collector.add(inf, 'input')
-            collector.add(ouf, 'output')
-            collector.add(ans, 'answer')
-            collector.add(stdout, 'stdout')
-            collector.add(stderr, 'stderr')
-            n += 1
-            if n % 100000 == 0:
-                logger.info('%d test cases...', n)
+        logger.info('> Problems')
+        problem_ids = list(Problem.objects.values_list('pk', flat=True))
+        problem_ids.sort()
 
         files = _collect_real_files(logger)
-        for problem_id, collector in collectors.items():
+
+        for problem_id in problem_ids:
+            logger.info('> TestCaseResult (problem=%d)', problem_id)
+            collector = ResourceCollector()
+            n = 0
+            for inf, ouf, ans, stdout, stderr, solution_id in TestCaseResult.objects.values_list(
+                    'input_resource_id',
+                    'output_resource_id',
+                    'answer_resource_id',
+                    'stdout_resource_id',
+                    'stderr_resource_id',
+                    'judgement__solution_id'
+                    ).filter(judgement__solution__problem_id=problem_id):
+                collector.add(inf, 'input')
+                collector.add(ouf, 'output')
+                collector.add(ans, 'answer')
+                collector.add(stdout, 'stdout')
+                collector.add(stderr, 'stderr')
+                n += 1
+                if n % 100000 == 0:
+                    logger.info('%d test cases...', n)
+
             print('{}\t{}\t{}\t{}'.format(problem_id, collector.count, collector.calc_total_size(files), collector.calc_outputs_size(files)))
