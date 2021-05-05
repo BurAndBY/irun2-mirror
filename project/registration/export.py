@@ -66,7 +66,7 @@ def make_contestants_csv(event):
     for contestant in IcpcContestant.objects.filter(team__coach__event=event):
         contestants_per_team.setdefault(contestant.team_id, []).append(contestant)
 
-    fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
+    fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group', 'postal_address', 'phone_number']
 
     si = six.StringIO()
     writer = csv.DictWriter(si, fields)
@@ -81,6 +81,8 @@ def make_contestants_csv(event):
             'faculty': contestant.faculty,
             'year_of_study': contestant.year_of_study,
             'group': contestant.group,
+            'postal_address': contestant.postal_address,
+            'phone_number': contestant.phone_number,
         }
         writer.writerow(row)
 

@@ -21,6 +21,7 @@
     {% endbuttons %}
 
     <datalist id="universities">
+    {% if not event.school_only %}
     {% if event.fill_forms_in_en %}
         <option value="Baranovichi State University">
         <option value="Belarusian National Technical University">
@@ -46,6 +47,7 @@
         <option value="Белорусский национальный технический университет">
         <option value="Гомельский государственный университет им. Ф. Скорины">
         <option value="Гродненский государственный университет им. Я. Купалы">
+    {% endif %}
     {% endif %}
     </datalist>
 

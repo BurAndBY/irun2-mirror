@@ -38,8 +38,8 @@
 <dl class="dl-horizontal">
     <dt>{% trans 'First name' %}</dt><dd>{{ coach.first_name }}</dd>
     <dt>{% trans 'Last name' %}</dt><dd>{{ coach.last_name }}</dd>
-    <dt>{% trans 'University' %}</dt><dd>{{ coach.university }}</dd>
-    <dt>{% trans 'Faculty' %}</dt><dd>{{ coach.faculty }}</dd>
+    <dt>{% if event.school_only %}{% trans 'School' %}{% else %}{% trans 'University' %}{% endif %}</dt><dd>{{ coach.university }}</dd>
+    {% if coach.faculty %}<dt>{% trans 'Faculty' %}</dt><dd>{{ coach.faculty }}</dd>{% endif %}
     {% if coach.year_of_study %}<dt>{% trans 'Year of study' %}</dt><dd>{{ coach.year_of_study }}</dd>{% endif %}
     {% if coach.group %}<dt>{% trans 'Group' %}</dt><dd>{{ coach.group }}</dd>{% endif %}
 </dl>

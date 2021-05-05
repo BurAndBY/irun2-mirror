@@ -5,6 +5,7 @@ import uuid
 import shortuuid
 
 from django.conf import settings
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,6 +18,7 @@ MAX_ENUM_LENGTH = 16
 MAX_TITLE_LENGTH = 255
 MAX_EMAIL_LENGTH = 100
 MAX_UNIVERSITY_LENGTH = 120
+MAX_ADDRESS_LENGTH = 255
 
 PARTICIPATION_VENUE_CHOICES = [
     ('OWN', _('Own university')),
@@ -53,6 +55,10 @@ class IcpcCoach(models.Model):
     year_of_study = models.PositiveIntegerField(_('Year of study'), null=True, blank=True)
     group = models.PositiveIntegerField(_('Group number'), null=True, blank=True)
     is_confirmed = models.BooleanField(_('Confirmed'), null=False, blank=True, default=True)
+    postal_address = models.CharField(_('Postal address'), max_length=MAX_ADDRESS_LENGTH, blank=True)
+    phone_number = models.CharField(_('Phone number'), max_length=16, blank=True, validators=[
+        RegexValidator(regex=r'\+\d{7,15}')
+    ])
 
     @property
     def full_name(self):

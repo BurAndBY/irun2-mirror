@@ -32,9 +32,12 @@ from .forms import (
     IcpcCoachUpdateForm,
     IcpcCoachAsContestantForm,
     IcpcCoachAsContestantUpdateForm,
+    IcpcCoachAsSchoolContestantForm,
+    IcpcCoachAsSchoolContestantUpdateForm,
     IcpcTeamForm,
     IcpcContestantForm,
 )
+from events.models import RegistrationMode
 from events.mixins import EventMixin
 
 
@@ -84,7 +87,11 @@ class RegisterCoachView(EventMixin, generic.CreateView):
     result_template_name = 'registration/new_coach_result.html'
 
     def get_form_class(self):
-        kls = IcpcCoachForm if self.event.registering_coaches else IcpcCoachAsContestantForm
+        kls = {
+            RegistrationMode.COACH_AND_TEAMS: IcpcCoachForm,
+            RegistrationMode.INDIVIDUAL: IcpcCoachAsContestantForm,
+            RegistrationMode.INDIVIDUAL_SCHOOL: IcpcCoachAsSchoolContestantForm,
+        }[self.event.registration_mode]
 
         class PatchedForm(kls):
             fill_in_en = self.event.fill_forms_in_en
@@ -125,7 +132,11 @@ class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
     template_name = 'registration/update_coach.html'
 
     def get_form_class(self):
-        kls = IcpcCoachUpdateForm if self.event.registering_coaches else IcpcCoachAsContestantUpdateForm
+        kls = {
+            RegistrationMode.COACH_AND_TEAMS: IcpcCoachUpdateForm,
+            RegistrationMode.INDIVIDUAL: IcpcCoachAsContestantUpdateForm,
+            RegistrationMode.INDIVIDUAL_SCHOOL: IcpcCoachAsSchoolContestantUpdateForm,
+        }[self.event.registration_mode]
 
         class PatchedForm(kls):
             fill_in_en = self.event.fill_forms_in_en

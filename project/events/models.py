@@ -24,10 +24,12 @@ def _localize_string(local_value, en_value):
 class RegistrationMode(object):
     COACH_AND_TEAMS = 1
     INDIVIDUAL = 2
+    INDIVIDUAL_SCHOOL = 3
 
     CHOICES = (
         (COACH_AND_TEAMS, _('Coach and teams')),
         (INDIVIDUAL, _('Individual')),
+        (INDIVIDUAL_SCHOOL, _('Individual school')),
     )
 
 
@@ -76,6 +78,10 @@ class Event(models.Model):
     @property
     def registering_coaches(self):
         return self.registration_mode == RegistrationMode.COACH_AND_TEAMS
+
+    @property
+    def school_only(self):
+        return self.registration_mode == RegistrationMode.INDIVIDUAL_SCHOOL
 
 
 class Page(models.Model):

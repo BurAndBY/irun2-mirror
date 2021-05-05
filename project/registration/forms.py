@@ -32,6 +32,12 @@ def _year_of_study_choices():
     ]
 
 
+def fix_help_texts(help_texts, **kwargs):
+    new_help_texts = help_texts.copy()
+    new_help_texts.update(kwargs)
+    return new_help_texts
+
+
 class BaseCoachForm(LocalizeMixin, forms.ModelForm):
     required_css_class = 'ir-required'
 
@@ -44,6 +50,8 @@ class BaseCoachForm(LocalizeMixin, forms.ModelForm):
             'last_name': Example('Ivanov', 'Иванов'),
             'university': Example('Bytelandian State University', 'Байтландский государственный университет'),
             'faculty': Example('Faculty of Information Technologies', 'Факультет информационных технологий'),
+            'postal_address': Example('220030, Minsk, 4 Nezavisimosti Ave.', '220030, г. Минск, пр. Независимости, д. 4'),
+            'phone_number': Example('+375291234567', '+375291234567'),
         }
         widgets = {
             'university': forms.TextInput(attrs={'list': 'universities'}),
@@ -54,7 +62,8 @@ class BaseCoachForm(LocalizeMixin, forms.ModelForm):
 class CheckEmailMixin(object):
     def clean(self):
         cleaned_data = super().clean()
-        if IcpcCoach.objects.filter(email=cleaned_data['email'], event=self.instance.event).exists():
+        cur_email = cleaned_data.get('email')
+        if cur_email is not None and IcpcCoach.objects.filter(email=cur_email, event=self.instance.event).exists():
             msg = _('This email has already been registered for this event.')
             self.add_error('email', msg)
         return cleaned_data
@@ -77,17 +86,34 @@ class IcpcCoachAsContestantForm(CheckEmailMixin, BaseCoachForm):
         }
 
 
-class IcpcCoachUpdateForm(BaseCoachForm):
-    class Meta(BaseCoachForm.Meta):
-        fields = ['first_name', 'last_name', 'university']
-
-
-class IcpcCoachAsContestantUpdateForm(BaseCoachForm):
-    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+class IcpcCoachAsSchoolContestantForm(CheckEmailMixin, BaseCoachForm):
+    year_of_study = forms.TypedChoiceField(label=_('Form'), required=False,
                                            choices=_year_of_study_choices, coerce=int, empty_value=None)
 
     class Meta(BaseCoachForm.Meta):
-        fields = ['first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
+        fields = ['email', 'first_name', 'last_name', 'university', 'year_of_study', 'postal_address', 'phone_number']
+        labels = {
+            'university': _('School'),
+        }
+        help_texts = fix_help_texts(
+            BaseCoachForm.Meta.help_texts,
+            university=Example('Minsk School #1', 'СШ №1 г. Минска')
+        )
+
+
+class IcpcCoachUpdateForm(IcpcCoachForm):
+    class Meta(IcpcCoachForm.Meta):
+        fields = IcpcCoachForm.Meta.fields[1:]
+
+
+class IcpcCoachAsContestantUpdateForm(IcpcCoachAsContestantForm):
+    class Meta(IcpcCoachAsContestantForm.Meta):
+        fields = IcpcCoachAsContestantForm.Meta.fields[1:]
+
+
+class IcpcCoachAsSchoolContestantUpdateForm(IcpcCoachAsSchoolContestantForm):
+    class Meta(IcpcCoachAsSchoolContestantForm.Meta):
+        fields = IcpcCoachAsSchoolContestantForm.Meta.fields[1:]
 
 
 class IcpcTeamForm(LocalizeMixin, forms.ModelForm):
