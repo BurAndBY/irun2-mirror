@@ -143,13 +143,14 @@ def represent_limits(problem):
 
 
 @register.inclusion_tag('problems/irunner_problems_heading_tag.html')
-def irunner_problems_heading(problem, letter=None):
+def irunner_problems_heading(problem, letter=None, lang_selector=None):
     ls = represent_limits(problem)
     return {
         'problem': problem,
         'letter': letter,
         'time_limit': ls.time_limit,
         'memory_limit': ls.memory_limit,
+        'lang_selector': lang_selector,
     }
 
 

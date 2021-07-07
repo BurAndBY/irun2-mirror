@@ -10,6 +10,7 @@
             <tr>
                 <th class="ir-col-filename">{% trans 'File' %}</th>
                 <th class="ir-col-filetype">{% trans 'Type' %}</th>
+                <th>{% trans 'Language' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
                     <a href="{% url 'problems:edit_tex' problem.id f.id %}{{ navigator.query_string }}">{{ f.filename }}</a> <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span>
                 </td>
                 <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
+                <td>{{ f.language }}</td>
             </tr>
         {% endfor %}
         </tbody>

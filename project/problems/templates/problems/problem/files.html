@@ -18,6 +18,7 @@
             <tr>
                 <th class="ir-col-filename">{% trans 'File' %}</th>
                 <th class="ir-col-filetype">{% trans 'Type' %}</th>
+                <th>{% trans 'Language' %}</th>
                 <th>{% trans 'Description' %}</th>
                 <th class="ir-col-actions" data-defaultsort="disabled"></th>
             </tr>
@@ -27,6 +28,7 @@
             <tr>
                 <td class="ir-col-filename">{{ f.filename }} <span class="ir-file-size">[{{ f.size|filesizeformat }}]</span></td>
                 <td class="ir-col-filetype">{{ f.get_file_type_display }}</td>
+                <td>{{ f.language }}</td>
                 <td>{{ f.description }}</td>
                 <td class="ir-col-actions">
                     <span class="ir-appear-on-hover ir-icons"><!--

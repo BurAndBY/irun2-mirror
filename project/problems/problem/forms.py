@@ -167,7 +167,7 @@ class ProblemRelatedDataFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
 
     class Meta:
         model = ProblemRelatedFile
-        fields = ['upload', 'filename', 'file_type', 'description']
+        fields = ['upload', 'filename', 'file_type', 'language', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
         }
@@ -256,7 +256,7 @@ TeX
 class ProblemRelatedTeXFileForm(ValidateUniqueFilenameMixin, forms.ModelForm):
     class Meta:
         model = ProblemRelatedFile
-        fields = ['filename']
+        fields = ['filename', 'language']
 
 
 '''

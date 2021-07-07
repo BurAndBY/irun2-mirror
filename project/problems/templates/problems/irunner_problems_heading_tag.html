@@ -1,8 +1,12 @@
 {% load i18n %}
+{% load irunner_locale %}
 {% load irunner_problems %}
 
 <div class="ir-problem-heading">
     <div class="ir-problem-name">{% if problem.difficulty %}{% irunner_problems_difficulty problem.difficulty %} {% endif %}{% trans 'Problem' %} {% if letter %}{{ letter }}. {% endif %}{{ problem.numbered_full_name }}</div>
+    {% if lang_selector %}
+    <div class="text-right">{% irunner_locale_selector lang_selector %}</div>
+    {% endif %}
     <div class="ir-problem-constraints">
         {% trans 'Input file name' %}: {% irunner_problems_inputfile problem.input_filename %}<br>
         {% trans 'Output file name' %}: {% irunner_problems_outputfile problem.output_filename %}<br>

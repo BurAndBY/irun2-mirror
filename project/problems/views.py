@@ -17,6 +17,7 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin, ProblemEditorMemberRequiredMixin
 from common.folderutils import make_fancytree_json
+from common.locale.selector import LanguageSelector
 from common.pagination import paginate
 from common.tree.inmemory import Tree
 
@@ -37,6 +38,51 @@ from problems.texrenderer import render_tex
 '''
 Problem statement
 '''
+
+
+class Statement(object):
+    def __init__(self):
+        self.tex_statement_resource_id = None
+        self.renderer = None
+        self.html_statement_name = None
+
+    def consume(self, related_file):
+        ft = related_file.file_type
+
+        if ft == ProblemRelatedFile.STATEMENT_HTML:
+            if self.html_statement_name is None:
+                self.html_statement_name = related_file.filename
+
+        elif ft == ProblemRelatedFile.STATEMENT_TEX_TEX2HTML:
+            if self.tex_statement_resource_id is None:
+                self.tex_statement_resource_id = related_file.resource_id
+                self.renderer = 'tex2html'
+
+        elif ft == ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX:
+            if self.tex_statement_resource_id is None:
+                self.tex_statement_resource_id = related_file.resource_id
+                self.renderer = 'pylightex'
+
+    def represent(self, problem, selector):
+        st = StatementRepresentation(problem)
+        st.lang_selector = selector
+
+        # TeX
+        if st.is_empty and self.tex_statement_resource_id is not None:
+            storage = create_storage()
+            tex_data = storage.represent(self.tex_statement_resource_id)
+            if tex_data is not None and tex_data.complete_text is not None:
+                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename, renderer=self.renderer)
+                st.content = render_result.output
+
+        # HTML
+        if st.is_empty and self.html_statement_name is not None:
+            st.iframe_name = self.html_statement_name
+
+        return st
+
+    def empty(self):
+        return self.tex_statement_resource_id is None and self.html_statement_name is None
 
 
 class ProblemStatementMixin(object):
@@ -61,43 +107,20 @@ class ProblemStatementMixin(object):
 
     def make_statement(self, problem):
         related_files = problem.problemrelatedfile_set.all()
-
-        tex_statement_resource_id = None
-        renderer = None
-        html_statement_name = None
+        lang_to_stmt = {}
 
         for related_file in related_files:
-            ft = related_file.file_type
+            lang_to_stmt.setdefault(related_file.language, Statement()).consume(related_file)
 
-            if ft == ProblemRelatedFile.STATEMENT_HTML:
-                if html_statement_name is None:
-                    html_statement_name = related_file.filename
+        lang_to_stmt = {k: v for k, v in lang_to_stmt.items() if not v.empty()}
 
-            elif ft == ProblemRelatedFile.STATEMENT_TEX_TEX2HTML:
-                if tex_statement_resource_id is None:
-                    tex_statement_resource_id = related_file.resource_id
-                    renderer = 'tex2html'
+        if lang_to_stmt:
+            selector = LanguageSelector(lang_to_stmt.keys(), self.request.GET, 'stmt-lang')
+            stmt = lang_to_stmt[selector.get_current_lang()]
+            return stmt.represent(problem, selector)
 
-            elif ft == ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX:
-                if tex_statement_resource_id is None:
-                    tex_statement_resource_id = related_file.resource_id
-                    renderer = 'pylightex'
-
-        st = StatementRepresentation(problem)
-
-        # TeX
-        if st.is_empty and tex_statement_resource_id is not None:
-            storage = create_storage()
-            tex_data = storage.represent(tex_statement_resource_id)
-            if tex_data is not None and tex_data.complete_text is not None:
-                render_result = render_tex(tex_data.complete_text, problem.input_filename, problem.output_filename, renderer=renderer)
-                st.content = render_result.output
-
-        # HTML
-        if st.is_empty and html_statement_name is not None:
-            st.iframe_name = html_statement_name
-
-        return st
+        # empty statement
+        return StatementRepresentation(problem)
 
     def make_tutorial(self, problem):
         file = problem.problemrelatedfile_set.filter(file_type=ProblemRelatedFile.TUTORIAL_TEX_PYLIGHTEX).first()

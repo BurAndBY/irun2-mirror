@@ -4,6 +4,7 @@ class StatementRepresentation(object):
         self.attachment_name = None
         self.iframe_name = None
         self.content = None
+        self.lang_selector = None
 
     @property
     def is_empty(self):

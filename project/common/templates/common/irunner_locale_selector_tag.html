@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if selector %}
+<div class="btn-group">
+    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% trans 'Language' %}: {{ selector.get_current_lang }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+    {% for lang in selector.list_langs %}
+        <li><a href="{{ lang.query_string }}">{{ lang.name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}

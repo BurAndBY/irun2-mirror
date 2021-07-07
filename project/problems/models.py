@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from mptt.models import MPTTModel, TreeForeignKey
 
 from cauth.acl.models import BaseAccess
+from common.locale.fields import LanguageField
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
@@ -150,6 +151,7 @@ class ProblemRelatedFile(FileMetadataBase):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     file_type = models.IntegerField(_('file type'), choices=FILE_TYPE_CHOICES)
     description = models.TextField(_('description'), blank=True)
+    language = LanguageField(_('language'), blank=True)
 
     class Meta:
         unique_together = ('problem', 'filename')
