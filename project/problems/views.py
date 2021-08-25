@@ -17,7 +17,7 @@ from django.views import generic
 
 from cauth.mixins import StaffMemberRequiredMixin, ProblemEditorMemberRequiredMixin
 from common.folderutils import make_fancytree_json
-from common.locale.selector import LanguageSelector
+from common.locales.selector import LanguageSelector
 from common.pagination import paginate
 from common.tree.inmemory import Tree
 

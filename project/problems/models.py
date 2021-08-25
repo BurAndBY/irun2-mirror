@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from mptt.models import MPTTModel, TreeForeignKey
 
 from cauth.acl.models import BaseAccess
-from common.locale.fields import LanguageField
+from common.locales.fields import LanguageField
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField

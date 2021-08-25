@@ -1,6 +1,6 @@
 from django import template
 
-from common.locale.selector import LanguageSelector
+from common.locales.selector import LanguageSelector
 
 register = template.Library()
 
