@@ -187,6 +187,7 @@ class IntranetBsuForm(forms.Form):
     FACULTY_CHOICES = (
         (3, _('Faculty of Applied Mathematics and Computer Science')),
         (2, _('Faculty of Radiophysics and Computer Technologies (RFE)')),
+        (195, _('Military Faculty')),
     )
     faculty = forms.TypedChoiceField(label=_('Faculty'), choices=FACULTY_CHOICES, required=True)
     include_archive = forms.BooleanField(label=_('Include archive'), required=False)

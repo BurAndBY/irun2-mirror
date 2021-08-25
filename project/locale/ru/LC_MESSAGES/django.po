@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-05 22:45+0300\n"
-"PO-Revision-Date: 2021-05-05 22:48+0300\n"
+"POT-Creation-Date: 2021-08-25 18:38+0300\n"
+"PO-Revision-Date: 2021-08-25 18:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -347,162 +347,6 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#, python-format
-msgid "%(count)d user was added."
-msgid_plural "%(count)d users were added."
-msgstr[0] "Добавлен %(count)d пользователь."
-msgstr[1] "Добавлены %(count)d пользователя."
-msgstr[2] "Добавлено %(count)d пользователей."
-
-#, python-format
-msgid "%(count)d user was removed."
-msgid_plural "%(count)d users were removed."
-msgstr[0] "Удалён %(count)d пользователь."
-msgstr[1] "Удалены %(count)d пользователя."
-msgstr[2] "Удалено %(count)d пользователей."
-
-msgid "standard input"
-msgstr "стандартный ввод"
-
-msgid "standard output"
-msgstr "стандартный вывод"
-
-msgid "no"
-msgstr "нет"
-
-msgid "Your changes have been saved."
-msgstr "Ваши изменения сохранены."
-
-msgid "Accepted for testing"
-msgstr "Принято на тестирование"
-
-# There should be some way to write here 1st, 2nd etc.
-#, python-format
-msgid "%(year)d year"
-msgstr "%(year)d-й курс"
-
-# There should be some way to write here 1st, 2nd etc.
-#, python-format
-msgid "group #%(group)d"
-msgstr "%(group)d-я группа"
-
-msgid "N/A"
-msgstr "N/A"
-
-msgid "Accepted"
-msgstr "Принято"
-
-msgid "Compilation Error"
-msgstr "Ошибка компиляции"
-
-msgid "Wrong Answer"
-msgstr "Неправильный ответ"
-
-msgid "Time Limit Exceeded"
-msgstr "Нарушен предел времени"
-
-msgid "Memory Limit Exceeded"
-msgstr "Нарушен предел памяти"
-
-msgid "Idleness Limit Exceeded"
-msgstr "Нарушен предел ожидания"
-
-msgid "Run-time Error"
-msgstr "Ошибка во время выполнения"
-
-msgid "Presentation Error"
-msgstr "Ошибка представления"
-
-msgid "Security Violation"
-msgstr "Нарушение безопасности"
-
-msgid "Check Failed"
-msgstr "Ошибка тестирования"
-
-msgid "Failed"
-msgstr "Ошибка"
-
-msgid "Page"
-msgstr "Страница"
-
-msgid "of"
-msgstr "из"
-
-msgid "All"
-msgstr "Все"
-
-msgid "Folders"
-msgstr "Папки"
-
-msgid "Add all"
-msgstr "Добавить всё"
-
-msgid "Available"
-msgstr "Доступно"
-
-msgid "Remove all"
-msgstr "Удалить всё"
-
-msgid "Selected"
-msgstr "Выбрано"
-
-msgid "Error while getting data from server."
-msgstr "Ошибка получения данных с сервера."
-
-msgid "s"
-msgstr "с"
-
-#, python-format
-msgid "%(count)d day"
-msgid_plural "%(count)d days"
-msgstr[0] "%(count)d день"
-msgstr[1] "%(count)d дня"
-msgstr[2] "%(count)d дней"
-
-#, python-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d день"
-msgstr[1] "%d дня"
-msgstr[2] "%d дней"
-
-#, python-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d час"
-msgstr[1] "%d часа"
-msgstr[2] "%d часов"
-
-#, python-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d минута"
-msgstr[1] "%d минуты"
-msgstr[2] "%d минут"
-
-#, python-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d секунда"
-msgstr[1] "%d секунды"
-msgstr[2] "%d секунд"
-
-msgctxt "time"
-msgid ", "
-msgstr " "
-
-msgid "Got an invalid value."
-msgstr "Получено неверное значение."
-
-msgid "You do not have permission to add entries to this folder."
-msgstr "У вас нет разрешения на добавление записей в эту папку."
-
-msgid "You do not have permission to list entries of this folder."
-msgstr "У вас нет разрешения на просмотр записей в этой папке."
-
-msgid "Not set"
-msgstr "Не указано"
-
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
@@ -559,6 +403,9 @@ msgstr "Просмотр результатов"
 
 msgid "View standings and problem statements"
 msgstr "Просмотр результатов и условий задач"
+
+msgid "Not set"
+msgstr "Не указано"
 
 msgid "Official contest"
 msgstr "Официальное соревнование"
@@ -792,6 +639,9 @@ msgstr "До начала"
 
 msgid "The contest is running"
 msgstr "Соревнование идёт"
+
+msgid "of"
+msgstr "из"
 
 msgid "The contest is over"
 msgstr "Соревнование окончено"
@@ -1143,6 +993,9 @@ msgstr "Весовой коэффициент"
 
 msgid "Use short subgroup names, e. g. ‘1st’, ‘2 s.’, ‘EPS’."
 msgstr "Используйте короткие названия подгрупп, например «1-я», «2 п.», «EPS»."
+
+msgid "no"
+msgstr "нет"
 
 msgid "Students may join the queue."
 msgstr "Студенты могут записываться в очередь."
@@ -1601,6 +1454,9 @@ msgstr "Журнал"
 msgid "Plagiarism"
 msgstr "Плагиат"
 
+msgid "Error while getting data from server."
+msgstr "Ошибка получения данных с сервера."
+
 msgid "Please select a problem."
 msgstr "Пожалуйста, выберите задачу."
 
@@ -1609,6 +1465,9 @@ msgstr "Решение"
 
 msgid "Edit criterion"
 msgstr "Редактировать критерий"
+
+msgid "All"
+msgstr "Все"
 
 msgid "Logo image file"
 msgstr "Файл с изображением логотипа"
@@ -1717,6 +1576,9 @@ msgstr "Регистрация"
 
 msgid "Page design"
 msgstr "Дизайн страницы"
+
+msgid "Page"
+msgstr "Страница"
 
 msgid "New page"
 msgstr "Новая страница"
@@ -1932,6 +1794,9 @@ msgstr "Файл пользователя"
 msgid "file type"
 msgstr "тип файла"
 
+msgid "language"
+msgstr "язык"
+
 msgid "Author's solution"
 msgstr "Авторское решение"
 
@@ -2032,6 +1897,9 @@ msgstr "В архиве обнаружен неизвестный файл: %(na
 msgid "File not found in the archive: %(name)s"
 msgstr "Файл не найден в архиве: %(name)s"
 
+msgid "Folders"
+msgstr "Папки"
+
 msgid "Tutorial"
 msgstr "Разбор"
 
@@ -2112,6 +1980,9 @@ msgstr "Доступных задач нет"
 
 msgid "There is no statement for this problem"
 msgstr "В системе нет условия для этой задачи"
+
+msgid "s"
+msgstr "с"
 
 msgid "MB"
 msgstr "МБ"
@@ -2261,6 +2132,9 @@ msgstr "(условия, разборы, картинки)"
 
 msgid "Type"
 msgstr "Тип"
+
+msgid "Language"
+msgstr "Язык"
 
 msgid "New file"
 msgstr "Новый файл"
@@ -2471,9 +2345,6 @@ msgstr "Компилятор на замену"
 msgid "string identifier"
 msgstr "строковый идентификатор"
 
-msgid "language"
-msgstr "язык"
-
 msgid "compiler is enabled by default in new courses"
 msgstr "компилятор включён по умолчанию в новых курсах"
 
@@ -2499,9 +2370,6 @@ msgstr ""
 
 msgid "String identifier"
 msgstr "Строковый идентификатор"
-
-msgid "Language"
-msgstr "Язык"
 
 msgid "For courses?"
 msgstr "Для курсов?"
@@ -3006,6 +2874,36 @@ msgstr ""
 msgid "outcome"
 msgstr "вердикт"
 
+msgid "Accepted"
+msgstr "Принято"
+
+msgid "Compilation Error"
+msgstr "Ошибка компиляции"
+
+msgid "Wrong Answer"
+msgstr "Неправильный ответ"
+
+msgid "Time Limit Exceeded"
+msgstr "Нарушен предел времени"
+
+msgid "Memory Limit Exceeded"
+msgstr "Нарушен предел памяти"
+
+msgid "Idleness Limit Exceeded"
+msgstr "Нарушен предел ожидания"
+
+msgid "Run-time Error"
+msgstr "Ошибка во время выполнения"
+
+msgid "Presentation Error"
+msgstr "Ошибка представления"
+
+msgid "Security Violation"
+msgstr "Нарушение безопасности"
+
+msgid "Check Failed"
+msgstr "Ошибка тестирования"
+
 msgid "state"
 msgstr "состояние"
 
@@ -3458,6 +3356,9 @@ msgstr "Факультет прикладной математики и инфо
 msgid "Faculty of Radiophysics and Computer Technologies (RFE)"
 msgstr "Факультет радиофизики и компьютерных технологий (РФЭ)"
 
+msgid "Military Faculty"
+msgstr "Военный факультет"
+
 msgid "Include archive"
 msgstr "Включая архив"
 
@@ -3475,6 +3376,13 @@ msgstr "Создать пользователя"
 
 msgid "Bulk sign-up"
 msgstr "Массовая регистрация"
+
+#, python-format
+msgid "%(count)d user was added."
+msgid_plural "%(count)d users were added."
+msgstr[0] "Добавлен %(count)d пользователь."
+msgstr[1] "Добавлены %(count)d пользователя."
+msgstr[2] "Добавлено %(count)d пользователей."
 
 msgid "Bulk profile update"
 msgstr "Массовое обновление профилей"
@@ -3660,6 +3568,93 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "%(count)d user was removed."
+#~ msgid_plural "%(count)d users were removed."
+#~ msgstr[0] "Удалён %(count)d пользователь."
+#~ msgstr[1] "Удалены %(count)d пользователя."
+#~ msgstr[2] "Удалено %(count)d пользователей."
+
+#~ msgid "standard input"
+#~ msgstr "стандартный ввод"
+
+#~ msgid "standard output"
+#~ msgstr "стандартный вывод"
+
+#~ msgid "Your changes have been saved."
+#~ msgstr "Ваши изменения сохранены."
+
+#~ msgid "Accepted for testing"
+#~ msgstr "Принято на тестирование"
+
+# There should be some way to write here 1st, 2nd etc.
+#~ msgid "%(year)d year"
+#~ msgstr "%(year)d-й курс"
+
+# There should be some way to write here 1st, 2nd etc.
+#~ msgid "group #%(group)d"
+#~ msgstr "%(group)d-я группа"
+
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "Failed"
+#~ msgstr "Ошибка"
+
+#~ msgid "Add all"
+#~ msgstr "Добавить всё"
+
+#~ msgid "Available"
+#~ msgstr "Доступно"
+
+#~ msgid "Remove all"
+#~ msgstr "Удалить всё"
+
+#~ msgid "Selected"
+#~ msgstr "Выбрано"
+
+#~ msgid "%(count)d day"
+#~ msgid_plural "%(count)d days"
+#~ msgstr[0] "%(count)d день"
+#~ msgstr[1] "%(count)d дня"
+#~ msgstr[2] "%(count)d дней"
+
+#~ msgid "%d day"
+#~ msgid_plural "%d days"
+#~ msgstr[0] "%d день"
+#~ msgstr[1] "%d дня"
+#~ msgstr[2] "%d дней"
+
+#~ msgid "%d hour"
+#~ msgid_plural "%d hours"
+#~ msgstr[0] "%d час"
+#~ msgstr[1] "%d часа"
+#~ msgstr[2] "%d часов"
+
+#~ msgid "%d minute"
+#~ msgid_plural "%d minutes"
+#~ msgstr[0] "%d минута"
+#~ msgstr[1] "%d минуты"
+#~ msgstr[2] "%d минут"
+
+#~ msgid "%d second"
+#~ msgid_plural "%d seconds"
+#~ msgstr[0] "%d секунда"
+#~ msgstr[1] "%d секунды"
+#~ msgstr[2] "%d секунд"
+
+#~ msgctxt "time"
+#~ msgid ", "
+#~ msgstr " "
+
+#~ msgid "Got an invalid value."
+#~ msgstr "Получено неверное значение."
+
+#~ msgid "You do not have permission to add entries to this folder."
+#~ msgstr "У вас нет разрешения на добавление записей в эту папку."
+
+#~ msgid "You do not have permission to list entries of this folder."
+#~ msgstr "У вас нет разрешения на просмотр записей в этой папке."
 
 #~ msgid "Loading"
 #~ msgstr "Загрузка"
