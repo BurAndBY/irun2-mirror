@@ -57,6 +57,9 @@ def calculate_course_permissions(course, member_flags):
         permissions.submit = False
         permissions.submit_all_problems = False
 
+    if not course.private_mode:
+        permissions.student_names = True
+
     return permissions
 
 

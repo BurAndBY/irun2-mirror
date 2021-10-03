@@ -85,21 +85,29 @@ def _make_full_name_span(user_descr, last_name_first=False):
     return mark_safe(' '.join(tokens))
 
 
-def _make_link_impl(card_url, full_name, cls, href):
-    return format_html(
-        '<a class="ir-card-link {0}" role="button" data-poload="{1}"{2}>{3}</a>',
-        cls,
-        card_url,
-        href,
-        full_name
-    )
-
-
-def _make_link(card_url, full_name, url):
-    if url:
-        return _make_link_impl(card_url, full_name, mark_safe('ir-course-user-link'), format_html(' href="{0}"', url))
+def _make_link_impl(card_url, full_name, cls, href, is_hidden):
+    if not is_hidden:
+        return format_html(
+            '<a class="ir-card-link {0}" role="button" data-poload="{1}"{2}>{3}</a>',
+            cls,
+            card_url,
+            href,
+            full_name
+        )
     else:
-        return _make_link_impl(card_url, full_name, mark_safe('ir-course-user-nolink'), mark_safe(''))
+        return format_html(
+            '<a class="ir-card-link {0}" role="button"{1}>{2}</a>',
+            cls,
+            href,
+            full_name
+        )
+
+
+def _make_link(card_url, full_name, url, is_hidden):
+    if url:
+        return _make_link_impl(card_url, full_name, mark_safe('ir-course-user-link'), format_html(' href="{0}"', url), is_hidden)
+    else:
+        return _make_link_impl(card_url, full_name, mark_safe('ir-course-user-nolink'), mark_safe(''), is_hidden)
 
 
 @register.simple_tag
@@ -108,7 +116,7 @@ def irunner_courses_user_card(user_id, user_cache, last_name_first=False, url=No
     user_descr = user_cache.get_user(user_id)
     full_name = _make_full_name_span(user_descr, last_name_first)
 
-    tokens = [_make_link(card_url, full_name, url)]
+    tokens = [_make_link(card_url, full_name, url, user_descr.is_hidden)]
     if user_descr.subgroup is not None:
         tokens.append(_make_subgroup_span(user_descr.subgroup))
     return mark_safe(' '.join(tokens))

@@ -40,7 +40,7 @@ Cache of Course Users
 '''
 
 
-class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup')):
+class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup is_hidden')):
     def __str__(self):
         '''
         Returns a string in the form of 'name surname (subgroup)'.
@@ -68,8 +68,14 @@ class UserDescription(namedtuple('UserDescription', 'id first_name last_name sub
 SubgroupDescription = namedtuple('SubgroupDescription', 'id number name')
 
 
+def _hide(name, hidden=False):
+    if not hidden or len(name) <= 3:
+        return name
+    return name[:3] + '***'
+
+
 class UserCache(object):
-    def __init__(self, course_id):
+    def __init__(self, course, my_user_id, hide_other):
         self._user_descriptions = {}
         self._teachers = []
         self._students = []
@@ -77,22 +83,24 @@ class UserCache(object):
 
         count = 0
 
-        for subgroup in Subgroup.objects.filter(course_id=course_id).order_by('id'):
+        for subgroup in Subgroup.objects.filter(course=course).order_by('id'):
             count += 1
             self._subgroups[subgroup.pk] = SubgroupDescription(subgroup.id, count, subgroup.name)
 
         for membership in Membership.objects.\
-                filter(course_id=course_id).\
+                filter(course=course).\
                 select_related('user').\
                 order_by('user__last_name', 'user__first_name', 'user__id'):
             user = membership.user
             subgroup = self._subgroups.get(membership.subgroup_id)
 
+            should_hide = hide_other and (my_user_id != user.id) and (membership.role == Membership.STUDENT)
             descr = UserDescription(
                 user.id,
-                user.first_name,
-                user.last_name,
+                _hide(user.first_name, should_hide),
+                _hide(user.last_name, should_hide),
                 subgroup,
+                should_hide,
             )
             self._put(user.id, descr)
 

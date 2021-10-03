@@ -244,6 +244,9 @@ function _irCardLinkHandlerOut() {
 }
 
 function enableUserCard() {
+    if (!$(this).data("poload")) {
+        return;
+    }
     var self = {
         state: "out",
         content: null

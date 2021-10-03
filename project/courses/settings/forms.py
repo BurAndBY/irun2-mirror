@@ -42,7 +42,7 @@ class PropertiesForm(forms.ModelForm):
 class AccessForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['student_own_solutions_access', 'student_all_solutions_access', 'teacher_all_solutions_access', 'owner']
+        fields = ['student_own_solutions_access', 'student_all_solutions_access', 'teacher_all_solutions_access', 'private_mode', 'owner']
         help_texts = {
             'student_own_solutions_access': _('Each access level includes all the previous onces.')
         }

@@ -26,6 +26,7 @@ class CoursePermissions(object):
         self.quizzes_admin = False
         self.queue = False
         self.queue_admin = False
+        self.student_names = False
 
         self.my_solutions_permissions = SolutionPermissions()
         self.all_solutions_permissions = SolutionPermissions()
@@ -68,6 +69,7 @@ class CoursePermissions(object):
         self.messages_resolve = True
         self.quizzes_admin = True
         self.queue_admin = True
+        self.student_names = True
 
     def set_admin(self):
         self.set_common()
@@ -81,6 +83,7 @@ class CoursePermissions(object):
         self.messages_resolve = True
         self.quizzes_admin = True
         self.queue_admin = True
+        self.student_names = True
 
     def disable_sheet(self):
         self.sheet = False

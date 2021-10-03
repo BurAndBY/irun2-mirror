@@ -52,7 +52,7 @@ class Course(models.Model):
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.STATE)
     teacher_all_solutions_access = models.IntegerField(_('teacher’s access to all solutions of the course'),
                                                        choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS_CHECKER_MESSAGES)
-
+    private_mode = models.BooleanField(_('private mode: student names are hidden'), default=False, blank=True)
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
     enable_queues = models.BooleanField(_('enable electronic queues'), default=False, blank=True)
 

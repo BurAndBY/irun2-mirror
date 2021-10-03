@@ -107,7 +107,7 @@ class BaseCourseView(generic.View):
     def get_user_cache(self):
         if self._user_cache is not None:
             return self._user_cache
-        self._user_cache = UserCache(self.course)
+        self._user_cache = UserCache(self.course, self.request.user.id, not self.permissions.student_names)
         return self._user_cache
 
     def _needs_change_password(self, user):
