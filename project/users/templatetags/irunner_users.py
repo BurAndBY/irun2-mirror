@@ -19,6 +19,10 @@ def irunner_users_card(user):
     card_url = reverse('users:card', args=(user.id,))
     user_name = user.get_full_name()
 
+    # strike out disabled users
+    if not user.is_active:
+        user_name = format_html('<s>{}</s>', user_name)
+
     return format_html(
         '<a tabindex="0" class="ir-card-link ir-card-link-nohref" role="button" data-poload="{0}">{1}</a>',
         card_url,

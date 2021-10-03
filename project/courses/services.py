@@ -40,7 +40,7 @@ Cache of Course Users
 '''
 
 
-class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup is_hidden')):
+class UserDescription(namedtuple('UserDescription', 'id first_name last_name subgroup is_hidden is_active')):
     def __str__(self):
         '''
         Returns a string in the form of 'name surname (subgroup)'.
@@ -101,6 +101,7 @@ class UserCache(object):
                 _hide(user.last_name, should_hide),
                 subgroup,
                 should_hide,
+                user.is_active,
             )
             self._put(user.id, descr)
 
@@ -119,7 +120,7 @@ class UserCache(object):
         '''
         User = auth.get_user_model()
         user = User.objects.get(pk=user_id)
-        return UserDescription(user.id, user.first_name, user.last_name, None, False)
+        return UserDescription(user.id, user.first_name, user.last_name, None, False, user.is_active)
 
     def list_students(self):
         return self._students

@@ -1,1 +1,1 @@
-{% if user %}{{ user.first_name }}{% if user.last_name %} {{ user.last_name }}{% endif %}{% else %}&mdash;{% endif %}
+{% if user %}{% if not user.is_active %}<s>{% endif %}{{ user.first_name }}{% if user.last_name %} {{ user.last_name }}{% if not user.is_active %}</s>{% endif %}{% endif %}{% else %}&mdash;{% endif %}

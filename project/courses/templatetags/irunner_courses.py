@@ -82,6 +82,11 @@ def _make_full_name_span(user_descr, last_name_first=False):
         tokens.append(format_html('<span class="ir-lname">{0}</span>', user_descr.last_name))
     if len(tokens) == 2 and last_name_first:
         tokens[0], tokens[1] = tokens[1], tokens[0]
+
+    # strike out disabled users
+    if not user_descr.is_active:
+        tokens = ['<s>'] + tokens + ['</s>']
+
     return mark_safe(' '.join(tokens))
 
 

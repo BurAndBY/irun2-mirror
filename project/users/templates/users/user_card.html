@@ -10,7 +10,7 @@
         </div>
     {% endif %}
     <div class="media-body">
-        <p class="ir-name">{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}</p>
+        <p class="ir-name">{% if not user.is_active %}<s>{% endif %}{{ user.first_name }} {{ profile.patronymic }} {{ user.last_name }}{% if not user.is_active %}</s>{% endif %}</p>
         {% if profile.is_team and profile.members %}
             <p class="ir-members">{{ profile.members }}</p>
         {% endif %}
