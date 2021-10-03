@@ -22,4 +22,5 @@ def calculate_permissions(solution, user):
     if user.is_staff:
         permissions.allow_view_ip_address()
 
-    return (permissions, SolutionEnvironment(in_course.course, in_contest.contest))
+    return (permissions, SolutionEnvironment(in_course.course, in_course.link_to_course,
+                                             in_contest.contest, in_contest.link_to_contest))

@@ -43,10 +43,14 @@
                             {% endif %}
 
                             {% if solution_environment.course or solution_environment.contest %}
-                                {% if solution_environment.course %}
+                                {% if solution_environment.course and solution_environment.link_to_course %}
                                     <a href="{% url 'courses:course_problems_problem' solution_environment.course.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
-                                {% else %}
+                                {% elif solution_environment.contest and solution_environment.link_to_contest %}
                                     <a href="{% url 'contests:problem' solution_environment.contest.id solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
+                                {% elif permissions.can_refer_to_problem %}
+                                    <a href="{% url 'problems:statement' solution.problem_id %}">{{ solution.problem.numbered_full_name }}</a>
+                                {% else %}
+                                    {{ solution.problem.numbered_full_name }}
                                 {% endif %}
                                 {% if permissions.can_refer_to_problem %}
                                     (<a href="{% url 'problems:edit' solution.problem_id %}">{% bootstrap_icon 'pencil' %}</a>)
@@ -66,9 +70,13 @@
                     {% if solution_environment.course %}
                         <dt>{% trans 'Course' %}</dt>
                         <dd>
-                            <a href="{% if solution.author == user %}{% url 'courses:my_solutions' solution_environment.course.id %}{% else %}{% url 'courses:all_solutions' solution_environment.course.id %}?user={{ solution.author.id }}{% endif %}">
+                            {% if solution_environment.link_to_course %}
+                                <a href="{% if solution.author == user %}{% url 'courses:my_solutions' solution_environment.course.id %}{% else %}{% url 'courses:all_solutions' solution_environment.course.id %}?user={{ solution.author.id }}{% endif %}">
+                                    {{ solution_environment.course }}
+                                </a>
+                            {% else %}
                                 {{ solution_environment.course }}
-                            </a>
+                            {% endif %}
                         </dd>
                     {% endif %}
 

@@ -12,6 +12,9 @@ class ContestMemberFlags(object):
         self.is_juror = False
         self.is_admin = False
 
+    def __bool__(self):
+        return self.is_contestant or self.is_juror or self.is_admin
+
     @staticmethod
     def load(contest, user):
         flags = ContestMemberFlags()
@@ -60,7 +63,7 @@ def calculate_contest_solution_permissions_ex(solution, user):
     contest = Contest.objects.filter(contestsolution__solution_id=solution.id).first()
     if contest is None:
         # the solution does not belong to any contest
-        return InContestAccessPermissions(None, permissions)
+        return InContestAccessPermissions(None, False, permissions)
 
     timing = ContestTiming(contest)
     service = create_contest_service(contest)
@@ -81,4 +84,4 @@ def calculate_contest_solution_permissions_ex(solution, user):
 
     # `permissions` remains default-constructed if user is not a member of the contest
 
-    return InContestAccessPermissions(contest, permissions)
+    return InContestAccessPermissions(contest, bool(member_flags), permissions)

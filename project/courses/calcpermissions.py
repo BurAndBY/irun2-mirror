@@ -14,6 +14,9 @@ class CourseMemberFlags(object):
         # Staff member or a member of an admin group that owns the course
         self.is_admin = False
 
+    def __bool__(self):
+        return self.is_student or self.is_teacher or self.is_admin
+
     @staticmethod
     def load(course, user):
         flags = CourseMemberFlags()
@@ -100,8 +103,8 @@ def calculate_course_solution_permissions_ex(solution, user):
     course = Course.objects.filter(coursesolution__solution_id=solution.id).order_by().first()
     if course is None:
         # the solution does not belong to any course
-        return InCourseAccessPermissions(None, SolutionPermissions())
+        return InCourseAccessPermissions(None, False, SolutionPermissions())
 
     member_flags = CourseMemberFlags.load(course, user)
     permissions = _calculate_course_solution_permissions(course, member_flags, solution.author_id == user.id)
-    return InCourseAccessPermissions(course, permissions)
+    return InCourseAccessPermissions(course, bool(member_flags), permissions)

@@ -60,4 +60,4 @@ class ContestPermissions(object):
         self.manage_printing = False
 
 
-InContestAccessPermissions = namedtuple('InContestAccessPermissions', 'contest permissions')
+InContestAccessPermissions = namedtuple('InContestAccessPermissions', 'contest link_to_contest permissions')
