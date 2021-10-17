@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_messagebox %}
+
+{% block title %}{% trans 'Users' %}{% endblock %}
+
+{% block content %}
+    {% if error %}
+        {% irunner_messagebox style='danger' wide=True %}
+            <samp>{{ error }}</samp>
+        {% irunner_endmessagebox %}
+    {% endif %}
+
+    <table class="table table-bordered">
+        {% for student in students %}
+            {% if student.values|length == 0 %}
+                <tr class="danger">
+                    <td class="ir-monospace"></td>
+                    <td>{{ student.name }}</td>
+                </tr>
+            {% elif student.values|length == 1 %}
+                <tr>
+                    <td class="ir-monospace">{{ student.values.0 }}</td>
+                    <td>{{ student.name }}</td>
+                </tr>
+            {% else %}
+                {% for value in student.values %}
+                <tr class="warning">
+                    <td class="ir-monospace">{{ value }}</td>
+                    {% if forloop.first %}
+                    <td rowspan="{{ student.values|length }}">{{ student.name }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    {% buttons %}
+        <a href="{% url 'users:domain_student_info' %}" role="button" class="btn btn-link">
+            <span class="ir-icon-label">{% trans 'Back' %}</span>
+        </a>
+    {% endbuttons %}
+
+{% endblock %}

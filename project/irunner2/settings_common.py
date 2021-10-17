@@ -228,3 +228,7 @@ MAIN_LOGO = {
         'height': 97,
     }
 }
+
+BSU_DC = 'inet.bsu.by'
+BSU_USERNAME = 'fpm.student'
+BSU_PASSWORD = 'fake'
