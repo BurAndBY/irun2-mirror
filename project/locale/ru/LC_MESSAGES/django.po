@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-25 19:20+0300\n"
-"PO-Revision-Date: 2021-08-25 19:20+0300\n"
+"POT-Creation-Date: 2021-10-18 02:13+0300\n"
+"PO-Revision-Date: 2021-10-18 02:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1009,6 +1009,9 @@ msgstr "доступ студента ко всем решениям курса"
 
 msgid "teacher’s access to all solutions of the course"
 msgstr "доступ преподавателя ко всем решениям курса"
+
+msgid "private mode: student names are hidden"
+msgstr "приватный режим: имена студентов скрыты"
 
 msgid "enable mark sheet"
 msgstr "включить ведомость успеваемости"
@@ -3394,6 +3397,12 @@ msgstr "Администрирование"
 msgid "Administrator groups"
 msgstr "Группы администраторов"
 
+msgid "Attribute"
+msgstr "Атрибут"
+
+msgid "Data about users"
+msgstr "Данные о пользователях"
+
 #, python-format
 msgid "User %(username)s not found."
 msgstr "Пользователь %(username)s не найден."
@@ -3410,9 +3419,6 @@ msgstr ""
 
 msgid "Teams: “[username] [team name]”"
 msgstr "Команды: «[имя пользователя] [название команды]»"
-
-msgid "Data about users"
-msgstr "Данные о пользователях"
 
 msgid "Enter lines in the given format."
 msgstr "Введите строки в указанном формате."
@@ -3600,6 +3606,9 @@ msgstr "Загрузка фотографий"
 
 msgid "Obtain photos from intranet.bsu"
 msgstr "Получить фото из intranet.bsu"
+
+msgid "Obtain info from BSU domain"
+msgstr "Получить сведения из домена БГУ"
 
 msgid "Move"
 msgstr "Переместить"

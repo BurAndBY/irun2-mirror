@@ -32,9 +32,9 @@ class LdapClient:
 
         values = []
         for _, attrs in self._ad.search_s(basedn, scope, filterexp, [attr]):
-            value = attrs.get(attr)
-            if value:
-                values.append(smart_str(value))
+            for value in attrs.get(attr, []):
+                if value:
+                    values.append(smart_str(value))
         return values
 
 
