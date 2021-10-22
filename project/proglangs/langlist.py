@@ -3,6 +3,7 @@ class ProgrammingLanguage(object):
     C = 'c'
     CPP = 'cpp'
     JAVA = 'java'
+    KOTLIN = 'kt'
     PASCAL = 'pas'
     DELPHI = 'dpr'
     PYTHON = 'py'
@@ -15,6 +16,7 @@ class ProgrammingLanguage(object):
         (C, 'C'),
         (CPP, 'C++'),
         (JAVA, 'Java'),
+        (KOTLIN, 'Kotlin'),
         (PASCAL, 'Pascal'),
         (DELPHI, 'Delphi'),
         (PYTHON, 'Python'),

@@ -313,6 +313,9 @@ h3 { font-size: 20px; line-height: 32px; }
     /*background-color: #FFE599;*/
     background-color: #FFFFB3;
 }
+.ir-langbox-kt {
+    background-color: #f2bafa;
+}
 .ir-langbox-pas, .ir-langbox-dpr {
     /*background-color: #A4C2F4;*/
     background-color: #d2e0f9;
