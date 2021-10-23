@@ -2183,10 +2183,11 @@ Green menu
  */
 .pylightex {
     font-family: Georgia, "Times New Roman", Times, serif;
-    font-size: 110%;
+    font-size: 16px;
+    line-height: 1.452;
 }
 .pylightex > .paragraph + .paragraph {
-    margin-top: 10px;
+    margin-top: 16px;
 }
 .pylightex .verbatim {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -2212,7 +2213,6 @@ Green menu
     white-space: pre-wrap;
 }
 .pylightex .katex {
-    font-size: 1.1em;
 }
 .pylightex table.example {
     width: 100%;
