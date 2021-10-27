@@ -70,6 +70,9 @@ def export_to_ejudge_xml(contest, results):
         elem = ET.SubElement(users, 'user')
         elem.attrib['id'] = smart_text(ur.user.id)
         elem.attrib['name'] = ur.user.get_full_name()
+        elem.attrib['username'] = ur.user.username
+        if ur.members:
+            elem.attrib['members'] = ur.members
 
     problems = ET.SubElement(root, 'problems')
     for lp in results.contest_descr.labeled_problems:
