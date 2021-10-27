@@ -65,23 +65,43 @@ body {
  */
 .ir-course-standings {
     font-size: 12px;
-    border: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
+}
+.ir-course-standings > tbody > tr:nth-of-type(even) > td, .ir-course-standings > thead > tr:nth-of-type(even) > th {
+    background-color: #ffffff;
+}
+.ir-course-standings > tbody > tr:nth-of-type(odd) > td, .ir-course-standings > thead > tr:nth-of-type(odd) > th {
+    background-color: #f9f9f9;
 }
 /* Create thick left border. .ir-seq-no is the first td or th in each row */
 .ir-course-standings .ir-seq-no {
-    border-left: 5px solid #ddd;
+    border: none;
+    box-shadow: inset 5px 0 0 #ddd;
     text-align: right;
     padding-right: 4px;
+
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    left: 0;
 }
 .ir-course-standings .ir-seq-no.ir-subgroup-1 {
-    border-left-color: #F7EBAD;
+    box-shadow: inset 5px 0 0 #F7EBAD;
 }
 .ir-course-standings .ir-seq-no.ir-subgroup-2 {
-    border-left-color: #D9EDF7;
+    box-shadow: inset 5px 0 0 #D9EDF7;
 }
 .ir-course-standings .ir-seq-no.ir-subgroup-3 {
-    border-left-color: #e1b16a;
+    box-shadow: inset 5px 0 0 #e1b16a;
+}
+.ir-course-standings .ir-student-name {
+    border: none;
+    white-space: nowrap;
+    text-align: left;
+    padding-right: 8px;
+    left: 32px;
 }
 /* border between header and body */
 .ir-course-standings > tbody > tr:first-child > td {
@@ -179,6 +199,10 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 
 .ir-card-link + .popover {
+    max-width: 380px;
+    min-width: 380px;
+}
+.ir-user-card-popover {
     max-width: 380px;
     min-width: 380px;
 }
@@ -2265,4 +2289,22 @@ Green menu
 .form-group.ir-required .control-label:after {
     content: "*";
     color: #d00;
+}
+
+/* Table with fixed left column and scrollable body */
+.ir-sticky-table-wrapper {
+    position: relative;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+.ir-sticky-table-wrapper > table {
+    margin-bottom: 0;
+}
+.ir-sticky-column {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1;
+}
+.ir-sticky-first-column {
+    left: 0;
 }

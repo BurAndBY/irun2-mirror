@@ -216,7 +216,9 @@ function _irCardShow() {
             html: true,
             delay: { show: 500, hide: 200 },
             placement: "auto",
-            trigger: "hover"
+            trigger: "hover",
+            container: "body",
+            template: '<div class="popover ir-user-card-popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         }).popover('show');
     }
 }
@@ -265,7 +267,8 @@ $.fn.popover.Constructor.prototype.leave = function(obj){
     originalLeave.call(this, obj);
 
     if (obj.currentTarget) {
-        container = $(obj.currentTarget).siblings('.popover');
+        //container = $(obj.currentTarget).siblings('.popover');
+        container = $(document.body).children('.ir-user-card-popover').first();
         timeout = self.timeout;
         container.one('mouseenter', function() {
             // We entered the actual popover – call off the dogs

@@ -7,6 +7,7 @@
 
 {% if course_descr.has_individual_problems %}
 <h4>{% trans 'Individual problems' %}</h4>
+<div class="ir-sticky-table-wrapper">
 <table class="ir-table-more-condensed table-striped ir-course-standings">
     <colgroup span="2">
     {% for topic_descr in course_descr.topic_descrs %}
@@ -19,8 +20,8 @@
     <colgroup span="2">
     <thead>
         <tr>
-            <th class="ir-seq-no">{% trans '#' %}</th>
-            <th>{% trans 'Student' %}</th>
+            <th class="ir-seq-no ir-sticky-column">{% trans '#' %}</th>
+            <th class="ir-student-name ir-sticky-column">{% trans 'Student' %}</th>
             {% for topic_descr in course_descr.topic_descrs %}
                 {% with topic_descr.slot_count as width %}
                 {% if width > 0 %}
@@ -37,11 +38,11 @@
     <tbody>
         {% for user_result in results %}
         <tr{% if user_result.user == user %} class="ir-me"{% endif %}>
-            <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }}">
+            <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }} ir-sticky-column">
                 {{ forloop.counter }}
             </td>
 
-            <td class="text-nowrap">
+            <td class="ir-student-name ir-sticky-column">
                 {% if can_assign_problems %}
                     {% url 'courses:assignment:index' course_id user_result.user.id as assign_url %}
                     {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
@@ -95,10 +96,12 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% endif %}
 
 {% if course_descr.has_common_problems %}
     <h4>{% trans 'Common problems' %}</h4>
+    <div class="ir-sticky-table-wrapper">
     <table class="ir-table-more-condensed table-striped ir-course-standings">
         <colgroup span="2">
         {% if course_descr.common_problem_count > 0 %}
@@ -111,12 +114,12 @@
             {% endif %}
             {% endwith %}
         {% endfor %}
-        <colgroup>
+        <colgroup span="2">
 
         <thead>
             <tr>
-                <th class="ir-seq-no" rowspan="2">{% trans '#' %}</th>
-                <th rowspan="2">{% trans 'Student' %}</th>
+                <th class="ir-seq-no ir-sticky-column" rowspan="2">{% trans '#' %}</th>
+                <th class="ir-student-name ir-sticky-column" rowspan="2">{% trans 'Student' %}</th>
                 {% for problem in course_descr.common_problems %}
                     <th rowspan="2" class="ir-scorecell ir-problem-name">
                         <a href="{% url 'courses:course_problems_problem' course_id problem.id %}">{{ problem.numbered_short_name }}</a>
@@ -147,10 +150,10 @@
         <tbody>
             {% for user_result in results %}
             <tr{% if user_result.user == user %} class="ir-me"{% endif %}>
-                <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }}">
+                <td class="ir-seq-no ir-subgroup-{{ user_result.get_subgroup_class_suffix }} ir-sticky-column">
                     {{ forloop.counter }}
                 </td>
-                <td class="text-nowrap">
+                <td class="ir-student-name ir-sticky-column">
                     {% if can_assign_problems %}
                         {% url 'courses:assignment:index' course_id user_result.user.id as assign_url %}
                         {% irunner_courses_user_card user_result.user.id user_cache last_name_first=True url=assign_url %}
@@ -177,4 +180,5 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
 {% endif %}
