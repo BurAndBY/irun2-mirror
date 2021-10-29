@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from common.constants import EMPTY_SELECT
 from problems.fields import ThreePanelGenericProblemMultipleChoiceField
-from solutions.forms import SolutionForm
+from solutions.submit.forms import SolutionForm
 from users.fields import ThreePanelUserMultipleChoiceField
 
 from contests.printing import check_size_limits

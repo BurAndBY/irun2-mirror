@@ -5,82 +5,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
-from common.constants import EMPTY_SELECT, make_empty_select
+from common.constants import make_empty_select
 from proglangs.models import Compiler
 from proglangs.langlist import ProgrammingLanguage
-from proglangs.utils import guess_filename
-from storage.validators import validate_filename
-
-
-class SolutionForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        self.file_size_limit = kwargs.pop('file_size_limit', None)
-        super(SolutionForm, self).__init__(*args, **kwargs)
-
-    compiler = forms.ModelChoiceField(
-        label=_('Compiler'),
-        required=True,
-        queryset=Compiler.objects.all().order_by('description'),
-        empty_label=EMPTY_SELECT,
-    )
-    text = forms.CharField(
-        label=_('Enter source code'),
-        required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control ir-monospace', 'rows': 8}),
-        max_length=2**20
-    )
-    upload = forms.FileField(
-        label=_('…or upload a file'),
-        required=False,
-        widget=forms.FileInput,
-        max_length=255,
-        help_text=_('If you select a file, text field content is ignored.')
-    )
-
-    def _check_size(self, text, upload):
-        if self.file_size_limit is None:
-            return
-
-        size = 0
-        if upload is not None:
-            size = upload.size
-        elif text is not None:
-            size = len(text.encode('utf-8'))
-
-        if size > self.file_size_limit:
-            raise forms.ValidationError(
-                _('The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B).'),
-                code='too_big',
-                params={'actual': size, 'limit': self.file_size_limit},
-            )
-
-    def clean(self):
-        cleaned_data = super(SolutionForm, self).clean()
-        text = cleaned_data.get('text')
-        upload = cleaned_data.get('upload')
-        compiler = cleaned_data.get('compiler')
-
-        if (upload is None) and (text is not None) and (len(text) == 0):
-            raise forms.ValidationError(_('Unable to submit an empty solution.'), code='empty')
-
-        filename = None
-        if upload is not None:
-            filename = upload.name
-        else:
-            # need to guess filename
-            if compiler is not None and text is not None:
-                filename = guess_filename(compiler.language, text)
-
-        if filename is None:
-            raise forms.ValidationError(_('Unable to determine the name of the source file. '
-                                          'For Java code, make sure you have a single public class defined. '
-                                          'You can also try to upload a file instead of using direct input of code.'), code='no_name')
-
-        validate_filename(filename)
-        cleaned_data['filename'] = filename
-
-        self._check_size(text, upload)
-        return cleaned_data
 
 
 class StateFilterForm(forms.Form):

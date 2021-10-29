@@ -28,6 +28,7 @@ from proglangs.utils import get_ace_mode
 from solutions.filters import apply_state_filter
 from solutions.forms import StateFilterForm
 from solutions.models import Solution
+from solutions.submit.views import SubmitAPIMixin, AttemptsLeftAPIMixin
 from solutions.utils import (
     judge,
     new_solution,
@@ -63,10 +64,7 @@ from courses.services import (
     make_course_results,
     make_course_single_result,
 )
-from courses.services import (
-    get_attempt_quota,
-    get_attempt_message,
-)
+from courses.services import CourseAttemptLimitPolicy
 from courses.calcpermissions import CourseMemberFlags
 from courses.calcpermissions import calculate_course_permissions
 from courses.messaging import (
@@ -126,6 +124,9 @@ class BaseCourseView(generic.View):
             return redirect('courses:blocked', self.course.id)
 
         return super(BaseCourseView, self).dispatch(request, self.course, *args, **kwargs)
+
+    def get_limit_policy(self):
+        return CourseAttemptLimitPolicy(self.course, self.request.user)
 
 
 class UserCacheMixinMixin(object):
@@ -270,29 +271,25 @@ class CourseSubmitView(BaseCourseView):
         return initial
 
     def _make_form(self, data=None, files=None):
-        def check_limit(problem_id):
-            quota, _ = get_attempt_quota(self.course, self.request.user, problem_id)
-            return quota == 0
-
         form = SolutionForm(
             data=data,
             files=files,
             problem_choices=self._make_choices(),
             compiler_queryset=self.course.compilers,
-            attempt_limit_checker=check_limit,
+            limit_policy=self.get_limit_policy(),
             initial=self._make_initial(),
         )
         return form
 
-    def _post_valid_form(self, request, course, form):
+    def save_solution(self, form):
         with transaction.atomic():
             # remember used compiler to select it again later
-            userprofile = request.user.userprofile
+            userprofile = self.request.user.userprofile
             userprofile.last_used_compiler = form.cleaned_data['compiler']
             userprofile.save()
 
-            solution = new_solution(request, form, problem_id=form.cleaned_data['problem'])
-            CourseSolution.objects.create(solution=solution, course=course)
+            solution = new_solution(self.request, form, problem_id=form.cleaned_data['problem'])
+            CourseSolution.objects.create(solution=solution, course=self.course)
             notifier = judge(solution)
         notifier.notify()
         return solution
@@ -305,35 +302,23 @@ class CourseSubmitView(BaseCourseView):
     def post(self, request, course):
         form = self._make_form(request.POST, request.FILES)
         if form.is_valid():
-            solution = self._post_valid_form(request, course, form)
+            solution = self.save_solution(form)
             return redirect('courses:course_submission', course.id, solution.id)
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)
 
 
-class CourseSubmit2View(CourseSubmitView):
+class CourseSubmit2View(SubmitAPIMixin, CourseSubmitView):
     template_name = 'courses/submit2.html'
 
     def get_context_data(self, **kwargs):
         context = super(CourseSubmit2View, self).get_context_data(**kwargs)
-        context['ace_modes'] = [(compiler.id, get_ace_mode(compiler.language)) for compiler in self.course.compilers.all()]
+        context['get_attempts_url'] = reverse('courses:my_attempts', kwargs={'course_id': self.course.id})
         return context
 
     def post(self, request, course):
         form = self._make_form(request.POST, request.FILES)
-        if form.is_valid():
-            solution = self._post_valid_form(request, course, form)
-            response = {
-                'submitted': True,
-                'solutionId': solution.id,
-                'attempts': get_attempt_message(course, request.user, solution.problem_id)
-            }
-        else:
-            response = {
-                'submitted': False,
-                'errors': [smart_text(e) for errors in form.errors.values() for e in errors]
-            }
-        return JsonResponse(response, json_dumps_params={'ensure_ascii': False})
+        return self.render_json_on_post(request, form)
 
 
 class CourseSubmissionView(BaseCourseView):
@@ -579,14 +564,12 @@ My attempts
 '''
 
 
-class CourseMyAttemptsView(BaseCourseView):
+class CourseMyAttemptsView(AttemptsLeftAPIMixin, BaseCourseView):
     def is_allowed(self, permissions):
         return permissions.submit
 
     def get(self, request, course):
-        problem_id = str_to_uint(request.GET.get('problem'))
-        message = get_attempt_message(course, request.user, problem_id)
-        return JsonResponse({'message': message}, json_dumps_params={'ensure_ascii': False})
+        return self.render_json_on_get(request)
 
 
 '''

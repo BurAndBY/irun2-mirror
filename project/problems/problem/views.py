@@ -33,8 +33,11 @@ from common.pagination import paginate
 from common.tree.key import FolderId
 from proglangs.langlist import split_language_codes
 from solutions.filters import apply_state_filter, apply_compiler_filter
-from solutions.forms import SolutionForm, AllSolutionsFilterForm
+from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Challenge, ChallengedSolution, Judgement, Rejudge
+from solutions.submit.forms import SolutionForm
+from solutions.submit.limit import UnlimitedPolicy
+from solutions.submit.views import SubmitAPIMixin
 from storage.storage import create_storage
 from storage.utils import serve_resource, serve_resource_metadata, store_and_fill_metadata, parse_resource_id
 import solutions.utils
@@ -994,9 +997,12 @@ Submit
 '''
 
 
-class ProblemSubmitView(BaseProblemView):
+class ProblemSubmitView(SubmitAPIMixin, BaseProblemView):
     tab = 'submit'
     template_name = 'problems/problem/submit.html'
+
+    def get_limit_policy(self):
+        return UnlimitedPolicy()
 
     def get(self, request, problem_id):
         problem = self._load(problem_id)
@@ -1005,19 +1011,17 @@ class ProblemSubmitView(BaseProblemView):
         context = self._make_context(problem, {'form': form})
         return render(request, self.template_name, context)
 
-    def post(self, request, problem_id):
-        problem = self._load(problem_id)
-
-        form = SolutionForm(request.POST, request.FILES)
-        if form.is_valid():
-            with transaction.atomic():
-                solution = solutions.utils.new_solution(request, form, problem_id=problem.id)
-                notifier = solutions.utils.judge(solution)
+    def save_solution(self, form):
+        with transaction.atomic():
+            solution = solutions.utils.new_solution(self.request, form, problem_id=self.problem.id)
+            notifier = solutions.utils.judge(solution)
             notifier.notify()
-            return redirect_with_query_string(request, 'problems:submission', problem.id, solution.id)
+            return solution
 
-        context = self._make_context(problem, {'form': form})
-        return render(request, self.template_name, context)
+    def post(self, request, problem_id):
+        self.problem = self._load(problem_id)
+        form = SolutionForm(request.POST, request.FILES)
+        return self.render_json_on_post(request, form)
 
 
 class ProblemSubmissionView(BaseProblemView):

@@ -13,6 +13,7 @@ from django.conf import settings
 
 from common.outcome import Outcome
 from problems.calcpermissions import has_limited_problems_queryset
+from proglangs.utils import get_ace_mode
 from solutions.models import Judgement
 from solutions.permissions import SolutionPermissions
 
@@ -324,4 +325,14 @@ def irunner_solutions_limited(context):
     user = context['user']
     return {
         'limited_access': has_limited_problems_queryset(user)
+    }
+
+
+@register.inclusion_tag('solutions/irunner_solutions_submit_tag.html')
+def irunner_solutions_submit(form, get_attempts_url=None):
+    ace_modes = [(compiler.id, get_ace_mode(compiler.language)) for compiler in form.fields['compiler'].queryset]
+    return {
+        'form': form,
+        'get_attempts_url': get_attempts_url,
+        'ace_modes': ace_modes,
     }

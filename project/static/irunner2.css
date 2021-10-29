@@ -431,12 +431,12 @@ h3 { font-size: 20px; line-height: 32px; }
 }
 .ir-testcase-table > thead > tr > th {
     border-bottom: 2px solid #ddd;
-    padding: 1px 8px;
+    padding: 1px 4px;
     white-space: nowrap;
 }
 .ir-testcase-table > tbody > tr.ir-testcase-main-row > td {
     border-top: 1px solid #ddd;
-    padding: 1px 8px;
+    padding: 1px 4px;
 }
 .ir-testcase-table > tbody > tr.ir-testcase-hidden-row {
     display: none;

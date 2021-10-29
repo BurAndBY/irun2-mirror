@@ -11,7 +11,7 @@ from common.constants import EMPTY_SELECT
 from common.education.year import (
     make_year_of_study_string, make_academic_year_string
 )
-import solutions.forms
+import solutions.submit.forms
 
 from courses.models import (
     ActivityRecord,
@@ -70,33 +70,11 @@ class AddExtraProblemSlotForm(forms.Form):
     penaltytopic = forms.ModelChoiceField(label=_('Topic'), queryset=None, empty_label=EMPTY_SELECT)
 
 
-class SolutionForm(solutions.forms.SolutionForm):
-    def __init__(self, problem_choices, compiler_queryset, attempt_limit_checker, **kwargs):
-        super(SolutionForm, self).__init__(**kwargs)
-        self.fields['problem'] = forms.TypedChoiceField(label=_('Problem'), choices=problem_choices, coerce=int)
+class SolutionForm(solutions.submit.forms.ProblemSolutionForm):
+    def __init__(self, problem_choices, compiler_queryset, *args, **kwargs):
+        super(SolutionForm, self).__init__(*args, **kwargs)
+        self.fields['problem'].choices = problem_choices
         self.fields['compiler'].queryset = compiler_queryset
-        self.attempt_limit_checker = attempt_limit_checker
-
-    def clean(self):
-        cleaned_data = super(SolutionForm, self).clean()
-        problem = cleaned_data.get('problem')
-        if problem is not None:
-            if self.attempt_limit_checker(problem):
-                raise forms.ValidationError(_('Attempt count limit is reached.'), code='limit')
-
-            compiler = cleaned_data.get('compiler')
-            if compiler is not None:
-                allowed_languages = ProblemExtraInfo.objects.filter(problem=problem).\
-                    values_list('allowed_programming_languages', flat=True).first()
-                if allowed_languages:
-                    codes = list(split_language_codes(allowed_languages))
-                    if compiler.language not in codes:
-                        err = forms.ValidationError(_('This problem must be solved in %(langs)s'),
-                                                    params={'langs': ', '.join(get_language_label(code) for code in codes)},
-                                                    code='language_restriction')
-                        self.add_error('compiler', err)
-
-        return cleaned_data
 
 
 class SolutionListUserForm(forms.Form):

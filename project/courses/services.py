@@ -8,28 +8,25 @@ from itertools import chain
 
 from django.contrib import auth
 from django.db.models import F
-from django.template import defaultfilters
 from django.utils.encoding import (
     force_text,
     smart_text,
 )
 from django.utils.html import format_html
-from django.utils.translation import ugettext, ungettext
 from django.utils.translation import ugettext as _
-from django.utils import timezone
 
 from common.constants import EMPTY_SELECT
 from common.outcome import Outcome
 from problems.models import Problem
 from quizzes.models import QuizSession
 from solutions.models import Solution, Judgement
+from solutions.submit.limit import ILimitPolicy
 
 from courses.activities import make_activity_result
 from courses.models import (
     ActivityRecord,
     Assignment,
     AssignmentCriteriaIntermediate,
-    Course,
     Membership,
     Subgroup,
     TopicCommonProblem,
@@ -245,55 +242,28 @@ def make_allusers_choices(user_cache, empty_select=EMPTY_SELECT):
 Attempt quota
 '''
 
-AttemptQuotaInfo = namedtuple('AttemptQuotaInfo', 'quota next_try')
 
+class CourseAttemptLimitPolicy(ILimitPolicy):
+    def __init__(self, course, user):
+        self._course = course
+        self._user = user
 
-def get_attempt_quota(course, user, problem_id):
-    if (course.attempts_a_day is None) or (not user.is_authenticated):
-        return AttemptQuotaInfo(None, None)
-
-    if course.attempts_a_day <= 0:
-        return AttemptQuotaInfo(0, None)
-
-    ts = timezone.now() - timedelta(days=1)
-
-    times = Solution.objects.filter(
-        coursesolution__course=course,
-        author=user,
-        problem_id=problem_id,
-        reception_time__gte=ts
-        ).\
-        exclude(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.COMPILATION_ERROR).\
-        order_by('-reception_time')[:course.attempts_a_day].\
-        values_list('reception_time', flat=True)
-
-    times = list(times)
-    if len(times) >= course.attempts_a_day:
-        return AttemptQuotaInfo(0, times[-1] + timedelta(days=1))
-    else:
-        return AttemptQuotaInfo(course.attempts_a_day - len(times), None)
-
-
-def get_attempt_message(course, user, problem_id):
-        attempts, next_try = get_attempt_quota(course, user, problem_id)
-
-        if attempts is not None:
-            if attempts > 0:
-                message = ungettext(
-                    'You have %(count)d attempt remaining for the problem during the day.',
-                    'You have %(count)d attempts remaining for the problem during the day.',
-                    attempts) % {'count': attempts}
-            else:
-                message = ugettext('You have no attempts remaining for the problem.')
-                if next_try is not None:
-                    tz = timezone.get_current_timezone()
-                    ts = defaultfilters.date(next_try.astimezone(tz), 'DATETIME_FORMAT')
-
-                    message += ' '
-                    message += ugettext('Please try again after %(ts)s.') % {'ts': ts}
+    def get_solution_queryset(self):
+        if not self._user.is_authenticated:
+            return Solution.objects.none()
         else:
-            message = ugettext('The number of attempts is not limited.')
-        return message
+            return Solution.objects.filter(
+                coursesolution__course=self._course,
+                author=self._user
+            )
+
+    @property
+    def attempt_limit(self):
+        return self._course.attempts_a_day
+
+    @property
+    def time_period(self):
+        return timedelta(days=1)
 
 
 '''

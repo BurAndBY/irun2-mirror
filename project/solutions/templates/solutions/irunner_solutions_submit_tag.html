@@ -1,0 +1,263 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load static %}
+
+<div id="alert_placeholder"></div>
+<div class="row">
+    <div class="col-lg-7 col-md-6">
+        <form method="post" enctype="multipart/form-data" id="solutionForm">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+
+            {% if form.problem %}
+            <div class="row">
+                <div class="col-md-7">
+                    {% bootstrap_field form.problem %}
+                </div>
+                <div class="col-md-5">
+                    {% bootstrap_field form.compiler %}
+                </div>
+            </div>
+            {% else %}
+            {% bootstrap_field form.compiler %}
+            {% endif %}
+
+            {% if form.problem %}
+            <div class="form-group">
+                <p class="text-info" id="ir_attempts">&nbsp;</p>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="control-label" for="id_upload">{{ form.text.label }}</label>
+                <div id="editor" class="ir-ace-editor"></div>
+                <input type="hidden" name="text" id="id_text">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="id_upload">{{ form.upload.label }}</label>
+                <input type="file" name="upload" id="id_upload" title="{{ form.upload.help_text }}">
+            </div>
+
+        {% buttons %}
+            <button type="submit" class="btn btn-primary" id="submitButton">
+                {% bootstrap_icon 'send' %} <span class="ir-icon-label">{% trans 'Send' %}</span>
+            </button>
+        {% endbuttons %}
+        </form>
+    </div>
+    <div class="col-lg-5 col-md-6">
+        <div id="panel" class="panel panel-default collapse">
+            <div id="panel_heading" class="panel-heading"></div>
+            <div id="panel_progressbar" class="panel-body collapse">
+                <div class="progress" style="margin: 40px">
+                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+                </div>
+            </div>
+            <div id="panel_report" class="collapse"></div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'ace-builds-1.4.7/src-min-noconflict/ace.js' %}"></script>
+
+<script>
+var ACE_LANGUAGES = {
+    {% for compiler_id, ace_mode in ace_modes %}"{{ compiler_id }}": "{{ ace_mode }}", {% endfor %}
+};
+var PANEL_CLASSES = ["panel-default", "panel-success", "panel-warning", "panel-danger"];
+
+function setBsPanelColor(color) {
+    var ndx = 0;
+    if (color === "green") {
+        ndx = 1;
+    }
+    if (color === "yellow") {
+        ndx = 2;
+    }
+    if (color === "red") {
+        ndx = 3;
+    }
+    if ($("#panel").hasClass(PANEL_CLASSES[ndx])) {
+        return;
+    }
+    for (var i = 0; i < PANEL_CLASSES.length; ++i) {
+        if (i == ndx) {
+            $("#panel").addClass(PANEL_CLASSES[i]);
+        } else {
+            $("#panel").removeClass(PANEL_CLASSES[i]);
+        }
+    }
+}
+
+function setUpPanel(solutionId, statusText, isFinal, color, report) {
+    if (!solutionId) {
+        $("#panel").hide();
+        return;
+    }
+
+    // Create the title
+    $("#panel_heading").empty();
+    $("#panel_heading").append($("<a>", {
+        text: "{% trans 'Solution' %} " + solutionId,
+        href: "/solutions/" + solutionId,
+    }));
+    if (statusText) {
+        $("#panel_heading").append(": " + statusText);
+    }
+
+    // Show the panel if it is hidden
+    if ($("#panel").css("display") === "none") {
+        $("#panel").show();
+    }
+
+    if (!isFinal) {
+        setBsPanelColor();
+        $("#panel_report").hide();
+        $("#panel_progressbar").slideDown();
+        return;
+    }
+
+    setBsPanelColor(color);
+    $("#panel_progressbar").hide();
+    if (report) {
+        $("#panel_report").html(report);
+        $("#panel_report").show();
+    }
+}
+
+function showError(message) {
+    if (!message) {
+        message = "{% trans 'Error while getting data from server.' %}";
+    }
+    var span = $("<span>").append("&times;");
+    var button = $("<button>").attr("type", "button").addClass("close").attr("data-dismiss", "alert").append(span);
+    var div = $("<div>").addClass("alert alert-danger alert-dismissible").attr("role", "alert");
+    div.text(message).prepend(button);
+    $("#alert_placeholder").append(div);
+}
+
+{% if form.problem %}
+function onProblemSelected() {
+    var problemId = $("#id_problem").val();
+    if (problemId) {
+        $.getJSON("{{ get_attempts_url }}?problem=" + problemId, function(data) {
+            // TODO: check problem id here, it may have been changed
+            if (data.message) {
+                $("#ir_attempts").text(data.message);
+            }
+        }).fail(function() {
+            $("#ir_attempts").text("{% trans 'Error while getting data from server.' %}");
+        });
+    } else {
+        $("#ir_attempts").text("{% trans 'Please select a problem.' %}");
+    }
+}
+{% endif %}
+
+function pollSolution(solutionId) {
+    var url = "/solutions/" + solutionId + "/status/json/?table=1";
+    $.getJSON(url, function(data) {
+        setUpPanel(solutionId, data.text, data.final, data.color, data.report);
+        if (data.final) {
+            $("#submitButton").prop("disabled", false);
+            {% if form.problem %}
+            onProblemSelected();
+            {% endif %}
+        } else {
+            setTimeout(function() { pollSolution(solutionId); }, 1000);
+        }
+    }).fail(function() {
+        setUpPanel(solutionId, "{% trans 'Error while getting data from server.' %}", false);
+        setTimeout(function() { pollSolution(solutionId); }, 10000);
+    });
+}
+
+var SOLUTION_ID_REGEXP = new RegExp("([?&]solution=)(\\d+)");
+
+function getCurSolutionId() {
+    var results = SOLUTION_ID_REGEXP.exec(window.location.href);
+    if (results && results[2]) {
+        return results[2];
+    }
+    return null;
+}
+function setCurSolutionId(solutionId) {
+    if (window.history.replaceState) {
+        var s = window.location.href;
+        if (s.search(SOLUTION_ID_REGEXP) !== -1) {
+            s = s.replace(SOLUTION_ID_REGEXP, "$1" + solutionId);
+        } else if (s.indexOf("?") !== -1) {
+            s = s + "&solution=" + solutionId;
+        } else {
+            s = s + "?solution=" + solutionId;
+        }
+        window.history.replaceState(null, "", s);
+    }
+}
+
+$(document).ready(function() {
+    var editor = ace.edit("editor", {
+        useWorker: false,
+        showPrintMargin: false
+    });
+
+    // Setting syntax highlight when changing the compiler
+    $("#id_compiler").change(function() {
+        var aceMode = ACE_LANGUAGES[$(this).val()];
+        editor.session.setMode("ace/mode/" + (aceMode ? aceMode : "text"));
+    });
+    $("#id_compiler").change();
+
+    // Overriding form submission
+    $("#solutionForm").submit(function(event) {
+        setUpPanel();
+        event.preventDefault();
+        $("#id_text").val(editor.getSession().getValue());
+
+        var formData = new FormData(this);
+        $("#submitButton").prop("disabled", true);
+
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+        }).done(function(data) {
+            if (data.submitted) {
+                setCurSolutionId(data.solutionId);
+                setUpPanel(data.solutionId, null, false);
+                pollSolution(data.solutionId);
+                if (data.attempts) {
+                    $("#ir_attempts").text(data.attempts);
+                }
+            } else {
+                if (data.errors) {
+                    for (var i = 0; i < data.errors.length; ++i) {
+                        showError(data.errors[i]);
+                    }
+                } else {
+                    showError();
+                }
+                $("#submitButton").prop("disabled", false);
+            }
+        }).fail(function() {
+            showError();
+            $("#submitButton").prop("disabled", false);
+        });
+    });
+    {% if form.problem %}
+    $("#id_problem").change(onProblemSelected);
+    onProblemSelected();
+    {% endif %}
+
+    var solutionId = getCurSolutionId();
+    if (solutionId) {
+        setUpPanel(solutionId, null, true);
+        pollSolution(solutionId);
+    }
+});
+</script>
