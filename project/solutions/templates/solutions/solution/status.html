@@ -2,6 +2,7 @@
 {% load irunner_solutions %}
 {% load irunner_storage %}
 
+{% spaceless %}
 {% if mode == 'test_results' %}
     {% irunner_solutions_testresults test_results permissions 'solutions:test_case_result' solution.id compact=True %}
 {% elif mode == 'compilation_log' %}
@@ -15,3 +16,4 @@
     {% endif %}
     </div>
 {% endif %}
+{% endspaceless %}

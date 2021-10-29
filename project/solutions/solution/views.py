@@ -264,6 +264,7 @@ class SolutionMainView(BaseSolutionView):
 class SolutionStatusJsonView(BaseSolutionView):
     with_related = False
     template_name = 'solutions/solution/status.html'
+    box_template_name = 'solutions/solution/status_box.html'
 
     def is_allowed(self, permissions):
         return permissions.can_view_state_on_samples or permissions.can_view_state
@@ -292,6 +293,7 @@ class SolutionStatusJsonView(BaseSolutionView):
                     data['color'] = 'yellow'
                 if request.GET.get('table') == '1':
                     data['report'] = self._render_report(request, judgement)
+                    data['box'] = render_to_string(self.box_template_name, self.get_context_data(), request)
         else:
             data = {
                 'text': 'N/A',
