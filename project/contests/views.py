@@ -20,6 +20,7 @@ from problems.views import ProblemStatementMixin
 from solutions.filters import apply_state_filter
 from solutions.forms import AllSolutionsFilterForm
 from solutions.models import Solution
+from solutions.submit.views import SubmitAPIMixin, AttemptsLeftAPIMixin
 from solutions.utils import new_solution, judge
 from storage.utils import serve_resource_metadata
 from users.models import UserProfile
@@ -30,7 +31,7 @@ from .forms import SolutionListUserForm, SolutionListProblemForm, ContestSolutio
 from .forms import PrintoutForm, EditPrintoutForm
 from .models import Contest, ContestSolution, Message, MessageUser, Printout, ContestUserRoom, ContestProblem
 from .services import make_contestant_choices, make_problem_choices, make_letter
-from .services import ProblemResolver, ContestTiming
+from .services import ProblemResolver, ContestTiming, ContestAttemptLimitPolicy
 from .services import create_contest_service
 
 
@@ -78,6 +79,9 @@ class BaseContestView(generic.View):
 
     def is_allowed(self, permissions):
         return False
+
+    def get_limit_policy(self):
+        return ContestAttemptLimitPolicy(self.contest, self.request.user)
 
     def dispatch(self, request, contest_id, *args, **kwargs):
         self.contest = get_object_or_404(Contest, pk=contest_id)
@@ -366,7 +370,7 @@ class MySolutionsView(ProblemResolverMixin, BaseContestView):
         return render(request, self.template_name, context)
 
 
-class SubmitView(BaseContestView):
+class SubmitView(SubmitAPIMixin, BaseContestView):
     tab = 'submit'
     template_name = 'contests/submit.html'
 
@@ -399,7 +403,7 @@ class SubmitView(BaseContestView):
             problem_choices=make_problem_choices(self.contest),
             compiler_queryset=self.contest.compilers,
             initial=self._make_initial(),
-            file_size_limit=self.contest.file_size_limit,
+            limit_policy=self.get_limit_policy(),
         )
         return form
 
@@ -417,27 +421,33 @@ class SubmitView(BaseContestView):
                 return (False, 'AFTER')
         return (False, '')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['get_attempts_url'] = reverse('contests:attempts', kwargs={'contest_id': self.contest.id})
+        return context
+
     def get(self, request, contest):
         enable, status = self._get_status()
         form = self._make_form() if enable else None
         context = self.get_context_data(form=form, status=status)
         return render(request, self.template_name, context)
 
+    def save_solution(self, form):
+        with transaction.atomic():
+            # remember used compiler to select it again later
+            UserProfile.objects.filter(pk=self.request.user.id).update(last_used_compiler=form.cleaned_data['compiler'])
+
+            solution = new_solution(self.request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=self.service.should_stop_on_fail())
+            ContestSolution.objects.create(solution=solution, contest=self.contest)
+            notifier = judge(solution)
+        notifier.notify()
+        return solution
+
     def post(self, request, contest):
         enable, status = self._get_status()
         if enable:
             form = self._make_form(request.POST, request.FILES)
-            if form.is_valid():
-                with transaction.atomic():
-                    # remember used compiler to select it again later
-                    UserProfile.objects.filter(pk=request.user.id).update(last_used_compiler=form.cleaned_data['compiler'])
-
-                    solution = new_solution(request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=self.service.should_stop_on_fail())
-                    ContestSolution.objects.create(solution=solution, contest=contest)
-                    notifier = judge(solution)
-                notifier.notify()
-
-                return redirect('contests:submission', contest.id, solution.id)
+            return self.render_json_on_post(request, form)
         else:
             form = None
         context = self.get_context_data(form=form, status=status)
@@ -457,6 +467,14 @@ class SubmissionView(BaseContestView):
 
         context = self.get_context_data(solution_id=solution_id)
         return render(request, self.template_name, context)
+
+
+class AttemptsView(AttemptsLeftAPIMixin, BaseContestView):
+    def is_allowed(self, permissions):
+        return permissions.submit
+
+    def get(self, request, course):
+        return self.render_json_on_get(request)
 
 
 '''

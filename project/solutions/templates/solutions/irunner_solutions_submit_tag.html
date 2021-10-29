@@ -185,12 +185,16 @@ function getCurSolutionId() {
 function setCurSolutionId(solutionId) {
     if (window.history.replaceState) {
         var s = window.location.href;
-        if (s.search(SOLUTION_ID_REGEXP) !== -1) {
-            s = s.replace(SOLUTION_ID_REGEXP, "$1" + solutionId);
-        } else if (s.indexOf("?") !== -1) {
-            s = s + "&solution=" + solutionId;
+        if (solutionId) {
+            if (s.search(SOLUTION_ID_REGEXP) !== -1) {
+                s = s.replace(SOLUTION_ID_REGEXP, "$1" + solutionId);
+            } else if (s.indexOf("?") !== -1) {
+                s = s + "&solution=" + solutionId;
+            } else {
+                s = s + "?solution=" + solutionId;
+            }
         } else {
-            s = s + "?solution=" + solutionId;
+            s = s.replace(SOLUTION_ID_REGEXP, "");
         }
         window.history.replaceState(null, "", s);
     }
@@ -242,10 +246,12 @@ $(document).ready(function() {
                 } else {
                     showError();
                 }
+                setCurSolutionId(null);
                 $("#submitButton").prop("disabled", false);
             }
         }).fail(function() {
             showError();
+            setCurSolutionId(null);
             $("#submitButton").prop("disabled", false);
         });
     });

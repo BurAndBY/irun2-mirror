@@ -34,7 +34,7 @@ class AccessForm(forms.ModelForm):
 class LimitsForm(forms.ModelForm):
     class Meta:
         model = Contest
-        fields = ['attempt_limit', 'file_size_limit']
+        fields = ['total_attempt_limit', 'attempt_limit', 'time_period', 'file_size_limit']
 
 
 class CompilersForm(forms.ModelForm):

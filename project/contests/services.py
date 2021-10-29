@@ -12,8 +12,9 @@ from django.utils.translation import ugettext as _
 from common.constants import EMPTY_SELECT, make_empty_select
 from common.outcome import Outcome
 from problems.models import Problem
-from solutions.models import Judgement
+from solutions.models import Judgement, Solution
 from solutions.permissions import SolutionAccessLevel
+from solutions.submit.limit import ILimitPolicy
 
 from .models import Contest, ContestSolution, Membership
 from .utils.problemstats import ProblemStats
@@ -575,3 +576,34 @@ class IOIContestService(IContestService):
             return None
         user_result_cls = IOIUserResultLast if not self._own_solutions_access else IOIUserResultMax
         return _make_contest_results(contest, False, user_result_cls, ColumnPresence(False, False, True), user_regex)
+
+
+class ContestAttemptLimitPolicy(ILimitPolicy):
+    def __init__(self, contest, user):
+        self._contest = contest
+        self._user = user
+
+    def get_solution_queryset(self):
+        if not self._user.is_authenticated:
+            return Solution.objects.none()
+        else:
+            return Solution.objects.filter(
+                contestsolution__contest=self._contest,
+                author=self._user
+            )
+
+    @property
+    def attempt_limit(self):
+        return self._contest.attempt_limit
+
+    @property
+    def total_attempt_limit(self):
+        return self._contest.total_attempt_limit
+
+    @property
+    def time_period(self):
+        return self._contest.time_period
+
+    @property
+    def file_size_limit(self):
+        return self._contest.file_size_limit

@@ -67,15 +67,21 @@ class Contest(models.Model):
     compilers = models.ManyToManyField(Compiler, blank=True)
     problems = models.ManyToManyField(Problem, blank=True, through='ContestProblem')
     statements = models.ForeignKey(FileMetadata, null=True, on_delete=models.SET_NULL)
+
     unauthorized_access = models.IntegerField(_('access for unauthorized users'),
                                               choices=UnauthorizedAccessLevel.CHOICES, default=UnauthorizedAccessLevel.NO_ACCESS)
     contestant_own_solutions_access = models.IntegerField(_('contestant’s access to his own solutions'),
                                                           choices=SolutionAccessLevel.CHOICES, default=SolutionAccessLevel.TESTING_DETAILS_ON_SAMPLE_TESTS)
-    attempt_limit = models.PositiveIntegerField(_('maximum number of attempts per problem'), default=100)
+
+    total_attempt_limit = models.PositiveIntegerField(_('maximum total number of attempts per problem'), null=True, blank=True, default=None)
+    attempt_limit = models.PositiveIntegerField(_('number of attempts per problem...'), null=True, blank=True, default=None)
+    time_period = models.DurationField(_('...during the time period'), default=timedelta(minutes=10))
     file_size_limit = models.PositiveIntegerField(_('maximum solution file size (bytes)'), default=65536)
+
     start_time = models.DateTimeField(_('start time'), default=_default_contest_start_time)
     duration = models.DurationField(_('duration'), default=timedelta(hours=5))
     freeze_time = models.DurationField(_('standings freeze time'), null=True, blank=True, default=timedelta(hours=4), help_text=_('If not set, there will be no freezing.'))
+
     show_pending_runs = models.BooleanField(_('show pending runs during the freeze time'), blank=True, default=True)
     unfreeze_standings = models.BooleanField(_('unfreeze standings after the end of the contest'), blank=True, default=False)
     enable_upsolving = models.BooleanField(_('enable upsolving after the end of the contest'), blank=True, default=False)

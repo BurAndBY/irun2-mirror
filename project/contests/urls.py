@@ -16,6 +16,7 @@ contest_urlpatterns = [
     url(r'^solutions/$', views.AllSolutionsView.as_view(), name='all_solutions'),
     url(r'^my/solutions/$', views.MySolutionsView.as_view(), name='my_solutions'),
     url(r'^submit/$', views.SubmitView.as_view(), name='submit'),
+    url(r'^attempts/$', views.AttemptsView.as_view(), name='attempts'),
     url(r'^submission/(?P<solution_id>[0-9]+)/$', views.SubmissionView.as_view(), name='submission'),
     url(r'^messages/$', views.MessagesView.as_view(), name='messages'),
     url(r'^messages/new/$', views.NewMessageView.as_view(), name='messages_new'),

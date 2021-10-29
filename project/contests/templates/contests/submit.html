@@ -1,6 +1,7 @@
 {% extends 'contests/base.html' %}
 
 {% load irunner_messagebox %}
+{% load irunner_solutions %}
 {% load bootstrap3 %}
 {% load i18n %}
 
@@ -20,22 +21,6 @@
     {% endif %}
 
     {% if form %}
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-            <div class="row">
-                <div class="col-md-7">
-                    {% bootstrap_field form.problem %}
-                </div>
-                <div class="col-md-5">
-                    {% bootstrap_field form.compiler %}
-                </div>
-            </div>
-            {% bootstrap_field form.text %}
-            {% bootstrap_field form.upload %}
-            {% buttons %}
-                <button type="submit" class="btn btn-primary">{% trans 'Send' %}</button>
-            {% endbuttons %}
-        </form>
+        {% irunner_solutions_submit form get_attempts_url %}
     {% endif %}
 {% endblock %}
