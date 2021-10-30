@@ -14,8 +14,8 @@
 
         <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
         <link rel="yandex-tableau-widget" href="{% static 'manifest.json' %}">
-        <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
-        {#<link href="{% static 'bootstrap/css/bootstrap-theme.css' %}" rel="stylesheet">#}
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.css' %}" rel="stylesheet">
+        {#<link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap-theme.css' %}" rel="stylesheet">#}
         <link href="{% static 'irunner2.css' %}?{{ REVISION }}" rel="stylesheet">
 
         <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
         <![endif]-->
 
         <script src="{% static 'jquery/jquery-1.11.3.min.js' %}"></script>
-        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'irunner2.js' %}?{{ REVISION }}"></script>
         <script src="{% url 'js_reverse' %}"></script>
 
