@@ -67,6 +67,8 @@ var ACE_LANGUAGES = {
 };
 var PANEL_CLASSES = ["panel-default", "panel-success", "panel-warning", "panel-danger"];
 
+var currentSolutionId = null;
+
 function setBsPanelColor(color) {
     var ndx = 0;
     if (color === "green") {
@@ -156,20 +158,26 @@ function onProblemSelected() {
 {% endif %}
 
 function pollSolution(solutionId) {
+    if (solutionId != currentSolutionId) {
+        return;
+    }
     var url = "/solutions/" + solutionId + "/status/json/?table=1";
     $.getJSON(url, function(data) {
-        setUpPanel(solutionId, data.text, data.final, data.color, data.report);
-        if (data.final) {
-            $("#submitButton").prop("disabled", false);
-            {% if form.problem %}
-            onProblemSelected();
-            {% endif %}
-        } else {
-            setTimeout(function() { pollSolution(solutionId); }, 1000);
+        if (solutionId === currentSolutionId) {
+            setUpPanel(solutionId, data.text, data.final, data.color, data.report);
+            if (data.final) {
+                {% if form.problem %}
+                onProblemSelected();
+                {% endif %}
+            } else {
+                setTimeout(function() { pollSolution(solutionId); }, 1000);
+            }
         }
     }).fail(function() {
-        setUpPanel(solutionId, "{% trans 'Error while getting data from server.' %}", false);
-        setTimeout(function() { pollSolution(solutionId); }, 10000);
+        if (solutionId === currentSolutionId) {
+            setUpPanel(solutionId, "{% trans 'Error while getting data from server.' %}", false);
+            setTimeout(function() { pollSolution(solutionId); }, 10000);
+        }
     });
 }
 
@@ -183,6 +191,7 @@ function getCurSolutionId() {
     return null;
 }
 function setCurSolutionId(solutionId) {
+    currentSolutionId = solutionId;
     if (window.history.replaceState) {
         var s = window.location.href;
         if (solutionId) {
@@ -220,6 +229,7 @@ $(document).ready(function() {
         $("#id_text").val(editor.getSession().getValue());
 
         var formData = new FormData(this);
+        setCurSolutionId(null);
         $("#submitButton").prop("disabled", true);
 
         $.ajax({
@@ -233,6 +243,7 @@ $(document).ready(function() {
         }).done(function(data) {
             if (data.submitted) {
                 setCurSolutionId(data.solutionId);
+                $("#submitButton").prop("disabled", false);
                 setUpPanel(data.solutionId, null, false);
                 pollSolution(data.solutionId);
                 if (data.attempts) {
@@ -262,6 +273,7 @@ $(document).ready(function() {
 
     var solutionId = getCurSolutionId();
     if (solutionId) {
+        currentSolutionId = solutionId;
         setUpPanel(solutionId, null, true);
         pollSolution(solutionId);
     }
