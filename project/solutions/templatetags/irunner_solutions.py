@@ -234,7 +234,7 @@ def irunner_solutions_testresults(test_results, permissions, url_pattern=None, f
         exit_code=(not compact and permissions.can_view_exit_codes),
         checker_message=(not compact and permissions.can_view_checker_messages),
         tooltip=(compact or permissions.can_view_exit_codes or permissions.can_view_checker_messages),
-        score=(not compact),
+        score=True,
     )
     span_columns_cnt = (
         (compact * 2) + 3 +
