@@ -46,6 +46,7 @@ class ILimitPolicy:
 
     def _get_problem_solution_queryset(self, problem_id):
         qs = self.get_solution_queryset().\
+            exclude(best_judgement__status=Judgement.DONE, best_judgement__outcome=Outcome.COMPILATION_ERROR).\
             exclude(best_judgement__status=Judgement.DONE, best_judgement__sample_tests_passed=False)
         if problem_id is not None:
             qs = qs.filter(problem_id=problem_id)
