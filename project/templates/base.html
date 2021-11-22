@@ -31,7 +31,7 @@
         {% block head %}
         {% endblock %}
     </head>
-    <body>
+    <body class="ir-with-footer-{%if location == 'BSU' %}3{% else %}2{% endif %}">
         {% block allbody %}
 
             {% include 'navbar.html' %}
@@ -46,11 +46,11 @@
         {% block foot %}
         {% endblock %}
 
-        <footer class="footer">
+        <footer class="footer footer-{% if location == 'BSU' %}3{% else %}2{% endif %}">
             <div class="container">
                 <div class="ir-footer">
                     <div>{{ system_full_name }} <span class="ir-monospace">#{{ REVISION }}</span></div>
-                    <div>&copy; 2001&ndash;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>
+                    {% if location == 'BSU' %}<div>&copy; 2001&ndash;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>{% endif %}
                     <div>
                         <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
                         <a href="{% url 'language' %}?next={% irunner_next %}">Язык&thinsp;/&thinsp;Language</a>

@@ -9,4 +9,5 @@ def system_name(request):
         'system_short_name': 'iRunner 2',
         'external_links': settings.EXTERNAL_LINKS,
         'root_folder': ROOT,
+        'location': settings.LOCATION,
     }

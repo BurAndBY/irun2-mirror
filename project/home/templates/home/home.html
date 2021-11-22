@@ -15,9 +15,25 @@
             <h1 class="text-nowrap">{{ system_short_name }}</h1>
             <p>{% trans 'Automatic testing system' %}</p>
         </div>
-        <div class="col-md-6 text-right">
-            {% irunner_home_main_logo %}
-        </div>
+        {% if location == 'BSU' %}
+            <div class="col-md-6 text-right">
+                <img class="img-responsive" {% irunner_home_main_logo %}>
+            </div>
+        {% endif %}
+        {% if location == 'VGTU' %}
+            <div class="col-md-6">
+                <div class="media pull-right" style="max-width: 480px">
+                    <div class="media-left">
+                        <img class="media-object" {% irunner_home_main_logo %}>
+                    </div>
+                    <div class="media-body">
+                        <p class="ir-logo-title">Vilniaus Gedimino technikos universitetas</p>
+                        <p class="ir-logo-title"><b>Fundamentinių mokslų fakultetas</b></p>
+                        <p class="ir-logo-title"><b>Informacinių technologijų katedra</b></p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 

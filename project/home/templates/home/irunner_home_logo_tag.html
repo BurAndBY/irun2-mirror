@@ -1,4 +1,1 @@
-{% load static %}
-{% if logo.path %}
-<img class="img-responsive" src="{% static logo.path %}"{% if logo.fallback %} onerror="this.src='{% static logo.fallback %}'; this.onerror=null;"{% endif %}{% if logo.width %} width="{{ logo.width }}"{% endif %}{% if logo.height %} height="{{ logo.height }}"{% endif %}>
-{% endif %}
+{% load static %}{% if logo.path %}src="{% static logo.path %}"{% if logo.fallback %} onerror="this.src='{% static logo.fallback %}'; this.onerror=null;"{% endif %}{% if logo.width %} width="{{ logo.width }}"{% endif %}{% if logo.height %} height="{{ logo.height }}"{% endif %}{% endif %}

@@ -18,20 +18,28 @@ html {
     position: relative;
     min-height: 100%;
 }
-body {
+body.ir-with-footer-2 {
+    /* Margin bottom by footer height */
+    margin-bottom: 52px;
+}
+body.ir-with-footer-3 {
     /* Margin bottom by footer height */
     margin-bottom: 70px;
 }
-
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 70px;
     background-color: #f5f5f5;
 }
-
+.footer-2 {
+    /* Set the fixed height of the footer here */
+    height: 52px;
+}
+.footer-3 {
+    /* Set the fixed height of the footer here */
+    height: 70px;
+}
 .ir-footer {
     margin: 8px 0;
     text-align: center;
@@ -48,12 +56,16 @@ body {
  */
 .ir-jumbotron h1 {
     font-family: 'Alegreya Sans SC', Arial, sans-serif;
+    margin-bottom: 0;
 }
 .ir-jumbotron img {
     margin-right: 0;
     margin-left: auto;
 }
-
+.ir-jumbotron p.ir-logo-title {
+    margin: 0;
+    font-size: 16px;
+}
 .ir-navbar-brand {
     font-family: 'Alegreya Sans SC', Arial, sans-serif;
     font-weight: 500;
