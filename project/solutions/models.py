@@ -104,9 +104,11 @@ class JudgementExtraInfo(models.Model):
 
 class JudgementLog(models.Model):
     SOLUTION_COMPILATION = 0
+    CHECKER_COMPILATION = 1
 
     LOG_KIND_CHOICES = (
         (SOLUTION_COMPILATION, _('Solution compilation log')),
+        (CHECKER_COMPILATION, _('Checker compilation log')),
     )
 
     judgement = models.ForeignKey(Judgement, on_delete=models.CASCADE)

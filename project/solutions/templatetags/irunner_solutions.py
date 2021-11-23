@@ -14,8 +14,9 @@ from django.conf import settings
 from common.outcome import Outcome
 from problems.calcpermissions import has_limited_problems_queryset
 from proglangs.utils import get_ace_mode
-from solutions.models import Judgement
+from solutions.models import Judgement, JudgementLog
 from solutions.permissions import SolutionPermissions
+from storage.storage import create_storage
 
 register = template.Library()
 
@@ -310,6 +311,12 @@ def irunner_solutions_checkfailed(extra_info):
     if extra_info:
         context['reason'] = GENERAL_FAILURE_MESSAGES.get(extra_info.general_failure_reason, extra_info.general_failure_reason)
         context['message'] = extra_info.general_failure_message
+
+        if extra_info.general_failure_reason == 'CHECKER_NOT_COMPILED':
+            log = JudgementLog.objects.filter(judgement_id=extra_info.judgement_id, kind=JudgementLog.CHECKER_COMPILATION).first()
+            if log is not None:
+                storage = create_storage()
+                context['log_repr'] = storage.represent(log.resource_id)
     return context
 
 

@@ -47,7 +47,7 @@ class JudgementView(ProblemEditorMemberRequiredMixin, JudgementMixin, generic.Vi
         test_results = judgement.testcaseresult_set.all()
 
         storage = create_storage()
-        logs = [storage.represent(log.resource_id) for log in JudgementLog.objects.filter(judgement_id=judgement.id)]
+        logs = [storage.represent(log.resource_id) for log in JudgementLog.objects.filter(judgement_id=judgement.id, kind=JudgementLog.SOLUTION_COMPILATION)]
 
         permissions = SolutionPermissions().allow_all()
 
