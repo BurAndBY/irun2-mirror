@@ -1,4 +1,25 @@
+from django.utils.translation import ugettext_lazy as _
+
 LOCATION = 'BSU'
+
+LANGUAGE_CODE = 'ru'
+
+TIME_ZONE = 'Europe/Minsk'
+
+STATIC_ROOT = 'C:\\inetpub\\wwwroot-acm\\static'
+
+MYSQL_CONFIG = 'my.cnf'
+
+STORAGE_DIR = 'E:\\irunner2\\filestorage'
+
+EXTERNAL_LINKS = [
+    (_('Wiki'), u'/wiki/')
+]
+
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('en', 'English'),
+)
 
 MAIN_LOGO = {
     'ru': {
@@ -14,6 +35,8 @@ MAIN_LOGO = {
         'height': 97,
     }
 }
+
+ADMINS = [('Sergei Sobol', 'sergei_sobol@tut.by')]
 
 BSU_DC = 'inet.bsu.by'
 BSU_USERNAME = 'fpm.student'

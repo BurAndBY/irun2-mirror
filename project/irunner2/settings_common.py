@@ -103,21 +103,11 @@ WSGI_APPLICATION = 'irunner2.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
-
-TIME_ZONE = 'Europe/Minsk'
-
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
-LANGUAGES = (
-    ('ru', 'Russian'),
-    ('en', 'English'),
-    # ('lt', 'Lithuanian'),
-)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -214,5 +204,4 @@ DEALER_TYPE = 'git'
 DEALER_PATH = BASE_DIR
 APRIL_FOOLS_DAY_MODE = False
 
-LOCATION = None
-from .customized_for_bsu import *
+from .customized_for_vgtu import *
