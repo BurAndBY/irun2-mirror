@@ -204,4 +204,4 @@ DEALER_TYPE = 'git'
 DEALER_PATH = BASE_DIR
 APRIL_FOOLS_DAY_MODE = False
 
-from .customized_for_vgtu import *
+from .customized_for_bsu import *

@@ -63,8 +63,9 @@ body.ir-with-footer-3 {
     margin-left: auto;
 }
 .ir-jumbotron p.ir-logo-title {
-    margin: 0;
-    font-size: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 18px;
 }
 .ir-navbar-brand {
     font-family: 'Alegreya Sans SC', Arial, sans-serif;
