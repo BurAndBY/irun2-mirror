@@ -9,7 +9,7 @@
 {% block title %}{% trans 'Main' context 'main page' %}{% endblock %}
 
 {% block content %}
-<div class="jumbotron ir-jumbotron">
+<div class="jumbotron ir-jumbotron{% if location == 'VGTU' %} ir-vgtu-jumbotron{% endif %}">
     <div class="row">
         <div class="col-md-6">
             <h1 class="text-nowrap">{{ system_short_name }}</h1>

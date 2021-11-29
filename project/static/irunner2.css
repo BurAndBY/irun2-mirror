@@ -2321,3 +2321,16 @@ Green menu
 .ir-sticky-first-column {
     left: 0;
 }
+
+.ir-vgtu-jumbotron {
+    border: solid 8px #0b4dc7;
+    border-radius: 0 !important;
+    background-color: inherit;
+    clip-path: polygon(0 8px, 0 calc(100% - 16px), 16px 100%, calc(100% - 16px) 100%, 100% calc(100% - 16px), 100% 0, calc(50% + 8px) 0, 50% 8px, 8px 8px, 8px 0);
+}
+.ir-vgtu-jumbotron h1 {
+    color: #0b4dc7;
+}
+.ir-vgtu-jumbotron p {
+    color: #0b4dc7;
+}
