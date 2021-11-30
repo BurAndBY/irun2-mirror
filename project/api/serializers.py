@@ -207,6 +207,7 @@ class WorkerGreetingSerializer(serializers.Serializer):
 
 class PlagiarismJobFieldSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
+    language = serializers.CharField(read_only=True)
     resource_id = ResourceIdField(read_only=True)
 
     def create(self, validated_data):
@@ -220,7 +221,7 @@ class PlagiarismJobField(serializers.Field):
         return serializer.save()
 
     def to_representation(self, obj):
-        return {"id": obj.id, "resourceId": obj.resource_id}
+        return {"id": obj.id, "language": obj.language, "resourceId": obj.resource_id}
 
 
 class PlagiarismJobSerializer(serializers.Serializer):

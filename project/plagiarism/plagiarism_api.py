@@ -7,14 +7,14 @@ from plagiarism.plagiarismstructs import PlagiarismSubJob, PlagiarismTestingJob
 from django.db import transaction
 
 
-def _make_job_field(id, res):
-    return PlagiarismSubJob(id, res)
+def _make_job_field(id, lang, res):
+    return PlagiarismSubJob(id, lang, res)
 
 
 def _make_job(solution, solutions):
     return PlagiarismTestingJob(
-        _make_job_field(solution['id'], str(solution['resource'])),
-        [_make_job_field(_['id'], str(_['resource'])) for _ in solutions])
+        _make_job_field(solution['id'], str(solution['language']), str(solution['resource'])),
+        [_make_job_field(_['id'], str(_['language']), str(_['resource'])) for _ in solutions])
 
 
 def get_testing_job():
@@ -35,6 +35,7 @@ def get_testing_job():
 
     solution = {
         'id': solution_to_test.id,
+        'language': solution_to_test.compiler.language,
         'resource': solution_to_test.source_code.resource_id
     }
 
@@ -45,7 +46,9 @@ def get_testing_job():
     ).exclude(author_id=solution_to_test.author_id).distinct()
 
     solutions = [
-        {'id': sol.id, 'resource': sol.source_code.resource_id}
+        {'id': sol.id,
+         'language': sol.compiler.language,
+         'resource': sol.source_code.resource_id}
         for sol in solutions_to_compare
     ]
 
