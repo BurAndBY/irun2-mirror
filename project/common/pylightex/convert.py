@@ -56,7 +56,8 @@ texttt_cmd: "\\texttt{" phrase "}"
 textit_cmd: "\\textit{" phrase "}"
 textbf_cmd: "\\textbf{" phrase "}"
 emph_cmd: "\\emph{" phrase "}"
-_text_style_cmd: texttt_cmd | textit_cmd | textbf_cmd | emph_cmd
+underline_cmd: "\\underline{" phrase "}"
+_text_style_cmd: texttt_cmd | textit_cmd | textbf_cmd | emph_cmd | underline_cmd
 
 // mbox
 mbox_cmd: "\\mbox{" phrase "}"
@@ -233,6 +234,9 @@ class TreeToHtml(Transformer):
 
     def emph_cmd(self, children):
         return '<em>{}</em>'.format(''.join(children))
+
+    def underline_cmd(self, children):
+        return '<u>{}</u>'.format(''.join(children))
 
     def section_cmd(self, children):
         return '<h2>{}</h2>'.format(children[0])
