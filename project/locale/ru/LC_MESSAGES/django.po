@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-29 21:36+0300\n"
-"PO-Revision-Date: 2021-10-29 21:38+0300\n"
+"POT-Creation-Date: 2021-12-02 21:03+0300\n"
+"PO-Revision-Date: 2021-12-02 21:03+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -509,6 +509,9 @@ msgstr "У вас нет разрешения на добавление запи
 msgid "You do not have permission to list entries of this folder."
 msgstr "У вас нет разрешения на просмотр записей в этой папке."
 
+msgid "For IOI-style contests"
+msgstr "Для соревнований в стиле IOI"
+
 msgid "Each access level includes all the previous onces."
 msgstr "Каждый уровень доступа включает все предыдущие."
 
@@ -578,6 +581,15 @@ msgstr "Отборочный тур"
 msgid "Training"
 msgstr "Тренировка"
 
+msgid "Auto"
+msgstr "Автоматически"
+
+msgid "Take last solution"
+msgstr "Брать последнее решение"
+
+msgid "Take best solution"
+msgstr "Брать лучшее решение"
+
 msgid "name"
 msgstr "название"
 
@@ -631,6 +643,9 @@ msgstr "аудитории (через запятую)"
 
 msgid "kind"
 msgstr "вид"
+
+msgid "score policy"
+msgstr "схема оценивания"
 
 msgid "Freeze time must not exceed the contest duration."
 msgstr "Время заморозки не должно быть больше длительности соревнования."
@@ -2532,9 +2547,6 @@ msgstr "строгая"
 msgid "shuffle questions"
 msgstr "перемешать вопросы"
 
-msgid "score policy"
-msgstr "схема оценивания"
-
 msgid "attempts"
 msgstr "попытки"
 
@@ -2988,6 +3000,9 @@ msgstr "ID пользователя"
 
 msgid "Solution compilation log"
 msgstr "Журнал компиляции решения"
+
+msgid "Checker compilation log"
+msgstr "Журнал компиляции программы проверки"
 
 msgid "no access"
 msgstr "нет доступа"
@@ -3688,6 +3703,11 @@ msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
 
+#, fuzzy
+#~| msgid "score policy"
+#~ msgid "scoring policy"
+#~ msgstr "схема оценивания"
+
 #~ msgid "Loading"
 #~ msgstr "Загрузка"
 
@@ -3808,9 +3828,6 @@ msgstr ""
 
 #~ msgid "Notices"
 #~ msgstr "Объявления"
-
-#~ msgid "Best solution"
-#~ msgstr "Наилучшее решение"
 
 #~ msgid "No solutions selected"
 #~ msgstr "Решения не выбраны"

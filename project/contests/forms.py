@@ -19,7 +19,10 @@ from contests.models import Contest, Message, Printout, UserFilter
 class PropertiesForm(forms.ModelForm):
     class Meta:
         model = Contest
-        fields = ['name', 'rules', 'kind', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
+        fields = ['name', 'rules', 'scoring_policy', 'kind', 'start_time', 'duration', 'freeze_time', 'show_pending_runs', 'unfreeze_standings', 'enable_upsolving']
+        help_texts = {
+            'scoring_policy': _('For IOI-style contests')
+        }
 
 
 class AccessForm(forms.ModelForm):

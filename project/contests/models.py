@@ -46,6 +46,18 @@ class ContestKind(object):
     VALUE_TO_STRING = {k: v for k, v in CHOICES}
 
 
+class ContestScoringPolicy(object):
+    AUTO = 0
+    LAST_SOLUTION = 1
+    BEST_SOLUTION = 2
+
+    CHOICES = (
+        (AUTO, _('Auto')),
+        (LAST_SOLUTION, _('Take last solution')),
+        (BEST_SOLUTION, _('Take best solution')),
+    )
+
+
 def _default_contest_start_time():
     ts = datetime.now() + timedelta(days=3)
     ts = ts.replace(hour=10, minute=0, second=0, microsecond=0)
@@ -88,6 +100,7 @@ class Contest(models.Model):
     enable_printing = models.BooleanField(_('enable printing'), blank=True, default=False)
     rooms = models.CharField(_('rooms (comma-separated)'), blank=True, max_length=255)
     kind = models.IntegerField(_('kind'), choices=ContestKind.CHOICES, default=ContestKind.UNKNOWN)
+    scoring_policy = models.IntegerField(_('score policy'), choices=ContestScoringPolicy.CHOICES, default=ContestScoringPolicy.AUTO)
 
     def get_absolute_url(self):
         return reverse('contests:standings', kwargs={'contest_id': self.pk})

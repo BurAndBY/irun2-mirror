@@ -16,7 +16,7 @@ from solutions.models import Judgement, Solution
 from solutions.permissions import SolutionAccessLevel
 from solutions.submit.limit import ILimitPolicy
 
-from .models import Contest, ContestSolution, Membership
+from .models import Contest, ContestSolution, Membership, ContestScoringPolicy
 from .utils.problemstats import ProblemStats
 from .utils.types import SolutionKind
 
@@ -574,7 +574,12 @@ class IOIContestService(IContestService):
     def make_contest_results(self, contest, frozen, user_regex=None):
         if frozen:
             return None
-        user_result_cls = IOIUserResultLast if not self._own_solutions_access else IOIUserResultMax
+        if contest.scoring_policy == ContestScoringPolicy.LAST_SOLUTION:
+            user_result_cls = IOIUserResultLast
+        elif contest.scoring_policy == ContestScoringPolicy.BEST_SOLUTION:
+            user_result_cls = IOIUserResultMax
+        else:
+            user_result_cls = IOIUserResultLast if not self._own_solutions_access else IOIUserResultMax
         return _make_contest_results(contest, False, user_result_cls, ColumnPresence(False, False, True), user_regex)
 
 
