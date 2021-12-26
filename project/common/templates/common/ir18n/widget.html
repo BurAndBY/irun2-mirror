@@ -1,0 +1,22 @@
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_ir18n %}
+
+<div id="{{ widget.attrs.id }}">
+    <div class="hidden">
+        {% ir18n_row allowed_langs '' '' %}
+    </div>
+    <div class="visible">
+        {% for lang, v in widget.value %}
+            {% ir18n_row allowed_langs lang v %}
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-default btn-xs ir-add-translation" style="margin-top: 8px">
+        {% bootstrap_icon 'plus' %}<span class="ir-icon-label">{% trans 'Add translation' %}</span>
+    </button>
+</div>
+<script>
+$(document).ready(function() {
+    irSetUpIR18nField("{{ widget.attrs.id }}", "{{ widget.name }}");
+});
+</script>

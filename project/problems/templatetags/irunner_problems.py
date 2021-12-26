@@ -145,8 +145,15 @@ def represent_limits(problem):
 @register.inclusion_tag('problems/irunner_problems_heading_tag.html')
 def irunner_problems_heading(problem, letter=None, lang_selector=None):
     ls = represent_limits(problem)
+
+    if lang_selector is None:
+        name = problem.numbered_full_name()
+    else:
+        name = problem.numbered_full_name_for_lang(lang_selector.get_current_lang())
+
     return {
         'problem': problem,
+        'problem_name': name,
         'letter': letter,
         'time_limit': ls.time_limit,
         'memory_limit': ls.memory_limit,

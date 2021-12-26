@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-02 21:03+0300\n"
-"PO-Revision-Date: 2021-12-02 21:03+0300\n"
+"POT-Creation-Date: 2021-12-27 02:34+0300\n"
+"PO-Revision-Date: 2021-12-27 02:39+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -386,6 +386,20 @@ msgstr "%(year)d-й курс"
 msgid "group #%(group)d"
 msgstr "%(group)d-я группа"
 
+msgid "Default translation cannot start with { and end with }"
+msgstr "Перевод по умолчанию не может начинаться на { и заканчиваться на }"
+
+msgid "Choosing the language is required unless there is a single translation"
+msgstr "Нужно указать язык, если перевод не единственный"
+
+#, python-format
+msgid "Unknown language %(lang)s"
+msgstr "Неизвестный язык %(lang)s"
+
+#, python-format
+msgid "Multiple translations for %(lang)s language"
+msgstr "Несколько переводов для языка %(lang)s"
+
 msgid "Not set"
 msgstr "Не указано"
 
@@ -427,6 +441,9 @@ msgstr "Ошибка тестирования"
 
 msgid "Failed"
 msgstr "Ошибка"
+
+msgid "Add translation"
+msgstr "Добавить перевод"
 
 msgid "Language"
 msgstr "Язык"

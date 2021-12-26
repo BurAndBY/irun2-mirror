@@ -312,3 +312,51 @@ $(document).ready(function() {
         });
     };
 }(jQuery));
+
+/**
+ * New three-panel multi-select widget
+ */
+function irSetUpIR18nField(divId, fieldName) {
+    var root = $("#" + divId);
+
+    var setFieldNames = function() {
+        var rows = root.children(".visible").children();
+        for (var i = 0; i < rows.length; i++) {
+            $(rows[i]).find("select").attr("name", fieldName + "_lang_" + i);
+            $(rows[i]).find("input").attr("name", fieldName + "_value_" + i);
+            //$(rows[i]).find("input").prop("required", true);
+        }
+    };
+    var getPresentLangs = function() {
+        var res = {};
+        root.children(".visible").children().each(function() {
+            var cur = $(this).find("select").val();
+            if (cur) {
+                res[cur] = true;
+            }
+        });
+        return res;
+    };
+
+    root.on("click", ".ir-remove-translation", function() {
+        $(this).parents(".input-group").remove();
+        setFieldNames();
+    });
+    root.find(".ir-add-translation").click(function() {
+        var present = getPresentLangs();
+        var src = root.children(".hidden").children().first();
+        var options = $(src).find("select > option");
+        for (var i = 0; i < options.length; i++) {
+            var cur = $(options[i]).val();
+            if (cur && !present[cur]) {
+                var dst = src.clone();
+                dst.find("select").val(cur);
+                root.children(".visible").first().append(dst);
+                setFieldNames();
+                dst.find("input").focus();
+                break;
+            }
+        }
+    });
+    setFieldNames();
+}

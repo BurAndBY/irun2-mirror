@@ -21,6 +21,8 @@ LANGUAGES = (
     ('en', 'English'),
 )
 
+MODEL_LANGUAGES = ['ru', 'en']
+
 MAIN_LOGO = {
     'ru': {
         'path': 'bsu/logo_ru.svg',

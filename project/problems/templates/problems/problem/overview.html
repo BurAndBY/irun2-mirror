@@ -20,13 +20,19 @@
 
             {% if problem.short_name and problem.full_name != problem.short_name %}
                 <dt>{% trans 'Full name' %}</dt>
-                <dd>{{ problem.full_name }}</dd>
+                {% for lang, value in problem.full_name.items %}
+                    <dd>{{ value }}{% if lang %} <small>({{ lang }})</small>{% endif %}</dd>
+                {% endfor %}
 
                 <dt>{% trans 'Short name' %}</dt>
-                <dd>{{ problem.short_name }}</dd>
+                {% for lang, value in problem.short_name.items %}
+                    <dd>{{ value }}{% if lang %} <small>({{ lang }})</small>{% endif %}</dd>
+                {% endfor %}
             {% else %}
                 <dt>{% trans 'Name' %}</dt>
-                <dd>{{ problem.full_name }}</dd>
+                {% for lang, value in problem.full_name.items %}
+                    <dd>{{ value }}{% if lang %} <small>({{ lang }})</small>{% endif %}</dd>
+                {% endfor %}
             {% endif %}
 
             {% if problem.difficulty != None %}

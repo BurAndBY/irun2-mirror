@@ -1,0 +1,15 @@
+{% load bootstrap3 %}
+{% load i18n %}
+<div class="input-group">
+    <input type="text" class="form-control" autocomplete="off" value="{{ value }}">
+    <span class="input-group-addon" style="border-left: 0; border-right: 0;">@</span>
+    <select class="form-control">
+        <option value=""{% if '' == language %} selected{% endif %}>&mdash;</option>
+        {% for cur_lang in allowed_langs %}
+            <option value="{{ cur_lang }}"{% if cur_lang == language %} selected{% endif %}>{{ cur_lang }}</option>
+        {% endfor %}
+    </select>
+    <span class="input-group-btn">
+        <button class="btn btn-default ir-remove-translation" type="button">{% bootstrap_icon 'trash' %}</button>
+    </span>
+</div>

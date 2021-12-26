@@ -11,6 +11,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from cauth.acl.models import BaseAccess
 from common.locales.fields import LanguageField
+from common.ir18n.fields import IR18nCharField
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
 from storage.storage import ResourceIdField
@@ -31,8 +32,8 @@ class ProblemFolder(MPTTModel):
 class Problem(models.Model):
     number = models.IntegerField(_('number'), blank=True, null=True, default=None)
     subnumber = models.IntegerField(_('subnumber'), blank=True, null=True, default=None)
-    full_name = models.CharField(_('full name'), max_length=200, blank=True)
-    short_name = models.CharField(_('short name'), max_length=32, blank=True)
+    full_name = IR18nCharField(_('full name'), max_length=200, blank=True)
+    short_name = IR18nCharField(_('short name'), max_length=32, blank=True)
     difficulty = models.IntegerField(_('difficulty'), blank=True, null=True, default=None)
 
     input_filename = models.CharField(_('input file name'), max_length=32, blank=True)
@@ -77,6 +78,9 @@ class Problem(models.Model):
     def numbered_full_name(self):
         return self._numbered_name(self.full_name)
 
+    def numbered_full_name_for_lang(self, lng):
+        return self._numbered_name(self.full_name.localize(lng) if lng else self.full_name)
+
     def numbered_full_name_difficulty(self):
         result = self.numbered_full_name()
         if self.difficulty is not None:
@@ -96,8 +100,15 @@ class Problem(models.Model):
         else:
             return self.numbered_full_name()
 
+    @staticmethod
+    def _is_non_empty(i18n_str):
+        for value in i18n_str.values():
+            if not value or not value.strip():
+                return False
+        return True
+
     def clean(self):
-        has_name = (self.full_name and self.full_name.strip()) or (self.short_name and self.short_name.strip())
+        has_name = Problem._is_non_empty(self.full_name) or Problem._is_non_empty(self.short_name)
         if self.number is None and not has_name:
             raise ValidationError(_('A problem must have a number or a non-empty name.'))
 

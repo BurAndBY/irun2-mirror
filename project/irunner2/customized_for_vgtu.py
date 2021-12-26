@@ -16,10 +16,12 @@ EXTERNAL_LINKS = [
 ]
 
 LANGUAGES = (
-    ('ru', 'Russian'),
     ('en', 'English'),
+    ('ru', 'Russian'),
     # ('lt', 'Lithuanian'),
 )
+
+MODEL_LANGUAGES = ['lt', 'en', 'ru']
 
 MAIN_LOGO = {
     'en': {
