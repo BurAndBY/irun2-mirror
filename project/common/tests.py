@@ -7,6 +7,7 @@ import datetime
 from django.test import TestCase
 
 from common.templatetags.irunner_time import irunner_timedelta_hms, irunner_timedelta_humanized
+from common.locales.tests import *  # noqa
 from common.pylightex.tests import *  # noqa
 
 

@@ -8,5 +8,12 @@ def find_best(locales, needed, extract=lambda v: v):
     return next(iter(locales))
 
 
-def find_best_pair(locales, needed):
-    return find_best(locales, needed, lambda kv: kv[0])
+def find_best_pair(locale_pairs, needed):
+    return find_best(locale_pairs, needed, lambda kv: kv[0])
+
+
+def find_best_value(locale_pairs, needed):
+    try:
+        return find_best_pair(locale_pairs, needed)[1]
+    except StopIteration:
+        return ''
