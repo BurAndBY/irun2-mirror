@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponseRedirect
@@ -158,7 +159,7 @@ class ImportFromPolygonView(CombinedMixin, generic.base.ContextMixin, generic.Vi
     def get(self, request):
         # TODO: better way to select default compiler (remember last used?)
         compiler = Compiler.objects.filter(description__contains='GNU C++', default_for_courses=True).first()
-        form = PolygonImportForm(initial={'compiler': compiler})
+        form = PolygonImportForm(initial={'compiler': compiler, 'language': settings.MODEL_LANGUAGES})
 
         context = self.get_context_data(form=form)
         return render(request, self.template_name, context)

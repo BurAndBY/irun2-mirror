@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from common.locales.fields import CHOICES
 from common.constants import EMPTY_SELECT
 from proglangs.models import Compiler
 
@@ -25,13 +26,8 @@ class ProblemFolderForm(forms.ModelForm):
 
 
 class PolygonImportForm(forms.Form):
-    LANGUAGE_CHOICES = (
-        ('russian', _('Russian')),
-        ('english', _('English')),
-    )
-
     upload = forms.FileField(label=_('Full package (Windows) as a ZIP-archive'), required=True, widget=forms.FileInput)
-    language = forms.ChoiceField(label=_('Problem statement language'), required=True, choices=LANGUAGE_CHOICES)
+    language = forms.MultipleChoiceField(label=_('Problem statement language'), required=False, choices=CHOICES, widget=forms.CheckboxSelectMultiple)
     compiler = forms.ModelChoiceField(label=_('Compiler for checker and validator'), queryset=None, required=True, empty_label=EMPTY_SELECT)
 
     def __init__(self, *args, **kwargs):

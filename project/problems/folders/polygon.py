@@ -1,11 +1,14 @@
 from __future__ import unicode_literals, print_function
 
+from os.path import splitext
 import zipfile
 import xml.etree.ElementTree as ET
 
 from django.core.files.base import ContentFile
 from django.utils import timezone
+from django.utils.translation import get_language_info
 
+from common.ir18n.strings import LazyI18nString
 from problems.models import Problem, ProblemExtraInfo, TestCase, ProblemRelatedFile, ProblemRelatedSourceFile
 from storage.storage import create_storage
 from storage.utils import store_and_fill_metadata
@@ -13,11 +16,23 @@ from storage.utils import store_and_fill_metadata
 HIDE_HEADER_CSS = '.problem-statement .header { display: none; }'
 
 
-def get_full_name(root, language):
+def _langcode_to_language(code):
+    return get_language_info(code)['name'].lower()
+
+
+def _inject_lang(filename, langcode):
+    root, ext = splitext(filename)
+    return '{}-{}{}'.format(root, langcode, ext)
+
+
+def get_full_name(root, langcodes):
+    remap = {_langcode_to_language(code): code for code in langcodes}
+    res = {}
     for name in root.findall('names/name'):
-        if name.attrib['language'] == language:
-            return name.attrib['value']
-    return ''
+        langcode = remap.get(name.attrib['language'])
+        if langcode is not None:
+            res[langcode] = name.attrib['value']
+    return LazyI18nString(res)
 
 
 def parse_input_output_file(name):
@@ -40,7 +55,7 @@ def load_source_file(myzip, elem, problem, file_type, compiler):
     related_file.save()
 
 
-def load_html_statement(myzip, problem, language):
+def load_html_statement(myzip, problem, langcode, language, existing_files):
     prefix = 'statements/.html/{0}/'.format(language)
     for path in myzip.namelist():
         if path.startswith(prefix):
@@ -49,21 +64,34 @@ def load_html_statement(myzip, problem, language):
                 # skip the directory itself
                 continue
 
-            file_type = ProblemRelatedFile.STATEMENT_HTML if (filename == 'problem.html') else ProblemRelatedFile.ADDITIONAL_STATEMENT_FILE
-            related_file = ProblemRelatedFile(problem=problem, file_type=file_type)
+            print(filename)
+            if filename == 'problem.html':
+                file_type = ProblemRelatedFile.STATEMENT_HTML
+                target_lang = langcode
+                target_filename = _inject_lang(filename, langcode)
+            else:
+                file_type = ProblemRelatedFile.ADDITIONAL_STATEMENT_FILE
+                target_lang = ''
+                target_filename = filename
+
+            if target_filename in existing_files:
+                continue
+
+            related_file = ProblemRelatedFile(problem=problem, file_type=file_type, language=target_lang)
 
             data = myzip.read(path)
             # HACK
             if filename == 'problem-statement.css':
                 data += HIDE_HEADER_CSS.encode('utf-8')
 
-            fd = ContentFile(data, name=filename)
+            fd = ContentFile(data, name=target_filename)
             store_and_fill_metadata(fd, related_file)
             related_file.full_clean()
             related_file.save()
+            existing_files.add(target_filename)
 
 
-def load_tex_statement(myzip, problem, language):
+def load_tex_statement(myzip, problem, langcode, language):
     lines = []
 
     def load(fn):
@@ -108,20 +136,20 @@ def load_tex_statement(myzip, problem, language):
 
     if lines:
         tex_data = ''.join('{}\n'.format(line) for line in lines)
-        related_file = ProblemRelatedFile(problem=problem, file_type=ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX)
-        fd = ContentFile(tex_data.encode('utf-8'), name='statement.tex')
+        related_file = ProblemRelatedFile(problem=problem, file_type=ProblemRelatedFile.STATEMENT_TEX_PYLIGHTEX, language=langcode)
+        fd = ContentFile(tex_data.encode('utf-8'), name=_inject_lang('statement.tex', langcode))
         store_and_fill_metadata(fd, related_file)
         related_file.full_clean()
         related_file.save()
 
 
-def parse_archive(myzip, language, compiler, user):
+def parse_archive(myzip, langcodes, compiler, user):
     problem_xml_data = myzip.read('problem.xml')
     root = ET.fromstring(problem_xml_data)
 
     problem = Problem()
     problem.short_name = root.attrib['short-name']
-    problem.full_name = get_full_name(root, language)
+    problem.full_name = get_full_name(root, langcodes)
 
     judging = root.find('judging')
     problem.input_filename = parse_input_output_file(judging.get('input-file'))
@@ -184,13 +212,16 @@ def parse_archive(myzip, language, compiler, user):
         for validator in root.findall('assets/validators/validator'):
             load_source_file(myzip, validator, problem, ProblemRelatedSourceFile.VALIDATOR, compiler)
 
-    load_html_statement(myzip, problem, language)
-    load_tex_statement(myzip, problem, language)
+    existing_files = set()
+    for langcode in langcodes:
+        language = _langcode_to_language(langcode)
+        load_html_statement(myzip, problem, langcode, language, existing_files)
+        load_tex_statement(myzip, problem, langcode, language)
     return problem
 
 
-def import_full_package(upload, language, compiler, user, folder_id=None):
+def import_full_package(upload, langcodes, compiler, user, folder_id=None):
     with zipfile.ZipFile(upload, 'r', allowZip64=True) as myzip:
-        problem = parse_archive(myzip, language, compiler, user)
+        problem = parse_archive(myzip, langcodes, compiler, user)
     if folder_id is not None:
         problem.folders.add(folder_id)
