@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.utils.encoding import force_str
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -73,7 +74,7 @@ class Problem(models.Model):
             else:
                 return self.get_formatted_number()
         else:
-            return name
+            return force_str(name)
 
     def numbered_full_name(self):
         return self._numbered_name(self.full_name)
@@ -94,9 +95,9 @@ class Problem(models.Model):
     # for contests
     def unnumbered_brief_name(self):
         if self.short_name:
-            return self.short_name
+            return force_str(self.short_name)
         elif self.full_name:
-            return self.full_name
+            return force_str(self.full_name)
         else:
             return self.numbered_full_name()
 
