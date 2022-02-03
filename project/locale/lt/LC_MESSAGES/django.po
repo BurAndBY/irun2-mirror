@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-08 21:20+0300\n"
-"PO-Revision-Date: 2020-09-19 08:36+0300\n"
+"POT-Creation-Date: 2021-12-02 21:03+0300\n"
+"PO-Revision-Date: 2022-02-02 00:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ru.po\n"
 "X-Poedit-SearchPath-1: ru.mo\n"
@@ -81,7 +81,7 @@ msgid "Write"
 msgstr "Rašyti"
 
 msgid "Username"
-msgstr "Vartotojo vardas"
+msgstr "Naudotojo vardas"
 
 msgid "Access mode"
 msgstr "Prieigos rėžimas"
@@ -96,7 +96,7 @@ msgid "Token"
 msgstr "Žetonas"
 
 msgid "Access is granted for individual users."
-msgstr "Prieiga suteikta individualiems vartotojams."
+msgstr "Prieiga suteikta individualiems naudotojams."
 
 msgid "Access is granted for administrator groups."
 msgstr "Prieiga suteikta administratoriams."
@@ -121,14 +121,14 @@ msgid "Access control list"
 msgstr "Prieigos kontrolinis sąrašas"
 
 msgid "User"
-msgstr "Vartotojas"
+msgstr "Naudotojas"
 
 msgid "Mode"
 msgstr "Būsena"
 
 #, python-format
 msgid "Permission was granted on %(when)s by user %(who)s"
-msgstr "Teisės buvo suteiktos %(when)s . Jas suteikė vartotojas %(who)s"
+msgstr "Teisės buvo suteiktos %(when)s . Jas suteikė naudotojas %(who)s"
 
 msgid "Revoke access"
 msgstr "Atimti prieigą"
@@ -360,16 +360,16 @@ msgstr "Pakeisk mano slaptažodį"
 #, python-format
 msgid "%(count)d user was added."
 msgid_plural "%(count)d users were added."
-msgstr[0] "%(count)d vartotojas buvo pridėtas."
-msgstr[1] "%(count)d vartotojas buvo pridėtas."
-msgstr[2] ""
+msgstr[0] "Buvo pridėtas %(count)d naudotojas."
+msgstr[1] "Buvo pridėti %(count)d naudotojai."
+msgstr[2] "Buvo pridėta %(count)d naudotojų."
 
 #, python-format
 msgid "%(count)d user was removed."
 msgid_plural "%(count)d users were removed."
-msgstr[0] "%(count)d vartotojas buvo pašalintas."
-msgstr[1] "%(count)d vartotojas buvo pašalintas."
-msgstr[2] ""
+msgstr[0] "Buvo pašalintas %(count)d naudotojas."
+msgstr[1] "Buvo pašalinti %(count)d naudotojai."
+msgstr[2] "Buvo pašalinta %(count)d naudotojų."
 
 msgid "standard input"
 msgstr "standartinis įvedimas"
@@ -381,7 +381,7 @@ msgid "no"
 msgstr "ne"
 
 msgid "Your changes have been saved."
-msgstr "Tavo pakeitimai buvo išsaugoti."
+msgstr "Jūsų pakeitimai buvo išsaugoti."
 
 msgid "Accepted for testing"
 msgstr "Priimta bandymams"
@@ -393,6 +393,12 @@ msgstr "%(year)d metai"
 #, python-format
 msgid "group #%(group)d"
 msgstr "grupė %(group)d"
+
+msgid "Not set"
+msgstr "Nenustatyta"
+
+msgid "Unknown"
+msgstr "Nežinoma"
 
 msgid "N/A"
 msgstr "Nepasiekiamas"
@@ -430,6 +436,9 @@ msgstr "Patikrinti nepavyko"
 msgid "Failed"
 msgstr "Nepavyko"
 
+msgid "Language"
+msgstr "Kalba"
+
 msgid "Page"
 msgstr "Puslapis"
 
@@ -465,35 +474,35 @@ msgid "%(count)d day"
 msgid_plural "%(count)d days"
 msgstr[0] "%(count)d diena"
 msgstr[1] "%(count)d dienos"
-msgstr[2] ""
+msgstr[2] "%(count)d dienų"
 
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d diena"
 msgstr[1] "%d dienos"
-msgstr[2] ""
+msgstr[2] "%d dienų"
 
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d valanda"
 msgstr[1] "%d valandos"
-msgstr[2] ""
+msgstr[2] "%d valandų"
 
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minutė"
 msgstr[1] "%d minutės"
-msgstr[2] ""
+msgstr[2] "%d minučių"
 
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d sekundė"
-msgstr[1] "%d sekundes"
-msgstr[2] ""
+msgstr[1] "%d sekundės"
+msgstr[2] "%d sekundžių"
 
 msgctxt "time"
 msgid ", "
@@ -508,8 +517,8 @@ msgstr "Jūs neturite leidimo pridėti įrašų į šį aplanką."
 msgid "You do not have permission to list entries of this folder."
 msgstr "Jūs neturite leidimo peržiūrėti šio aplanko įrašų."
 
-msgid "Not set"
-msgstr "Nenustatyta"
+msgid "For IOI-style contests"
+msgstr "IOI stiliaus konkursams"
 
 msgid "Each access level includes all the previous onces."
 msgstr "Kiekvienas prieigos lygis apima visas ankstesnes versijas."
@@ -531,7 +540,7 @@ msgstr ""
 "PDF formatu)."
 
 msgid "Users"
-msgstr "Vartotojai"
+msgstr "Naudotojai"
 
 msgid "Problem"
 msgstr "Užduotis"
@@ -578,6 +587,15 @@ msgstr "Kvalifikacinis turas"
 msgid "Training"
 msgstr "Treniruotė"
 
+msgid "Auto"
+msgstr "Automatinis"
+
+msgid "Take last solution"
+msgstr "Pasiimti praeitą sprendimą"
+
+msgid "Take best solution"
+msgstr "Pasiimti geriausią sprendimą"
+
 msgid "name"
 msgstr "pavadinimas"
 
@@ -585,13 +603,19 @@ msgid "rules"
 msgstr "taisyklės"
 
 msgid "access for unauthorized users"
-msgstr "prieiga neautorizuotiems vartotojams"
+msgstr "prieiga neautorizuotiems naudotojams"
 
 msgid "contestant’s access to his own solutions"
 msgstr "dalyvio prieiga prie savo sprendimų"
 
-msgid "maximum number of attempts per problem"
+msgid "maximum total number of attempts per problem"
 msgstr "didžiausias bandymų skaičius vienai užduočiai"
+
+msgid "number of attempts per problem..."
+msgstr "didžiausias bandymų skaičius vienai užduočiai..."
+
+msgid "...during the time period"
+msgstr "...per laiko tarpą"
 
 msgid "maximum solution file size (bytes)"
 msgstr "maksimalus sprendimo failo dydis (baitai)"
@@ -625,6 +649,9 @@ msgstr "kambariai (atskirti kableliais)"
 
 msgid "kind"
 msgstr "rūšis"
+
+msgid "score policy"
+msgstr "balų politika"
 
 msgid "Freeze time must not exceed the contest duration."
 msgstr "Įšaldymo laikas neturi viršyti konkurso trukmės."
@@ -895,7 +922,7 @@ msgid "Filters"
 msgstr "Filtrai"
 
 msgid "No users are set"
-msgstr "Nė vienas vartotojas nenustatytas"
+msgstr "Nė vienas naudotojas nenustatytas"
 
 msgctxt "contest"
 msgid "Standings"
@@ -958,7 +985,6 @@ msgstr "Tren."
 msgid "The question has been successfully submitted."
 msgstr "Klausimas buvo sėkmingai pateiktas."
 
-#, fuzzy
 msgid "Your printout has been successfully added to printing queue."
 msgstr "Jūsų spaudinys sėkmingai pridėtas prie spausdinimo eilės."
 
@@ -970,13 +996,6 @@ msgstr "Mokslo metai"
 
 msgid "Topic"
 msgstr "Tema"
-
-msgid "Attempt count limit is reached."
-msgstr "Pasiekta bandymų riba."
-
-#, python-format
-msgid "This problem must be solved in %(langs)s"
-msgstr "Ši užduotis turi būti išspręsta naudojantis %(langs)s"
 
 msgid "Attachment"
 msgstr "Priedas"
@@ -1011,6 +1030,9 @@ msgstr "studento prieiga prie visų kurso sprendimų"
 msgid "teacher’s access to all solutions of the course"
 msgstr "mokytojo prieiga prie visų kurso sprendimų"
 
+msgid "private mode: student names are hidden"
+msgstr "privatus režimas: studentų vardai yra paslėpti"
+
 msgid "enable mark sheet"
 msgstr "įjungti pažymių lentelę"
 
@@ -1026,9 +1048,6 @@ msgstr "Grupės numeris"
 msgid "No information is given to identify the course."
 msgstr "Kursui nustatyti nėra duota jokios informacijos."
 
-#, fuzzy
-#| msgctxt "time"
-#| msgid ", "
 msgctxt "course name delimiter"
 msgid ", "
 msgstr ", "
@@ -1123,30 +1142,12 @@ msgstr "Studentai"
 msgid "Teachers"
 msgstr "Mokytojai"
 
-#, python-format
-msgid "You have %(count)d attempt remaining for the problem during the day."
-msgid_plural ""
-"You have %(count)d attempts remaining for the problem during the day."
-msgstr[0] "Jūs turite %(count)d bandymų likusių šiai užduočiai šią dieną."
-msgstr[1] "Jūs turite %(count)d bandymų likusių šioms užduotims šią dieną."
-msgstr[2] "Jūs turite %(count)d bandymų likusių šioms užduotims šią dieną."
-
-msgid "You have no attempts remaining for the problem."
-msgstr "Jūs neturite bandymų šiai užduočiai."
-
-#, python-format
-msgid "Please try again after %(ts)s."
-msgstr "Pabandykite dar kartą po %(ts) s."
-
-msgid "The number of attempts is not limited."
-msgstr "Bandymų skaičius neribojamas."
-
 msgid "Problem folder"
 msgstr "Užduočių aplankas"
 
 #, fuzzy
 msgid "Problems to assign per student in the course"
-msgstr "Užduotys priskiriamos kurso studentams"
+msgstr "Užduotys, priskiriamos kurso studentams"
 
 msgid "Weight coefficient"
 msgstr "Svorio koeficientas"
@@ -1322,8 +1323,8 @@ msgstr "Pokalbis bus ištrintas"
 msgid "%(counter)s message"
 msgid_plural "%(counter)s messages"
 msgstr[0] "%(counter)s pranešimas"
-msgstr[1] "%(counter)s pranešimi"
-msgstr[2] ""
+msgstr[1] "%(counter)s pranešimai"
+msgstr[2] "%(counter)s pranešimų"
 
 msgid "My problems"
 msgstr "Mano uždaviniai"
@@ -1390,7 +1391,7 @@ msgid "%(counter)s question"
 msgid_plural "%(counter)s questions"
 msgstr[0] "%(counter)s klausimas"
 msgstr[1] "%(counter)s klausimai"
-msgstr[2] ""
+msgstr[2] "%(counter)s klausimų"
 
 msgid "unlimited number of attempts"
 msgstr "neribotas bandymų skaičius"
@@ -1398,9 +1399,9 @@ msgstr "neribotas bandymų skaičius"
 #, python-format
 msgid "%(counter)s attempt left"
 msgid_plural "%(counter)s attempts left"
-msgstr[0] "%(counter)s bandymų liko"
-msgstr[1] "%(counter)s bandymas paliko"
-msgstr[2] ""
+msgstr[0] "Liko %(counter)s bandymas"
+msgstr[1] "Liko %(counter)s bandymai"
+msgstr[2] "Liko %(counter)s bandymų"
 
 msgid "Start time"
 msgstr "Pradžios laikas"
@@ -1509,7 +1510,7 @@ msgid "%(counter)s problem"
 msgid_plural "%(counter)s problems"
 msgstr[0] "%(counter)s užduotis"
 msgstr[1] "%(counter)s užduotys"
-msgstr[2] ""
+msgstr[2] "%(counter)s užduočių"
 
 msgid "To assign"
 msgstr "Paskirti"
@@ -1551,7 +1552,7 @@ msgid "%(counter)s time"
 msgid_plural "%(counter)s times"
 msgstr[0] "%(counter)s laikas"
 msgstr[1] "%(counter)s kartus"
-msgstr[2] ""
+msgstr[2] "%(counter)s kartų"
 
 msgid "New quiz"
 msgstr "Nauja viktorina"
@@ -1587,7 +1588,7 @@ msgid "New subgroup"
 msgstr "Naujas pogrupis"
 
 msgid "No users are set."
-msgstr "Nė vienas vartotojas nenustatytas."
+msgstr "Nė vienas naudotojas nenustatytas."
 
 msgid "Edit students list"
 msgstr "Redaguoti studentų sąrašą"
@@ -1614,20 +1615,36 @@ msgstr "Plagiatas"
 msgid "Please select a problem."
 msgstr "Pasirinkite užduotį."
 
-msgid "Solution"
-msgstr "Sprendimas"
-
 msgid "Edit criterion"
 msgstr "Redaguoti kriterijų"
 
 msgid "Logo image file"
 msgstr "Logotipo paveikslėlio failas"
 
+msgid "Invalid format string"
+msgstr "Tekstas neteisingo formato"
+
+#, fuzzy
+msgid "Ex."
+msgstr "Ex."
+
+msgid "Password generation algorithm"
+msgstr "Slaptažodžio generavimo algoritmas"
+
+msgid "Destination folder"
+msgstr "Paskirties aplankas"
+
+msgid "If the user creation is on, this field is required"
+msgstr "Jeigu naudotojo sukūrimas įjungtas, šis laukas yra privalomas"
+
 msgid "Coach and teams"
 msgstr "Treneris ir komandos"
 
 msgid "Individual"
 msgstr "Individuali"
+
+msgid "Individual school"
+msgstr "Individuali mokykla"
 
 msgid "name for URL"
 msgstr "nuorodos pavadinimas"
@@ -1663,11 +1680,29 @@ msgstr "logotipo stilius"
 msgid "image file"
 msgstr "paveikslėlis"
 
+msgid "create users automatically"
+msgstr "kurti naudotojus automatiškai"
+
+msgid "user folder"
+msgstr "naudotojų aplankas"
+
+msgid "username pattern"
+msgstr "naudotojo vardo šablonas"
+
+msgid "Contest"
+msgstr "Konkursas"
+
+msgid "show on the main page"
+msgstr "rodyti pagrindiniame puslapyje"
+
 msgid "Register as Coach"
 msgstr "Registruokitės kaip treneris"
 
 msgid "Register as Сontestant"
 msgstr "Registruokitės kaip dalyvis"
+
+msgid "Materials"
+msgstr "Medžiaga"
 
 msgid "Edit event"
 msgstr "Redaguokite įvykį"
@@ -1684,11 +1719,23 @@ msgstr "Įvykis"
 msgid "External link"
 msgstr "Išorinė nuoroda"
 
-msgid "Page design"
-msgstr "Puslapio dizainas"
+msgid "Pages"
+msgstr "Puslapiai"
 
 msgid "Registration"
 msgstr "Registracija"
+
+msgid "Page design"
+msgstr "Puslapio dizainas"
+
+msgid "New page"
+msgstr "Naujas puslapis"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Visibility"
+msgstr "Matomumas"
 
 msgid "Coaches"
 msgstr "Treneriai"
@@ -1725,7 +1772,7 @@ msgid "Feedback Messages"
 msgstr "Atsiliepimų žinutės"
 
 msgid "Anonymous user"
-msgstr "Anonimas vartotojas"
+msgstr "Anoniminis naudotojas"
 
 msgid "Feedback Form"
 msgstr "Atsiliepimo forma"
@@ -1746,7 +1793,6 @@ msgid ""
 "programming contests and to help conducting practical classes on algorithm "
 "basics and related courses."
 msgstr ""
-"\n"
 "%(system_full_name)s yra edukacinė platforma, skirta programavimo konkursų "
 "vykdymui ir praktinių užsiėmimų organizavimui."
 
@@ -1796,20 +1842,11 @@ msgstr "Wiki"
 msgid "News"
 msgstr "Naujienos"
 
-msgid "show on the main page"
-msgstr "rodyti pagrindiniame puslapyje"
-
 msgid "Add news"
 msgstr "Pridėti naujienų"
 
-msgid "Date"
-msgstr "Data"
-
 msgid "Subject"
 msgstr "Temag"
-
-msgid "Visibility"
-msgstr "Matomumas"
 
 msgid "Update news"
 msgstr "Atnaujinti naujienas"
@@ -1874,6 +1911,9 @@ msgstr "matomų testų skaičius"
 msgid "allowed programming languages"
 msgstr "leistos programavimo kalbos"
 
+msgid "Check plagiarism"
+msgstr "Patikrinti plagiatą"
+
 msgid "TeX statement (TeXtoHTML)"
 msgstr "TeX sąlyga (TeXtoHTML)"
 
@@ -1886,6 +1926,9 @@ msgstr "HTML sąlyga"
 msgid "Additional statement file"
 msgstr "Papildomas sąlygos failas"
 
+msgid "Problem tutorial (pylightex)"
+msgstr "Uždavinio paaiškinimas (pylightex)"
+
 msgid "Sample input file"
 msgstr "Pavyzdinis įvesties failas"
 
@@ -1893,10 +1936,13 @@ msgid "Sample output file"
 msgstr "Pavyzdžio išvesties failas"
 
 msgid "User file"
-msgstr "Vartotojo failas"
+msgstr "Naudotojo failas"
 
 msgid "file type"
 msgstr "failo tipas"
+
+msgid "language"
+msgstr "kalba"
 
 msgid "Author's solution"
 msgstr "Autoriaus sprendimas"
@@ -1997,6 +2043,9 @@ msgstr "Nežinomas failas: %(name)s rastas archyve"
 msgid "File not found in the archive: %(name)s"
 msgstr "Failas nerastas archyve: %(name)s"
 
+msgid "Tutorial"
+msgstr "Paaiškinimas"
+
 msgid "Tests"
 msgstr "Testai"
 
@@ -2095,6 +2144,9 @@ msgstr "trys pavyzdžiai"
 
 msgid "Loading..."
 msgstr "Kraunasi..."
+
+msgid "There is no tutorial for this problem"
+msgstr "Šiai užduočiai nebuvo sukurtas paaiškinimas"
 
 msgid "Search"
 msgstr "Leškoti"
@@ -2429,9 +2481,6 @@ msgstr "Kompiliatorius pakeitimui"
 msgid "string identifier"
 msgstr "eilutės identifikatorius"
 
-msgid "language"
-msgstr "kalba"
-
 msgid "compiler is enabled by default in new courses"
 msgstr ""
 "kompiliatorius įjungtas pagal numatytuosius nustatymus naujuose kursuose"
@@ -2460,9 +2509,6 @@ msgstr ""
 
 msgid "String identifier"
 msgstr "Eilučių identifikatorius"
-
-msgid "Language"
-msgstr "Kalba"
 
 msgid "For courses?"
 msgstr "Kursams?"
@@ -2508,9 +2554,6 @@ msgstr "griežtas"
 
 msgid "shuffle questions"
 msgstr "maišyti klausimus"
-
-msgid "score policy"
-msgstr "balų politika"
 
 msgid "attempts"
 msgstr "bandymai"
@@ -2627,7 +2670,7 @@ msgid "Quiz marks by years"
 msgstr "Viktorinos įvertinimai pagal metus"
 
 msgid "sess."
-msgstr "sesija"
+msgstr "sesija."
 
 msgid "Quiz marks by courses in the last year"
 msgstr "Pastarųjų metų viktorinos įvertinimai pagal kursus"
@@ -2698,10 +2741,6 @@ msgstr "Pridėti pasirinkimą"
 msgid "Single option left for the question that allows multiple options."
 msgstr "Liko vienas pasirinkimas klausimui kuris leidžia kelis pasirinkimus."
 
-#, fuzzy
-msgid "Ex."
-msgstr "Ex."
-
 msgid "Format"
 msgstr "Formatas"
 
@@ -2713,6 +2752,12 @@ msgstr "Institucija (universitetas, mokykla)"
 
 msgid "Faculty (if any)"
 msgstr "Fakultetas (jei yra)"
+
+msgid "Form"
+msgstr "Forma"
+
+msgid "School"
+msgstr "Mokykla"
 
 msgid "Program start year"
 msgstr "Programos pradėjimo metai"
@@ -2735,9 +2780,8 @@ msgstr "Klauskite apie netoliese esančias vietas"
 msgid "Official (diplomas, personal invitation)"
 msgstr "Pareigūnas (diplomai, asmeninis kvietimas)"
 
-#, fuzzy
 msgid "Hors concours"
-msgstr "Išsiskiriantis"
+msgstr "Hors concours"
 
 msgid "Bachelor"
 msgstr "Bakalauras"
@@ -2772,6 +2816,12 @@ msgstr "universitetas"
 msgid "faculty"
 msgstr "fakultetas"
 
+msgid "Postal address"
+msgstr "Elektroninio pašto adresas"
+
+msgid "Phone number"
+msgstr "Telefono numeris"
+
 msgid "team name"
 msgstr "komandos pavadinimas"
 
@@ -2798,6 +2848,16 @@ msgstr "lytis"
 
 msgid "Participation is confirmed"
 msgstr "Dalyvavimas patvirtintas"
+
+msgid ""
+"A new iRunner account has been created for you. Use the username and "
+"password to log in."
+msgstr ""
+"Nauja paskyra buvo sukurta. Naudokite naudotojo vardą ir slaptažodį, kad "
+"prisijungtumėte."
+
+msgid "Password"
+msgstr "Slaptažodis"
 
 msgid "First name"
 msgstr "Vardas"
@@ -2857,14 +2917,14 @@ msgid ""
 "--\n"
 "iRunner 2\n"
 msgstr ""
-"% (full_name) s,\n"
+"%(full_name)s,\n"
 "\n"
-"Jūs buvote registruotas kaip treneris. Norėdami redaguoti komandos duomenis, "
-"naudokite šią nuorodą:\n"
-"% (nuoroda) s\n"
+"Jūs buvote užregistruotas kaip treneris. Norėdami redaguoti komandos "
+"duomenis, naudokite šią nuorodą:\n"
+"%(link)s\n"
 "\n"
-"-\n"
-"„PROMIS“\n"
+"--\n"
+"„APROMIS“\n"
 
 #, python-format
 msgid ""
@@ -2879,13 +2939,13 @@ msgid ""
 "--\n"
 "iRunner 2\n"
 msgstr ""
-"% (full_name) s,\n"
+"%(full_name)s,\n"
 "\n"
-"Jūs buvote registruotas kaip dalyvis. Norėdami patvirtinti savo duomenis ir "
-"redaguoti profilį, naudokite šią nuorodą:\n"
-"% (nuoroda) s\n"
+"Jūs buvote užregistruotas kaip dalyvis. Norėdami patvirtinti savo duomenis "
+"ir redaguoti profilį, naudokite šią nuorodą:\n"
+"%(link)s\n"
 "\n"
-"Nuorodoje yra asmeninis žetonas, nesidalykite ja su kitais.\n"
+"Nuorodoje yra asmeninis raktas, nesidalinkite juo su kitais.\n"
 "\n"
 "-\n"
 "„PROMIS“\n"
@@ -2917,32 +2977,6 @@ msgstr "failas yra per didelis"
 msgid "unknown error"
 msgstr "nežinoma klaida"
 
-msgid "Enter source code"
-msgstr "Įveskite šaltinio kodą"
-
-msgid "…or upload a file"
-msgstr "...arba įkelkite failą"
-
-msgid "If you select a file, text field content is ignored."
-msgstr "Jei pasirinksite failą, teksto lauko turinys bus ignoruojamas."
-
-#, python-format
-msgid ""
-"The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B)."
-msgstr "Šaltinio failo dydis (%(actual)d B) viršija ribą (%(limit)d B)."
-
-msgid "Unable to submit an empty solution."
-msgstr "Negalima pateikti tuščio sprendimo."
-
-msgid ""
-"Unable to determine the name of the source file. For Java code, make sure "
-"you have a single public class defined. You can also try to upload a file "
-"instead of using direct input of code."
-msgstr ""
-"Negalima nustatyti šaltinio failo pavadinimo. Java kodui įsitikinkite, kad "
-"turite apibrėžtą vieną viešą klasę. Taip pat galite pabandyti įkelti failą "
-"vietoj tiesioginio kodo įvedimo."
-
 msgid "outcome"
 msgstr "rezultatas"
 
@@ -2968,10 +3002,13 @@ msgid "Problem ID"
 msgstr "Užduoties ID"
 
 msgid "User ID"
-msgstr "Vartotojo ID"
+msgstr "Naudotojo ID"
 
 msgid "Solution compilation log"
 msgstr "Sprendimų kompiliavimo žurnalas"
+
+msgid "Checker compilation log"
+msgstr "Tikrintojo kompiliavimo žurnalas"
 
 msgid "no access"
 msgstr "nėra leidimo"
@@ -3000,6 +3037,63 @@ msgstr "peržiūrėkite testavimo duomenis ir testų duomenis"
 msgctxt "verb"
 msgid "rejudge"
 msgstr "pakartotinis tikrinimas"
+
+msgid "Enter source code"
+msgstr "Įveskite šaltinio kodą"
+
+msgid "…or upload a file"
+msgstr "...arba įkelkite failą"
+
+msgid "If you select a file, text field content is ignored."
+msgstr "Jei pasirinksite failą, teksto lauko turinys bus ignoruojamas."
+
+#, python-format
+msgid ""
+"The size of the source file (%(actual)d B) exceeds the limit (%(limit)d B)."
+msgstr "Šaltinio failo dydis (%(actual)d B) viršija ribą (%(limit)d B)."
+
+msgid "Attempt count limit is reached."
+msgstr "Pasiekta bandymų riba."
+
+msgid "Unable to submit an empty solution."
+msgstr "Negalima pateikti tuščio sprendimo."
+
+msgid ""
+"Unable to determine the name of the source file. For Java code, make sure "
+"you have a single public class defined. You can also try to upload a file "
+"instead of using direct input of code."
+msgstr ""
+"Negalima nustatyti šaltinio failo pavadinimo. Java kodui įsitikinkite, kad "
+"turite apibrėžtą vieną viešą klasę. Taip pat galite pabandyti įkelti failą "
+"vietoj tiesioginio kodo įvedimo."
+
+#, python-format
+msgid "This problem must be solved in %(langs)s"
+msgstr "Ši užduotis turi būti išspręsta naudojantis %(langs)s"
+
+#, python-format
+msgid "You have %(count)d attempt remaining"
+msgid_plural "You have %(count)d attempts remaining"
+msgstr[0] "Jūs turite %(count)d bandymų, likusių šiai dienai"
+msgstr[1] "Jūs turite %(count)d bandymų, likusių šiai dienai"
+msgstr[2] "Jūs turite %(count)d bandymų, likusių šiai dienai"
+
+msgid "during the day"
+msgstr "dienos metu"
+
+#, python-format
+msgid "(interval: %(duration)s)"
+msgstr "(intervalas: %(duration)s)"
+
+msgid "You have no attempts remaining for the problem."
+msgstr "Jūs neturite bandymų šiai užduočiai."
+
+#, python-format
+msgid "Please try again after %(ts)s."
+msgstr "Pabandykite dar kartą po %(ts) s."
+
+msgid "The number of attempts is not limited."
+msgstr "Bandymų skaičius neribojamas."
 
 msgid "Activity"
 msgstr "Veikla"
@@ -3039,6 +3133,9 @@ msgstr "Palyginkite"
 
 msgid "Unable to compare solutions."
 msgstr "Nepavyko palyginti sprendimų."
+
+msgid "Solution"
+msgstr "Sprendimas"
 
 msgid "The files are identical."
 msgstr "Failai yra identiški."
@@ -3166,9 +3263,6 @@ msgstr "Kompiliavimo žurnalas nėra prieinamas"
 
 msgid "Input&thinsp;/&thinsp;output"
 msgstr "Įvestis / išvestis"
-
-msgid "Contest"
-msgstr "Konkursas"
 
 msgid "Submitted"
 msgstr "Pateikta"
@@ -3336,9 +3430,15 @@ msgstr "Administravimas"
 msgid "Administrator groups"
 msgstr "Administravimo grupės"
 
+msgid "Attribute"
+msgstr "Atributai"
+
+msgid "Data about users"
+msgstr "Duomenys apie naudotojus"
+
 #, python-format
 msgid "User %(username)s not found."
-msgstr "Vartotojas %(username)s nerastas."
+msgstr "Naudotojas %(username)s nerastas."
 
 msgid "Folder name"
 msgstr "Aplanko pavadinimas"
@@ -3347,20 +3447,14 @@ msgid ""
 "Students: “[username] [last name] [first name]” or “[username] [last name] "
 "[first name] [patronymic]”"
 msgstr ""
-"Studentai: „[vartotojo vardas] [pavardė] [vardas]“ arba „[vartotojo vardas] "
+"Studentai: „[naudotojo vardas] [pavardė] [vardas]“ arba „[naudotojo vardas] "
 "[pavardė] [vardas] [tėvavardis]“"
 
 msgid "Teams: “[username] [team name]”"
-msgstr "Komandos: „[vartotojo vardas] [komandos pavadinimas]“"
-
-msgid "Data about users"
-msgstr "Duomenys apie naudotojus"
+msgstr "Komandos: „[naudotojo vardas] [komandos pavadinimas]“"
 
 msgid "Enter lines in the given format."
 msgstr "Įveskite eilučių nurodytu formatu."
-
-msgid "Password"
-msgstr "Slaptažodis"
 
 #, python-format
 msgid "Line %(number)s does not match the template."
@@ -3398,13 +3492,16 @@ msgstr "Failo plėtinys %(ext)s nepalaikomas."
 
 #, python-format
 msgid "User %(username)s is not found."
-msgstr "Vartotojas %(username)s nerasta."
+msgstr "Naudotojas %(username)s nerastas."
 
 msgid "Faculty of Applied Mathematics and Computer Science"
 msgstr "Taikomosios matematikos ir informatikos fakultetas"
 
 msgid "Faculty of Radiophysics and Computer Technologies (RFE)"
 msgstr "Radiofizikos ir kompiuterinių technologijų fakultetas (RFE)"
+
+msgid "Military Faculty"
+msgstr "Karinis fakultetas"
 
 msgid "Include archive"
 msgstr "Įtraukti archyvą"
@@ -3416,10 +3513,10 @@ msgid "Skip errors"
 msgstr "Skip errors"
 
 msgid "On error, continue fetching photos for next users."
-msgstr "Klaidos atveju, tęskite nuotraukų siuntimą kitiems vartotojams."
+msgstr "Klaidos atveju, tęskite nuotraukų siuntimą kitiems naudotojams."
 
 msgid "Create user"
-msgstr "Sukurti vartotoją"
+msgstr "Sukurti naudotoją"
 
 msgid "Bulk sign-up"
 msgstr "Masinis registravimas"
@@ -3447,9 +3544,6 @@ msgstr[2] "%(count)d nuotraukų buvo įkeltų."
 msgid "Photos from intranet.bsu"
 msgstr "Nuotraukos iš intranet.bsu"
 
-msgid "Destination folder"
-msgstr "Paskirties aplankas"
-
 msgid "Staff only"
 msgstr "Tik personalui"
 
@@ -3469,7 +3563,7 @@ msgid "patronymic"
 msgstr "tėvavardis"
 
 msgid "password needs to be changed by user"
-msgstr "slaptažodis turi būti pakeistas vartotojo"
+msgstr "naudotojas turi pakeisti slaptažodį"
 
 msgid "last used compiler"
 msgstr "paskutinis naudojamas kompiliatorius"
@@ -3478,10 +3572,10 @@ msgid "members"
 msgstr "nariai"
 
 msgid "user is allowed to change name"
-msgstr "vartotojui leidžiama keisti vardą"
+msgstr "naudotojui leidžiama keisti vardą"
 
 msgid "user is allowed to change password"
-msgstr "vartotojui leidžiama pakeisti slaptažodį"
+msgstr "naudotojui leidžiama pakeisti slaptažodį"
 
 msgid "The image cannot be opened and identified."
 msgstr "Vaizdas negali būti atidarytas ir identifikuotas."
@@ -3494,8 +3588,8 @@ msgid ""
 "User will see a warning message until he sets a new password. This prevents "
 "usage of insecure default passwords."
 msgstr ""
-"Vartotojas pamatys įspėjimo pranešimą, kol jis nustatys naują slaptažodį. "
-"Tai neleidžia naudoti nesaugių numatytųjų slaptažodžių."
+"Naudotojas matys įspėjimo pranešimą, kol jis nenustatys naujo slaptažodžio. "
+"Tai apsaugo nuo nesaugių numatytųjų slaptažodžių naudojimo."
 
 msgid "Photo"
 msgstr "Nuotrauka"
@@ -3516,7 +3610,7 @@ msgid ""
 "An administrator group is a group of users that is granted to perform "
 "administrative tasks (create problems, set up contests, etc.)."
 msgstr ""
-"Administratorių grupė yra vartotojų grupė, kuriai suteikta teisė atlikti "
+"Administratorių grupė yra naudotojų grupė, kuriai suteikta teisė atlikti "
 "administracines užduotis (kurti užduotis, rengti konkursus ir pan.)."
 
 msgid "Only the groups you belong to are shown."
@@ -3529,7 +3623,7 @@ msgid "No users selected"
 msgstr "Nerasta jokių naudotojų"
 
 msgid "New user"
-msgstr "Naujas vartotojas"
+msgstr "Naujas naudotojas"
 
 msgid "Sign-up"
 msgstr "Užsiregistruoti"
@@ -3544,6 +3638,9 @@ msgstr "Įkelti nuotrauką"
 msgid "Obtain photos from intranet.bsu"
 msgstr "Gaukite nuotraukų iš intranet.bsu"
 
+msgid "Obtain info from BSU domain"
+msgstr "Gauti informaciją iš BSU domeno"
+
 msgid "Move"
 msgstr "Perkelti"
 
@@ -3557,7 +3654,7 @@ msgid "There are no users in the folder"
 msgstr "Šiame aplanke nėra naudotojų"
 
 msgid "User search"
-msgstr "Vartotojų paieška"
+msgstr "Naudotojų paieška"
 
 msgid "No users found."
 msgstr "Nerasta jokių naudotojų."
@@ -3577,10 +3674,10 @@ msgid ""
 "password, but you can set a new password."
 msgstr ""
 "Neapdoroti slaptažodžiai nėra saugomi, todėl nėra galimybės matyti šio "
-"vartotojo slaptažodžio, tačiau galite nustatyti naują slaptažodį."
+"naudotojo slaptažodžio, tačiau galite nustatyti naują slaptažodį."
 
 msgid "The user belongs to staff and has extended access permissions."
-msgstr "Vartotojas priklauso darbuotojams ir turi išplėstas prieigos teises."
+msgstr "Naudotojas priklauso darbuotojams ir turi išplėstas prieigos teises."
 
 msgid "Patronymic"
 msgstr "Tėvo vardas"
@@ -3598,68 +3695,18 @@ msgid "Are you sure you want to delete the users?"
 msgstr "Ar tikrai norite ištrinti naudotojus?"
 
 msgid "Unable to delete the users because they have related solutions."
-msgstr "Nepavyko ištrinti vartotojų, nes jie turi susijusių sprendimų."
+msgstr "Nepavyko ištrinti naudotojų, nes jie turi su jais susijusių sprendimų."
 
 msgid "Are you sure you want to move the users to another folder?"
 msgstr "Ar tikrai norite perkelti naudotojus į kitą aplanką?"
 
 msgid "Are you sure you want to swap first and last name of these users?"
-msgstr "Ar tikrai norite pakeisti šių vartotojų vardą ir pavardę?"
+msgstr "Ar tikrai norite pakeisti šių naudotojų vardą ir pavardę?"
 
-msgid "user was explicitly granted access to certain problems"
-msgstr "vartotojas buvo atskirai suteikta prieiga prie tam tikrų užduočių"
-
-msgid "user was explicitly granted access to certain quiz categories"
-msgstr ""
-"vartotojui buvo atskirai suteikta prieiga prie tam tikrų viktorinų kategorijų"
-
-msgid "user has access to administrative sections"
-msgstr "vartotojas turi prieigą prie administravimo sekcijų"
-
-msgid "Note: administators have full access to all problems."
-msgstr "Pastaba: administratoriai turi visišką prieigą prie visų užduočių."
-
-msgid "Grant access to the category"
-msgstr "Suteikti prieigą prie kategorijos"
-
-msgid "enabled"
-msgstr "įjungtas"
-
-msgid "Choice text"
-msgstr "Pasirinkimo tekstas"
-
-msgid "compiler is considered legacy"
-msgstr "kompiliatorius laikomas atgyvena"
-
-msgid "Legacy?"
-msgstr "Atgyvena?"
-
-msgid "— All —"
-msgstr "— Visi —"
-
-msgid "Notices"
-msgstr "Pranešimai"
-
-msgid "Mass user registration"
-msgstr "Masinė vartotojų registracija"
-
-msgid "Alternative view"
-msgstr "Alternatyvus vaizdas"
-
-msgid "Creator of the rejudge"
-msgstr "Pakartotinio tikrinimo kūrėjas"
-
-msgid "Complexity level"
-msgstr "Sudėtingumo lygis"
-
-msgid "c."
-msgstr "c."
-
-msgid "Not implemented yet."
-msgstr "Dar neįgyvendinta."
-
-msgid "where the problem was offered"
-msgstr "kur buvo pasiūlyta užduotis"
+#, fuzzy
+#~| msgid "score policy"
+#~ msgid "scoring policy"
+#~ msgstr "balų politika"
 
 #~ msgid "Loading"
 #~ msgstr "Ruošiama"
@@ -3667,8 +3714,22 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgid "Remove"
 #~ msgstr "Pašalinti"
 
-#~ msgid "Unknown"
-#~ msgstr "Nežinoma"
+#~ msgid "user was explicitly granted access to certain problems"
+#~ msgstr "vartotojas buvo atskirai suteikta prieiga prie tam tikrų užduočių"
+
+#~ msgid "user was explicitly granted access to certain quiz categories"
+#~ msgstr ""
+#~ "vartotojui buvo atskirai suteikta prieiga prie tam tikrų viktorinų "
+#~ "kategorijų"
+
+#~ msgid "user has access to administrative sections"
+#~ msgstr "vartotojas turi prieigą prie administravimo sekcijų"
+
+#~ msgid "Note: administators have full access to all problems."
+#~ msgstr "Pastaba: administratoriai turi visišką prieigą prie visų užduočių."
+
+#~ msgid "Grant access to the category"
+#~ msgstr "Suteikti prieigą prie kategorijos"
 
 #~ msgid "on problem"
 #~ msgstr "apie problemą"
@@ -3715,8 +3776,14 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgid "For service accounts used by the testing module."
 #~ msgstr "Paslaugų paskyroms, naudojamoms bandymo modulyje."
 
+#~ msgid "enabled"
+#~ msgstr "įjungtas"
+
 #~ msgid "Add question group"
 #~ msgstr "Pridėti klausimų grupę"
+
+#~ msgid "Choice text"
+#~ msgstr "Pasirinkimo tekstas"
 
 #, fuzzy
 #~| msgid "Single correct answer"
@@ -3758,6 +3825,12 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgstr[1] "%(count)d testas buvo pridėtas."
 #~ msgstr[2] ""
 
+#~ msgid "compiler is considered legacy"
+#~ msgstr "kompiliatorius laikomas atgyvena"
+
+#~ msgid "Legacy?"
+#~ msgstr "Atgyvena?"
+
 #, fuzzy
 #~| msgid "There are no courses available."
 #~ msgid "There are no pictures."
@@ -3773,20 +3846,24 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgid "— General question —"
 #~ msgstr "Bendras klausimas"
 
+#~ msgid "— All —"
+#~ msgstr "— Visi —"
+
 #, fuzzy
 #~| msgid "Rejudge"
 #~ msgid "After Rejudge"
 #~ msgstr "Pakartokite"
 
-#, fuzzy
-#~| msgid "First solution"
-#~ msgid "Best solution"
-#~ msgstr "Pirmasis sprendimas"
+#~ msgid "Notices"
+#~ msgstr "Pranešimai"
 
 #, fuzzy
 #~| msgid "There are no solutions selected."
 #~ msgid "No solutions selected"
 #~ msgstr "Nėra pasirinktų sprendimų."
+
+#~ msgid "Mass user registration"
+#~ msgstr "Masinė vartotojų registracija"
 
 #, fuzzy
 #~| msgid "HTML statement"
@@ -3804,6 +3881,12 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ "Ar tikrai norite visam laikui ištrinti konkursą? Šis veiksmas negali būti "
 #~ "panaikintas."
 
+#~ msgid "Alternative view"
+#~ msgstr "Alternatyvus vaizdas"
+
+#~ msgid "Creator of the rejudge"
+#~ msgstr "Pakartotinio tikrinimo kūrėjas"
+
 #, fuzzy
 #~| msgid "New tests from archive"
 #~ msgid "Upload tests as an archive"
@@ -3819,10 +3902,8 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgid "complexity"
 #~ msgstr "Kompiliatorius"
 
-#, fuzzy
-#~| msgid "Username"
-#~ msgid "username"
-#~ msgstr "Vartotojo vardas"
+#~ msgid "Complexity level"
+#~ msgstr "Sudėtingumo lygis"
 
 #, fuzzy
 #~| msgid "full name"
@@ -3835,16 +3916,25 @@ msgstr "kur buvo pasiūlyta užduotis"
 #~ msgid "last login"
 #~ msgstr "Paskutinis prisijungimas"
 
+#~ msgid "c."
+#~ msgstr "c."
+
 #, fuzzy
 #~| msgid "No users selected"
 #~ msgid "No user selected"
 #~ msgstr "Nerasta jokių naudotojų"
+
+#~ msgid "Not implemented yet."
+#~ msgstr "Dar neįgyvendinta."
 
 #, fuzzy
 #~| msgid "Language"
 #~ msgctxt "switch"
 #~ msgid "Language"
 #~ msgstr "Kalba"
+
+#~ msgid "where the problem was offered"
+#~ msgstr "kur buvo pasiūlyta užduotis"
 
 #, fuzzy
 #~| msgid "of solution"
