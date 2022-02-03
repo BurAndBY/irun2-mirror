@@ -53,7 +53,7 @@
                     {% if location == 'BSU' %}<div>&copy; 2001&ndash;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>{% endif %}
                     <div>
                         <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
-                        <a href="{% url 'language' %}?next={% irunner_next %}">Язык&thinsp;/&thinsp;Language</a>
+                        <a href="{% url 'language' %}?next={% irunner_next %}">{{ language_switcher_link_text }}</a>
                         <a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a>
                     </div>
                 </div>
