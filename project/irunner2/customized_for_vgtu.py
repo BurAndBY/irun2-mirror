@@ -17,8 +17,8 @@ EXTERNAL_LINKS = [
 
 LANGUAGES = (
     ('en', 'English'),
+    ('lt', 'Lithuanian'),
     ('ru', 'Russian'),
-    # ('lt', 'Lithuanian'),
 )
 
 MODEL_LANGUAGES = ['lt', 'en', 'ru']
