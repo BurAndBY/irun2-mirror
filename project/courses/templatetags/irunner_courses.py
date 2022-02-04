@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import uuid
 
 from django import template
+from django.conf import settings
 from django.urls import reverse
 from django.utils.html import format_html, mark_safe, escape
 
@@ -74,13 +75,13 @@ def _make_subgroup_span(subgroup_descr):
     )
 
 
-def _make_full_name_span(user_descr, last_name_first=False):
+def _make_full_name_span(user_descr, last_name_first):
     tokens = []
     if user_descr.first_name:
         tokens.append(escape(user_descr.first_name))
     if user_descr.last_name:
         tokens.append(format_html('<span class="ir-lname">{0}</span>', user_descr.last_name))
-    if len(tokens) == 2 and last_name_first:
+    if len(tokens) == 2 and settings.LAST_NAME_FIRST_IN_COURSES and last_name_first:
         tokens[0], tokens[1] = tokens[1], tokens[0]
 
     # strike out disabled users

@@ -32,3 +32,5 @@ MAIN_LOGO = {
 }
 
 ADMINS = [('Arturas Mackunas', '12arturas@gmail.com'), ('Sergei Sobol', 'sergei_sobol@tut.by')]
+
+LAST_NAME_FIRST_IN_COURSES = False
