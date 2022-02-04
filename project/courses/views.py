@@ -288,7 +288,7 @@ class CourseSubmitView(BaseCourseView):
             userprofile.last_used_compiler = form.cleaned_data['compiler']
             userprofile.save()
 
-            solution = new_solution(self.request, form, problem_id=form.cleaned_data['problem'])
+            solution = new_solution(self.request, form, problem_id=form.cleaned_data['problem'], stop_on_fail=self.course.stop_on_fail)
             CourseSolution.objects.create(solution=solution, course=self.course)
             notifier = judge(solution)
         notifier.notify()

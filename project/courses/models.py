@@ -55,6 +55,7 @@ class Course(models.Model):
     private_mode = models.BooleanField(_('private mode: student names are hidden'), default=False, blank=True)
     enable_sheet = models.BooleanField(_('enable mark sheet'), default=False, blank=True)
     enable_queues = models.BooleanField(_('enable electronic queues'), default=False, blank=True)
+    stop_on_fail = models.BooleanField(_('stop after first failed test'), default=False, blank=True)
 
     common_problems = models.ManyToManyField(Problem, blank=True)
 

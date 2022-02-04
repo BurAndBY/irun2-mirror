@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-27 02:34+0300\n"
-"PO-Revision-Date: 2021-12-27 02:39+0300\n"
+"POT-Creation-Date: 2022-02-05 02:30+0300\n"
+"PO-Revision-Date: 2022-02-05 02:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -376,6 +376,9 @@ msgstr "Ваши изменения сохранены."
 msgid "Accepted for testing"
 msgstr "Принято на тестирование"
 
+msgid "Language"
+msgstr "Язык"
+
 # There should be some way to write here 1st, 2nd etc.
 #, python-format
 msgid "%(year)d year"
@@ -444,9 +447,6 @@ msgstr "Ошибка"
 
 msgid "Add translation"
 msgstr "Добавить перевод"
-
-msgid "Language"
-msgstr "Язык"
 
 msgid "Page"
 msgstr "Страница"
@@ -1049,6 +1049,9 @@ msgstr "включить ведомость успеваемости"
 
 msgid "enable electronic queues"
 msgstr "включить электронные очереди"
+
+msgid "stop after first failed test"
+msgstr "Тестировать до первого непройденного теста"
 
 msgid "Number of attempts a day per problem"
 msgstr "Число попыток по задаче в день"
@@ -1860,12 +1863,6 @@ msgstr "Тема"
 
 msgid "Update news"
 msgstr "Обновить новость"
-
-msgid "Russian"
-msgstr "Русский"
-
-msgid "English"
-msgstr "Английский"
 
 msgid "Full package (Windows) as a ZIP-archive"
 msgstr "Полный пакет (Windows) в виде ZIP-архива"
@@ -3719,6 +3716,12 @@ msgstr "Вы уверены, что хотите переместить поль
 msgid "Are you sure you want to swap first and last name of these users?"
 msgstr ""
 "Вы уверены, что хотите поменять местами имя и фамилию у этих пользователей?"
+
+#~ msgid "Russian"
+#~ msgstr "Русский"
+
+#~ msgid "English"
+#~ msgstr "Английский"
 
 #, fuzzy
 #~| msgid "score policy"
