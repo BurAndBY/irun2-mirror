@@ -108,6 +108,7 @@ class Topic(models.Model):
     criteria = models.ManyToManyField(Criterion, blank=True, verbose_name=_('criteria'))
     common_problems = models.ManyToManyField(Problem, blank=True, through='TopicCommonProblem')
     deadline = models.DateTimeField(_('deadline'), null=True, blank=True)
+    overdue_factor = models.FloatField(_('overdue factor'), default=0.5)
 
     def __str__(self):
         return self.name

@@ -527,10 +527,11 @@ def _choose_better_solution(s1, s2):
 
 
 class ProblemResult(object):
-    def __init__(self, problem, deadline=None):
+    def __init__(self, problem, deadline=None, overdue_factor=None):
         assert problem is not None
         self.problem = problem
         self.deadline = deadline
+        self.overdue_factor = overdue_factor
 
         self.best_solution = None
         self.attempts = 0
@@ -622,7 +623,9 @@ class TopicResult(object):
         self.topic_descr = topic_descr
         self.slot_results = [SlotResult(topic_descr, slot) for slot in topic_descr.slots]
         self.penalty_problem_results = []
-        self.common_problem_results = [ProblemResult(problem, deadline=topic_descr.topic.deadline) for problem in topic_descr.common_problems]
+        self.common_problem_results = [ProblemResult(problem,
+                                                     deadline=topic_descr.topic.deadline,
+                                                     overdue_factor=topic_descr.topic.overdue_factor) for problem in topic_descr.common_problems]
 
     def get_slot_and_penalty_results(self):
         return self.slot_results + self.penalty_problem_results
@@ -791,6 +794,6 @@ class UserResult(object):
             score = pr.problem.difficulty
             if pr.is_ok() and score is not None:
                 if not pr.accepted_before_deadline:
-                    score *= 0.5
+                    score *= pr.overdue_factor
                 total_score += score
         return total_score

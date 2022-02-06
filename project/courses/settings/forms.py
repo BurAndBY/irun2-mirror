@@ -73,7 +73,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ['name', 'problem_folder', 'criteria', 'deadline']
+        fields = ['name', 'problem_folder', 'criteria', 'deadline', 'overdue_factor']
         widgets = {
             'criteria': forms.CheckboxSelectMultiple
         }
