@@ -267,6 +267,7 @@ class Queue(models.Model):
     is_active = models.BooleanField(_('queue is active'), blank=True, default=True)
     name = models.CharField(_('name'), blank=True, max_length=255)
     subgroup = models.ForeignKey(Subgroup, verbose_name=_('subgroup'), null=True, blank=True, on_delete=models.SET_NULL)
+    max_size = models.PositiveIntegerField(_('maximum size'), default=0)
 
     def __str__(self):
         if self.name:

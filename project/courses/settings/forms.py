@@ -175,7 +175,7 @@ Queues
 class QueueForm(forms.ModelForm):
     class Meta:
         model = Queue
-        fields = ['is_active', 'name', 'subgroup']
+        fields = ['is_active', 'name', 'subgroup', 'max_size']
         help_texts = {
             'is_active': _('Students may join the queue.')
         }

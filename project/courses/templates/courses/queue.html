@@ -15,6 +15,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {% irunner_courses_showsubgroup queue_info.queue.subgroup_id user_cache %} {{ queue_info.queue }}
+                        {% if queue_info.queue.max_size %}<small>({{ queue_info.entries|length }}/{{ queue_info.queue.max_size }})</small>{% endif %}
                     </div>
                     <div class="panel-body"> 
                         {% if queue_info.entries %}

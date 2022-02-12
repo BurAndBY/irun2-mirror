@@ -29,11 +29,16 @@ class QueueMixin(object):
         if me.subgroup is not None:
             return me.subgroup.id
 
-    def _can_join(self, queue, my_subgroup_id):
+    def _can_join(self, queue, my_subgroup_id, num_entries=None):
         if not queue.is_active:
             return False
         if queue.subgroup_id is not None:
             if queue.subgroup_id != my_subgroup_id:
+                return False
+        if queue.max_size:
+            if num_entries is None:
+                num_entries = queue.queueentry_set.exclude(status=QueueEntryStatus.DONE).count()
+            if num_entries >= queue.max_size:
                 return False
         return True
 
@@ -63,7 +68,7 @@ class ListView(QueueMixin, UserCacheMixinMixin, BaseCourseView):
                 entries.append(self._to_entry_info(entry))
 
             can_manage = self.permissions.queue_admin
-            can_join = (not can_manage) and self._can_join(queue, my_subgroup_id)
+            can_join = (not can_manage) and self._can_join(queue, my_subgroup_id, num_entries=len(entries))
             queue_infos.append(QueueInfo(queue, entries, can_join, can_join_disabled, can_manage))
 
         context = self.get_context_data(queues=queue_infos)
