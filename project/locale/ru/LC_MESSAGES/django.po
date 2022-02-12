@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-07 01:56+0300\n"
-"PO-Revision-Date: 2022-02-07 01:58+0300\n"
+"POT-Creation-Date: 2022-02-12 21:01+0300\n"
+"PO-Revision-Date: 2022-02-12 21:02+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1126,6 +1126,9 @@ msgstr "вложение"
 msgid "queue is active"
 msgstr "очередь активна"
 
+msgid "maximum size"
+msgstr "максимальный размер"
+
 msgid "In progress"
 msgstr "В процессе"
 
@@ -1374,8 +1377,14 @@ msgstr "Записаться"
 msgid "Add a student"
 msgstr "Добавить студента"
 
+msgid "History"
+msgstr "История"
+
 msgid "No queues"
 msgstr "Очередей нет"
+
+msgid "Finish time"
+msgstr "Время завершения"
 
 msgid "Quiz"
 msgstr "Тест"
@@ -1471,9 +1480,6 @@ msgstr "Верно, но не выбрано"
 
 msgid "Reviewer"
 msgstr "Проверяющий"
-
-msgid "Finish time"
-msgstr "Время завершения"
 
 msgid "Quiz was finished after deadline."
 msgstr "Тест не был завершён в срок."

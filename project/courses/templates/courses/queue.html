@@ -12,7 +12,7 @@
         <div class="row">
             {% for queue_info in queues %}
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="panel panel-default">
+                <div class="panel {% if queue_info.queue.is_active %}panel-info{% else %}panel-default{% endif %}">
                     <div class="panel-heading">
                         {% irunner_courses_showsubgroup queue_info.queue.subgroup_id user_cache %} {{ queue_info.queue }}
                         {% if queue_info.queue.max_size %}<small>({{ queue_info.entries|length }}/{{ queue_info.queue.max_size }})</small>{% endif %}
@@ -62,6 +62,7 @@
                             {% endif %}
                             {% if queue_info.can_manage %}
                             <a href="{% url 'courses:queues:add' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'plus' %} <span class="ir-icon-label">{% trans 'Add a student' %}</span></a>
+                            <a href="{% url 'courses:settings:queue_update' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'cog' %} <span class="ir-icon-label">{% trans 'Settings' %}</span></a>
                             <a href="{% url 'courses:queues:history' course.id queue_info.queue.id %}" class="btn btn-default btn-sm">{% bootstrap_icon 'time' %} <span class="ir-icon-label">{% trans 'History' %}</span></a>
                             {% endif %}
                         {% endbuttons %}
