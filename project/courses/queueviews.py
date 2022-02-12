@@ -4,15 +4,16 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404
 
 from courses.forms import QueueEntryForm
-from courses.models import QueueEntry, QueueEntryStatus
+from courses.models import Queue, QueueEntry, QueueEntryStatus
 from courses.services import make_student_choices
 from courses.views import BaseCourseView, UserCacheMixinMixin
 
 
 QueueInfo = namedtuple('QueueInfo', 'queue entries can_join can_join_disabled can_manage')
-EntryInfo = namedtuple('EntryInfo', 'item is_active is_me can_start can_finish')
+EntryInfo = namedtuple('EntryInfo', 'item is_active is_archived is_me can_start can_finish')
 
 
 class QueueMixin(object):
@@ -36,6 +37,14 @@ class QueueMixin(object):
                 return False
         return True
 
+    def _to_entry_info(self, entry):
+        is_active = entry.status == QueueEntryStatus.IN_PROGRESS
+        can_start = self.permissions.queue_admin and (entry.status == QueueEntryStatus.WAITING)
+        can_finish = self.permissions.queue_admin and (entry.status == QueueEntryStatus.IN_PROGRESS)
+        is_archived = self.permissions.queue_admin and (entry.status == QueueEntryStatus.DONE)
+        is_me = entry.user_id == self.request.user.id
+        return EntryInfo(entry, is_active, is_archived, is_me, can_start, can_finish)
+
 
 class ListView(QueueMixin, UserCacheMixinMixin, BaseCourseView):
     template_name = 'courses/queue.html'
@@ -51,11 +60,7 @@ class ListView(QueueMixin, UserCacheMixinMixin, BaseCourseView):
         for queue in course.queue_set.all():
             entries = []
             for entry in queue.queueentry_set.exclude(status=QueueEntryStatus.DONE).order_by('enqueue_time'):
-                is_active = entry.status == QueueEntryStatus.IN_PROGRESS
-                can_start = self.permissions.queue_admin and (entry.status == QueueEntryStatus.WAITING)
-                can_finish = self.permissions.queue_admin and (entry.status == QueueEntryStatus.IN_PROGRESS)
-                is_me = entry.user_id == self.request.user.id
-                entries.append(EntryInfo(entry, is_active, is_me, can_start, can_finish))
+                entries.append(self._to_entry_info(entry))
 
             can_manage = self.permissions.queue_admin
             can_join = (not can_manage) and self._can_join(queue, my_subgroup_id)
@@ -92,6 +97,19 @@ class AddView(QueueMixin, BaseCourseView):
             return redirect('courses:queues:list', course.id)
 
         context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+
+class HistoryView(QueueMixin, UserCacheMixinMixin, BaseCourseView):
+    template_name = 'courses/queue_history.html'
+
+    def is_allowed(self, permissions):
+        return permissions.queue_admin
+
+    def get(self, request, course, queue_id):
+        queue = get_object_or_404(Queue, pk=queue_id, course=course)
+        entries = [self._to_entry_info(entry) for entry in queue.queueentry_set.order_by('-id')]
+        context = self.get_context_data(queue=queue, entries=entries)
         return render(request, self.template_name, context)
 
 

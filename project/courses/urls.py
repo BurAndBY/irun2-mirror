@@ -28,6 +28,7 @@ queue_urlpatterns = ([
     url(r'^$', queueviews.ListView.as_view(), name='list'),
     url(r'^(?P<queue_id>[0-9]+)/add/$', queueviews.AddView.as_view(), name='add'),
     url(r'^(?P<queue_id>[0-9]+)/join/$', queueviews.JoinView.as_view(), name='join'),
+    url(r'^(?P<queue_id>[0-9]+)/history/$', queueviews.HistoryView.as_view(), name='history'),
     url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/start/$', queueviews.StartView.as_view(), name='start'),
     url(r'^(?P<queue_id>[0-9]+)/items/(?P<item_id>[0-9]+)/finish/$', queueviews.FinishView.as_view(), name='finish'),
 ], 'queues')

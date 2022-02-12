@@ -1,0 +1,29 @@
+{% extends 'courses/base.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% load irunner_courses %}
+
+{% block subtitle %}{% trans 'Electronic queue' %}{% endblock %}
+
+{% block main %}
+<h2>{{ queue }}</h2>
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans 'Student' %}</th>
+            <th>{% trans 'enqueue time' as x %}{{ x|capfirst }}</th>
+            <th>{% trans 'Finish time' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entry in entries %}
+        <tr{% if entry.is_active %} class="success"{% elif entry.is_archived %} class="active"{% endif %}>
+            <td>{% irunner_courses_user_card entry.item.user_id user_cache %}</td>
+            <td>{{ entry.item.enqueue_time }}</td>
+            <td>{% if entry.item.finish_time %}{{ entry.item.finish_time }}{% else %}&mdash;{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
