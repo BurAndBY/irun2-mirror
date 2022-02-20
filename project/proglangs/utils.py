@@ -40,6 +40,9 @@ def get_ace_mode(lang):
 
 PYGMENTS = {
     ProgrammingLanguage.ASM: 'nasm',
+    ProgrammingLanguage.KOTLIN: 'kotlin',
+    ProgrammingLanguage.CSHARP: 'csharp',
+    ProgrammingLanguage.SHELL: 'bash',
 }
 
 

@@ -25,10 +25,10 @@ def irunner_storage_showbrief(representation):
 
 @register.inclusion_tag('storage/irunner_storage_showcode_tag.html')
 def irunner_storage_showcode(representation, compiler, hrefs=False):
-    language = get_highlightjs_class(compiler.language)
     return {
         'representation': representation,
-        'language': language,
+        'language': compiler.language,
+        'language_hljs': get_highlightjs_class(compiler.language),
         'hrefs': hrefs,
     }
 
