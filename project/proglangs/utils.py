@@ -12,6 +12,7 @@ HIGHLIGHTJS = {
     ProgrammingLanguage.PYTHON: 'py',
     ProgrammingLanguage.CSHARP: 'csharp',
     ProgrammingLanguage.SHELL: 'bash',
+    ProgrammingLanguage.ASM: 'x86asm',
 }
 
 
@@ -29,6 +30,7 @@ ACE = {
     ProgrammingLanguage.PYTHON: 'python',
     ProgrammingLanguage.CSHARP: 'csharp',
     ProgrammingLanguage.SHELL: 'sh',
+    ProgrammingLanguage.ASM: 'assembly_x86',
 }
 
 
@@ -46,6 +48,7 @@ FILENAME_EXTENSIONS = {
     ProgrammingLanguage.PYTHON: 'py',
     ProgrammingLanguage.CSHARP: 'cs',
     ProgrammingLanguage.SHELL: 'sh',
+    ProgrammingLanguage.ASM: 'asm',
 }
 
 PUBLIC_CLASS_REGEX = re.compile(r'^(?P<ws>\s*)public\s+class\s+(?P<name>[a-zA-Z0-9_]{1,64})')

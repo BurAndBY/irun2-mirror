@@ -373,6 +373,10 @@ h3 { font-size: 20px; line-height: 32px; }
     background-color: #777;
     color: #FFFFFF;
 }
+.ir-langbox-asm {
+    background-color: #777;
+    color: #bff;
+}
 
 /**
  * Language Select

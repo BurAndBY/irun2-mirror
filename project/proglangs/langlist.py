@@ -10,6 +10,7 @@ class ProgrammingLanguage(object):
     CSHARP = 'cs'
     SHELL = 'sh'
     ZIP = 'zip'
+    ASM = 'asm'
 
     CHOICES = (
         (UNKNOWN, 'N/A'),
@@ -23,6 +24,7 @@ class ProgrammingLanguage(object):
         (CSHARP, 'C#'),
         (SHELL, 'Shell'),
         (ZIP, 'ZIP'),
+        (ASM, 'Asm'),
     )
 
 
