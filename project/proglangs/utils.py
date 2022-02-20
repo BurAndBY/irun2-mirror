@@ -38,6 +38,15 @@ def get_ace_mode(lang):
     return ACE.get(lang, 'text')
 
 
+PYGMENTS = {
+    ProgrammingLanguage.ASM: 'nasm',
+}
+
+
+def get_pygments_lexer(lang):
+    return PYGMENTS.get(lang, lang)
+
+
 FILENAME_EXTENSIONS = {
     ProgrammingLanguage.C: 'c',
     ProgrammingLanguage.CPP: 'cpp',

@@ -11,6 +11,7 @@ from django import template
 from django.utils.html import mark_safe
 
 from common.highlight import get_highlight_style
+from proglangs.utils import get_pygments_lexer
 
 register = template.Library()
 
@@ -30,7 +31,7 @@ def irunner_sourcecode(code, language, hrefs=False):
         return ''
 
     try:
-        lexer = get_lexer_by_name(language)
+        lexer = get_lexer_by_name(get_pygments_lexer(language))
     except ClassNotFound:
         lexer = get_lexer_by_name('text')  # Null lexer, does not highlight anything
 
