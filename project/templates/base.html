@@ -11,6 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% block title %}{% endblock %} &mdash; {{ system_short_name }}</title>
+        {% if meta_description %}<meta name="description" content="{{ meta_description }}">{% endif %}
 
         <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
         <link rel="yandex-tableau-widget" href="{% static 'manifest.json' %}">
@@ -49,10 +50,10 @@
         <footer class="footer footer-{% if location == 'BSU' %}3{% else %}2{% endif %}">
             <div class="container">
                 <div class="ir-footer">
-                    <div>{{ system_full_name }} <span class="ir-monospace">#{{ REVISION }}</span></div>
+                    <div>{{ system_full_name }}{% if show_about_page %} <span class="ir-monospace">#{{ REVISION }}</span>{% endif %}</div>
                     {% if location == 'BSU' %}<div>&copy; 2001&ndash;{% now "Y" %} {% trans 'DMA department of FAMCS BSU' %}</div>{% endif %}
                     <div>
-                        <a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>
+                        {% if show_about_page %}<a href="{% url 'about' %}">{% trans 'About' context 'about the system' %}</a>{% endif %}
                         <a href="{% url 'language' %}?next={% irunner_next %}">{{ language_switcher_link_text }}</a>
                         <a href="{% url 'feedback:new' %}">{% trans 'Feedback' %}</a>
                     </div>

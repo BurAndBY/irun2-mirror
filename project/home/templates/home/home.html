@@ -11,16 +11,15 @@
 {% block content %}
 <div class="jumbotron ir-jumbotron{% if location == 'VGTU' %} ir-vgtu-jumbotron{% endif %}">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-xlg-8">
             <h1 class="text-nowrap">{{ system_short_name }}</h1>
-            <p>{% trans 'Automatic testing system' %}</p>
+            <p>{% if location == 'APROMIS' %}<b>A</b>utomatizuota <b>pro</b>gramavimo <b>m</b>okymo <b>i</b>nformacinė <b>s</b>istema{% else %}{% trans 'Automatic testing system' %}{% endif %}</p>
         </div>
-        {% if location == 'BSU' %}
-            <div class="col-md-6 text-right">
+        {% if location == 'BSU' or location == 'APROMIS' %}
+            <div class="col-md-6 col-xlg-4 text-right">
                 <img class="img-responsive" {% irunner_home_main_logo %}>
             </div>
-        {% endif %}
-        {% if location == 'VGTU' %}
+        {% elif location == 'VGTU' %}
             <div class="col-md-6">
                 <div class="media pull-right" style="max-width: 480px">
                     <div class="media-left">

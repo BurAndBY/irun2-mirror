@@ -42,6 +42,8 @@ ADMINS = [('Sergei Sobol', 'sergei_sobol@tut.by')]
 
 LAST_NAME_FIRST_IN_COURSES = True
 
+META_DESCRIPTION = 'Система автоматического тестирования'
+
 BSU_DC = 'inet.bsu.by'
 BSU_USERNAME = 'fpm.student'
 BSU_PASSWORD = 'fake'

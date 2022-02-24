@@ -11,8 +11,10 @@ def _language_translated(language):
 
 def system_name(request):
     return {
-        'system_full_name': 'Insight Runner 2',
-        'system_short_name': 'iRunner 2',
+        'system_full_name': getattr(settings, 'SYSTEM_FULL_NAME', 'Insight Runner 2'),
+        'system_short_name': getattr(settings, 'SYSTEM_SHORT_NAME', 'iRunner 2'),
+        'show_about_page': getattr(settings, 'SHOW_ABOUT_PAGE', True),
+        'meta_description': getattr(settings, 'META_DESCRIPTION', ''),
         'external_links': settings.EXTERNAL_LINKS,
         'root_folder': ROOT,
         'location': settings.LOCATION,
