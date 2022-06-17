@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from common.ir18n.fields import IR18nCharField
 from problems.models import Problem
 from proglangs.models import Compiler
 from solutions.models import Solution, Judgement
@@ -73,7 +74,7 @@ class Contest(models.Model):
         (IOI, 'IOI'),
     )
 
-    name = models.CharField(_('name'), max_length=255)
+    name = IR18nCharField(_('name'), max_length=255)
     rules = models.IntegerField(_('rules'), choices=RULES_CHOICES, default=ACM)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership')
     compilers = models.ManyToManyField(Compiler, blank=True)
@@ -106,7 +107,7 @@ class Contest(models.Model):
         return reverse('contests:standings', kwargs={'contest_id': self.pk})
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def clean(self):
         if self.freeze_time is not None:
