@@ -79,7 +79,7 @@ class IcpcCoachAsContestantForm(CheckEmailMixin, BaseCoachForm):
                                            choices=_year_of_study_choices, coerce=int, empty_value=None)
 
     class Meta(BaseCoachForm.Meta):
-        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
+        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study']
         labels = {
             'university': _('Institution (university, school)'),
             'faculty': _('Faculty (if any)'),
