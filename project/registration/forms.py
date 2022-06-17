@@ -28,7 +28,7 @@ def _year_choices(lower_bound, upper_bound):
 def _year_of_study_choices():
     return [('', '')] + [
         (year, '{}'.format(year))
-        for year in range(1, 12)
+        for year in range(1, 13)
     ]
 
 
