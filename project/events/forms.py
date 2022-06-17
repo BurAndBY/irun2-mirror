@@ -36,6 +36,14 @@ class PageForm(forms.ModelForm):
             'en_content': TeXTextarea(),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        cur_slug = cleaned_data.get('slug')
+        if cur_slug is not None and Page.objects.filter(slug=cur_slug, event=self.instance.event).exists():
+            msg = _('URL already exists.')
+            self.add_error('slug', msg)
+        return cleaned_data
+
 
 def validate_pattern(value):
     if not value:

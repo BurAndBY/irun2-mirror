@@ -86,7 +86,7 @@ class Event(models.Model):
 
 class Page(models.Model):
     event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE)
-    slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'), unique=True)
+    slug = models.SlugField(_('name for URL'), help_text=_('Short Latin name to use in page links'))
 
     when = models.DateTimeField(_('Time'), default=timezone.now)
     is_public = models.BooleanField(_('show on the main page'), default=True, blank=True)
@@ -104,3 +104,6 @@ class Page(models.Model):
     @property
     def content(self):
         return _localize_string(self.local_content, self.en_content)
+
+    class Meta:
+        unique_together = ('event', 'slug')

@@ -90,12 +90,13 @@ class CreatePageView(StaffMemberRequiredMixin, EventMixin, generic.CreateView):
     template_name = 'events/manage/pages/new.html'
     form_class = PageForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = Page(event=self.event)
+        return kwargs
+
     def get_success_url(self):
         return reverse('events:manage:pages', kwargs={'slug': self.event.slug})
-
-    def form_valid(self, form):
-        form.instance.event = self.event
-        return super().form_valid(form)
 
 
 class UpdatePageView(StaffMemberRequiredMixin, EventMixin, generic.UpdateView):
