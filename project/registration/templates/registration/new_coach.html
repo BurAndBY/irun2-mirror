@@ -15,6 +15,15 @@
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
+    {% if form.country %}
+    <div class="form-group ir-required">
+        <div class="checkbox">
+            <label for="id_i_agree"><input type="checkbox" name="i_agree" class="" required="" id="id_i_agree">
+            {% blocktrans with link="../pages/personal/" %}I have read and accept the <a href="{{ link }}" target="_blank">Privacy Policy</a>{% endblocktrans %}
+            </label>
+        </div>
+    </div>
+    {% endif %}
     {% buttons %}
         <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
         <a href="{% url 'events:home' event.slug %}" class="btn btn-link">{% trans 'Cancel' %}</a>

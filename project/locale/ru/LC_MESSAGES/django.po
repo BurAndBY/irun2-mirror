@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-12 21:01+0300\n"
-"PO-Revision-Date: 2022-02-12 21:02+0300\n"
+"POT-Creation-Date: 2022-06-18 14:02+0300\n"
+"PO-Revision-Date: 2022-06-18 14:06+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1644,6 +1644,9 @@ msgstr "Редактировать критерий"
 msgid "Logo image file"
 msgstr "Файл с изображением логотипа"
 
+msgid "URL already exists."
+msgstr "URL уже занят"
+
 msgid "Invalid format string"
 msgstr "Неверная форматная строка"
 
@@ -1667,6 +1670,9 @@ msgstr "Индивидуальная"
 
 msgid "Individual school"
 msgstr "Индивидуальная школьная"
+
+msgid "Individual for Huawei"
+msgstr "Индивидуальная для Huawei"
 
 msgid "name for URL"
 msgstr "название для URL"
@@ -2761,6 +2767,9 @@ msgstr ""
 msgid "Format"
 msgstr "Формат"
 
+msgid "Write anything you want"
+msgstr "Можно указать что угодно"
+
 msgid "This email has already been registered for this event."
 msgstr "Этот адрес уже зарегистрирован на данное событие."
 
@@ -2775,6 +2784,22 @@ msgstr "Класс"
 
 msgid "School"
 msgstr "Школа"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Citizenship or permanent residence"
+msgstr "Гражданство или постоянное резидентство"
+
+msgid "Achievements"
+msgstr "Достижения"
+
+msgid ""
+"List of achievements and awards, participation in contests and olympiads in "
+"informatics, mathematics, and physics"
+msgstr ""
+"Перечень заслуг и достижений, участие в соревнованиях и олимпиадах по "
+"информатике, математике, физике"
 
 msgid "Program start year"
 msgstr "Год начала обучения"
@@ -2839,6 +2864,9 @@ msgstr "Почтовый адрес"
 msgid "Phone number"
 msgstr "Номер телефона"
 
+msgid "Extra information"
+msgstr "Дополнительная информация"
+
 msgid "team name"
 msgstr "название команды"
 
@@ -2899,6 +2927,14 @@ msgstr "Пожалуйста, заполните форму на английс�
 
 msgid "A letter will be sent to confirm your e-mail address."
 msgstr "Для подтверждения почтового адреса будет отправлено письмо."
+
+#, python-format
+msgid ""
+"I have read and accept the <a href=\"%(link)s\" target=\"_blank\">Privacy "
+"Policy</a>"
+msgstr ""
+"Я прочитал и согласен с <a href=\"%(link)s\" target=\"_blank\">политикой "
+"обработки персональных данных</a>"
 
 msgid "Register"
 msgstr "Зарегистрироваться"

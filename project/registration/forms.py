@@ -25,6 +25,10 @@ def _year_choices(lower_bound, upper_bound):
     return [(None, EMPTY_SELECT)] + [(r, r) for r in range(cur + lower_bound, cur + upper_bound + 1)]
 
 
+def _country_choices():
+    return [(None, EMPTY_SELECT)] + [(c, c) for c in ('Armenia', 'Azerbaijan', 'Belarus', 'Georgia', 'Kazakhstan', 'Kyrgyzstan', 'Tajikistan', 'Uzbekistan')]
+
+
 def _year_of_study_choices():
     return [('', '')] + [
         (year, '{}'.format(year))
@@ -52,6 +56,7 @@ class BaseCoachForm(LocalizeMixin, forms.ModelForm):
             'faculty': Example('Faculty of Information Technologies', 'Факультет информационных технологий'),
             'postal_address': Example('220030, Minsk, 4 Nezavisimosti Ave.', '220030, г. Минск, пр. Независимости, д. 4'),
             'phone_number': Example('+375291234567', '+375291234567'),
+            'extra_info': _('Write anything you want'),
         }
         widgets = {
             'university': forms.TextInput(attrs={'list': 'universities'}),
@@ -79,7 +84,7 @@ class IcpcCoachAsContestantForm(CheckEmailMixin, BaseCoachForm):
                                            choices=_year_of_study_choices, coerce=int, empty_value=None)
 
     class Meta(BaseCoachForm.Meta):
-        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study']
+        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'group']
         labels = {
             'university': _('Institution (university, school)'),
             'faculty': _('Faculty (if any)'),
@@ -101,6 +106,24 @@ class IcpcCoachAsSchoolContestantForm(CheckEmailMixin, BaseCoachForm):
         )
 
 
+class IcpcCoachAsHuaweiContestantForm(CheckEmailMixin, BaseCoachForm):
+    country = forms.ChoiceField(label=_('Country'), required=True, choices=_country_choices,
+                                help_text=_('Citizenship or permanent residence'))
+
+    achievements = forms.CharField(label=_('Achievements'), required=True, widget=forms.Textarea,
+                                   help_text=_('List of achievements and awards, participation in contests and olympiads in informatics, mathematics, and physics'))
+
+    year_of_study = forms.TypedChoiceField(label=_('Year of study'), required=False,
+                                           choices=_year_of_study_choices, coerce=int, empty_value=None)
+
+    class Meta(BaseCoachForm.Meta):
+        fields = ['email', 'first_name', 'last_name', 'university', 'faculty', 'year_of_study', 'country', 'achievements', 'extra_info']
+        labels = {
+            'university': _('Institution (university, school)'),
+            'faculty': _('Faculty (if any)'),
+        }
+
+
 class IcpcCoachUpdateForm(IcpcCoachForm):
     class Meta(IcpcCoachForm.Meta):
         fields = IcpcCoachForm.Meta.fields[1:]
@@ -114,6 +137,11 @@ class IcpcCoachAsContestantUpdateForm(IcpcCoachAsContestantForm):
 class IcpcCoachAsSchoolContestantUpdateForm(IcpcCoachAsSchoolContestantForm):
     class Meta(IcpcCoachAsSchoolContestantForm.Meta):
         fields = IcpcCoachAsSchoolContestantForm.Meta.fields[1:]
+
+
+class IcpcCoachAsHuaweiContestantUpdateForm(IcpcCoachAsHuaweiContestantForm):
+    class Meta(IcpcCoachAsHuaweiContestantForm.Meta):
+        fields = IcpcCoachAsHuaweiContestantForm.Meta.fields[1:]
 
 
 class IcpcTeamForm(LocalizeMixin, forms.ModelForm):

@@ -34,6 +34,8 @@ from .forms import (
     IcpcCoachAsContestantUpdateForm,
     IcpcCoachAsSchoolContestantForm,
     IcpcCoachAsSchoolContestantUpdateForm,
+    IcpcCoachAsHuaweiContestantForm,
+    IcpcCoachAsHuaweiContestantUpdateForm,
     IcpcTeamForm,
     IcpcContestantForm,
 )
@@ -91,6 +93,7 @@ class RegisterCoachView(EventMixin, generic.CreateView):
             RegistrationMode.COACH_AND_TEAMS: IcpcCoachForm,
             RegistrationMode.INDIVIDUAL: IcpcCoachAsContestantForm,
             RegistrationMode.INDIVIDUAL_SCHOOL: IcpcCoachAsSchoolContestantForm,
+            RegistrationMode.INDIVIDUAL_HUAWEI: IcpcCoachAsHuaweiContestantForm,
         }[self.event.registration_mode]
 
         class PatchedForm(kls):
@@ -136,6 +139,7 @@ class UpdateCoachView(EventMixin, CoachMixin, generic.UpdateView):
             RegistrationMode.COACH_AND_TEAMS: IcpcCoachUpdateForm,
             RegistrationMode.INDIVIDUAL: IcpcCoachAsContestantUpdateForm,
             RegistrationMode.INDIVIDUAL_SCHOOL: IcpcCoachAsSchoolContestantUpdateForm,
+            RegistrationMode.INDIVIDUAL_HUAWEI: IcpcCoachAsHuaweiContestantUpdateForm,
         }[self.event.registration_mode]
 
         class PatchedForm(kls):

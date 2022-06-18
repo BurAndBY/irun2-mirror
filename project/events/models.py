@@ -25,11 +25,13 @@ class RegistrationMode(object):
     COACH_AND_TEAMS = 1
     INDIVIDUAL = 2
     INDIVIDUAL_SCHOOL = 3
+    INDIVIDUAL_HUAWEI = 4
 
     CHOICES = (
         (COACH_AND_TEAMS, _('Coach and teams')),
         (INDIVIDUAL, _('Individual')),
         (INDIVIDUAL_SCHOOL, _('Individual school')),
+        (INDIVIDUAL_HUAWEI, _('Individual for Huawei')),
     )
 
 

@@ -19,6 +19,9 @@ MAX_TITLE_LENGTH = 255
 MAX_EMAIL_LENGTH = 100
 MAX_UNIVERSITY_LENGTH = 120
 MAX_ADDRESS_LENGTH = 255
+MAX_COUNTRY_LENGTH = 32
+MAX_TEXT_LENGTH = 2000
+
 
 PARTICIPATION_VENUE_CHOICES = [
     ('OWN', _('Own university')),
@@ -59,6 +62,9 @@ class IcpcCoach(models.Model):
     phone_number = models.CharField(_('Phone number'), max_length=16, blank=True, validators=[
         RegexValidator(regex=r'\+\d{7,15}')
     ])
+    country = models.CharField(_('Country'), max_length=MAX_COUNTRY_LENGTH, blank=True)
+    achievements = models.TextField(_('Achievements'), max_length=MAX_TEXT_LENGTH, blank=True)
+    extra_info = models.TextField(_('Extra information'), max_length=MAX_TEXT_LENGTH, blank=True)
 
     @property
     def full_name(self):
