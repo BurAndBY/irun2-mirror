@@ -39,7 +39,7 @@ class PageForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         cur_slug = cleaned_data.get('slug')
-        if cur_slug is not None and Page.objects.filter(slug=cur_slug, event=self.instance.event).exists():
+        if cur_slug is not None and Page.objects.filter(slug=cur_slug, event=self.instance.event).exclude(id=self.instance.id).exists():
             msg = _('URL already exists.')
             self.add_error('slug', msg)
         return cleaned_data
