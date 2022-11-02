@@ -66,13 +66,11 @@ def make_contestant_choices(contest, empty_label=None):
 
 
 def total_minutes(td):
-    # TODO: add days, ...
-    return td.seconds // 60
+    return total_seconds(td) // 60
 
 
 def total_seconds(td):
-    # TODO: add days, ...
-    return td.seconds
+    return td.days * 24 * 60 * 60 + td.seconds
 
 
 class ProblemResolver(object):
