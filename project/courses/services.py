@@ -32,6 +32,13 @@ from courses.models import (
     TopicCommonProblem,
 )
 
+EPS = 1.e-6
+
+
+def round_to_int(x):
+    return int(round(x + EPS))
+
+
 '''
 Cache of Course Users
 '''
@@ -669,7 +676,7 @@ class ProblemSolvingMark(object):
             num_values += 1
 
         if num_values > 0:
-            return int(round(1.0 * sum_values / num_values + 1.e-6))
+            return round_to_int(1.0 * sum_values / num_values)
         return 0
 
 
@@ -770,11 +777,11 @@ class UserResult(object):
 
         result = None
 
-        if sum_values < 4. - 1.e-6:
+        if sum_values < 4. - EPS:
             # round down
             result = int(sum_values)
         else:
-            result = int(round(sum_values))
+            result = round_to_int(sum_values)
 
         return max(min(result, 10), 1)
 
