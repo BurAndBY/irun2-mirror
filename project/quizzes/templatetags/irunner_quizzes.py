@@ -13,6 +13,10 @@ register = template.Library()
 SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'text is_right is_wrong is_notchosen')
 
 
+def make_session_answer_info(text, is_right=False, is_wrong=False, is_notchosen=False):
+    return SessionAnswerInfo(text, is_right, is_wrong, is_notchosen)
+
+
 def escape_preparer(tex, inline):
     return escape(tex)
 
@@ -48,23 +52,22 @@ def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None, se
     for answer in qs:
         if is_text:
             if answer.choice.text == answer.user_answer:
-                answers.append(SessionAnswerInfo(preparer(answer.user_answer, inline=True), True, False, False))
+                answers.append(make_session_answer_info(preparer(answer.user_answer, inline=True), is_right=True))
             else:
-                answers.append(SessionAnswerInfo(preparer(answer.choice.text, inline=True), False, False, True))
-                answers.append(SessionAnswerInfo(preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
-                                                 False, True, False))
+                answers.append(make_session_answer_info(preparer(answer.choice.text, inline=True), is_notchosen=True))
+                answers.append(make_session_answer_info(preparer('' if answer.user_answer is None else answer.user_answer, inline=True), is_wrong=True))
         elif session_question.question.kind == Question.OPEN_ANSWER:
             try:
-                answers.append(SessionAnswerInfo(tex2html_preparer('' if answer.user_answer is None else answer.user_answer, inline=False, throw=True),
-                                                 False, False, False))
+                answers.append(make_session_answer_info(tex2html_preparer('' if answer.user_answer is None else answer.user_answer, inline=False, throw=True)))
             except:
-                answers.append(SessionAnswerInfo(escape_preparer('' if answer.user_answer is None else answer.user_answer, inline=True),
-                                                 False, False, False))
+                answers.append(make_session_answer_info(escape_preparer('' if answer.user_answer is None else answer.user_answer, inline=True)))
         else:
-            is_right = answer.is_chosen and answer.choice.is_right
-            is_wrong = answer.is_chosen and not answer.choice.is_right
-            is_notchosen = not answer.is_chosen and answer.choice.is_right
-            answers.append(SessionAnswerInfo(preparer(answer.choice.text, inline=True), is_right, is_wrong, is_notchosen))
+            answers.append(make_session_answer_info(
+                preparer(answer.choice.text, inline=True),
+                is_right=answer.is_chosen and answer.choice.is_right,
+                is_wrong=answer.is_chosen and not answer.choice.is_right,
+                is_notchosen=not answer.is_chosen and answer.choice.is_right,
+            ))
     eps = 0.000001
     return {
         'question_id': session_question.id,
