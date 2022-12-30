@@ -11,6 +11,7 @@ quiz_urlpatterns = ([
     url(r'^sessions/(?P<session_id>[0-9]+)/$', quizviews.CourseQuizzesSessionView.as_view(), name='session'),
     url(r'^sessions/(?P<session_id>[0-9]+)/answers/$', quizviews.CourseQuizzesAnswersView.as_view(), name='answers'),
     url(r'^sessions/(?P<session_id>[0-9]+)/answers/api/$', quizviews.CourseQuizzesSaveMarkView.as_view(), name='save_mark'),
+    url(r'^sessions/(?P<session_id>[0-9]+)/answers/raw/(?P<answer_id>[0-9]+)/$', quizviews.CourseQuizzesRawAnswerView.as_view()),
     url(r'^sessions/(?P<session_id>[0-9]+)/finish/$', quizviews.CourseQuizzesFinishView.as_view(), name='finish'),
     url(r'^sessions/(?P<session_id>[0-9]+)/save-answer/$', quizviews.SaveAnswerAPIView.as_view(), name='save_answer'),
     url(r'^sessions/(?P<session_id>[0-9]+)/delete/$', quizviews.CourseQuizzesDeleteSessionView.as_view(),

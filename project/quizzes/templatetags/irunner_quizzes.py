@@ -10,11 +10,11 @@ from quizzes.models import Question
 
 register = template.Library()
 
-SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'text is_right is_wrong is_notchosen')
+SessionAnswerInfo = namedtuple('SessionAnswerInfo', 'id text is_right is_wrong is_notchosen view_raw')
 
 
-def make_session_answer_info(text, is_right=False, is_wrong=False, is_notchosen=False):
-    return SessionAnswerInfo(text, is_right, is_wrong, is_notchosen)
+def make_session_answer_info(answer_id, text, is_right=False, is_wrong=False, is_notchosen=False, view_raw=False):
+    return SessionAnswerInfo(answer_id, text, is_right, is_wrong, is_notchosen, view_raw)
 
 
 def escape_preparer(tex, inline):
@@ -52,17 +52,19 @@ def irunner_quizzes_showanswer(session_question, counter, save_mark_url=None, se
     for answer in qs:
         if is_text:
             if answer.choice.text == answer.user_answer:
-                answers.append(make_session_answer_info(preparer(answer.user_answer, inline=True), is_right=True))
+                answers.append(make_session_answer_info(answer.id, preparer(answer.user_answer, inline=True), is_right=True))
             else:
-                answers.append(make_session_answer_info(preparer(answer.choice.text, inline=True), is_notchosen=True))
-                answers.append(make_session_answer_info(preparer('' if answer.user_answer is None else answer.user_answer, inline=True), is_wrong=True))
+                answers.append(make_session_answer_info(answer.id, preparer(answer.choice.text, inline=True), is_notchosen=True))
+                answers.append(make_session_answer_info(answer.id, preparer('' if answer.user_answer is None else answer.user_answer, inline=True), is_wrong=True))
         elif session_question.question.kind == Question.OPEN_ANSWER:
+            src = '' if answer.user_answer is None else answer.user_answer
             try:
-                answers.append(make_session_answer_info(tex2html_preparer('' if answer.user_answer is None else answer.user_answer, inline=False, throw=True)))
+                answers.append(make_session_answer_info(answer.id, tex2html_preparer(src, inline=False, throw=True), view_raw=len(src) > 0))
             except:
-                answers.append(make_session_answer_info(escape_preparer('' if answer.user_answer is None else answer.user_answer, inline=True)))
+                answers.append(make_session_answer_info(answer.id, escape_preparer(src, inline=True)))
         else:
             answers.append(make_session_answer_info(
+                answer.id,
                 preparer(answer.choice.text, inline=True),
                 is_right=answer.is_chosen and answer.choice.is_right,
                 is_wrong=answer.is_chosen and not answer.choice.is_right,

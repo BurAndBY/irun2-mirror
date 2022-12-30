@@ -40,6 +40,7 @@
                     {% endif %}
                 </div>
             {% endif %}
+            {% if answer.view_raw %}<p class="text-right"><a class="btn btn-default btn-xs" href="raw/{{ answer.id }}/" class="text-right" onclick="return !window.open(this.href, 'TeX', 'width=640,height=480')" target="_blank">TeX</a></p>{% endif %}
         {% endfor %}
     </div>
 </div>

@@ -4,7 +4,7 @@ from collections import namedtuple
 from django.urls import reverse
 from django.db import transaction
 from django.db.models import F
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
@@ -243,6 +243,17 @@ class CourseQuizzesAnswersView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
             if self.permissions.quizzes_admin else None
         )
         return render(request, self.template_name, context)
+
+
+class CourseQuizzesRawAnswerView(CourseQuizzesAnswersView):
+    def get(self, request, course, session_id, answer_id):
+        session = self._fetch_session(session_id)
+        if session is None:
+            raise Http404('Session not found')
+        answer = SessionQuestionAnswer.objects.filter(id=answer_id, session_question__quiz_session_id=session_id).first()
+        if answer is None:
+            raise Http404('Answer not found')
+        return HttpResponse(answer.user_answer, content_type='text/plain; charset=utf8')
 
 
 class CourseQuizzesRatingView(QuizMixin, UserCacheMixinMixin, BaseCourseView):
