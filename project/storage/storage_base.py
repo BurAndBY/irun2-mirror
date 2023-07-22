@@ -144,13 +144,13 @@ class DataStorage(IDataStorage):
     def read_with_size(self, resource_id, max_size):
         blob = _get_data_directly(resource_id)
         if blob is not None:
-            return (blob, len(blob))
+            return (blob if max_size is None else blob[:max_size], len(blob))
         return self._do_read_with_size(resource_id, max_size)
 
     def read_blob(self, resource_id, max_size):
         blob, size = self.read_with_size(resource_id, max_size)
         if blob is not None:
-            return (blob, size <= max_size)
+            return (blob, size <= max_size if max_size is not None else True)
         return (None, False)
 
     def _do_get_existing_files(self, resource_ids):

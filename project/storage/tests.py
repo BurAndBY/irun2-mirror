@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from django.utils.encoding import force_text
 
 from .encodings import try_decode_ascii
-from .storage import FileSystemStorage
+from .storage_fs import FileSystemStorage
 from .resource_id import ResourceId
 from .validators import validate_filename
 from .representation import ResourseRepresentation, represent_blob
@@ -52,6 +52,10 @@ class FileSystemStorageTests(TestCase):
         self.assertEqual(blob_read, msg)
 
         blob_read, is_complete = fs.read_blob(h, len(msg))
+        self.assertTrue(is_complete)
+        self.assertEqual(blob_read, msg)
+
+        blob_read, is_complete = fs.read_blob(h, None)
         self.assertTrue(is_complete)
         self.assertEqual(blob_read, msg)
 
