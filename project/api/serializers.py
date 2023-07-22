@@ -9,7 +9,7 @@ from solutions.models import (
     JudgementLog,
     TestCaseResult,
 )
-from storage.storage import ResourceId
+from storage.resource_id import ResourceId
 from plagiarism.plagiarismstructs import (
     PlagiarismSubJob,
     PlagiarismTestingJob,

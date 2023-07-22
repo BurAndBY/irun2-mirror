@@ -7,7 +7,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from cauth.acl.models import BaseAccess
 from proglangs.models import Compiler
-from storage.storage import ResourceIdField
+from storage.resource_id import ResourceIdField
 
 
 class UserFolder(MPTTModel):

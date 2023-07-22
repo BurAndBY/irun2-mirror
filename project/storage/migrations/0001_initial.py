@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import storage.storage
+import storage.resource_id
 
 
 class Migration(migrations.Migration):
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('filename', models.CharField(max_length=255)),
                 ('size', models.IntegerField()),
-                ('resource_id', storage.storage.ResourceIdFieldDeprecated()),
+                ('resource_id', storage.resource_id.ResourceIdFieldDeprecated()),
             ],
             options={
                 'abstract': False,

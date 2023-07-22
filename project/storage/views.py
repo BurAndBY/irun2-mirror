@@ -12,7 +12,8 @@ from solutions.models import Judgement, JudgementLog, Challenge, TestCaseResult
 
 from .forms import TextOrUploadForm
 from .models import FileMetadata
-from .storage import create_storage, ResourceId
+from .storage import create_storage
+from .resource_id import ResourceId
 from .utils import parse_resource_id, serve_resource
 
 

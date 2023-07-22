@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import storage.storage
+import storage.resource_id
 
 
 class Migration(migrations.Migration):
@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='photo',
-            field=storage.storage.ResourceIdFieldDeprecated(null=True),
+            field=storage.resource_id.ResourceIdFieldDeprecated(null=True),
         ),
         migrations.AddField(
             model_name='userprofile',
             name='photo_thumbnail',
-            field=storage.storage.ResourceIdFieldDeprecated(null=True),
+            field=storage.resource_id.ResourceIdFieldDeprecated(null=True),
         ),
     ]

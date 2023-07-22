@@ -7,7 +7,7 @@ from common.outcome import Outcome
 from problems.models import Problem, TestCase
 from proglangs.models import Compiler
 from storage.models import FileMetadata
-from storage.storage import ResourceIdField
+from storage.resource_id import ResourceIdField
 
 
 class AdHocRun(models.Model):

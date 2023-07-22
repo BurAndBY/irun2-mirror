@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import storage.storage
+import storage.resource_id
 
 
 class Migration(migrations.Migration):
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='TestCaseValidation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('input_resource_id', storage.storage.ResourceIdFieldDeprecated()),
+                ('input_resource_id', storage.resource_id.ResourceIdFieldDeprecated()),
                 ('is_valid', models.BooleanField()),
                 ('validator_message', models.CharField(max_length=255, blank=True)),
             ],

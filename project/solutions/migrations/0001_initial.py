@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import storage.storage
+import storage.resource_id
 import django.db.models.deletion
 from django.conf import settings
 
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             name='AdHocRun',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('resource_id', storage.storage.ResourceIdFieldDeprecated()),
+                ('resource_id', storage.resource_id.ResourceIdFieldDeprecated()),
                 ('input_file_name', models.CharField(max_length=80, blank=True)),
                 ('output_file_name', models.CharField(max_length=80, blank=True)),
                 ('time_limit', models.IntegerField(default=10000)),
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             name='JudgementLog',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('resource_id', storage.storage.ResourceIdFieldDeprecated()),
+                ('resource_id', storage.resource_id.ResourceIdFieldDeprecated()),
                 ('kind', models.IntegerField(default=0, choices=[(0, 'Solution compilation log')])),
                 ('judgement', models.ForeignKey(to='solutions.Judgement', on_delete=django.db.models.deletion.CASCADE)),
             ],
@@ -76,11 +76,11 @@ class Migration(migrations.Migration):
             name='TestCaseResult',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('input_resource_id', storage.storage.ResourceIdFieldDeprecated(null=True)),
-                ('output_resource_id', storage.storage.ResourceIdFieldDeprecated(null=True)),
-                ('answer_resource_id', storage.storage.ResourceIdFieldDeprecated(null=True)),
-                ('stdout_resource_id', storage.storage.ResourceIdFieldDeprecated(null=True)),
-                ('stderr_resource_id', storage.storage.ResourceIdFieldDeprecated(null=True)),
+                ('input_resource_id', storage.resource_id.ResourceIdFieldDeprecated(null=True)),
+                ('output_resource_id', storage.resource_id.ResourceIdFieldDeprecated(null=True)),
+                ('answer_resource_id', storage.resource_id.ResourceIdFieldDeprecated(null=True)),
+                ('stdout_resource_id', storage.resource_id.ResourceIdFieldDeprecated(null=True)),
+                ('stderr_resource_id', storage.resource_id.ResourceIdFieldDeprecated(null=True)),
                 ('exit_code', models.IntegerField()),
                 ('time_limit', models.IntegerField(default=0)),
                 ('time_used', models.IntegerField()),

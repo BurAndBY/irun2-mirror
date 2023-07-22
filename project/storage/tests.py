@@ -8,7 +8,8 @@ from django.core.files.base import ContentFile
 from django.utils.encoding import force_text
 
 from .encodings import try_decode_ascii
-from .storage import ResourceId, FileSystemStorage
+from .storage import FileSystemStorage
+from .resource_id import ResourceId
 from .validators import validate_filename
 from .representation import ResourseRepresentation, represent_blob
 

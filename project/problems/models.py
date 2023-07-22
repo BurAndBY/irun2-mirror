@@ -15,7 +15,7 @@ from common.locales.fields import LanguageField
 from common.ir18n.fields import IR18nCharField
 from proglangs.models import Compiler
 from storage.models import FileMetadataBase
-from storage.storage import ResourceIdField
+from storage.resource_id import ResourceIdField
 from users.models import AdminGroup
 
 DEFAULT_TIME_LIMIT = 1000  # 1 s

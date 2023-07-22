@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .storage import ResourceIdField
+from .resource_id import ResourceIdField
 from .validators import validate_filename
 
 

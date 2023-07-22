@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-from storage.storage import ResourceIdField
+from storage.resource_id import ResourceIdField
 
 
 class Migration(migrations.Migration):
