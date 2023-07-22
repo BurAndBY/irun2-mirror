@@ -34,6 +34,7 @@ DATABASES = {
 # File storage
 
 STORAGE_DIR = os.path.join(BASE_DIR, os.pardir, 'filestorage')
+MONGODB_URI = None
 
 # Worker
 

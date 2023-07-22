@@ -11,6 +11,7 @@ STATIC_ROOT = 'C:\\inetpub\\wwwroot-acm\\static'
 MYSQL_CONFIG = 'my.cnf'
 
 STORAGE_DIR = 'E:\\irunner2\\filestorage'
+MONGODB_URI = None
 
 EXTERNAL_LINKS = [
     (_('Wiki'), u'/wiki/')

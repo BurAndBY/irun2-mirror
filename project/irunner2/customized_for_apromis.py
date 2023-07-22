@@ -11,6 +11,7 @@ STATIC_ROOT = 'C:\\inetpub\\wwwroot\\static'
 MYSQL_CONFIG = 'myvm.cnf'
 
 STORAGE_DIR = 'D:\\FileStorage'
+MONGODB_URI = None
 
 EXTERNAL_LINKS = [
 ]
